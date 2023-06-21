@@ -7,6 +7,8 @@ on:
 jobs:
   build:
     runs-on: windows-2022
+    container:
+      image: microsoft/windowsservercore:10.0.14393.206
 
     steps:
     - uses: actions/checkout@v2
