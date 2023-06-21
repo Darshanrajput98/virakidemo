@@ -12,7 +12,7 @@ jobs:
     - uses: actions/checkout@v2
     
     - name: Setup MSBuild
-      uses: microsoft/setup-msbuild@v1.0.2
+      uses: microsoft/setup-msbuild@v1.1
       
     - name: Navigate to Workspace
       run: cd $GITHUB_WORKSPACE
@@ -25,7 +25,7 @@ jobs:
 
     - name: Build Solution
       run: |
-        msbuild.exe virakibrothers.sln  /nr:false /p:DeployOnBuild=true /p:DeployDefaultTarget=WebPublish /p:WebPublishMethod=FileSystem /p:DeleteExistingFiles=false /p:platform="Any CPU" /p:configuration="Release" /p:PublishUrl="../_build"
+        msbuild vbwebsite.csproj /p:DeployOnBuild=true /p:Configuration=Release /p:PublishProfile="virakibrothers"  /p:PublishUrl="../_build"
         
     - name: Upload artifact
       uses: actions/upload-artifact@v1.0.0
