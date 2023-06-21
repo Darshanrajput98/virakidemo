@@ -31,7 +31,7 @@ jobs:
 
     - name: Build Solution
       run: |
-        msbuild.exe virakibrothers.sln /t:restore /p:DeployOnBuild=true /p:Configuration=Release /p:PublishProfile="virakibrothers"  /p:PublishUrl="../_build"
+        msbuild.exe virakibrothers.sln  /p:DeployOnBuild=true /p:Configuration=Release /p:PublishProfile="virakibrothers"  /p:PublishUrl="../_build"
         
     - name: Upload artifact
       uses: actions/upload-artifact@v1.0.0
