@@ -24,7 +24,7 @@ jobs:
       run: nuget restore virakibrothers.sln
       
     - name: Navigate to csproj
-      run: ls -l 
+      run: ls -al
 
     - name: Build Solution
       run: |
