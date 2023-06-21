@@ -1,0 +1,149 @@
+﻿@model System.Data.DataTable
+@using System.Data
+<style type="text/css">
+    .table-scrollable {
+        width: 100%;
+        overflow-x: auto;
+        overflow-y: hidden;
+        border: 1px solid #dddddd;
+        margin: 10px 0 !important;
+    }
+</style>
+<div class="box-body table-scrollable">
+    <table id="ListDataTableNoPaging" class="table table-bordered table-striped">
+        @if (Model != null)
+        {
+            <thead>
+                <tr>
+                    @foreach (DataColumn col in Model.Columns)
+                    {
+                        if (@col.ColumnName != "CustomerID")
+                        {
+                            <th class="nosort">
+                                @if (col.ColumnName != "Sr.No" && col.ColumnName != "CustomerName" && col.ColumnName != "UserName" && col.ColumnName != "Area" && col.ColumnName != "Total")
+                                {
+                                    <a style="cursor:pointer;" class="btnDayWiseData" data-did="@(col.ColumnName)">@col.ColumnName</a>
+                                }
+                                else
+                                { @col.ColumnName}
+                            </th>
+                        }
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (DataRow row in Model.Rows)
+                {
+                    <tr>
+                        @foreach (DataColumn col in Model.Columns)
+                        {
+                            if (col.ColumnName == "CustomerID")
+                            {
+                                <td style="display:none;">
+                                    @row[col.ColumnName]
+                                </td>
+                            }
+                            else
+                            {
+                                <td>
+                                    @if (col.ColumnName != "Sr.No" && col.ColumnName != "CustomerName" && col.ColumnName != "UserName" && col.ColumnName != "Area" && col.ColumnName != "Total" && row.ItemArray[1] != "")
+                                    {
+                                        <a style="cursor:pointer;" class="btnProductWiseData" data-pid="@row.ItemArray[1]" data-did="@(col.ColumnName)">@row[col.ColumnName]</a>
+                                    }
+                                    else
+                                    {@row[col.ColumnName]}
+                                </td>
+                            }
+                        }
+                    </tr>
+                }
+            </tbody>
+        }
+    </table>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('#ListDataTableNoPaging').on('click', '.btnProductWiseData', function () {
+            debugger;
+            $("#btnsearch").data("mainstartdate", $("#txtFrom").val());
+            $("#btnsearch").data("mainenddate", $("#txtTo").val());
+            $("#btnsearch").data("customergroupid", $("#CustomerGroupID").val());
+            var date1 = new Date($("#txtFrom").val());
+            var date2 = new Date($("#txtTo").val());
+            var timeDiff = Math.abs(date2.getTime() - date1.getTime());
+            var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+            //alert(diffDays)
+            if (diffDays <= 31) {
+                $("#btnsearch").data("mainstartdate", $("#txtFrom").val());
+                $("#btnsearch").data("mainenddate", $("#txtTo").val());
+            }
+            else {
+                var arr = [];
+                arr = $(this).attr("data-did").split('-');
+                var month = arr[0];
+                var year = arr[1];
+                var today = new Date(year, month - 1);
+                var dd = today.getDate();
+                var mm = today.getMonth() + 1; //January is 0!
+                var yyyy = today.getFullYear();
+                var firstDay = new Date(today.getFullYear(), today.getMonth(), 1);
+                var lastDay = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+                var sdd = firstDay.getDate();
+                var smm = firstDay.getMonth() + 1; //January is 0!
+                var syyyy = firstDay.getFullYear();
+                var edd = lastDay.getDate();
+                var emm = lastDay.getMonth() + 1; //January is 0!
+                var eyyyy = lastDay.getFullYear();
+                $("#txtFrom").val(smm + "/" + sdd + "/" + syyyy);
+                $("#txtTo").val(emm + "/" + edd + "/" + eyyyy);
+            }
+            $("#CustomerID").val($(this).attr("data-pid")).trigger("change.select2");
+            loadhtml();
+        });
+
+        $('#ListDataTableNoPaging').on('click', '.btnDayWiseData', function () {
+            debugger;
+            var arr = [];
+            arr = $(this).attr("data-did").split('-');
+            var month = arr[0];
+            var year = arr[1];
+            var today = new Date(year, month - 1);
+            var dd = today.getDate();
+            var mm = today.getMonth() + 1; //January is 0!
+            var yyyy = today.getFullYear();
+            var firstDay = new Date(today.getFullYear(), today.getMonth(), 1);
+            var lastDay = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+            var sdd = firstDay.getDate();
+            var smm = firstDay.getMonth() + 1; //January is 0!
+            var syyyy = firstDay.getFullYear();
+            var edd = lastDay.getDate();
+            var emm = lastDay.getMonth() + 1; //January is 0!
+            var eyyyy = lastDay.getFullYear();
+            $("#txtFrom").val(smm + "/" + sdd + "/" + syyyy);
+            $("#txtTo").val(emm + "/" + edd + "/" + eyyyy);
+            loadhtml();
+        });
+
+        function loadhtml() {
+            var model = new Object();
+            model.StartDate = $("#txtFrom").val();
+            model.EndDate = $("#txtTo").val();
+            model.CustomerID = $("#CustomerID").val();
+            model.AreaID = $("#AreaID").val();
+            model.UserID = $("#UserID").val();
+            model.CustomerGroupID = $("#CustomerGroupID").val();
+            $.ajax({
+                url: '@Url.Action("CustGroupSalesManWiseDailySalesList")',
+                type: 'POST',
+                data: { 'model': model },
+                cache: false,
+            }).done(function (result) {
+                $('#lstcase').html(result);
+            });
+        }
+    })
+</script>
+
+
+

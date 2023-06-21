@@ -1,0 +1,91 @@
+﻿@model List<vb.Data.UtilityOutwardListResponse>
+@using vb.Data.ViewModel
+
+<div class="box">
+    <div class="box-header text-center">
+        <h3 class="box-title">Utility Outward List</h3>
+    </div>
+    <div class="box-body table-scrollable1">
+        <table id="ListDataTable" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th class="nosort">Godown</th>
+                    <th class="nosort">Utility</th>
+                    <th class="nosort">HSN Number</th>
+                    <th class="nosort">Opening</th>
+                    <th class="nosort">No of Pcs</th>
+                    <th class="nosort">Total Utility</th>
+                    <th class="nosort">Purchase Date</th>
+                    <th class="nosort">Prepared By</th>
+                    <th>Edit</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td id="row">
+                            @item.GodownName
+                        </td>
+                        <td>
+                            @item.UtilityName
+                        </td>
+                        <td>
+                            @item.HSNNumber
+                        </td>
+                        <td>
+                            @item.OpeningUtility
+                        </td>
+                        <td>
+                            @item.NoofPcs
+                        </td>
+                        <td>
+                            @item.TotalUtility
+                        </td>
+                        <td>
+                            @item.PurchaseDatestr
+                        </td>
+
+                        <td>
+                            @item.FullName
+                        </td>
+                        <td>
+                            <a style="cursor:pointer;" class="btnedit" data-utilityinwardid="@item.UtilityInwardID" data-godownid="@item.GodownID" data-utilitynameid="@item.UtilityNameID" data-utilityid="@item.UtilityID" data-openingutility="@item.OpeningUtility" data-noofpcs="@item.NoofPcs" data-totalutility="@item.TotalUtility" data-purchasedate="@item.PurchaseDate"
+                               data-createdby="@item.CreatedBy" data-createdon="@item.CreatedOn">Edit</a>
+                            <input type="hidden" id="hdnUtilityNameID" class="hdnUtilityNameID" />
+                            <input type="hidden" id="hdnEdit" class="hdnEdit" value="Edit" />
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    $('#ListDataTable').DataTable({
+        'paging': true,
+        'lengthChange': true,
+        'searching': true,
+        'ordering': false,
+        'info': true,
+        'autoWidth': false
+    });
+
+    $('#ListDataTable').on('click', '.btnedit', function () {
+        debugger;
+        $("#UtilityInwardID").val($(this).attr("data-utilityinwardid"));
+        $("#GodownID").val($(this).attr("data-godownid")).trigger("change");
+        $("#hdnUtilityNameID").val($(this).attr("data-utilitynameid"));
+        $("#hdnEdit").val("Edit");
+        $("#OpeningUtility").val($(this).attr("data-openingutility"));
+        $("#NoofPcs").val($(this).attr("data-noofpcs"));
+        $("#TotalUtility").val($(this).attr("data-totalutility"));
+        $("#PurchaseDate").val($(this).attr("data-purchasedate"));
+        $("#CreatedBy").val($(this).attr("data-createdby"));
+        $("#CreatedOn").val($(this).attr("data-createdon"));
+        $("html, body").animate({ scrollTop: 0 }, "slow");
+    });
+
+</script>
+

@@ -1,0 +1,79 @@
+﻿@{
+    ViewBag.Title = "PouchStockReport";
+    Layout = "~/Areas/wholesale/Views/Shared/_wholesalelayout.cshtml";
+}
+
+<div class="box box-default">
+    <div class="box-header with-border text-center">
+        <h3 class="box-title">Pouch Stock</h3>
+    </div>
+    <form id="frmPouchStockReport" class="form-horizontal">
+        <div class="box-body">
+            <div class="col-md-12">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="GodownID" class="col-sm-4 control-label">Godown</label>
+                        <div class="col-sm-8">
+                            @Html.DropDownList("GodownID", new SelectList(ViewBag.Godown, "GodownID", "GodownName"), "Select Godown", new { @class = "form-control" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="PouchID" class="col-sm-4 control-label">Pouch</label>
+                        <div class="col-sm-8">
+                            @Html.DropDownList("PouchNameID", new SelectList(ViewBag.Pouch, "PouchNameID", "PouchName"), "Select Pouch", new { @class = "form-control" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="box-footer">
+            <div class="pull-right">
+                <button type="button" id="btnsearch" class="btn btn-info">Search</button>
+                <button type="button" id="btncancel" class="btn btn-default">Cancel</button>
+                <button type="button" id="btnexport" class="btn btn-info">Export To Excel</button>
+            </div>
+        </div>
+    </form>
+    <div id="lststockreport">
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#btnsearch").click(function () {
+            loadhtml();
+        });
+        function loadhtml() {
+            if (!($('#frmPouchStockReport').parsley().validate())) {
+                return;
+            }
+            var GodownID = $("#GodownID").val();
+            var PouchNameID = $("#PouchNameID").val();
+            $.ajax({
+                url: '@Url.Action("PouchStockReportList")',
+                type: 'POST',
+                data: { 'GodownID': GodownID, 'PouchNameID': PouchNameID },
+                cache: false,
+            }).done(function (result) {
+                $('#lststockreport').html(result);
+            });
+        }
+    });
+
+    $("#btnexport").click(function () {
+        debugger;
+        var GodownID = $("#GodownID").val();
+        var PouchNameID = $("#PouchNameID").val();
+        var url = '@Url.Action("ExportExcelPouchStockReportList", "PouchStock", new { GodownID = "__GodownID__", PouchNameID = "__PouchNameID__" })';
+        url = url.replace(/amp;/g, '');
+        window.location.href = url.replace('__GodownID__', GodownID).replace('__PouchNameID__', PouchNameID);
+    });
+
+    $("#btncancel").click(function () {
+        location.reload();
+    });
+</script>
+

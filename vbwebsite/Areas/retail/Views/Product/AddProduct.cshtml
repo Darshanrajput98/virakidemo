@@ -1,0 +1,801 @@
+﻿@model vb.Data.RetProductViewModel
+@{
+    ViewBag.Title = "AddProduct";
+    Layout = "~/Areas/retail/Views/Shared/_retaillayout.cshtml";
+}
+@using vb.Data.ViewModel
+
+<div class="box box-default">
+    <div class="box-header with-border text-center">
+        <h3 class="box-title">Add Product</h3>
+    </div>
+    <form id="frmProduct" class="form-horizontal">
+        <div class="box-body">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="ProductName" class="col-sm-4 control-label">Name</label>
+                    <div class="col-sm-8">
+                        <input type="hidden" id="UProductID" name="ProductID" value="" />
+                        <input type="hidden" id="CreatedBy" class="CreatedBy" value="" />
+                        <input type="hidden" id="CreatedOn" class="CreatedOn" value="" />
+                        <input type="text" class="form-control" name="ProductName" id="ProductName" placeholder="Product Name" tabindex="1">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="Godown" class="col-sm-4 control-label">Godown</label>
+                    <div class="col-sm-8">
+                        @Html.DropDownListFor(m => m.GodownID, new SelectList(ViewBag.Godown, "GodownID", "GodownName"), "Select Godown", new { @class = "form-control select2", tabindex = "4" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="Description" class="col-sm-4 control-label">Description</label>
+                    <div class="col-sm-8">
+                        <textarea class="form-control" id="ProductDescription" name="ProductDescription" rows="2" cols="20" placeholder="Description" tabindex="7"></textarea>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="Price" class="col-sm-4 control-label">HSN Number</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="HSNNumber" id="HSNNumber" placeholder="HSN Number" tabindex="12">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="ContentValue" class="col-sm-4 control-label">Ingredients</label>
+                    <div class="col-sm-8">
+                        <textarea class="form-control" id="ContentValue" name="ContentValue" rows="2" cols="20" placeholder="Content" tabindex="7"></textarea>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="PlaceOfOrigin" class="col-sm-4 control-label">Place of Origin</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="PlaceOfOrigin" id="PlaceOfOrigin" placeholder="Place of Origin" tabindex="12">
+                    </div>
+                </div>
+
+
+                <!-- 08 Feb, 2022 Piyush Limbani -->
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="Protein" class="col-sm-4 control-label">Protein</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" name="Protein" id="Protein" placeholder="Protein" tabindex="8">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="Fat" class="col-sm-4 control-label">Fat</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" name="Fat" id="Fat" placeholder="Fat" tabindex="8">
+                        </div>
+                    </div>
+                </div>
+                <!-- 08 Feb, 2022 Piyush Limbani -->
+
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="Category" class="col-sm-4 control-label">Category</label>
+                    <div class="col-sm-8">
+                        @Html.DropDownListFor(m => m.CategoryID, new SelectList(ViewBag.Category, "CategoryID", "CategoryName"), "Select Category", new { @class = "form-control select2", tabindex = "3" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="Godown" class="col-sm-4 control-label">Best Before(In Months)</label>
+                    <div class="col-sm-8">
+                        @Html.DropDownListFor(m => m.BestBeforeMonthID, new SelectList(ViewBag.Month, "BestBeforeMonthID", "MonthNumber"), "Select Month", new { @class = "form-control select2", tabindex = "4" })
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="AlternateName" class="col-sm-4 control-label">SGST</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" name="SGST" id="SGST" placeholder="SGST" tabindex="8">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="H-For" class="col-sm-4 control-label">H-For</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" name="H-For" id="HFor" placeholder="H-For" tabindex="9">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="CGST" class="col-sm-4 control-label">CGST</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" name="CGST" id="CGST" placeholder="CGST" tabindex="10">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="IGST" class="col-sm-4 control-label">IGST</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" name="IGST" id="IGST" placeholder="IGST" tabindex="11">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="nutritionvalue" class="col-sm-4 control-label">Nutrition Value</label>
+                    <div class="col-sm-8">
+                        <textarea class="form-control" id="NutritionValue" name="NutritionValue" rows="5" cols="20" placeholder="Nutrition Value" tabindex="7"></textarea>
+                    </div>
+                </div>
+
+
+                <!-- 08 Feb, 2022 Piyush Limbani -->
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="Carbohydrate" class="col-sm-4 control-label">Carbohydrate</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" name="Carbohydrate" id="Carbohydrate" placeholder="Carbohydrate" tabindex="9">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="TotalEnergy" class="col-sm-4 control-label">Total Energy</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" name="TotalEnergy" id="TotalEnergy" placeholder="Total Energy" tabindex="9">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="Information" class="col-sm-4 control-label">Information</label>
+                    <div class="col-sm-8">
+                        <textarea class="form-control" id="Information" name="Information" rows="2" cols="20" placeholder="Information" tabindex="7"></textarea>
+                    </div>
+                </div>
+                <!-- 08 Feb, 2022 Piyush Limbani -->
+
+            </div>
+            <div class="col-md-12">
+                <div class="col-md-6">
+                    <div id="CountryWiseProductList" class="form-horizontal">
+                        <table class="table table-bordered table-bordered" id="CountryWiseProduct">
+                            <thead>
+                                <tr class="form-group">
+                                    <th class="nosort col-sm-4">Country</th>
+                                    <th class="nosort col-sm-6">Product Name</th>
+                                    <th class="nosort col-sm-2">Add</th>
+                                </tr>
+                            </thead>
+                            <tr class="form-group" id="AddCountryWiseProduct">
+                                <td id="row">
+                                    @Html.DropDownListFor(m => m.lstCountryWiseProduct[0].CountryID, new SelectList(ViewBag.Country, "CountryID", "CountryName"), "Select Country", new { @class = "form-control select2", tabindex = "6" })
+                                </td>
+                                <td>
+                                    <input name="CountryWiseProductID" class="hdnCountryWiseProductID" type="hidden" value="" />
+                                    <input type="text" class="form-control CountryWiseProductName" name="lstCountryWiseProduct[0].CountryWiseProductName" placeholder="Product Name" tabindex="13" />
+                                </td>
+                                <td>
+                                    <button type="button" class="btn btn-default addcountrywiseproduct"><i class="fa fa-plus" tabindex="17"></i></button>
+                                </td>
+                            </tr>
+                            <tr class="form-group hide" id="AddMoreCountryWiseProduct">
+                                <td id="row">
+                                    @Html.DropDownListFor(m => m.lstCountryWiseProduct[1].CountryID, new SelectList(ViewBag.Country, "CountryID", "CountryName"), "Select Country", new { @class = "form-control select2", tabindex = "6" })
+                                </td>
+                                <td>
+                                    <input name="CountryWiseProductIDnew" class="hdnCountryWiseProductID" type="hidden" value="" />
+                                    <input type="text" class="form-control  col-sm-2 CountryWiseProductName" name="lstCountryWiseProduct[1].CountryWiseProductName" placeholder="Product Name" />
+                                </td>
+                                <td>
+                                    <button type="button" class="btn btn-default removecountrywiseproduct"><i class="fa fa-minus"></i></button>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div id="ProductList" class="form-horizontal">
+
+                    <table class="table table-bordered table-bordered" id="ProductQty">
+                        <thead>
+                            <tr class="form-group">
+                                <th class="nosort col-sm-1">Select</th>
+                                <th class="nosort col-sm-1">Quantity</th>
+                                <th class="nosort col-sm-2">Unit</th>
+                                <th class="nosort col-sm-1">Price</th>
+                                <th class="nosort col-sm-1">MRP</th>
+                                <th class="nosort col-sm-1">Gram/Kg</th>
+                                <th class="nosort col-sm-2">Barcode</th>
+                                <th class="nosort col-sm-2">Pouch</th>
+                                <th class="nosort col-sm-2">Add</th>
+                            </tr>
+                        </thead>
+                        <tr class="form-group" id="AddProductQty">
+                            <td id="row">
+                                <input type="checkbox" class="IsSelect" name="lstSelect[0].IsSelect" tabindex="2" />
+                            </td>
+                            <td>
+                                <input type="text" class="form-control ProductQuantity" name="lstProductQty[0].ProductQuantity" placeholder="Quantity" tabindex="13" />
+                                <input name="ProductQtyID" class="hdnProductQtyID" type="hidden" value="" />
+                            </td>
+                            <td>
+                                @Html.DropDownListFor(m => m.lstProductQty[0].UnitID, new SelectList(ViewBag.Unit, "UnitID", "UnitCode"), "Select Unit", new { @class = "form-control select2 ", @id = "UnitID", tabindex = "6" })
+                            </td>
+                            <td>
+                                <input type="text" class="form-control ProductPrice" name="lstProductQty[0].ProductPrice" placeholder="Price" tabindex="15" />
+                            </td>
+                            <td>
+                                <input type="text" class="form-control ProductMRP" name="lstProductQty[0].ProductMRP" placeholder="MRP" tabindex="16" />
+
+                            </td>
+                            <td>
+                                <input type="text" class="form-control GramPerKG" name="lstProductQty[0].GramPerKG" placeholder="Gram/Kg" tabindex="17" disabled />
+                            </td>
+                            <td>
+                                <input type="text" class="form-control ProductBarcode" name="lstProductQty[0].ProductBarcode" placeholder="Barcode" tabindex="18" />
+                            </td>
+                            <td>
+                                @Html.DropDownListFor(m => m.lstProductQty[0].PouchNameID, new SelectList(ViewBag.Pouch, "PouchNameID", "PouchName"), "Select Pouch", new { @class = "form-control select2", @id = "PouchNameID", tabindex = "19" })
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-default addButton"><i class="fa fa-plus" tabindex="20"></i></button>
+                            </td>
+                        </tr>
+                        <tr class="form-group hide" id="AddMoreProduct">
+                            <td id="row">
+                                <input type="checkbox" class="IsDelete" name="IsDelete" tabindex="2" />
+                            </td>
+                            <td>
+                                <input type="text" class="form-control  col-sm-2 ProductQuantity" name="lstProductQty[1].ProductQuantity" placeholder="Quantity" />
+                                <input name="ProductQtyIDnew" class="hdnProductQtyID" type="hidden" value="" />
+                            </td>
+                            <td>
+                                @Html.DropDownListFor(m => m.lstProductQty[1].UnitID, new SelectList(ViewBag.Unit, "UnitID", "UnitCode"), "Select Unit", new { @class = "form-control select2", tabindex = "6" })
+                            </td>
+                            <td>
+                                <input type="text" class="form-control ProductPrice" name="ProductPrice" placeholder="Price" />
+                            </td>
+                            <td>
+                                <input type="text" class="form-control ProductMRP" name="ProductMRP" placeholder="MRP" />
+                            </td>
+                            <td>
+                                <input type="text" class="form-control GramPerKG" name="GramPerKG" placeholder="Gram/Kg" disabled />
+                            </td>
+                            <td>
+                                <input type="text" class="form-control ProductBarcode" name="ProductBarcode" placeholder="Barcode" />
+                            </td>
+                            <td>
+                                @Html.DropDownListFor(m => m.lstProductQty[1].PouchNameID, new SelectList(ViewBag.Pouch, "PouchNameID", "PouchName"), "Select Pouch", new { @class = "form-control select2", tabindex = "18" })
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-default removeButton"><i class="fa fa-minus"></i></button>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- /.box-body -->
+        <div class="box-footer ">
+            <div class="pull-right col-md-6">
+                <table>
+                    <tr class="form-group">
+                        <td class="col-sm-4">
+                            @Html.DropDownList("Currency", new SelectList(ViewBag.Currency, "CurrencyID", "CurrencyName"), "Select Currency", new
+                            {
+                                @id = "Currency",
+                                @class = "form-control select2 Currency",
+                                tabindex = "1"
+                            })
+                        </td>
+                        <td class="col-sm-4"><input type="text" class="form-control  CurrencyRate" name="CurrencyRate" placeholder="Currency Rate" /></td>
+                        <td class="col-sm-1"><button type="button" id="btnexport" class="btn btn-info" tabindex="20">Export To Excel</button></td>
+                        <td class="col-sm-1"><button type="button" id="CancelProduct" class="btn btn-default" tabindex="17">Cancel</button></td>
+                        @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.RAPRODUCT.ToString()))
+                        {
+                        <td class="col-sm-1"><button type="button" id="btnsavecase" class="btn btn-info" tabindex="16">Save</button></td>
+                        }
+                    </tr>
+                </table>
+
+
+
+
+                @*<button type="button" id="btnexport" class="btn btn-info" tabindex="20">Export To Excel</button>
+                    <button type="button" id="CancelProduct" class="btn btn-default" tabindex="17">Cancel</button>
+                    @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.RAPRODUCT.ToString()))
+                    {
+                        <button type="button" id="btnsavecase" class="btn btn-info" tabindex="16">Save</button>
+                    }*@
+            </div>
+        </div>
+        <!-- /.box-footer -->
+    </form>
+    <div id="lstcase">
+    </div>
+
+    <!-- add chirag temporary external barcode popup-->
+    <div id="LanguageConfig" class="modal fade">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header" style="padding-bottom: 0px;">
+                    <h4 class="modal-title">Product Language Configuration</h4>
+                </div>
+                <div class="modal-body" style="height:400px; overflow-y:scroll; margin-top:2%;">
+
+                    <div class="col-sm-12" id="maindiv">
+                        <input type="hidden" id="hdnLanguageForm_ProductId" />
+                        <input type="hidden" id="hdnRetProdGuiID" />
+                        <div id="languageGroup_1" class="languageFormGroup" style="margin-bottom:1.5%;">
+
+                            <div class="row">
+                                <div class="form-group">
+                                    <div class="col-sm-5 col-sm-push-1">
+                                        <label for="Language"> Language</label>
+                                    </div>
+                                    <div class="col-sm-5  col-sm-push-1">
+                                        <label for="ProductName"> Product Name</label>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-5 col-sm-push-1">
+                                        @Html.DropDownList("GuiID_1", new SelectList(ViewBag.GuiLanguage, "GuiID", "LanguageName"), "Select Language", new { @id = "GuiID_1", @class = "form-control select2 Language", tabindex = "1", @onchange = "changeGuiLanguage(this)" })
+                                    </div>
+                                    <div class="col-sm-5 col-sm-push-1">
+                                        <input type="text" id="ProductName_1" class="form-control ProductName" placeholder="ProductName" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-5 col-sm-push-1">
+                                        <label for="Language"> Content</label>
+                                    </div>
+                                    <div class="col-sm-5 col-sm-push-1">
+                                        <label for="ProductName"> Nutrition</label>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-5 col-sm-push-1">
+                                        <textarea id="Content_1" class="form-control Content" placeholder="Content" rows="4"></textarea>
+                                    </div>
+                                    <div class="col-sm-5 col-sm-push-1">
+                                        <textarea id="Nutrition_1" class="form-control Nutrition" placeholder="Nutrition" rows="4"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row tblProdQtyGroup" id="tblProdQtyGroup_1">
+                                <table class="tblProdQty" id="tblProdQty_1" style="width: 100%; margin-top: 2%; border-collapse: separate; border-spacing: 10px; ">
+                                    <tr>
+                                        <th class="col-sm-1"></th>
+                                        <th class="col-sm-4">Qty</th>
+                                        <th class="col-sm-1"></th>
+                                        <th class="col-sm-4">Unit</th>
+                                        <th class="col-sm-2"></th>
+                                    </tr>
+                                    <tr class="prodQtyRowGroup" id="prodQtyRowGroup_1" style="margin-top:1%;">
+                                        <td class="col-sm-1"></td>
+                                        <td class="col-sm-4">
+                                            <input type="hidden" class="trProductQtyID" id="hdnProductQtyID_1" />
+                                            <input type="hidden" class="trProductQtyGuiID" id="hdnProductQtyGuiID_1" />
+
+                                            <label id="lblQty_1" class="lblQty"></label><br />
+                                            <input type="text" id="txtQty_1" class="form-control txtQty" />
+                                        </td>
+
+                                        <td class="col-sm-1"></td>
+
+                                        <td class="col-sm-4">
+                                            <label id="lblUnit_1" class="lblUnit"></label>
+                                            <br />
+                                            @Html.DropDownList("ddlUnitId_1", new SelectList(ViewBag.Unit, "UnitID", "UnitCode"), "Select Unit", new { @class = "form-control select2 LanguageUnit", @id = "ddlUnitId_1", tabindex = "2" })
+                                        <td class="col-sm-2"></td>
+                                    </tr>
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btnsavLanguageConfiguration btn btn-info">Save</button>
+                    <button type="button" class="btncloseLanguageConfig btn btn-info" data-dismiss="modal" aria-hidden="true">Close</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+
+    <!---->
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var ProductQuantityValidators = {
+            row: '.col-xs-2',   // The title is placed inside a <div class="col-xs-4"> element
+            validators: {
+                notEmpty: {
+                    message: 'The Lower Qty is required'
+                }
+            }
+        },
+            UpperQtyValidators = {
+                row: '.col-xs-2',
+                validators: {
+                    notEmpty: {
+                        message: 'The Upper Qty is required'
+                    },
+                    UpperQty: {
+                        message: 'The Upper Qty is not valid'
+                    }
+                }
+            },
+
+            LessAmountValidators = {
+                row: '.col-xs-2',
+                validators: {
+                    notEmpty: {
+                        message: 'The Rs is required'
+                    },
+                    RsLess: {
+                        message: 'The Rs is not valid'
+                    }
+                }
+            },
+
+            SellPriceValidators = {
+                row: '.col-xs-2',
+                validators: {
+                    notEmpty: {
+                        message: 'The  Sell Price is required'
+                    },
+                    SellPrice: {
+                        message: 'The  Sell Price must be a numeric number'
+                    }
+                }
+            },
+            bookIndex = 0;
+        $('#ProductList').on('click', '.addButton', function () {
+            // Add button click handler
+
+            debugger;
+            bookIndex++;
+            var $template = $('#AddMoreProduct'),
+                $clone = $template
+                                .clone()
+                                .removeClass('hide')
+                                .removeAttr('id')
+                                .attr('data-book-index', bookIndex)
+                                .insertBefore($template);
+            // Update the name attributes
+            $clone
+
+                .find('[name="IsSelect"]').attr('name', 'lstProductQty[' + bookIndex + '].IsSelect').end()
+                .find('[name="ProductQuantity"]').attr('name', 'lstProductQty[' + bookIndex + '].ProductQuantity').end()
+                .find('[name="UnitID"]').attr('name', 'lstProductQty[' + bookIndex + '].UnitID').end()
+                .find('[name="ProductPrice"]').attr('name', 'lstProductQty[' + bookIndex + '].ProductPrice').end()
+                .find('[name="ProductMRP"]').attr('name', 'lstProductQty[' + bookIndex + '].ProductMRP').end()
+
+                .find('[name="GramPerKG"]').attr('name', 'lstProductQty[' + bookIndex + '].GramPerKG').end()
+
+                .find('[name="ProductBarcode"]').attr('name', 'lstProductQty[' + bookIndex + '].ProductBarcode').end()
+                .find('[name="PouchNameID"]').attr('name', 'lstProductQty[' + bookIndex + '].PouchNameID').end();
+            $('select').select2({ width: '100%' });
+            $tdvalue = $clone.find('td')[2];
+            $($tdvalue).find('span.select2.select2-container.select2-container--default')[1].remove();
+            $('select').select2({ width: '100%' });
+            $tdvalue = $clone.find('td')[7];
+            $($tdvalue).find('span.select2.select2-container.select2-container--default')[1].remove();
+
+        })
+
+            // Remove button click handler
+        .on('click', '.removeButton', function () {
+            var $row = $(this).parents('.form-group'),
+                index = $row.attr('data-book-index');
+            $row.remove();
+        });
+
+
+
+    });
+</script>
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script>
+    $(document).ready(function () {
+        loadhtml();
+    });
+    function loadhtml() {
+        $.ajax({
+            url: '@Url.Action("ProductList")',
+            type: 'GET',
+            cache: false,
+        }).done(function (result) {
+            $('#lstcase').html(result);
+        });
+    }
+
+    $("#btnsavecase").click(function () {
+        var lstProductQty = [];
+        var lstCountryWiseProduct = [];
+        debugger;
+        $('#ProductQty').children('tbody').children('tr:visible').each(function (index, row) {
+            if ($(row).find('td').length == 0) {
+                return;
+            }
+            //debugger;
+            var dataProQty = new Object();
+            dataProQty.ProductQtyID = $(row).find("input[type=hidden]")[0].value;
+            dataProQty.IsSelect = $($(row).find("input[type=checkbox]")[0]).is(':checked');
+            dataProQty.ProductQuantity = $(row).find("input")[1].value;
+            dataProQty.UnitID = $(row).find("select")[0].value;
+            dataProQty.ProductPrice = $(row).find("input")[3].value;
+            dataProQty.ProductMRP = $(row).find("input")[4].value;
+
+            dataProQty.GramPerKG = $(row).find("input")[5].value;
+
+            dataProQty.ProductBarcode = $(row).find("input")[6].value;
+            dataProQty.PouchNameID = $(row).find("select")[1].value;
+            lstProductQty.push(dataProQty);
+        });
+
+
+        $('#CountryWiseProduct').children('tbody').children('tr:visible').each(function (index, row) {
+            if ($(row).find('td').length == 0) {
+                return;
+            }
+            debugger;
+            var dataProdName = new Object();
+            dataProdName.CountryWiseProductID = $(row).find("input[type=hidden]")[0].value;
+            dataProdName.CountryID = $(row).find("select")[0].value;
+            dataProdName.CountryWiseProductName = $(row).find("input")[1].value;
+            lstCountryWiseProduct.push(dataProdName);
+        });
+
+        var datareq = new Object();
+        datareq.ProductID = $("#UProductID").val();
+        datareq.ProductName = $("#ProductName").val();
+        datareq.CategoryID = $("#CategoryID").val();
+        datareq.GodownID = $("#GodownID").val();
+        datareq.BestBeforeMonthID = $("#BestBeforeMonthID").val();
+        datareq.ProductDescription = $("#ProductDescription").val();
+        datareq.HSNNumber = $("#HSNNumber").val();
+        datareq.SGST = $("#SGST").val();
+        datareq.CGST = $("#CGST").val();
+        datareq.IGST = $("#IGST").val();
+        datareq.HFor = $("#HFor").val();
+        datareq.ContentValue = $("#ContentValue").val();
+        datareq.NutritionValue = $("#NutritionValue").val();
+        datareq.PlaceOfOrigin = $("#PlaceOfOrigin").val();
+        datareq.CreatedBy = $("#CreatedBy").val();
+        datareq.CreatedOn = $("#CreatedOn").val();
+        datareq.lstProductQty = lstProductQty;
+        datareq.lstCountryWiseProduct = lstCountryWiseProduct;
+
+        // 08 Feb, 2022 Piyush Limbani
+        datareq.Protein = $("#Protein").val();
+        datareq.Fat = $("#Fat").val();
+        datareq.Carbohydrate = $("#Carbohydrate").val();
+        datareq.TotalEnergy = $("#TotalEnergy").val();
+        datareq.Information = $("#Information").val();
+        // 08 Feb, 2022 Piyush Limbani
+
+        $.ajax({
+            url: '@Url.Action("AddProduct")',
+            type: 'POST',
+            data: { 'data': datareq },
+            cache: false,
+        }).done(function (result) {
+            if (result == true) {
+                if ($("#ProductID").val() == "") {
+                    $('div#sucessalert').html("Product Add successfully.");
+                }
+                else {
+                    $('div#sucessalert').html("Product updated successfully.");
+                }
+                showhidealert();
+                loadhtml();
+                clearform();
+            }
+        });
+    });
+
+    $("#CancelProduct").click(function () {
+        clearform();
+    });
+
+    function clearform() {
+        $("#frmProduct").find("input").val("");
+        $("#frmProduct").find("textarea").val("");
+        $("#CategoryID").val("").trigger("change");
+        $("#GodownID").val("").trigger("change");
+        $("#BestBeforeMonthID").val("").trigger("change");
+        $("#UnitID").val("").trigger("change");
+        $("#PouchNameID").val("").trigger("change");
+        if ($('#ProductQty').find('tbody tr:visible').length > 1)
+            $('#ProductQty').find('tbody tr:visible').not(':first').empty();
+
+        $("#CountryID").val("").trigger("change");
+        if ($('#CountryWiseProduct').find('tbody tr:visible').length > 1)
+            $('#CountryWiseProduct').find('tbody tr:visible').not(':first').empty();
+        //location.reload();
+    }
+    @*$("#btnexport").click(function () {
+        debugger;
+        var url = '@Url.Action("ExportExcelProduct", "Product")';
+        window.location.href = url.replace();
+
+    });*@
+
+    // 1 june, 2021 Sonal Gandhi
+    $("#btnexport").click(function () {
+        debugger;
+        var CurrencyID = $(this).closest('tr').find('.Currency').val();
+        var CurrencyRate = $(this).closest('tr').find('.CurrencyRate').val();
+        var url = '@Url.Action("ExportExcelProduct", "Product", new { CurrencyID = "__CurrencyID__", CurrencyRate = "__CurrencyRate__"})';
+        url = url.replace(/amp;/g, '');
+        window.location.href = url.replace('__CurrencyID__', CurrencyID).replace('__CurrencyRate__', CurrencyRate);
+
+    });
+</script>
+
+<!--chirag 05-02-2019-->
+<script>
+    $(".btnsavLanguageConfiguration").click(function () {
+
+        var formIndex = 1;
+
+        var RetProdGuiData = new Object();
+        var lstRetProdQtyGui = [];
+        var hdnProductId = $("#hdnLanguageForm_ProductId").val();
+        $("#maindiv").find(".languageFormGroup").each(function (i) {
+            debugger;
+            RetProdGuiData.RetProdGuiID = $("#hdnRetProdGuiID").val();
+            RetProdGuiData.ProductID = hdnProductId
+            RetProdGuiData.GuiID = $("#languageGroup_" + formIndex).find("#GuiID_" + formIndex).val();
+            RetProdGuiData.ProductNameGui = $("#languageGroup_" + formIndex).find("#ProductName_" + formIndex).val() == undefined ? '' : $("#languageGroup_" + formIndex).find("#ProductName_" + formIndex).val().trim();
+            RetProdGuiData.ContentGui = $("#languageGroup_" + formIndex).find("#Content_" + formIndex).val() == undefined ? '' : $("#languageGroup_" + formIndex).find("#Content_" + formIndex).val().trim();
+            RetProdGuiData.NutritionGui = $("#languageGroup_" + formIndex).find("#Nutrition_" + formIndex).val() == undefined ? '' : $("#languageGroup_" + formIndex).find("#Nutrition_" + formIndex).val().trim();
+            var tblRowId = 1;
+            $("#languageGroup_" + formIndex).find(".tblProdQtyGroup tr").each(function (i) {
+                var RetProdQtyGui = new Object()
+                debugger;
+                RetProdQtyGui.RetProdGuiQtyID = $("#prodQtyRowGroup_" + tblRowId).find("#hdnProductQtyGuiID_" + tblRowId).val();
+                RetProdQtyGui.ProductQtyID = $("#prodQtyRowGroup_" + tblRowId).find("#hdnProductQtyID_" + tblRowId).val();
+                RetProdQtyGui.ProductQtyGui = $("#prodQtyRowGroup_" + tblRowId).find("#txtQty_" + tblRowId).val() == undefined ? '' : $("#prodQtyRowGroup_" + tblRowId).find("#txtQty_" + tblRowId).val().trim();
+                RetProdQtyGui.UnitGuiID = $("#prodQtyRowGroup_" + tblRowId).find("#ddlUnitId_" + tblRowId).val();
+                lstRetProdQtyGui.push(RetProdQtyGui);
+                tblRowId++;
+            });
+
+            RetProdGuiData.lstRetProdQtyGui = lstRetProdQtyGui;
+        });
+
+        $.ajax({
+            url: '@Url.Action("AddProductGuiMaster")',
+            type: 'POST',
+            data: { 'data': RetProdGuiData },
+            cache: false,
+        }).done(function (result) {
+            debugger;
+            if (result == true) {
+                $('#LanguageConfig').removeClass("modal fade modal-overflow in");
+                $('#LanguageConfig').removeAttr('style');
+                $('#LanguageConfig').addClass("modal fade");
+                $("#loader").hide();
+                removeRow();
+            }
+        });
+
+    });
+
+
+    function changeGuiLanguage(obj) {
+        var GuiID = obj.value;
+        if (GuiID == "") {
+            GuiID = 0;
+        }
+        debugger;
+
+        $.when($.ajax({
+            url: '@Url.Action("GetAllRetUnitNameByGuiID")',
+            type: 'POST',
+            data: { 'GuiID': GuiID },
+            cache: false,
+        }).done(function (result) {
+            debugger;
+            if (result.UnitGui.length > 0) {
+                var LanguageUnit = "<option value=" + 0 + " selected>  Select Unit  </option>";
+                $(result.UnitGui).each(function (i) {
+                    LanguageUnit += "<option value=" + result.UnitGui[i].UnitID + ">" + result.UnitGui[i].UnitCode + "</option>";
+                });
+                $(".LanguageUnit").html("");
+                $(".LanguageUnit").html(LanguageUnit);
+            }
+        })
+           ).then(function () {
+
+               var productId = $("#hdnLanguageForm_ProductId").val();
+               if (productId != undefined && productId != "") {
+
+                   if (parseInt(GuiID) > 0 && parseInt(productId) > 0) {
+                       getProductQtyGuiData(parseInt(GuiID), parseInt(productId));
+                   }
+                   else {
+                       resetTablQtyGui();
+                   }
+               }
+           });
+    }
+
+    function changeRowGuiLanguage(obj) {
+        var GuiID = obj.value;
+        if (parseInt(GuiID) > 0 && GuiID != "" && GuiID != undefined) {
+            $("#LanguageConfig").find("#GuiID_1").val(GuiID);
+        }
+    }
+
+    function changeAllLanguageUnit(valueOfLanguage) {
+        if (valueOfLanguage != undefined && valueOfLanguage != null && valueOfLanguage != "") {
+            $.ajax({
+                url: '@Url.Action("GetAllRetUnitNameByGuiID")',
+                type: 'POST',
+                data: { 'GuiID': valueOfLanguage },
+                cache: false,
+            }).done(function (result) {
+                debugger;
+                if (result.UnitGui.length > 0) {
+
+                    var LanguageUnit = "<option value=" + 0 + ">  Select Unit  </option>";
+                    $(result.UnitGui).each(function (i) {
+                        LanguageUnit += "<option value=" + result.UnitGui[i].UnitID + ">" + result.UnitGui[i].UnitCode + "</option>";
+                    });
+                    $(".LanguageUnit").html(LanguageUnit);
+
+                }
+            });
+        }
+    }
+</script>
+
+
+
+
+
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        bookIndex = 0;
+        $('#CountryWiseProductList')
+            // Add button click handler
+            .on('click', '.addcountrywiseproduct', function () {
+                //debugger;
+                bookIndex++;
+                var $template = $('#AddMoreCountryWiseProduct'),
+                    $clone = $template
+                                    .clone()
+                                    .removeClass('hide')
+                                    .removeAttr('id')
+                                    .attr('data-book-index', bookIndex)
+                                    .insertBefore($template);
+                // Update the name attributes
+                $clone
+                   .find('[name="CountryID"]').attr('name', 'lstCountryWiseProduct[' + bookIndex + '].CountryID').end()
+                     .find('[name="CountryWiseProductName"]').attr('name', 'lstCountryWiseProduct[' + bookIndex + '].CountryWiseProductName').end();
+                $('select').select2({ width: '100%' });
+                $tdvalue = $clone.find('td')[0];
+                $($tdvalue).find('span.select2.select2-container.select2-container--default')[1].remove();
+            })
+            // Remove button click handler
+            .on('click', '.removecountrywiseproduct', function () {
+                var $row = $(this).parents('.form-group'),
+                    index = $row.attr('data-book-index');
+                $row.remove();
+            });
+    });
+</script>
+

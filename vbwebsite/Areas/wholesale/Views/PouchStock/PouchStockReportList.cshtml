@@ -1,0 +1,59 @@
+﻿@model List<vb.Data.PouchStockResponse>
+@using vb.Data.ViewModel
+
+<div class="box">
+    <div class="box-header text-center">
+        <h3 class="box-title">Pouch Stock List</h3>
+    </div>
+    <div class="box-body table-scrollable1">
+        <table id="ListDataTable" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th class="nosort">Godown</th>
+                    <th class="nosort">Pouch</th>
+                    <th class="nosort">HSN Number</th>
+                    <th class="nosort">Min Pouch</th>
+                    <th class="nosort">Total Pouch</th>
+                    <th class="nosort">Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @item.GodownName
+                        </td>
+                        <td>
+                            @item.PouchName
+                        </td>
+                        <td>
+                            @item.HSNNumber
+                        </td>
+                        <td>
+                            @item.MinPouchQuantity
+                        </td>
+                        <td>
+                            @item.TotalPouch
+                        </td>
+                        <td>
+                            @item.PurchaseDatestr
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    $('#ListDataTable').DataTable({
+        'paging': true,
+        'lengthChange': true,
+        'searching': true,
+        'ordering': false,
+        'info': true,
+        'autoWidth': false
+    });
+</script>
+

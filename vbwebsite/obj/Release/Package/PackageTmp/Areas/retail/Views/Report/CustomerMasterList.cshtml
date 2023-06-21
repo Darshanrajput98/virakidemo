@@ -1,0 +1,106 @@
+﻿@model List<vb.Data.RetCustomerListResponse>
+
+@{
+    ViewBag.Title = "CustomerMasterList";
+    Layout = "~/Areas/retail/Views/Shared/_retaillayout.cshtml";
+}
+
+<div class="box">
+    <div class="box-header text-center">
+        <h3 class="box-title">Customer Master</h3>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body table-scrollable1">
+        <table id="ListDataTable" class="table table-bordered table-striped lstsales">
+            <thead>
+                <tr>
+                    <th>Party</th>
+                    <th>Code</th>
+                    <th>Del Add 1</th>
+                    <th>Del Add 2</th>
+                    <th>Area</th>
+                    <th>State</th>
+                    <th>Country</th>
+                    <th>Tax No</th>
+                    <th>FSSAI</th>
+                    <th>Tax</th>
+                    <th>Type</th>
+                    <th>Contact Person Name</th>
+                    <th>Contact Number</th>
+                    <th>Contact Email</th>
+                    <th>Sales Person</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @item.CustomerName
+                        </td>
+                        <td>
+                            @item.CustomerNumber
+                        </td>
+                        <td>
+                            @item.DeliveryAddressLine1
+                        </td>
+                        <td>
+                            @item.DeliveryAddressLine2
+                        </td>
+                        <td>
+                            @item.AreaName
+                        </td>
+                        <td>
+                            @item.State
+                        </td>
+                        <td>
+                            @item.Country
+                        </td>
+                        <td>
+                            @item.TaxNo
+                        </td>
+                        <td>
+                            @item.FSSAI
+                        </td>
+                        <td>
+                            @item.TaxName
+                        </td>
+                        <td>
+                            @item.CustomerTypeName
+                        </td>
+                        <td>
+                            @item.ContactName
+                        </td>
+                        <td>
+                            @item.ContactMobNumber
+                        </td>
+                        <td>
+                            @item.ContactEmail
+                        </td>
+                        <td>
+                            @item.UserFullName
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="col-md-12">
+        <div class="box-footer ">
+            <div class="pull-right">
+                <button type="button" id="btnexport" class="btn btn-info" tabindex="20">Export To Excel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#btnexport").click(function () {
+            debugger;
+            var url = '@Url.Action("ExportExcelCustomerList", "Report")';
+            window.location.href = url;
+        });
+    });
+</script>

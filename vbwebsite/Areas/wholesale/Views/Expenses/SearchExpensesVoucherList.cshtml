@@ -1,0 +1,83 @@
+﻿@model List<vb.Data.ExpensesVoucherListResponse>
+@using vb.Data.ViewModel
+
+<div class="box">
+    <div class="box-header text-center">
+        <h3 class="box-title">Expenses Voucher List</h3>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body table-scrollable1">
+        <table id="ListDataTable" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th class="nosort">Cash</th>
+                    <th class="nosort">Date of Voucher</th>
+                    <th class="nosort">Voucher No.</th>
+                    <th class="nosort">Pay Mr./M/s</th>
+                    <th class="nosort">Debit A/c</th>
+                    <th class="nosort">Amount</th>
+                    <th class="nosort">Prepared By</th>
+                    <th class="nosort">Print Voucher</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td id="row">
+                            @item.GodownName
+                        </td>
+                        <td>
+                            @item.DateofVoucherstr
+                        </td>
+                        <td>
+                            @item.VoucherNumber
+                        </td>
+                        <td>
+                            @item.Pay
+                        </td>
+                        <td>
+                            @item.DebitAccountType
+                        </td>
+                        <td>
+                            @item.Amount.ToString("0.00")
+                        </td>
+                        <td>
+                            @item.PreparedBy
+                        </td>
+                        <td>
+                            <input type="button" value="Print Voucher" onclick="GetPrintExpensesVoucher(@item.ExpensesVoucherID)" />
+                        </td>
+
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+    <!-- /.box-body -->
+</div>
+
+<script>
+    $("#ListDataTable").DataTable({
+        'aoColumnDefs': [{
+            'bSortable': false,
+            'aTargets': ['nosort'] /* 1st one, start by the right */
+
+        }]
+    });
+    function GetPrintExpensesVoucher(ExpensesVoucherID) {
+        debugger;
+        $.ajax({
+            url: '@Url.Action("PrintExpensesVoucher", "Expenses")',
+            type: 'POST',
+            data: { 'ExpensesVoucherID': ExpensesVoucherID },
+            cache: false,
+        }).done(function (result) {
+            if (result != '') {
+                window.open(result, "newPage");
+            }
+        });
+    };
+
+</script>

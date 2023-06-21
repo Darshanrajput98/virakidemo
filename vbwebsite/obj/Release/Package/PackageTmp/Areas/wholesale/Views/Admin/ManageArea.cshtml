@@ -1,0 +1,261 @@
+﻿@{
+    ViewBag.Title = "ManageArea";
+    Layout = "~/Areas/wholesale/Views/Shared/_wholesalelayout.cshtml";
+}
+@using vb.Data.ViewModel
+
+<div class="box box-default">
+    <div class="box-header with-border text-center">
+        <h3 class="box-title">Manage Area</h3>
+    </div>
+    <form id="frmArea" class="form-horizontal">
+        <div class="box-body">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <input name="AreaID" id="UAreaID" type="hidden" value="" />
+                    <input name="IsOnline" id="IsOnline" type="hidden" value="" />
+                    <label for="Name" class="col-sm-4 control-label">Name</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="Name" maxlength="100" id="AreaName" placeholder="Name" tabindex="1" required="required">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="State" class="col-sm-4 control-label">State</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="State" id="State" placeholder="State" tabindex="3">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="PinCode" class="col-sm-4 control-label">Pin Code</label>
+                    <div class="col-sm-8">
+                        @*<input type="number" class="form-control" name="PinCode" id="PinCode" placeholder="Pin Code" tabindex="5">*@
+                        <input type="text" class="form-control" name="PinCode" id="PinCode" placeholder="Pin Code" onkeypress="return onlyNumberKey(event)" maxlength="6" tabindex="5">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="City" class="col-sm-4 control-label">City </label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="City" id="City" placeholder="City" tabindex="2">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="Country" class="col-sm-4 control-label">Country</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="Country" id="Country" placeholder="Country" tabindex="4">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="day" class="col-sm-4 control-label">Days Of Week</label>
+                    <div class="col-sm-8">
+                        <select name="Day" id="DaysofWeek" class="form-control" tabindex="6">
+                            <option value="" selected>Select</option>
+                            <option value="1">Monday</option>
+                            <option value="2">Tuesday</option>
+                            <option value="3">Wednesday</option>
+                            <option value="4">Thursday</option>
+                            <option value="5">Friday</option>
+                            <option value="6">Saturday</option>
+                            <option value="7">Sunday</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <div class="box-header with-border text-center">
+                    <h3 class="box-title">Pincode</h3>
+                </div>
+
+                <div id="AreaPincodeList" class="form-horizontal">
+                    <table class="table table-bordered table-striped" id="AreaPincode">
+                        <thead>
+                            <tr class="form-group">
+                                <th class="nosort col-sm-1">Sr. No</th>
+                                <th class="nosort col-sm-1">Pincode</th>
+                                <th class="nosort col-sm-3">Add</th>
+                            </tr>
+                        </thead>
+                        <tr class="form-group" id="AddAreaPincode">
+                            <td id="row">
+                                <input type="text" class="form-control SrNo" name="SrNo" id="SrNo" tabindex="" value="1" disabled>
+                                <input name="AreaPincodeID" class="hdnAreaPincodeID" type="hidden" value="" />
+                            </td>
+                            <td>
+                                <input type="text" class="form-control AreaPincode" name="lstAreaPincode[0].Pincode" id="AreaPincode" placeholder="Pincode" onkeypress="return onlyNumberKey(event)" maxlength="6" />
+                            </td>
+                            <td>
+                                <button type="button" class="col-sm-4 btn btn-default addButton"><i class="fa fa-plus"></i></button>
+                            </td>
+                        </tr>
+
+                        <tr class="form-group hide" id="AddMoreAreaPincode">
+                            <td id="row" class="">
+                                <input type="text" class="form-control SrNo" name="SrNo" id="SrNo" tabindex="" value="" disabled>
+                                <input name="AreaPincodeIDNew" class="hdnAreaPincodeID" type="hidden" value="" />
+                            </td>
+                            <td>
+                                <input type="text" class="form-control AreaPincode" name="lstAreaPincode[0].Pincode" id="AreaPincode" placeholder="Pincode" onkeypress="return onlyNumberKey(event)" maxlength="6" />
+                            </td>
+                            <td>
+                                <button type="button" class="col-sm-4 btn btn-default removeButton"><i class="fa fa-minus"></i></button>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+        <!-- /.box-body -->
+        <div class="box-footer ">
+            <div class="pull-right">
+                <button type="button" id="CancelArea" class="btn btn-default" tabindex="8">Cancel</button>
+                @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.WAAREA.ToString()))
+                {
+                    <button type="button" id="btnsavecase" class="btn btn-info" tabindex="7">Save</button>
+                }
+            </div>
+        </div>
+        <!-- /.box-footer -->
+    </form>
+    <div id="lstcase">
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script>
+
+    $(document).ready(function () {
+        loadhtml();
+    });
+
+    function loadhtml() {
+        $.ajax({
+            url: '@Url.Action("ManageAreaList")',
+            type: 'GET',
+            cache: false,
+        }).done(function (result) {
+            $('#lstcase').html(result);
+        });
+    }
+
+    $("#btnsavecase").click(function () {
+        debugger;
+        if (!($('#frmArea').parsley().validate())) {
+            return;
+        }
+
+        var lstAreaPincode = [];
+        //  debugger;
+        $('#AreaPincode').children('tbody').children('tr:visible').each(function (index, row) {
+            if ($(row).find('td').length == 0) {
+                return;
+            }
+            var dataPincode = new Object();
+            dataPincode.AreaPincodeID = $(row).find("input[type=hidden]")[0].value;
+            dataPincode.Pincode = $(row).find("input")[2].value;
+            if ((dataPincode.Pincode != '')) {
+                lstAreaPincode.push(dataPincode);
+            }
+        });
+
+
+        var datareq = new Object();
+        datareq.AreaID = $("#UAreaID").val();
+        datareq.AreaName = $("#AreaName").val();
+        datareq.City = $("#City").val();
+        datareq.State = $("#State").val();
+        datareq.Country = $("#Country").val();
+        datareq.PinCode = $("#PinCode").val();
+        datareq.DaysofWeek = $("#DaysofWeek").val();
+        datareq.IsOnline = $("#IsOnline").val();
+        datareq.DeleteItems = DeleteItem;
+        datareq.lstAreaPincode = lstAreaPincode;
+
+        $.ajax({
+            url: '@Url.Action("ManageArea")',
+            type: 'POST',
+            data: { 'data': datareq },
+            cache: false,
+        }).done(function (result) {
+            if (result == true) {
+                if ($("#AreaID").val() == "") {
+                    $('div#sucessalert').html("Area Add successfully.");
+                }
+                else {
+                    $('div#sucessalert').html("Area updated successfully.");
+                }
+                showhidealert();
+                loadhtml();
+                clearform();
+            }
+        });
+    });
+
+    $("#CancelArea").click(function () {
+        clearform();
+    });
+
+    function clearform() {
+        $("#frmArea").find("input").val("");
+        $("#AreaID").val("").trigger("change");
+        $("#DaysofWeek").val("").trigger("change");
+
+        if ($('#AreaPincode').find('tbody tr:visible').length > 1) {
+            $('#AreaPincode').find('tbody tr:visible').not(':first').empty();
+        }
+
+        $('.SrNo').val('1');
+    }
+</script>
+
+
+<script type="text/javascript">
+    var DeleteItem = '';
+    $(document).ready(function () {
+        bookIndex = 1;
+        $('#AreaPincodeList')
+            // Add button click handler
+            .on('click', '.addButton', function () {
+                debugger;
+                bookIndex++;
+                var $template = $('#AddMoreAreaPincode'),
+                    $clone = $template
+                                    .clone()
+                                    .removeClass('hide')
+                                    .removeAttr('id')
+                                    .attr('data-book-index', bookIndex)
+                                    .insertBefore($template);
+                // Update the name attributes
+                $clone
+                     .find('[name="Pincode"]').attr('name', 'lstAreaPincode[' + bookIndex + '].Pincode').end()
+                     .find('[name="SrNo"]').val(bookIndex).end();
+            })
+            // Remove button click handler
+            .on('click', '.removeButton', function () {
+                if ($(this).closest('tr').find("input[type=hidden]")[0].value != '') {
+                    if (DeleteItem == "") {
+                        DeleteItem = $(this).closest('tr').find("input[type=hidden]")[0].value;
+                    }
+                    else {
+                        DeleteItem = DeleteItem + ',' + $(this).closest('tr').find("input[type=hidden]")[0].value;
+                    }
+                }
+
+                var $row = $(this).parents('.form-group'),
+                    index = $row.attr('data-book-index');
+                $row.remove();
+            });
+    });
+
+
+    function onlyNumberKey(evt) {
+        var ASCIICode = (evt.which) ? evt.which : evt.keyCode
+        if (ASCIICode > 31 && (ASCIICode < 48 || ASCIICode > 57))
+            return false;
+        return true;
+    }
+</script>
+
+

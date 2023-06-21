@@ -1,0 +1,98 @@
+﻿@{
+    ViewBag.Title = "ManageUtilityName";
+    Layout = "~/Areas/wholesale/Views/Shared/_wholesalelayout.cshtml";
+}
+@using vb.Data.ViewModel
+
+<div class="box box-default">
+    <div class="box-header with-border text-center">
+        <h3 class="box-title">Add Utility Name</h3>
+    </div>
+    <form id="frmUtilityName" class="form-horizontal">
+        <div class="box-body">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <input name="UtilityNameID" id="UtilityNameID" type="hidden" value="" />
+                    <input type="hidden" id="CreatedBy" class="CreatedBy" value="" />
+                    <input type="hidden" id="CreatedOn" class="CreatedOn" value="" />
+                    <label for="Name" class="col-sm-4 control-label">Name</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="UtilityName" maxlength="200" id="UtilityName" placeholder="Utility Name" tabindex="1" required="required" autocomplete="off">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="HSNNumber" class="col-sm-4 control-label">HSN Number</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="HSNNumber" maxlength="200" id="HSNNumber" placeholder="HSN Number" tabindex="2" autocomplete="off">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="box-footer ">
+            <div class="pull-right">
+                <button type="button" id="btncancel" class="btn btn-default" tabindex="3">Cancel</button>
+                <button type="button" id="btnsave" class="btn btn-info" tabindex="2">Save</button>
+            </div>
+        </div>
+    </form>
+    <div id="lstcase">
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script>
+    $(document).ready(function () {
+        loadhtml();
+    });
+
+    function loadhtml() {
+        $.ajax({
+            url: '@Url.Action("UtilityNameList")',
+            type: 'GET',
+            cache: false,
+        }).done(function (result) {
+            $('#lstcase').html(result);
+        });
+    }
+
+    $("#btnsave").click(function () {
+        if (!($('#frmUtilityName').parsley().validate())) {
+            return;
+        }
+        var datareq = new Object();
+        datareq.UtilityNameID = $("#UtilityNameID").val();
+        datareq.UtilityName = $("#UtilityName").val();
+        datareq.HSNNumber = $("#HSNNumber").val();
+        datareq.CreatedBy = $("#CreatedBy").val();
+        datareq.CreatedOn = $("#CreatedOn").val();
+        $.ajax({
+            url: '@Url.Action("AddUtilityName")',
+            type: 'POST',
+            data: { 'data': datareq },
+            cache: false,
+        }).done(function (result) {
+            if (result > 0) {
+                if ($("#UtilityNameID").val() == "") {
+                    $('div#sucessalert').html("Utility Name Add successfully.");
+                }
+                else {
+                    $('div#sucessalert').html("Utility Name Type updated successfully.");
+                }
+                showhidealert();
+                loadhtml();
+                clearform();
+            }
+        });
+    });
+
+    $("#btncancel").click(function () {
+        clearform();
+    });
+
+    function clearform() {
+        $("#frmUtilityName").find("input").val("");
+    }
+</script>
+

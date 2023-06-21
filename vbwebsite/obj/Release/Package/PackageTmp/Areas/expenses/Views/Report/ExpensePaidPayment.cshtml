@@ -1,0 +1,117 @@
+﻿@{
+    ViewBag.Title = "ExpensePaidPayment";
+    Layout = "~/Areas/expenses/Views/Shared/_expenseslayout.cshtml";
+}
+
+<div class="box box-default">
+    <div class="box-header with-border text-center">
+        <h3 class="box-title">Search Payment List</h3>
+    </div>
+    <form id="frmPaidPayment" class="form-horizontal">
+        <div class="box-body">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for=" PaymentDate" class="col-sm-4 control-label">Payment Date</label>
+                    <div class="col-sm-8">
+                        <div class="input-group date">
+                            <div class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
+                            </div>
+                            <input type="text" class="form-control pull-right datepicker" id="PaymentDate" tabindex="1" autocomplete="off" required="required">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="day" class="col-sm-4 control-label">Bank Name</label>
+                    <div class="col-sm-8">
+                        @Html.DropDownList("BankID", new SelectList(ViewBag.BankName, "BankID", "BankName"), "Select Bank", new { @class = "form-control", tabindex = "1" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="day" class="col-sm-4 control-label">Area</label>
+                    <div class="col-sm-8">
+                        @Html.DropDownList("AreaID", new SelectList(ViewBag.Area, "AreaID", "AreaName"), "Select Area", new { @class = "form-control select2", tabindex = "3" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="PaymentMode" class="col-sm-4 control-label">Payment Mode</label>
+                    <div class="col-sm-8">
+                        <select name="PaymentMode" id="PaymentMode" class="form-control select2" tabindex="14" required="required">
+                            <option value="" selected>Select Mode</option>
+                            <option value="1">Cash</option>
+                            <option value="2">Cheque</option>
+                            <option value="3">Card </option>
+                            <option value="4">Online </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="GroupName" class="col-sm-4 control-label">Suppiler Name</label>
+                    <div class="col-sm-8">
+                        @Html.DropDownList("SupplierID", new SelectList(ViewBag.Supplier, "SupplierID", "SupplierName"), "Select Party", new { @class = "form-control select2", tabindex = "2" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="CreatedDateWise" class="col-sm-4 control-label">Created Date Wise</label>
+                    <div class="col-sm-8">
+                        <input type="checkbox" id="IsCheckForCreatedDate" style="margin-left:5px;margin-right:5px;" />
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="box-footer ">
+            <div class="pull-right">
+                <button type="button" id="btnsearch" class="btn btn-info" tabindex="6">Search</button>
+                <button type="button" id="btnexport" class="btn btn-info" tabindex="20">Export To Excel</button>
+            </div>
+        </div>
+    </form>
+    <div id="lstcase">
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script>
+    $(document).ready(function () {
+        function loadhtml() {
+            if (!($('#frmPaidPayment').parsley().validate())) {
+                return;
+            }
+            var IsCheckForCreatedDate = $('#IsCheckForCreatedDate').is(":checked");
+            var PaymentDate = $("#PaymentDate").val();
+            var PaymentMode = $("#PaymentMode").val();
+            var BankID = $("#BankID").val();
+            var AreaID = $("#AreaID").val();
+            var SupplierID = $("#SupplierID").val();
+            debugger;
+            $.ajax({
+                url: '@Url.Action("ExpensePaidPaymentList")',
+                type: 'POST',
+                data: { 'PaymentDate': PaymentDate, 'PaymentMode': PaymentMode, 'BankID': BankID, 'AreaID': AreaID, 'SupplierID': SupplierID, 'IsCheckForCreatedDate': IsCheckForCreatedDate },
+                cache: false,
+            }).done(function (result) {
+                $('#lstcase').html(result);
+            });
+        }
+
+        $("#btnsearch").click(function () {
+            loadhtml();
+        });
+
+        $("#btnexport").click(function () {
+            var IsCheckForCreatedDate = $('#IsCheckForCreatedDate').is(":checked");
+            var PaymentDate = $("#PaymentDate").val();
+            var PaymentMode = $("#PaymentMode").val();
+            var BankID = $("#BankID").val();
+            var AreaID = $("#AreaID").val();
+            var SupplierID = $("#SupplierID").val();
+            var url = '@Url.Action("ExportExcelPaidPayment", "Report", new { PaymentDate = "__PaymentDate__", PaymentMode = "__PaymentMode__", BankID = "__BankID__", AreaID = "__AreaID__", SupplierID = "__SupplierID__", IsCheckForCreatedDate = "__IsCheckForCreatedDate__" })';
+            url = url.replace(/amp;/g, '');
+            window.location.href = url.replace('__PaymentDate__', PaymentDate).replace('__PaymentMode__', PaymentMode).replace('__BankID__', BankID).replace('__AreaID__', AreaID).replace('__SupplierID__', SupplierID).replace('__IsCheckForCreatedDate__', IsCheckForCreatedDate);
+        });
+    });
+</script>

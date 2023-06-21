@@ -1,0 +1,91 @@
+﻿@model List<vb.Data.CurrencyViewModel>
+@using vb.Data.ViewModel
+
+
+<div class="box">
+    <div class="box-header text-center">
+        <h3 class="box-title">Currency List</h3>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body table-scrollable1">
+        <table id="ListDataTable" class="table table-bordered table-bordered">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th class="nosort">Currency Name</th>
+                    <th class="nosort">Currency Code</th>
+                    <th class="nosort">Currency Sign</th>
+                    <th class="nosort">Edit</th>
+                    <th class="nosort">Status</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null)
+                {
+                    if (Model.Count() > 0)
+                    {
+                        foreach (var item in Model)
+                        {
+                            <tr>
+                                <td id="row">@item.CurrencyID</td>
+                                <td id="row">
+                                    @item.CurrencyName
+                                </td>
+
+                                <td id="row">
+                                    @item.CurrencyCode
+                                </td>
+
+                                <td id="row">
+                                    @item.CurrencySign
+                                </td>
+
+                                <td>
+                                    <a style="cursor:pointer;" class="btnedit" data-currencyid="@item.CurrencyID" data-createdon="@item.CreatedOn" data-createdby="@item.CreatedBy">Edit</a>
+                                </td>
+
+                                @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.RDAREA.ToString()))
+                                {
+                                    if (item.IsDelete == true)
+                                    {
+                                        <td>
+                                            @Html.ActionLink("Active", "DeleteCurrency", "Product",
+                                            new { CurrencyID = item.CurrencyID, IsDelete = false },
+                                    new { onclick = "return confirm('Are you sure you wish to active this language?');" })
+                                        </td>
+                                    }
+                                    else
+                                    {
+                                        <td>
+                                            @Html.ActionLink("DeActive", "DeleteCurrency", "Product",
+                                              new { CurrencyID = item.CurrencyID, IsDelete = true },
+                                            new { onclick = "return confirm('Are you sure you wish to deactive this language?');" })
+                                        </td>
+                                    }
+                                }
+                            </tr>
+                        }
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+    <!-- /.box-body -->
+</div>
+
+
+<script>
+    $("#ListDataTable").DataTable({
+        'aoColumnDefs': [{
+            'bSortable': false,
+            'aTargets': ['nosort'] /* 1st one, start by the right */
+        }]
+    });
+
+    $('#ListDataTable').on('click', '.btnedit', function () {
+        var CurrencyID = $(this).attr("data-currencyid");
+        editCurrency(CurrencyID);
+
+    });
+</script>

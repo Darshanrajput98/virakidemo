@@ -1,0 +1,98 @@
+﻿@model List<vb.Data.SalesManWiseSalesList>
+@{
+    ViewBag.Title = "SalesManWiseSalesList2";
+    Layout = "~/Areas/wholesale/Views/Shared/_wholesalelayout.cshtml";
+}
+
+
+<div class="box">
+    @*<div class="box-header text-center">
+            <h3 class="box-title">Area List</h3>
+        </div>*@
+    <!-- /.box-header -->
+    <div class="box-body table-scrollable1">
+        <table id="ListDataTableNoPaging" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <td colspan="6" align="right">
+                        <button type="button" id="btnexport" class="btn btn-info">Export To Excel</button>
+                    </td>
+                </tr>
+                <tr>
+                    <th class="nosort">Sr.No</th>
+                    <th class="nosort">Customer Name	</th>
+                    <th class="nosort">Area</th>
+                    <th class="nosort">Cell No</th>
+                    <th class="nosort">Sales Person</th>
+                    <th class="nosort">Total Sales</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Count() > 0)
+                {
+                    foreach (var item in Model)
+                    {
+                        <tr>
+                            <td id="row">
+                                @item.SrNo
+                            </td>
+                            <td>
+                                @item.CustomerName
+                            </td>
+                            <td>
+                                @item.AreaName
+                            </td>
+                            <td>
+                                @item.CellNo
+                            </td>
+                            <td>
+                                @item.UserName
+                            </td>
+                            <td>
+                                @item.TotalQuantity
+                            </td>
+                        </tr>
+                    }
+                }
+
+            </tbody>
+        </table>
+    </div>
+    <!-- /.box-body -->
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script>
+    $("#btnexport").click(function () {
+        debugger;
+
+        var StartDatestr = window.location.search.split('=')[1];
+        var arr1 = StartDatestr.split('&');
+        var StartDate = arr1[0];
+
+        var EndDatestr = window.location.search.split('=')[2];
+        var arr2 = EndDatestr.split('&');
+        var EndDate = arr2[0];
+
+        var CustomerIDstr = window.location.search.split('=')[3];
+        var arr3 = CustomerIDstr.split('&');
+        var CustomerID = arr3[0];
+
+        var AreaIDstr = window.location.search.split('=')[4];
+        var arr4 = AreaIDstr.split('&');
+        var AreaID = arr4[0];
+
+        var UserIDstr = window.location.search.split('=')[5];
+        var arr5 = UserIDstr.split('&');
+        var UserID = arr5[0];
+
+        var DaysofWeekstr = window.location.search.split('=')[6];
+        var arr6 = DaysofWeekstr.split('&');
+        var DaysofWeek = arr6[0];
+
+        var url = '@Url.Action("ExportExcelZeroSalesReport", "Report", new { StartDate = "__StartDate__", EndDate = "__EndDate__", CustomerID = "__CustomerID__", AreaID = "__AreaID__", UserID = "__UserID__", DaysofWeek = "__DaysofWeek__" })';
+        url = url.replace(/amp;/g, '');
+        window.location.href = url.replace('__StartDate__', StartDate).replace('__EndDate__', EndDate).replace('__CustomerID__', CustomerID).replace('__AreaID__', AreaID).replace('__UserID__', UserID).replace('__DaysofWeek__', DaysofWeek);
+    });
+</script>
+

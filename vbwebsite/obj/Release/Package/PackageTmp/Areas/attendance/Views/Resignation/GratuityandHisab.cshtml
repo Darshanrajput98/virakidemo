@@ -1,0 +1,570 @@
+﻿@{
+    ViewBag.Title = "GratuityandHisab";
+    Layout = "~/Areas/attendance/Views/Shared/_attendancelayout.cshtml";
+}
+
+<div class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Gratuity & Hisab</h3>
+                </div>
+                <form id="frmGratuityandHisab" class="form-horizontal">
+                    <div class="box-body">
+
+                        <div class="col-md-12">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <input name="Gratuity_Hisab_ID" id="Gratuity_Hisab_ID" type="hidden" value="" />
+                                    <input type="hidden" id="CreatedBy" class="CreatedBy" value="" />
+                                    <input type="hidden" id="CreatedOn" class="CreatedOn" value="" />
+                                    <input type="hidden" id="hdnEdit" class="hdnEdit" value="" />
+                                    <input type="hidden" id="WitnessOneID" class="WitnessOneID" value="0" />
+                                    <input type="hidden" id="WitnessTwoID" class="WitnessTwoID" value="0" />
+                                    <label for="GodownID" class="col-sm-4 control-label">Godown</label>
+                                    <div class="col-sm-8">
+                                        @Html.DropDownList("GodownID", new SelectList(ViewBag.Godown, "GodownID", "GodownName"), "Select Godown", new { @class = "form-control", tabindex = "1", required = "required", @onchange = "GetEmployeeByGodownID(this.value)" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="EmployeeCode" class="col-sm-4 control-label">Employee</label>
+                                    <div class="col-sm-8">
+                                        <select id="EmployeeCode" class="form-control EmployeeCode"></select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="DateOfJoining" class="col-sm-4 control-label">D.O.J</label>
+                                    <div class="col-sm-8">
+                                        <div class="input-group date">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </div>
+                                            <input type="text" class="form-control pull-right datepicker" name="DateOfJoining" id="DateOfJoining" tabindex="3" required disabled="disabled" autocomplete="off">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="DateOfLeaving" class="col-sm-4 control-label">D.O.L</label>
+                                    <div class="col-sm-8">
+                                        <div class="input-group date">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </div>
+                                            <input type="text" class="form-control pull-right datepicker" name="DateOfLeaving" id="DateOfLeaving" tabindex="4" required autocomplete="off">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="LastDrawnSalary" class="col-sm-4 control-label">Last Drawn Salary</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="LastDrawnSalary" placeholder="Last Drawn Salary" disabled="disabled" tabindex="2">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="TotalMonth" class="col-sm-4 control-label">Total Month</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="TotalMonth" placeholder="Total Month" disabled="disabled" tabindex="2">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="Gratuity" class="col-sm-4 control-label">Gratuity</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="Gratuity" placeholder="Gratuity" disabled="disabled" tabindex="2">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="AdditionalGratuity" class="col-sm-6 control-label">Additional Gratuity</label>
+                                    <div class="col-sm-6">
+                                        <input type="text" class="form-control" id="AdditionalGratuity" placeholder="Additional Gratuity" tabindex="2" value="0" autocomplete="off">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="TotalGratuity" class="col-sm-5 control-label">Total Gratuity</label>
+                                    <div class="col-sm-7">
+                                        <input type="text" class="form-control" id="TotalGratuity" placeholder="Total Gratuity" disabled="disabled" tabindex="2" value="0">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <button type="button" id="btncalculategratuity" class="btn btn-info">Calculate</button>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="box box-info">
+                                <div class="with-border text-center">
+                                    <h3 class="box-title">Leave Encashment & Bonus</h3>
+                                </div>
+                                <div class="box-body">
+
+                                    <div class="col-md-12">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="FromDate" class="col-sm-4 control-label">From Date</label>
+                                                <div class="col-sm-8">
+                                                    <div class="input-group date">
+                                                        <div class="input-group-addon">
+                                                            <i class="fa fa-calendar"></i>
+                                                        </div>
+                                                        <input type="text" class="form-control pull-right datepicker" name="FromDate" id="FromDate" tabindex="3" required autocomplete="off">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="ToDate" class="col-sm-4 control-label">To Date</label>
+                                                <div class="col-sm-8">
+                                                    <div class="input-group date">
+                                                        <div class="input-group-addon">
+                                                            <i class="fa fa-calendar"></i>
+                                                        </div>
+                                                        <input type="text" class="form-control pull-right datepicker" name="ToDate" id="ToDate" tabindex="3" required autocomplete="off">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="TotalEarnedSalary" class="col-sm-6 control-label">Total Earned Salary</label>
+                                                <div class="col-sm-6">
+                                                    <input type="text" class="form-control" id="TotalEarnedSalary" placeholder="Total Earned Salary" disabled="disabled" tabindex="2">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="BonusAmount" class="col-sm-4 control-label">Bonus</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control" id="BonusAmount" placeholder="Bonus Amount" disabled="disabled" tabindex="2">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="AdditionalBonusAmount" class="col-sm-6 control-label">Additional Bonus</label>
+                                                <div class="col-sm-6">
+                                                    <input type="text" class="form-control" id="AdditionalBonusAmount" placeholder="Add. Bonus" tabindex="2" value="0" autocomplete="off">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="TotalBonusAmount" class="col-sm-4 control-label">Total Bonus</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control" id="TotalBonusAmount" placeholder="Total Bonus" disabled="disabled" tabindex="2" value="0">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="LastDrawnSalaryLeaveEnhancement" class="col-sm-4 control-label">Last Drawn Salary</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control" id="LastDrawnSalaryLeaveEnhancement" placeholder="Last Drawn Salary" disabled="disabled" tabindex="2">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="ClosingLeaves" class="col-sm-5 control-label">Closing Leaves</label>
+                                                <div class="col-sm-7">
+                                                    <input type="text" class="form-control" id="ClosingLeaves" placeholder="Closing Leaves" disabled="disabled" tabindex="2">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="LeaveEncashment" class="col-sm-5 control-label">Leave Encashment</label>
+                                                <div class="col-sm-7">
+                                                    <input type="text" class="form-control" id="LeaveEncashment" placeholder="Leave Encashment" disabled="disabled" tabindex="2">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="AdditionalLeaveEncashment" class="col-sm-6 control-label">Add. Leave Encash.</label>
+                                                <div class="col-sm-6">
+                                                    <input type="text" class="form-control" id="AdditionalLeaveEncashment" placeholder="Additional" tabindex="2" value="0" autocomplete="off">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="TotalLeaveEncashment" class="col-sm-6 control-label">Total Leave Encash.</label>
+                                                <div class="col-sm-6">
+                                                    <input type="text" class="form-control" id="TotalLeaveEncashment" placeholder="Total Encashment" disabled="disabled" tabindex="2" value="0">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <button type="button" id="btncalculatebonusandleave" class="btn btn-info">Calculate</button>
+                                        </div>
+                                    </div>
+
+
+
+                                    <div class="col-md-12">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="GrandTotalAmount" class="col-sm-4 control-label">Grand Total Amt.</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control" id="GrandTotalAmount" placeholder="Grand Total Amount" tabindex="2" value="0" disabled="disabled">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="box-footer">
+                        <div class="pull-right">
+                            <button type="button" id="btnsave" class="btn btn-info">Save</button>
+                            <button type="button" id="btncancel" class="btn btn-default">Cancel</button>
+                            @*<button type="button" id="btnexport" class="btn btn-info">Export To Excel</button>*@
+                        </div>
+                    </div>
+                </form>
+                <div id="lstcase">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script>
+    $(document).ready(function () {
+        loadhtml();
+        $("#EmployeeCode").change(function () {
+            debugger;
+            var GodownID = $("#GodownID").val();
+            var EmployeeCode = this.value;
+            var Edit = $("#hdnEdit").val();
+            if ($("#GodownID").val() != "" && EmployeeCode != "") {
+                if (Edit != "Edit") {
+                    $.ajax({
+                        type: 'POST',
+                        url: '@Url.Action("GetEmployeeDateofLeavingByEmployeeCode")',
+                        data: { 'GodownID': GodownID, 'EmployeeCode': EmployeeCode },
+                        success: function (result) {
+                            debugger;
+                            $('#DateOfLeaving').val(result.DateofLeavingstr);
+                            $('#DateOfJoining').val(result.DateOfJoiningstr);
+                            $("#EmployeeCode").val(EmployeeCode);
+                        },
+                        error: function () { alert('Error'); }
+                    });
+                }
+            }
+            else {
+                alert('select godown and employee');
+            }
+        });
+    });
+
+    function GetEmployeeByGodownID(GodownID) {
+        debugger;
+        var lst = "<option value=0> Select Employee</option>";
+        $.ajax({
+            url: '@Url.Action("GetEmployeeByGodownID")',
+            type: 'GET',
+            data: { 'GodownID': GodownID },
+            dataType: 'json',
+            success: function (result) {
+                debugger;
+                if (result != undefined) {
+                    if (result.length > 0) {
+                        for (var i = 0; i < result.length; i++) {
+                            lst += "<option value=" + result[i].EmployeeCode + ">" + result[i].FullName + "</option>"
+                        }
+                    }
+                }
+                if ($("#EmployeeCode")[0].length > 0) {
+                    $('#EmployeeCode').find('option').remove().end()
+                }
+                $("#EmployeeCode").append(lst);
+                $('#EmployeeCode').val($("#hdnEmployeeCode").val() == 0 ? 0 : $("#hdnEmployeeCode").val()).trigger('change');
+                $('#hdnEdit').val($("#hdnEdit").val() == "Edit");
+                $("#EmployeeCode").select2();
+                $("#EmployeeCode").select2({ width: "100%" });
+            }
+        });
+    }
+
+    $("#AdditionalGratuity").on('blur', function (e) {
+        //var end = this;
+        debugger;
+        var AdditionalGratuity = this.value;
+        var Gratuity = $("#Gratuity").val();
+        var TotalBonusAmount = $("#TotalBonusAmount").val();
+        var TotalLeaveEncashment = $("#TotalLeaveEncashment").val();
+        if (AdditionalGratuity != "") {
+            var TotalGratuity = parseFloat(Gratuity) + parseFloat(AdditionalGratuity);
+            $('#TotalGratuity').val(TotalGratuity);
+            var GrandTotalAmount = (parseFloat(TotalGratuity) + parseFloat(TotalBonusAmount) + parseFloat(TotalLeaveEncashment));
+            $('#GrandTotalAmount').val(GrandTotalAmount);
+        }
+        else {
+            var TotalGratuity = parseFloat(Gratuity);
+            $('#TotalGratuity').val(TotalGratuity);
+            var GrandTotalAmount = (parseFloat(TotalGratuity) + parseFloat(TotalBonusAmount) + parseFloat(TotalLeaveEncashment));
+            $('#GrandTotalAmount').val(GrandTotalAmount);
+        }
+    });
+
+    $("#AdditionalBonusAmount").on('blur', function (e) {
+        //var end = this;
+        debugger;
+        var AdditionalBonusAmount = this.value;
+        var BonusAmount = $("#BonusAmount").val();
+        var TotalGratuity = $("#TotalGratuity").val();
+        var TotalLeaveEncashment = $("#TotalLeaveEncashment").val();
+        if (AdditionalBonusAmount != "") {
+            var TotalBonusAmount = parseFloat(BonusAmount) + parseFloat(AdditionalBonusAmount);
+            $('#TotalBonusAmount').val(TotalBonusAmount);
+            var GrandTotalAmount = (parseFloat(TotalGratuity) + parseFloat(TotalBonusAmount) + parseFloat(TotalLeaveEncashment));
+            $('#GrandTotalAmount').val(GrandTotalAmount);
+        }
+        else {
+            var TotalBonusAmount = parseFloat(BonusAmount);
+            $('#TotalBonusAmount').val(TotalBonusAmount);
+            var GrandTotalAmount = (parseFloat(TotalGratuity) + parseFloat(TotalBonusAmount) + parseFloat(TotalLeaveEncashment));
+            $('#GrandTotalAmount').val(GrandTotalAmount);
+        }
+    });
+
+    $("#AdditionalLeaveEncashment").on('blur', function (e) {
+        //var end = this;
+        debugger;
+        var AdditionalLeaveEncashment = this.value;
+        var LeaveEncashment = $("#LeaveEncashment").val();
+        var TotalGratuity = $("#TotalGratuity").val();
+        var TotalBonusAmount = $("#TotalBonusAmount").val();
+        if (AdditionalLeaveEncashment != "") {
+            var TotalLeaveEncashment = parseFloat(LeaveEncashment) + parseFloat(AdditionalLeaveEncashment);
+            $('#TotalLeaveEncashment').val(TotalLeaveEncashment);
+            var GrandTotalAmount = (parseFloat(TotalGratuity) + parseFloat(TotalBonusAmount) + parseFloat(TotalLeaveEncashment));
+            $('#GrandTotalAmount').val(GrandTotalAmount);
+        }
+        else {
+            var TotalLeaveEncashment = parseFloat(LeaveEncashment);
+            $('#TotalLeaveEncashment').val(TotalLeaveEncashment);
+            var GrandTotalAmount = (parseFloat(TotalGratuity) + parseFloat(TotalBonusAmount) + parseFloat(TotalLeaveEncashment));
+            $('#GrandTotalAmount').val(GrandTotalAmount);
+        }
+    });
+
+    // 25 Dec 2020 Piyush Limbani
+    $("#btncalculategratuity").click(function () {
+        debugger;
+        var GodownID = $("#GodownID").val();
+        var EmployeeCode = $("#EmployeeCode").val();
+        var DateOfJoining = $("#DateOfJoining").val();
+        var DateOfLeaving = $("#DateOfLeaving").val();
+        var AdditionalGratuity = $("#AdditionalGratuity").val();
+        var TotalBonusAmount = $("#TotalBonusAmount").val();
+        var TotalLeaveEncashment = $("#TotalLeaveEncashment").val();
+        if ($("#GodownID").val() != "" && EmployeeCode != "" && DateOfJoining != "" && DateOfLeaving != "") {
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("GetCalculateGratuity")',
+                data: { 'GodownID': GodownID, 'EmployeeCode': EmployeeCode, 'DateOfJoining': DateOfJoining, 'DateOfLeaving': DateOfLeaving },
+                success: function (result) {
+                    //debugger;
+                    $('#TotalMonth').val(result.TotalMonth);
+                    $('#LastDrawnSalary').val(result.TotalGratuity);
+                    $('#Gratuity').val(result.Gratuity);
+                    var TotalGratuity = (parseFloat(result.Gratuity) + parseFloat(AdditionalGratuity));
+                    $('#TotalGratuity').val(TotalGratuity);
+                    $('#GrandTotalAmount').val(parseFloat(TotalGratuity) + parseFloat(TotalBonusAmount) + parseFloat(TotalLeaveEncashment));
+                },
+                error: function () { alert('Error'); }
+            });
+        }
+        else {
+            alert('select godown and employee');
+        }
+    });
+
+    $("#btncalculatebonusandleave").click(function () {
+        debugger;
+        var GodownID = $("#GodownID").val();
+        var EmployeeCode = $("#EmployeeCode").val();
+        var FromDate = $("#FromDate").val();
+        var ToDate = $("#ToDate").val();
+        var AdditionalBonusAmount = $("#AdditionalBonusAmount").val();
+        var AdditionalLeaveEncashment = $("#AdditionalLeaveEncashment").val();
+        var TotalGratuity = $("#TotalGratuity").val();
+        var TotalBonusAmount = 0;
+        var TotalLeaveEncashment = 0;
+        if ($("#GodownID").val() != "" && EmployeeCode != "" && FromDate != "" && ToDate != "") {
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("GetCalculateBonus")',
+                data: { 'GodownID': GodownID, 'EmployeeCode': EmployeeCode, 'FromDate': FromDate, 'ToDate': ToDate },
+                success: function (result) {
+                    //debugger;
+                    $('#TotalEarnedSalary').val(result.TotalBonus);
+                    $('#BonusAmount').val(result.ActBonusAmount);
+                    TotalBonusAmount = (parseFloat(result.ActBonusAmount) + parseFloat(AdditionalBonusAmount));
+                    $('#TotalBonusAmount').val(TotalBonusAmount);
+                    $('#GrandTotalAmount').val(parseFloat(TotalGratuity) + parseFloat(TotalBonusAmount) + parseFloat(TotalLeaveEncashment));
+                },
+                error: function () { alert('Error'); }
+            });
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("GetCalculateLeaveEncashment")',
+                data: { 'GodownID': GodownID, 'EmployeeCode': EmployeeCode, 'FromDate': FromDate, 'ToDate': ToDate },
+                success: function (result) {
+                    //debugger;
+                    $('#LastDrawnSalaryLeaveEnhancement').val(result.TotalLeaveEnhancement);
+                    $('#ClosingLeaves').val(result.ClosingLeaves);
+                    $('#LeaveEncashment').val(result.LeaveEnhancementAmount);
+                    TotalLeaveEncashment = (parseFloat(result.LeaveEnhancementAmount) + parseFloat(AdditionalLeaveEncashment));
+                    $('#GrandTotalAmount').val(parseFloat(TotalGratuity) + parseFloat(TotalBonusAmount) + parseFloat(TotalLeaveEncashment));
+                },
+                error: function () { alert('Error'); }
+            });
+        }
+        else {
+            alert('select godown and employee');
+        }
+    });
+
+    function loadhtml() {
+        $.ajax({
+            url: '@Url.Action("GratuityandHisabList")',
+            type: 'GET',
+            cache: false,
+        }).done(function (result) {
+            $('#lstcase').html(result);
+        });
+    }
+
+    $("#btnsave").click(function () {
+        debugger;
+        if (!($('#frmGratuityandHisab').parsley().validate())) {
+            return;
+        }
+        var datareq = new Object();
+        datareq.Gratuity_Hisab_ID = $("#Gratuity_Hisab_ID").val();
+        datareq.GodownID = $("#GodownID").val();
+        datareq.EmployeeCode = $("#EmployeeCode").val();
+        datareq.DateOfJoining = $("#DateOfJoining").val();
+        datareq.DateOfLeaving = $("#DateOfLeaving").val();
+        datareq.LastDrawnSalary = $("#LastDrawnSalary").val(); // TotalGratuity
+        datareq.TotalMonth = $("#TotalMonth").val();
+        datareq.Gratuity = $("#Gratuity").val();
+        datareq.AdditionalGratuity = $("#AdditionalGratuity").val();
+        datareq.TotalGratuity = $("#TotalGratuity").val();
+        datareq.FromDate = $("#FromDate").val();
+        datareq.ToDate = $("#ToDate").val();
+        datareq.TotalEarnedSalary = $("#TotalEarnedSalary").val(); // TotalBonus
+        datareq.BonusAmount = $("#BonusAmount").val();
+        datareq.AdditionalBonusAmount = $("#AdditionalBonusAmount").val();
+        datareq.TotalBonusAmount = $("#TotalBonusAmount").val();
+        datareq.LastDrawnSalaryLeaveEnhancement = $("#LastDrawnSalaryLeaveEnhancement").val();
+        datareq.ClosingLeaves = $("#ClosingLeaves").val();
+        datareq.LeaveEncashment = $("#LeaveEncashment").val();
+        datareq.AdditionalLeaveEncashment = $("#AdditionalLeaveEncashment").val();
+        datareq.TotalLeaveEncashment = $("#TotalLeaveEncashment").val();     
+        datareq.GrandTotalAmount = $("#GrandTotalAmount").val();
+        datareq.CreatedBy = $("#CreatedBy").val();
+        datareq.CreatedOn = $("#CreatedOn").val();
+        datareq.WitnessOneID = $("#WitnessOneID").val();
+        datareq.WitnessTwoID = $("#WitnessTwoID").val();
+        $.ajax({
+            url: '@Url.Action("AddGratuityandHisab")',
+            type: 'POST',
+            data: { 'data': datareq },
+            cache: false,
+        }).done(function (result) {
+            if (result > 0) {
+                var LeaveApplicationID = result;
+                debugger;
+                if ($("#Gratuity_Hisab_ID").val() == "") {
+                    $('div#sucessalert').html("Gratuity & Hisab add successfully.");
+                }
+                else {
+                    $('div#sucessalert').html("Gratuity & Hisab updated successfully.");
+                }
+                showhidealert();
+
+                @*if (confirm('Are you sure to print Leave Application?')) {
+                    $.ajax({
+                        url: '@Url.Action("PrintLeaveApplication", "Leaves")',
+                        type: 'POST',
+                        data: { 'LeaveApplicationID': LeaveApplicationID },
+                        cache: false,
+                    }).done(function (result) {
+                        debugger;
+                        if (result != '') {
+                            debugger;
+                            window.open(result, "newPage");
+                        }
+                    });
+                }*@
+
+                location.reload();
+            }
+        });
+    });
+
+
+    $("#btncancel").click(function () {
+        location.reload();
+    });
+
+    @*$("#btnexport").click(function () {
+        debugger;
+        var model = new Object();
+        model.DateOfLeaving = $("#DateOfLeaving").val();
+        model.GodownID = $("#GodownID").val();
+        model.EmployeeCode = $("#EmployeeCode").val();
+        var url = '@Url.Action("ExportExcelGratuityList", "Report", new { DateOfLeaving = "__DateOfLeaving__", GodownID = "__GodownID__", EmployeeCode = "__EmployeeCode__" })';
+        url = url.replace(/amp;/g, '');
+        window.location.href = url.replace('__DateOfLeaving__', model.DateOfLeaving).replace('__GodownID__', model.GodownID).replace('__EmployeeCode__', model.EmployeeCode);
+    });*@
+
+
+
+</script>

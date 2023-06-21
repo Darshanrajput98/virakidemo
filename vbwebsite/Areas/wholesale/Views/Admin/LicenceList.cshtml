@@ -1,0 +1,116 @@
+﻿@model List<vb.Data.LicenceListResponse>
+@using vb.Data.ViewModel
+
+<div class="box">
+    <div class="box-header text-center">
+        <h3 class="box-title">Licence List</h3>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body table-scrollable1">
+        <table id="ListDataTable" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th class="nosort">Where From</th>
+                    <th class="nosort">Licence Type</th>
+                    <th class="nosort">From Date</th>
+                    <th class="nosort">To Date</th>
+                    <th class="nosort">Remark</th>
+                    <th class="nosort">Documents</th>
+                    @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.ELicence.ToString()))
+                    {
+                        <th>Edit</th>
+                    }
+                    @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.DLicence.ToString()))
+                    {
+                        <th>Status</th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td id="row">
+                            @item.WhereFrom
+                        </td>
+                        <td>
+                            @item.LicenceType
+                        </td>
+
+                        <td>
+                            @item.FromDate.ToString("dd/MM/yyyy")
+                        </td>
+                        <td>
+                            @item.ToDate.ToString("dd/MM/yyyy")
+                        </td>
+                        <td>
+                            @item.Remark
+                        </td>
+                        @if (@item.Documentspath != "")
+                        {
+                            <td>
+                                <a id="hrefdocuments" class="" href="@item.Documentspath" target="_blank"><i class="fa fa-download" style="font-size: 23px;" aria-hidden="true"></i></a>
+                            </td>
+                        }
+                        else
+                        {
+                            <td></td>
+                        }
+
+                        @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.ELicence.ToString()))
+                        {
+                            <td>
+                                <a style="cursor:pointer;" class="btnedit" data-licenceid="@item.LicenceID" data-fromdate="@item.FromDate" data-todate="@item.ToDate" data-documents="@item.Documents">Edit</a>
+                            </td>
+                        }
+                        @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.DLicence.ToString()))
+                        {
+                            if (item.IsDelete == true)
+                            {
+                                <td>
+                                    @Html.ActionLink("Active", "DeleteLicence", "Admin",
+                                       new { LicenceID = item.LicenceID, IsDelete = false },
+                                            new { onclick = "return confirm('Are you sure you wish to delete this article?');" })
+                                </td>
+                            }
+                            else
+                            {
+                                <td>
+                                    @Html.ActionLink("DeActive", "DeleteLicence", "Admin",
+                                        new { LicenceID = item.LicenceID, IsDelete = true },
+                                            new { onclick = "return confirm('Are you sure you wish to delete this article?');" })
+                                </td>
+                            }
+                        }
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+    <!-- /.box-body -->
+</div>
+
+<script>
+    $("#ListDataTable").DataTable({
+        'aoColumnDefs': [{
+            'bSortable': false,
+            'aTargets': ['nosort'] /* 1st one, start by the right */
+
+        }]
+    });
+
+
+    $('#ListDataTable').on('click', '.btnedit', function () {
+        $("#LicenceID").val($(this).attr("data-licenceid"));
+        $("#WhereFrom").val($(this).parent().parent().children()[0].innerHTML.trim());
+        $("#LicenceType").val($(this).parent().parent().children()[1].innerHTML.trim());
+        $("#FromDate").val($(this).attr("data-fromdate"));
+        $("#ToDate").val($(this).attr("data-todate"));
+        $("#Remark").val($(this).parent().parent().children()[4].innerHTML.trim());
+        $("#Documents").val($(this).attr("data-documentspath"));
+        $("#lblDocuments").text($(this).attr("data-documents"));
+        $("html, body").animate({ scrollTop: 0 }, "slow");
+    });
+</script>
+

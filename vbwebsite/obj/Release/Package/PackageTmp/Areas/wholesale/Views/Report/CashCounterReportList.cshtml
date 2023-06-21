@@ -1,0 +1,600 @@
+﻿@model List<vb.Data.CashCounterListResponse>
+@using vb.Data.ViewModel
+
+<style>
+    div#responsive {
+        overflow: auto;
+    }
+</style>
+
+<div class="box">
+    <div class="box-header text-center">
+        <h3 class="box-title">Cash Counter Report</h3>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body table-scrollable1">
+        <table id="ListDataTable" class="table table-bordered table-striped lstsales">
+            <thead>
+                <tr>
+                    <th class="nosort" style="text-align:center">Customer</th>
+                    <th class="nosort" style="text-align:center">Area</th>
+                    <th class="nosort" style="text-align:center">Vehicle No</th>
+                    <th class="nosort" style="text-align:center">Cash Option</th>
+                    <th class="nosort" style="text-align:center">Invoice Number</th>
+                    <th class="nosort" style="text-align:center">Cash</th>
+                    <th class="nosort" style="text-align:center">Cheque</th>
+                    <th class="nosort" style="text-align:center">Card</th>
+                    <th class="nosort" style="text-align:center">Sign</th>
+                    <th class="nosort" style="text-align:center">Online</th>
+                    <th class="nosort" style="text-align:center">Discount</th>
+                    <th class="nosort" style="text-align:center">Is Delivered</th>
+                    @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.WEPAYMENT.ToString()))
+                    {
+                        <th class="nosort" style="text-align:center">Edit</th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td id="row">
+                            @item.Customer
+                        </td>
+                        <td>
+                            @item.Area
+                        </td>
+                        <td>
+                            @item.VehicleNo1
+                        </td>
+
+                        <td>
+                            @item.CashOption
+                        </td>
+
+                        <td>
+                            <a style="cursor:pointer;" class="btnedit" data-pid="@item.InvoiceNumber" data-oid="@item.OrderID">@item.InvoiceNumber</a>
+                        </td>
+                        <td>
+                            @item.Cash
+                        </td>
+                        <td>
+                            @item.Cheque
+                        </td>
+                        <td>
+                            @item.Card
+                        </td>
+                        <td>
+                            @item.Sign
+                        </td>
+                        <td>
+                            @item.Online
+                        </td>
+                        <td>
+                            @item.AdjustAmount
+                        </td>
+                        <td>
+                            @item.IsDeliveredstr
+                        </td>
+
+                        @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.WEPAYMENT.ToString()))
+                        {
+                            <td>
+                                <a style="cursor:pointer;" class="btneditpayment" data-invoicenumber="@item.InvoiceNumber" data-oid="@item.OrderID" data-cash="@item.Cash" data-cheque="@item.Cheque" data-card="@item.Card" data-online="@item.Online" data-sign="@item.Sign" data-paymentid="@item.PaymentID"
+                                   data-bankname="@item.BankName" data-bankbranch="@item.BankBranch" data-chequeno="@item.ChequeNo" data-chequedate1="@item.ChequeDate" data-ifccode="@item.IFCCode"
+                                   data-banknameforcard="@item.BankNameForCard" data-typeofcard="@item.TypeOfCard"
+                                   data-banknameforonline="@item.BankNameForOnline" data-utrnumber="@item.UTRNumber" data-onlinepaymentdate1="@item.OnlinePaymentDate" data-godownid="@item.GodownID" data-adjustamount="@item.AdjustAmount"
+                                   data-bycash="@item.ByCash" data-chequereturnamount="@item.ChequeReturnAmount">edit</a>
+                            </td>
+                        }
+                    </tr>
+                }
+                @if (Model.Count > 0)
+                {
+                    <tr style="font-weight:bold">
+                        <td colspan="5">
+                            Grand Total :
+                        </td>
+                        <td>
+                            @Model[0].CashTotal
+                        </td>
+                        <td>
+                            @Model[0].ChequeTotal
+                        </td>
+                        <td>
+                            @Model[0].CardTotal
+                        </td>
+                        <td>
+                            @Model[0].SignTotal
+                        </td>
+                        <td>
+                            @Model[0].OnlineTotal
+                        </td>
+                        <td>
+                            @Model[0].AdjustAmountTotal
+                        </td>
+                        <td></td>
+                        @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.WEPAYMENT.ToString()))
+                        {
+                            <td></td>
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <div id="responsive" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header" style="padding-bottom: 0px;">
+                        <h4 class="modal-title">Update Payment</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <input name="OrderID" id="OrderID" class="hdnOrderID" type="hidden" value="" />
+                                    <input name="PaymentID" id="PaymentID" class="hdnPaymentID" type="hidden" value="" />
+                                    <input name="ByCash" id="ByCash" class="hdnByCash" type="hidden" value="" />
+                                    <input name="ChequeReturnAmount" id="ChequeReturnAmount" class="hdnChequeReturnAmount" type="hidden" value="" />
+                                    <label for="PackageDate" class="col-sm-4 control-label">Invoice Number</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" name="InvoiceNumber" maxlength="100" id="InvoiceNumber" placeholder="Invoice Number" tabindex="2" disabled="disabled">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:10px;">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="BatchNo" class="col-sm-4 control-label">Amount</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" name="Amount" maxlength="100" id="Amount" placeholder="Amount" tabindex="2">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:10px;">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="Godown" class="col-sm-4 control-label">Cash Option :</label>
+                                    <div class="col-sm-8">
+                                        @Html.DropDownList("GodownID", new SelectList(ViewBag.CashOption, "GodownID", "CashOption"), "Select Cash", new { @class = "form-control select2" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @*13 june 2020*@
+                        <div class="row" style="margin-top:10px;">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="Discount" class="col-sm-4 control-label">Discount</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" name="Discount" maxlength="100" id="Discount" placeholder="Discount" tabindex="3">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-header" style="padding-bottom: 0px;">
+                            <h4 class="modal-title">Payment Type</h4>
+                        </div>
+                        <div class="row" style="margin-top:10px;">
+                            <div class="col-md-6">
+                                <div class="col-sm-6">
+                                    <input id="Cash" class="check cash" type="checkbox" checked="checked" tabindex="5" /> Cash
+                                </div>
+                                <div class="col-sm-6">
+                                    <input id="Sign" class="check sign" type="checkbox" checked="checked" /> Sign
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="col-sm-6">
+                                    <input id="Card" class="check card" type="checkbox" checked="checked" tabindex="7" /> Card
+                                </div>
+                                <div class="row" id="divCard" style="margin-top:10px;">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <input name="PaymentID" id="PaymentID" class="hdnPaymentID" type="hidden" value="" />
+                                                <div class="col-sm-12">
+                                                    <input type="hidden" id="hdnOrderIDForCheque" />
+                                                    <input type="text" class="form-control" name="BankNameForCard" maxlength="100" id="BankNameForCard" placeholder="Bank Name" tabindex="1" autocomplete="off">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row" style="margin-top:10px;">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <div class="col-sm-12">
+                                                    <input type="text" class="form-control" name="TypeOfCard" maxlength="100" id="TypeOfCard" placeholder="Type Of Card" tabindex="1" autocomplete="off">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:10px;">
+                            <div class="col-md-6">
+                                <div class="col-sm-6">
+                                    <input id="Cheque" class="check cheque" type="checkbox" checked="checked" tabindex="6" /> Check
+                                </div>
+                                <div class="row" id="divCheque" style="margin-top:10px;">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <input name="PaymentID" id="PaymentID" class="hdnPaymentID" type="hidden" value="" />
+                                                <div class="col-sm-12">
+                                                    <input type="hidden" id="hdnOrderIDForCheque" />
+                                                    <input type="text" class="form-control" name="BankName" maxlength="100" id="BankName" placeholder="Bank Name" tabindex="1" autocomplete="off">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row" style="margin-top:10px;">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <div class="col-sm-12">
+                                                    <input type="text" class="form-control" name="BankBranch" maxlength="100" id="BankBranch" placeholder="Bank Branch" tabindex="1" autocomplete="off">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row" style="margin-top:10px;">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <div class="col-sm-12">
+                                                    <input type="text" class="form-control" name="ChequeNo" maxlength="100" id="ChequeNo" placeholder="Cheque No" tabindex="1" autocomplete="off">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row" style="margin-top:10px;">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <div class="col-sm-12">
+                                                    <div class="input-group date">
+                                                        <div class="input-group-addon">
+                                                            <i class="fa fa-calendar"></i>
+                                                        </div>
+                                                        <input type="text" class="form-control pull-right datepicker" id="ChequeDate" autocomplete="off" tabindex="3">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row" style="margin-top:10px;">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <div class="col-sm-12">
+                                                    <input type="text" class="form-control" name="IFCCode" maxlength="100" id="IFCCode" placeholder="IFC Code" tabindex="1" autocomplete="off">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="col-sm-6">
+                                    <input id="Online" class="check online" type="checkbox" checked="checked" tabindex="7" /> Online
+                                </div>
+                                <div class="row" id="divOnline" style="margin-top:10px;">
+                                    <div class="col-md-12" style="padding-bottom: 8px;">
+                                        <div class="form-group">
+                                            <input name="PaymentID" id="PaymentID" class="hdnPaymentID" type="hidden" value="" />
+                                            <div class="col-sm-12">
+                                                <input type="hidden" id="hdnOrderIDForOnline" />
+                                                <input type="text" class="form-control" name="BankNameForOnline" maxlength="100" id="BankNameForOnline" placeholder="Bank Name" tabindex="1" autocomplete="off">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12" style="padding-bottom: 8px;">
+                                        <div class="form-group">
+                                            <div class="col-sm-12">
+                                                <input type="text" class="form-control" name="UTRNumber" maxlength="100" id="UTRNumber" placeholder="UTR Number" tabindex="2" autocomplete="off">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12" style="padding-bottom: 8px;">
+                                        <div class="form-group">
+                                            <div class="col-sm-12">
+                                                <div class="input-group date">
+                                                    <div class="input-group-addon">
+                                                        <i class="fa fa-calendar"></i>
+                                                    </div>
+                                                    <input type="text" class="form-control pull-right datepicker" id="OnlinePaymentDate" tabindex="3" autocomplete="off">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="btnsavepopup" class="btnsavepopup btn btn-info">Save</button>
+                        <button type="button" class="btnclosepopup btn btn-info" data-dismiss="modal" aria-hidden="true">Close</button>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+    </div>
+    <!-- /.box-body -->
+</div>
+
+<script>
+
+    $('.datepicker').datepicker({
+        autoclose: true
+    });
+
+    $('.lstsales').on('click', '.btnedit', function () {
+        debugger;
+        var id = $(this).attr("data-oid");
+        var invnum = $(this).attr("data-pid");
+
+        $.ajax({
+            url: '@Url.Action("PrintInvoice", "Orders")',
+            type: 'POST',
+            data: { 'InvoiceID': id, 'InvoiceNumber': invnum },
+            cache: false,
+        }).done(function (result) {
+            if (result != '') {
+                window.open(result, "newPage");
+            }
+        });
+    });
+
+    //EditPayment
+    $('.lstsales').on('click', '.btneditpayment', function () {
+        debugger;
+        var InvoiceNumber = $(this).attr("data-invoicenumber");
+        var OrderID = $(this).attr("data-oid");
+        var PaymentID = $(this).attr("data-paymentid");
+        var GodownID = $(this).attr("data-godownid");
+        var Cash = $(this).attr("data-cash");
+        var Cheque = $(this).attr("data-cheque");
+        var Card = $(this).attr("data-card");
+        var Online = $(this).attr("data-online");
+        var Sign = $(this).attr("data-sign");
+        var AdjustAmount = $(this).attr("data-adjustamount");
+
+        //Cheque
+        var BankName = $(this).attr("data-bankname");
+        var BankBranch = $(this).attr("data-bankbranch");
+        var ChequeNo = $(this).attr("data-chequeno");
+        var ChequeDate = $(this).attr("data-chequedate1");
+        var IFCCode = $(this).attr("data-ifccode");
+
+        //Card
+        var BankNameForCard = $(this).attr("data-banknameforcard");
+        var TypeOfCard = $(this).attr("data-typeofcard");
+
+        //Online
+        var BankNameForOnline = $(this).attr("data-banknameforonline");
+        var UTRNumber = $(this).attr("data-utrnumber");
+        var OnlinePaymentDate = $(this).attr("data-onlinepaymentdate1");
+
+        var ByCash = $(this).attr("data-bycash");
+        var ChequeReturnAmount = $(this).attr("data-chequereturnamount");
+
+        clearcontents(InvoiceNumber, OrderID, PaymentID, GodownID, Cash, Cheque, BankName, BankBranch, ChequeNo, ChequeDate, IFCCode, Card, BankNameForCard, TypeOfCard, Online, BankNameForOnline, UTRNumber, OnlinePaymentDate, Sign, AdjustAmount, ByCash, ChequeReturnAmount);
+        $("#responsive").removeClass("modal fade").addClass("modal fade modal-overflow in");
+        $("#responsive").css("display", "block");
+    });
+
+    function clearcontents(InvoiceNumber, OrderID, PaymentID, GodownID, Cash, Cheque, BankName, BankBranch, ChequeNo, ChequeDate, IFCCode, Card, BankNameForCard, TypeOfCard, Online, BankNameForOnline, UTRNumber, OnlinePaymentDate, Sign, AdjustAmount, ByCash, ChequeReturnAmount) {
+        debugger;
+
+        $('#InvoiceNumber').attr('value', InvoiceNumber);
+        $('#OrderID').attr('value', OrderID);
+        $('#PaymentID').attr('value', PaymentID);
+        $("#responsive").find("#GodownID").val(GodownID).trigger("change");
+        $('#AdjustAmount').val(AdjustAmount);
+        $('#ByCash').val(ByCash);
+        $('#ChequeReturnAmount').val(ChequeReturnAmount);
+
+        if (Cash != 0) {
+            $('#Amount').val(Cash);
+            $("#Cash").prop('checked', true);
+            $("#Cheque").prop('checked', false);
+            $("#Online").prop('checked', false);
+            $("#Card").prop('checked', false);
+            $("#Sign").prop('checked', false);
+            //$("#divCheque").hide();
+            //$("#divCard").hide();
+            //$("#divOnline").hide();
+        }
+        if (Cheque != 0) {
+            $('#Amount').val(Cheque);
+            $("#Cheque").prop('checked', true);
+            $('#BankName').val(BankName);
+            $('#BankBranch').val(BankBranch);
+            $('#ChequeNo').val(ChequeNo);
+            $('#ChequeDate').val(ChequeDate);
+            $('#IFCCode').val(IFCCode);
+            $("#Online").prop('checked', false);
+            $("#Card").prop('checked', false);
+            $("#Cash").prop('checked', false);
+            $("#Sign").prop('checked', false);
+        }
+        if (Card != 0) {
+            $('#Amount').val(Card);
+            $("#Card").prop('checked', true);
+            $('#BankNameForCard').val(BankNameForCard);
+            $('#TypeOfCard').val(TypeOfCard);
+            $("#Online").prop('checked', false);
+            $("#Cheque").prop('checked', false);
+            $("#Cash").prop('checked', false);
+            $("#Sign").prop('checked', false);
+        }
+        if (Online != 0) {
+            $('#Amount').val(Online);
+            $("#Online").prop('checked', true);
+            //$('#BankNameForOnline').attr('value', BankNameForOnline);
+            $('#BankNameForOnline').val(BankNameForOnline);
+            $('#UTRNumber').val(UTRNumber);
+            $('#OnlinePaymentDate').val(OnlinePaymentDate);
+            $("#Card").prop('checked', false);
+            $("#Cheque").prop('checked', false);
+            $("#Cash").prop('checked', false);
+            $("#Sign").prop('checked', false);
+        }
+        if (Sign != 0) {
+            $('#Amount').val(Sign);
+            $("#Sign").prop('checked', true);
+            $("#Cash").prop('checked', false);
+            $("#Cheque").prop('checked', false);
+            $("#Online").prop('checked', false);
+            $("#Card").prop('checked', false);
+        }
+        if (AdjustAmount != 0) {
+            $('#Discount').val(AdjustAmount);
+            $("#Sign").prop('checked', false);
+            $("#Cash").prop('checked', false);
+            $("#Cheque").prop('checked', false);
+            $("#Online").prop('checked', false);
+            $("#Card").prop('checked', false);
+        }
+    }
+
+    $(".btnclosepopup").click(function () {
+        debugger;
+        $('#responsive').removeClass("modal fade modal-overflow in");
+        $('#responsive').removeAttr('style');
+        $('#responsive').addClass("modal fade");
+        $('#Cash').prop('checked', false);
+        $('#Cheque').prop('checked', false);
+        $('#Card').prop('checked', false);
+        $('#Online').prop('checked', false);
+        $('#Sign').prop('checked', false);
+        $('#Discount').val('');
+        $('#Amount').val('');
+        $('#BankName').val('');
+        $('#BankBranch').val('');
+        $('#ChequeNo').val('');
+        $('#ChequeDate').val('');
+        $('#IFCCode').val('');
+        $('#BankNameForCard').val('');
+        $('#TypeOfCard').val('');
+        $('#BankNameForOnline').val('');
+        $('#UTRNumber').val('');
+        $('#OnlinePaymentDate').val('');
+        $("#GodownID").val("").trigger("change");
+        $('#ByCash').val('');
+        $('#ChequeReturnAmount').val('');
+    });
+
+    $(function () {
+        $(".check").change(function () {
+            if ($(this).is(":checked")) {
+                $(".check").not($(this)).each(function () {
+                    $(this).removeAttr("checked");
+                })
+            }
+        })
+    });
+
+    $("#btnsavepopup").click(function () {
+        debugger;
+        if ($("#Online").is(":checked") != false || $("#Cash").is(":checked") != false || $("#Cheque").is(":checked") != false || $("#Card").is(":checked") != false || $("#Sign").is(":checked") != false) {
+            var datareq = new Object();
+            datareq.Online = $("#Online").is(":checked");
+            datareq.Cash = $("#Cash").is(":checked");
+            datareq.Cheque = $("#Cheque").is(":checked");
+            datareq.Card = $("#Card").is(":checked");
+            datareq.Sign = $("#Sign").is(":checked");
+            datareq.Amount = $("#Amount").val();
+            datareq.AdjustAmount = $("#Discount").val();
+            //datareq.GodownID = $("#GodownID").val();
+            datareq.GodownID = $("#responsive").find("#GodownID").val();
+            datareq.InvoiceNumber = $("#InvoiceNumber").val();
+            datareq.PaymentID = $("#PaymentID").val();
+            datareq.OrderID = $("#OrderID").val();
+            datareq.BankName = $("#BankName").val();
+            datareq.BankBranch = $("#BankBranch").val();
+            datareq.ChequeNo = $("#ChequeNo").val();
+            datareq.ChequeDate = $("#ChequeDate").val();
+            datareq.IFCCode = $("#IFCCode").val();
+            datareq.BankNameForOnline = $("#BankNameForOnline").val();
+            datareq.UTRNumber = $("#UTRNumber").val();
+            datareq.OnlinePaymentDate = $("#OnlinePaymentDate").val();
+            datareq.BankNameForCard = $("#BankNameForCard").val();
+            datareq.TypeOfCard = $("#TypeOfCard").val();
+            datareq.ByCash = $("#ByCash").val();
+            datareq.ChequeReturnAmount = $("#ChequeReturnAmount").val();
+            $.ajax({
+                url: '@Url.Action("UpdatePayment")',
+                type: 'POST',
+                data: { 'data': datareq },
+                cache: false,
+            }).done(function (result) {
+                if (result == true) {
+                    if ($("#PaymentID").val() == "") {
+                        $('div#sucessalert').html("Payment Add successfully.");
+                        //window.location = "/wholesale/Report/CashCounterReport";
+                    }
+                    else {
+                        $('div#sucessalert').html("Payment updated successfully.");
+                        //window.location = "/wholesale/Report/CashCounterReport";
+                    }
+                    showhidealert();
+                    clearform();
+                    loadhtml();
+                }
+            });
+
+            $('#responsive').removeClass("modal fade modal-overflow in");
+            $('#responsive').removeAttr('style');
+            $('#responsive').addClass("modal fade");
+
+        }
+        else {
+            alert("Please check at least one payment method");
+        }
+    });
+
+    function loadhtml() {
+        var model = new Object();
+        model.AssignedDate = $("#AssignedDate").val();
+        model.GodownID = $("#GodownID").val();
+        model.IsCheckBySign = $('#IsCheckBySign').is(":checked");
+        $.ajax({
+            url: '@Url.Action("CashCounterReportList")',
+            type: 'POST',
+            data: { 'model': model },
+            cache: false,
+        }).done(function (result) {
+            $('#lstcase').html(result);
+        });
+    }
+
+    function clearform() {
+        $('#responsive').removeClass("modal fade modal-overflow in");
+        $('#responsive').removeAttr('style');
+        $('#responsive').addClass("modal fade");
+        $('#Cash').prop('checked', false);
+        $('#Cheque').prop('checked', false);
+        $('#Card').prop('checked', false);
+        $('#Online').prop('checked', false);
+        $('#Sign').prop('checked', false);
+        $('#Discount').val('');
+        $('#Amount').val('');
+        $('#BankName').val('');
+        $('#BankBranch').val('');
+        $('#ChequeNo').val('');
+        $('#ChequeDate').val('');
+        $('#IFCCode').val('');
+        $('#BankNameForCard').val('');
+        $('#TypeOfCard').val('');
+        $('#BankNameForOnline').val('');
+        $('#UTRNumber').val('');
+        $('#OnlinePaymentDate').val('');
+        $("#GodownID").val("").trigger("change");
+        $('#ByCash').val('');
+        $('#ChequeReturnAmount').val('');
+    }
+
+</script>

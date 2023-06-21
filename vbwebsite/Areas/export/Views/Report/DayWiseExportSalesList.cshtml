@@ -1,0 +1,126 @@
+﻿@model List<vb.Data.DayWiseSalesExportListForExp>
+
+<div class="box">
+    <div class="box-header text-center">
+        <h3 class="box-title">Day Wise Sales</h3>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body table-scrollable1">
+        <table id="ListDataTable" class="table table-bordered table-striped lstsales">
+            <thead>
+                <tr>
+                    <th class="nosort">Inv Number</th>
+                    <th class="nosort">Party Name</th>
+                    <th class="nosort">Country Name</th>
+                    <th class="nosort">Total pkgs</th>
+                    <th class="nosort" style="text-align:center"> Gross  Amt</th>
+                    <th class="nosort" colspan="2" style="text-align:center">CGST</th>
+                    <th class="nosort" colspan="2" style="text-align:center">SGST</th>
+                    <th class="nosort" colspan="2" style="text-align:center">IGST</th>
+                    <th class="nosort" style="text-align:center">Round Off</th>
+                    <th class="nosort" style="text-align:center">Insurance Amount</th>
+                    <th class="nosort" style="text-align:center">Freight Amount </th>
+                    <th class="nosort" style="text-align:center">Net Amount</th>
+                    <th class="nosort">Sales Person</th>
+                </tr>
+                <tr>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th style="text-align:center">Tax %</th>
+                    <th style="text-align:center">Tax Amt</th>
+                    <th style="text-align:center">Tax %</th>
+                    <th style="text-align:center">Tax Amt</th>
+                    <th style="text-align:center">Tax %</th>
+                    <th style="text-align:center">Tax Amt</th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    
+                </tr>
+
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td id="row" @item.OrderID>
+
+                            <a style="cursor:pointer;" class="btnedit" data-pid="@item.InvCode" data-oid="@item.OrderID" data-rid="@item.Rupees">@item.InvCode</a>
+                        </td>
+                        <td>
+                            @item.Party
+                        </td>
+
+                        <td>
+                            @item.Country
+                        </td>
+                        <td>
+                            @item.TotalPkgs
+                        </td>
+
+
+                        <td>
+                            @item.InvoiceTotalAmt
+                        </td>
+                        <td>
+                            @*@item.TaxAmtCGST*@ 0.00
+                        </td>
+                        <td>
+                            @*@item.SGST*@ 0.00
+                        </td>
+                        <td>
+                            @*@item.TaxAmtSGST*@ 0.00
+                        </td>
+                        <td>
+                            @*@item.IGST*@ 0.00
+                        </td>
+                        <td>
+                            @*@item.TaxAmtIGST*@ 0.00
+                        </td>
+                        <td>
+                          0.00
+                        </td>
+                        <td>
+                            @item.RoundOff
+                        </td>
+                        <td style="text-align:center">@item.InsuranceAmount</td>
+                        <td style="text-align:center">@item.FreightAMount</td>
+                        <td style="text-align:center">
+                            @item.NetAmount
+                        </td>
+                        <td>
+                            @item.UserFullName
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+    <!-- /.box-body -->
+</div>
+
+<script>
+    $('.lstsales').on('click', '.btnedit', function () {
+        debugger;
+        var id = $(this).attr("data-oid");
+        var invnum = $(this).attr("data-pid");
+        var rupees = $(this).attr("data-rid");
+        //    debugger;
+        $.ajax({
+            url: '@Url.Action("PrintInvoiceforRupeesExp", "Order")',
+            type: 'POST',
+            data: { 'OrderID': id, 'InvoiceNumber': invnum ,'Rupees':rupees},
+            cache: false,
+        }).done(function (result) {
+            if (result != '') {
+                window.open(result, "newPage");
+            }
+        });
+    });
+</script> 

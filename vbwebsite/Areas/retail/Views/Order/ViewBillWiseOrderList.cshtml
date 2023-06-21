@@ -1,0 +1,478 @@
+﻿@model List<vb.Data.RetOrderListResponse>
+
+
+<div class="box">
+    <div class="box-header text-center">
+        <h3 class="box-title">Order List</h3>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body">
+        <table id="ListDataTable" class="table table-bordered table-striped lstbillwiseorder">
+            <thead>
+                <tr>
+                    <th class="nosort">Invoice No</th>
+                    <th class="nosort">Order Date</th>
+                    <th class="nosort">Customer Name</th>
+                    <th class="nosort">Area</th>
+                    <th class="nosort">Invoice Total</th>
+                    <th class="nosort">Sales Person</th>
+                    <th class="nosort">View Invoice</th>
+                    <th class="nosort">Print Invoice</th>
+                    <th class="nosort">E Way Number</th>
+
+                    <th class="nosort">Delete E-Invoice</th>
+
+                    <th class="nosort">Edit</th>
+                    <th class="nosort">Transport Details</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td id="row" @item.OrderID>
+                            @*@item.InvoiceNumber*@
+                            @item.FullInvoiceNumber
+                        </td>
+                        <td>
+                            @item.CreatedOn.ToString("MM-dd-yyyy")
+                        </td>
+                        <td>
+                            @item.CustomerName
+                        </td>
+                        <td>
+                            @item.AreaName
+                        </td>
+
+                        <td>
+                            @item.InvoiceTotal
+                        </td>
+                        <td>
+                            @item.UserName
+                        </td>
+                        <td>
+                            <input class="btnViewInvoice" type="button" value="View Invoice" data-invoicenumber="@item.InvoiceNumber" data-orderid="@item.OrderID" />
+                        </td>
+                        <td>
+                            <input id="btnPrintInvoice" type="button" value="Print Invoice" onclick="GetPrint(@item.OrderID,'@item.InvoiceNumber')" data-orderid="@item.OrderID" />
+                        </td>
+                        <td>
+                            @if (item.EWayNumber != null && item.EWayNumber != "")
+                            {
+                                <input type="text" class="txtEWayNumber" value="@item.EWayNumber" disabled>
+                                <input type="hidden" class="hdnOrderID" value="@item.OrderID" />
+                                <input type="hidden" class="hdnInvoiceNumber" value="@item.InvoiceNumber" />
+                                <input class="btnSaveEWayNo" type="button" value="Save" disabled />
+                                <input class="btnPrintEWayNo" type="button" value="Print EWayBill" />
+                            }
+                            else
+                            {
+                                <input type="text" class="txtEWayNumber" value="@item.EWayNumber">
+                                <input type="hidden" class="hdnOrderID" value="@item.OrderID" />
+                                <input type="hidden" class="hdnInvoiceNumber" value="@item.InvoiceNumber" />
+                                <input class="btnSaveEWayNo" type="button" value="Save" />
+                                <input class="btnPrintEWayNo" type="button" value="Print EWayBill" disabled />
+                            }
+                        </td>
+
+
+                        <td>
+                            <a style="cursor:pointer;" class="btndeleteeinvoice" data-orderid="@item.OrderID" data-invoicenumber="@item.InvoiceNumber">Delete</a>
+                        </td>
+
+
+                        <td>
+                            <a style="cursor:pointer;" class="btnedit" data-orderid="@item.OrderID" data-invoicenumber="@item.InvoiceNumber" data-ewaynumber="@item.EWayNumber">Edit</a>
+                        </td>
+                        <td>
+                            <a style="cursor:pointer;" class="btnopentransportdetails" data-orderid="@item.OrderID" data-invoicenumber="@item.InvoiceNumber">Transport Details</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+
+        </table>
+    </div>
+    <!-- /.box-body -->
+
+    <div id="responsive" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" style="padding-bottom: 0px;">
+                    <h4 class="modal-title">Update E Way Number</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row" style="margin-top:10px;">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <input name="OrderID" id="OrderID" type="hidden" value="" />
+                                <input name="InvoiceNumber" id="InvoiceNumber" type="hidden" value="" />
+                                <label for="EWayNumber" class="col-sm-4 control-label">E Way Number</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" name="EWayNumber" maxlength="100" id="EWayNumber" placeholder="E Way Number" tabindex="1">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btnupdate btn btn-info">Update</button>
+                    <button type="button" class="btnclosepopup btn btn-info" data-dismiss="modal" aria-hidden="true">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="transportpopup" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" style="padding-bottom: 0px;">
+                    <h4 class="modal-title">Transport Details</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12" style="padding-bottom: 8px;">
+                            <div class="form-group">
+                                <input name="OrderID" id="OrderID" type="hidden" value="" />
+                                <input name="InvoiceNumber" id="InvoiceNumber" type="hidden" value="" />
+                                <label for="TransportName" class="col-sm-4 control-label">Transport Name</label>
+                                <div class="col-sm-8">
+                                    @Html.DropDownList("TransportID", new SelectList(ViewBag.TransportName, "TransportID", "TransportName"), "Select Transport", new { @class = "form-control" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12" style="padding-bottom: 8px;">
+                            <div class="form-group">
+                                <label for="ContactNumber" class="col-sm-4 control-label">Contact Number</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" name="ContactNumber" id="ContactNumber" placeholder="Contact Number" tabindex="2" autocomplete="off">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12" style="padding-bottom: 8px;">
+                            <div class="form-group">
+                                <label for="DocketNo" class="col-sm-4 control-label">Docket No</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" name="DocketNo" id="DocketNo" placeholder="Docket No" tabindex="3" autocomplete="off">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12" style="padding-bottom: 8px;">
+                            <div class="form-group">
+                                <label for="DocketDate" class="col-sm-4 control-label">Date</label>
+                                <div class="col-sm-8">
+                                    <div class="input-group date">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
+                                        <input type="text" class="form-control pull-right datepicker" id="DocketDate" tabindex="4">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btnupdatedocatedetail btn btn-info">Save</button>
+                    <button type="button" class="btnclosetransportpopup btn btn-info" data-dismiss="modal" aria-hidden="true">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    @*04 April 2021 Piyush Limbani*@
+    <div id="deleteeinvicepopup" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" style="padding-bottom: 0px;">
+                    <h4 class="modal-title">Confirmation</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row" style="margin-top:10px;">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <input name="OrderIDDelete" id="OrderIDDelete" class="hdnOrderIDDelete" type="hidden" value="" />
+                                <input name="InvoiceNumberDelete" id="InvoiceNumberDelete" class="hdnInvoiceNumberDelete" type="hidden" value="" />
+                                <label class="col-sm-12 control-label">  Are you sure want to delete this e-invoice????</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btnyesdeleteeinvoice btn btn-info">Yes</button>
+                    <button type="button" class="btnnodeleteeinvoice btn btn-info" data-dismiss="modal" aria-hidden="true">No</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    @*04 April 2021 Piyush Limbani*@
+
+
+</div>
+
+
+@*<script src="~/Scripts/jquery-1.10.2.js"></script>*@
+<script>
+
+    $('.datepicker').datepicker({
+        autoclose: true
+    });
+
+    $(".btnViewInvoice").click(function () {
+        debugger;
+        var url = '@Url.Action("ViewBillWiseInvoice", "Order", new { invoicenumber = "__invoicenumber__", custid = "__custid__", uid = "__uid__", txtfrom = "__txtfrom__", txtto = "__txtto__", orderid = "__orderid__" })';
+        url = url.replace(/amp;/g, '');
+        window.location.href = url.replace('__invoicenumber__', $(this).attr("data-invoicenumber")).replace('__custid__', $('#CustomerID').val()).replace('__uid__', $('#UserID').val()).replace('__txtfrom__', $('#txtFrom').val()).replace('__txtto__', $('#txtTo').val()).replace('__orderid__', $(this).attr("data-orderid"));
+    });
+
+    function GetPrint(id, invnum) {
+        debugger;
+        $.ajax({
+            url: '@Url.Action("PrintInvoice", "Order")',
+            type: 'POST',
+            data: { 'InvoiceID': id, 'InvoiceNumber': invnum },
+            cache: false,
+        }).done(function (result) {
+            if (result != '') {
+                //window.location.href = result;
+                window.open(result, "newPage");
+            }
+        });
+    };
+
+
+
+    $(".btnSaveEWayNo").click(function () {
+        debugger;
+        var OrderID = $(this).closest('tr').find('.hdnOrderID').val();
+        var InvoiceNumber = $(this).closest('tr').find('.hdnInvoiceNumber').val();
+        var EWayNumber = $(this).closest('tr').find('.txtEWayNumber').val();
+        $.ajax({
+            url: '@Url.Action("UpdateEWayNumber", "Order")',
+            type: 'POST',
+            data: { 'OrderID': OrderID, 'InvoiceNumber': InvoiceNumber, 'EWayNumber': EWayNumber },
+            cache: false,
+        }).done(function (result) {
+            if (result == true) {
+                $('div#sucessalert').html("E Way Number added successfully.");
+                showhidealert();
+                $('#btnsearch').click();
+            }
+            else {
+                alert("something went wrong")
+            }
+        });
+    });
+
+
+    $('.lstbillwiseorder').on('click', '.btnedit', function () {
+        debugger;
+        var OrderID = $(this).attr("data-orderid");
+        var InvoiceNumber = $(this).attr("data-invoicenumber");
+        var EWayNumber = $(this).attr("data-ewaynumber");
+        clearcontents(OrderID, InvoiceNumber, EWayNumber);
+        $("#responsive").removeClass("modal fade").addClass("modal fade modal-overflow in");
+        $("#responsive").css("display", "block");
+    });
+
+    function clearcontents(OrderID, InvoiceNumber, EWayNumber) {
+        debugger;
+        $('#OrderID').attr('value', OrderID);
+        $('#InvoiceNumber').attr('value', InvoiceNumber);
+        $('#EWayNumber').attr('value', EWayNumber);
+    }
+
+    $(".btnupdate").click(function () {
+        debugger;
+        var OrderID = $("#OrderID").val();
+        var InvoiceNumber = $("#InvoiceNumber").val();
+        var EWayNumber = $("#EWayNumber").val();
+        $.ajax({
+            url: '@Url.Action("UpdateEWayNumber", "Order")',
+            type: 'POST',
+            data: { 'OrderID': OrderID, 'InvoiceNumber': InvoiceNumber, 'EWayNumber': EWayNumber },
+            cache: false,
+        }).done(function (result) {
+            if (result == true) {
+                $('div#sucessalert').html("E Way Number Updated successfully.");
+                showhidealert();
+                $('#btnsearch').click();
+            }
+            else {
+                alert("something went wrong")
+            }
+        });
+        $('#responsive').removeClass("modal fade modal-overflow in");
+        $('#responsive').removeAttr('style');
+        $('#responsive').addClass("modal fade");
+    });
+
+    $(".btnclosepopup").click(function () {
+        debugger;
+        $('#responsive').removeClass("modal fade modal-overflow in");
+        $('#responsive').removeAttr('style');
+        $('#responsive').addClass("modal fade");
+    });
+
+
+
+    $('.lstbillwiseorder').on('click', '.btnopentransportdetails', function () {
+        debugger;
+        var OrderID = $(this).attr("data-orderid");
+        var InvoiceNumber = $(this).attr("data-invoicenumber");
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("GetTransportDetailByInvoiceNnumberandOrderID")',
+            data: { 'OrderID': OrderID, 'InvoiceNumber': InvoiceNumber },
+            success: function (result) {
+                debugger;
+                $('#TransportID').val(result.TransportID);
+                $('#ContactNumber').val(result.ContactNumber);
+                $('#DocketNo').val(result.DocketNo);
+                $('#DocketDate').val(moment(result.DocketDate).format("MM/DD/YYYY"));
+            },
+            error: function () { alert('Error'); }
+        });
+        transportdetail(OrderID, InvoiceNumber);
+        $("#transportpopup").removeClass("modal fade").addClass("modal fade modal-overflow in");
+        $("#transportpopup").css("display", "block");
+    });
+
+    function transportdetail(OrderID, InvoiceNumber) {
+        debugger;
+        $('#OrderID').attr('value', OrderID);
+        $('#InvoiceNumber').attr('value', InvoiceNumber);
+    }
+
+    $("#TransportID").on('change keypress', function (e) {
+        debugger;
+        var TransportID = this.value;
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("GetTransportDetailByTransportID")',
+            data: { 'TransportID': TransportID },
+            success: function (result) {
+                debugger;
+                $('#ContactNumber').val(result.ContactNumber);
+            },
+            error: function () { alert('Error'); }
+        });
+    });
+
+    $(".btnupdatedocatedetail").click(function () {
+        debugger;
+        var OrderID = $("#OrderID").val();
+        var InvoiceNumber = $("#InvoiceNumber").val();
+        var TransportID = $("#TransportID").val();
+        var DocketNo = $("#DocketNo").val();
+        var DocketDate = $("#DocketDate").val();
+        $.ajax({
+            url: '@Url.Action("UpdateDocateDetail", "Order")',
+            type: 'POST',
+            data: { 'OrderID': OrderID, 'InvoiceNumber': InvoiceNumber, 'TransportID': TransportID, 'DocketNo': DocketNo, 'DocketDate': DocketDate },
+            cache: false,
+        }).done(function (result) {
+            if (result == true) {
+                $('div#sucessalert').html("Docate Detail Updated successfully.");
+                showhidealert();
+                $('#btnsearch').click();
+            }
+            else {
+                alert("something went wrong")
+            }
+        });
+        $('#transportpopup').removeClass("modal fade modal-overflow in");
+        $('#transportpopup').removeAttr('style');
+        $('#transportpopup').addClass("modal fade");
+    });
+
+    $(".btnclosetransportpopup").click(function () {
+        debugger;
+        $('#transportpopup').removeClass("modal fade modal-overflow in");
+        $('#transportpopup').removeAttr('style');
+        $('#transportpopup').addClass("modal fade");
+    });
+
+
+
+
+    // 04 April 2021 Piyush Limbani
+    $(".btndeleteeinvoice").click(function () {
+        debugger;
+        var model = new Object
+        model.OrderID = $(this).attr("data-orderid");
+        model.InvoiceNumber = $(this).attr("data-invoicenumber");
+        $('#OrderIDDelete').attr('value', model.OrderID);
+        $('#InvoiceNumberDelete').attr('value', model.InvoiceNumber);
+        $("#deleteeinvicepopup").removeClass("modal fade").addClass("modal fade modal-overflow in");
+        $("#deleteeinvicepopup").css("display", "block");
+    });
+
+    $(".btnyesdeleteeinvoice").click(function () {
+        debugger;
+        var OrderID = $("#OrderIDDelete").val();
+        var InvoiceNumber = $("#InvoiceNumberDelete").val();
+        $.ajax({
+            url: '@Url.Action("DeleteEInvoice", "Order")',
+            type: 'POST',
+            data: { 'OrderID': OrderID, 'InvoiceNumber': InvoiceNumber },
+            cache: false,
+        }).done(function (result) {
+            if (result == true) {
+                $('div#sucessalert').html("Deleted successfully.");
+                showhidealert();
+                $('#btnsearch').click();
+            }
+            // loadhtml();
+        });
+        $('#deleteeinvicepopup').removeClass("modal fade modal-overflow in");
+        $('#deleteeinvicepopup').removeAttr('style');
+        $('#deleteeinvicepopup').addClass("modal fade");
+    });
+
+    $(".btnnodeleteeinvoice").click(function () {
+        debugger;
+        $('#deleteeinvicepopup').removeClass("modal fade modal-overflow in");
+        $('#deleteeinvicepopup').removeAttr('style');
+        $('#deleteeinvicepopup').addClass("modal fade");
+    });
+    // 04 April 2021 Piyush Limbani
+
+
+    @*$(".btnPrintEWayNo").click(function () {
+        var EWayNumber = $(this).closest('tr').find('.txtEWayNumber').val();
+        $.ajax({
+            url: '@Url.Action("EWBDetailedPrint", "EWayBill")',
+            type: 'POST',
+            data: { 'EwbNo': EWayNumber },
+            cache: false,
+        }).done(function (result) {
+            if (result == true) {
+                $('div#sucessalert').html("E Way Number print successfully.");
+                showhidealert();
+                $('#btnsearch').click();
+            }
+        });
+    });*@
+
+
+    $(".btnPrintEWayNo").click(function () {
+        var EWayNumber = $(this).closest('tr').find('.txtEWayNumber').val();
+        $.ajax({
+            url: '@Url.Action("EWayBillPrint", "EWayBill")',
+            type: 'POST',
+            data: { 'EwbNo': EWayNumber },
+            cache: false,
+        }).done(function (result) {
+            if (result != '') {
+                window.open(result, "newPage");
+            }
+        });
+    });
+
+</script>
+
+
+
+

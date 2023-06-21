@@ -1,0 +1,107 @@
+﻿@model vb.Data.Model.PackageStation_Mst
+@{
+    ViewBag.Title = "ManagePackageStation";
+    Layout = "~/Areas/retail/Views/Shared/_retaillayout.cshtml";
+}
+@using vb.Data.ViewModel
+
+<div class="box box-default">
+    <div class="box-header with-border text-center">
+        <h3 class="box-title">Manage Package Station </h3>
+    </div>
+    <form id="frmPackageStation" class="form-horizontal">
+        <div class="box-body">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <input name="PackageStationID" id="UPackageStationID" type="hidden" value="" />
+                    <label for="Name" class="col-sm-4 control-label">Name</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="PackageStationName" maxlength="100" id="PackageStationName" placeholder="Name" tabindex="1">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="State" class="col-sm-4 control-label">Superwiser</label>
+                    <div class="col-sm-8">
+                        @Html.DropDownListFor(m => m.UserID, new SelectList(ViewBag.SalesPerson, "UserID", "UserFullName"), "Select User", new { @class = "form-control", tabindex = "5" })
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="City" class="col-sm-4 control-label">Godown </label>
+                    <div class="col-sm-8">
+                        @Html.DropDownListFor(m => m.GodownID, new SelectList(ViewBag.Godown, "GodownID", "GodownName"), "Select Godown", new { @class = "form-control select2", tabindex = "4" })
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.box-body -->
+        <div class="box-footer ">
+            <div class="pull-right">
+                <button type="button" id="CancelPackage" class="btn btn-default" tabindex="8">Cancel</button>
+                @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.RAPACKAGESTATION.ToString()))
+                {
+                    <button type="button" id="btnsavecase" class="btn btn-info" tabindex="7">Save</button>
+                }
+            </div>
+        </div>
+        <!-- /.box-footer -->
+    </form>
+    <div id="lstcase">
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script>
+    $(document).ready(function () {
+        loadhtml();
+    });
+    function loadhtml() {
+        $.ajax({
+            url: '@Url.Action("ManagePackageStationList")',
+            type: 'GET',
+            cache: false,
+        }).done(function (result) {
+            $('#lstcase').html(result);
+        });
+    }
+
+    $("#btnsavecase").click(function () {
+        var datareq = new Object();
+        datareq.PackageStationID = $("#UPackageStationID").val();
+        datareq.PackageStationName = $("#PackageStationName").val();
+        datareq.GodownID = $("#GodownID").val();
+        datareq.UserID = $("#UserID").val();
+        $.ajax({
+            url: '@Url.Action("ManagePackageStation")',
+            type: 'POST',
+            data: { 'data': datareq },
+            cache: false,
+        }).done(function (result) {
+            if (result == true) {
+                if ($("#PackageStationID").val() == "") {
+                    $('div#sucessalert').html("Package Station Add successfully.");
+                }
+                else {
+                    $('div#sucessalert').html("Package Station updated successfully.");
+                }
+                showhidealert();
+                loadhtml();
+                clearform();
+            }
+        });
+    });
+
+    $("#CancelPackage").click(function () {
+        clearform();
+    });
+
+    function clearform() {
+        $("#frmPackageStation").find("input").val("");
+        $("#GodownID").val("").trigger("change");
+        $("#UserID").val("").trigger("change");
+    }
+</script>
+
+

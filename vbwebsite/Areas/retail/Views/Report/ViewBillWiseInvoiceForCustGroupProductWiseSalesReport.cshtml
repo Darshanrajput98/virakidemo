@@ -1,0 +1,129 @@
+﻿@model List<vb.Data.RetOrderQtyList>
+
+@{
+    ViewBag.Title = "ViewBillWiseInvoiceForProductWiseSalesReport";
+    Layout = "~/Areas/retail/Views/Shared/_retaillayout.cshtml";
+}
+
+<div class="box">
+    <div class="box-header text-center">
+        <h3 class="box-title">View - Retail Order</h3>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body">
+        @if (Model.Count > 0)
+        {
+            <form id="frminv" class="form-horizontal">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="CustomerName" class="col-sm-4 control-label">Customer</label>
+                            <div class="col-sm-8">
+                                <label for="CustomerName" class="col-sm-8 control-label">@Model[0].CustomerName</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="InvoiceNumber" class="col-sm-4 control-label">Order Code</label>
+                            <div class="col-sm-8">
+                                <label for="InvoiceNumber" class="col-sm-8 control-label">@Model[0].InvoiceNumber</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="BillTo" class="col-sm-4 control-label">Bill To</label>
+                            <div class="col-sm-8">
+                                <label for="BillTo" class="col-sm-8 control-label">@Model[0].BillTo</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="Tax" class="col-sm-4 control-label">Tax</label>
+                            <div class="col-sm-8">
+                                <label for="Tax" class="col-sm-8 control-label">@Model[0].TaxName</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="ShipTo" class="col-sm-4 control-label">Customer Group</label>
+                            <div class="col-sm-8">
+                                <label for="CustomerGroupName" class="col-sm-8 control-label">@Model[0].CustomerGroupName</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="ShipTo" class="col-sm-4 control-label">Ship To</label>
+                            <div class="col-sm-8">
+                                <label for="ShipTo" class="col-sm-8 control-label">@Model[0].ShipTo</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="DeliveryDate" class="col-sm-4 control-label">Delivery Date</label>
+                            <div class="col-sm-8">
+                                <label for="OrderDate" class="col-sm-8 control-label">@Model[0].OrderDate.ToString("MM-dd-yyyy")</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="Notes" class="col-sm-4 control-label">Notes</label>
+                            <div class="col-sm-8">
+                                <label for="Notes" class="col-sm-8 control-label">@Model[0].CustomerNote</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div class="row" style="margin-top:50px;">
+                <table id="ListDataTableNo" class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th class="nosort">Sr No</th>
+                            <th class="nosort">Item Name</th>
+                            <th class="nosort">Quantity</th>
+                            <th class="nosort">Product Price</th>
+                            <th class="nosort">Discount Price</th>
+                            <th class="nosort">Tax</th>
+                            <th class="nosort">Tax Amount</th>
+                            <th class="nosort">TotalAmount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td id="row" @item.OrderID>
+                                    @item.SerialNumber
+                                </td>
+                                <td>
+                                    @item.ProductName
+                                </td>
+                                <td>
+                                    @item.Quantity
+                                </td>
+                                <td>
+                                    @item.ProductPrice.ToString("0.00")
+                                </td>
+
+                                <td>
+                                    @item.DiscountPrice.ToString("0.00")
+                                </td>
+                                <td>
+                                    @item.Tax
+                                </td>
+                                <td>
+                                    @item.TaxAmount
+                                </td>
+                                <td>
+                                    @item.TotalAmount.ToString("0.00")
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
+    <!-- /.box-body -->
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script type="text/javascript">
+
+</script>
+

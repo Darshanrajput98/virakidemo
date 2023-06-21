@@ -1,0 +1,135 @@
+﻿@model List<vb.Data.GodownListResponse>
+
+@using vb.Data.ViewModel
+<div class="box">
+    <div class="box-header text-center">
+        <h3 class="box-title">Godown List</h3>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body">
+        <table id="ListDataTable" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th class="nosort">Name</th>
+                    <th class="nosort">Phone</th>
+                    <th class="nosort">Address 1</th>
+                    <th class="nosort">Address 2</th>
+                    <th class="nosort">FSSAI No</th>
+                    <th class="nosort">Code</th>
+                    <th class="nosort">Note</th>
+                    <th class="nosort">Place</th>
+                    <th class="nosort">Pincode</th>
+                    <th class="nosort">State</th>
+                    <th class="nosort">GST</th>
+                    <th class="nosort" style="width: 47px;">Cash Option</th>
+                    @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.WEGODOWN.ToString()))
+                    {
+                        <th class="nosort">Edit</th>
+                    }
+                    @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.WDGODOWN.ToString()))
+                    {
+                        <th class="nosort">Status</th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td id="row" @item.GodownID>
+                            @item.GodownName
+                        </td>
+                        <td>
+                            @item.GodownPhone
+                        </td>
+                        <td>
+                            @item.GodownAddress1
+                        </td>
+                        <td>
+                            @item.GodownAddress2
+                        </td>
+                        <td>
+                            @item.GodownFSSAINumber
+                        </td>
+                        <td>
+                            @item.GodownCode
+                        </td>
+                        <td>
+                            @item.GodownNote
+                        </td>
+                        <td>
+                            @item.Place
+                        </td>
+                        <td>
+                            @item.Pincode
+                        </td>
+                        <td>
+                            @item.State
+                        </td>
+                        <td>
+                            @item.GSTNumber
+                        </td>
+                        <td>
+                            @item.CashOption
+                        </td>
+                        @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.WEGODOWN.ToString()))
+                        {
+                            <td>
+                                <a style="cursor:pointer;" class="btnedit" data-pid="@item.GodownID" data-openingamount="@item.OpeningAmount" data-chillaramount="@item.ChillarAmount">Edit</a>
+                            </td>
+                        }
+                        @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.WDGODOWN.ToString()))
+                        {
+                            if (item.IsDelete == true)
+                            {
+                                <td>
+                                    @Html.ActionLink("Active", "DeleteGodown", "Admin",
+                                new { GodownID = item.GodownID, IsDelete = false },
+                                    new { onclick = "return confirm('Are you sure you wish to delete this article?');" })
+                                </td>
+                            }
+                            else
+                            {
+                                <td>
+                                    @Html.ActionLink("DeActive", "DeleteGodown", "Admin",
+                                new { GodownID = item.GodownID, IsDelete = true },
+                                    new { onclick = "return confirm('Are you sure you wish to delete this article?');" })
+                                </td>
+                            }
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <!-- /.box-body -->
+</div>
+
+<script>
+    $("#ListDataTable").DataTable({
+        'aoColumnDefs': [{
+            'bSortable': false,
+            'aTargets': ['nosort'] /* 1st one, start by the right */
+        }]
+    });
+
+    $('#ListDataTable').on('click', '.btnedit', function () {
+        $("#UGodownID").val($(this).attr("data-pid"));
+        $("#GodownName").val($(this).parent().parent().children()[0].innerHTML.trim());
+        $("#GodownPhone").val($(this).parent().parent().children()[1].innerHTML.trim());
+        $("#GodownAddress1").val($(this).parent().parent().children()[2].innerHTML.trim());
+        $("#GodownAddress2").val($(this).parent().parent().children()[3].innerHTML.trim());
+        $("#GodownFSSAINumber").val($(this).parent().parent().children()[4].innerHTML.trim());
+        $("#GodownCode").val($(this).parent().parent().children()[5].innerHTML.trim());
+        $("#GodownNote").val($(this).parent().parent().children()[6].innerHTML.trim());
+        $("#Place").val($(this).parent().parent().children()[7].innerHTML.trim());
+        $("#Pincode").val($(this).parent().parent().children()[8].innerHTML.trim());
+        $("#State").val($(this).parent().parent().children()[9].innerHTML.trim());
+        $("#GSTNumber").val($(this).parent().parent().children()[10].innerHTML.trim());
+        $("#CashOption").val($(this).parent().parent().children()[11].innerHTML.trim());
+        $("#OpeningAmount").val($(this).attr("data-openingamount"));
+        $("#ChillarAmount").val($(this).attr("data-chillaramount"));
+        $("html, body").animate({ scrollTop: 0 }, "slow");
+    });
+
+</script>

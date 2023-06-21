@@ -1,0 +1,66 @@
+﻿@model List<vb.Data.OrderListResponse>
+
+<div class="box">
+    <div class="box-header text-center">
+        <h3 class="box-title">Order List</h3>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body table-scrollable1">
+        <table id="ListDataTable" class="table table-bordered table-bordered">
+            <thead>
+                <tr>
+                    <th class="nosort">Customer Name</th>
+                    <th class="nosort">ShipTo</th>
+                    <th class="nosort">Delivery Date</th>
+                    <th class="nosort">Tax</th>
+                    <th class="nosort">OrderRef</th>
+                    <th class="nosort">Edit</th>
+                    <th class="nosort">Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td id="row" @item.OrderID>
+                            @item.CustomerName
+                        </td>
+                        <td>
+                            @item.ShipTo
+                        </td>
+                        <td>
+                            @item.DeliveryDate
+                        </td>
+                        <td>
+                            @item.Tax
+                        </td>
+                        <td>
+                            @item.OrderRef
+                        </td>
+                        <td>
+                            <a style="cursor:pointer;" class="btnedit" data-pid="@item.OrderID" data-customerid="@item.CustomerID">Edit</a>
+                        </td>
+                        <td>
+                            @Html.ActionLink("Delete", "DeleteOrder",
+               new { OrderID = item.OrderID },
+                                    new { onclick = "return confirm('Are you sure you wish to delete this article?');" })
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <!-- /.box-body -->
+</div>
+
+<script>
+    $('#ListDataTable').on('click', '.btnedit', function () {
+        $("#UOrderID").val($(this).attr("data-pid"));
+        $("#CustomerID").val($(this).attr("data-customerid"));
+        $("#ShipTo").val($(this).parent().parent().children()[1].innerHTML.trim());
+        $("#DeliveryDate").val($(this).parent().parent().children()[2].innerHTML.trim());
+        $("#Tax").val($(this).parent().parent().children()[3].innerHTML.trim());
+        $("#OrderRef").val($(this).parent().parent().children()[4].innerHTML.trim());
+        $("html, body").animate({ scrollTop: 0 }, "slow");
+    });
+</script>

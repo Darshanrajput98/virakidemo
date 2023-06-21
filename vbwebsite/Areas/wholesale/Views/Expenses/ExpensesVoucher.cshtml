@@ -1,0 +1,422 @@
+﻿@model vb.Data.Model.ExpensesVoucher_Mst
+@{
+    ViewBag.Title = "ExpensesVoucher";
+    Layout = "~/Areas/wholesale/Views/Shared/_wholesalelayout.cshtml";
+}
+@using vb.Data.ViewModel
+<div class="box box-default">
+    <div class="box-header with-border text-center">
+        <h3 class="box-title">Create Expenses Voucher</h3>
+    </div>
+    <form id="frmExpensesVoucher" class="form-horizontal">
+        <div class="box-body">
+
+            <div class="col-md-12">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <input name="ExpensesVoucherID" id="UExpensesVoucherID" type="hidden" value="" />
+                        <input type="hidden" id="CreatedBy" class="CreatedBy" value="" />
+                        <input type="hidden" id="CreatedOn" class="CreatedOn" value="" />
+                        <label for="GodownID" class="col-sm-4 control-label">Cash</label>
+                        <div class="col-sm-8">
+                            @Html.DropDownListFor(m => m.GodownID, new SelectList(ViewBag.Godown, "GodownID", "GodownName"), "Select Godown", new { @class = "form-control select2", tabindex = "1", required = "required" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="DateofVoucher" class="col-sm-4 control-label">Date of Voucher</label>
+                        <div class="col-sm-8">
+                            <div class="input-group date">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </div>
+                                <input type="text" class="form-control pull-right datepicker" id="DateofVoucher" tabindex="2" autocomplete="off" required>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="VoucherNumber" class="col-sm-4 control-label">Voucher Number</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" name="VoucherNumber" id="VoucherNumber" placeholder="Voucher Number" tabindex="3" autocomplete="off">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="Pay" class="col-sm-4 control-label">Pay Mr./M/s</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" name="Pay" id="Pay" placeholder="Pay" tabindex="4">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="DebitAccountTypeID" class="col-sm-4 control-label">Debit A/c</label>
+                        <div class="col-sm-8">
+                            @Html.DropDownListFor(m => m.DebitAccountTypeID, new SelectList(ViewBag.DebitAccountType, "DebitAccountTypeID", "DebitAccountType"), "Select Debit Account", new { @class = "form-control select2", tabindex = "5" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="Amount" class="col-sm-4 control-label">Amount</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" name="Amount" id="Amount" placeholder="Amount" tabindex="6" autocomplete="off" required>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="BillNumber" class="col-sm-4 control-label">Bill No.</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" name="BillNumber" id="BillNumber" placeholder="Bill Number" tabindex="7" autocomplete="off">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="WCustomerID" class="col-sm-4 control-label">Wholesale Customer</label>
+                        <div class="col-sm-8">
+                            @Html.DropDownList("WCustomerID", new SelectList(ViewBag.WholesaleCustomer, "WCustomerID", "WCustomerName"), "Select Customer", new { @class = "form-control select2" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <div class="col-md-6">
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="RCustomerName" class="col-sm-4 control-label">Retail Customer</label>
+                        <div class="col-sm-8">
+                            @Html.DropDownList("RCustomerID", new SelectList(ViewBag.RetailCustomer, "RCustomerID", "RCustomerName"), "Select Customer", new { @class = "form-control select2" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label for="Remarks" class="col-sm-2 control-label">Remarks L1</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" name="Remarks" id="RemarksL1" placeholder="Remarks" tabindex="8" maxlength="110" autocomplete="off">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="Remarks" class="col-sm-2 control-label">Remarks L2</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" name="Remarks" id="RemarksL2" placeholder="Remarks" tabindex="9" maxlength="110" autocomplete="off">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="Remarks" class="col-sm-2 control-label">Remarks L3</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" name="Remarks" id="RemarksL3" placeholder="Remarks" tabindex="10" maxlength="110" autocomplete="off">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="box-footer ">
+            <div class="pull-right">
+                <button type="button" id="Cancel" class="btn btn-default" tabindex="12">Cancel</button>
+                @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.AExpensesVoucher.ToString()))
+                {
+                    <button type="button" id="btnsave" class="btn btn-info" tabindex="11">Save</button>
+                }
+            </div>
+        </div>
+    </form>
+    <div id="lstcase">
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script>
+
+    $(document).ready(function () {
+        loadhtml();
+
+        //$("#RCustomerID").on('change keypress', function (e) {
+        //    debugger;
+        //    var CustomerID = this.value;
+        //    var WCustomerID = $("#WCustomerID").val();
+        //    var BillNumber = $("#BillNumber").val();
+        //    if (WCustomerID != 0) {
+        //        alert("select any one customer");
+        //        $("#WCustomerID").val("0").trigger("change");
+        //        $("#RCustomerID").val("0").trigger("change");
+        //    }
+        //});
+
+    });
+
+    function loadhtml() {
+        $.ajax({
+            url: '@Url.Action("ExpensesVoucherList")',
+            type: 'GET',
+            cache: false,
+        }).done(function (result) {
+            $('#lstcase').html(result);
+        });
+    }
+
+    $("#btnsave").click(function () {
+        debugger;
+        if (!($('#frmExpensesVoucher').parsley().validate())) {
+            return;
+        }
+
+        if ($("#DebitAccountTypeID").val() != "" && $("#DebitAccountTypeID").val() != null) {
+            var datareq = new Object();
+            datareq.ExpensesVoucherID = $("#UExpensesVoucherID").val();
+            datareq.GodownID = $("#GodownID").val();
+            datareq.DateofVoucher = $("#DateofVoucher").val();
+            datareq.VoucherNumber = $("#VoucherNumber").val();
+            datareq.Pay = $("#Pay").val();
+            datareq.DebitAccountTypeID = $("#DebitAccountTypeID").val();
+            datareq.CustomerID = 0;
+            datareq.Identification = "DebitAccountType"
+
+            //if ($("#DebitAccountTypeID").val() != "" && $("#DebitAccountTypeID").val() != null) {
+            //    datareq.DebitAccountTypeID = $("#DebitAccountTypeID").val();
+            //    datareq.Identification = "DebitAccountType"
+            //}
+            //else if ($("#WCustomerID").val() != "" && $("#WCustomerID").val() != null) {
+            //    datareq.CustomerID = $("#WCustomerID").val();
+            //    datareq.Identification = "Wholesale"
+            //    datareq.DebitAccountTypeID = 0;
+            //}
+            //else if ($("#RCustomerID").val() != "" && $("#RCustomerID").val() != null) {
+            //    datareq.CustomerID = $("#RCustomerID").val();
+            //    datareq.Identification = "Retail"
+            //    datareq.DebitAccountTypeID = 0;
+            //}
+
+            datareq.Amount = $("#Amount").val();
+            datareq.BillNumber = $("#BillNumber").val();
+            datareq.RemarksL1 = $("#RemarksL1").val();
+            datareq.RemarksL2 = $("#RemarksL2").val();
+            datareq.RemarksL3 = $("#RemarksL3").val();
+            datareq.CreatedBy = $("#CreatedBy").val();
+            datareq.CreatedOn = $("#CreatedOn").val();
+            $.ajax({
+                url: '@Url.Action("ExpensesVoucher")',
+                type: 'POST',
+                data: { 'data': datareq },
+                cache: false,
+            }).done(function (result) {
+                //if (result == true) {
+                if (result > 0) {
+                    var ExpensesVoucherID = result;
+                    debugger;
+                    if ($("#UExpensesVoucherID").val() == "") {
+                        $('div#sucessalert').html("Expenses Voucher Add successfully.");
+                    }
+                    else {
+                        $('div#sucessalert').html("Expenses Voucher updated successfully.");
+                    }
+                    showhidealert();
+
+                    if (confirm('Are you sure to print voucher?')) {
+                        $.ajax({
+                            url: '@Url.Action("PrintExpensesVoucher", "Expenses")',
+                            type: 'POST',
+                            data: { 'ExpensesVoucherID': result },
+                            cache: false,
+                        }).done(function (result) {
+                            debugger;
+                            if (result != '') {
+                                debugger;
+                                window.open(result, "newPage");
+                            }
+                        });
+                    }
+                    else {
+                    }
+                    loadhtml();
+                    clearform();
+                }
+            });
+        }
+        else {
+
+            if ($("#BillNumber").val() != "" && ($("#BillNumber").val() != null)) {
+                if ($("#WCustomerID").val() != "" && $("#WCustomerID").val() != null) {
+                    var datareq = new Object();
+                    datareq.ExpensesVoucherID = $("#UExpensesVoucherID").val();
+                    datareq.GodownID = $("#GodownID").val();
+                    datareq.DateofVoucher = $("#DateofVoucher").val();
+                    datareq.VoucherNumber = $("#VoucherNumber").val();
+                    datareq.Pay = $("#Pay").val();
+                    datareq.DebitAccountTypeID = 0;
+                    datareq.CustomerID = $("#WCustomerID").val();
+                    datareq.Identification = "Wholesale"
+
+                    //if ($("#DebitAccountTypeID").val() != "" && $("#DebitAccountTypeID").val() != null) {
+                    //    datareq.DebitAccountTypeID = $("#DebitAccountTypeID").val();
+                    //    datareq.Identification = "DebitAccountType"
+                    //}
+                    //else if ($("#WCustomerID").val() != "" && $("#WCustomerID").val() != null) {
+                    //    datareq.CustomerID = $("#WCustomerID").val();
+                    //    datareq.Identification = "Wholesale"
+                    //    datareq.DebitAccountTypeID = 0;
+                    //}
+                    //else if ($("#RCustomerID").val() != "" && $("#RCustomerID").val() != null) {
+                    //    datareq.CustomerID = $("#RCustomerID").val();
+                    //    datareq.Identification = "Retail"
+                    //    datareq.DebitAccountTypeID = 0;
+                    //}
+
+                    datareq.Amount = $("#Amount").val();
+                    datareq.BillNumber = $("#BillNumber").val();
+                    datareq.RemarksL1 = $("#RemarksL1").val();
+                    datareq.RemarksL2 = $("#RemarksL2").val();
+                    datareq.RemarksL3 = $("#RemarksL3").val();
+                    datareq.CreatedBy = $("#CreatedBy").val();
+                    datareq.CreatedOn = $("#CreatedOn").val();
+                    $.ajax({
+                        url: '@Url.Action("ExpensesVoucher")',
+                        type: 'POST',
+                        data: { 'data': datareq },
+                        cache: false,
+                    }).done(function (result) {
+                        //if (result == true) {
+                        if (result > 0) {
+                            var ExpensesVoucherID = result;
+                            debugger;
+                            if ($("#UExpensesVoucherID").val() == "") {
+                                $('div#sucessalert').html("Expenses Voucher Add successfully.");
+                            }
+                            else {
+                                $('div#sucessalert').html("Expenses Voucher updated successfully.");
+                            }
+                            showhidealert();
+
+                            if (confirm('Are you sure to print voucher?')) {
+                                $.ajax({
+                                    url: '@Url.Action("PrintExpensesVoucher", "Expenses")',
+                                    type: 'POST',
+                                    data: { 'ExpensesVoucherID': result },
+                                    cache: false,
+                                }).done(function (result) {
+                                    debugger;
+                                    if (result != '') {
+                                        debugger;
+                                        window.open(result, "newPage");
+                                    }
+                                });
+                            }
+                            else {
+                            }
+                            loadhtml();
+                            clearform();
+                        }
+                    });
+                }
+                else if ($("#RCustomerID").val() != "" && $("#RCustomerID").val() != null) {
+                    var datareq = new Object();
+                    datareq.ExpensesVoucherID = $("#UExpensesVoucherID").val();
+                    datareq.GodownID = $("#GodownID").val();
+                    datareq.DateofVoucher = $("#DateofVoucher").val();
+                    datareq.VoucherNumber = $("#VoucherNumber").val();
+                    datareq.Pay = $("#Pay").val();
+                    datareq.DebitAccountTypeID = 0;
+                    datareq.CustomerID = $("#RCustomerID").val();
+                    datareq.Identification = "Retail"
+
+                    //if ($("#DebitAccountTypeID").val() != "" && $("#DebitAccountTypeID").val() != null) {
+                    //    datareq.DebitAccountTypeID = $("#DebitAccountTypeID").val();
+                    //    datareq.Identification = "DebitAccountType"
+                    //}
+                    //else if ($("#WCustomerID").val() != "" && $("#WCustomerID").val() != null) {
+                    //    datareq.CustomerID = $("#WCustomerID").val();
+                    //    datareq.Identification = "Wholesale"
+                    //    datareq.DebitAccountTypeID = 0;
+                    //}
+                    //else if ($("#RCustomerID").val() != "" && $("#RCustomerID").val() != null) {
+                    //    datareq.CustomerID = $("#RCustomerID").val();
+                    //    datareq.Identification = "Retail"
+                    //    datareq.DebitAccountTypeID = 0;
+                    //}
+
+                    datareq.Amount = $("#Amount").val();
+                    datareq.BillNumber = $("#BillNumber").val();
+                    datareq.RemarksL1 = $("#RemarksL1").val();
+                    datareq.RemarksL2 = $("#RemarksL2").val();
+                    datareq.RemarksL3 = $("#RemarksL3").val();
+                    datareq.CreatedBy = $("#CreatedBy").val();
+                    datareq.CreatedOn = $("#CreatedOn").val();
+                    $.ajax({
+                        url: '@Url.Action("ExpensesVoucher")',
+                        type: 'POST',
+                        data: { 'data': datareq },
+                        cache: false,
+                    }).done(function (result) {
+                        //if (result == true) {
+                        if (result > 0) {
+                            var ExpensesVoucherID = result;
+                            debugger;
+                            if ($("#UExpensesVoucherID").val() == "") {
+                                $('div#sucessalert').html("Expenses Voucher Add successfully.");
+                            }
+                            else {
+                                $('div#sucessalert').html("Expenses Voucher updated successfully.");
+                            }
+                            showhidealert();
+
+                            if (confirm('Are you sure to print voucher?')) {
+                                $.ajax({
+                                    url: '@Url.Action("PrintExpensesVoucher", "Expenses")',
+                                    type: 'POST',
+                                    data: { 'ExpensesVoucherID': result },
+                                    cache: false,
+                                }).done(function (result) {
+                                    debugger;
+                                    if (result != '') {
+                                        debugger;
+                                        window.open(result, "newPage");
+                                    }
+                                });
+                            }
+                            else {
+                            }
+                            loadhtml();
+                            clearform();
+                        }
+                    });
+                }
+                else {
+                    alert("enter one wholesale or retail customer");
+                }
+            }
+            else {
+                alert("enter bill number");
+            }
+        }
+    });
+
+    $("#Cancel").click(function () {
+        clearform();
+    });
+
+    function clearform() {
+        $("#frmExpensesVoucher").find("input").val("");
+        $("#DebitAccountTypeID").val("").trigger("change");
+        $("#GodownID").val("").trigger("change");
+        $("#WCustomerID").val("").trigger("change");
+        $("#RCustomerID").val("").trigger("change");
+    }
+</script>

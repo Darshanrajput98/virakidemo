@@ -1,0 +1,100 @@
+﻿@{
+    ViewBag.Title = "ManageEvent";
+    Layout = "~/Areas/wholesale/Views/Shared/_wholesalelayout.cshtml";
+}
+@using vb.Data.ViewModel
+
+<div class="box box-default">
+    <div class="box-header with-border text-center">
+        <h3 class="box-title">Manage Event</h3>
+    </div>
+    <form id="frmEvent" class="form-horizontal">
+        <div class="box-body">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <input name="EventID" id="UEventID" type="hidden" value="" />
+                    <label for="Name" class="col-sm-4 control-label">Event Name</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="EventName" maxlength="100" id="EventName" placeholder="EventName" tabindex="1" required="required">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="EventDescription" class="col-sm-4 control-label">Event Description</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="EventDescription" id="EventDescription" placeholder="EventDescription" tabindex="2">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.box-body -->
+        <div class="box-footer ">
+            <div class="pull-right">
+                <button type="button" id="CancelEvent" class="btn btn-default" tabindex="8">Cancel</button>
+                @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.WAEVENT.ToString()))
+                {
+                    <button type="button" id="btnsavecase" class="btn btn-info" tabindex="7">Save</button>
+                }
+            </div>
+        </div>
+        <!-- /.box-footer -->
+    </form>
+    <div id="lstcase">
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script>
+    $(document).ready(function () {
+        loadhtml();
+    });
+
+    function loadhtml() {
+        $.ajax({
+            url: '@Url.Action("ManageEventList")',
+            type: 'GET',
+            cache: false,
+        }).done(function (result) {
+            $('#lstcase').html(result);
+        });
+    }
+
+    $("#btnsavecase").click(function () {
+        if (!($('#frmEvent').parsley().validate())) {
+            return;
+        }
+        var datareq = new Object();
+        datareq.EventID = $("#UEventID").val();
+        datareq.EventName = $("#EventName").val().trim();
+        datareq.EventDescription = $("#EventDescription").val().trim();
+        if (datareq.EventName != '') {
+            $.ajax({
+                url: '@Url.Action("ManageEvent")',
+                type: 'POST',
+                data: { 'data': datareq },
+                cache: false,
+            }).done(function (result) {
+                if (result == true) {
+                    if ($("#EventID").val() == "") {
+                        $('div#sucessalert').html("Event Added successfully.");
+                    }
+                    else {
+                        $('div#sucessalert').html("Event Updated successfully.");
+                    }
+                    showhidealert();
+                    loadhtml();
+                    clearform();
+                }
+            });
+        }
+    });
+
+    $("#CancelEvent").click(function () {
+        clearform();
+    });
+
+    function clearform() {
+        $("#frmEvent").find("input").val("");
+    }
+</script>

@@ -1,0 +1,246 @@
+﻿@model List<vb.Data.ResignationAcceptanceLetterListResponse>
+@using vb.Data.ViewModel
+
+<div class="box">
+    <div class="box-header text-center">
+        <h3 class="box-title">Resignation Acceptance Letter List</h3>
+    </div>
+    <div class="box-body table-scrollable1">
+        <table id="ListDataTable" class="table table-bordered table-striped lstpopup">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>D.O.J</th>
+                    <th>D.O.L</th>
+                    <th>D.O.A</th>
+                    <th>Status</th>
+                    <th>Print Resignation Acceptance Letter</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @item.FullName
+                        </td>
+                        <td>
+                            @item.DateOfJoiningstr
+                        </td>
+                        <td>
+                            @item.DateOfLeavingstr
+                        </td>
+                        <td>
+                            @item.DateOfApplicationstr
+                        </td>
+
+                        <td>
+                            <a style="cursor:pointer;" class="btnopenpopup"
+                               data-resignationid="@item.ResignationID"
+                               data-fullname="@item.FullName"
+                               data-status="@item.Status"
+                               data-dateofapplication="@item.DateOfApplicationstr"
+                               data-dateofjoining="@item.DateOfJoiningstr"
+                               data-dateofleaving="@item.DateOfLeavingstr">
+                                @item.Statusstr
+                            </a>
+                        </td>
+                        <td><input type="button" value="Print Resignation Acceptance Letter" onclick="GetPrintResignationAcceptanceLetter(@item.ResignationID)" /></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <div id="responsive" class="modal fade">
+            <div class="modal-dialog" style="width:800px">
+                <div class="modal-content">
+                    <div class="modal-header" style="padding-bottom: 0px;">
+                        <h4 class="modal-title">Resignation Approval</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="col-md-6">
+                            <div class="row" style="margin-top:10px;">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <input name="ResignationID" id="ResignationID" class="hdnResignationID" type="hidden" value="" />
+                                        <label for="FullName" class="col-sm-4 control-label">Name</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" name="FullName" maxlength="1000" id="FullName" placeholder="Employee Name" disabled="disabled">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top:10px;">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="DateOfJoining" class="col-sm-4 control-label">D.O.J</label>
+                                        <div class="col-sm-8">
+                                            <div class="input-group date">
+                                                <div class="input-group-addon">
+                                                    <i class="fa fa-calendar"></i>
+                                                </div>
+                                                <input type="text" class="form-control pull-right datepicker" id="DateOfJoining" autocomplete="off" disabled="disabled">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top:10px;">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="Status" class="col-sm-4 control-label">Status</label>
+                                        <div class="col-sm-8">
+                                            <select name="Status" id="Status" class="form-control Status" required>
+                                                <option value="" selected>Select</option>
+                                                <option value="1">Pending</option>
+                                                <option value="2">Approved</option>
+                                                <option value="3">Reject</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="row" style="margin-top:10px;">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="DateOfApplication" class="col-sm-4 control-label">App. Date</label>
+                                        <div class="col-sm-8">
+                                            <div class="input-group date">
+                                                <div class="input-group-addon">
+                                                    <i class="fa fa-calendar"></i>
+                                                </div>
+                                                <input type="text" class="form-control pull-right datepicker" id="DateOfApplication" autocomplete="off" disabled="disabled">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top:10px;">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="DateOfLeaving" class="col-sm-4 control-label">D.O.L</label>
+                                        <div class="col-sm-8">
+                                            <div class="input-group date">
+                                                <div class="input-group-addon">
+                                                    <i class="fa fa-calendar"></i>
+                                                </div>
+                                                <input type="text" class="form-control pull-right datepicker" id="DateOfLeaving" autocomplete="off" disabled="disabled">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer" style="margin-top:130px;">
+                        <button type="button" id="btnsavepopup" class="btnsavepopup btn btn-info">Save</button>
+                        <button type="button" class="btnclosepopup btn btn-info" data-dismiss="modal" aria-hidden="true">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    $('#ListDataTable').DataTable({
+        'paging': true,
+        'lengthChange': true,
+        'searching': true,
+        'ordering': false,
+        'info': true,
+        'autoWidth': false
+    });
+
+    $('.lstpopup').on('click', '.btnopenpopup', function () {
+        debugger;
+        var ResignationID = $(this).attr("data-resignationid");
+        var FullName = $(this).attr("data-fullname");
+        var Status = $(this).attr("data-status");
+        var DateOfApplication = $(this).attr("data-dateofapplication");
+        var DateOfJoining = $(this).attr("data-dateofjoining");
+        var DateOfLeaving = $(this).attr("data-dateofleaving");
+        clearcontents(ResignationID, FullName, Status, DateOfApplication, DateOfJoining, DateOfLeaving);
+        $("#responsive").removeClass("modal fade").addClass("modal fade modal-overflow in");
+        $("#responsive").css("display", "block");
+    });
+
+    function clearcontents(ResignationID, FullName, Status, DateOfApplication, DateOfJoining, DateOfLeaving) {
+        debugger;
+        $('#ResignationID').val(ResignationID);
+        $('#FullName').val(FullName);
+        $('#Status').val(Status);
+        $('#DateOfApplication').val(DateOfApplication);
+        $('#DateOfJoining').val(DateOfJoining);
+        $('#DateOfLeaving').val(DateOfLeaving);
+    }
+
+    $(".btnclosepopup").click(function () {
+        debugger;
+        $('#responsive').removeClass("modal fade modal-overflow in");
+        $('#responsive').removeAttr('style');
+        $('#responsive').addClass("modal fade");
+        $('#ResignationID').val('');
+        $('#FullName').val('');
+        $("#Status").val("").trigger("change");
+        $('#DateOfApplication').val('');
+        $('#DateOfJoining').val('');
+        $('#DateOfLeaving').val('');
+    });
+
+    $("#btnsavepopup").click(function () {
+        debugger;
+        ResignationID = $("#ResignationID").val();
+        Status = $("#responsive").find("#Status").val();
+        $.ajax({
+            url: '@Url.Action("UpdateResignationApprovalStatus")',
+            type: 'POST',
+            data: { 'ResignationID': ResignationID, 'Status': Status },
+            cache: false,
+        }).done(function (result) {
+            if (result == true) {
+                $('div#sucessalert').html("Resignation Accepted successfully.");
+                showhidealert();
+                $('#responsive').removeClass("modal fade modal-overflow in");
+                $('#responsive').removeAttr('style');
+                $('#responsive').addClass("modal fade");
+            }
+        });
+        loadhtml();
+    });
+
+
+    function loadhtml() {
+        var model = new Object();
+        model.FromDate = $("#FromDate").val();
+        model.ToDate = $("#ToDate").val();
+        $.ajax({
+            url: '@Url.Action("ResignationAcceptanceLetterList")',
+            type: 'POST',
+            data: { 'model': model },
+            cache: false,
+        }).done(function (result) {
+            $('#lstresignationacceptanceletter').html(result);
+        });
+    }
+
+    function GetPrintResignationAcceptanceLetter(ResignationID) {
+        debugger;
+        $.ajax({
+            url: '@Url.Action("PrintResignationAcceptanceLetter", "Resignation")',
+            type: 'POST',
+            data: { 'ResignationID': ResignationID },
+            cache: false,
+        }).done(function (result) {
+            if (result != '') {
+                window.open(result, "newPage");
+            }
+        });
+    };
+
+</script>
+
+

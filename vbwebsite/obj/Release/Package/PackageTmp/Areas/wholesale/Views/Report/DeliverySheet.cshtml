@@ -1,0 +1,177 @@
+﻿@model vb.Data.DeliverySheetList
+
+@{
+    ViewBag.Title = "DeliverySheet";
+    Layout = "~/Areas/wholesale/Views/Shared/_wholesalelayout.cshtml";
+}
+
+<h2>DeliverySheet</h2>
+
+<div class="box box-default">
+    <div class="box-header with-border text-center">
+        <h3 class="box-title">Delivery Sheet</h3>
+    </div>
+    <form id="frmCustomerGroup" class="form-horizontal">
+        <div class="box-body">
+
+            <div class="col-md-12">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="AssignedDate" class="col-sm-4 control-label">Date</label>
+                        <div class="col-sm-8">
+                            <div class="input-group date">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </div>
+                                <input type="text" class="form-control pull-right datepicker" id="AssignedDate" tabindex="3" autocomplete="off">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="VehicleNo" class="col-sm-4 control-label">Vehicle No.</label>
+                        <div class="col-sm-8">
+                            @Html.DropDownListFor(m => m.VehicleNo, new SelectList(ViewBag.VehicleNo, "VehicleNo", "VehicleNo"), "Select VehicleNo", new { @multiple = "multiple", @class = "form-control select2", tabindex = "0" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="TempoNo" class="col-sm-4 control-label">Tempo Number</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" name="TempoNo" id="TempoNo" placeholder="Order Ref">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="Godown" class="col-sm-4 control-label">Cash Option :</label>
+                        <div class="col-sm-8">
+                            @Html.DropDownList("GodownID", new SelectList(ViewBag.CashOption, "GodownID", "CashOption"), "Select Cash", new { @class = "form-control select2" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="chkbysign" class="col-sm-4 control-label">By Sign :</label>
+                        <div class="col-sm-8">
+                            <input type="checkbox" id="IsCheckBySign" style="margin-left:5px;margin-right:5px;" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="box-footer ">
+                <div class="pull-right">
+                    <button type="button" id="btnsearch" class="btn btn-info" tabindex="18">Search</button>
+                    <button type="button" id="btnexport" class="btn btn-info" tabindex="19">Export To Excel</button>
+                    <button type="button" id="btnclear" class="btn btn-default" tabindex="20">Cancel</button>
+                </div>
+            </div>
+        </div>
+
+    </form>
+    <div id="lstcase">
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script>
+    $(document).ready(function () {
+        debugger;
+        $('#AssignedDate').datepicker({
+            //endDate: new Date(),
+            autoclose: true,
+        }).on('changeDate', function (ev) {
+            debugger;
+            var AssignedDate = $("#AssignedDate").val();
+            if (AssignedDate != "") {
+                $.ajax({
+                    type: 'Post',
+                    url: '@Url.Action("GetAllVehicleNoForDeliverysheetReport")',
+                    data: { AssignedDate: AssignedDate },
+                    success: function (result) {
+                        debugger;
+                        if (result.VehicleNo != "") {
+                            var VehicleNo = result.VehicleNo.split(',');
+                            $("#VehicleNo").val(VehicleNo);
+                            $('#VehicleNo').select2();
+                            // Remove this 29 Dec 2020 Piyush Limbani
+                            //loadhtml();
+                            // Remove this 29 Dec 2020 Piyush Limbani
+                        }
+                        else {
+                            $("#VehicleNo").val("").trigger("change");
+                            // Remove this 29 Dec 2020 Piyush Limbani
+                            //loadhtml();
+                            // Remove this 29 Dec 2020 Piyush Limbani
+                        }
+                    },
+                    error: function () { alert('Error'); }
+                });
+            }
+        });
+
+        $("#btnsearch").click(function () {
+            debugger;
+            loadhtml();
+        });
+
+        function loadhtml() {
+            debugger;
+            var model = new Object();
+            model.VehicleNo = new Array();
+            model.AssignedDate = $("#AssignedDate").val();
+            model.VehicleNo = $("#VehicleNo").val();
+            model.TempoNo = $("#TempoNo").val();
+            model.GodownID = $("#GodownID").val();
+            model.IsCheckBySign = $('#IsCheckBySign').is(":checked");
+            $('#VehicleNo :selected').each(function (i, sel) {
+                VehicleNo = $(sel).val();
+            });
+
+            $.ajax({
+                url: '@Url.Action("DeliverySheetList")',
+                type: 'POST',
+                data: { 'model': model },
+                cache: false,
+            }).done(function (result) {
+                $('#lstcase').html(result);
+            });
+
+        }
+
+        $("#btnexport").click(function () {
+            debugger;
+            var myParam = $("#AssignedDate").val();
+            var VehicleNo = $("#VehicleNo").val();
+            var TempoNo = $("#TempoNo").val();
+            var GodownID = 0;
+            if ($("#GodownID").val() == "") {
+                GodownID = 0;
+            }
+            else {
+                GodownID = $("#GodownID").val();
+            }
+            var IsCheckBySign = $('#IsCheckBySign').is(":checked");
+            var url = '@Url.Action("ExportExcelDeliverySheet", "Report", new { Date = "__Date__", VehicleNo = "__VehicleNo__", TempoNo = "__TempoNo__", GodownID = "__GodownID__", IsCheckBySign = "__IsCheckBySign__" })';
+            url = url.replace(/amp;/g, '');
+            window.location.href = url.replace('__Date__', myParam).replace('__VehicleNo__', VehicleNo).replace('__TempoNo__', TempoNo).replace('__GodownID__', GodownID).replace('__IsCheckBySign__', IsCheckBySign);
+        });
+
+        $("#btnclear").click(function () {
+            debugger;
+            $("#AssignedDate").val("");
+            $("#VehicleNo").val("").trigger("change");
+            $("#TempoNo").val("");
+            $("#GodownID").val("").trigger("change");
+            //loadhtml();
+        });
+
+    });
+
+</script>

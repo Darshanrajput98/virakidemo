@@ -1,0 +1,221 @@
+﻿@{
+    ViewBag.Title = "PouchOutward";
+    Layout = "~/Areas/wholesale/Views/Shared/_wholesalelayout.cshtml";
+}
+@model vb.Data.PouchInwardOutward
+@using vb.Data.ViewModel
+
+<div class="box box-default">
+    <div class="box-header with-border text-center">
+        <h3 class="box-title">Outward Pouch</h3>
+    </div>
+    <form id="frmPouchOutward" class="form-horizontal">
+        <div class="box-body">
+            <div class="col-md-12">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <input name="PouchInwardID" id="PouchInwardID" type="hidden" value="" />
+                        <input type="hidden" id="CreatedBy" class="CreatedBy" value="" />
+                        <input type="hidden" id="CreatedOn" class="CreatedOn" value="" />
+                        <label for="GodownID" class="col-sm-4 control-label">Godown</label>
+                        <div class="col-sm-8">
+                            @Html.DropDownList("GodownID", new SelectList(ViewBag.Godown, "GodownID", "GodownName"), "Select Godown", new { @class = "form-control", required = "required", @onchange = "GetPouch(this.value)" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="PouchNameID" class="col-sm-4 control-label">Pouch</label>
+                        <div class="col-sm-8">
+                            <select id="PouchNameID" class="form-control PouchNameID"></select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="OpeningPouch" class="col-sm-4 control-label">Opening</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="OpeningPouch" value="0">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="NoofPcs" class="col-sm-4 control-label">Outward Pouch</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="NoofPcs" value="0">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="TotalPouch" class="col-sm-4 control-label">Total Pouch</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="TotalPouch" value="0" autocomplete="off" disabled="disabled">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="PurchaseDate" class="col-sm-4 control-label">Date</label>
+                        <div class="col-sm-8">
+                            <div class="input-group date">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </div>
+                                <input type="text" class="form-control pull-right datepicker" id="PurchaseDate" tabindex="2" autocomplete="off">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="box-footer ">
+            <div class="pull-right">
+                <button type="button" id="btncancel" class="btn btn-default" tabindex="8">Cancel</button>
+                <button type="button" id="btnsave" class="btn btn-info" tabindex="7">Save</button>
+                <button type="button" id="btnexport" class="btn btn-info">Export To Excel</button>
+            </div>
+        </div>
+    </form>
+    <div id="lstcase">
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script>
+    $(document).ready(function () {
+        loadhtml();
+        $("#NoofPcs").on('blur', function (e) {
+            debugger;
+            var NoofPcs = this.value;
+            var OpeningPouch = $("#OpeningPouch").val();
+            var TotalPouch = (parseInt(OpeningPouch) - parseInt(NoofPcs));
+            $('#TotalPouch').val(TotalPouch);
+        });
+
+        $("#PouchNameID").change(function (e) {
+            debugger;
+            var GodownID = $("#GodownID").val();
+            var PouchNameID = this.value;
+            var Edit = $("#hdnEdit").val();
+            if ($("#GodownID").val() != "" && PouchNameID != "") {
+                if (Edit != "Edit") {
+                    $.ajax({
+                        type: 'POST',
+                        url: '@Url.Action("GetOpeningPouchByPouchID")',
+                        data: { 'GodownID': GodownID, 'PouchNameID': PouchNameID },
+                        success: function (result) {
+                            debugger;
+                            $('#OpeningPouch').val(result.OpeningPouch);
+                            $("#PouchNameID").val(PouchNameID);
+                        },
+                        error: function () { alert('Error'); }
+                    });
+                }
+            }
+            else {
+                alert('select godown and pouch');
+            }
+        });
+
+    });
+
+    function GetPouch(GodownID) {
+        debugger;
+        var lst = "<option value=0> Select Pouch</option>";
+        $.ajax({
+            url: '@Url.Action("GetPouchByGodownID")',
+            type: 'GET',
+            data: { 'GodownID': GodownID },
+            dataType: 'json',
+            success: function (result) {
+                debugger;
+                if (result != undefined) {
+                    if (result.length > 0) {
+                        for (var i = 0; i < result.length; i++) {
+                            lst += "<option value=" + result[i].PouchNameID + ">" + result[i].PouchName + "</option>"
+                        }
+                    }
+                }
+                if ($("#PouchNameID")[0].length > 0) {
+                    $('#PouchNameID').find('option').remove().end()
+                }
+                $("#PouchNameID").append(lst);
+                $('#PouchNameID').val($("#hdnPouchNameID").val() == 0 ? 0 : $("#hdnPouchNameID").val()).trigger('change');
+                $('#hdnEdit').val($("#hdnEdit").val() == "Edit");
+                $("#PouchNameID").select2();
+                $("#PouchNameID").select2({ width: "100%" });
+            }
+        });
+    }
+
+    function loadhtml() {
+        $.ajax({
+            url: '@Url.Action("PouchOutwardList")',
+            type: 'GET',
+            cache: false,
+        }).done(function (result) {
+            $('#lstcase').html(result);
+        });
+    }
+
+    $("#btnsave").click(function () {
+        debugger;
+        if (!($('#frmPouchOutward').parsley().validate())) {
+            return;
+        }
+        var datareq = new Object();
+        datareq.PouchInwardID = $("#PouchInwardID").val();
+        datareq.GodownID = $("#GodownID").val();
+        datareq.PouchNameID = $("#PouchNameID").val();
+        datareq.PouchID = $("#PouchID").val();
+        datareq.OpeningPouch = $("#OpeningPouch").val();
+        datareq.NoofPcs = $("#NoofPcs").val();
+        datareq.TotalPouch = $("#TotalPouch").val();
+        datareq.PurchaseDate = $("#PurchaseDate").val();
+        datareq.CreatedBy = $("#CreatedBy").val();
+        datareq.CreatedOn = $("#CreatedOn").val();
+        $.ajax({
+            url: '@Url.Action("AddPouchOutward")',
+            type: 'POST',
+            data: { 'data': datareq },
+            cache: false,
+        }).done(function (result) {
+            if (result > 0) {
+                if ($("#PouchInwardID").val() == "") {
+                    $('div#sucessalert').html("Outward Add successfully.");
+                }
+                else {
+                    $('div#sucessalert').html("Outward updated successfully.");
+                }
+                showhidealert();
+                clearform();
+                location.reload();
+            }
+        });
+    });
+
+    $("#btnexport").click(function () {
+        debugger;
+        var url = '@Url.Action("ExportExcelPouchOutward", "PouchStock")';
+        window.location.href = url.replace();
+    });
+
+    $("#btncancel").click(function () {
+        location.reload();
+    });
+
+    function clearform() {
+        $("#PouchInwardID").val("");
+        $("#CreatedBy").val("");
+        $("#CreatedOn").val("");
+        $("#GodownID").prop("disabled", false);
+        $("#NoofPcs").val("0");
+        $("#TotalPouch").val("0");
+        $("#PurchaseDate").val("");
+    }
+
+</script>

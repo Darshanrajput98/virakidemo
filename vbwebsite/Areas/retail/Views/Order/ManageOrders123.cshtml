@@ -1,0 +1,1188 @@
+﻿@model vb.Data.RetOrderViewModel
+@{
+    ViewBag.Title = "ManageOrders";
+    Layout = "~/Areas/retail/Views/Shared/_retaillayout.cshtml";
+}
+
+<style>
+    .dropset ul {
+        z-index: 1030 !important;
+        height: 200px !important;
+        overflow-x: hidden !important;
+        overflow-y: auto !important;
+    }
+
+    .select2-container {
+        width: 100% !important;
+    }
+</style>
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+
+<div class="box box-default">
+    <div class="box-header with-border text-center">
+        <h3 class="box-title">Manage Orders</h3>
+    </div>
+    <form id="frmOrder" method="post" class="form-horizontal">
+        <div class="box-body">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <input name="OrderID" id="UOrderID" type="hidden" value="@Model.OrderID" />
+                    <input name="InvoiceNumber" id="UInvoiceNumber" type="hidden" value="@Model.InvoiceNumber" />
+                    <input name="CustomerID" id="CustomerID" type="hidden" value="@Model.CustomerID" />
+                    <input name="CustomerGroupID" id="CustomerGroupID" type="hidden" value="@Model.CustomerGroupID" />
+                    <input name="IsTCSApplicable" id="IsTCSApplicable" type="hidden" class="hdnIsTCSApplicable" value="@Model.IsTCSApplicablestr" />
+                    <input name="GSTNumber" id="GSTNumber" type="hidden" class="GSTNumber" value="@Model.GSTNumber" />
+                    <label for="CustomerName" class="col-sm-4 control-label">Customer</label>
+                    <div class="col-sm-8 dropset">
+                        <input type="text" id="txtCustomerName" class="form-control" tabindex="4" value="@Model.CustomerName" maxlength="100" placeholder="Customer Name" required />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="ShipTo" class="col-sm-4 control-label">Ship To</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="ShipTo" id="ShipTo" value="@Model.ShipTo" placeholder="Ship To">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="DeliveryDate" class="col-sm-4 control-label">Order Date </label>
+                    <div class="col-sm-8">
+                        <div class="input-group date">
+                            <div class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
+                            </div>
+                            <input type="text" class="form-control pull-right datepicker" value="@(Model.OrderDate==null? "" :Model.OrderDate.Value.ToString("MM/dd/yyyy"))" id="OrderDate" tabindex="2" autocomplete="off">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="OrderRef" class="col-sm-4 control-label">P.O. No. </label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="PONumber" id="PONumber" value="@Model.PONumber" placeholder="P.O. No." tabindex="4" autocomplete="off">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="Tax" class="col-sm-4 control-label">Tax </label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="Tax" id="Tax" value="@Model.Tax" placeholder="Tax">
+                        <input id="TaxID" type="hidden" value="" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="ShipTo" class="col-sm-4 control-label">Bill To</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="BillTo" id="BillTo" value="@Model.BillTo" placeholder="Bill To">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="PODate" class="col-sm-4 control-label">P.O. Date </label>
+                    <div class="col-sm-8">
+                        <div class="input-group date">
+                            <div class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
+                            </div>
+                            <input type="text" class="form-control pull-right datepicker" value="@(Model.PODate == null ? "" : Model.PODate.Value.ToString("MM/dd/yyyy"))" id="PODate" tabindex="3" autocomplete="off">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="OrderRef" class="col-sm-4 control-label">Order Note </label>
+                    <div class="col-sm-8">
+                        <textarea class="form-control" id="OrderNote" name="OrderNote" rows="2" cols="20" placeholder="Order Note">@Model.OrderNote</textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div id="OrderList" class="form-horizontal">
+                    <table class="table table-bordered table-bordered" id="OrderQty">
+                        <thead>
+                            <tr class="form-group">
+                                <th class="nosort col-sm-1">Sr. No.</th>
+                                <th class="nosort col-sm-4">Item Name</th>
+                                <th class="nosort col-sm-1">HSN Number</th>
+                                <th class="nosort col-sm-1">Quantity</th>
+                                <th class="nosort col-sm-1">C.P.</th>
+                                <th class="nosort col-sm-1">Discount Price</th>
+                                <th class="nosort col-sm-1">Tax(%)</th>
+                                <th class="nosort col-sm-1">Tax Amount</th>
+                                <th class="nosort col-sm-1">Total Amount</th>
+                                <th class="nosort col-sm-1">MRP</th>
+                                <th class="nosort col-sm-1">Add</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{int cnt = 0;}
+                            @if (@Model.lstOrderQty.Count <= 10)
+                            {
+                                cnt = 10;
+                            }
+                            else
+                            { cnt = @Model.lstOrderQty.Count; }
+                            @for (int i = 0; i < cnt; i++)
+                            {
+                                <tr class="form-group" id="trclear">
+                                    <td id="row">
+                                        @(i + 1)
+                                    </td>
+                                    <td>
+                                        @Html.DropDownList("ProductQtyID" + i.ToString(), new SelectList(ViewBag.Product, "ProductQtyID", "ProductName", @Model.lstOrderQty.Count > i ? @Model.lstOrderQty[i].ProductQtyID : 0), "Select Product", new { @class = "form-control select2 ProductID", tabindex = (2 * i) + 5 })
+                                    </td>
+
+                                    <td>
+                                        @(Model.lstOrderQty.Count > i ? @Model.lstOrderQty[i].HSNNumber : "")
+                                    </td>
+                                    <td>
+                                        <input type="hidden" name="orderqty" class="form-control" value="@(Model.lstOrderQty.Count > i ? @Model.lstOrderQty[i].CategoryTypeID.ToString() : "")">
+                                        <input type="text" class="@(i == cnt-1? "form-control Quantity addenter" :"form-control Quantity")" placeholder="Quantity" value="@(Model.lstOrderQty.Count > i ? @Model.lstOrderQty[i].Quantity.ToString() : "")" tabindex="@((2 * i) + 6)">
+                                        <input type="hidden" name="product" class="form-control" value="@(Model.lstOrderQty.Count > i ? @Model.lstOrderQty[i].ProductID.ToString() : "")">
+                                        <input type="hidden" class="form-control" value="@(Model.lstOrderQty.Count > i ? @Model.lstOrderQty[i].OrderQtyID.ToString() : "")">
+                                    </td>
+                                    <td>
+                                        @(Model.lstOrderQty.Count > i ? @Model.lstOrderQty[i].ProductPrice.ToString() : "")
+                                    </td>
+
+                                    <td>
+                                        @(Model.lstOrderQty.Count > i ? @Model.lstOrderQty[i].DiscountPrice.ToString() : "")
+                                    </td>
+                                    <td>
+                                        @(Model.lstOrderQty.Count > i ? @Model.lstOrderQty[i].Tax.ToString() : "")
+                                    </td>
+                                    <td>
+                                        @(Model.lstOrderQty.Count > i ? @Model.lstOrderQty[i].TaxAmount.ToString() : "")
+                                    </td>
+                                    <td>
+                                        @(Model.lstOrderQty.Count > i ? @Model.lstOrderQty[i].TotalAmount.ToString() : "")
+                                    </td>
+                                    <td>
+                                        @(Model.lstOrderQty.Count > i ? @Model.lstOrderQty[i].ProductMRP.ToString() : "")
+                                    </td>
+                                    <td>
+                                        <button type="button" class="btn btn-default removeButton tab-content" style="width: 35px;"><i class="fa fa-times-circle"></i></button>
+                                        <input type="hidden" value="@(Model.lstOrderQty.Count > i ? @Model.lstOrderQty[i].DiscountPer.ToString() : "")">
+                                        <input type="hidden" value="@(Model.lstOrderQty.Count > i ? @Model.lstOrderQty[i].ProductMRP.ToString() : "")">
+
+                                        <input type="hidden" value="@(Model.lstOrderQty.Count > i ? @Model.lstOrderQty[i].ArticleCode.ToString() : "")">
+
+                                    </td>
+                                </tr>
+                            }
+                            <tr class="form-group hide" id="AddOrder">
+                                <td id="row"></td>
+                                <td>
+                                    @Html.DropDownList("ProductQtyID", new SelectList(ViewBag.Product, "ProductQtyID", "ProductName"), "Select Product", new { @class = "form-control select2 ProductID", tabindex = "25" })
+                                </td>
+                                <td>
+                                    <label for="srno" class="control-label"> </label>
+                                </td>
+                                <td>
+                                    <input type="hidden" class="form-control" name="CategoryTypeID">
+                                    <input type="text" class="form-control Quantity addenter" name="Quantity" placeholder="Quantity" tabindex="26">
+                                    <input type="hidden" class="form-control" name="ProductID">
+                                    <input type="hidden" class="form-control" name="OrderQtyID">
+                                </td>
+                                <td>
+                                    <label for="srno" class="control-label"> </label>
+                                </td>
+                                <td>
+                                    <label for="srno" class="control-label"> </label>
+                                </td>
+                                <td>
+                                    <label for="srno" class="control-label"> </label>
+                                </td>
+                                <td>
+                                    <label for="srno" class="control-label"> </label>
+                                </td>
+                                <td>
+                                    <label for="srno" class="control-label"> </label>
+                                </td>
+                                <td>
+                                    <label for="srno" class="control-label"> </label>
+                                </td>
+                                <td>
+                                    <button type="button" class="btn btn-default removeButton tab-content" style="width: 35px;"><i class="fa fa-times-circle"></i></button>
+                                    <input type="hidden" name="DiscountPer">
+                                    <input type="hidden" name="ProductMRP">
+                                    <input type="hidden" name="ArticleCode">
+                                </td>
+                            </tr>
+                            <tr class="form-group">
+                                <td id="row"></td>
+                                <td>
+                                    <label for="srno" class="control-label"> Total</label>
+                                </td>
+                                <td>
+                                    <label for="srno" class="control-label"> </label>
+                                </td>
+                                <td>
+                                    <label for="srno" class="control-label" id="TotalQuantity"> </label>
+                                </td>
+                                <td>
+                                    <label for="srno" class="control-label" id="GrandTotalProductPrice"> </label>
+                                </td>
+                                <td>
+                                    <label for="srno" class="control-label" id="GrandTotalDiscountPrice"> </label>
+                                </td>
+                                <td>
+                                    <label for="srno" class="control-label"> </label>
+                                </td>
+                                <td>
+                                    <label for="srno" class="control-label" id="GrandTotalTaxAmount"> </label>
+                                </td>
+                                <td>
+                                    <label for="srno" class="control-label" id="GrandTotalAmount"> </label>
+                                </td>
+                                <td>
+                                    <label for="srno" class="control-label"> </label>
+                                </td>
+                                <td>
+                                    <label for="srno" class="control-label"> </label>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="pull-right">
+                    <div class="col-md-4">
+                        <button type="button" id="btncalculate" class="btn btn-info" tabindex="10000">Calculate</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.box-body -->
+        <div class="box-footer ">
+            <div class="pull-right">
+                <button type="button" id="FinaliseOrder" value="@(Model.IsFinalised?"true" : "false")" class="btn btn-default" tabindex="10001">Finalise Order</button>
+                <button type="button" id="CancelOrder" class="btn btn-default" tabindex="10002">Cancel</button>
+                <button type="button" id="btnsavecase" class="btn btn-info" tabindex="10003">Place Order</button>
+            </div>
+            <div class="pull-left">
+                <button type="button" id="DeleteOrder" class="btn btn-info" tabindex="10004">Delete Order</button>
+            </div>
+        </div>
+        <!-- /.box-footer -->
+    </form>
+    <div id="lstcase">
+    </div>
+
+    <div id="deletepopup" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" style="padding-bottom: 0px;">
+                    <h4 class="modal-title">Confirmation</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row" style="margin-top:10px;">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <input name="OrderIDForDelete" id="OrderIDForDelete" class="hdnInvoiceNumberfordelete" type="hidden" value="" />
+
+                                <label class="col-sm-12 control-label">  Are you sure want to delete this Order????</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btnyesdeletepopup btn btn-info">Yes</button>
+                    <button type="button" class="btnnodeletepopup btn btn-info" data-dismiss="modal" aria-hidden="true">No</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script type="text/javascript">
+    var DeleteItem = '';
+    debugger;
+    $(document).ready(function () {
+
+
+        debugger;
+        $(document).on('keyup focusin mousedown  keypress blur change', "#txtCustomerName", function () {
+            var set = $("#txtCustomerName").val();
+            debugger;
+            if (set != "") {
+                var check = set.split(',').length;
+                if (check >= 2) {
+                    $.ajax({
+                        type: 'Post',
+                        url: '@Url.Action("txtCustomerName_AfterCustomerSelect")',
+                        data: { obj: set },
+                        success: function (result) {
+                            $('#Tax').val(result.TaxName);
+                            $('#TaxID').val(result.TaxID);
+                            $('#ShipTo').val(result.DeliveryTo);
+                            $('#BillTo').val(result.BillTo);
+                            $('#CustomerID').val(result.CustomerID);
+                            $('#CustomerGroupID').val(result.CustomerGroupID);
+                            $('#IsTCSApplicable').val(result.IsTCSApplicable);
+                            $('#GSTNumber').val(result.GSTNumber);
+                        },
+                        error: function () { alert('Error'); }
+                    });
+                }
+            }
+        });
+        debugger;
+        $("#txtCustomerName").autocomplete({
+            source: function (request, response) {
+                debugger;
+                $.ajax({
+                    url: '@Url.Action("txtCustomerName_TextChanged")',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: { 'obj': request.term },
+                    success: function (data) {
+                        debugger;
+                        response($.map(data, function (item) {
+                            debugger;
+                            $('#ui-id-1').appendTo('.dropset');
+                            $("#loader").hide();
+                            return { label: item.CustomerName, value: item.CustomerName };
+                        }))
+                        $("#loader").hide();
+                    }
+                })
+            },
+            messages: {
+                noResults: "", results: ""
+            }
+        });
+
+
+
+
+
+        if (document.getElementById('FinaliseOrder').value == "true") {
+            document.getElementById('FinaliseOrder').disabled = true;
+            document.getElementById('btnsavecase').disabled = true;
+        }
+        else {
+            document.getElementById('FinaliseOrder').disabled = false;
+            document.getElementById('btnsavecase').disabled = false;
+        }
+        var ProductNameValidators = {
+            row: '.col-xs-3',   // The title is placed inside a <div class="col-xs-4"> element
+            validators: {
+                notEmpty: {
+                    message: 'The Product Name is required'
+                }
+            }
+        },
+            QuantityValidators = {
+                row: '.col-xs-1',
+                validators: {
+                    notEmpty: {
+                        message: 'The Quantity is required'
+                    },
+                    Quantity: {
+                        message: 'The Quantity is not valid'
+                    }
+                }
+            },
+
+            SellRateValidators = {
+                row: '.col-xs-1',
+                validators: {
+                    notEmpty: {
+                        message: 'Sell Rate is required'
+                    },
+                    SellRate: {
+                        message: 'Sell Rate is not valid'
+                    }
+                }
+            },
+            bookIndex = 10;
+        //debugger;
+        $('#OrderList').on('keydown', '.addenter', function (e) {
+            //debugger;
+            if (e.keyCode == 13) {
+                bookIndex++;
+                var $template = $('#AddOrder'),
+                    $clone = $template
+                                    .clone()
+                                    .removeClass('hide')
+                                    .removeAttr('id')
+                                    .attr('data-book-index', bookIndex)
+                                    .insertBefore($template);
+                //debugger;
+                // Update the name attributes
+                $clone
+                    .find('[name="ProductQtyID"]').attr('tabindex', (bookIndex * 2) + 5).attr('name', 'lstOrderQty[' + bookIndex + '].ProductQtyID').end()
+                    .find('[name="Quantity"]').attr('tabindex', (bookIndex * 2) + 6).attr('name', 'lstOrderQty[' + bookIndex + '].Quantity').end()
+                //  .find('[name="SellRate"]').attr('name', 'lstOrderQty[' + bookIndex + '].SellRate').end();
+                // .find('[name="SellPrice"]').attr('name', 'lstProductQty[' + bookIndex + '].SellPrice').end();
+                $clone.find('select').select2({ width: '100%' });
+                $tdvalue = $clone.find('td')[1];
+                $($tdvalue).find('span.select2.select2-container.select2-container--default')[1].remove();
+                //$($clone).find(".select2").select2({
+                //    maximumSelectionLength: 1,
+                //    closeOnSelect: true
+                //});
+                var i = 1;
+                $('#OrderQty').children('tbody').children('tr:visible').each(function (index, row) {
+                    if (index != ($('#OrderQty').children('tbody').children('tr:visible').length - 1)) {
+                        //$($('#OrderQty').children('tbody').children('tr:visible')[1]).find('.Quantity').is('[disabled=disabled]')
+                        $(row).find("td")[0].innerText = i++;
+                    }
+                });
+                debugger;
+                $(document).on('change', ".select2", function () {
+                    debugger;
+                    var end = this;
+                    if (this.value != '') {
+                        var Tax = $("#Tax").val();
+                        var CustomerID = $("#CustomerID").val();
+                        var CustomerGroupID = $("#CustomerGroupID").val();
+                        $.ajax({
+                            type: 'Post',
+                            url: '@Url.Action("GetRetailOrderDetails")',
+                            data: { ProductQtyID: this.value, Tax: Tax, CustomerID: CustomerID, CustomerGroupID: CustomerGroupID },
+                            success: function (result) {
+                                var newdata = end;
+                                $(newdata).closest('tr').find('td').each(function (index, td) {
+
+                                    if (index == 2) {
+                                        td.innerText = result.HSNNumber
+                                    }
+                                    if (index == 3) {
+                                        var textbox = $(newdata).closest('tr').find('input')[0];
+                                        textbox.value = result.CategoryTypeID;
+
+                                        var textbox = $(newdata).closest('tr').find('input')[2];
+                                        textbox.value = result.ProductID;
+                                    }
+                                    if (index == 4) {
+                                        td.innerText = parseFloat(result.ProductPrice).toFixed(2);
+                                    }
+                                    if (index == 5) {
+                                        td.innerText = parseFloat(result.DiscountPrice).toFixed(2);
+                                    }
+                                    else if (index == 6) {
+                                        td.innerText = result.Tax
+                                    }
+                                    else if (index == 9) {
+                                        var textbox = $(newdata).closest('tr').find('input')[4];
+                                        textbox.value = result.DiscountPer;
+
+                                        var textbox = $(newdata).closest('tr').find('input')[5];
+                                        textbox.value = result.ProductMRP;
+                                        td.innerText = result.ProductMRP
+
+                                        var textbox = $(newdata).closest('tr').find('input')[6];
+                                        textbox.value = result.ArticleCode;
+
+                                    }
+                                });
+                                var tdN = $(end).closest('tr').find('td')[3];
+                                $(tdN).find('input').focus();
+                                return;
+                            },
+                            error: function () { alert('Error'); }
+                        });
+                    }
+                    else {
+                        var newdata = end;
+                        $(newdata).closest('tr').find('td').each(function (index, td) {
+
+                            if (index == 2) {
+                                td.innerText = "";
+                            }
+                            else if (index == 3) {
+                                $(newdata).closest('tr').find('.Quantity').attr('disabled', false);
+                                var textbox = $(newdata).closest('tr').find('input')[1];
+                                $('#btnsavecase').attr('disabled', false);
+                                textbox.value = "";
+                            }
+                            else if (index == 4) {
+                                td.innerText = "";
+                            }
+                            else if (index == 5) {
+                                td.innerText = "";
+                            }
+                            else if (index == 6) {
+                                td.innerText = "";
+                            }
+                            else if (index == 7) {
+                                td.innerText = "";
+                            }
+                            else if (index == 8) {
+                                td.innerText = "";
+                            }
+                            else if (index == 9) {
+                                td.innerText = "";
+                                var textbox = $(newdata).closest('tr').find('input')[5];
+                                textbox.value = "";
+
+                                var textbox = $(newdata).closest('tr').find('input')[6];
+                                textbox.value = "";
+                            }
+                        });
+                    }
+                });
+                debugger;
+                $(".Quantity").on('blur', function (e) {
+                    var end = this;
+                    var Quantity = this.value;
+                    debugger;
+                    if (Quantity == 0 || Quantity < 0) {
+                        var newdata = end;
+                        $(newdata).closest('tr').find('td').each(function (index, td) {
+                            if (index == 2) {
+                                td.innerText = "";
+                            }
+                            else if (index == 3) {
+                                $(newdata).closest('tr').find('.Quantity').attr('disabled', true);
+                                var textbox = $(newdata).closest('tr').find('input')[1];
+                                $('#btnsavecase').attr('disabled', true);
+                                textbox.value = "";
+                            }
+                            else if (index == 4) {
+                                td.innerText = "";
+                            }
+                            else if (index == 5) {
+                                td.innerText = "";
+                            }
+                            else if (index == 6) {
+                                td.innerText = "";
+                            }
+                            else if (index == 7) {
+                                td.innerText = "";
+                            }
+                            else if (index == 8) {
+                                td.innerText = "";
+                            }
+                            else if (index == 9) {
+                                var textbox = $(newdata).closest('tr').find('input')[5];
+                                textbox.value = "";
+                                var textbox = $(newdata).closest('tr').find('input')[6];
+                                textbox.value = "";
+                            }
+                        });
+                    }
+                });
+                debugger;
+                $(document).on('input propertychange paste', ".Quantity", function () {
+
+                    var end = this;
+                    if ($(end).closest('tr').find("select").val() == undefined || $(end).closest('tr').find("select").val() == '') {
+                        var textbox = $(this).closest('tr').find('input')[2];
+                        textbox.value = '';
+                    }
+                    else {
+                        if (this.value != '') {
+                            var Quantity = this.value;
+                            // debugger;
+                            var DiscountPricetd = $(end).closest('tr').find('td')[5];
+                            var DiscountPrice = (DiscountPricetd.innerText);
+                            var totalprice = (Quantity * DiscountPrice).toFixed(2);
+                            var TaxPertd = $(end).closest('tr').find('td')[6];
+                            var TaxPer = TaxPertd.innerText;
+                            var TaxAmt = (totalprice * TaxPer) / 100;
+                            var TotalAmt = parseFloat(totalprice) + parseFloat(TaxAmt);
+                            $(end).closest('tr').find('td').each(function (index, td) {
+                                if (index == 7) {
+                                    td.innerText = parseFloat(TaxAmt).toFixed(2);
+                                }
+                                else if (index == 8) {
+                                    td.innerText = parseFloat(TotalAmt).toFixed(2);
+                                }
+                            });
+                        }
+                        else {
+                            var textbox = $(this).closest('tr').find('input')[1];
+                            textbox.value = '';
+                        }
+                    }
+                });
+            }
+        })
+
+            // Remove button click handler
+            .on('click', '.removeButton', function () {
+                debugger;
+                if ($(this).closest('tr').find('input')[3].value != '') {
+                    if (DeleteItem == "") {
+                        DeleteItem = $(this).closest('tr').find('input')[3].value;
+                    }
+                    else {
+                        DeleteItem = DeleteItem + ',' + $(this).closest('tr').find('input')[3].value;
+                    }
+                }
+                var $row = $(this).parents('.form-group'),
+                    index = $row.attr('data-book-index');
+                if ($(this).closest('tr').find('.Quantity').is('[disabled=disabled]') == true) {
+                    document.getElementById('btnsavecase').disabled = false;
+                }
+                // Remove fields
+                // Remove element containing the fields
+                $row.remove();
+                var i = 1;
+                $('#OrderQty').children('tbody').children('tr:visible').each(function (index, row) {
+                    if (index != ($('#OrderQty').children('tbody').children('tr:visible').length - 1)) {
+                        $(row).find("td")[0].innerText = i++;
+                    }
+                });
+            });
+        debugger;
+        $(".ProductID").on('change keypress', function (e) {
+            debugger;
+            var end = this;
+            var Tax = $("#Tax").val();
+            var CustomerID = $("#CustomerID").val();
+
+            var CustomerGroupID = $("#CustomerGroupID").val();
+
+            if (this.value != '') {
+                if (e.keyCode == 13) {
+                    var tdN = $(end).closest('tr').find('td')[3];
+                    $(tdN).find('input').focus();
+                    return;
+                }
+
+                $.ajax({
+                    type: 'Post',
+
+                    url: '@Url.Action("GetRetailOrderDetails")',
+                    data: { ProductQtyID: this.value, Tax: Tax, CustomerID: CustomerID, CustomerGroupID: CustomerGroupID },
+                    success: function (result) {
+                        var newdata = end;
+                        debugger;
+                        $(newdata).closest('tr').find('td').each(function (index, td) {
+
+
+                            if (index == 2) {
+                                td.innerText = result.HSNNumber
+                            }
+
+                            if (index == 3) {
+
+                                var textbox = $(newdata).closest('tr').find('input')[0];
+                                textbox.value = result.CategoryTypeID;
+
+
+                                var textbox = $(newdata).closest('tr').find('input')[2];
+                                textbox.value = result.ProductID;
+                            }
+
+                            if (index == 4) {
+                                //td.innerText = result.ProductPrice
+                                td.innerText = parseFloat(result.ProductPrice).toFixed(2);
+                            }
+                            if (index == 5) {
+                                //td.innerText = result.DiscountPrice
+                                td.innerText = parseFloat(result.DiscountPrice).toFixed(2);
+                            }
+                            else if (index == 6) {
+                                td.innerText = result.Tax
+                            }
+                            else if (index == 9) {
+                                var textbox = $(newdata).closest('tr').find('input')[4];
+                                textbox.value = result.DiscountPer;
+
+                                var textbox = $(newdata).closest('tr').find('input')[5];
+                                textbox.value = result.ProductMRP;
+                                td.innerText = result.ProductMRP
+
+                                var textbox = $(newdata).closest('tr').find('input')[6];
+                                textbox.value = result.ArticleCode;
+                            }
+
+                        });
+                        var tdN = $(end).closest('tr').find('td')[3];
+                        $(tdN).find('input').focus();
+                        return;
+                    },
+                    error: function () { alert('Error'); }
+                });
+            }
+            else {
+                var newdata = end;
+                $(newdata).closest('tr').find('td').each(function (index, td) {
+
+                    if (index == 2) {
+                        td.innerText = "";
+                    }
+                    else if (index == 3) {
+                        $(newdata).closest('tr').find('.Quantity').attr('disabled', false);
+                        var textbox = $(newdata).closest('tr').find('input')[1];
+                        $('#btnsavecase').attr('disabled', false);
+                        textbox.value = "";
+                    }
+                    else if (index == 4) {
+                        td.innerText = "";
+                    }
+                    else if (index == 5) {
+                        td.innerText = "";
+                    }
+                    else if (index == 6) {
+                        td.innerText = "";
+                    }
+                    else if (index == 7) {
+                        td.innerText = "";
+                    }
+                    else if (index == 8) {
+                        td.innerText = "";
+                    }
+                    else if (index == 9) {
+                        td.innerText = "";
+                        var textbox = $(newdata).closest('tr').find('input')[5];
+                        textbox.value = "";
+
+                        var textbox = $(newdata).closest('tr').find('input')[6];
+                        textbox.value = "";
+                    }
+                });
+            }
+            //var firstDropVal = $('#pick').val();
+        });
+
+
+
+
+        $(".CustomerID").change(function () {
+            var CustomerID = this;
+
+            if (this.value != '') {
+                $.ajax({
+                    type: 'Post',
+                    url: '@Url.Action("GetTaxForRetCustomer")',
+                    data: { CustomerID: this.value },
+                    success: function (result) {
+                        //  debugger;
+
+                        $('#Tax').val(result.TaxName);
+                        $('#TaxID').val(result.TaxID);
+                        $('#ShipTo').val(result.DeliveryTo);
+                        $('#BillTo').val(result.BillTo);
+                    },
+                    error: function () { alert('Error'); }
+                });
+            }
+            else {
+                $('#Tax').val('');
+                $('#TaxID').val('');
+                $('#ShipTo').val('');
+                $('#BillTo').val('');
+            }
+        });
+
+
+
+
+
+
+
+
+        $(".Quantity").on('blur', function (e) {
+            var end = this;
+            var Quantity = this.value;
+            debugger;
+            if (Quantity == 0 || Quantity < 0) {
+                var newdata = end;
+
+                $(newdata).closest('tr').find('td').each(function (index, td) {
+                    if (index == 2) {
+                        td.innerText = "";
+                    }
+                    else if (index == 3) {
+                        $(newdata).closest('tr').find('.Quantity').attr('disabled', true);
+                        var textbox = $(newdata).closest('tr').find('input')[1];
+                        $('#btnsavecase').attr('disabled', true);
+                        textbox.value = "";
+                    }
+                    else if (index == 4) {
+                        td.innerText = "";
+                    }
+                    else if (index == 5) {
+                        td.innerText = "";
+                    }
+                    else if (index == 6) {
+                        td.innerText = "";
+                    }
+                    else if (index == 7) {
+                        td.innerText = "";
+                    }
+                    else if (index == 8) {
+                        td.innerText = "";
+                    }
+                    else if (index == 9) {
+                        var textbox = $(newdata).closest('tr').find('input')[5];
+                        textbox.value = "";
+
+                        var textbox = $(newdata).closest('tr').find('input')[6];
+                        textbox.value = "";
+                    }
+
+                });
+
+
+            }
+
+        });
+
+
+
+        $(document).on('input propertychange paste keypress', ".Quantity", function (e) {
+            debugger;
+            var end = this;
+            if ($(end).closest('tr').find("select").val() == undefined || $(end).closest('tr').find("select").val() == '') {
+                var textbox = $(this).closest('tr').find('input')[1];
+                textbox.value = '';
+            }
+            else {
+                if (this.value != '') {
+
+                    //if (e.keyCode == 13) {
+                    //    var tdN = $(end).closest('tr').next('tr');
+                    //    var newtr = $(tdN).find('select');
+                    //    $(newtr).focus();
+                    //    return;
+                    //}
+
+                    var Quantity = this.value;
+                    debugger;
+                    var DiscountPricetd = $(end).closest('tr').find('td')[5];
+                    var DiscountPrice = (DiscountPricetd.innerText);
+                    var totalprice = (Quantity * DiscountPrice).toFixed(2);
+
+                    var TaxPertd = $(end).closest('tr').find('td')[6];
+                    var TaxPer = TaxPertd.innerText;
+                    var TaxAmt = (totalprice * TaxPer) / 100;
+
+                    var TotalAmt = parseFloat(totalprice) + parseFloat(TaxAmt);
+
+                    $(end).closest('tr').find('td').each(function (index, td) {
+
+                        if (index == 7) {
+                            td.innerText = parseFloat(TaxAmt).toFixed(2);
+                        }
+                        else if (index == 8) {
+                            td.innerText = parseFloat(TotalAmt).toFixed(2);
+                        }
+                    });
+
+                }
+                else {
+                    var textbox = $(this).closest('tr').find('input')[1];
+                    textbox.value = '';
+                }
+            }
+
+        });
+
+        $("#btncalculate").click(function () {
+            debugger;
+
+
+            FinalTotal();
+        });
+
+
+        function FinalTotal() {
+            debugger;
+            var GrandTotalAmount = 0;
+            var TotalQuantity = 0;
+            //var GrandTotalDiscountPrice = 0;
+            //var GrandTotalProductPrice = 0;
+            $('#OrderQty').find('tr:visible').not(':last').each(function (index, tr) {
+                $(tr).find('td').each(function (index, td) {
+                    if (index == 8) {
+                        if (td.innerText.trim() != '') {
+                            GrandTotalAmount = GrandTotalAmount + parseFloat(td.innerText);
+                            $('#GrandTotalAmount').text(parseFloat(GrandTotalAmount).toFixed(2));
+                        }
+                    }
+
+                    else if (index == 2) {
+                        var Qty = $(tr).find('input')[1].value;
+                        if (Qty != '') {
+                            TotalQuantity = TotalQuantity + parseFloat(Qty);
+                            $('#TotalQuantity').text(parseFloat(TotalQuantity));
+                        }
+                    }
+
+
+
+                });
+            });
+
+        }
+
+
+    });
+
+
+    @*</script>
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+
+<script>*@
+
+
+
+    $("#btnsavecase").click(function () {
+        $("#loader").show();
+        var lstOrderQty = [];
+        debugger;
+
+
+        $('#OrderQty').children('tbody').children('tr:visible').each(function (index, row) {
+            if ($(row).find("select").val() != undefined && $(row).find("select").val() != '') {
+                var dataOrderQty = new Object();
+                dataOrderQty.OrderQtyID = $(row).find("input")[3].value;
+
+                dataOrderQty.ProductQtyID = $(row).find("select").val();
+
+                dataOrderQty.CategoryTypeID = $(row).find("input")[0].value;
+                dataOrderQty.Quantity = $(row).find("input")[1].value;
+                dataOrderQty.ProductID = $(row).find("input")[2].value;
+                dataOrderQty.DiscountPer = $(row).find("input")[4].value;
+                dataOrderQty.ProductMRP = $(row).find("input")[5].value;
+
+                dataOrderQty.ArticleCode = $(row).find("input")[6].value;
+
+                dataOrderQty.ProductPrice = $(row).find('td')[4].innerText;
+                dataOrderQty.DiscountPrice = $(row).find('td')[5].innerText;
+                dataOrderQty.Tax = $(row).find('td')[6].innerText;
+                dataOrderQty.TaxAmount = $(row).find('td')[7].innerText;
+                dataOrderQty.TotalAmount = $(row).find('td')[8].innerText;
+                dataOrderQty.ProductName = $(row).find("select option:selected").text();
+                lstOrderQty.push(dataOrderQty);
+            }
+        });
+
+        var datareq = new Object();
+        datareq.OrderID = $("#UOrderID").val();
+        datareq.DeleteItems = DeleteItem;
+        datareq.InvoiceNumber = $("#UInvoiceNumber").val();
+        datareq.CustomerID = $("#CustomerID").val();
+        datareq.Tax = $("#Tax").val();
+        datareq.ShipTo = $("#ShipTo").val();
+        datareq.BillTo = $("#BillTo").val();
+        datareq.OrderDate = $("#OrderDate").val();
+        datareq.PODate = $("#PODate").val();
+        datareq.PONumber = $("#PONumber").val();
+        datareq.OrderNote = $("#OrderNote").val();
+        datareq.TotalDiscount = $("#TotalDiscount").val();
+        datareq.IsTCSApplicable = $("#IsTCSApplicable").val();
+        datareq.GSTNumber = $("#GSTNumber").val();
+        datareq.lstOrderQty = lstOrderQty;
+        $.ajax({
+            url: '@Url.Action("AddOrder")',
+            type: 'POST',
+            data: { 'data': datareq },
+            cache: false,
+        }).done(function (result) {
+            DeleteItem = "";
+            if (result == "true") {
+                $("#loader").show();
+                if ($("#OrderID").val() == "") {
+                    $('div#sucessalert').html("Order Add successfully.");
+                }
+                else {
+                    $('div#sucessalert').html("Order updated successfully.");
+                }
+                showhidealert();
+                // loadhtml();
+                clearform();
+            }
+            else {
+                if (result == "finalised") {
+                    clearform();
+                }
+            }
+        });
+    });
+
+    $("#CancelOrder").click(function () {
+        clearform();
+    });
+
+    $("#FinaliseOrder").click(function () {
+        $("#loader").show();
+        var lstOrderQty = [];
+        debugger;
+
+
+        $('#OrderQty').children('tbody').children('tr:visible').each(function (index, row) {
+            if ($(row).find("select").val() != undefined && $(row).find("select").val() != '') {
+                var dataOrderQty = new Object();
+                dataOrderQty.OrderQtyID = $(row).find("input")[3].value;
+
+                dataOrderQty.ProductQtyID = $(row).find("select").val();
+
+                dataOrderQty.CategoryTypeID = $(row).find("input")[0].value;
+                dataOrderQty.Quantity = $(row).find("input")[1].value;
+                dataOrderQty.ProductID = $(row).find("input")[2].value;
+                dataOrderQty.DiscountPer = $(row).find("input")[4].value;
+                dataOrderQty.ProductMRP = $(row).find("input")[5].value;
+
+                dataOrderQty.ArticleCode = $(row).find("input")[6].value;
+
+
+                dataOrderQty.ProductPrice = $(row).find('td')[4].innerText;
+                dataOrderQty.DiscountPrice = $(row).find('td')[5].innerText;
+                dataOrderQty.Tax = $(row).find('td')[6].innerText;
+                dataOrderQty.TaxAmount = $(row).find('td')[7].innerText;
+                dataOrderQty.TotalAmount = $(row).find('td')[8].innerText;
+                dataOrderQty.ProductName = $(row).find("select option:selected").text();
+                lstOrderQty.push(dataOrderQty);
+            }
+        });
+
+        var OrderId = "";
+        var datareq = new Object();
+        datareq.IsFinalised = true;
+        datareq.InvoiceNumber = $("#UInvoiceNumber").val();
+        datareq.DeleteItems = DeleteItem;
+        datareq.OrderID = $("#UOrderID").val();
+        datareq.CustomerID = $("#CustomerID").val();
+        datareq.Tax = $("#Tax").val();
+        datareq.ShipTo = $("#ShipTo").val();
+        datareq.BillTo = $("#BillTo").val();
+        datareq.OrderDate = $("#OrderDate").val();
+        datareq.PODate = $("#PODate").val();
+        datareq.PONumber = $("#PONumber").val();
+        datareq.OrderNote = $("#OrderNote").val();
+        datareq.TotalDiscount = $("#TotalDiscount").val();
+
+        OrderId = $("#UOrderID").val();
+        if ($("#IsTCSApplicable").val() == "true") {
+            datareq.IsTCSApplicable = true;
+        }
+        else {
+
+            datareq.IsTCSApplicable = false;
+        }
+        debugger
+        datareq.GSTNumber = $("#GSTNumber").val();
+        datareq.lstOrderQty = lstOrderQty;
+        $.ajax({
+            url: '@Url.Action("FinaliseOrder")',
+            type: 'POST',
+            data: { 'data': datareq },
+            cache: false,
+        }).done(function (result) {
+            DeleteItem = "";
+            var res = result.split(",");
+            OrderId = res[1];
+
+            debugger
+            if (res[0] == "true") {
+                $("#loader").show();
+                if ($("#OrderID").val() == "") {
+                    $('div#sucessalert').html("Order Add successfully.");
+                }
+                else {
+                    $('div#sucessalert').html("Order updated successfully.");
+                }
+                showhidealert();
+                $.ajax({
+                    url: '@Url.Action("PrintInvoice", "Order")',
+                    type: 'POST',
+                    data: { 'InvoiceID': OrderId, 'isNewOrder': true },
+                    cache: false,
+                }).done(function (result) {
+                    debugger;
+                    if (result != '') {
+                        debugger;
+                        var win = window.open(result, '_blank');
+                        //win.focus();
+                        clearform();
+                    }
+                });
+                // loadhtml();
+                clearform();
+            }
+            else {
+                if (res[0] == "finalised") {
+                    clearform();
+                }
+            }
+        });
+    });
+
+
+    function clearform() {
+        //$("#frmOrder").find("input").val("");
+        //$("#OrderQty").find("input").val("");
+        //$("#OrderQty").find("td").innertext = "";
+        //$("#frmOrder").find("textarea").val("");
+        //$("#OrderID").val("").trigger("change");
+        //$("#CustomerID").val("").trigger("change");
+        //$(".ProductID").val("").trigger("change");
+        //  $("#trclear").find(this).closest("tr").val("");
+
+        location.reload();
+    }
+
+
+
+
+
+    $("#DeleteOrder").click(function () {
+        debugger;
+        var id = $("#UOrderID").val();
+        $('#OrderIDForDelete').attr('value', id);
+        $("#deletepopup").removeClass("modal fade").addClass("modal fade modal-overflow in");
+        $("#deletepopup").css("display", "block");
+    });
+
+
+
+
+    $(".btnyesdeletepopup").click(function () {
+        debugger;
+
+
+        // var id = $(this).attr("data-oid");
+        var id = $("#OrderIDForDelete").val();
+
+        $.ajax({
+            url: '@Url.Action("DeleteOrder", "Order")',
+            type: 'POST',
+            data: { 'OrderID': id },
+            cache: false,
+        }).done(function (result) {
+            if (result == true) {
+                debugger;
+                $('div#sucessalert').html("Order Deleted successfully.");
+                //showhidealert();
+
+                window.location.href = '/retail/Order/ManageOrders/';
+
+            }
+
+        });
+        $('#deletepopup').removeClass("modal fade modal-overflow in");
+        $('#deletepopup').removeAttr('style');
+        $('#deletepopup').addClass("modal fade");
+    });
+
+
+
+    $(".btnnodeletepopup").click(function () {
+        debugger;
+        $('#deletepopup').removeClass("modal fade modal-overflow in");
+        $('#deletepopup').removeAttr('style');
+        $('#deletepopup').addClass("modal fade");
+    });
+
+
+    $(document).on('focus', '.select2-selection.select2-selection--single', function (e) {
+        $(this).closest(".select2-container").siblings('select:enabled').select2('open');
+    });
+
+    $('select.select2').on('select2:closing', function (e) {
+        $(e.target).data("select2").$selection.one('focus focusin', function (e) {
+            e.stopPropagation();
+        });
+    });
+
+   
+</script>

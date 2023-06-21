@@ -1,0 +1,210 @@
+﻿@model vb.Data.RetSalesManWiseSalesList
+
+@{
+    ViewBag.Title = "SalesManWiseSales";
+    Layout = "~/Areas/retail/Views/Shared/_retaillayout.cshtml";
+}
+
+<div class="box box-default">
+    <div class="box-header with-border text-center">
+        <h3 class="box-title">Sales Wise Report</h3>
+    </div>
+    <form id="frmCustomerGroup" class="form-horizontal">
+        <div class="box-body">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="DeliveryDate" class="col-sm-4 control-label">From </label>
+                    <div class="col-sm-8">
+                        <div class="input-group date">
+                            <div class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
+                            </div>
+                            <input type="text" class="form-control pull-right datepicker" id="txtFrom" tabindex="1" autocomplete="off">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="day" class="col-sm-4 control-label">Customer</label>
+                    <div class="col-sm-8">
+                        @Html.DropDownListFor(m => m.CustomerID, new SelectList(ViewBag.Customer, "CustomerID", "CustomerName"), "Select Customer", new { @class = "form-control select2", tabindex = "3" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="day" class="col-sm-4 control-label">Sales Person</label>
+                    <div class="col-sm-8">
+                        @Html.DropDownListFor(m => m.UserID, new SelectList(ViewBag.SalesPersonList, "UserID", "UserFullName"), "Select Sales Person", new { @class = "form-control select2", tabindex = "7" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="IsFinalised" class="col-sm-4 control-label">Is Finalised </label>
+                    <div class="col-sm-8">
+                        <input type="checkbox" id="IsFinalised" style="margin-left:5px;margin-right:5px;" />
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="DeliveryDate" class="col-sm-4 control-label">To </label>
+                    <div class="col-sm-8">
+                        <div class="input-group date">
+                            <div class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
+                            </div>
+                            <input type="text" class="form-control pull-right datepicker" id="txtTo" tabindex="2" autocomplete="off">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="ProductName" class="col-sm-4 control-label">Area</label>
+                    <div class="col-sm-8">
+                        @Html.DropDownListFor(m => m.AreaID, new SelectList(ViewBag.AreaList, "AreaID", "AreaName"), "Select Area", new { @class = "form-control select2", tabindex = "4" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="day" class="col-sm-4 control-label">Days Of Week</label>
+                    <div class="col-sm-8">
+                        <select name="Day" id="DaysofWeek" class="form-control" tabindex="6">
+                            <option value="" selected>Select</option>
+                            <option value="1">Monday</option>
+                            <option value="2">Tuesday</option>
+                            <option value="3">Wednesday</option>
+                            <option value="4">Thursday</option>
+                            <option value="5">Friday</option>
+                            <option value="6">Saturday</option>
+                            <option value="7">Sunday</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.box-body -->
+        <div class="box-footer ">
+            <div class="pull-right">
+                <button type="button" id="btnsearch" data-mainstartdate="" data-mainenddate="" data-customerid="" class="btn btn-info" tabindex="8">Search</button>
+                <button type="button" id="btnclear" class="btn btn-info" tabindex="9">Clear</button>
+                <button type="button" id="btnexport" class="btn btn-info" tabindex="10">Export To Excel</button>
+
+                <button type="button" id="btnViewCustomer" class="btn btn-info" tabindex="10">View Customer</button>
+
+            </div>
+        </div>
+        <!-- /.box-footer -->
+    </form>
+    <div id="lstcase">
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script>
+    $(document).ready(function () {
+        debugger
+        $("#btnexport").click(function () {
+            debugger;
+            var model = new Object();
+            model.StartDate = $("#txtFrom").val();
+            model.EndDate = $("#txtTo").val();
+            model.CustomerID = $("#CustomerID").val();
+            model.AreaID = $("#AreaID").val();
+            model.UserID = $("#UserID").val();
+            model.DaysofWeek = $("#DaysofWeek").val();
+            model.IsFinalised = $('#IsFinalised').is(":checked");
+            var url = '@Url.Action("ExportExcelSalesManWiseSales", "Report", new { StartDate = "__StartDate__", EndDate = "__EndDate__", CustomerID = "__CustomerID__", AreaID = "__AreaID__", UserID = "__UserID__", DaysofWeek = "__DaysofWeek__", IsFinalised = "__IsFinalised__" })';
+            url = url.replace(/amp;/g, '');
+            window.location.href = url.replace('__StartDate__', model.StartDate).replace('__EndDate__', model.EndDate).replace('__CustomerID__', model.CustomerID).replace('__AreaID__', model.AreaID).replace('__UserID__', model.UserID).replace('__DaysofWeek__', model.DaysofWeek).replace('__IsFinalised__', model.IsFinalised);
+        });
+
+        $("#btnsearch").click(function () {
+            debugger;
+            document.getElementById('btnsearch').disabled = true;
+            loadhtml();
+        });
+
+        function loadhtml() {
+            var model = new Object();
+            model.StartDate = $("#txtFrom").val();
+            model.EndDate = $("#txtTo").val();
+            model.CustomerID = $("#CustomerID").val();
+            model.AreaID = $("#AreaID").val();
+            model.UserID = $("#UserID").val();
+            model.DaysofWeek = $("#DaysofWeek").val();
+            model.IsFinalised = $('#IsFinalised').is(":checked");
+            $.ajax({
+                url: '@Url.Action("SalesManWiseSalesList")',
+                type: 'POST',
+                data: { 'model': model },
+                cache: false,
+            }).done(function (result) {
+                $('#lstcase').html(result);
+                document.getElementById('btnsearch').disabled = false;
+            });
+        }
+
+        $("#btnclear").click(function () {
+            debugger;
+            location.reload();
+        });
+
+        var custid = '@Session["rsrcustid"]';
+        var txtfrom = '@Session["rsrtxtfrom"]';
+        var txtto = '@Session["rsrtxtto"]';
+        var uid = '@Session["rsruid"]';
+        var areaid = '@Session["rsrareaid"]';
+        debugger;
+        if (custid != "" || txtfrom != "" || txtto != "" || uid != "" || areaid != "") {
+            $("#CustomerID").val(custid);
+            $("#txtFrom").val(txtfrom);
+            $("#txtTo").val(txtto);
+            $("#UserID").val(uid);
+            $("#AreaID").val(areaid);
+            var model = new Object();
+            model.From = $("#txtFrom").val();
+            model.To = $("#txtTo").val();
+            model.CustomerID = $("#CustomerID").val();
+            model.UserID = $("#UserID").val();
+            model.AreaID = $("#AreaID").val();
+            $.ajax({
+                url: '@Url.Action("ViewBillWiseOrderListForSalesManWiseSalesReport", "Report")',
+                type: 'POST',
+                data: { 'model': model },
+                cache: false,
+            }).done(function (result) {
+                $('#lstcase').html(result);
+            });
+        }
+    });
+
+    $("#btnViewCustomer").click(function () {
+        debugger;
+        var CustomerID = 0;
+        var AreaID = 0;
+        var DaysofWeek = 0;
+        var StartDate = $("#txtFrom").val();
+        var EndDate = $("#txtTo").val();
+        var UserID = $("#UserID").val();
+        if ($("#CustomerID").val() == "") {
+            CustomerID = 0;
+        }
+        else {
+            CustomerID = $("#CustomerID").val();
+        }
+        if ($("#AreaID").val() == "") {
+        }
+        else {
+            AreaID = $("#AreaID").val();
+        }
+        if ($("#DaysofWeek").val() == "") {
+        }
+        else {
+            DaysofWeek = $("#DaysofWeek").val();
+        }
+        var url = '@Url.Action("SalesManWiseSalesList2", "Report", new { StartDate = "__StartDate__", EndDate = "__EndDate__", CustomerID = "__CustomerID__", AreaID = "__AreaID__", UserID = "__UserID__", DaysofWeek = "__DaysofWeek__" })';
+        url = url.replace(/amp;/g, '');
+        var Data = url.replace('__StartDate__', StartDate).replace('__EndDate__', EndDate).replace('__CustomerID__', CustomerID).replace('__AreaID__', AreaID).replace('__UserID__', UserID).replace('__DaysofWeek__', DaysofWeek);
+        window.open(Data, '_blank');
+    });
+
+
+
+</script>

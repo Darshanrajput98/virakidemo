@@ -1,0 +1,1044 @@
+﻿@model vb.Data.AddInwardDetails
+@{
+    ViewBag.Title = "AddInwardDetails";
+    Layout = "~/Areas/coldstorage/Views/Shared/_coldstoragelayout.cshtml";
+}
+
+@using vb.Data.ViewModel
+
+<style>
+    .dropset ul {
+        z-index: 1030 !important;
+        height: 200px !important;
+        overflow-x: hidden !important;
+        overflow-y: auto !important;
+    }
+
+    #btncancel, #btncalculate, #btnsave {
+        outline: none;
+    }
+</style>
+
+<style>
+    .round-button {
+        display: block;
+        width: 40px;
+        height: 40px;
+        line-height: 20px;
+        border: 2px solid #f5f5f5;
+        border-radius: 50%;
+        /* color: #f5f5f5; */
+        text-align: center;
+        text-decoration: none;
+        background: #3c8dbc;
+        box-shadow: 0 0 3px grey;
+        font-size: 10px;
+        font-weight: bold;
+    }
+
+        .round-button:hover {
+            background: red;
+        }
+
+</style>
+
+
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+
+
+<div class="box box-default">
+    <div class="box-header with-border text-center">
+        <h3 class="box-title">Add Inward Details</h3>
+    </div>
+    <form id="frmInward" class="form-horizontal">
+        <div class="box-body">
+            <div class="col-md-6">
+
+                <div class="form-group">
+                    <input name="InwardID" id="InwardID" type="hidden" value="@Model.InwardID" />
+                    @*<input name="ColdStorageID" id="ColdStorageID" class="ColdStorageID" type="hidden" value="@Model.ColdStorageID" />*@
+                    <input type="hidden" id="CreatedBy" class="CreatedBy" value="@Model.CreatedBy" />
+                    <input type="hidden" id="CreatedOn" class="CreatedOn" value="@Model.CreatedOn" />
+
+                    <label for="ColdStorageID" class="col-sm-4 control-label">ColdStorage Name</label>
+                    <div class="col-sm-6 dropset">
+                        @*<input type="text" id="ColdStorageName" class="form-control" tabindex="1" value="@Model.Name" name="ColdStorageName" maxlength="100" placeholder="ColdStorage Name" autocomplete="off" required="required" />*@
+                        @Html.DropDownList("ColdStorageID", new SelectList(ViewBag.ColdStorage, "ColdStorageID", "Name"), "Select ColdStorage", new { @class = "form-control select2 ColdStorageID", tabindex = "1" })
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    <label for="DeliveryChallanNumber" class="col-sm-4 control-label">Delivery Challan No.</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" name="DeliveryChallanNumber" id="DeliveryChallanNumber" placeholder="Delivery Challan Number" tabindex="3" value="@Model.DeliveryChallanNumber" autocomplete="off">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="SupplierID" class="col-sm-4 control-label">Party Name</label>
+                    <div class="col-sm-6 dropset">
+                        @Html.DropDownList("SupplierID", new SelectList(ViewBag.Supplier, "SupplierID", "SupplierName"), "Select Party", new { @class = "form-control select2 SupplierID", tabindex = "5" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="BillNumber" class="col-sm-4 control-label">Bill Number</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" name="BillNumber" id="BillNumber" placeholder="Bill Number" tabindex="7" value="@Model.BillNumber" autocomplete="off">
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+
+                <div class="form-group">
+                    <label for="LotNo" class="col-sm-4 control-label">LOT No.</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" name="LotNo" id="LotNo" placeholder="LOT NO" tabindex="2" value="@Model.LotNo" autocomplete="off">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="DeliveryChallanDate" class="col-sm-4 control-label">Delivery Challan Date </label>
+                    <div class="col-sm-6">
+                        <div class="input-group date">
+                            <div class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
+                            </div>
+                            <input type="text" class="form-control pull-right datepicker" id="DeliveryChallanDate" tabindex="4" value="@Model.DeliveryChallanDatestr" autocomplete="off">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="Date" class="col-sm-4 control-label">Bill Date</label>
+                    <div class="col-sm-6">
+                        <div class="input-group date">
+                            <div class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
+                            </div>
+                            <input type="text" class="form-control pull-right datepicker" name="Date" id="Date" tabindex="6" value="@Model.Datestr" autocomplete="off">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="ExpiryDate" class="col-sm-4 control-label">Expiry Date</label>
+                    <div class="col-sm-6">
+                        <div class="input-group date">
+                            <div class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
+                            </div>
+                            <input type="text" class="form-control pull-right datepicker" name="ExpiryDate" id="ExpiryDate" tabindex="8" value="@Model.ExpiryDatestr" autocomplete="off">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+
+        <div class="col-md-12">
+            <div id="InwardList" class="form-horizontal tblresponsive table_wrapper">
+                <table class="table table-bordered table-bordered" id="InwardQty">
+                    <thead>
+                        <tr class="form-group">
+
+                            <th class="nosort">Sr. No.</th>
+                            <th class="nosort">Item Name</th>
+                            <th class="nosort">Notes</th>
+                            <th class="nosort">HSN Number</th>
+                            <th class="nosort">No of Bags</th>
+                            <th class="nosort">Weight Per Bags</th>
+                            <th class="nosort">Total Weight</th>
+                            <th class="nosort">Rate Per KG</th>
+                            <th class="nosort">Total Amount</th>
+                            <th class="nosort">Add</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        @{int cnt = 0;}
+                        @if (Model.lstInwardQty != null)
+                        {
+                            if (Model.lstInwardQty.Count < 10)
+                            {
+                                cnt = 10;
+                            }
+                            else
+                            { cnt = Model.lstInwardQty.Count; }
+                        }
+                        @for (int i = 0; i < 1; i++)
+                        {
+                            <tr class="form-group" id="trclear">
+                                <td id="row">
+                                    @(i + 1)
+                                </td>
+                                <td>
+                                    <input type="hidden" class="form-control" name="lstExpenseQty[0].InwardQtyID" value="@(Model.lstInwardQty.Count > i ? @Model.lstInwardQty[i].InwardQtyID.ToString() : "")">
+
+                                    @Html.DropDownList("ProductID" + i.ToString(), new SelectList(ViewBag.Product, "ProductID", "ProductName", @Model.lstInwardQty.Count > i ? @Model.lstInwardQty[i].ProductID : 0), new { @class = "form-control td_fixedwidthdropdown select22 ProductID", tabindex = (3 * i) + 9, multiple = true })
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control td_fixedwidth Notes" name="lstInwardQty[0].Notes" placeholder="Notes" value="@(Model.lstInwardQty.Count > i ? @Model.lstInwardQty[i].Notes.ToString() : "")" tabindex="10" id="Notes" autocomplete="off">
+                                </td>
+                                <td>
+                                    <label for="srno" class="control-label td_fixedwidthlabel" tabindex="">@(Model.lstInwardQty.Count > i ? @Model.lstInwardQty[i].HSNNumber.ToString() : "")</label>
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control td_fixedwidth NoofBags" name="lstInwardQty[0].NoofBags" placeholder="Bags" value="@(Model.lstInwardQty.Count > i ? @Model.lstInwardQty[i].NoofBags.ToString() : "")" id="NoofBags" tabindex="11" autocomplete="off" required>
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control td_fixedwidth WeightPerBag" name="lstInwardQty[0].WeightPerBag" placeholder="Weight Per Bag" value="@(Model.lstInwardQty.Count > i ? @Model.lstInwardQty[i].WeightPerBag.ToString("0.00") : "")" id="WeightPerBag" tabindex="12" autocomplete="off" required>
+                                </td>
+                                <td>
+                                    <label for="srno" class="control-label td_fixedwidthlabel2 TotalWeight">@(Model.lstInwardQty.Count > i ? @Model.lstInwardQty[i].TotalWeight.ToString("0.00") : "")</label>
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control td_fixedwidth RatePerKG addenter" name="lstInwardQty[0].RatePerKG" placeholder="Rate/KG" value="@(Model.lstInwardQty.Count > i ? @Model.lstInwardQty[i].RatePerKG.ToString("0.00") : "")" id="RatePerKG" tabindex="13" autocomplete="off" required>
+                                </td>
+                                <td>
+                                    <label for="srno" class="control-label td_fixedwidthlabel2 TotalAmount">@(Model.lstInwardQty.Count > i ? @Model.lstInwardQty[i].TotalAmount.ToString("0.00") : "")</label>
+                                </td>
+                                <td>
+                                    <button type="button" class="btn btn-default removeButton tab-content" style="width: 35px;"><i class="fa fa-times-circle"></i></button>
+                                </td>
+                                <td style="display:none;"></td>
+                            </tr>
+                        }
+
+
+                        <tr class="form-group hide" id="AddInward">
+                            <td class="row"></td>
+                            <td>
+                                <input type="hidden" class="form-control" name="InwardQtyID">
+                                @Html.DropDownList("ProductID", new SelectList(ViewBag.Product, "ProductID", "ProductName"), new { @class = "form-control select22 ProductID td_fixedwidthdropdown", tabindex = "36", multiple = true })
+                            </td>
+                            <td>
+                                <input type="text" class="form-control td_fixedwidth Notes" name="Notes" placeholder="Notes">
+                            </td>
+                            <td>
+                                <label for="srno" class="control-label td_fixedwidthlabel"> </label>
+                            </td>
+                            <td>
+                                <input type="text" class="form-control td_fixedwidth NoofBags" name="NoofBags" placeholder="Bags">
+                            </td>
+                            <td>
+                                <input type="text" class="form-control td_fixedwidth WeightPerBag" name="WeightPerBag" placeholder="Weight Per Bag">
+                            </td>
+                            <td>
+                                <label for="srno" class="control-label td_fixedwidthlabel TotalWeight"> </label>
+                            </td>
+                            <td>
+                                <input type="text" class="form-control td_fixedwidth RatePerKG" name="RatePerKG" placeholder="Rate/KG">
+                            </td>
+                            <td>
+                                <label for="srno" class="control-label td_fixedwidthlabel2 TotalAmount"></label>
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-default removeButton tab-content" style="width: 35px;"><i class="fa fa-times-circle"></i></button>
+                            </td>
+                            <td style="display:none;"></td>
+                        </tr>
+
+                        @for (int i = 0; i < 1; i++)
+                        {
+                            <tr class="form-group" id="GTID">
+                                <td id="row"></td>
+                                <td>
+                                    <label for="srno" class="control-label"></label>
+                                </td>
+                                <td>
+                                    <label for="srno" class="control-label"></label>
+                                </td>
+                                <td>
+                                    <label for="srno" class="control-label"> </label>
+                                </td>
+                                <td>
+                                    <label for="srno" class="control-label"> </label>
+                                </td>
+                                <td>
+                                    <label for="srno" class="control-label"> </label>
+                                </td>
+                                <td>
+                                    @*<button type="button" id="btncalculate" class="btn btn-info" tabindex="100001">Calculate</button>*@
+                                    @*<label for="srno" class="control-label" style="margin-left:145px;"> Total </label>*@
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control td_fixedwidth RentPerBags" name="lstInwardQty[0].RentPerBags" placeholder="Rent/Bags" value="@(Model.lstInwardQty.Count > i ? @Model.lstInwardQty[i].RentPerBags.ToString("0.00") : "")" id="RentPerBags" tabindex="14" autocomplete="off">
+                                </td>
+                                <td>
+                                    <label for="srno" class="control-label GrandTotal" id="GrandTotal"> </label>
+                                </td>
+                                <td style="display:none;"></td>
+                            </tr>
+                        }
+                    </tbody>
+
+                </table>
+            </div>
+        </div>
+        <!-- /.box-body -->
+        <div class="box-footer ">
+            <div class="pull-right">
+                <button type="button" id="btncancel" class="btn btn-default" tabindex="15">Cancel</button>
+                <button type="button" id="btnsave" class="btn btn-info btnsave" tabindex="16">Add Inward</button>
+            </div>
+        </div>
+        <!-- /.box-footer -->
+    </form>
+    <div id="lstcase">
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script>
+  $(document).ready(function () {
+
+        //loadhtml();
+        @*$("#ColdStorageName").autocomplete({
+            source: function (request, response) {
+                debugger;
+                $.ajax({
+                    url: '@Url.Action("txtColdStorageName_TextChanged")',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: { 'obj': request.term },
+                    success: function (data) {
+                        //debugger;
+                        response($.map(data, function (item) {
+                            //debugger;
+                            $('#ui-id-1').appendTo('.dropset');
+                            $("#loader").hide();
+                            return { label: item.Name, value: item.Name };
+                        }))
+                        $("#loader").hide();
+                    }
+                })
+            },
+            messages: {
+                noResults: "", results: ""
+            }
+        });*@
+
+
+        @*$(document).on('keyup focusin mousedown  keypress blur change', "#ColdStorageName", function () {
+            var set = $("#ColdStorageName").val();
+            debugger;
+            if (set != "") {
+                var check = set.split(',').length;
+                if (check >= 2) {
+                    $.ajax({
+                        type: 'Post',
+                        url: '@Url.Action("txtColdStorageName_AfterColdStorageSelect")',
+                        data: { obj: set },
+                        success: function (result) {
+                            debugger;
+                            $('#ColdStorageID').val(result.ColdStorageID);
+                            $('#ColdStorageName').val(result.Name);
+                        },
+                        error: function () { alert('Error'); }
+                    });
+                }
+            }
+        });*@
+
+
+        $(".ProductID").on('change keypress', function (e) {
+            debugger;
+            var end = this;
+
+            if (this.value != '') {
+                var ColdStorageID = $("#ColdStorageID").val();
+                if (ColdStorageID != "" && ColdStorageID != 0) {
+                    $.ajax({
+                        type: 'Post',
+                        url: '@Url.Action("GetUnit")',
+                        data: { ProductID: this.value },
+                        success: function (result) {
+                            var newdata = end;
+                            $(newdata).closest('tr').find('td').each(function (index, td) {
+
+                                var textbox = $(newdata).closest('tr').find('input')[0];
+
+                                if (index == 2) {
+                                    $(td).find('Select').focus();
+
+                                }
+                                if (index == 3) {
+                                    td.innerText = result[0].HSNNumber;
+
+                                }
+                                if (index == 4) {
+                                    $(td).find('input').focus();
+                                }
+
+
+                            });
+                        },
+                        error: function () { alert('Error'); }
+                    });
+                }
+                else {
+                    alert("Please Select ColdStorage Name");
+                }
+
+                // get last product Rate Per KG
+                @*$.ajax({
+                    type: 'Post',
+                    url: '@Url.Action("GetLastPurchaseProductRatePerKG")',
+                    data: { ProductID: this.value },
+                    success: function (result) {
+                        debugger;
+                        var newdata = end;
+                        $(newdata).closest('tr').find('td').each(function (index, td) {
+                            if (index == 5) {
+
+                                var textbox = $(newdata).closest('tr').find('input')[3];
+                                textbox.value = result[0].RatePerKG;
+
+
+                            }
+                        });
+                    },
+                    error: function () { alert('Error'); }
+                });*@
+
+            }
+            else {
+                var newdata = end;
+                $(newdata).closest('tr').find('td').each(function (index, td) {
+
+                    if (index == 2) {
+                        var textbox = $(newdata).closest('tr').find('input')[2];
+                        textbox.value = "";
+                        $('#btnsave').attr('disabled', false);
+                    }
+                    else if (index == 3) {
+                        td.innerText = "";
+                    }
+                    else if (index == 4) {
+                        var textbox = $(newdata).closest('tr').find('input')[3];
+                        textbox.value = "";
+                    }
+                    else if (index == 5) {
+                        var textbox = $(newdata).closest('tr').find('input')[4];
+                        textbox.value = "";
+                    }
+                    else if (index == 6) {
+                        td.innerText = "";
+                    }
+                    else if (index == 7) {
+                        var textbox = $(newdata).closest('tr').find('input')[5];
+                        textbox.value = "";
+                    }
+                    else if (index == 8) {
+                        td.innerText = "";
+                    }
+                });
+            }
+        });
+
+
+        var ProductNameValidators = {
+            row: '.col-xs-3',   // The title is placed inside a <div class="col-xs-4"> element
+            validators: {
+                notEmpty: {
+                    message: 'The Product Name is required'
+                }
+            }
+        },
+
+
+
+         bookIndex = 10;
+        $('#InwardList').on('keydown', '.addenter', function (e) {
+            if (e.keyCode == 13) {
+                //bookIndex++;
+                //var $template = $('#AddInward'),
+                //    $clone = $template
+                //                    .clone()
+                //                    .removeClass('hide')
+                //                    .removeAttr('id')
+                //                    .attr('data-book-index', bookIndex)
+                //                    .insertBefore($template);
+                //debugger;
+                // Update the name attributes
+                //$clone
+                //    .find('[name="ProductID"]').attr('tabindex', (bookIndex * 3) + 6).attr('name', 'lstInwardQty[' + bookIndex + '].ProductID').end()
+
+                //    .find('[name="NoofBags"]').attr('name', 'lstInwardQty[' + bookIndex + '].NoofBags').end()
+
+                //    .find('[name="WeightPerBag"]').attr('name', 'lstInwardQty[' + bookIndex + '].WeightPerBag').end()
+
+                //    .find('[name="RatePerKG"]').attr('name', 'lstInwardQty[' + bookIndex + '].RatePerKG').end()
+
+
+                //$($clone).find('select').select2({ width: '100%' });
+                //$tdvalue = $clone.find('td')[1];
+                //$($tdvalue).find('span.select2.select2-container.select2-container--default')[1].remove();
+                //$($clone).find(".select22").select2({
+                //    maximumSelectionLength: 1
+                //});
+
+
+                var i = 1;
+                $('#InwardQty').children('tbody').children('tr:visible').each(function (index, row) {
+                    if (index != ($('#InwardQty').children('tbody').children('tr:visible').length - 1)) {
+                        $(row).find("td")[0].innerText = i++;
+                    }
+                });
+
+
+
+                $(document).on('change', ".select22", function () {
+                    var end = this;
+
+                    if (this.value != '') {
+
+                        var ColdStorageID = $("#ColdStorageID").val();
+                        if (ColdStorageID != "" && ColdStorageID != 0) {
+                            $.ajax({
+                                type: 'Post',
+                                url: '@Url.Action("GetUnit")',
+                                data: { ProductID: this.value },
+                                success: function (result) {
+                                    var newdata = end;
+                                    $(newdata).closest('tr').find('td').each(function (index, td) {
+                                        var textbox = $(newdata).closest('tr').find('input')[0];
+
+                                        if (index == 2) {
+                                            $(td).find('Select').focus();
+
+                                        }
+                                        if (index == 3) {
+                                            td.innerText = result[0].HSNNumber
+
+                                        }
+                                        if (index == 4) {
+                                            $(td).find('input').focus();
+                                        }
+
+                                    });
+                                },
+                                error: function () { alert('Error'); }
+                            });
+                        }
+                        else {
+                            alert("Please Select ColdStorage Name");
+                        }
+
+                        // get last product Rate Per KG 06-10-200
+                        @*$.ajax({
+                            type: 'Post',
+                            url: '@Url.Action("GetLastPurchaseProductRatePerKG")',
+                            data: { ProductID: this.value },
+                            success: function (result) {
+                                debugger;
+                                var newdata = end;
+                                $(newdata).closest('tr').find('td').each(function (index, td) {
+                                    if (index == 5) {
+                                        var textbox = $(newdata).closest('tr').find('input')[3];
+                                        textbox.value = result[0].RatePerKG;
+                                    }
+                                });
+                            },
+                            error: function () { alert('Error'); }
+                        });*@
+                    }
+                    else {
+                        var newdata = end;
+                        $(newdata).closest('tr').find('td').each(function (index, td) {
+
+                            if (index == 2) {
+                                var textbox = $(newdata).closest('tr').find('Select')[2];
+                                textbox.value = "";
+                                $('#btnsave').attr('disabled', false);
+                            }
+                            else if (index == 3) {
+                                td.innerText = "";
+                            }
+                            else if (index == 4) {
+                                var textbox = $(newdata).closest('tr').find('input')[3];
+                                textbox.value = "";
+                            }
+                            else if (index == 5) {
+                                var textbox = $(newdata).closest('tr').find('input')[4];
+                                textbox.value = "";
+                            }
+                            else if (index == 6) {
+                                td.innerText = "";
+                            }
+                            else if (index == 7) {
+                                var textbox = $(newdata).closest('tr').find('input')[5];
+                                textbox.value = "";
+                            }
+                            else if (index == 8) {
+                                td.innerText = "";
+                            }
+
+                        });
+                    }
+                });
+
+                // Dynamic Table Value
+                $(".NoofBags").on('input propertychange paste keypress', function (e) {
+                    var end = this;
+                    debugger;
+                    if (this.value != '') {
+                        var NoofBags = this.value;
+                        var row = $(this).closest('tr');
+                        var NoofBagsTextBox = $(row).find('input')[3];
+                        var WeightPerBagTetxbox = $(row).find('input')[4];
+                        var RatePerKGTextbox = $(row).find('input')[5];
+
+                        var lblTotalAmount = $(row).find('td')[8];
+                        var lastChar = NoofBags.slice(-1);
+                        if (lastChar != '.') {
+                            {
+                                if (NoofBags >= 0) {
+                                    //debugger;
+                                    var lblTotalAmount = lblTotalAmount.innerText;
+                                    var NoofBags = NoofBagsTextBox.value;
+                                    var WeightPerBag = WeightPerBagTetxbox.value;
+                                    var RatePerKG = RatePerKGTextbox.value;
+                                    var TotalWeight = WeightPerBag * NoofBags;
+                                    var lblTotalAmount = NoofBags * WeightPerBag * RatePerKG;
+
+                                    $(end).closest('tr').find('td').each(function (index, td) {
+                                        if (index == 6) {
+                                            td.innerText = parseFloat(TotalWeight).toFixed(2);
+                                        }
+                                        else if (index == 8) {
+                                            td.innerText = parseFloat(lblTotalAmount).toFixed(2);
+                                        }
+                                    });
+
+                                }
+                                else {
+                                    var textbox = $(this).closest('tr').find('input')[3];
+                                    textbox.value = '';
+                                }
+                            }
+                        }
+                    }
+                });
+
+                $(".WeightPerBag").on('input propertychange paste keypress', function (e) {
+                    var end = this;
+                    debugger;
+                    if (this.value != '') {
+                        var WeightPerBag = this.value;
+                        var row = $(this).closest('tr');
+                        var NoofBagsTextBox = $(row).find('input')[3];
+                        var WeightPerBagTetxbox = $(row).find('input')[4];
+                        var RatePerKGTextbox = $(row).find('input')[5];
+
+                        var lblTotalAmount = $(row).find('td')[8];
+                        var lastChar = WeightPerBag.slice(-1);
+                        if (lastChar != '.') {
+                            {
+                                if (WeightPerBag >= 0) {
+                                    //debugger;
+                                    var lblTotalAmount = lblTotalAmount.innerText;
+                                    var NoofBags = NoofBagsTextBox.value;
+                                    var WeightPerBag = WeightPerBagTetxbox.value;
+                                    var RatePerKG = RatePerKGTextbox.value;
+                                    var TotalWeight = WeightPerBag * NoofBags;
+                                    var lblTotalAmount = NoofBags * WeightPerBag * RatePerKG;
+
+                                    $(end).closest('tr').find('td').each(function (index, td) {
+                                        if (index == 6) {
+                                            td.innerText = parseFloat(TotalWeight).toFixed(2);
+                                        }
+                                        else if (index == 8) {
+                                            td.innerText = parseFloat(lblTotalAmount).toFixed(2);
+                                        }
+                                    });
+
+                                }
+                                else {
+                                    var textbox = $(this).closest('tr').find('input')[3];
+                                    textbox.value = '';
+                                }
+
+                            }
+                        }
+                    }
+                });
+
+                $(".RatePerKG").on('input propertychange paste keypress', function (e) {
+                    var end = this;
+                    debugger;
+                    if (this.value != '') {
+                        var RatePerKG = this.value;
+
+                        var row = $(this).closest('tr');
+                        var lblTotalWeight = $(row).find('td')[6];
+                        var NoofBagsTextBox = $(row).find('input')[3].value;
+                        var WeightPerBagTetxbox = $(row).find('input')[4].value;
+
+                        var lblTotalAmount = $(row).find('td')[8];
+
+                        if (RatePerKG != "0") {
+
+
+                            var lastChar = RatePerKG.slice(-1);
+                            if (lastChar != '.') {
+                                {
+                                    if (RatePerKG >= 0) {
+                                        //debugger;
+                                        var TotalWeight = lblTotalWeight.innerText;
+
+                                        var NoofBags = NoofBagsTextBox;
+
+                                        var WeightPerBag = WeightPerBagTetxbox;
+
+                                        var TotalWeight = NoofBags * WeightPerBag;
+
+                                        var TotalAmount = TotalWeight * RatePerKG;
+
+                                        $(end).closest('tr').find('td').each(function (index, td) {
+                                            if (index == 8) {
+                                                td.innerText = parseFloat(TotalAmount).toFixed(2);
+                                            }
+                                        });
+
+                                    }
+                                    else {
+                                        var textbox = $(this).closest('tr').find('input')[3];
+                                        textbox.value = '';
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+
+                // Dynamic Table Value
+
+            }
+        })
+
+        .on('click', '.removeButton', function () {
+            var $row = $(this).parents('.form-group'),
+                index = $row.attr('data-book-index');
+            $row.remove();
+            var i = 1;
+            $('#InwardQty').children('tbody').children('tr:visible').each(function (index, row) {
+                if (index != ($('#InwardQty').children('tbody').children('tr:visible').length - 1)) {
+                    $(row).find("td")[0].innerText = i++;
+                }
+            });
+        });
+
+        $(".NoofBags").on('input propertychange paste keypress', function (e) {
+            var end = this;
+            debugger;
+            if (this.value != '') {
+                var NoofBags = this.value;
+                var row = $(this).closest('tr');
+                var NoofBagsTextBox = $(row).find('input')[3];
+                var WeightPerBagTetxbox = $(row).find('input')[4];
+                var RatePerKGTextbox = $(row).find('input')[5];
+
+                var lblTotalAmount = $(row).find('td')[8];
+                var lastChar = NoofBags.slice(-1);
+                if (lastChar != '.') {
+                    {
+                        if (NoofBags >= 0) {
+                            //debugger;
+                            var NoofBags = NoofBagsTextBox.value;
+                            var WeightPerBag = WeightPerBagTetxbox.value;
+                            var RatePerKG = RatePerKGTextbox.value;
+                            var TotalWeight = WeightPerBag * NoofBags;
+                            var lblTotalAmount = NoofBags * WeightPerBag * RatePerKG;
+
+
+
+                            $(end).closest('tr').find('td').each(function (index, td) {
+                                if (index == 6) {
+                                    td.innerText = parseFloat(TotalWeight).toFixed(2);
+                                }
+                                else if (index == 8) {
+                                    td.innerText = parseFloat(lblTotalAmount).toFixed(2);
+                                }
+                            });
+
+                        }
+                        else {
+                            var textbox = $(this).closest('tr').find('input')[3];
+                            textbox.value = '';
+                        }
+                    }
+                }
+            }
+        });
+
+        $(".WeightPerBag").on('input propertychange paste keypress', function (e) {
+            var end = this;
+            debugger;
+            if (this.value != '') {
+                var WeightPerBag = this.value;
+                var row = $(this).closest('tr');
+                var NoofBagsTextBox = $(row).find('input')[3];
+                var WeightPerBagTetxbox = $(row).find('input')[4];
+                var RatePerKGTextbox = $(row).find('input')[5];
+
+                var lblTotalAmount = $(row).find('td')[8];
+                var lastChar = WeightPerBag.slice(-1);
+                if (lastChar != '.') {
+                    {
+                        if (WeightPerBag >= 0) {
+                            //debugger;
+                            var lblTotalAmount = lblTotalAmount.innerText;
+                            var NoofBags = NoofBagsTextBox.value;
+                            var WeightPerBag = WeightPerBagTetxbox.value;
+                            var RatePerKG = RatePerKGTextbox.value;
+                            var TotalWeight = WeightPerBag * NoofBags;
+                            var lblTotalAmount = NoofBags * WeightPerBag * RatePerKG;
+
+                            $(end).closest('tr').find('td').each(function (index, td) {
+                                if (index == 6) {
+                                    td.innerText = parseFloat(TotalWeight).toFixed(2);
+                                }
+                                else if (index == 8) {
+                                    td.innerText = parseFloat(lblTotalAmount).toFixed(2);
+                                }
+                            });
+
+                        }
+                        else {
+                            var textbox = $(this).closest('tr').find('input')[3];
+                            textbox.value = '';
+                        }
+                    }
+                }
+            }
+        });
+
+        $(".RatePerKG").on('input propertychange paste keypress', function (e) {
+            var end = this;
+            debugger;
+            if (this.value != '') {
+                var RatePerKG = this.value;
+
+                var row = $(this).closest('tr');
+                var lblTotalWeight = $(row).find('td')[6];
+                var NoofBagsTextBox = $(row).find('input')[3].value;
+                var WeightPerBagTetxbox = $(row).find('input')[4].value;
+
+                var lblTotalAmount = $(row).find('td')[8];
+
+                if (RatePerKG != "0") {
+                    var lastChar = RatePerKG.slice(-1);
+                    if (lastChar != '.') {
+                        {
+                            if (RatePerKG >= 0) {
+                                //debugger;
+
+                                var TotalWeight = lblTotalWeight.innerText;
+                                var NoofBags = NoofBagsTextBox;
+                                var WeightPerBag = WeightPerBagTetxbox;
+
+                                var TotalWeight = NoofBags * WeightPerBag;
+
+                                var TotalAmount = TotalWeight * RatePerKG;
+
+                                $(end).closest('tr').find('td').each(function (index, td) {
+                                    if (index == 8) {
+                                        td.innerText = parseFloat(TotalAmount).toFixed(2);
+                                    }
+                                });
+
+                            }
+                            else {
+                                var textbox = $(this).closest('tr').find('input')[2];
+                                textbox.value = '';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        //New
+        $("#btncalculate").click(function () {
+            FinalTotal();
+        });
+
+        function FinalTotal() {
+            debugger;
+            var GrandTotal = 0;
+            $('#InwardQty').find('tr:visible').not(':last').each(function (index, tr) {
+                $(tr).find('td').each(function (index, td) {
+                    if (index == 8) {
+                        if (td.innerText.trim() != '') {
+                            GrandTotal = GrandTotal + parseFloat(td.innerText);
+                            $('.GrandTotal').text(parseFloat(GrandTotal).toFixed(2));
+                        }
+                    }
+                });
+            });
+        }
+        //New
+
+    });
+
+
+    $("#btncancel").click(function () {
+        clearform();
+    });
+
+    function clearform() {
+        $("#frmInward").find("input").val("");
+    }
+
+</script>
+
+
+<script>
+    var GrandTotal = 0;
+
+    $("#btnsave").click(function () {
+        if (!($('#frmInward').parsley().validate())) {
+            return;
+        }
+        if (!($('#trclear').parsley().validate())) {
+            return;
+        }
+
+        $("#loader").show();
+        var lstInwardQty = [];
+        //debugger;
+        var GTotal = 0;
+        var NoofBags = $(".NoofBags").val();
+        if (NoofBags != 0) {
+            $('#InwardQty').children('tbody').children('tr:visible').each(function (index, row) {
+                if ($(row).find("select").val() != undefined && $(row).find("select").val() != '') {
+                    //debugger;
+                    var dataInwardQty = new Object();
+                    dataInwardQty.ProductID = $(row).find("select").val();
+                    dataInwardQty.ProductName = $(row).find("select option:selected").text();
+                    dataInwardQty.Notes = $(row).find("input")[2].value;
+                    dataInwardQty.NoofBags = $(row).find("input")[3].value;
+                    dataInwardQty.WeightPerBag = $(row).find("input")[4].value;
+                    dataInwardQty.TotalWeight = $(row).find("td")[6].innerText;
+                    dataInwardQty.RatePerKG = $(row).find("input")[5].value;
+
+                    //28-06-2022
+                    dataInwardQty.RentPerBags = $("#RentPerBags").val();
+
+                    dataInwardQty.HSNNumber = $(row).find('td')[3].innerText;
+                    dataInwardQty.TotalAmount = $(row).find('td')[8].innerText;
+
+                    // hdnInwardQtyID
+                    dataInwardQty.InwardQtyID = $(row).find("input")[0].value;
+
+
+                    GrandTotal = parseFloat(GrandTotal) + parseFloat(dataInwardQty.TotalAmount);
+                    GrandTotal = GrandTotal;
+                    lstInwardQty.push(dataInwardQty);
+                }
+            });
+
+            debugger;
+            var datareq = new Object();
+            datareq.InwardID = $("#InwardID").val();
+            datareq.ColdStorageID = $("#ColdStorageID").val();
+            datareq.Name = $("#ColdStorageName").val();
+            datareq.Date = $("#Date").val();
+            datareq.ExpiryDate = $("#ExpiryDate").val();
+            datareq.LotNo = $("#LotNo").val();
+            datareq.DeliveryChallanNumber = $("#DeliveryChallanNumber").val();
+
+            //28-06-2022
+            datareq.SupplierID = $('#SupplierID').val();
+
+            //29-06-2022
+            datareq.BillNumber = $("#BillNumber").val();
+
+            datareq.DeliveryChallanDate = $("#DeliveryChallanDate").val();
+
+            datareq.CreatedBy = $("#CreatedBy").val();
+            datareq.CreatedOn = $("#CreatedOn").val();
+
+            datareq.GrandTotal = GrandTotal;
+
+            datareq.lstInwardQty = lstInwardQty;
+            $.ajax({
+                url: '@Url.Action("AddInwardBill")',
+                type: 'POST',
+                data: { 'data': datareq },
+                cache: false,
+            }).done(function (result) {
+
+                if (result == "Insert Sucessfully") {
+                    //debugger;
+                    $("#loader").show();
+                    $('div#sucessalert').html("Insert Sucessfully.");
+                    showhidealert();
+                    clearform();
+                    location.reload();
+                }
+                else if (result == "Bill Exist") {
+                    $('div#sucessalert').html("Bill Exist.");
+                    showhidealert();
+                    $("#loader").hide();
+                }
+                else if (result == "Updated Sucessfully") {
+                    //debugger;
+                    $('div#sucessalert').html("Updated Sucessfully.");
+                    showhidealert();
+                    clearform();
+                    location.reload();
+                    window.location = "/coldstorage/Stock/Inward";
+                }
+                else {
+                    $('div#sucessalert').html("something is wrong.");
+                }
+
+            });
+            $(".btnsave").attr("disabled", true);
+        }
+        else {
+            alert("Please enter the valid value");
+        }
+        $("#loader").hide();
+
+    });
+
+    $("#btncancel").click(function () {
+        clearform();
+    });
+
+    function clearform() {
+        location.reload();
+        window.location = "/coldstorage/Stock/AddInwardDetails";
+    }
+
+
+    $("#LotNo").on('input propertychange paste keypress', function (e) {
+        //debugger;
+        var ColdStorageID = $("#ColdStorageID").val();
+        var LotNo = $("#LotNo").val();
+
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("CheckLotNumberIsExist")',
+            data: { 'ColdStorageID': ColdStorageID, 'LotNo': LotNo },
+            success: function (LotNumber) {
+                //debugger;
+                if (LotNumber != "" && LotNumber != null) {
+                    alert("Lot Number is already exist : " + LotNumber);
+                    $("#LotNo").val("");
+                }
+
+            }
+        });
+    });
+</script>

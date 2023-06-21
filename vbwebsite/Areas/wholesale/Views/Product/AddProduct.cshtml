@@ -1,0 +1,702 @@
+﻿@model vb.Data.ProductViewModel
+
+@{
+    ViewBag.Title = "AddProduct";
+    Layout = "~/Areas/wholesale/Views/Shared/_wholesalelayout.cshtml";
+}
+@using vb.Data.ViewModel
+
+<div class="box box-default">
+    <div class="box-header with-border text-center">
+        <h3 class="box-title">Add Product</h3>
+    </div>
+    <form id="frmProduct" class="form-horizontal">
+        <div class="box-body">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="ProductName" class="col-sm-4 control-label">Name</label>
+                    <div class="col-sm-8">
+                        <input name="ProductID" id="UProductID" type="hidden" value="" />
+                        <input type="text" class="form-control" name="ProductName" id="ProductName" placeholder="Product Name" tabindex="1">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="Category" class="col-sm-4 control-label">Category</label>
+                    <div class="col-sm-8">
+                        @Html.DropDownListFor(m => m.CategoryID, new SelectList(ViewBag.Category, "CategoryID", "CategoryName"), "Select Category", new { @class = "form-control select2", tabindex = "3" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="Price" class="col-sm-4 control-label">Price</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="ProductPrice" id="ProductPrice" placeholder="Price" tabindex="5">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="Description" class="col-sm-4 control-label">Description</label>
+                    <div class="col-sm-8">
+                        <textarea class="form-control" id="ProductDescription" name="ProductDescription" rows="2" cols="20" placeholder="Description" tabindex="7"></textarea>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="Price" class="col-sm-4 control-label">HSN Number</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="HSNNumber" id="HSNNumber" placeholder="HSN Number" tabindex="9">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="AlternateName" class="col-sm-4 control-label">Alternate Name </label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="ProductAlternateName" id="ProductAlternateName" placeholder="Alternate Name" tabindex="2">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="Godown" class="col-sm-4 control-label">Godown</label>
+                    <div class="col-sm-8">
+                        @Html.DropDownListFor(m => m.GodownID, new SelectList(ViewBag.Godown, "GodownID", "GodownName"), "Select Godown", new { @class = "form-control select2", tabindex = "4" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="Unit" class="col-sm-4 control-label">Unit</label>
+                    <div class="col-sm-8">
+                        @Html.DropDownListFor(m => m.UnitID, new SelectList(ViewBag.Unit, "UnitID", "UnitCode"), "Select Unit", new { @class = "form-control select2", tabindex = "6" })
+                    </div>
+                </div>
+
+
+                @*<div class="form-group">
+                        <label for="Pouch" class="col-sm-4 control-label">Pouch</label>
+                        <div class="col-sm-8">
+                            @Html.DropDownListFor(m => m.PouchID, new SelectList(ViewBag.Pouch, "PouchID", "PouchName"), "Select Pouch", new { @class = "form-control select2", tabindex = "8" })
+                        </div>
+                    </div>*@
+
+
+                <div class="form-group">
+                    <label for="Pouch" class="col-sm-4 control-label">Pouch</label>
+                    <div class="col-sm-8">
+                        @Html.DropDownListFor(m => m.PouchNameID, new SelectList(ViewBag.Pouch, "PouchNameID", "PouchName"), "Select Pouch", new { @class = "form-control select2", tabindex = "8" })
+                    </div>
+                </div>
+
+
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="AlternateName" class="col-sm-4 control-label">SGST</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" name="SGST" id="SGST" placeholder="SGST" tabindex="10">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="H-For" class="col-sm-4 control-label">H-For</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" name="H-For" id="HFor" placeholder="H-For" tabindex="11">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="CGST" class="col-sm-4 control-label">CGST</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" name="CGST" id="CGST" placeholder="CGST" tabindex="12">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="IGST" class="col-sm-4 control-label">IGST</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" name="IGST" id="IGST" placeholder="IGST" tabindex="13">
+                        </div>
+                    </div>
+                </div>
+
+                @* 19-07-2022 *@
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="SlabForGST" class="col-sm-4 control-label">Slab-For</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" name="SlabForGST" id="SlabForGST" placeholder="Slab For GST" tabindex="14">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div id="ProductList" class="form-horizontal">
+                    <table class="table table-bordered table-bordered" id="ProductQty">
+                        <thead>
+                            <tr class="form-group">
+                                <th class="nosort col-sm-2">Lower Qty.</th>
+                                <th class="nosort col-sm-2">Upper Qty.</th>
+                                <th class="nosort col-sm-2">Rs.Less</th>
+                                <th class="nosort col-sm-2">Sell Price</th>
+                                <th class="nosort col-sm-2">Add</th>
+                            </tr>
+                        </thead>
+                        <tr class="form-group" id="AddProductQty">
+                            <td id="row">
+                                <input type="text" class="form-control  col-sm-2 LowerQty" name="lstProductQty[0].LowerQty" placeholder="Lower Qty" tabindex="14" />
+                                <input name="ProductQtyID" class="hdnProductQtyID" type="hidden" value="" />
+                            </td>
+                            <td>
+                                <input type="text" class="form-control  col-sm-2 UpperQty" name="lstProductQty[0].UpperQty" placeholder="Upper Qty" tabindex="15" />
+                            </td>
+                            <td>
+                                <input type="text" class="form-control  col-sm-2 LessAmount" name="lstProductQty[0].LessAmount" placeholder="Rs Less" tabindex="16" />
+                            </td>
+                            <td>
+                                <input type="text" class="form-control  col-sm-2 SellPrice" name="lstProductQty[0].SellPrice" placeholder="Sell Price" tabindex="17" />
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-default addButton  col-sm-3"><i class="fa fa-plus" tabindex="18"></i></button>
+                            </td>
+                        </tr>
+                        <tr class="form-group hide" id="AddMoreProduct">
+                            <td id="row" class="">
+                                <input type="text" class="form-control  col-sm-2 LowerQty" name="lstProductQty[1].LowerQty" placeholder="Lower Qty" />
+                                <input name="ProductQtyIDnew" class="hdnProductQtyID" type="hidden" value="" />
+                            </td>
+                            <td>
+                                <input type="text" class="form-control  col-sm-2 UpperQty" name="UpperQty" placeholder="Upper Qty" />
+                            </td>
+                            <td>
+                                <input type="text" class="form-control  col-sm-2 LessAmount" name="LessAmount" placeholder="Rs Less" />
+                            </td>
+
+                            <td>
+                                <input type="text" class="form-control  col-sm-2 SellPrice" name="SellPrice" placeholder="Sell Price" />
+                            </td>
+                            <td>
+                                <button type="button" class="col-sm-3 btn btn-default removeButton"><i class="fa fa-minus"></i></button>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <div class="box-header with-border text-center">
+                    <h3 class="box-title">Online</h3>
+                </div>
+
+                <div id="OnlineProductList" class="form-horizontal">
+                    <table class="table table-bordered table-striped" id="OnlineProductQty">
+                        <thead>
+                            <tr class="form-group">
+                                <th class="nosort col-sm-1">Online Price</th>
+                                <th class="nosort col-sm-1">Online Qty.</th>
+                                <th class="nosort col-sm-2">Unit</th>
+                                <th class="nosort col-sm-1">Factoring</th>
+                                <th class="nosort col-sm-1">Factoring Amount</th>
+                                <th class="nosort col-sm-1">Premium Percentage</th>
+                                <th class="nosort col-sm-1">Premium Amount</th>
+                                <th class="nosort col-sm-1">Total Amount</th>
+                                <th class="nosort col-sm-1">Add Online</th>
+                                <th class="nosort col-sm-3">Add</th>
+                            </tr>
+                        </thead>
+                        <tr class="form-group" id="AddOnlineProductQty">
+                            <td id="row">
+                                <input type="text" class="form-control OnlineProductPrice" name="lstOnlineProductQty[0].OnlineProductPrice" id="OnlineProductPrice" placeholder="Online Price" tabindex="">
+                                <input name="OnlineProductQtyID" class="hdnOnlineProductQtyID" type="hidden" value="" />
+                            </td>
+                            <td>
+                                <input type="text" class="form-control OnlineQty" name="lstOnlineProductQty[0].OnlineQty" id="OnlineQty" placeholder="Quantity" maxlength="10" />
+                            </td>
+                            <td>
+                                @Html.DropDownListFor(m => m.lstOnlineProductQty[0].UnitID, new SelectList(ViewBag.Unit, "UnitID", "UnitCode"), "Select Unit", new { @class = "form-control select2", tabindex = "6" })
+                            </td>
+                            <td>
+                                <input type="text" class="form-control Factoring" name="lstOnlineProductQty[0].Factoring" id="Factoring" placeholder="Factoring" maxlength="10" />
+                            </td>
+                            <td>
+                                <input type="text" class="form-control FactoringAmount" name="lstOnlineProductQty[0].FactoringAmount" id="FactoringAmount" placeholder="Factoring Amount" disabled />
+                            </td>
+                            <td>
+                                <input type="text" class="form-control PremiumPercentage" name="lstOnlineProductQty[0].PremiumPercentage" id="PremiumPercentage" placeholder="Premium Percentage" tabindex="">
+                            </td>
+                            <td>
+                                <input type="text" class="form-control PremiumPercentageAmt" name="lstOnlineProductQty[0].PremiumPercentageAmt" id="PremiumPercentageAmt" placeholder="Premium Amount" tabindex="" disabled>
+                            </td>
+                            <td>
+                                <input type="text" class="form-control TotalOnlineAmount" name="lstOnlineProductQty[0].TotalOnlineAmount" id="TotalOnlineAmount" placeholder="Total Amount" tabindex="" disabled>
+                            </td>
+                            <td><input type="checkbox" id="isOnline" /></td>
+                            <td>
+                                <button type="button" class="col-sm-4 btn btn-default addButton"><i class="fa fa-plus"></i></button>
+                            </td>
+                        </tr>
+
+                        <tr class="form-group hide" id="AddMoreOnlineProduct">
+                            <td id="row" class="">
+                                <input type="text" class="form-control OnlineProductPrice" name="lstOnlineProductQty[1].OnlineProductPrice" id="OnlineProductPrice" placeholder="Online Price" tabindex="">
+                                <input name="OnlineProductQtyIDnew" class="hdnOnlineProductQtyID" type="hidden" value="" />
+                            </td>
+                            <td>
+                                <input type="text" class="form-control OnlineQty" name="OnlineQty" id="OnlineQty" placeholder="Quantity" maxlength="10" />
+                            </td>
+                            <td>
+                                @Html.DropDownListFor(m => m.lstOnlineProductQty[0].UnitID, new SelectList(ViewBag.Unit, "UnitID", "UnitCode"), "Select Unit", new { @class = "form-control select2", tabindex = "6" })
+                            </td>
+                            <td>
+                                <input type="text" class="form-control Factoring" name="Factoring" placeholder="Factoring" maxlength="10" />
+                            </td>
+                            <td>
+                                <input type="text" class="form-control FactoringAmount" name=" factoringamount" placeholder="Factoring Amount" disabled />
+                            </td>
+                            <td>
+                                <input type="text" class="form-control PremiumPercentage" name="PremiumPercentage" placeholder="Premium Percentage">
+                            </td>
+                            <td>
+                                <input type="text" class="form-control PremiumPercentageAmt" name="PremiumPercentageAmt" placeholder="Premium Amount" tabindex="" disabled>
+                            </td>
+                            <td>
+                                <input type="text" class="form-control TotalOnlineAmount" name="TotalOnlineAmount" placeholder="Total Amount" tabindex="" disabled>
+                            </td>
+                            <td><input type="checkbox" id="isOnline" /></td>
+                            <td>
+                                <button type="button" class="col-sm-4 btn btn-default removeButton"><i class="fa fa-minus"></i></button>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+        <!-- /.box-body -->
+        <div class="box-footer ">
+            <div class="pull-right">
+                <button type="button" id="CancelProduct" class="btn btn-default" tabindex="20">Cancel</button>
+                @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.WAPRODUCT.ToString()))
+                {
+                    <button type="button" id="btnsavecase" class="btn btn-info" tabindex="19">Save</button>
+                }
+            </div>
+            <div class="input-group input-group-sm">
+                <input id="txtProductPrice" placeholder="Search keyword" type="text" class="form-control" style="width: 15%; float: right; height: 34px;" />
+                <span class="input-group-btn">
+                    <button type="button" id="btnsearch" class="btn btn-default" tabindex="21" style="height: 34px; margin-right: 10px;">
+                        Search
+                    </button>
+                </span>
+            </div>
+        </div>
+        <!-- /.box-footer -->
+    </form>
+    <div id="lstcase">
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script type="text/javascript">
+    var DeleteItem = '';
+    $(document).ready(function () {
+        debugger;
+        var LowerQtyValidators = {
+            row: '.col-xs-2',   // The title is placed inside a <div class="col-xs-4"> element
+            validators: {
+                notEmpty: {
+                    message: 'The Lower Qty is required'
+                }
+            }
+        },
+            UpperQtyValidators = {
+                row: '.col-xs-2',
+                validators: {
+                    notEmpty: {
+                        message: 'The Upper Qty is required'
+                    },
+                    UpperQty: {
+                        message: 'The Upper Qty is not valid'
+                    }
+                }
+            },
+            LessAmountValidators = {
+                row: '.col-xs-2',
+                validators: {
+                    notEmpty: {
+                        message: 'The Rs is required'
+                    },
+                    RsLess: {
+                        message: 'The Rs is not valid'
+                    }
+                }
+            },
+            SellPriceValidators = {
+                row: '.col-xs-2',
+                validators: {
+                    notEmpty: {
+                        message: 'The  Sell Price is required'
+                    },
+                    SellPrice: {
+                        message: 'The  Sell Price must be a numeric number'
+                    }
+                }
+            },
+            bookIndex = 0;
+        $('#ProductList')
+            // Add button click handler
+            .on('click', '.addButton', function () {
+                //debugger;
+                bookIndex++;
+                var $template = $('#AddMoreProduct'),
+                    $clone = $template
+                                    .clone()
+                                    .removeClass('hide')
+                                    .removeAttr('id')
+                                    .attr('data-book-index', bookIndex)
+                                    .insertBefore($template);
+                // Update the name attributes
+                $clone
+                     .find('[name="LowerQty"]').attr('name', 'lstProductQty[' + bookIndex + '].LowerQty').end()
+                     .find('[name="UpperQty"]').attr('name', 'lstProductQty[' + bookIndex + '].UpperQty').end()
+                     .find('[name="SellPrice"]').attr('name', 'lstProductQty[' + bookIndex + '].SellPrice').end()
+                     .find('[name="LessAmount"]').bind("input propertychange paste", function () {
+                         var newsaleprice = $(this).val();
+                         var finalamount = ($('#ProductPrice').val()) - newsaleprice;
+                         $(this).closest('tr').find("input")[4].value = finalamount;
+                     })
+                     .find('[name="LessAmount"]').attr('name', 'lstProductQty[' + bookIndex + '].LessAmount').end();
+            })
+            // Remove button click handler
+            .on('click', '.removeButton', function () {
+                if ($(this).closest('tr').find("input[type=hidden]")[0].value != '') {
+                    if (DeleteItem == "") {
+                        DeleteItem = $(this).closest('tr').find("input[type=hidden]")[0].value;
+                    }
+                    else {
+                        DeleteItem = DeleteItem + ',' + $(this).closest('tr').find("input[type=hidden]")[0].value;
+                    }
+                }
+
+                var $row = $(this).parents('.form-group'),
+                    index = $row.attr('data-book-index');
+                $row.remove();
+            });
+
+    });
+
+
+
+    $('.LessAmount').on('input propertychange paste', function () {
+        //debugger;
+        var newsaleprice = $(this).val();
+        var finalamount = ($('#ProductPrice').val()) - newsaleprice;
+        $(this).closest('tr').find("input")[4].value = finalamount;
+    });
+</script>
+
+<script>
+
+    var DeleteOnlineItem = '';
+    $(document).ready(function () {
+
+        let productIndex = 0;
+        $('#OnlineProductQty')
+        .on('click', '.addButton', function () {
+            debugger
+            productIndex++;
+            var ProductPrice = $('#ProductPrice').val();
+            var $template = $('#AddMoreOnlineProduct'),
+                $clone = $template
+                                .clone()
+                                .removeClass('hide')
+                                .removeAttr('id')
+                                .attr('data-product-index', productIndex)
+                                .insertBefore($template);
+            // Update the name attributes
+            $clone
+                 .find('[name="OnlineProductPrice"]').attr('name', 'lstOnlineProductQty[' + productIndex + '].OnlineProductPrice').end()
+                 .find('[name="OnlineQty"]').attr('name', 'lstOnlineProductQty[' + productIndex + '].OnlineQty').end()
+                .find('[name="UnitID"]').attr('name', 'lstOnlineProductQty[' + productIndex + '].UnitID').end()
+
+                 //.find('[name="Factoring"]').attr('name', 'lstOnlineProductQty[' + productIndex + '].Factoring').end()
+
+                 .find('[name="Factoring"]').bind("input propertychange paste", function () {
+                     debugger
+                     // 10 June 2021 Piyush Limbani
+                     var ProductPrice = $('#ProductPrice').val();
+                     // 10 June 2021 Piyush Limbani
+                     var FactoringPer = $(this).val();
+                     var FactoringAmt = parseFloat(ProductPrice / FactoringPer).toFixed(2);
+                     $(this).closest('tr').find("input")[4].value = FactoringAmt;
+                     // 10 June 2021 Piyush Limbani
+                     var PremiumPercentage = $(this).closest('tr').find("input")[5].value;
+                     if (PremiumPercentage == 0) {
+                         $(this).closest('tr').find("input")[7].value = FactoringAmt;
+                     }
+                     else {
+                         var PremiumAmount = parseFloat((PremiumPercentage * FactoringAmt) / 100).toFixed(2);
+                         $(this).closest('tr').find("input")[6].value = PremiumAmount;
+                         var TotalAmount = (parseFloat(FactoringAmt) + parseFloat(PremiumAmount));
+                         $(this).closest('tr').find("input")[7].value = TotalAmount;
+                     }
+                     // 10 June 2021 Piyush Limbani
+                 }).end()
+
+
+
+                 .find('[name="FactoringAmount"]').attr('name', 'lstOnlineProductQty[' + productIndex + '].FactoringAmount').end()
+
+            //.find('[name="PremiumPercentage"]').attr('name', 'lstOnlineProductQty[' + productIndex + '].PremiumPercentage').end()
+
+                .find('[name="PremiumPercentage"]').bind("input propertychange paste", function () {
+                    debugger
+                    var PremiumPercentage = $(this).val();
+                    var FactoringAmount = $(this).closest('tr').find("input")[4].value;
+                    var PremiumAmount = parseFloat((PremiumPercentage * FactoringAmount) / 100).toFixed(2);
+                    var totalAmount = (parseFloat(FactoringAmount) + parseFloat(PremiumAmount));
+                    $(this).closest('tr').find("input")[6].value = PremiumAmount;
+                    $(this).closest('tr').find("input")[7].value = totalAmount;
+
+                }).end()
+
+
+
+            .find('[name="PremiumPercentageAmt"]').attr('name', 'lstOnlineProductQty[' + productIndex + '].PremiumPercentageAmt').end()
+            .find('[name="TotalOnlineAmount"]').attr('name', 'lstOnlineProductQty[' + productIndex + '].TotalOnlineAmount').end();
+
+            $('select').select2({ width: '100%' });
+            $tdvalue = $clone.find('td')[2];
+            $($tdvalue).find('span.select2.select2-container.select2-container--default')[1].remove();
+
+            $clone.find('td')[0].children[0].value = ProductPrice;
+        })
+            // Remove button click handler
+            .on('click', '.removeButton', function () {
+                if ($(this).closest('tr').find("input[type=hidden]")[0].value != '') {
+                    if (DeleteOnlineItem == "") {
+                        DeleteOnlineItem = $(this).closest('tr').find("input[type=hidden]")[0].value;
+                    }
+                    else {
+                        DeleteOnlineItem = DeleteOnlineItem + ',' + $(this).closest('tr').find("input[type=hidden]")[0].value;
+                    }
+                }
+
+                var $row = $(this).parents('.form-group'),
+                    index = $row.attr('data-product-index');
+                $row.remove();
+            });
+
+    });
+
+</script>
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+
+
+<script>
+    $(document).ready(function () {
+        debugger;
+        loadhtml();
+    });
+    $("#btnsearch").click(function () {
+
+        debugger;
+        var ProductPrice = $("#txtProductPrice").val();
+        loadhtml(ProductPrice);
+    });
+    function loadhtml(ProductPrice1) {
+        debugger
+        $.ajax({
+            url: '@Url.Action("ProductList")',
+            data: { 'ProductPrice': ProductPrice1 },
+            type: 'GET',
+            cache: false,
+        }).done(function (result) {
+            $('#lstcase').html(result);
+        });
+    }
+
+    $("#btnsavecase").click(function () {
+        var lstProductQty = [];
+        var lstOnlineProductQty = [];
+        //  debugger;
+        $('#ProductQty').children('tbody').children('tr:visible').each(function (index, row) {
+            if ($(row).find('td').length == 0) {
+                return;
+            }
+            var dataProQty = new Object();
+            dataProQty.ProductQtyID = $(row).find("input[type=hidden]")[0].value;
+            dataProQty.LowerQty = $(row).find("input")[0].value;
+            dataProQty.UpperQty = $(row).find("input")[2].value;
+            dataProQty.LessAmount = $(row).find("input")[3].value;
+            dataProQty.SellPrice = $(row).find("input")[4].value;
+            if ((dataProQty.LowerQty != '') && (dataProQty.UpperQty != '') && (dataProQty.LessAmount != '') && (dataProQty.SellPrice != '')) {
+                lstProductQty.push(dataProQty);
+            }
+        });
+
+        $('#OnlineProductQty').children('tbody').children('tr:visible').each(function (index, row) {
+            if ($(row).find('td').length == 0) {
+                return;
+            }
+            debugger
+            var dataProQty = new Object();
+            dataProQty.OnlineProductQtyID = $(row).find("input[type=hidden]")[0].value;
+            dataProQty.OnlineProductPrice = $(row).find("input")[0].value;
+            dataProQty.OnlineQty = $(row).find("input")[2].value;
+            dataProQty.UnitID = $(row).find("select option:selected").val();
+            dataProQty.Factoring = $(row).find("input")[3].value;
+            dataProQty.FactoringAmount = $(row).find("input")[4].value;
+            dataProQty.PremiumPercentage = $(row).find("input")[5].value;
+            dataProQty.PremiumPercentageAmt = $(row).find("input")[6].value;
+            dataProQty.TotalOnlineAmount = $(row).find("input")[7].value;
+            dataProQty.IsOnline = $(row).find('input[type="checkbox"]').is(":checked");
+            if ((dataProQty.OnlineProductPrice != '') && (dataProQty.OnlineQty != '') && (dataProQty.UnitID != '') && (dataProQty.Factoring != '') && (dataProQty.FactoringAmount != '')) {
+                lstOnlineProductQty.push(dataProQty);
+            }
+        });
+
+
+        var datareq = new Object();
+        datareq.DeleteItems = DeleteItem;
+        datareq.DeleteOnlineItem = DeleteOnlineItem;
+        datareq.ProductID = $("#UProductID").val();
+        datareq.ProductName = $("#ProductName").val();
+        datareq.ProductAlternateName = $("#ProductAlternateName").val();
+        datareq.CategoryID = $("#CategoryID").val();
+        datareq.GodownID = $("#GodownID").val();
+        datareq.ProductPrice = $("#ProductPrice").val();
+        datareq.UnitID = $("#UnitID").val();
+        datareq.PouchNameID = $("#PouchNameID").val();
+        datareq.ProductDescription = $("#ProductDescription").val();
+        datareq.HSNNumber = $("#HSNNumber").val();
+        datareq.SGST = $("#SGST").val();
+        datareq.CGST = $("#CGST").val();
+        datareq.IGST = $("#IGST").val();
+        datareq.HFor = $("#HFor").val();
+
+        //19-07-2022
+        datareq.SlabForGST = $("#SlabForGST").val();
+
+        datareq.lstProductQty = lstProductQty;
+        datareq.lstOnlineProductQty = lstOnlineProductQty;
+
+        $.ajax({
+            url: '@Url.Action("AddProduct")',
+            type: 'POST',
+            data: { 'data': datareq },
+            cache: false,
+        }).done(function (result) {
+            DeleteItem = "";
+            if (result == true) {
+                if ($("#ProductID").val() == "") {
+                    $('div#sucessalert').html("Product Add successfully.");
+                }
+                else {
+                    $('div#sucessalert').html("Product updated successfully.");
+                }
+                showhidealert();
+                loadhtml();
+                clearform();
+            }
+        });
+    });
+
+    $("#CancelProduct").click(function () {
+        clearform();
+    });
+
+    $("#ProductPrice").on('input propertychange paste keypress', function (e) {
+        var data = this.value;
+        $('#ProductQty tbody').children('tr:visible').each(function (index, row) {
+            if ($(row).find("td").length > 0) {
+                var LowerQty = $(row).find("input")[0].value;
+                var UpperQty = $(row).find("input")[2].value;
+                var LessAmount = $(row).find("input")[3].value;
+                var SellPrice = $(row).find("input")[4].value;
+                var finalprice = data - LessAmount;
+                $(row).find("input")[4].value = finalprice;
+            }
+        });
+
+       // $('#OnlineProductPrice').val(data);
+
+
+
+        // 10 June 2021 Piyush Limbani
+        $('#OnlineProductQty').children('tbody').children('tr:visible').each(function (index, row) {
+            if ($(row).find('td').length == 0) {
+                return;
+            }
+            debugger
+            var ProductPrice = $('#ProductPrice').val();
+            var dataProQty = new Object();
+            $(row).find("input")[0].value = ProductPrice;
+            var Factoring = $(row).find("input")[3].value;
+            var FactoringAmt = parseFloat(ProductPrice) / parseFloat(Factoring);
+            $(row).find("input")[4].value = (FactoringAmt).toFixed(2);
+            var PremiumPercentage = $(row).find("input")[5].value;
+            if (PremiumPercentage == 0) {
+                $(row).find("input")[7].value = FactoringAmt.toFixed(2);
+            }
+            else {
+                var PremiumAmount = parseFloat((PremiumPercentage * FactoringAmt) / 100).toFixed(2);
+                $(row).find("input")[6].value = PremiumAmount;
+                var TotalAmount = (parseFloat(FactoringAmt) + parseFloat(PremiumAmount));
+                $(row).find("input")[7].value = (TotalAmount).toFixed(2);
+            }
+        });
+        // 10 June 2021 Piyush Limbani
+
+
+    });
+
+    function clearform() {
+        $("#frmProduct").find("input").val("");
+        $("#frmProduct").find("textarea").val("");
+        $("#CategoryID").val("").trigger("change");
+        $("#GodownID").val("").trigger("change");
+        $("#UnitID").val("").trigger("change");
+        $("#PouchNameID").val("").trigger("change");
+        if ($('#ProductQty').find('tbody tr:visible').length > 1)
+            $('#ProductQty').find('tbody tr:visible').not(':first').empty();
+        if ($('#OnlineProductQty').find('tbody tr:visible').length > 1) {
+            $('#OnlineProductQty').find('tbody tr:visible').not(':first').empty();
+            $('#OnlineProductQty').children('tbody').children('tr:visible').find('td').find("select").val("").trigger("change");
+            $('#OnlineProductQty').children('tbody').children('tr:visible').find('td').find('input[type="checkbox"]').prop("checked", false);
+        }
+    }
+
+    $('.Factoring').on('input propertychange paste', function () {
+        debugger
+
+        var FactoringPer = $(this).val();
+        var OnlineProductPrice = $('#ProductPrice').val();
+        var FactoringAmt = parseFloat(OnlineProductPrice / FactoringPer).toFixed(2);
+        $(this).closest('tr').find("input")[4].value = FactoringAmt;
+
+
+        // 10 June 2021 Piyush Limbani
+        var PremiumPercentage = $(this).closest('tr').find("input")[5].value;
+        if (PremiumPercentage == 0) {
+            $(this).closest('tr').find("input")[7].value = FactoringAmt;
+        }
+        else {
+            var PremiumAmount = parseFloat((PremiumPercentage * FactoringAmt) / 100).toFixed(2);
+            $(this).closest('tr').find("input")[6].value = PremiumAmount;
+            var TotalAmount = (parseFloat(FactoringAmt) + parseFloat(PremiumAmount));
+            $(this).closest('tr').find("input")[7].value = TotalAmount;
+        }
+        // 10 June 2021 Piyush Limbani
+
+    });
+
+    $('.PremiumPercentage').on('input propertychange paste', function () {
+        debugger
+        var PremiumPercentage = $(this).closest('tr').find("input")[5].value;
+        var FactoringAmount = $(this).closest('tr').find("input")[4].value;
+
+        var PremiumAmount = parseFloat((PremiumPercentage * FactoringAmount) / 100).toFixed(2);
+        var totalAmount = (parseFloat(FactoringAmount) + parseFloat(PremiumAmount));
+
+        $(this).closest('tr').find("input")[6].value = PremiumAmount
+        $(this).closest('tr').find("input")[7].value = totalAmount;
+
+    });
+
+</script>

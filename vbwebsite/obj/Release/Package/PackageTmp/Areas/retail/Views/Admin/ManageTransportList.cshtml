@@ -1,0 +1,92 @@
+﻿@model List<vb.Data.RetTransportListResponse>
+@using vb.Data.ViewModel
+
+<div class="box">
+    <div class="box-header text-center">
+        <h3 class="box-title">Transport List</h3>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body table-scrollable1">
+        <table id="ListDataTable" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th class="nosort">Transport Name</th>
+                    <th class="nosort">Transport ID</th>
+                    <th class="nosort">GST Number</th>
+                    <th class="nosort">Contact Number</th>
+                    @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.RETRANSPORT.ToString()))
+                    {
+                        <th>Edit</th>
+                    }
+                    @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.RDTRANSPORT.ToString()))
+                    {
+                        <th>Status</th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td id="row" @item.TransportID>
+                            @item.TransportName
+                        </td>
+                        <td>
+                            @item.TransID
+                        </td>
+                        <td>
+                            @item.TransportGSTNumber
+                        </td>
+                        <td>
+                            @item.ContactNumber
+                        </td>
+                        @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.RETRANSPORT.ToString()))
+                        {
+                            <td>
+                                <a style="cursor:pointer;" class="btnedit" data-pid="@item.TransportID">Edit</a>
+                            </td>
+                        }
+                        @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.RDTRANSPORT.ToString()))
+                        {
+                            if (item.IsDelete == true)
+                            {
+                                <td>
+                                    @Html.ActionLink("Active", "DeleteTransport", "Admin",
+                                new { TransportID = item.TransportID, IsDelete = false },
+                                    new { onclick = "return confirm('Are you sure you wish to delete this article?');" })
+                                </td>
+                            }
+                            else
+                            {
+                                <td>
+                                    @Html.ActionLink("DeActive", "DeleteTransport", "Admin",
+                                new { TransportID = item.TransportID, IsDelete = true },
+                                    new { onclick = "return confirm('Are you sure you wish to delete this article?');" })
+                                </td>
+                            }
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <!-- /.box-body -->
+</div>
+
+<script>
+    $("#ListDataTable").DataTable({
+        'aoColumnDefs': [{
+            'bSortable': false,
+            'aTargets': ['nosort'] /* 1st one, start by the right */
+        }]
+    });
+
+    $('#ListDataTable').on('click', '.btnedit', function () {
+        $("#UTransportID").val($(this).attr("data-pid"));
+        $("#TransportName").val($(this).parent().parent().children()[0].innerHTML.trim());
+        $("#TransID").val($(this).parent().parent().children()[1].innerHTML.trim());
+        $("#TransportGSTNumber").val($(this).parent().parent().children()[2].innerHTML.trim());
+        $("#ContactNumber").val($(this).parent().parent().children()[3].innerHTML.trim());
+        $("html, body").animate({ scrollTop: 0 }, "slow");
+    });
+</script>

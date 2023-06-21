@@ -1,0 +1,792 @@
+﻿@model List<vb.Data.WholeMaterialListResponse>
+@using vb.Data.ViewModel
+
+<div class="box">
+    <div class="box-header text-center">
+        <h3 class="box-title">Padtar Whole Material List</h3>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body table-scrollable1">
+        <table id="ListDataTable" class="table table-bordered table-bordered">
+            <thead>
+                <tr>
+                    <td colspan="20" align="right">
+                        <button type="button" id="btnupdateMaterial" class="btn btn-info">Update Whole Material</button>
+                    </td>
+                </tr>
+                <tr>
+                    <th class="nosort">Item Name</th>
+                    <th class="nosort">GST %</th>
+                    <th class="nosort">Current Rate</th>
+                    <th class="nosort">Notes 1</th>
+                    <th class="nosort">Notes 2</th>
+                    <th class="nosort">Gasara %</th>
+                    <th class="nosort">Selling Rate Wholesale</th>
+                    <th class="nosort">Margin Wholesale %</th>
+                    <th class="nosort">Selling Rate Retail</th>
+                    <th class="nosort">Margin Retail %</th>
+                    <th class="nosort">Edit</th>
+                    <th class="nosort">Status</th>
+                    <th class="nosort"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td id="row">
+                            <input name="ProductID" class="hdnProductID" type="hidden" value="@item.ProductID" />
+                            @item.ProductName
+                        </td>
+                        <td>
+                            <input name="MaterialID" class="hdnMaterialID" type="hidden" value="@item.MaterialID" />
+                            <input id="GST" type="text" onkeypress="return isNumberKey(event)" class="form-control GST" name="GST" style="width:100px" value="@item.GST" />
+                        </td>
+                        <td>
+                            <input id="CurrentRate" type="text" onkeypress="return isNumberKey(event)" class="form-control CurrentRate" name="CurrentRate" style="width:100px" value="@item.CurrentRate" />
+
+                            <input id="Discount" type="hidden" class="form-control" name="Discount" style="width:100px" value="@item.Discount" />
+                            <input id="DiscountAmount" type="hidden" class="form-control" name="DiscountAmount" style="width:100px" disabled value="@item.DiscountAmount" />
+                            <input id="NetAmount" type="hidden" class="form-control" name="NetAmount" style="width:100px" disabled value="@item.NetAmount" />
+                            <input id="PackingCharge" type="hidden" class="form-control" name="PackingCharge" style="width:100px" value="@item.PackingCharge" />
+                            <input id="APMC" type="hidden" class="form-control" name="APMC" style="width:100px" value="@item.APMC" />
+                            <input id="APMCAmount" type="hidden" class="form-control" name="APMCAmount" style="width:100px" disabled value="@item.APMCAmount" />
+                            <input id="MarketFinal" type="hidden" class="form-control" name="MarketFinal" style="width:100px" disabled value="@item.MarketFinal" />
+                            <input id="Freight_P_KG" type="hidden" class="form-control" name="Freight_P_KG" style="width:100px" value="@item.Freight_P_KG" />
+                            <input id="Commision_P_KG" type="hidden" class="form-control" name="Commision_P_KG" style="width:100px" value="@item.Commision_P_KG" />
+                            <input id="KG_P_Hour" type="hidden" class="form-control" name="KG_P_Hour" style="width:100px" value="@item.KG_P_Hour" />
+                            <input id="Labour_P_Hour" type="hidden" class="form-control" name="Labour_P_Hour" style="width:100px" value="@item.Labour_P_Hour" />
+                            <input id="LabourAmount_P_KG" type="hidden" class="form-control" name="LabourAmount_P_KG" style="width:100px" disabled value="@item.LabourAmount_P_KG" />
+                            <input id="GrossRate" type="hidden" class="form-control" name="GrossRate" style="width:100px" disabled value="@item.GrossRate" />
+                        </td>
+                        <td>
+                            @*@item.Notes1*@
+                            <input id="Notes1" type="text" class="form-control" name="Notes1" style="width:100px" value="@item.Notes1" />
+                        </td>
+                        <td>
+                            @*@item.Notes2*@
+                            <input id="Notes2" type="text" class="form-control" name="Notes2" style="width:100px" value="@item.Notes2" />
+                        </td>
+                        <td>
+                            <input id="Gasara" type="text" onkeypress="return isNumberKey(event)" class="form-control Gasara" name="Gasara" style="width:100px" value="@item.Gasara" />
+                            <input id="GasaraAmount" type="hidden" class="form-control" name="GasaraAmount" style="width:100px" disabled value="@item.GasaraAmount" />
+                            <input id="Padtar" type="hidden" class="form-control" name="Padtar" style="width:100px" disabled value="@item.Padtar" />
+                        </td>
+                        <td>
+                            <input id="SellRateWholesale" type="text" onkeypress="return isNumberKey(event)" class="form-control SellRateWholesale" name="SellRateWholesale" style="width:100px" value="@item.SellRateWholesale" />
+                        </td>
+                        <td>
+                            <input id="MarginWholesale" type="text" class="form-control" name="MarginWholesale" style="width:100px" disabled value="@item.MarginWholesale" />
+                        </td>
+                        <td>
+                            <input id="SellRateRetail" type="text" onkeypress="return isNumberKey(event)" class="form-control SellRateRetail" name="SellRateRetail" style="width:100px" value="@item.SellRateRetail" />
+                        </td>
+                        <td>
+                            <input id="MarginRetail" type="text" class="form-control" name="MarginRetail" style="width:100px" disabled value="@item.MarginRetail" />
+                        </td>
+                        <td>
+                            <a style="cursor:pointer;" class="btnedit" data-materialid="@item.MaterialID" data-categoryid="@item.CategoryID" data-category="@item.Category" data-productid="@item.ProductID"
+                               data-gst="@item.GST" data-currentrate="@item.CurrentRate" data-notes1="@item.Notes1" data-notes2="@item.Notes2" data-apmc="@item.APMC" data-apmcamount="@item.APMCAmount"
+                               data-marketfinal="@item.MarketFinal" data-grossrate="@item.GrossRate" data-kg_p_hour="@item.KG_P_Hour" data-labour_p_hour="@item.Labour_P_Hour" data-gasara="@item.Gasara"
+                               data-gasaraamount="@item.GasaraAmount" data-sellratewholesale="@item.SellRateWholesale" data-sellrateretail="@item.SellRateRetail" data-marginwholesale="@item.MarginWholesale"
+                               data-marginretail="@item.MarginRetail" data-discount="@item.Discount" data-discountamount="@item.DiscountAmount" data-netamount="@item.NetAmount" data-packingcharge="@item.PackingCharge"
+                               data-freight_p_kg="@item.Freight_P_KG" data-commision_p_kg="@item.Commision_P_KG" data-labouramount_p_kg="@item.LabourAmount_P_KG" data-padtar="@item.Padtar" data-createdby="@item.CreatedBy"
+                               data-createdon="@item.CreatedOn" data-updatedby="@item.UpdatedBy" data-updatedon="@item.UpdatedOn">Edit</a>
+                        </td>
+
+
+                        @if (item.IsDelete == true)
+                        {
+                            <td>
+                                @Html.ActionLink("Active", "DeleteWholeMaterial", "Admin",
+                                      new { MaterialID = item.MaterialID, IsDelete = false },
+                                    new { onclick = "return confirm('Are you sure you wish to delete this article?');" })
+                            </td>
+                        }
+                        else
+                        {
+                            <td>
+                                @Html.ActionLink("DeActive", "DeleteWholeMaterial", "Admin",
+                                      new { MaterialID = item.MaterialID, IsDelete = true },
+                                    new { onclick = "return confirm('Are you sure you wish to delete this article?');" })
+                            </td>
+                        }
+
+                        <td>
+                            <input type="checkbox" id="chkselect" />
+                        </td>
+
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <!-- /.box-body -->
+</div>
+<script>
+
+    $("#ListDataTable").DataTable({
+        'aoColumnDefs': [{
+            'bSortable': false,
+            'aTargets': ['nosort'] /* 1st one, start by the right */
+        }]
+    });
+
+    //Select Time Get Data 
+    $('#ListDataTable').on('click', '.btnedit', function () {
+        //debugger;
+        $("#MaterialID").val($(this).attr("data-materialid"));
+        $("#CategoryID").val($(this).attr("data-categoryid"));
+        $("#Category").val($(this).attr("data-category"));
+        $("#ProductID").val($(this).attr("data-productid")).trigger("change");
+        $("#GST").val($(this).attr("data-gst"));
+        $("#CurrentRate").val($(this).attr("data-currentrate"));
+        $("#Notes1").val($(this).attr("data-notes1"));
+        $("#Notes2").val($(this).attr("data-notes2"));
+        $("#APMC").val($(this).attr("data-apmc"));
+        $("#APMCAmount").val($(this).attr("data-apmcamount"));
+        $("#MarketFinal").val($(this).attr("data-marketfinal"));
+        $("#GrossRate").val($(this).attr("data-grossrate"));
+        $("#KG_P_Hour").val($(this).attr("data-kg_p_hour"));
+        $("#Labour_P_Hour").val($(this).attr("data-labour_p_hour"));
+        $("#Gasara").val($(this).attr("data-gasara"));
+        $("#GasaraAmount").val($(this).attr("data-gasaraamount"));
+        $("#SellRateWholesale").val($(this).attr("data-sellratewholesale"));
+        $("#SellRateRetail").val($(this).attr("data-sellrateretail"));
+        $("#MarginWholesale").val($(this).attr("data-marginwholesale"));
+        $("#MarginRetail").val($(this).attr("data-marginretail"));
+        $("#Discount").val($(this).attr("data-discount"));
+        $("#DiscountAmount").val($(this).attr("data-discountamount"));
+        $("#NetAmount").val($(this).attr("data-netamount"));
+        $("#PackingCharge").val($(this).attr("data-packingcharge"));
+        $("#Freight_P_KG").val($(this).attr("data-freight_p_kg"));
+        $("#Commision_P_KG").val($(this).attr("data-commision_p_kg"));
+        $("#LabourAmount_P_KG").val($(this).attr("data-labouramount_p_kg"));
+        $("#Padtar").val($(this).attr("data-padtar"));
+        $("#CreatedBy").val($(this).attr("data-createdby"));
+        $("#CreatedOn").val($(this).attr("data-createdon"));
+        $("#UpdatedBy").val($(this).attr("data-updatedby"));
+        $("#UpdatedOn").val($(this).attr("data-updatedon"));
+        $("html, body").animate({ scrollTop: 0 }, "slow");
+    });
+
+</script>
+
+<script>
+
+    //Multiple Checkbox wise Update Records
+    $("#btnupdateMaterial").click(function () {
+
+        var lstMaterial = [];
+        $('#ListDataTable').children('tbody').children('tr:visible').each(function (index, row) {
+            debugger;
+            var IsCheck = $(row).find("input[type=checkbox]")[0];
+            if ($(IsCheck).is(':checked')) {
+                debugger;
+                var dataMaterial = new Object();
+                dataMaterial.ProductID = $(row).find("input[type=hidden]")[0].value;
+                dataMaterial.MaterialID = $(row).find("input[type=hidden]")[1].value;
+                dataMaterial.Discount = $(row).find("input[type=hidden]")[2].value;
+                dataMaterial.DiscountAmount = $(row).find("input[type=hidden]")[3].value;
+                dataMaterial.NetAmount = $(row).find("input[type=hidden]")[4].value;
+                dataMaterial.PackingCharge = $(row).find("input[type=hidden]")[5].value;
+                dataMaterial.APMC = $(row).find("input[type=hidden]")[6].value;
+                dataMaterial.APMCAmount = $(row).find("input[type=hidden]")[7].value;
+                dataMaterial.MarketFinal = $(row).find("input[type=hidden]")[8].value;
+                dataMaterial.Freight_P_KG = $(row).find("input[type=hidden]")[9].value;
+                dataMaterial.Commision_P_KG = $(row).find("input[type=hidden]")[10].value;
+                dataMaterial.KG_P_Hour = $(row).find("input[type=hidden]")[11].value;
+                dataMaterial.Labour_P_Hour = $(row).find("input[type=hidden]")[12].value;
+                dataMaterial.LabourAmount_P_KG = $(row).find("input[type=hidden]")[13].value;
+                dataMaterial.GrossRate = $(row).find("input[type=hidden]")[14].value;
+                dataMaterial.GasaraAmount = $(row).find("input[type=hidden]")[15].value;
+                dataMaterial.Padtar = $(row).find("input[type=hidden]")[16].value;
+
+                dataMaterial.GST = $(row).find("input")[2].value;
+                dataMaterial.CurrentRate = $(row).find("input")[3].value;
+                dataMaterial.Notes1 = $(row).find("input")[17].value;
+                dataMaterial.Notes2 = $(row).find("input")[18].value;
+                dataMaterial.Gasara = $(row).find("input")[19].value;
+                dataMaterial.SellRateWholesale = $(row).find("input")[22].value;
+                dataMaterial.MarginWholesale = $(row).find("input")[23].value;
+                dataMaterial.SellRateRetail = $(row).find("input")[24].value;
+                dataMaterial.MarginRetail = $(row).find("input")[25].value;
+
+                lstMaterial.push(dataMaterial);
+            }
+        });
+
+        if (lstMaterial.length > 0) {
+            $.ajax({
+                url: '@Url.Action("UpdateWholeMaterial")',
+                type: 'POST',
+                data: { 'data': lstMaterial },
+                cache: false,
+            }).done(function (result) {
+                if (result == true) {
+                    if ($("#MaterialID").val() == "") {
+                        $('div#sucessalert').html("Whole Material Add successfully.");
+                    }
+                    else {
+                        $('div#sucessalert').html("Whole Material updated successfully.");
+                    }
+                    showhidealert();
+                    loadhtml();
+                    clearform();
+                }
+            });
+        }
+        else {
+            alert("please select Whole Material")
+        }
+    });
+
+</script>
+
+<script>
+
+    //GST Wise Get All Calculation 
+    //$(".GST").on('input propertychange paste keypress', function (e) {
+    //    var end = this;
+    //    //debugger;
+    //    if (this.value != '') {
+
+    //        var row = $(this).closest('tr');
+    //        var GST = this.value;
+    //        var CurrentRate = $(this).closest('tr').find('input')[3].value;
+    //        var Discount = $(this).closest('tr').find('input')[4].value;
+    //        var PackingCharge = $(this).closest('tr').find('input')[7].value;
+    //        var APMC = $(this).closest('tr').find('input')[8].value;
+    //        var Freight_P_KG = $(this).closest('tr').find('input')[11].value;
+    //        var Commision_P_KG = $(this).closest('tr').find('input')[12].value;
+    //        var KG_P_Hour = $(this).closest('tr').find('input')[13].value;
+    //        var Labour_P_Hour = $(this).closest('tr').find('input')[14].value;
+    //        var Gasara = $(this).closest('tr').find('input')[19].value;
+    //        var SellRateWholesale = $(this).closest('tr').find('input')[22].value;
+    //        var SellRateRetail = $(this).closest('tr').find('input')[24].value;
+
+    //        $(end).closest('tr').find('td').each(function (index, td) {
+
+    //            //debugger;
+    //            //var CurrentRateAmount = (CurrentRate * (parseFloat(GST) / 100)).toFixed(2);
+    //            //var CurrentRateWithGST = (parseFloat(CurrentRateAmount) + parseFloat(CurrentRate));
+
+    //            var DiscountAmount = (parseFloat(CurrentRate) * (parseFloat(Discount) / 100)).toFixed(2);
+
+    //            var DiscountAmountTextbox = $(this).closest('tr').find('input')[5];
+    //            DiscountAmountTextbox.value = DiscountAmount;
+
+    //            var NetAmount = (CurrentRate - DiscountAmount).toFixed(2);
+
+    //            var NetAmountTextbox = $(this).closest('tr').find('input')[6];
+    //            NetAmountTextbox.value = NetAmount;
+
+
+
+    //            var APMCAmount = ((parseFloat(NetAmount) + parseFloat(PackingCharge)) * (parseFloat(APMC) / 100)).toFixed(2);
+
+    //            var APMCAmountTextbox = $(this).closest('tr').find('input')[9];
+    //            APMCAmountTextbox.value = APMCAmount;
+
+    //            var MarketFinal = (parseFloat(NetAmount) + parseFloat(PackingCharge) + parseFloat(APMCAmount)).toFixed(2);
+
+    //            var MarketFinalTextbox = $(this).closest('tr').find('input')[10];
+    //            MarketFinalTextbox.value = MarketFinal;
+
+
+    //            var LabourAmount_P_KG = (parseFloat(Labour_P_Hour) / parseFloat(KG_P_Hour)).toFixed(2);
+    //            var LabourAmount_P_KGTextbox = $(this).closest('tr').find('input')[15];
+
+    //            if (Labour_P_Hour != "0.00" && KG_P_Hour != "0.00" && LabourAmount_P_KG != "NaN") {
+
+
+    //                LabourAmount_P_KGTextbox.value = LabourAmount_P_KG;
+
+    //            } else if (Labour_P_Hour != "0.00" && KG_P_Hour == "0.00") {
+
+    //                LabourAmount_P_KG = "0.00";
+    //                LabourAmount_P_KGTextbox.value = LabourAmount_P_KG;
+
+    //            } else if (Labour_P_Hour == "0.00" && KG_P_Hour != "0.00") {
+
+    //                LabourAmount_P_KG = "0.00";
+    //                LabourAmount_P_KGTextbox.value = LabourAmount_P_KG;
+
+    //            } else {
+
+    //                LabourAmount_P_KG = "0.00";
+    //                LabourAmount_P_KGTextbox.value = LabourAmount_P_KG;
+
+    //            }
+
+    //            var GrossRate = (parseFloat(MarketFinal) + parseFloat(Freight_P_KG) + parseFloat(Commision_P_KG) + parseFloat(LabourAmount_P_KG)).toFixed(2);
+
+    //            var GrossRateTextbox = $(this).closest('tr').find('input')[16];
+    //            GrossRateTextbox.value = GrossRate;
+
+
+
+    //            var GasaraAmount = (parseFloat(GrossRate) * parseFloat(Gasara) / 100).toFixed(2);
+
+    //            var GasaraAmountTextbox = $(this).closest('tr').find('input')[20];
+    //            GasaraAmountTextbox.value = GasaraAmount;
+
+
+
+    //            var PadtarAmount = (parseFloat(GrossRate) + parseFloat(GasaraAmount)).toFixed(2);
+
+    //            var PadtarTextbox = $(this).closest('tr').find('input')[21];
+    //            PadtarTextbox.value = PadtarAmount;
+
+
+    //            var MarginWholesale = ((parseFloat(SellRateWholesale) - parseFloat(PadtarAmount)) * 100 / (parseFloat(PadtarAmount))).toFixed(2);
+
+    //            var MarginWholesaleTextbox = $(this).closest('tr').find('input')[23];
+    //            MarginWholesaleTextbox.value = MarginWholesale;
+
+
+    //            var MarginRetail = ((parseFloat(SellRateRetail) - parseFloat(PadtarAmount)) * 100 / (parseFloat(PadtarAmount))).toFixed(2);
+
+    //            var MarginRetailTextbox = $(this).closest('tr').find('input')[25];
+    //            MarginRetailTextbox.value = MarginRetail;
+
+    //        });
+
+    //    }
+    //});
+
+    //CurrentRate Wise Get All Calculation 
+    $(".CurrentRate").on('input propertychange paste keypress', function (e) {
+        var end = this;
+        //debugger;
+        if (this.value != '') {
+
+            var row = $(this).closest('tr');
+            var GST = $(this).closest('tr').find('input')[2].value;
+            var CurrentRate = this.value;
+            var Discount = $(this).closest('tr').find('input')[4].value;
+            var PackingCharge = $(this).closest('tr').find('input')[7].value;
+            var APMC = $(this).closest('tr').find('input')[8].value;
+            var Freight_P_KG = $(this).closest('tr').find('input')[11].value;
+            var Commision_P_KG = $(this).closest('tr').find('input')[12].value;
+            var KG_P_Hour = $(this).closest('tr').find('input')[13].value;
+            var Labour_P_Hour = $(this).closest('tr').find('input')[14].value;
+            var Gasara = $(this).closest('tr').find('input')[19].value;
+            var SellRateWholesale = $(this).closest('tr').find('input')[22].value;
+            var SellRateRetail = $(this).closest('tr').find('input')[24].value;
+
+            $(end).closest('tr').find('td').each(function (index, td) {
+
+                //debugger;
+                //var CurrentRateAmount = (CurrentRate * (parseFloat(GST) / 100)).toFixed(2);
+                //var CurrentRateWithGST = (parseFloat(CurrentRateAmount) + parseFloat(CurrentRate));
+
+                var DiscountAmount = (parseFloat(CurrentRate) * (parseFloat(Discount) / 100)).toFixed(2);
+
+                var DiscountAmountTextbox = $(this).closest('tr').find('input')[5];
+                DiscountAmountTextbox.value = DiscountAmount;
+
+                var NetAmount = (parseFloat(CurrentRate) - parseFloat(DiscountAmount)).toFixed(2);
+
+                var NetAmountTextbox = $(this).closest('tr').find('input')[6];
+                NetAmountTextbox.value = NetAmount;
+
+
+
+                var APMCAmount = ((parseFloat(NetAmount) + parseFloat(PackingCharge)) * (parseFloat(APMC) / 100)).toFixed(2);
+
+                var APMCAmountTextbox = $(this).closest('tr').find('input')[9];
+                APMCAmountTextbox.value = APMCAmount;
+
+                var MarketFinal = (parseFloat(NetAmount) + parseFloat(PackingCharge) + parseFloat(APMCAmount)).toFixed(2);
+
+                var MarketFinalTextbox = $(this).closest('tr').find('input')[10];
+                MarketFinalTextbox.value = MarketFinal;
+
+
+                var LabourAmount_P_KG = (parseFloat(Labour_P_Hour) / parseFloat(KG_P_Hour)).toFixed(2);
+                var LabourAmount_P_KGTextbox = $(this).closest('tr').find('input')[15];
+
+                if (Labour_P_Hour != "0.00" && KG_P_Hour != "0.00" && LabourAmount_P_KG != "NaN") {
+
+
+                    LabourAmount_P_KGTextbox.value = LabourAmount_P_KG;
+
+                } else if (Labour_P_Hour != "0.00" && KG_P_Hour == "0.00") {
+
+                    LabourAmount_P_KG = "0.00";
+                    LabourAmount_P_KGTextbox.value = LabourAmount_P_KG;
+
+                } else if (Labour_P_Hour == "0.00" && KG_P_Hour != "0.00") {
+
+                    LabourAmount_P_KG = "0.00";
+                    LabourAmount_P_KGTextbox.value = LabourAmount_P_KG;
+
+                } else {
+
+                    LabourAmount_P_KG = "0.00";
+                    LabourAmount_P_KGTextbox.value = LabourAmount_P_KG;
+
+                }
+
+                var GrossRate = (parseFloat(MarketFinal) + parseFloat(Freight_P_KG) + parseFloat(Commision_P_KG) + parseFloat(LabourAmount_P_KG)).toFixed(2);
+
+                var GrossRateTextbox = $(this).closest('tr').find('input')[16];
+                GrossRateTextbox.value = GrossRate;
+
+
+
+                var GasaraAmount = (parseFloat(GrossRate) * parseFloat(Gasara) / 100).toFixed(2);
+
+                var GasaraAmountTextbox = $(this).closest('tr').find('input')[20];
+                GasaraAmountTextbox.value = GasaraAmount;
+
+
+
+                var PadtarAmount = (parseFloat(GrossRate) + parseFloat(GasaraAmount)).toFixed(2);
+
+                var PadtarTextbox = $(this).closest('tr').find('input')[21];
+                PadtarTextbox.value = PadtarAmount;
+
+
+                var MarginWholesale = ((parseFloat(SellRateWholesale) - parseFloat(PadtarAmount)) * 100 / (parseFloat(PadtarAmount))).toFixed(2);
+
+                var MarginWholesaleTextbox = $(this).closest('tr').find('input')[23];
+                MarginWholesaleTextbox.value = MarginWholesale;
+
+
+                var MarginRetail = ((parseFloat(SellRateRetail) - parseFloat(PadtarAmount)) * 100 / (parseFloat(PadtarAmount))).toFixed(2);
+
+                var MarginRetailTextbox = $(this).closest('tr').find('input')[25];
+                MarginRetailTextbox.value = MarginRetail;
+
+            });
+
+        }
+    });
+
+    //Gasara Wise Get All Calculation 
+    $(".Gasara").on('input propertychange paste keypress', function (e) {
+        var end = this;
+        //debugger;
+        if (this.value != '') {
+
+            var row = $(this).closest('tr');
+            var Gasara = this.value;
+            var GST = $(this).closest('tr').find('input')[2].value;
+            var CurrentRate = $(this).closest('tr').find('input')[3].value;
+            var Discount = $(this).closest('tr').find('input')[4].value;
+            var PackingCharge = $(this).closest('tr').find('input')[7].value;
+            var APMC = $(this).closest('tr').find('input')[8].value;
+            var Freight_P_KG = $(this).closest('tr').find('input')[11].value;
+            var Commision_P_KG = $(this).closest('tr').find('input')[12].value;
+            var KG_P_Hour = $(this).closest('tr').find('input')[13].value;
+            var Labour_P_Hour = $(this).closest('tr').find('input')[14].value;
+            var SellRateWholesale = $(this).closest('tr').find('input')[22].value;
+            var SellRateRetail = $(this).closest('tr').find('input')[24].value;
+
+            $(end).closest('tr').find('td').each(function (index, td) {
+
+                //debugger;
+                //var CurrentRateAmount = (parseFloat(CurrentRate) * (parseFloat(GST) / 100)).toFixed(2);
+                //var CurrentRateWithGST = (parseFloat(CurrentRateAmount) + parseFloat(CurrentRate));
+
+                var DiscountAmount = (parseFloat(CurrentRate) * (parseFloat(Discount) / 100)).toFixed(2);
+
+                var DiscountAmountTextbox = $(this).closest('tr').find('input')[5];
+                DiscountAmountTextbox.value = DiscountAmount;
+
+                var NetAmount = (parseFloat(CurrentRate) - parseFloat(DiscountAmount)).toFixed(2);
+
+                var NetAmountTextbox = $(this).closest('tr').find('input')[6];
+                NetAmountTextbox.value = NetAmount;
+
+
+                var APMCAmount = ((parseFloat(NetAmount) + parseFloat(PackingCharge)) * (parseFloat(APMC) / 100)).toFixed(2);
+
+                var APMCAmountTextbox = $(this).closest('tr').find('input')[9];
+                APMCAmountTextbox.value = APMCAmount;
+
+                var MarketFinal = (parseFloat(NetAmount) + parseFloat(PackingCharge) + parseFloat(APMCAmount)).toFixed(2);
+
+                var MarketFinalTextbox = $(this).closest('tr').find('input')[10];
+                MarketFinalTextbox.value = MarketFinal;
+
+                var LabourAmount_P_KG = (parseFloat(Labour_P_Hour) / parseFloat(KG_P_Hour)).toFixed(2);
+                var LabourAmount_P_KGTextbox = $(this).closest('tr').find('input')[15];
+
+                if (Labour_P_Hour != "0.00" && KG_P_Hour != "0.00" && LabourAmount_P_KG != "NaN") {
+
+                    LabourAmount_P_KGTextbox.value = LabourAmount_P_KG;
+
+                } else if (Labour_P_Hour != "0.00" && KG_P_Hour == "0.00") {
+
+                    LabourAmount_P_KG = "0.00";
+                    LabourAmount_P_KGTextbox.value = LabourAmount_P_KG;
+
+                } else if (Labour_P_Hour == "0.00" && KG_P_Hour != "0.00") {
+
+                    LabourAmount_P_KG = "0.00";
+                    LabourAmount_P_KGTextbox.value = LabourAmount_P_KG;
+
+                } else {
+
+                    LabourAmount_P_KG = "0.00";
+                    LabourAmount_P_KGTextbox.value = LabourAmount_P_KG;
+
+                }
+
+                var GrossRate = (parseFloat(MarketFinal) + parseFloat(Freight_P_KG) + parseFloat(Commision_P_KG) + parseFloat(LabourAmount_P_KG)).toFixed(2);
+
+                var GrossRateTextbox = $(this).closest('tr').find('input')[16];
+                GrossRateTextbox.value = GrossRate;
+
+
+                var GasaraAmount = (parseFloat(GrossRate) * parseFloat(Gasara) / 100).toFixed(2);
+
+                var GasaraAmountTextbox = $(this).closest('tr').find('input')[20];
+                GasaraAmountTextbox.value = GasaraAmount;
+
+
+                var PadtarAmount = (parseFloat(GrossRate) + parseFloat(GasaraAmount)).toFixed(2);
+
+                var PadtarTextbox = $(this).closest('tr').find('input')[21];
+                PadtarTextbox.value = PadtarAmount;
+
+
+                var MarginWholesale = ((parseFloat(SellRateWholesale) - parseFloat(PadtarAmount)) * 100 / (parseFloat(PadtarAmount))).toFixed(2);
+
+                var MarginWholesaleTextbox = $(this).closest('tr').find('input')[23];
+                MarginWholesaleTextbox.value = MarginWholesale;
+
+
+                var MarginRetail = ((parseFloat(SellRateRetail) - parseFloat(PadtarAmount)) * 100 / (parseFloat(PadtarAmount))).toFixed(2);
+
+                var MarginRetailTextbox = $(this).closest('tr').find('input')[25];
+                MarginRetailTextbox.value = MarginRetail;
+
+            });
+
+        }
+    });
+
+    //SellRateWholesale Wise Get All Calculation 
+    $(".SellRateWholesale").on('input propertychange paste keypress', function (e) {
+        var end = this;
+        //debugger;
+        if (this.value != '') {
+
+            var row = $(this).closest('tr');
+            var SellRateWholesale = this.value;
+            var GST = $(this).closest('tr').find('input')[2].value;
+            var CurrentRate = $(this).closest('tr').find('input')[3].value;
+            var Discount = $(this).closest('tr').find('input')[4].value;
+            var PackingCharge = $(this).closest('tr').find('input')[7].value;
+            var APMC = $(this).closest('tr').find('input')[8].value;
+            var Freight_P_KG = $(this).closest('tr').find('input')[11].value;
+            var Commision_P_KG = $(this).closest('tr').find('input')[12].value;
+            var KG_P_Hour = $(this).closest('tr').find('input')[13].value;
+            var Labour_P_Hour = $(this).closest('tr').find('input')[14].value;
+            var Gasara = $(this).closest('tr').find('input')[19].value;
+            var SellRateRetail = $(this).closest('tr').find('input')[24].value;
+
+            $(end).closest('tr').find('td').each(function (index, td) {
+
+                //debugger;
+                //var CurrentRateAmount = (parseFloat(CurrentRate) * (parseFloat(GST) / 100)).toFixed(2);
+                //var CurrentRateWithGST = (parseFloat(CurrentRateAmount) + parseFloat(CurrentRate));
+
+                var DiscountAmount = (parseFloat(CurrentRate) * (parseFloat(Discount) / 100)).toFixed(2);
+
+                var DiscountAmountTextbox = $(this).closest('tr').find('input')[5];
+                DiscountAmountTextbox.value = DiscountAmount;
+
+                var NetAmount = (parseFloat(CurrentRate) - parseFloat(DiscountAmount)).toFixed(2);
+
+                var NetAmountTextbox = $(this).closest('tr').find('input')[6];
+                NetAmountTextbox.value = NetAmount;
+
+
+
+                var APMCAmount = ((parseFloat(NetAmount) + parseFloat(PackingCharge)) * (parseFloat(APMC) / 100)).toFixed(2);
+
+                var APMCAmountTextbox = $(this).closest('tr').find('input')[9];
+                APMCAmountTextbox.value = APMCAmount;
+
+                var MarketFinal = (parseFloat(NetAmount) + parseFloat(PackingCharge) + parseFloat(APMCAmount)).toFixed(2);
+
+                var MarketFinalTextbox = $(this).closest('tr').find('input')[10];
+                MarketFinalTextbox.value = MarketFinal;
+
+                var LabourAmount_P_KG = (parseFloat(Labour_P_Hour) / parseFloat(KG_P_Hour)).toFixed(2);
+                var LabourAmount_P_KGTextbox = $(this).closest('tr').find('input')[15];
+
+                if (Labour_P_Hour != "0.00" && KG_P_Hour != "0.00" && LabourAmount_P_KG != "NaN") {
+
+
+                    LabourAmount_P_KGTextbox.value = LabourAmount_P_KG;
+
+                } else if (Labour_P_Hour != "0.00" && KG_P_Hour == "0.00") {
+
+                    LabourAmount_P_KG = "0.00";
+                    LabourAmount_P_KGTextbox.value = LabourAmount_P_KG;
+
+                } else if (Labour_P_Hour == "0.00" && KG_P_Hour != "0.00") {
+
+                    LabourAmount_P_KG = "0.00";
+                    LabourAmount_P_KGTextbox.value = LabourAmount_P_KG;
+
+                } else {
+
+                    LabourAmount_P_KG = "0.00";
+                    LabourAmount_P_KGTextbox.value = LabourAmount_P_KG;
+
+                }
+
+                var GrossRate = (parseFloat(MarketFinal) + parseFloat(Freight_P_KG) + parseFloat(Commision_P_KG) + parseFloat(LabourAmount_P_KG)).toFixed(2);
+
+                var GrossRateTextbox = $(this).closest('tr').find('input')[16];
+                GrossRateTextbox.value = GrossRate;
+
+
+
+                var GasaraAmount = (parseFloat(GrossRate) * parseFloat(Gasara) / 100).toFixed(2);
+
+                var GasaraAmountTextbox = $(this).closest('tr').find('input')[20];
+                GasaraAmountTextbox.value = GasaraAmount;
+
+
+
+                var PadtarAmount = (parseFloat(GrossRate) + parseFloat(GasaraAmount)).toFixed(2);
+
+                var PadtarTextbox = $(this).closest('tr').find('input')[21];
+                PadtarTextbox.value = PadtarAmount;
+
+
+                var MarginWholesale = ((parseFloat(SellRateWholesale) - parseFloat(PadtarAmount)) * 100 / (parseFloat(PadtarAmount))).toFixed(2);
+
+                var MarginWholesaleTextbox = $(this).closest('tr').find('input')[23];
+                MarginWholesaleTextbox.value = MarginWholesale;
+
+
+                var MarginRetail = ((parseFloat(SellRateRetail) - parseFloat(PadtarAmount)) * 100 / (parseFloat(PadtarAmount))).toFixed(2);
+
+                var MarginRetailTextbox = $(this).closest('tr').find('input')[25];
+                MarginRetailTextbox.value = MarginRetail;
+
+            });
+
+        }
+    });
+
+    //SellRateRetail Get All Calculation 
+    $(".SellRateRetail").on('input propertychange paste keypress', function (e) {
+        var end = this;
+        //debugger;
+        if (this.value != '') {
+
+            var row = $(this).closest('tr');
+            var SellRateRetail = this.value;
+            var GST = $(this).closest('tr').find('input')[2].value;
+            var CurrentRate = $(this).closest('tr').find('input')[3].value;
+            var Discount = $(this).closest('tr').find('input')[4].value;
+            var PackingCharge = $(this).closest('tr').find('input')[7].value;
+            var APMC = $(this).closest('tr').find('input')[8].value;
+            var Freight_P_KG = $(this).closest('tr').find('input')[11].value;
+            var Commision_P_KG = $(this).closest('tr').find('input')[12].value;
+            var KG_P_Hour = $(this).closest('tr').find('input')[13].value;
+            var Labour_P_Hour = $(this).closest('tr').find('input')[14].value;
+            var Gasara = $(this).closest('tr').find('input')[19].value;
+            var SellRateWholesale = $(this).closest('tr').find('input')[22].value;
+
+            $(end).closest('tr').find('td').each(function (index, td) {
+
+                //debugger;
+                //var CurrentRateAmount = (parseFloat(CurrentRate) * (parseFloat(GST) / 100)).toFixed(2);
+                //var CurrentRateWithGST = (parseFloat(CurrentRateAmount) + parseFloat(CurrentRate));
+
+                var DiscountAmount = (parseFloat(CurrentRate) * (parseFloat(Discount) / 100)).toFixed(2);
+
+                var DiscountAmountTextbox = $(this).closest('tr').find('input')[5];
+                DiscountAmountTextbox.value = DiscountAmount;
+
+                var NetAmount = (parseFloat(CurrentRate) - parseFloat(DiscountAmount)).toFixed(2);
+
+                var NetAmountTextbox = $(this).closest('tr').find('input')[6];
+                NetAmountTextbox.value = NetAmount;
+
+
+
+                var APMCAmount = ((parseFloat(NetAmount) + parseFloat(PackingCharge)) * (parseFloat(APMC) / 100)).toFixed(2);
+
+                var APMCAmountTextbox = $(this).closest('tr').find('input')[9];
+                APMCAmountTextbox.value = APMCAmount;
+
+                var MarketFinal = (parseFloat(NetAmount) + parseFloat(PackingCharge) + parseFloat(APMCAmount)).toFixed(2);
+
+                var MarketFinalTextbox = $(this).closest('tr').find('input')[10];
+                MarketFinalTextbox.value = MarketFinal;
+
+
+                var LabourAmount_P_KG = (parseFloat(Labour_P_Hour) / parseFloat(KG_P_Hour)).toFixed(2);
+                var LabourAmount_P_KGTextbox = $(this).closest('tr').find('input')[15];
+
+                if (Labour_P_Hour != "0.00" && KG_P_Hour != "0.00" && LabourAmount_P_KG != "NaN") {
+
+
+                    LabourAmount_P_KGTextbox.value = LabourAmount_P_KG;
+
+                } else if (Labour_P_Hour != "0.00" && KG_P_Hour == "0.00") {
+
+                    LabourAmount_P_KG = "0.00";
+                    LabourAmount_P_KGTextbox.value = LabourAmount_P_KG;
+
+                } else if (Labour_P_Hour == "0.00" && KG_P_Hour != "0.00") {
+
+                    LabourAmount_P_KG = "0.00";
+                    LabourAmount_P_KGTextbox.value = LabourAmount_P_KG;
+
+                } else {
+
+                    LabourAmount_P_KG = "0.00";
+                    LabourAmount_P_KGTextbox.value = LabourAmount_P_KG;
+
+                }
+
+                var GrossRate = (parseFloat(MarketFinal) + parseFloat(Freight_P_KG) + parseFloat(Commision_P_KG) + parseFloat(LabourAmount_P_KG)).toFixed(2);
+
+                var GrossRateTextbox = $(this).closest('tr').find('input')[16];
+                GrossRateTextbox.value = GrossRate;
+
+
+
+                var GasaraAmount = (parseFloat(GrossRate) * parseFloat(Gasara) / 100).toFixed(2);
+
+                var GasaraAmountTextbox = $(this).closest('tr').find('input')[20];
+                GasaraAmountTextbox.value = GasaraAmount;
+
+
+
+                var PadtarAmount = (parseFloat(GrossRate) + parseFloat(GasaraAmount)).toFixed(2);
+
+                var PadtarTextbox = $(this).closest('tr').find('input')[21];
+                PadtarTextbox.value = PadtarAmount;
+
+
+                var MarginWholesale = ((parseFloat(SellRateWholesale) - parseFloat(PadtarAmount)) * 100 / (parseFloat(PadtarAmount))).toFixed(2);
+
+                var MarginWholesaleTextbox = $(this).closest('tr').find('input')[23];
+                MarginWholesaleTextbox.value = MarginWholesale;
+
+
+                var MarginRetail = ((parseFloat(SellRateRetail) - parseFloat(PadtarAmount)) * 100 / (parseFloat(PadtarAmount))).toFixed(2);
+
+                var MarginRetailTextbox = $(this).closest('tr').find('input')[25];
+                MarginRetailTextbox.value = MarginRetail;
+
+            });
+
+        }
+    });
+
+</script>

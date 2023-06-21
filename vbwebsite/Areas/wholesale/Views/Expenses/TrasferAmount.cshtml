@@ -1,0 +1,146 @@
+﻿@model vb.Data.Model.TransferAmount_Mst
+@{
+    ViewBag.Title = "TrasferAmount";
+    Layout = "~/Areas/retail/Views/Shared/_retaillayout.cshtml";
+}
+@using vb.Data.ViewModel
+<div class="box box-default">
+    <div class="box-header with-border text-center">
+        <h3 class="box-title">Transfer</h3>
+    </div>
+    <form id="frmTransfer" class="form-horizontal">
+        <div class="box-body">
+
+            <div class="col-md-4">
+                <div class="form-group">
+                    <input type="hidden" id="TransferID" value="" />
+                    <label for="FromGodownID" class="col-sm-4 control-label">From</label>
+                    <div class="col-sm-8">
+                        @Html.DropDownListFor(m => m.FromGodownID, new SelectList(ViewBag.Godown, "GodownID", "GodownName"), "Select Godown", new { @class = "form-control select2", tabindex = "1", @onchange = "GetGodwnTo(this.value)" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="ToGodownID" class="col-sm-4 control-label">To</label>
+                    <div class="col-sm-8">
+                        <select id="ToGodownID" class="form-control select2"></select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="Amount" class="col-sm-4 control-label">Amount</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="Amount" id="Amount" placeholder="Amount" tabindex="6" autocomplete="off">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- /.box-body -->
+        <div class="box-footer ">
+            <div class="pull-right">
+                <button type="button" id="btnCancel" class="btn btn-default" tabindex="12">Cancel</button>
+                <button type="button" id="btnsave" class="btn btn-info" tabindex="11">Save</button>
+            </div>
+        </div>
+        <!-- /.box-footer -->
+    </form>
+    <div id="lstcase">
+    </div>
+</div>
+
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script>
+    $(document).ready(function () {
+        loadhtml();
+    });
+
+    function loadhtml() {
+        $.ajax({
+            url: '@Url.Action("TrasferAmountList")',
+            type: 'GET',
+            cache: false,
+        }).done(function (result) {
+            $('#lstcase').html(result);
+        });
+    }
+
+
+    function GetGodwnTo(Type) {
+        debugger;
+        var lst = "<option value=0> Select Godown</option>";
+        $.ajax({
+            url: '@Url.Action("GetGodownForToGodown")',
+            type: 'GET',
+            data: { 'FromGodownID': Type },
+            dataType: 'json',
+            success: function (result) {
+                if (result != undefined) {
+                    if (result.length > 0) {
+                        debugger;
+                        for (var i = 0; i < result.length; i++) {
+                            lst += "<option value=" + result[i].GodownID + ">" + result[i].GodownName + "</option>"
+                        }
+                    }
+                }
+                debugger;
+                if ($("#ToGodownID")[0].length > 0) {
+                    debugger;
+                    $('#ToGodownID').find('option').remove().end()
+                }
+                debugger;
+                $("#ToGodownID").append(lst);
+                $("#ToGodownID").select2();
+                $("#ToGodownID").select2({ width: "100%" });
+            }
+        })
+    }
+
+
+    $("#btnsave").click(function () {
+        debugger;
+        var datareq = new Object();
+        datareq.TransferID = $("#TransferID").val();
+        datareq.FromGodownID = $("#FromGodownID").val();
+        datareq.ToGodownID = $("#ToGodownID").val();
+        datareq.Amount = $("#Amount").val();
+        //datareq.CreatedBy = $("#CreatedBy").val();
+        //datareq.CreatedOn = $("#CreatedOn").val();
+        $.ajax({
+            url: '@Url.Action("AddTransferAmount")',
+            type: 'POST',
+            data: { 'data': datareq },
+            cache: false,
+        }).done(function (result) {
+            //if (result == true) {
+            if (result > 0) {
+                var TransferID = result;
+                debugger;
+                if ($("#TransferID").val() == "") {
+                    $('div#sucessalert').html("Transfer successfully.");
+                }
+                else {
+                    $('div#sucessalert').html("Transfer updated successfully.");
+                }
+                showhidealert();
+                loadhtml();
+                clearform();
+            }
+        });
+    });
+
+    $("#btnCancel").click(function () {
+        clearform();
+    });
+
+    function clearform() {
+        $("#frmTransfer").find("input").val("");
+        $("#FromGodownID").val("").trigger("change");
+        $("#ToGodownID").val("").trigger("change");
+    }
+</script>

@@ -1,0 +1,151 @@
+﻿@model vb.Data.DynamicMenuModel
+<style>
+    .menu-inline {
+        display: inline;
+    }
+</style>
+<div class="box">
+    <div class="box-header text-center">
+        <h3 class="box-title">Menu List</h3>
+    </div>
+
+    <div id="frm-author" class="col-sm-12 panel-body">
+
+        <ul class="tree">
+            @for (int i = 0; i < Model.lstMainTier.Count(); i++)
+            {
+                <ul style="list-style:none">
+                    <li>
+                        <a href="#">
+                            @Html.CheckBoxFor(model => model.lstMainTier[i].IsActive, new { @class = "tree-checkbox level1_" + Model.lstMainTier[i].MenuID + "", @id = @Model.lstMainTier[i].MenuID, @onchange = "CheckUncheckParent(" + Model.lstMainTier[i].MenuID + ")" })
+                            <label for=@i>
+                                @Html.DisplayFor(model => model.lstMainTier[i].DisplayName)
+                            </label>
+                        </a>
+                        <ul style="list-style:none">
+                            @for (int j = 0; j < Model.lstMainTier[i].SubTier.Count(); j++)
+                            {
+                                int k = 1 + j;
+                                @Html.HiddenFor(model => model.lstMainTier[i].SubTier[j].MenuID)
+                                <li>
+                                    <a href="#">
+                                        @Html.CheckBoxFor(model => model.lstMainTier[i].SubTier[j].IsActive, new { @class = "tree-checkbox node-item level2_" + Model.lstMainTier[i].SubTier[j].MenuID + " level12_" + Model.lstMainTier[i].MenuID + "", @iid = i + "" + j, @id = @Model.lstMainTier[i].SubTier[j].MenuID, @onchange = "CheckUncheckSubParent(" + Model.lstMainTier[i].SubTier[j].MenuID + ")" })
+                                        <label for=@i@j>
+                                            @Html.DisplayFor(model => model.lstMainTier[i].SubTier[j].DisplayName)
+                                        </label>
+                                    </a>
+                                    <ul style="display: inline-block;">
+                                        @for (int m = 0; m < Model.lstMainTier[i].SubTier[j].ThirdTier.Count(); m++)
+                                        {
+                                            <li class="menu-inline">
+                                                <a href="#">
+                                                    @Html.HiddenFor(model => model.lstMainTier[i].SubTier[j].ThirdTier[m].MenuID)
+                                                    @Html.CheckBoxFor(model => model.lstMainTier[i].SubTier[j].ThirdTier[m].IsActive, new { @class = "tree-checkbox node-item level3_" + Model.lstMainTier[i].SubTier[j].MenuID + " level123_" + Model.lstMainTier[i].MenuID + " child_" + Model.lstMainTier[i].SubTier[j].ThirdTier[m].MenuID + "", @iid = i + "" + j, @id = @Model.lstMainTier[i].SubTier[j].ThirdTier[m].MenuID, @onchange = "CheckUncheckchild(" + Model.lstMainTier[i].SubTier[j].ThirdTier[m].MenuID + "," + Model.lstMainTier[i].SubTier[j].MenuID + "," + Model.lstMainTier[i].MenuID + ")" })
+                                                    <label for=@i@j@m>
+                                                        @Html.DisplayFor(model => model.lstMainTier[i].SubTier[j].ThirdTier[m].DisplayName)
+                                                    </label>
+                                                </a>
+                                            </li>
+                                        }
+                                    </ul>
+                                </li>
+                            }
+                        </ul>
+                    </li>
+                </ul>
+            }
+        </ul>
+
+    </div>
+
+    <div class="box-footer ">
+        <div class="pull-right">
+            <button type="button" id="CancelUsers" class="btn btn-default" tabindex="17">Cancel</button>
+            <button type="button" id="btnsavecase" class="btn btn-info" tabindex="16">Save</button>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    function CheckUncheckParent(ParentID) {
+
+        if ($(".level1_" + ParentID).is(":checked") == true) {
+            $(".level12_" + ParentID).prop("checked", true);
+            $(".level123_" + ParentID).prop("checked", true);
+        }
+        else {
+            $(".level12_" + ParentID).prop("checked", false);
+            $(".level123_" + ParentID).prop("checked", false);
+        }
+    }
+
+    function CheckUncheckSubParent(ParentID) {
+        if ($(".level2_" + ParentID).is(":checked") == true) {
+            $(".level3_" + ParentID).prop("checked", true);
+        }
+        else {
+            $(".level3_" + ParentID).prop("checked", false);
+        }
+    }
+
+    //function CheckUncheckchild(level3, level2, level1) {
+    //    if ($(".child_" + level3).is(":checked") == true) {
+    //        $(".level2_" + level2).prop("checked", true);
+    //        $(".level1_" + level1).prop("checked", true);
+    //    }
+    //    else {
+
+    //        if (true) {
+    //            $(".level2_" + level2).prop("checked", false);
+    //            $(".level1_" + level1).prop("checked", false);
+    //        }
+    //    }
+    //}
+
+    $("#btnsavecase").click(function () {
+        debugger;
+        var chklist = [];
+        var data = [];
+        chklist = $('#frm-author').find("input[type=checkbox]");
+        var datareq = new Object();
+        var roleid = $("#ddlRoleID").val();
+        data.MenuID = '0';
+        data.IsActive = true;
+        for (var i = 0; i < chklist.length; i++) {
+            data[i] = {
+                MenuID: chklist[i].id,
+                IsActive: chklist[i].checked,
+            };
+        }
+        $.ajax({
+            url: '@Url.Action("ManageAuthority")',
+            type: 'POST',
+            data: { 'data': data, 'roleid': roleid },
+            cache: false,
+        }).done(function (result) {
+            if (result == true) {
+                debugger;
+                if ($("#ddlRoleID").val() == "") {
+                    $('div#sucessalert').html("Role Rights Add successfully.");
+                }
+                else {
+                    $('div#sucessalert').html("Role Rights updated successfully.");
+                }
+                showhidealert();
+                clearform();
+            }
+        });
+    });
+
+    $("#CancelUsers").click(function () {
+        clearform();
+    });
+
+    function clearform() {
+        $("#ddlRoleID").val("").trigger("change");
+    }
+
+
+</script>
+

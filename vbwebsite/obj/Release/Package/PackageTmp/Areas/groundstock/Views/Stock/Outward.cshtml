@@ -1,0 +1,207 @@
+﻿@model List<vb.Data.GroundStockOutwardListResponse>
+@{
+    ViewBag.Title = "Outward";
+    Layout = "~/Areas/groundstock/Views/Shared/_groundstocklayout.cshtml";
+}
+
+@using vb.Data.ViewModel
+
+<style>
+    .clsDiv {
+        font-size: 24px;
+        padding: 0px;
+        margin: 0px;
+    }
+
+    button#btnclose,
+    #btnsaveOutward,
+    #btnOutward {
+        outline: none;
+    }
+</style>
+
+<div class="box">
+    <div class="box-header text-center">
+        <h3 class="box-title">Outward List</h3>
+    </div>
+    <div class="box-body table-scrollable1">
+        <table id="ListDataTable" class="table table-bordered table-bordered">
+            <thead>
+                <tr>
+                    <th>ProductName</th>
+                    <th>Net Weight</th>
+                    <th>Outward</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.ProductName</td>
+                        <td>@item.NetWeight</td>
+                        <td>
+                            <button class="btnOutward btn btn-info" id="btnOutward" type="button" data-productid="@item.ProductID" data-productname="@item.ProductName" data-openingqty="@item.OpeningQty" data-netweight="@item.NetWeight">Outward</button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div id="responsive" class="modal fade responsive">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" style="padding-bottom: 5px;">
+                    <h4 class="modal-title">Outward Details</h4>
+                </div>
+
+                <form class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <input name="ProductID" id="ProductID" type="hidden" value="" />
+                            </div>
+
+                            <div class="form-group">
+                                <label for="ProductName" class="col-sm-4 control-label">Product</label>
+                                <div class="col-sm-8" style="padding-bottom:5px;">
+                                    <input type="text" class="form-control" name="ProductName" id="ProductName" placeholder="ProductName" tabindex="2" value="" autocomplete="off" disabled="disabled">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="OpeningQty" class="col-sm-4 control-label">Open Stock</label>
+                                <div class="col-sm-8" style="padding-bottom:5px;">
+                                    <input type="text" class="form-control" name="OpeningQty" placeholder="Open Stock" value="" id="OpeningQty" autocomplete="off" disabled="disabled">
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label for="NetWeight" class="col-sm-4 control-label clslblNetWeight">Net Weight</label>
+                                <div class="col-sm-8" style="padding-bottom:5px;">
+                                    <input type="text" class="form-control" name="NetWeight" id="NetWeight" placeholder="Quantity" tabindex="2" value="" autocomplete="off">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="Date" class="col-sm-4 control-label">Outward Date</label>
+                                <div class="col-sm-8" style="padding-bottom:5px;">
+                                    <div class="input-group date">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
+                                        <input type="text" class="form-control pull-right datepicker" name="OutwardDate" id="OutwardDate" tabindex="3" value="" autocomplete="off" required>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </form>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-info" id="btnsaveOutward">Add Outward</button>
+                    <button type="button" class="btnclosepopup btn btn-info" id="btnclose" data-dismiss="modal" aria-hidden="true">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="lstcase">
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+
+<script>
+
+    $(document).ready(function () {
+
+        //Outward in set Current date
+        var today = new Date();
+        var dd = today.getDate();
+        var mm = today.getMonth() + 1; //January is 0!
+        var yyyy = today.getFullYear();
+        var date = $("#OutwardDate").val(mm + "/" + dd + "/" + yyyy);
+        //console.log(0 + "" + mm + "/" + 0 + "" + dd + "/" + yyyy);
+        //Outward in set Current date
+
+    });
+
+    $(".btnclosepopup").click(function () {
+        //debugger;
+        $('#responsive').removeClass("modal fade modal-overflow in");
+        $('#responsive').removeAttr('style');
+        $('#responsive').addClass("modal fade");
+    });
+
+    $(".btnOutward").click(function () {
+        debugger;
+        var ProductID = $(this).attr("data-productid");
+        var ProductName = $(this).attr("data-productname");
+        var OpeningQty = $(this).attr("data-openingqty");
+        var NetWeight = $(this).attr("data-netweight");
+        clearcontents(ProductID, ProductName, OpeningQty, NetWeight);
+        $("#responsive").removeClass("modal fade").addClass("modal fade modal-overflow in");
+        $("#responsive").css("display", "block");
+    });
+
+    function clearcontents(ProductID, ProductName, OpeningQty, NetWeight, StockQuantity) {
+        debugger;
+        $('#ProductID').attr('value', ProductID);
+        $('#ProductName').attr('value', ProductName);
+        $('#OpeningQty').attr('value', OpeningQty);
+        $('#NetWeight').attr('value', NetWeight);
+    }
+
+    $("#btnsaveOutward").click(function () {
+        debugger;
+        if (!($('#responsive').parsley().validate())) {
+            return;
+        }
+
+        debugger;
+        var datareq = new Object();
+        datareq.ProductID = $('#ProductID').val();
+        datareq.OutwardDate = $('#OutwardDate').val();
+        datareq.OpeningQty = $("#OpeningQty").val();
+        datareq.NetWeight = $("#NetWeight").val();
+
+        $.ajax({
+            url: '@Url.Action("AddOutwardBill", "Stock")',
+            type: 'POST',
+            data: { 'data': datareq },
+            cache: false,
+        }).done(function (result) {
+            if (result != '') {
+                if (result > 0) {
+
+                    if ($("#OutwardID").val() == "") {
+                        $('div#sucessalert').html("Outward Add successfully.");
+                        showhidealert();
+                    }
+                    else if ($("#OutwardID").val() != "") {
+                        $('div#sucessalert').html("Outward updated successfully.");
+                        showhidealert();
+                    }
+                    else {
+                        alert("something went wrong");
+                    }
+                    showhidealert();
+                    clearform();
+
+                }
+            }
+        });
+
+        $('#responsive').removeClass("modal fade modal-overflow in");
+        $('#responsive').removeAttr('style');
+        $('#responsive').addClass("modal fade");
+    });
+
+
+    function clearform() {
+        location.reload();
+    }
+
+</script>

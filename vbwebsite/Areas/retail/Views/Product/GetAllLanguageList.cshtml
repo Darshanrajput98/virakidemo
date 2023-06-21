@@ -1,0 +1,84 @@
+﻿@model List<vb.Data.GuiLanguageViewModel>
+@using vb.Data.ViewModel
+
+<div class="box">
+    <div class="box-header text-center">
+        <h3 class="box-title">Language List</h3>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body table-scrollable1">
+        <table id="ListDataTable" class="table table-bordered table-bordered">
+            <thead>
+                <tr>
+                    <th class="nosort col-sm-10" >Language Name</th> 
+                    <th class="nosort">Edit</th>
+                    <th class="nosort">Status</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null)
+                {
+                    if (Model.Count() > 0)
+                    {
+                        foreach (var item in Model)
+                        {
+                            <tr>
+                                <td id="row">
+                                    @item.LanguageName
+                                </td>
+                                
+
+                                <td>
+                                    <a style="cursor:pointer;" class="btnedit" data-guiid="@item.GuiID" data-createdon="@item.CreatedOn" data-createdby="@item.CreatedBy">Edit</a>
+                                </td>
+                                 
+                                @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.RDAREA.ToString()))
+                                {
+                                    if (item.IsDelete == true)
+                                    {
+                                        <td>
+                                            @Html.ActionLink("Active", "DeleteLanguage", "Product",
+                                          new { GuiID = item.GuiID, IsDelete = false },
+                                    new { onclick = "return confirm('Are you sure you wish to active this language?');" })
+                                        </td>
+                                    }
+                                    else
+                                    {
+                                        <td>
+                                            @Html.ActionLink("DeActive", "DeleteLanguage", "Product",
+                                            new { GuiID = item.GuiID, IsDelete = true },
+                                            new { onclick = "return confirm('Are you sure you wish to deactive this language?');" })
+                                        </td>
+                                    }
+                                }
+                                
+
+                            </tr>
+                        }
+                    }
+
+                }
+
+            </tbody>
+        </table>
+    </div>
+    <!-- /.box-body -->
+</div>
+
+    <script>
+        $("#ListDataTable").DataTable({
+            'aoColumnDefs': [{
+                'bSortable': false,
+                'aTargets': ['nosort'] /* 1st one, start by the right */
+            }]
+        });
+        
+        $('#ListDataTable').on('click', '.btnedit', function () {
+            debugger; 
+
+            var GuiID =   $(this).attr("data-guiid");
+            editLanguages(GuiID);
+
+        });
+</script>

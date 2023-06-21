@@ -1,0 +1,234 @@
+﻿@model List<vb.Data.VehicleListResponse>
+@using vb.Data.ViewModel
+
+<div class="box">
+    <div class="box-header text-center">
+        <h3 class="box-title">Vehicle List</h3>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body table-scrollable1">
+        <table id="ListDataTable" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th class="nosort">Vehicle No</th>
+                    <th class="nosort">Date Of Purchase</th>
+                    <th class="nosort">One Time Tax</th>
+                    <th class="nosort">Installment Amt</th>
+                    <th class="nosort">R C Certi.</th>
+                    <th class="nosort">Fitness Certi.</th>
+                    <th class="nosort">Permit Certi.</th>
+                    <th class="nosort">PUC Certi.</th>
+                    <th class="nosort">Insurance Certi.</th>
+                    <th class="nosort">Advertisement Certi.</th>
+                    <th class="nosort">Speed Governor Certi.</th>
+                    <th class="nosort">FSSAI Certi.</th>
+                    <th class="nosort">Green Tax Certi.</th>
+                    @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.EVehicle.ToString()))
+                    {
+                        <th>Edit</th>
+                    }
+                    @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.DVehicle.ToString()))
+                    {
+                        <th>Status</th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td id="row">
+                            @item.VehicleNumber
+                        </td>
+                        <td>
+                            @item.DateOfPurchasestr
+                        </td>
+                        <td>
+                            @item.OneTimeTax.ToString("0.00")
+                        </td>
+                        <td>
+                            @item.InstallmentAmount.ToString("0.00")
+                        </td>
+                        @if (@item.RCCertificatepath != "" && @item.RCCertificatepath != null)
+                        {
+                            <td>
+                                <a id="hrefaadharcard" class="" href="@item.RCCertificatepath" target="_blank"><i class="fa fa-download" style="font-size: 23px;" aria-hidden="true"></i></a>
+                            </td>
+                        }
+                        else
+                        {
+                            <td></td>
+                        }
+
+                        @if (@item.FitnessCertificatepath != "" && @item.FitnessCertificatepath != null)
+                        {
+                            <td>
+                                <a id="hrefaadharcard" class="" href="@item.FitnessCertificatepath" target="_blank"><i class="fa fa-download" style="font-size: 23px;" aria-hidden="true"></i></a>
+                            </td>
+                        }
+                        else
+                        {
+                            <td></td>
+                        }
+
+                        @if (@item.PermitCertificatepath != "" && @item.PermitCertificatepath != null)
+                        {
+                            <td>
+                                <a id="hrefaadharcard" class="" href="@item.PermitCertificatepath" target="_blank"><i class="fa fa-download" style="font-size: 23px;" aria-hidden="true"></i></a>
+                            </td>
+                        }
+                        else
+                        {
+                            <td></td>
+                        }
+                        @if (@item.PUCCertificatepath != "" && @item.PUCCertificatepath != null)
+                        {
+                            <td>
+                                <a id="hrefaadharcard" class="" href="@item.PUCCertificatepath" target="_blank"><i class="fa fa-download" style="font-size: 23px;" aria-hidden="true"></i></a>
+                            </td>
+                        }
+                        else
+                        {
+                            <td></td>
+                        }
+                        @if (@item.InsuranceCertificatepath != "" && @item.InsuranceCertificatepath != null)
+                        {
+                            <td>
+                                <a id="hrefaadharcard" class="" href="@item.InsuranceCertificatepath" target="_blank"><i class="fa fa-download" style="font-size: 23px;" aria-hidden="true"></i></a>
+                            </td>
+                        }
+                        else
+                        {
+                            <td></td>
+                        }
+                        @if (@item.AdvertisementCertificatepath != "" && @item.AdvertisementCertificatepath != null)
+                        {
+                            <td>
+                                <a id="hrefaadharcard" class="" href="@item.AdvertisementCertificatepath" target="_blank"><i class="fa fa-download" style="font-size: 23px;" aria-hidden="true"></i></a>
+                            </td>
+                        }
+                        else
+                        {
+                            <td></td>
+                        }
+                        @if (@item.SpeedGovernorCertificatepath != "" && @item.SpeedGovernorCertificatepath != null)
+                        {
+                            <td>
+                                <a id="hrefaadharcard" class="" href="@item.SpeedGovernorCertificatepath" target="_blank"><i class="fa fa-download" style="font-size: 23px;" aria-hidden="true"></i></a>
+                            </td>
+                        }
+                        else
+                        {
+                            <td></td>
+                        }
+                        @if (@item.FSSAICertificatepath != "" && @item.FSSAICertificatepath != null)
+                        {
+                            <td>
+                                <a id="hrefaadharcard" class="" href="@item.FSSAICertificatepath" target="_blank"><i class="fa fa-download" style="font-size: 23px;" aria-hidden="true"></i></a>
+                            </td>
+                        }
+                        else
+                        {
+                            <td></td>
+                        }
+
+                        @if (@item.GreenTaxCertificatepath != "" && @item.GreenTaxCertificatepath != null)
+                        {
+                            <td>
+                                <a id="hrefaadharcard" class="" href="@item.GreenTaxCertificatepath" target="_blank"><i class="fa fa-download" style="font-size: 23px;" aria-hidden="true"></i></a>
+                            </td>
+                        }
+                        else
+                        {
+                            <td></td>
+                        }
+
+                        @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.EVehicle.ToString()))
+                        {
+                            <td>
+                                <a style="cursor:pointer;" class="btnedit" data-vehicledetailid="@item.VehicleDetailID"
+                                   data-dateofpurchasestr="@item.DateOfPurchasestr" data-rcnovaliditystr="@item.RCNoValiditystr"
+                                   data-fitnessvaliditystr="@item.FitnessValiditystr" data-permitvaliditystr="@item.PermitValiditystr" data-pucvaliditystr="@item.PUCValiditystr"
+                                   data-insurancevaliditystr="@item.InsuranceValiditystr" data-advertisementvaliditystr="@item.AdvertisementValiditystr"
+                                   data-fssaicertificatevaliditystr="@item.FSSAICertificateValiditystr" data-installmentamountdatestr="@item.InstallmentAmountDatestr"
+                                   data-speedgovernorcertificatevaliditystr="@item.SpeedGovernorCertificateValiditystr"
+                                   data-onetimetaxdatestr="@item.OneTimeTaxDatestr"
+                                   data-greentaxcertificatevaliditystr="@item.GreenTaxCertificateValiditystr"
+                                   data-rccertificate="@item.RCCertificate" data-fitnesscertificate="@item.FitnessCertificate" data-permitcertificate="@item.PermitCertificate"
+                                   data-puccertificate="@item.PUCCertificate" data-insurancecertificate="@item.InsuranceCertificate"
+                                   data-advertisementcertificate="@item.AdvertisementCertificate"
+                                   data-speedgovernorcertificate="@item.SpeedGovernorCertificate" data-fssaicertificate="@item.FSSAICertificate"
+                                   data-greentaxcertificate="@item.GreenTaxCertificate">Edit</a>
+                            </td>
+                        }
+
+                        @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.DVehicle.ToString()))
+                        {
+                            if (item.IsDelete == true)
+                            {
+                                <td>
+                                    @Html.ActionLink("Active", "DeleteVehicle", "Admin",
+                                           new { VehicleDetailID = item.VehicleDetailID, IsDelete = false },
+                                            new { onclick = "return confirm('Are you sure you wish to delete this article?');" })
+                                </td>
+                            }
+                            else
+                            {
+                                <td>
+                                    @Html.ActionLink("DeActive", "DeleteVehicle", "Admin",
+                                                new { VehicleDetailID = item.VehicleDetailID, IsDelete = true },
+                                            new { onclick = "return confirm('Are you sure you wish to delete this article?');" })
+                                </td>
+                            }
+                        }
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+    <!-- /.box-body -->
+</div>
+
+<script>
+    $("#ListDataTable").DataTable({
+        'aoColumnDefs': [{
+            'bSortable': false,
+            'aTargets': ['nosort'] /* 1st one, start by the right */
+
+        }]
+    });
+
+    $('#ListDataTable').on('click', '.btnedit', function () {
+        $("#VehicleDetailID").val($(this).attr("data-vehicledetailid"));
+        $("#VehicleNumber").val($(this).parent().parent().children()[0].innerHTML.trim());
+        $("#OneTimeTax").val($(this).parent().parent().children()[2].innerHTML.trim());
+        $("#InstallmentAmount").val($(this).parent().parent().children()[3].innerHTML.trim());
+
+        $("#DateOfPurchase").val($(this).attr("data-dateofpurchasestr"));
+        $("#RCNoValidity").val($(this).attr("data-rcnovaliditystr"));
+        $("#FitnessValidity").val($(this).attr("data-fitnessvaliditystr"));
+        $("#PermitValidity").val($(this).attr("data-permitvaliditystr"));
+        $("#PUCValidity").val($(this).attr("data-pucvaliditystr"));
+        $("#InsuranceValidity").val($(this).attr("data-insurancevaliditystr"));
+        $("#AdvertisementValidity").val($(this).attr("data-advertisementvaliditystr"));
+        $("#SpeedGovernorCertificateValidity").val($(this).attr("data-speedgovernorcertificatevaliditystr"));
+        $("#FSSAICertificateValidity").val($(this).attr("data-fssaicertificatevaliditystr"));
+        $("#InstallmentAmountDate").val($(this).attr("data-installmentamountdatestr"));
+        $("#OneTimeTaxDate").val($(this).attr("data-onetimetaxdatestr"));
+        $("#GreenTaxCertificateValidity").val($(this).attr("data-greentaxcertificatevaliditystr"));
+
+        debugger;
+
+        $("#lblRCCertificate").text($(this).attr("data-rccertificate"));
+        $("#lblFitnessCertificate").text($(this).attr("data-fitnesscertificate"));
+        $("#lblPermitCertificate").text($(this).attr("data-permitcertificate"));
+        $("#lblPUCCertificate").text($(this).attr("data-puccertificate"));
+        $("#lblInsuranceCertificate").text($(this).attr("data-insurancecertificate"));
+        $("#lblAdvertisementCertificate").text($(this).attr("data-advertisementcertificate"));
+        $("#lblSpeedGovernorCertificate").text($(this).attr("data-speedgovernorcertificate"));
+        $("#lblFSSAICertificate").text($(this).attr("data-fssaicertificate"));
+        $("#lblGreenTaxCertificate").text($(this).attr("data-greentaxcertificate"));
+        $("html, body").animate({ scrollTop: 0 }, "slow");
+    });
+</script>

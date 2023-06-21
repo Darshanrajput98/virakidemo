@@ -1,0 +1,194 @@
+﻿@model List<vb.Data.PurchaseProductListResponse>
+@using vb.Data.ViewModel
+
+<div class="box">
+    <div class="box-header text-center">
+        <h3 class="box-title">Product List</h3>
+    </div>
+    <div class="box-body table-scrollable1">
+        <table id="ListDataTable" class="table table-bordered table-bordered">
+            <thead>
+                <tr>
+                    <td colspan="20" align="right">
+                        <button type="button" id="btnexport" class="btn btn-info" tabindex="20">Export To Excel</button>
+                        @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.WEPRODUCT.ToString()))
+                        {
+                            <button type="button" id="btnupdateproduct" class="btn btn-info">Update Product</button>
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <th class="nosort">Name</th>
+                    <th class="nosort">Alternate Name</th>
+                    <th class="nosort">Category</th>
+                    <th class="nosort">Description</th>
+                    <th class="nosort">HSN Number</th>
+                    <th class="nosort">SGST</th>
+                    <th class="nosort">CGST</th>
+                    <th class="nosort">IGST</th>
+                    <th class="nosort">H-For</th>
+                    @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.WEPRODUCT.ToString()))
+                    {
+                        <th class="nosort">Edit</th>
+                    }
+                    @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.WDPRODUCT.ToString()))
+                    {
+                        <th class="nosort">Status</th>
+                    }
+                    @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.WEPRODUCT.ToString()))
+                    {
+                        <th class="nosort"></th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td id="row">
+                            <input name="ProductID" class="hdnProductID" type="hidden" value="@item.ProductID" />
+                            @item.ProductName
+                        </td>
+                        <td>
+                            @item.ProductAlternateName
+                        </td>
+                        <td>
+                            @item.CategoryName
+                        </td>
+                        <td>
+                            @item.ProductDescription
+                        </td>
+                        <td>
+                            @item.HSNNumber
+                        </td>
+                        <td>
+                            <input id="SGST" type="text" class="form-control" name="SGST" style="width:60px" value="@item.SGST" autocomplete="off" />
+                        </td>
+                        <td>
+                            <input id="CGST" type="text" class="form-control" name="CGST" style="width:60px" value="@item.CGST" autocomplete="off" />
+                        </td>
+                        <td>
+                            <input id="IGST" type="text" class="form-control" name="Vehicle" style="width:60px" value="@item.IGST" autocomplete="off" />
+                        </td>
+                        <td>
+                            <input id="HFor" type="text" class="form-control" name="Vehicle" style="width:60px" value="@item.HFor" autocomplete="off" />
+                        </td>
+                        @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.WEPRODUCT.ToString()))
+                        {
+                            <td>
+                                <a style="cursor:pointer;" class="btnedit" data-pid="@item.ProductID"
+                                   data-productname="@item.ProductName"
+                                   data-productalternatename="@item.ProductAlternateName"
+                                   data-productdescription="@item.ProductDescription"
+                                   data-hsnnumber="@item.HSNNumber"
+                                   data-sgst="@item.SGST"
+                                   data-cgst="@item.CGST"
+                                   data-igst="@item.IGST"
+                                   data-hfor="@item.HFor"
+                                   data-createdby="@item.CreatedBy"
+                                   data-createdon="@item.CreatedOn">Edit</a>
+                            </td>
+                        }
+                        @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.WDPRODUCT.ToString()))
+                        {
+                            if (item.IsDelete == true)
+                            {
+                                <td>
+                                    @Html.ActionLink("Active", "DeleteProduct", "Admin",
+                                            new { ProductID = item.ProductID, IsDelete = false },
+                                    new { onclick = "return confirm('Are you sure you wish to delete this article?');" })
+                                </td>
+                            }
+                            else
+                            {
+                                <td>
+                                    @Html.ActionLink("DeActive", "DeleteProduct", "Admin",
+                                            new { ProductID = item.ProductID, IsDelete = true },
+                                    new { onclick = "return confirm('Are you sure you wish to delete this article?');" })
+                                </td>
+                            }
+                        }
+                        @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.WEPRODUCT.ToString()))
+                        {
+                            <td>
+                                <input type="checkbox" id="chkselect" />
+                            </td>
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+<script>
+    $("#ListDataTable").DataTable({
+        'aoColumnDefs': [{
+            'bSortable': false,
+            'aTargets': ['nosort'] /* 1st one, start by the right */
+
+        }]
+    });
+    $('#ListDataTable').on('click', '.btnedit', function () {
+        $("#ProductID").val($(this).attr("data-pid"));
+        $("#ProductName").val($(this).attr("data-productname"));
+        $("#ProductAlternateName").val($(this).attr("data-productalternatename"));
+        $("#CategoryID").val($(this).attr("data-catid")).trigger("change");
+        $("#ProductDescription").val($(this).attr("data-productdescription"));
+        $("#HSNNumber").val($(this).attr("data-hsnnumber"));
+        $("#SGST").val($(this).attr("data-sgst"));
+        $("#CGST").val($(this).attr("data-cgst"));
+        $("#IGST").val($(this).attr("data-igst"));
+        $("#HFor").val($(this).attr("data-hfor"));
+        $("#CreatedBy").val($(this).attr("data-createdby"));
+        $("#CreatedOn").val($(this).attr("data-createdon"));
+        $("html, body").animate({ scrollTop: 0 }, "slow");
+    });
+</script>
+
+<script>
+    $("#btnupdateproduct").click(function () {
+        var lstProduct = [];
+        $('#ListDataTable').children('tbody').children('tr:visible').each(function (index, row) {
+            var IsCheck = $(row).find("input[type=checkbox]")[0];
+            if ($(IsCheck).is(':checked')) {
+                var dataProduct = new Object();
+                dataProduct.ProductID = $(row).find("input[type=hidden]")[0].value;
+                dataProduct.SGST = $(row).find("input")[1].value;
+                dataProduct.CGST = $(row).find("input")[2].value;
+                dataProduct.IGST = $(row).find("input")[3].value;
+                dataProduct.HFor = $(row).find("input")[4].value;
+                lstProduct.push(dataProduct);
+            }
+        });
+        if (lstProduct.length > 0) {
+            $.ajax({
+                url: '@Url.Action("UpdateProduct")',
+                type: 'POST',
+                data: { 'data': lstProduct },
+                cache: false,
+            }).done(function (result) {
+                if (result == true) {
+                    if ($("#ProductID").val() == "") {
+                        $('div#sucessalert').html("Product Add successfully.");
+                    }
+                    else {
+                        $('div#sucessalert').html("Product updated successfully.");
+                    }
+                    showhidealert();
+                    loadhtml();
+                    clearform();
+                }
+            });
+        }
+        else {
+            alert("please select product")
+        }
+    });
+
+    $("#btnexport").click(function () {
+        var url = '@Url.Action("ExportExcelProduct", "Admin")';
+        window.location.href = url.replace();
+    });
+</script>
+
+

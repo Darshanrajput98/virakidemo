@@ -1,0 +1,97 @@
+﻿@model List<vb.Data.PFListResponse>
+@using vb.Data.ViewModel
+
+<div class="box">
+    <div class="box-header text-center">
+        <h3 class="box-title">PF List</h3>
+    </div>
+    <div class="box-body table-scrollable1">
+        <table id="ListDataTable" class="table table-bordered table-bordered">
+            <thead>
+                <tr>
+                    <th>Highest Slab</th>
+                    <th>Highest PF</th>
+                    <th>PF (%)</th>
+                    <th>Note</th>
+                    @*@if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.EPurchaseType.ToString()))
+                        {*@
+                    <th>Edit</th>
+                    @*}
+                        @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.DPurchaseType.ToString()))
+                        {*@
+                    <th>Status</th>
+                    @*}*@
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @item.HighestSlab
+                        </td>
+                        <td>
+                            @item.HighestPF
+                        </td>
+                        <td>
+                            @item.PFPercentage
+                        </td>
+                        <td>
+                            @item.Note
+                        </td>
+                        @*@if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.EPurchaseType.ToString()))
+                            {*@
+                        <td>
+                            <a style="cursor:pointer;" class="btnedit" data-pfid="@item.PFID" data-createdby="@item.CreatedBy" data-createdon="@item.CreatedOn" data-highestslab="@item.HighestSlab" data-highestpf="@item.HighestPF" data-pfpercentage="@item.PFPercentage" data-note="@item.Note">Edit</a>
+                        </td>
+                        @*}
+                            @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.DPurchaseType.ToString()))
+                            {*@
+                        @if (item.IsDelete == true)
+                        {
+                            <td>
+                                @Html.ActionLink("Active", "DeletePF", "Admin",
+                    new { PFID = item.PFID, IsDelete = false },
+                                        new { onclick = "return confirm('Are you sure you wish to delete this article?');" })
+                            </td>
+                        }
+                        else
+                        {
+                            <td>
+                                @Html.ActionLink("DeActive", "DeletePF", "Admin",
+                     new { PFID = item.PFID, IsDelete = true },
+                                        new { onclick = "return confirm('Are you sure you wish to delete this article?');" })
+                            </td>
+                        }
+                        @*}*@
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    $('#ListDataTable').DataTable({
+        'paging': true,
+        'lengthChange': true,
+        'searching': true,
+        'ordering': false,
+        'info': true,
+        'autoWidth': false
+    });
+
+    $('#ListDataTable').on('click', '.btnedit', function () {
+        debugger;
+        $("#PFID").val($(this).attr("data-pfid"));
+        $("#HighestSlab").val($(this).attr("data-highestslab"));
+        $("#HighestPF").val($(this).attr("data-highestpf"));
+        $("#PFPercentage").val($(this).attr("data-pfpercentage"));
+        $("#Note").val($(this).attr("data-note"));
+        $("#CreatedBy").val($(this).attr("data-createdby"));
+        $("#CreatedOn").val($(this).attr("data-createdon"));
+        $("html, body").animate({ scrollTop: 0 }, "slow");
+    });
+</script>
+
+

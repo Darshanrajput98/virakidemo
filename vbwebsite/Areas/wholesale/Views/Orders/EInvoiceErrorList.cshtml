@@ -1,0 +1,44 @@
+﻿@model List<vb.Data.EInvoiceErrorListResponse>
+
+<div class="box">
+    <div class="box-header text-center">
+        <h3 class="box-title">E-Invoice Error List</h3>
+    </div>
+    <div class="box-body">
+        <table id="ListDataTable" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th class="nosort" width="230px">Customer</th>
+                    <th class="nosort" width="140px">Invoice Number</th>
+                    <th class="nosort" width="250px">Error Codes</th>
+                    <th class="nosort">Error Desc</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td id="row">
+                            @item.CustomerName
+                        </td>
+                        <td>
+                            @item.InvoiceNumber
+                        </td>
+                        <td>
+                            @item.ErrorCodes
+                        </td>
+                        <td>
+                            @item.ErrorDesc
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+
+
+
+

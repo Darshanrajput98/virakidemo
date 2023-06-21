@@ -1,0 +1,552 @@
+﻿@{
+    ViewBag.Title = "ManageVehicle";
+    Layout = "~/Areas/wholesale/Views/Shared/_wholesalelayout.cshtml";
+}
+@using vb.Data.ViewModel
+
+<div class="box box-default">
+    <div class="box-header with-border text-center">
+        <h3 class="box-title">Add Vehicle Detail</h3>
+    </div>
+    <form id="frmUser" class="form-horizontal">
+        <div class="box-body">
+            <div class="col-md-12">
+                <div>
+                    <div class="box-body">
+
+                        <div class="col-md-12">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <input name="VehicleDetailID" id="VehicleDetailID" type="hidden" value="0" />
+                                    <label for="VehicleNumber" class="col-sm-4 control-label">Vehicle No</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="VehicleNumber" placeholder="Vehicle Number" autocomplete="off" required="required">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="DateOfPurchase" class="col-sm-4 control-label">Date Of Purchase</label>
+                                    <div class="col-sm-8">
+                                        <div class="input-group date">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </div>
+                                            <input type="text" class="form-control datepicker" id="DateOfPurchase" placeholder="Date Of Purchase" autocomplete="off">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="RCCertificate" class="col-sm-4 control-label">R.C Certi.</label>
+                                    <div class="col-sm-4">
+                                        <input type="file" id="RCCertificate" name="R.C Certificate">
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <label for="RCCertificate" id="lblRCCertificate"></label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="RCNoValidity" class="col-sm-4 control-label">Date</label>
+                                    <div class="col-sm-8">
+                                        <div class="input-group date">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </div>
+                                            <input type="text" class="form-control datepicker" id="RCNoValidity" placeholder="Validity Up To" autocomplete="off">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="FitnessCertificate" class="col-sm-4 control-label">Fitness Certi.</label>
+                                    <div class="col-sm-4">
+                                        <input type="file" id="FitnessCertificate" name="Fitness Certi.">
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <label for="FitnessCertificate" id="lblFitnessCertificate"></label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="FitnessValidity" class="col-sm-4 control-label">Date</label>
+                                    <div class="col-sm-8">
+                                        <div class="input-group date">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </div>
+                                            <input type="text" class="form-control datepicker" id="FitnessValidity" placeholder="Validity Up To" autocomplete="off">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="PermitCertificate" class="col-sm-4 control-label">Permit Certi.</label>
+                                    <div class="col-sm-4">
+                                        <input type="file" id="PermitCertificate" name="Permit Certi.">
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <label for="RCCertificate" id="lblPermitCertificate"></label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="PermitValidity" class="col-sm-4 control-label">Date</label>
+                                    <div class="col-sm-8">
+                                        <div class="input-group date">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </div>
+                                            <input type="text" class="form-control datepicker" id="PermitValidity" placeholder="Validity Up To" autocomplete="off">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="PUCCertificate" class="col-sm-4 control-label">PUC Certi.</label>
+                                    <div class="col-sm-4">
+                                        <input type="file" id="PUCCertificate" name="PUC Certi.">
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <label for="RCCertificate" id="lblPUCCertificate"></label>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="PUCValidity" class="col-sm-4 control-label">Date</label>
+                                    <div class="col-sm-8">
+                                        <div class="input-group date">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </div>
+                                            <input type="text" class="form-control datepicker" id="PUCValidity" placeholder="Validity Up To" autocomplete="off">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="InsuranceCertificate" class="col-sm-4 control-label">Insurance Certi.</label>
+                                    <div class="col-sm-4">
+                                        <input type="file" id="InsuranceCertificate" name="Insurance Certi.">
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <label for="RCCertificate" id="lblInsuranceCertificate"></label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="InsuranceValidity" class="col-sm-4 control-label">Date</label>
+                                    <div class="col-sm-8">
+                                        <div class="input-group date">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </div>
+                                            <input type="text" class="form-control datepicker" id="InsuranceValidity" placeholder="Validity Up To" autocomplete="off">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="AdvertisementCertificate" class="col-sm-4 control-label">Advertisement Certi.</label>
+                                    <div class="col-sm-4">
+                                        <input type="file" id="AdvertisementCertificate" name="Advertisement Certi.">
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <label for="AdvertisementCertificate" id="lblAdvertisementCertificate"></label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="AdvertisementValidity" class="col-sm-4 control-label">Date</label>
+                                    <div class="col-sm-8">
+                                        <div class="input-group date">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </div>
+                                            <input type="text" class="form-control datepicker" id="AdvertisementValidity" placeholder="Validity Up To" autocomplete="off">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="SpeedGovernorCertificate" class="col-sm-4 control-label">SpeedGovernor Certi.</label>
+                                    <div class="col-sm-4">
+                                        <input type="file" id="SpeedGovernorCertificate" name="SpeedGovernor Certi.">
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <label for="RCCertificate" id="lblSpeedGovernorCertificate"></label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="SpeedGovernorCertificateValidity" class="col-sm-4 control-label">Date</label>
+                                    <div class="col-sm-8">
+                                        <div class="input-group date">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </div>
+                                            <input type="text" class="form-control datepicker" id="SpeedGovernorCertificateValidity" placeholder="Validity Up To" autocomplete="off">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="FSSAICertificate" class="col-sm-4 control-label">FSSAI Certi.</label>
+                                    <div class="col-sm-4">
+                                        <input type="file" id="FSSAICertificate" name="FSSAI Certi.">
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <label for="RCCertificate" id="lblFSSAICertificate"></label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="FSSAICertificateValidity" class="col-sm-4 control-label">Date</label>
+                                    <div class="col-sm-8">
+                                        <div class="input-group date">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </div>
+                                            <input type="text" class="form-control datepicker" id="FSSAICertificateValidity" placeholder="Validity Up To" autocomplete="off">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-12">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="GreenTaxCertificate" class="col-sm-4 control-label">Green Tax Certi.</label>
+                                    <div class="col-sm-4">
+                                        <input type="file" id="GreenTaxCertificate" name="Green Tax Certi.">
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <label for="GreenTaxCertificate" id="lblGreenTaxCertificate"></label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="GreenTaxCertificateValidity" class="col-sm-4 control-label">Date</label>
+                                    <div class="col-sm-8">
+                                        <div class="input-group date">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </div>
+                                            <input type="text" class="form-control datepicker" id="GreenTaxCertificateValidity" placeholder="Validity Up To" autocomplete="off">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-12">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="InstallmentAmount" class="col-sm-4 control-label">Installment Amt</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="InstallmentAmount" placeholder="Installment Amt" autocomplete="off">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="InstallmentAmountDate" class="col-sm-4 control-label">Date</label>
+                                    <div class="col-sm-8">
+                                        <div class="input-group date">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </div>
+                                            <input type="text" class="form-control datepicker" id="InstallmentAmountDate" placeholder="Date" autocomplete="off">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="OneTimeTax" class="col-sm-4 control-label">One Time Tax</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="OneTimeTax" placeholder="One Time Tax" autocomplete="off">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="OneTimeTaxDate" class="col-sm-4 control-label">Date</label>
+                                    <div class="col-sm-8">
+                                        <div class="input-group date">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </div>
+                                            <input type="text" class="form-control datepicker" id="OneTimeTaxDate" placeholder="Date" autocomplete="off">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- /.box-body -->
+        <div class="box-footer ">
+            <div class="pull-right">
+                @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.AVehicle.ToString()))
+                {
+                    <button type="button" id="btnsavecase" class="btn btn-info" tabindex="16">Save</button>
+                }
+                <button type="button" id="CancelUsers" class="btn btn-default" tabindex="17">Cancel</button>
+                @*<button type="button" id="btnexport" class="btn btn-info" tabindex="16">Export To Excel</button>*@
+            </div>
+        </div>
+        <!-- /.box-footer -->
+    </form>
+    <div id="lstcase">
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script>
+
+    $(document).ready(function () {
+        loadhtml();
+    });
+
+    function loadhtml() {
+        $.ajax({
+            url: '@Url.Action("VehicleList")',
+            type: 'GET',
+            cache: false,
+        }).done(function (result) {
+            $('#lstcase').html(result);
+        });
+    }
+
+    $("#btnsavecase").click(function () {
+        debugger;
+        if (!($('#frmUser').parsley().validate())) {
+            return;
+        }
+        var data = new FormData();
+        debugger;
+        data.append("VehicleDetailID", $("#VehicleDetailID").val());
+        data.append("VehicleNumber", $("#VehicleNumber").val());
+        data.append("DateOfPurchase", $("#DateOfPurchase").val());
+        var RCCertificate = "";
+        if ($("#RCCertificate").val().length > 0) {
+            RCCertificate = $("#RCCertificate").get(0).files;
+        }
+        if (RCCertificate != "") {
+            data.append("RCCertificate", RCCertificate[0]);
+        }
+        else {
+            data.append("RCCertificate", RCCertificate);
+        }
+        data.append("RCNoValidity", $("#RCNoValidity").val());
+        var FitnessCertificate = "";
+        if ($("#FitnessCertificate").val().length > 0) {
+            FitnessCertificate = $("#FitnessCertificate").get(0).files;
+        }
+        if (FitnessCertificate != "") {
+            data.append("FitnessCertificate", FitnessCertificate[0]);
+        }
+        else {
+            data.append("FitnessCertificate", FitnessCertificate);
+        }
+        data.append("FitnessValidity", $("#FitnessValidity").val());
+        var PermitCertificate = "";
+        if ($("#PermitCertificate").val().length > 0) {
+            PermitCertificate = $("#PermitCertificate").get(0).files;
+        }
+        if (PermitCertificate != "") {
+            data.append("PermitCertificate", PermitCertificate[0]);
+        }
+        else {
+            data.append("PermitCertificate", PermitCertificate);
+        }
+        data.append("PermitValidity", $("#PermitValidity").val());
+        var PUCCertificate = "";
+        if ($("#PUCCertificate").val().length > 0) {
+            PUCCertificate = $("#PUCCertificate").get(0).files;
+        }
+        if (PUCCertificate != "") {
+            data.append("PUCCertificate", PUCCertificate[0]);
+        }
+        else {
+            data.append("PUCCertificate", PUCCertificate);
+        }
+        data.append("PUCValidity", $("#PUCValidity").val());
+        var InsuranceCertificate = "";
+        if ($("#InsuranceCertificate").val().length > 0) {
+            InsuranceCertificate = $("#InsuranceCertificate").get(0).files;
+        }
+        if (InsuranceCertificate != "") {
+            data.append("InsuranceCertificate", InsuranceCertificate[0]);
+        }
+        else {
+            data.append("InsuranceCertificate", InsuranceCertificate);
+        }
+        data.append("InsuranceValidity", $("#InsuranceValidity").val());
+        var AdvertisementCertificate = "";
+        if ($("#AdvertisementCertificate").val().length > 0) {
+            AdvertisementCertificate = $("#AdvertisementCertificate").get(0).files;
+        }
+        if (AdvertisementCertificate != "") {
+            data.append("AdvertisementCertificate", AdvertisementCertificate[0]);
+        }
+        else {
+            data.append("AdvertisementCertificate", AdvertisementCertificate);
+        }
+        data.append("AdvertisementValidity", $("#AdvertisementValidity").val());
+        var SpeedGovernorCertificate = "";
+        if ($("#SpeedGovernorCertificate").val().length > 0) {
+            SpeedGovernorCertificate = $("#SpeedGovernorCertificate").get(0).files;
+        }
+        if (SpeedGovernorCertificate != "") {
+            data.append("SpeedGovernorCertificate", SpeedGovernorCertificate[0]);
+        }
+        else {
+            data.append("SpeedGovernorCertificate", SpeedGovernorCertificate);
+        }
+        data.append("SpeedGovernorCertificateValidity", $("#SpeedGovernorCertificateValidity").val());
+        var FSSAICertificate = "";
+        if ($("#FSSAICertificate").val().length > 0) {
+            FSSAICertificate = $("#FSSAICertificate").get(0).files;
+        }
+        if (FSSAICertificate != "") {
+            data.append("FSSAICertificate", FSSAICertificate[0]);
+        }
+        else {
+            data.append("FSSAICertificate", FSSAICertificate);
+        }
+        data.append("FSSAICertificateValidity", $("#FSSAICertificateValidity").val());
+
+
+        var GreenTaxCertificate = "";
+        if ($("#GreenTaxCertificate").val().length > 0) {
+            GreenTaxCertificate = $("#GreenTaxCertificate").get(0).files;
+        }
+        if (GreenTaxCertificate != "") {
+            data.append("GreenTaxCertificate", GreenTaxCertificate[0]);
+        }
+        else {
+            data.append("GreenTaxCertificate", GreenTaxCertificate);
+        }
+        data.append("GreenTaxCertificateValidity", $("#GreenTaxCertificateValidity").val());
+
+
+
+
+        data.append("InstallmentAmount", $("#InstallmentAmount").val());
+        data.append("InstallmentAmountDate", $("#InstallmentAmountDate").val());
+        data.append("OneTimeTax", $("#OneTimeTax").val());
+        data.append("OneTimeTaxDate", $("#OneTimeTaxDate").val());
+        $.ajax({
+            url: '@Url.Action("AddVehicleDetails")',
+            type: 'POST',
+            data: data,
+            processData: false,
+            contentType: false,
+            cache: false,
+        }).done(function (result) {
+            if (result == true) {
+                if ($("#VehicleDetailID").val() == "") {
+                    $('div#sucessalert').html("Vehicle Detail Added successfully.");
+                }
+                else {
+                    $('div#sucessalert').html("Updated successfully.");
+                }
+                $("html, body").animate({ scrollTop: 0 }, "slow");
+                showhidealert();
+                loadhtml();
+                clearform();
+            }
+            else {
+                $('div#erroralert').html("EmployeeCode is already exist.");
+                debugger;
+                $("html, body").animate({ scrollTop: 0 }, "slow");
+                showhideerroralert();
+            }
+        });
+    });
+
+    $("#CancelUsers").click(function () {
+        debugger;
+        clearform();
+    });
+
+    function clearform() {
+        $("#frmUser").find("input").val("");
+        $("#frmUser").find("textarea").val("");
+        $("#UserID").val("").trigger("change");
+        $("#RoleID").val("").trigger("change");
+        $("#GodownID").val("").trigger("change");
+        $('#EmployeeCode').attr('readonly', false);
+        $("#lblRCCertificate").text("");
+        $("#lblFitnessCertificate").text("");
+        $("#lblPermitCertificate").text("");
+        $("#lblPUCCertificate").text("");
+        $("#lblInsuranceCertificate").text("");
+        $("#lblAdvertisementCertificate").text("");
+        $("#lblSpeedGovernorCertificate").text("");
+        $("#lblFSSAICertificate").text("");
+        $("#lblGreenTaxCertificate").text("");
+    }
+
+    $("#btnexport").click(function () {
+        debugger;
+        var url = '@Url.Action("ExportExcelUsers", "Admin")';
+        window.location.href = url.replace();
+    });
+
+</script>

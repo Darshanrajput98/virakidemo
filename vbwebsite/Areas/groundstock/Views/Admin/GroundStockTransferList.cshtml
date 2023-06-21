@@ -1,0 +1,101 @@
+﻿@model List<vb.Data.GroundStockTransferListResponse>
+
+@using vb.Data.ViewModel
+
+
+<div class="box">
+    <div class="box-header text-center">
+        <h3 class="box-title">Ground Stock Transfer List</h3>
+    </div>
+    <div class="box-body table-scrollable1">
+        <table id="ListDataTable" class="table table-bordered table-bordered">
+            <thead>
+                <tr>
+                    <th>ProductName</th>
+                    <th>Stock Transfer Quantity</th>
+                    <th>Min.Stock Transfer Quantity</th>
+                    <th>Stock Transfer Description</th>
+                    <th>Godown Name</th>
+                    
+                    @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.GEGroundStockTransfer.ToString()))
+                    {
+                        <th>Edit</th>
+                    }
+                    
+                    @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.GDGroundStockTransfer.ToString()))
+                    {
+                        <th>Status</th>
+                    }
+                    
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.ProductName</td>
+                        <td>@item.StockTransferQuantity</td>
+                        <td>@item.MinStockTransferQuantity</td>
+                        <td>@item.StockTransferDescription</td>
+                        <td>@item.GodownName</td>
+
+                        @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.GEGroundStockTransfer.ToString()))
+                        {
+                            <td>
+                                <a style="cursor:pointer;" class="btnedit" data-groundstocktransferid="@item.GroundStockTransferID" data-createdby="@item.CreatedBy" data-createdon="@item.CreatedOn" data-productid="@item.ProductID" data-stocktransferquantity="@item.StockTransferQuantity" data-minstocktransferquantity="@item.MinStockTransferQuantity" data-stocktransferdescription="@item.StockTransferDescription" data-godownid="@item.GodownID">Edit</a>
+                            </td>
+                        }
+                        
+                        @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.GDGroundStockTransfer.ToString()))
+                        {
+                            
+                            if (item.IsDelete == true)
+                            {
+                                <td>
+                                    @Html.ActionLink("Active", "DeleteStockTransfer", "Admin",
+                                    new { GroundStockTransferID = item.GroundStockTransferID, IsDelete = false },
+                                new { onclick = "return confirm('Are you sure you wish to delete this article?');" })
+                                </td>
+                            }
+                            else
+                            {
+                                <td>
+                                    @Html.ActionLink("DeActive", "DeleteStockTransfer", "Admin",
+                                    new { GroundStockTransferID = item.GroundStockTransferID, IsDelete = true },
+                                new { onclick = "return confirm('Are you sure you wish to delete this article?');" })
+                                </td>
+                            }
+                            
+                        }
+                        
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    $('#ListDataTable').DataTable({
+        'paging': true,
+        'lengthChange': true,
+        'searching': true,
+        'ordering': false,
+        'info': true,
+        'autoWidth': false
+    });
+
+    $('#ListDataTable').on('click', '.btnedit', function () {
+        debugger;
+        $("#GroundStockTransferID").val($(this).attr("data-groundstocktransferid"));
+        $("#ProductID").val($(this).attr("data-productid")).trigger("change");
+        $("#StockTransferQuantity").val($(this).attr("data-stocktransferquantity"));
+        $("#MinStockTransferQuantity").val($(this).attr("data-minstocktransferquantity"));
+        $("#StockTransferDescription").val($(this).attr("data-stocktransferdescription"));
+        $("#GodownID").val($(this).attr("data-godownid")).trigger("change");
+        $("#CreatedBy").val($(this).attr("data-createdby"));
+        $("#CreatedOn").val($(this).attr("data-createdon"));
+        $("html, body").animate({ scrollTop: 0 }, "slow");
+    });
+</script>
+

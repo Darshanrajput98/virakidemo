@@ -1,0 +1,157 @@
+﻿@model vb.Data.CurrencyViewModel
+
+@{
+    ViewBag.Title = "ManageCurrency";
+    Layout = "~/Areas/retail/Views/Shared/_retaillayout.cshtml";
+}
+
+
+<div class="box box-default">
+    <div class="box-header with-border text-center">
+        <h3 class="box-title">Add Currency</h3>
+    </div>
+    <form id="frmCurrency" class="form-horizontal">
+        <div class="box-body">
+            @*<div class="col-md-1">*@
+            <input type="hidden" id="hdnCurrencyID" />
+            <input type="hidden" id="hdnCreatedBy" />
+            <input type="hidden" id="hdnCreatedOn" />
+            @*</div>*@
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="CurrencyName" class="col-sm-4 control-label">Currency Name</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="CurrencyName" id="CurrencyName" placeholder="Currency Name" tabindex="1">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="CurrencySign" class="col-sm-4 control-label">Currency Sign</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="CurrencySign" id="CurrencySign" placeholder="Currency Sign" tabindex="3">
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="CurrencyCode" class="col-sm-4 control-label">Currency Code</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="CurrencyCode" id="CurrencyCode" placeholder="Currency Code" tabindex="2">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="box-footer ">
+            <div class="pull-right">
+                <button type="button" id="CancelCurrency" class="btn btn-default" tabindex="17">Cancel</button>
+                <button type="button" id="btnsavecurrency" class="btn btn-info" tabindex="16">Save</button>
+            </div>
+        </div>
+    </form>
+
+    <div id="lstcase">
+    </div>
+
+</div>
+
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script>
+    $(document).ready(function () {
+
+        $(document).ready(function () {
+            loadhtml();
+        });
+
+        function loadhtml() {
+            debugger
+            $.ajax({
+                url: '@Url.Action("GetAllCurrencyList")',
+                type: 'GET',
+                cache: false,
+            }).done(function (result) {
+                debugger
+                $('#lstcase').html(result);
+            });
+        }
+
+
+        $("#CancelCurrency").click(function () {
+            clearform();
+        });
+
+
+
+        $("#btnsavecurrency").click(function () {
+            var dataObj = new Object();
+            dataObj.CurrencyID = $("#hdnCurrencyID").val();
+            dataObj.CreatedBy = $("#hdnCreatedBy").val();
+            dataObj.CreatedOn = $("#hdnCreatedOn").val();
+            dataObj.CurrencyName = $("#CurrencyName").val();
+            dataObj.CurrencySign = $("#CurrencySign").val();
+            dataObj.CurrencyCode = $("#CurrencyCode").val();
+
+            debugger;
+            $.ajax({
+                url: '@Url.Action("AddCurrency")',
+                type: 'POST',
+                data: { 'data': dataObj },
+                cache: false,
+            }).done(function (result) {
+                if (result == true) {
+
+                    if ($("#hdnCurrencyID").val() == "") {
+                        $('div#sucessalert').html("Currency Add successfully.");
+                    }
+                    else {
+                        $('div#sucessalert').html("Currency updated successfully.");
+                    }
+                    loadhtml();
+                    clearform();
+                }
+                else {
+                    alert(dataObj.CurrencyName + " Currency is already exist.");
+                }
+            });
+        });
+
+
+    });
+
+    function clearform() {
+
+        $("#hdnCurrencyID").val("0");
+        $("#hdnCreatedBy").val("");
+        $("#hdnCreatedOn").val("");
+        $("#CurrencyName").val("");
+        $("#CurrencySign").val("");
+        $("#CurrencyCode").val("");
+    }
+
+    function editCurrency(CurrencyID) {
+        debugger;
+        $.ajax({
+            url: '@Url.Action("EditCurrency")',
+            type: 'POST',
+            data: { 'CurrencyID': CurrencyID },
+            cache: false,
+        }).done(function (result) {
+            $("#hdnCurrencyID").val(result.CurrencyID);
+            $("#hdnCreatedBy").val(result.CreatedBy);
+            $("#CurrencyName").val(result.CurrencyName);
+            $("#CurrencySign").val(result.CurrencySign);
+            $("#CurrencyCode").val(result.CurrencyCode);
+            if (result.CreatedOn != "" && result.CreatedOn != undefined) {
+
+                var date = new Date(parseInt(result.CreatedOn.substr(6)));
+                $("#hdnCreatedOn").val(date.toISOString());
+            }
+
+            $("html, body").animate({ scrollTop: 0 }, "slow");
+        });
+
+    }
+
+</script>

@@ -1,0 +1,89 @@
+﻿@model List<vb.Data.PackageStationListResponse>
+@using vb.Data.ViewModel
+
+<div class="box">
+    <div class="box-header text-center">
+        <h3 class="box-title">Package Station List</h3>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body table-scrollable1">
+        <table id="ListDataTable" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th class="nosort">Name</th>
+                    <th class="nosort">Godown</th>
+                    <th class="nosort">Station Superwiser</th>
+                    @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.REPACKAGESTATION.ToString()))
+                    {
+                        <th>Edit</th>
+                    }
+                    @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.RDPACKAGESTATION.ToString()))
+                    {
+                        <th>Status</th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td id="row" @item.PackageStationID>
+                            @item.PackageStationName
+                        </td>
+                        <td>
+                            @item.GodownName
+                        </td>
+                        <td>
+                            @item.UserFullName
+                        </td>
+                        @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.REPACKAGESTATION.ToString()))
+                        {
+                            <td>
+                                <a style="cursor:pointer;" class="btnedit" data-pid="@item.PackageStationID" data-godownid="@item.GodownID" data-userid="@item.UserID">Edit</a>
+                            </td>
+                        }
+                        @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.RDPACKAGESTATION.ToString()))
+                        {
+                            if (item.IsDelete == true)
+                            {
+                                <td>
+                                    @Html.ActionLink("Active", "DeletePackageStation", "Product",
+                                new { PackageStationID = item.PackageStationID, IsDelete = false },
+                                    new { onclick = "return confirm('Are you sure you wish to delete this article?');" })
+                                </td>
+                            }
+                            else
+                            {
+                                <td>
+                                    @Html.ActionLink("DeActive", "DeletePackageStation", "Product",
+                                new { PackageStationID = item.PackageStationID, IsDelete = true },
+                                    new { onclick = "return confirm('Are you sure you wish to delete this article?');" })
+                                </td>
+                            }
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <!-- /.box-body -->
+</div>
+
+<script>
+    $("#ListDataTable").DataTable({
+        'aoColumnDefs': [{
+            'bSortable': false,
+            'aTargets': ['nosort'] /* 1st one, start by the right */
+
+        }]
+    });
+
+    $('#ListDataTable').on('click', '.btnedit', function () {
+        $("#UPackageStationID").val($(this).attr("data-pid"));
+        $("#PackageStationName").val($(this).parent().parent().children()[0].innerHTML.trim());
+        $("#GodownID").val($(this).attr("data-godownid")).trigger("change");
+        $("#UserID").val($(this).attr("data-userid")).trigger("change");
+        $("html, body").animate({ scrollTop: 0 }, "slow");
+    });
+</script>
+

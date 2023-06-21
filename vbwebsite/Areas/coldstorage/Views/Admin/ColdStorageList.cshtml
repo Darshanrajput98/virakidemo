@@ -1,0 +1,139 @@
+﻿@model List<vb.Data.ColdStorageListResponse>
+
+@using vb.Data.ViewModel
+
+
+<div class="box">
+    <div class="box-header text-center">
+        <h3 class="box-title">ColdStorage List</h3>
+    </div>
+    <div class="box-body table-scrollable1">
+        <table id="ListDataTable" class="table table-bordered table-bordered">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Short Name</th>
+                    <th>Address</th>
+                    <th>Email</th>
+                    <th>GSTNo</th>
+                    <th>PANNo</th>
+                    <th>FSSAI License No</th>
+                    <th>Expiry Date</th>
+                    <th>Contact Person Name1</th>
+                    <th>Contact Person Name2</th>
+                    <th>Contact Person Name3</th>
+                    <th>Contact Number1</th>
+                    <th>Contact Number2</th>
+                    <th>Contact Number3</th>
+
+                    @*@if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.EPurchaseType.ToString()))
+                        {*@
+                    <th>Edit</th>
+                    @*}
+                        @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.DPurchaseType.ToString()))
+                        {*@
+                    <th>Status</th>
+                    @*}*@
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.Name</td>
+                        <td>@item.ShortName</td>
+                        <td>@item.Address</td>
+                        <td>@item.Email</td>
+                        <td>@item.GSTNo</td>
+                        <td>@item.PANNo</td>
+                        <td>@item.FssaiLicenseNo</td>
+                        @if (item.ExpiryDatestr.ToString() == "")
+                        {
+                            <td></td>
+                        }
+                        else
+                        {
+                            <td>@item.ExpiryDate.ToString("dd/MM/yyyy")</td>
+                        }
+                        <td>@item.ContactPersonName</td>
+                        <td>@item.ContactPersonName1</td>
+                        <td>@item.ContactPersonName2</td>
+                        <td>@item.ContactNumber</td>
+                        <td>@item.ContactNumber1</td>
+                        <td>@item.ContactNumber2</td>
+
+
+                        @*@if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.EPurchaseType.ToString())){*@
+
+                        <td>
+                            <a style="cursor:pointer;" class="btnedit" data-coldstorageid="@item.ColdStorageID" data-createdby="@item.CreatedBy" data-createdon="@item.CreatedOn" data-name="@item.Name" data-shortname="@item.ShortName" data-address="@item.Address" data-email="@item.Email" data-gstno="@item.GSTNo" data-panno="@item.PANNo" data-fssailicenseno="@item.FssaiLicenseNo" data-expirydate="@item.ExpiryDatestr" data-contactpersonname="@item.ContactPersonName" data-contactpersonname1="@item.ContactPersonName1" data-contactpersonname2="@item.ContactPersonName2" data-contactnumber="@item.ContactNumber" data-contactnumber1="@item.ContactNumber1" data-contactnumber2="@item.ContactNumber2">Edit</a>
+                        </td>
+
+                        @*}@if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.DPurchaseType.ToString())){*@
+
+                        @if (item.IsDelete == true)
+                        {
+                            <td>
+                                @Html.ActionLink("Active", "Delete", "Admin",
+                                new { ColdStorageID = item.ColdStorageID, IsDelete = false },
+                                new { onclick = "return confirm('Are you sure you wish to delete this article?');" })
+                            </td>
+                        }
+                        else
+                        {
+                            <td>
+                                @Html.ActionLink("DeActive", "Delete", "Admin",
+                                new { ColdStorageID = item.ColdStorageID, IsDelete = true },
+                                new { onclick = "return confirm('Are you sure you wish to delete this article?');" })
+                            </td>
+                        }
+                        @*}*@
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    $('#ListDataTable').DataTable({
+        'paging': true,
+        'lengthChange': true,
+        'searching': true,
+        'ordering': false,
+        'info': true,
+        'autoWidth': false
+    });
+
+    $('#ListDataTable').on('click', '.btnedit', function () {
+        debugger;
+
+        var date = $(this).attr("data-expirydate");
+
+        $("#ColdStorageID").val($(this).attr("data-coldstorageid"));
+        $("#Name").val($(this).attr("data-name"));
+        $("#ShortName").val($(this).attr("data-shortname"));
+        $("#Address").val($(this).attr("data-address"));
+        $("#Email").val($(this).attr("data-email"));
+        $("#GSTNo").val($(this).attr("data-gstno"));
+        $("#PANNo").val($(this).attr("data-panno"));
+        $("#FssaiLicenseNo").val($(this).attr("data-fssailicenseno"));
+
+        if (date == "") {
+            $("#ExpiryDate").val("");
+        }
+        else {
+            $("#ExpiryDate").val($(this).attr("data-expirydate"));
+        }
+
+        $("#ContactPersonName").val($(this).attr("data-contactpersonname"));
+        $("#ContactPersonName1").val($(this).attr("data-contactpersonname1"));
+        $("#ContactPersonName2").val($(this).attr("data-contactpersonname2"));
+        $("#ContactNumber").val($(this).attr("data-contactnumber"));
+        $("#ContactNumber1").val($(this).attr("data-contactnumber1"));
+        $("#ContactNumber2").val($(this).attr("data-contactnumber2"));
+        $("#CreatedBy").val($(this).attr("data-createdby"));
+        $("#CreatedOn").val($(this).attr("data-createdon"));
+        $("html, body").animate({ scrollTop: 0 }, "slow");
+    });
+</script>

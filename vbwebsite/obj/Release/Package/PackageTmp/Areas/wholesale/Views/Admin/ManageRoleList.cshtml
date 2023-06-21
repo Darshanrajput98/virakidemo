@@ -1,0 +1,85 @@
+﻿@model List<vb.Data.RoleListResponse>
+@using vb.Data.ViewModel
+
+<div class="box">
+    <div class="box-header text-center">
+        <h3 class="box-title">Role List</h3>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body">
+        <table id="ListDataTable" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th class="nosort">Role</th>
+                    @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.WEROLE.ToString()))
+                    {
+                        <th class="nosort">Edit</th>
+                    }
+                    @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.WDROLE.ToString()))
+                    {
+                        <th class="nosort">Status</th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td id="row" @item.RoleID>
+                            @item.RoleName
+                        </td>
+                        @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.WEROLE.ToString()))
+                        {
+                            <td>
+                                <a style="cursor:pointer;" class="btnedit" data-pid="@item.RoleID" data-createdby="@item.CreatedBy" data-createdon="@item.CreatedOn">Edit</a>
+                            </td>
+                        }
+                        @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.WDROLE.ToString()))
+                        {
+                            if (item.IsDelete == true)
+                            {
+                                <td>
+                                    @Html.ActionLink("Active", "DeleteRole", "Admin",
+                                        new { RoleID = item.RoleID, IsDelete = false },
+                                    new { onclick = "return confirm('Are you sure you wish to delete this article?');" })
+                                </td>
+                            }
+                            else
+                            {
+                                <td>
+                                    @Html.ActionLink("DeActive", "DeleteRole", "Admin",
+                                        new { RoleID = item.RoleID, IsDelete = true },
+                                    new { onclick = "return confirm('Are you sure you wish to delete this article?');" })
+                                </td>
+                            }
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <!-- /.box-body -->
+</div>
+
+<script>
+    $("#ListDataTable").DataTable({
+        'aoColumnDefs': [{
+            'bSortable': false,
+            'aTargets': ['nosort'] /* 1st one, start by the right */
+        }]
+    });
+
+    $('#ListDataTable').on('click', '.btnedit', function () {
+        $("#URoleID").val($(this).attr("data-pid"));
+        $("#RoleName").val($(this).parent().parent().children()[0].innerHTML.trim());
+        $("#CreatedBy").val($(this).attr("data-createdby"));
+        $("#CreatedOn").val($(this).attr("data-createdon"));  
+        var value = $(this).parent().parent().children()[1].innerHTML.trim();
+        if (value == 'True') {
+            $("#IsDelete").prop('checked', true);
+        }
+        else {
+            $("#IsDelete").prop('checked', false);
+        }
+    });
+</script>

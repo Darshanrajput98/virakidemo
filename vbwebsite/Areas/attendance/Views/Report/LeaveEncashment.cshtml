@@ -1,0 +1,116 @@
+﻿@{
+    ViewBag.Title = "LeaveEncashment";
+    Layout = "~/Areas/attendance/Views/Shared/_attendancelayout.cshtml";
+}
+
+<div class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Leave Encashment</h3>
+                </div>
+                <form id="frmLeaveEncashment" class="form-horizontal">
+                    <div class="box-body">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="FromDate" class="col-sm-4 control-label">From Date</label>
+                                <div class="col-sm-8">
+                                    <div class="input-group date">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
+                                        <input type="text" class="form-control pull-right datepicker" name="FromDate" id="FromDate" tabindex="3" required autocomplete="off">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="ToDate" class="col-sm-4 control-label">To Date</label>
+                                <div class="col-sm-8">
+                                    <div class="input-group date">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
+                                        <input type="text" class="form-control pull-right datepicker" name="ToDate" id="ToDate" tabindex="3" required autocomplete="off">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="GodownID" class="col-sm-4 control-label">Godown</label>
+                                <div class="col-sm-8">
+                                    @Html.DropDownList("GodownID", new SelectList(ViewBag.Godown, "GodownID", "GodownName"), "Select Godown", new { @class = "form-control select2" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="inputPassword3" class="col-sm-4 control-label">Employee</label>
+                                <div class="col-sm-8">
+                                    @Html.DropDownList("EmployeeCode", new SelectList(ViewBag.Employee, "EmployeeCode", "FullName"), "Select Employee", new { @class = "form-control select2", tabindex = "5" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="box-footer">
+                        <div class="pull-right">
+                            <button type="button" id="btnsearch" class="btn btn-info">Search</button>
+                            <button type="button" id="btncancel" class="btn btn-default">Cancel</button>
+                            <button type="button" id="btnexport" class="btn btn-info">Export To Excel</button>
+                        </div>
+                    </div>
+                </form>
+                <div id="lstattandance">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#btnsearch").click(function () {
+            loadhtml();
+        });
+        function loadhtml() {
+            if (!($('#frmLeaveEncashment').parsley().validate())) {
+                return;
+            }
+            var model = new Object();
+            model.FromDate = $("#FromDate").val();
+            model.ToDate = $("#ToDate").val();
+            model.GodownID = $("#GodownID").val();
+            model.EmployeeCode = $("#EmployeeCode").val();
+            $.ajax({
+                url: '@Url.Action("LeaveEncashmentList")',
+                type: 'POST',
+                data: { 'model': model },
+                cache: false,
+            }).done(function (result) {
+                $('#lstattandance').html(result);
+            });
+        }
+    });
+
+    $("#btnexport").click(function () {
+        debugger;
+        var model = new Object();
+        model.FromDate = $("#FromDate").val();
+        model.ToDate = $("#ToDate").val();
+        model.GodownID = $("#GodownID").val();
+        model.EmployeeCode = $("#EmployeeCode").val();
+        var url = '@Url.Action("ExportExcelLeaveEncashmentList", "Report", new { FromDate = "__FromDate__", ToDate = "__ToDate__", GodownID = "__GodownID__", EmployeeCode = "__EmployeeCode__" })';
+        url = url.replace(/amp;/g, '');
+        window.location.href = url.replace('__FromDate__', model.FromDate).replace('__ToDate__', model.ToDate).replace('__GodownID__', model.GodownID).replace('__EmployeeCode__', model.EmployeeCode);
+    });
+
+    $("#btncancel").click(function () {
+        location.reload();
+    });
+
+</script>
+

@@ -1,0 +1,120 @@
+﻿@model List<vb.Data.PouchListResponse>
+@using vb.Data.ViewModel
+
+<div class="box">
+    <div class="box-header text-center">
+        <h3 class="box-title">Pouch List</h3>
+    </div>
+    <div class="box-body table-scrollable1">
+        <table id="ListDataTable" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th class="nosort">Name</th>
+                    <th class="nosort">HSN Number</th>
+                    <th class="nosort">Description</th>
+                    <th class="nosort">Quantity</th>
+                    <th class="nosort">Material</th>
+                    <th class="nosort">Weight</th>
+                    <th class="nosort">KG</th>
+                    <th class="nosort">Godown</th>
+                    <th class="nosort">Min Quantity</th>
+                    @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.REPOUCH.ToString()))
+                    {
+                        <th>Edit</th>
+                    }
+                    @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.RDPOUCH.ToString()))
+                    {
+                        <th>Status</th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td id="row">
+                            @item.PouchName
+                        </td>
+                        <td>
+                            @item.HSNNumber
+                        </td>
+                        <td>
+                            @item.PouchDescription
+                        </td>
+                        <td>
+                            @item.PouchQuantity
+                        </td>
+                        <td>
+                            @item.Material
+                        </td>
+                        <td>
+                            @item.Weight
+                        </td>
+                        <td>
+                            @item.KG
+                        </td>
+                        <td>
+                            @item.GodownName
+                        </td>
+                        <td>
+                            @item.MinPouchQuantity
+                        </td>
+                        @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.REPOUCH.ToString()))
+                        {
+                            <td>
+                                <a style="cursor:pointer;" class="btnedit" data-pid="@item.PouchID" data-godownid="@item.GodownID" data-minpouchquantity="@item.MinPouchQuantity" data-createdby="@item.CreatedBy" data-createdon="@item.CreatedOn" data-pouchnameid="@item.PouchNameID">Edit</a>
+                            </td>
+                        }
+                        @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.RDPOUCH.ToString()))
+                        {
+                            if (item.IsDelete == true)
+                            {
+                                <td>
+                                    @Html.ActionLink("Active", "DeletePouch", "Product",
+                               new { PouchID = item.PouchID, IsDelete = false },
+                                    new { onclick = "return confirm('Are you sure you wish to delete this article?');" })
+                                </td>
+                            }
+                            else
+                            {
+                                <td>
+                                    @Html.ActionLink("DeActive", "DeletePouch", "Product",
+                               new { PouchID = item.PouchID, IsDelete = true },
+                                    new { onclick = "return confirm('Are you sure you wish to delete this article?');" })
+                                </td>
+                            }
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    $('#ListDataTable').DataTable({
+        'paging': true,
+        'lengthChange': true,
+        'searching': true,
+        'ordering': false,
+        'info': true,
+        'autoWidth': false
+    });
+
+    $('#ListDataTable').on('click', '.btnedit', function () {
+        debugger;
+        $("#PouchID").val($(this).attr("data-pid"));
+        $("#PouchName").val($(this).parent().parent().children()[0].innerHTML.trim());      
+        $("#PouchNameID").val($(this).attr("data-pouchnameid")).trigger("change");
+        $("#PouchDescription").val($(this).parent().parent().children()[2].innerHTML.trim());
+        $("#PouchQuantity").val($(this).parent().parent().children()[3].innerHTML.trim());
+        $("#Material").val($(this).parent().parent().children()[4].innerHTML.trim());
+        $("#Weight").val($(this).parent().parent().children()[5].innerHTML.trim());
+        $("#KG").val($(this).parent().parent().children()[6].innerHTML.trim());
+        $("#GodownID").val($(this).attr("data-godownid"));
+        $("#MinPouchQuantity").val($(this).attr("data-minpouchquantity"));
+        $("#CreatedBy").val($(this).attr("data-createdby"));
+        $("#CreatedOn").val($(this).attr("data-createdon"));
+        $("html, body").animate({ scrollTop: 0 }, "slow");
+    });
+</script>

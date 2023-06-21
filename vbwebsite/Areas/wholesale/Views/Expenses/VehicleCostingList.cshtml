@@ -1,0 +1,258 @@
+﻿@model List<vb.Data.VehicleCostingListResponse>
+@using vb.Data.ViewModel
+
+<div class="box">
+    <div class="box-header text-center">
+        <h3 class="box-title">Vehicle List</h3>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body table-scrollable1">
+        <table id="ListDataTable" class="table table-bordered table-striped lst1">
+            <thead>
+                <tr>
+                    <th class="nosort">Date</th>
+                    <th class="nosort">Tempo No</th>
+                    <th class="nosort">Area</th>
+                    <th class="nosort">Delivery Persons</th>
+                    <th class="nosort">Opening KM</th>
+                    <th class="nosort">Closing KM</th>
+                    <th class="nosort">Vehicle Out</th>
+                    <th class="nosort">Vehicle In</th>
+                    <th class="nosort">Total Hrs.</th>
+                    @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.EVehicleCosting.ToString()))
+                    {
+                        <th>Edit</th>
+                    }
+                    @*<th class="nosort">Trans Inward Amt.</th>
+                        <th class="nosort">Total Inward</th>
+                        <th class="nosort">Chillar Out</th>
+                        <th class="nosort">Expenses</th>
+                        <th class="nosort">Bank</th>
+                        <th class="nosort">Total Outward</th>
+                        <th class="nosort">Grand Total</th>
+                        <th>Edit</th>
+                        <th>Print</th>*@
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td id="row">
+                            @item.OutDatestr
+                        </td>
+                        <td>
+                            @item.VehicleNumber
+                        </td>
+                        <td>
+                            @item.AreaName
+                        </td>
+                        <td>
+                            @item.DeliveryPersons
+                        </td>
+
+                        <td>
+                            @item.OpeningKM.ToString("0.00")
+                        </td>
+                        <td>
+                            @item.ClosingKM.ToString("0.00")
+                        </td>
+                        <td>
+                            @item.OutDateTime
+                        </td>
+                        <td>
+                            @item.InDateTimestr
+                        </td>
+                        <td>
+                            @item.TotalHrs
+                        </td>
+                        @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.EVehicleCosting.ToString()))
+                        {
+                            <td>
+                                <a style="cursor:pointer;" class="btnedit" data-vehiclecostingid="@item.VehicleCostingID"
+                                   data-wholesalevehicleno1="@item.WholesaleVehicleNo1"
+                                   data-wholesaleinvioceamount1="@item.WholesaleInvioceAmount1.ToString("0.00")"
+                                   data-wholesaletotalkg1="@item.WholesaleTotalKG1"
+                                   data-wholesalevehicleno2="@item.WholesaleVehicleNo2"
+                                   data-wholesaleinvioceamount2="@item.WholesaleInvioceAmount2.ToString("0.00")"
+                                   data-wholesaletotalkg2="@item.WholesaleTotalKG2"
+                                   data-retailvehicleno1="@item.RetailVehicleNo1"
+                                   data-retailinvioceamount1="@item.RetailInvioceAmount1.ToString("0.00")"
+                                   data-retailtotalkg1="@item.RetailTotalKG1"
+                                   data-retailvehicleno2="@item.RetailVehicleNo2"
+                                   data-retailinvioceamount2="@item.RetailInvioceAmount2.ToString("0.00")"
+                                   data-retailtotalkg2="@item.RetailTotalKG2"
+                                   data-grandinvoiceamount="@item.GrandInvoiceAmount.ToString("0.00")"
+                                   data-grandtotalkg="@item.GrandTotalKG"
+                                   data-vehicledetailid="@item.VehicleDetailID"
+                                   data-areaname="@item.AreaName" data-deliveryperson1="@item.DeliveryPerson1" data-deliveryperson2="@item.DeliveryPerson2"
+                                   data-deliveryperson3="@item.DeliveryPerson3" data-deliveryperson4="@item.DeliveryPerson4"
+                                   data-openingkm="@item.OpeningKM" data-closingkm="@item.ClosingKM" data-outdatestr="@item.OutDatestr" data-outtimestr="@item.OutTimestr"
+                                   data-indatestr="@item.InDatestr" data-intimestr="@item.InTimestr"
+                                   data-createdby="@item.CreatedBy" data-createdon="@item.CreatedOn"
+                                   data-dieselopeningkm="@item.DieselOpeningKM"
+                                   data-dieselkm="@item.DieselKM"
+                                   data-dieselamount="@item.DieselAmount.ToString("0.00")"
+                                   data-dieselliter="@item.DieselLiter"
+                                   data-repairingamount="@item.RepairingAmount.ToString("0.00")"
+                                   data-repairingdetail="@item.RepairingDetail"
+                                   data-repairingamount2="@item.RepairingAmount2.ToString("0.00")"
+                                   data-repairingdetail2="@item.RepairingDetail2"
+                                   data-repairingamount3="@item.RepairingAmount3.ToString("0.00")"
+                                   data-repairingdetail3="@item.RepairingDetail3"
+                                   data-tollamount="@item.TollAmount.ToString("0.00")"
+                                   data-tolldetail="@item.TollDetail"
+                                   data-bharaiamount="@item.BharaiAmount.ToString("0.00")"
+                                   data-bharaidetail="@item.BharaiDetail"
+                                   data-miscellaneousamount1="@item.MiscellaneousAmount1.ToString("0.00")"
+                                   data-miscellaneousamount2="@item.MiscellaneousAmount2.ToString("0.00")"
+                                   data-miscellaneousamount3="@item.MiscellaneousAmount3.ToString("0.00")"
+                                   data-miscellaneousdetail1="@item.MiscellaneousDetail1"
+                                   data-miscellaneousdetail2="@item.MiscellaneousDetail2"
+                                   data-miscellaneousdetail3="@item.MiscellaneousDetail3">Edit</a>
+                            </td>
+                        }
+
+                        @*<td>
+                                @item.TransferAmountInward.ToString("0.00")
+                            </td>
+                            <td>
+                                @item.TotalInward.ToString("0.00")
+                            </td>
+                            <td>
+                                @item.ChillarOutward.ToString("0.00")
+                            </td>
+                            <td>
+                                @item.TotalExpenses.ToString("0.00")
+                            </td>
+
+                            <td>
+                                @item.BankDepositeAmount.ToString("0.00")
+                            </td>
+                            <td>
+                                @item.TotalOutward.ToString("0.00")
+                            </td>
+                            <td>
+                                @item.GrandTotal.ToString("0.00")
+                            </td>
+                            <td>
+                                <a style="cursor:pointer;" class="btnedit" data-inwardid="@item.InwardID">Edit</a>
+                            </td>
+                            <td>
+                                <a style="cursor:pointer;" class="btnprint" data-inwardid="@item.InwardID" data-godownid="@item.GodownID" data-expensesdate="@item.ExpensesDate">Print</a>
+                            </td>*@
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <!-- /.box-body -->
+</div>
+
+<script>
+
+    $('#ListDataTable').DataTable({
+        'paging': true,
+        'lengthChange': true,
+        'searching': true,
+        'ordering': false,
+        'info': true,
+        'autoWidth': false
+    });
+
+    $('#ListDataTable').on('click', '.btnedit', function () {
+        debugger;
+        $("#VehicleCostingID").val($(this).attr("data-vehiclecostingid"));
+
+
+        $('#WholesaleVehicleNo1')
+        .append($("<option></option>")
+                   .attr("value", $(this).attr("data-wholesalevehicleno1"))
+                   .text($(this).attr("data-wholesalevehicleno1")));
+        $("#WholesaleVehicleNo1").val($(this).attr("data-wholesalevehicleno1"));
+        $("#WholesaleVehicleNo1").attr("disabled", "disabled");
+
+        $("#WholesaleInvioceAmount1").val($(this).attr("data-wholesaleinvioceamount1"));
+        $("#WholesaleInvioceAmount1").attr("disabled", "disabled");
+        $("#WholesaleTotalKG1").val($(this).attr("data-wholesaletotalkg1"));
+
+        $('#WholesaleVehicleNo2')
+       .append($("<option></option>")
+                  .attr("value", $(this).attr("data-wholesalevehicleno2"))
+                  .text($(this).attr("data-wholesalevehicleno2")));
+
+        $("#WholesaleVehicleNo2").val($(this).attr("data-wholesalevehicleno2"));
+        $("#WholesaleVehicleNo2").attr("disabled", "disabled");
+        $("#WholesaleInvioceAmount2").val($(this).attr("data-wholesaleinvioceamount2"));
+        $("#WholesaleInvioceAmount2").attr("disabled", "disabled");
+        $("#WholesaleTotalKG2").val($(this).attr("data-wholesaletotalkg2"));
+
+
+        $('#RetailVehicleNo1')
+   .append($("<option></option>")
+              .attr("value", $(this).attr("data-retailvehicleno1"))
+              .text($(this).attr("data-retailvehicleno1")));
+
+        $("#RetailVehicleNo1").val($(this).attr("data-retailvehicleno1"));
+        $("#RetailVehicleNo1").attr("disabled", "disabled");
+        $("#RetailInvioceAmount1").val($(this).attr("data-retailinvioceamount1"));
+        $("#RetailInvioceAmount1").attr("disabled", "disabled");
+        $("#RetailTotalKG1").val($(this).attr("data-retailtotalkg1"));
+
+        $('#RetailVehicleNo2')
+   .append($("<option></option>")
+              .attr("value", $(this).attr("data-retailvehicleno2"))
+              .text($(this).attr("data-retailvehicleno2")));
+
+        $("#RetailVehicleNo2").val($(this).attr("data-retailvehicleno2"));
+        $("#RetailVehicleNo2").attr("disabled", "disabled");
+        $("#RetailInvioceAmount2").val($(this).attr("data-retailinvioceamount2"));
+        $("#RetailInvioceAmount2").attr("disabled", "disabled");
+        $("#RetailTotalKG2").val($(this).attr("data-retailtotalkg2"));
+
+        $("#GrandInvoiceAmount").val($(this).attr("data-grandinvoiceamount"));
+        $("#GrandTotalKG").val($(this).attr("data-grandtotalkg"));
+
+        $("#VehicleDetailID").val($(this).attr("data-vehicledetailid")).trigger("change");
+        $("#Area").val($(this).attr("data-areaname"));
+        $("#DeliveryPerson1").val($(this).attr("data-deliveryperson1")).trigger("change");
+        $("#DeliveryPerson2").val($(this).attr("data-deliveryperson2")).trigger("change");
+        $("#DeliveryPerson3").val($(this).attr("data-deliveryperson3")).trigger("change");
+        $("#DeliveryPerson4").val($(this).attr("data-deliveryperson4")).trigger("change");
+        $("#OpeningKM").val($(this).attr("data-openingkm"));
+        $("#ClosingKM").val($(this).attr("data-closingkm"));
+        $("#VehicleOutDate").val($(this).attr("data-outdatestr"));
+        $("#OutTime").val($(this).attr("data-outtimestr"));
+        $("#VehicleInDate").val($(this).attr("data-indatestr"));
+        $("#InTime").val($(this).attr("data-intimestr"));
+
+        $("#DieselOpeningKM").val($(this).attr("data-dieselopeningkm"));
+
+        $("#DieselKM").val($(this).attr("data-dieselkm"));
+        $("#DieselAmount").val($(this).attr("data-dieselamount"));
+        $("#DieselLiter").val($(this).attr("data-dieselliter"));
+        $("#RepairingAmount").val($(this).attr("data-repairingamount"));
+        $("#RepairingDetail").val($(this).attr("data-repairingdetail"));
+
+        $("#RepairingAmount2").val($(this).attr("data-repairingamount2"));
+        $("#RepairingDetail2").val($(this).attr("data-repairingdetail2"));
+        $("#RepairingAmount3").val($(this).attr("data-repairingamount3"));
+        $("#RepairingDetail3").val($(this).attr("data-repairingdetail3"));
+
+        $("#TollAmount").val($(this).attr("data-tollamount"));
+        $("#TollDetail").val($(this).attr("data-tolldetail"));
+        $("#BharaiAmount").val($(this).attr("data-bharaiamount"));
+        $("#BharaiDetail").val($(this).attr("data-bharaidetail"));
+        $("#MiscellaneousAmount1").val($(this).attr("data-miscellaneousamount1"));
+        $("#MiscellaneousAmount2").val($(this).attr("data-miscellaneousamount2"));
+        $("#MiscellaneousAmount3").val($(this).attr("data-miscellaneousamount3"));
+        $("#MiscellaneousDetail1").val($(this).attr("data-miscellaneousdetail1"));
+        $("#MiscellaneousDetail2").val($(this).attr("data-miscellaneousdetail2"));
+        $("#MiscellaneousDetail3").val($(this).attr("data-miscellaneousdetail3"));
+        $("#CreatedBy").val($(this).attr("data-createdby"));
+        $("#CreatedOn").val($(this).attr("data-createdon"));
+        $("html, body").animate({ scrollTop: 0 }, "slow");
+    });
+
+
+</script>

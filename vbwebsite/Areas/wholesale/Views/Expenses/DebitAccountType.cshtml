@@ -1,0 +1,97 @@
+﻿@{
+    ViewBag.Title = "DebitAccountType";
+    Layout = "~/Areas/wholesale/Views/Shared/_wholesalelayout.cshtml";
+}
+
+@using vb.Data.ViewModel
+
+<div class="box box-default">
+    <div class="box-header with-border text-center">
+        <h3 class="box-title">Add Debit Account Type</h3>
+    </div>
+    <form id="frmDebitAccountType" class="form-horizontal">
+        <div class="box-body">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <input name="DebitAccountTypeID" id="UDebitAccountTypeID" type="hidden" value="" />
+                    <input type="hidden" id="CreatedBy" class="CreatedBy" value="" />
+                    <input type="hidden" id="CreatedOn" class="CreatedOn" value="" />
+                    <label for="DebitAccountType" class="col-sm-4 control-label">Name</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="DebitAccountType" id="DebitAccountType" placeholder="Debit Account Type" tabindex="1" autocomplete="off">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+            </div>
+        </div>
+        <!-- /.box-body -->
+        <div class="box-footer ">
+            <div class="pull-right">
+                <button type="button" id="btnCancel" class="btn btn-default" tabindex="4">Cancel</button>
+                @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.ADebitAccountType.ToString()))
+                {
+                    <button type="button" id="btnSave" class="btn btn-info" tabindex="3">Save</button>
+                }
+            </div>
+        </div>
+        <!-- /.box-footer -->
+    </form>
+    <div id="lstcase">
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script>
+    $(document).ready(function () {
+        loadhtml();
+    });
+
+    function loadhtml() {
+        $.ajax({
+            url: '@Url.Action("DebitAccountTypeList")',
+            type: 'GET',
+            cache: false,
+        }).done(function (result) {
+            $('#lstcase').html(result);
+        });
+    }
+
+    $("#btnSave").click(function () {
+        //debugger;
+        var datareq = new Object();
+        datareq.DebitAccountTypeID = $("#UDebitAccountTypeID").val();
+        datareq.DebitAccountType = $("#DebitAccountType").val();
+        datareq.CreatedBy = $("#CreatedBy").val();
+        datareq.CreatedOn = $("#CreatedOn").val();
+        $.ajax({
+            url: '@Url.Action("AddDebitAccountType")',
+            type: 'POST',
+            data: { 'data': datareq },
+            cache: false,
+        }).done(function (result) {
+            if (result > 0) {
+                if ($("#DebitAccountTypeID").val() == "") {
+                    $('div#sucessalert').html("Debit Account Type Add successfully.");
+                }
+                else {
+                    $('div#sucessalert').html("Debit Account Type updated successfully.");
+                }
+                showhidealert();
+                loadhtml();
+                clearform();
+            }
+        });
+    });
+
+    $("#btnCancel").click(function () {
+        clearform();
+    });
+
+    function clearform() {
+        $("#frmDebitAccountType").find("input").val("");
+    }
+</script>
+
+
+

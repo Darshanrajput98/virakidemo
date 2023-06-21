@@ -1,0 +1,66 @@
+﻿@model List<vb.Data.SalaryPaymentListResponse>
+
+<div class="box">
+    <div class="box-header text-center">
+        <h3 class="box-title">Payment List</h3>
+    </div>
+    <div class="box-body">
+        <table id="ListDataTable" class="table table-bordered table-striped lstbillwisepurchase">
+            <thead>
+                <tr>
+                    <th>Sr.No</th>
+                    <th class="nosort">Godown</th>
+                    <th class="nosort">Employee Name</th>
+                    <th class="nosort">Payment Date</th>
+                    <th class="nosort">Amount</th>
+                    <th class="nosort">Bank Name</th>
+                    <th class="nosort">Account Number</th>
+                    <th class="nosort">IFSC Code</th>
+                    <th class="nosort">Mobile Number</th>
+                    <th class="nosort">Email</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td id="row">
+                            <input type="hidden" id="hdnPaymentID" class="hdnPaymentID" value="@item.PaymentID" />
+                            @item.RowNumber
+                        </td>
+                        <td>
+                            @item.GodownName
+                        </td>
+                        <td>
+                            @item.Beneficiary_Name
+                        </td>
+                        <td>
+                            @item.PaymentDate
+                        </td>
+                        <td>
+                            @item.Amount.ToString("0.00")
+                        </td>
+                        <td>
+                            @item.Beneficiary_Bank
+                        </td>
+                        <td>
+                            @item.Beneficiary_Acc_No
+                        </td>
+                        <td>
+                            @item.Beneficiary_Branch_IFSC_Code
+                        </td>
+                        <td>
+                            @item.Beneficiary_Mobile
+                        </td>
+                        <td>
+                            @item.Beneficiary_Email
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+</script>

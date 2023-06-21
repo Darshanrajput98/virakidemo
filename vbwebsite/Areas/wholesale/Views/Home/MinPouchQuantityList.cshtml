@@ -1,0 +1,55 @@
+﻿
+<div class="box">
+    <div class="box-header text-center">
+        <h3 class="box-title">Min Pouch Quantity</h3>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body table-scrollable1">
+        <table id="ListDataTable2" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th class="nosort">Pouch Name</th>
+                    <th class="nosort">Pouch Description</th>
+                    <th class="nosort">Min Pouch Qty.</th>
+                    <th class="nosort">Godown  </th>
+                    <th class="nosort">Opening Pouch</th>                   
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @item.PouchName
+                        </td>
+                        <td>
+                            @item.PouchDescription
+                        </td>
+                        <td>
+                            @item.MinPouchQuantity
+                        </td>
+                        <td>
+                            @item.GodownName
+                        </td>
+                        <td>
+                            @item.OpeningPouch
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+
+    <!-- /.box-body -->
+</div>
+
+
+@*<script>
+    $("#ListDataTable2").DataTable({
+        'aoColumnDefs': [{
+            'bSortable': false,
+            'aTargets': ['nosort'] /* 1st one, start by the right */
+        }]
+    });
+</script>*@

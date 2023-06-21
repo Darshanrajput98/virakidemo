@@ -1,0 +1,788 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+
+    @*<title>@ViewBag.Title - My ASP.NET Application</title>*@
+
+    @*@Styles.Render("~/Content/css")
+        @Scripts.Render("~/bundles/modernizr")*@
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Viraki Brothers</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport" />
+    <!-- Bootstrap 3.3.6 -->
+    <link rel="stylesheet" href="~/bootstrap/css/bootstrap.min.css" />
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="~/plugins/fullcalendar/fullcalendar.min.css" />
+    <link rel="stylesheet" href="~/plugins/fullcalendar/fullcalendar.print.css" media="print" />
+    <link rel="stylesheet" href="~/plugins/datatables/dataTables.bootstrap.css" />
+
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css" />
+    <!--<link href="~/plugins/datatables/font-awesome.min.css" rel="stylesheet" />-->
+    <!-- Ionicons -->
+
+    <link href="~/plugins/datatables/ionicons.min.css" rel="stylesheet" />
+
+
+    <!-- Theme style -->
+    <link rel="stylesheet" href="~/plugins/datepicker/datepicker3.css" />
+    <link rel="stylesheet" href="~/plugins/timepicker/bootstrap-timepicker.min.css" />
+
+    <!-- iCheck for checkboxes and radio inputs -->
+    <link rel="stylesheet" href="~/plugins/iCheck/all.css" />
+    <!-- Bootstrap Color Picker -->
+    <link rel="stylesheet" href="~/plugins/colorpicker/bootstrap-colorpicker.min.css" />
+    <!-- Bootstrap time Picker -->
+
+    <link rel="stylesheet" href="~/dist/css/AdminLTE.min.css" />
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
+       folder instead of downloading all of them to reduce the load. -->
+    <link rel="stylesheet" href="~/dist/css/skins/_all-skins.min.css" />
+    <link rel="stylesheet" href="~/plugins/select2/select2.min.css" />
+    <link href="~/bootstrap/css/my.css" rel="stylesheet" />
+
+    <link href="~/plugins/datatables/dataTables.bootstrap.min.css" rel="stylesheet" />
+    <link href="~/plugins/datatables/responsive.bootstrap.min.css" rel="stylesheet" />
+
+
+
+    <link href="~/plugins/datatables/buttons.dataTables.min.css" rel="stylesheet" />
+
+
+    <style>
+        input.parsley-success,
+        select.parsley-success,
+        textarea.parsley-success {
+            border: 1px solid green;
+        }
+
+        input.parsley-error,
+        select.parsley-error,
+        textarea.parsley-error {
+            border: 1px solid red;
+        }
+
+        .parsley-errors-list {
+            margin: 2px 0 3px;
+            padding: 0;
+            list-style-type: none;
+            font-size: 1.0em;
+            line-height: 0.9em;
+            opacity: 0;
+            color: red;
+            transition: all .3s ease-in;
+            -o-transition: all .3s ease-in;
+            -moz-transition: all .3s ease-in;
+            -webkit-transition: all .3s ease-in;
+        }
+
+            .parsley-errors-list.filled {
+                opacity: 1;
+            }
+        .select2-container {
+            width: 100% !important;
+        }
+        .navbar-custom-menu > .navbar-nav > li > .dropdown-menu {
+            background: #4a8ebe;
+        }
+    </style>
+
+
+    <style>
+        .overlay {
+            position: fixed;
+            z-index: 1;
+            height: 100%;
+            width: 100%;
+            top: 0;
+            background-color: #ddd4d4;
+            filter: alpha(opacity=70);
+            opacity: 0.8;
+            -moz-opacity: 0.8;
+        }
+
+        #Image1 {
+            left: 46%;
+            position: absolute;
+            top: 45%;
+        }
+
+        @@media screen and (max-width:600px) {
+            #Image1 {
+                height: 60px !important;
+                left: 45%;
+                position: absolute;
+                top: 45%;
+                width: 60px !important;
+            }
+        }
+    </style>
+    @*<link href="~/plugins/datatables/datadableresponsive.css" rel="stylesheet" />*@
+</head>
+<body class="hold-transition skin-blue layout-top-nav">
+
+    @if (Request.Cookies["UserID"] != null)
+    {
+        <div class="wrapper">
+            <header class="main-header">
+                <nav class="navbar navbar-static-top">
+                    <div class="container" style="width:100%;">
+                        <div class="navbar-header">
+                            <a href="#" class="navbar-brand"><b>Viraki</b>Brothers</a>
+                            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
+                                <i class="fa fa-bars"></i>
+                            </button>
+                        </div>
+
+                        @*<div class="collapse navbar-collapse pull-left" id="navbar-collapse">
+                                <ul class="nav navbar-nav">
+
+                                    <li class="dropdown active">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Admin <span class="caret"></span></a>
+                                        <ul class="dropdown-menu" role="menu">
+
+                                            <li><a href="@Url.Action("ManageArea", "Admin")"><i class="fa fa-circle-o"></i> Manage Area</a></li>
+                                            <li class="divider"></li>
+                                            <li><a href="@Url.Action("ManageGodown", "Admin")"><i class="fa fa-circle-o"></i> Manage Godown</a></li>
+                                            <li class="divider"></li>
+                                            <li><a href="@Url.Action("ManageTax", "Admin")"><i class="fa fa-circle-o"></i> Manage Tax</a></li>
+                                            <li class="divider"></li>
+                                            <li><a href="@Url.Action("ManageUnit", "Admin")"><i class="fa fa-circle-o"></i> Manage Unit</a></li>
+
+
+                                        </ul>
+                                    </li>
+
+                                    <li class="dropdown">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Products <span class="caret"></span></a>
+                                        <ul class="dropdown-menu" role="menu">
+                                            <li><a href="@Url.Action("AddProduct", "Product")"><i class="fa fa-circle-o"></i> Add Product</a></li>
+                                            <li class="divider"></li>
+                                            <li><a href="@Url.Action("ManageProductCategory", "Product")"><i class="fa fa-circle-o"></i>Product Catagory</a></li>
+                                            <li class="divider"></li>
+
+                                            <li><a href="@Url.Action("ManagePouch", "Product")"><i class="fa fa-circle-o"></i> Manage Pouch</a></li>
+                                            <li class="divider"></li>
+                                            <li><a href="@Url.Action("ManagePackageStation", "Product")"><i class="fa fa-circle-o"></i> Manage Package Station</a></li>
+                                            <li class="divider"></li>
+                                            <li><a href="@Url.Action("ProductCategoryList", "Product")"><i class="fa fa-circle-o"></i>Product List</a></li>
+                                        </ul>
+                                    </li>
+                                    <li><a href="@Url.Action("ManageCustomers", "Customer")">Customer</a></li>
+                                    <li><a href="@Url.Action("ManageCustomerGroup", "Customer")">Customer Group</a></li>
+
+
+                                    <li class="dropdown">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Order <span class="caret"></span></a>
+                                        <ul class="dropdown-menu" role="menu">
+                                            <li><a href="@Url.Action("ManageOrders", "Order", new { id = "" })"><i class="fa fa-circle-o"></i> Add Orders</a></li>
+                                            <li class="divider"></li>
+                                            <li><a href="@Url.Action("SearchViewOrderList", "Order")"><i class="fa fa-circle-o"></i>View Order</a></li>
+                                            <li class="divider"></li>
+                                            <li><a href="@Url.Action("SearchPackList", "Order")"><i class="fa fa-circle-o"></i>Pack List</a></li>
+                                            <li class="divider"></li>
+                                            <li><a href="@Url.Action("SearchSummaryList", "Order")"><i class="fa fa-circle-o"></i>Summary List</a></li>
+                                            <li class="divider"></li>
+                                            <li><a href="@Url.Action("SearchViewBillWiseOrderList", "Order")"><i class="fa fa-circle-o"></i> View Bill Wise Orders</a></li>
+                                            <li class="divider"></li>
+                                            <li><a href="@Url.Action("SearchViewBillWiseCreditMemoList", "Order")"><i class="fa fa-circle-o"></i> View Bill Wise CreditMemo</a></li>
+                                            <li class="divider"></li>
+                                            <li><a href="@Url.Action("CreditMemoPrint", "Order")"><i class="fa fa-circle-o"></i> Print Credit Memo</a></li>
+                                        </ul>
+                                    </li>
+
+
+
+                                    <li class="dropdown">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Delivery <span class="caret"></span></a>
+                                        <ul class="dropdown-menu" role="menu">
+                                            <li><a href="@Url.Action("PendingDelivery", "Delivery")"><i class="fa fa-circle-o"></i>Pending Delivery</a></li>
+                                            <li class="divider"></li>
+                                            <li><a href="@Url.Action("TempoSheet", "Delivery")"><i class="fa fa-circle-o"></i>Tempo Sheet</a></li>
+                                            <li class="divider"></li>
+                                            <li><a href="@Url.Action("TempoSummaryList", "Delivery")"><i class="fa fa-circle-o"></i>Tempo Summary</a></li>
+                                        </ul>
+                                    </li>
+
+
+                                    <li><a href="@Url.Action("PaymentPendingList", "Payment")">Payments</a></li>
+
+                                    <li class="dropdown">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Report <span class="caret"></span></a>
+                                        <ul class="dropdown-menu" role="menu">
+                                            <li><a href="@Url.Action("Daywisesales", "Report")"><i class="fa fa-circle-o"></i>Day Wise Sales</a></li>
+                                            <li class="divider"></li>
+                                            <li><a href="@Url.Action("DeliverySheet", "Report")"><i class="fa fa-circle-o"></i>Delivery Sheet Report</a></li>
+                                            <li class="divider"></li>
+                                            <li><a href="@Url.Action("ProductWiseSales", "Report")"><i class="fa fa-circle-o"></i>Product Wise Sales Report</a></li>
+                                            <li class="divider"></li>
+                                            <li><a href="@Url.Action("CustomermasterList", "Report")"><i class="fa fa-circle-o"></i>Customer Master Report</a></li>
+                                            <li class="divider"></li>
+                                            <li><a href="@Url.Action("FestivalProductWiseSales", "Report")"><i class="fa fa-circle-o"></i>Festival - ProductWise Sales</a></li>
+                                            <li class="divider"></li>
+                                            <li><a href="@Url.Action("SalesManWiseSales", "Report")"><i class="fa fa-circle-o"></i>Sales Wise Report</a></li>
+                                            <li class="divider"></li>
+                                            <li><a href="@Url.Action("CustGroupProductWiseSales", "Report")"><i class="fa fa-circle-o"></i>Cust Group - Product Wise Report</a></li>
+                                            <li class="divider"></li>
+                                            <li><a href="@Url.Action("CustGroupSalesManWiseSales", "Report")"><i class="fa fa-circle-o"></i>Cust Group - Sales Wise Report</a></li>
+                                        </ul>
+                                    </li>
+
+
+                                </ul>
+
+                            </div>*@
+
+
+                        <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
+                            @{Html.RenderAction("MenuList", "Home");}
+
+                        </div>
+
+                        <!-- Navbar Right Menu -->
+
+                        <div class="navbar-custom-menu">
+                            <ul class="nav navbar-nav">
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Department <span class="caret"></span></a>
+                                    <ul class="dropdown-menu" role="menu">
+                                        <li><a href="@Url.Action("Index", "Home", new { area = "wholesale" })"><i class="fa fa-circle-o"></i>Wholesale</a></li>
+                                        <li class="divider"></li>
+                                        <li><a href="@Url.Action("Index", "Home",  new { area = "retail" })"><i class="fa fa-circle-o"></i>Retail Catagory</a></li>
+
+                                        <li class="divider"></li>
+                                        <li><a href="@Url.Action("Index", "Home", new { area = "attendance" })"><i class="fa fa-circle-o"></i>Attendance</a></li>
+
+                                        <li class="divider"></li>
+                                        <li><a href="@Url.Action("Index", "Home", new { area = "purchase" })"><i class="fa fa-circle-o"></i>Purchase</a></li>
+
+                                        <li class="divider"></li>
+                                        <li><a href="@Url.Action("Index", "Home", new { area = "export" })"><i class="fa fa-circle-o"></i>Export</a></li>
+
+                                        <li class="divider"></li>
+                                        <li><a href="@Url.Action("Index", "Home", new { area = "expenses" })"><i class="fa fa-circle-o"></i>Expenses</a></li>
+
+                                        <li class="divider"></li>
+                                        <li><a href="@Url.Action("Index", "Home", new { area = "coldstorage" })"><i class="fa fa-circle-o"></i>Cold Storage</a></li>
+                                    
+                                        <li class="divider"></li>
+                                        <li><a href="@Url.Action("Index", "Home", new { area = "groundstock" })"><i class="fa fa-circle-o"></i>Ground Stock</a></li>
+
+                                        <li class="divider"></li>
+                                        <li><a href="@Url.Action("Index", "Home", new { area = "padtar" })"><i class="fa fa-circle-o"></i>Padtar</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="navbar-custom-menu">
+                            <ul class="nav navbar-nav">
+
+                                <li class="dropdown user user-menu">
+                                    <!-- Menu Toggle Button -->
+
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                        <!-- The user image in the navbar-->
+                                        @*<img src="../../dist/img/user2-160x160.jpg" class="user-image" alt="User Image">*@
+
+                                        <img src="@Request.Cookies["ProfilePicture"].Value" class="user-image userimagename" alt="alter Image">
+
+
+                                        <!-- hidden-xs hides the username on small devices so only the image appears. -->
+                                        <span class="hidden-xs">@Request.Cookies["UserName"].Value</span>
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <!-- The user image in the menu -->
+                                        <li class="user-header">
+                                            <img src="@Request.Cookies["ProfilePicture"].Value" class="img-circle" alt="User Image">
+                                            @*<img src="../../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">*@
+                                            <p>
+                                                @Request.Cookies["UserName"].Value - @Request.Cookies["GodownName"].Value
+                                                @*<small>Member since Nov. 2012</small>@Request.Cookies["Godown"].Value*@
+                                            </p>
+                                        </li>
+                                        <!-- Menu Body -->
+                                        @*<li class="user-body">
+                                                <div class="row">
+                                                    <div class="col-xs-4 text-center">
+                                                        <a href="#">Followers</a>
+                                                    </div>
+                                                    <div class="col-xs-4 text-center">
+                                                        <a href="#">Sales</a>
+                                                    </div>
+                                                    <div class="col-xs-4 text-center">
+                                                        <a href="#">Friends</a>
+                                                    </div>
+                                                </div>
+                                                <!-- /.row -->
+                                            </li>*@
+                                        <!-- Menu Footer-->
+                                        <li class="user-footer">
+                                            <div class="pull-left">
+
+                                                <button type="button" id="btnopenpopup" class="btn btn-default btn-flat">Change Password</button>
+
+                                                @*<a href="#" class="btn btn-default btn-flat">Change Password</a>*@
+                                            </div>
+                                            <div class="pull-right">
+                                                <a href="@(Url.Action("Login", "Login" , new { area="" }))" class="btn btn-default btn-flat">Sign out</a>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- /.navbar-custom-menu -->
+                    </div>
+                    <!-- /.container-fluid -->
+                </nav>
+            </header>
+            <!-- Left side column. contains the logo and sidebar -->
+
+
+
+            <div class="content-wrapper">
+
+                <div class="alert alert-success" id="sucessalert" role="alert" style="display:none;">Message of the Alert</div>
+                <div id="loader" class="overlay" style="display:none;position:absolute">
+                    <img id="Image1" style="align-content:center" src="~/Image/progressbar.gif" />
+                </div>
+                @RenderBody()
+
+
+            </div>
+
+
+
+            <footer class="main-footer">
+                <div class="container">
+
+                    <strong>Copyright &copy; @DateTime.Now.Year <a href="#">Viraki Brothers</a>.</strong> All rights
+                    reserved.
+                </div>
+                <!-- /.container -->
+            </footer>
+        </div>
+    }
+    else
+    {
+        Response.Redirect(Url.Action("Login", "Login", new { area = "" }));
+    }
+    @RenderSection("scripts", required: false)
+
+
+
+
+    <div id="responsive" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="btnclosepopup close" data-dismiss="modal" aria-hidden="true"></button>
+                    <h4 class="modal-title">Change Password</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12" style="padding-bottom: 8px;">
+                            <div class="form-group">
+                                @*<input name="PaymentID" id="PaymentID" type="hidden" value="" />*@
+                                <label for="Name" class="col-sm-4 control-label">Old Password</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" name="OldPassword" maxlength="100" id="OldPassword" placeholder="Old Password" tabindex="1">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12" style="padding-bottom: 8px;">
+                            <div class="form-group">
+                                <label for="Branch" class="col-sm-4 control-label">New Password</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" name="NewPassword" maxlength="100" id="NewPassword" placeholder="New Password" tabindex="2">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12" style="padding-bottom: 8px;">
+                            <div class="form-group">
+                                <label for="ChequeNo" class="col-sm-4 control-label">Confirm New Password</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" name="ConfirmNewPassword" maxlength="100" id="ConfirmNewPassword" placeholder="Confirm New Password" tabindex="3">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-info" id="btnChangePassword">Update</button>
+                    <button type="button" class="btnclosepopup btn btn-info" data-dismiss="modal" aria-hidden="true">Close</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+
+
+
+
+
+    <script src="~/plugins/jQuery/jquery-1.12.4.min.js"></script>
+
+    <script src="~/plugins/jQueryUI/jquery-ui.min.js"></script>
+    @*<script src="~/plugins/jQuery/jQuery-2.2.0.min.js"></script>*@
+    <!-- Bootstrap 3.3.6 -->
+    <script src="~/bootstrap/js/bootstrap.min.js"></script>
+    <!-- SlimScroll -->
+    <script src="~/plugins/slimScroll/jquery.slimscroll.min.js"></script>
+    <!-- FastClick -->
+    <!-- AdminLTE App -->
+    <script src="~/dist/js/app.min.js"></script>
+    <!-- AdminLTE for demo purposes -->
+    <script src="~/dist/js/demo.js"></script>
+    <script src="~/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/plugins/datatables/dataTables.bootstrap.min.js"></script>
+    <script src="~/plugins/datatables/dataTables.responsive.min.js"></script>
+    <script src="~/plugins/datatables/responsive.bootstrap.min.js"></script>
+
+
+
+    <script src="~/plugins/datatables/dataTables.buttons.min.js"></script>
+
+
+    <!-- <script src="//cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>-->
+    <script src="~/plugins/datatables/jszip.min.js"></script>
+
+
+    <script src="//cdn.datatables.net/buttons/1.2.4/js/buttons.html5.min.js"></script>
+
+    <script src="~/plugins/select2/select2.full.min.js"></script>
+    <!-- Select2 -->
+    <!-- InputMask -->
+    <script src="~/plugins/input-mask/jquery.inputmask.js"></script>
+    <script src="~/plugins/input-mask/jquery.inputmask.date.extensions.js"></script>
+    <script src="~/plugins/input-mask/jquery.inputmask.extensions.js"></script>
+    <!-- date-range-picker -->
+    <script src="~/plugins/daterangepicker/daterangepicker.js"></script>
+    <!-- bootstrap datepicker -->
+    <script src="~/plugins/datepicker/bootstrap-datepicker.js"></script>
+    <!-- bootstrap color picker -->
+    <script src="~/plugins/colorpicker/bootstrap-colorpicker.min.js"></script>
+    <!-- bootstrap time picker -->
+    <script src="~/plugins/timepicker/bootstrap-timepicker.min.js"></script>
+    <script src="~/plugins/timepicker/bootstrap-timepicker.js"></script>
+    <!-- iCheck 1.0.1 -->
+
+    <script src="~/plugins/iCheck/icheck.min.js"></script>
+    <!-- SlimScroll 1.3.0 -->
+    <script src="~/plugins/fastclick/fastclick.js"></script>
+
+
+    <script src="~/plugins/datatables/moment.min.js"></script>
+
+
+    <script src="~/plugins/fullcalendar/fullcalendar.min.js"></script>
+
+
+
+
+
+    <script>
+        $(".btnclosepopup").click(function () {
+            $('#responsive').removeClass("modal fade modal-overflow in");
+            $('#responsive').removeAttr('style');
+            $('#responsive').addClass("modal fade");
+            $("#OldPassword").val("");
+            $("#NewPassword").val("");
+            $("#ConfirmNewPassword").val("");
+        });
+
+        //function closepopup() {
+        //    $('#responsive').removeClass("modal fade modal-overflow in");
+        //    $('#responsive').removeAttr('style');
+        //    $('#responsive').addClass("modal fade");
+        //}
+
+        $("#btnopenpopup").click(function () {
+            debugger;
+            $("#responsive").removeClass("modal fade").addClass("modal fade modal-overflow in");
+            $("#responsive").css("display", "block");
+        });
+
+        $("#btnChangePassword").click(function () {
+            debugger;
+            var OldPassword = $("#OldPassword").val();
+            var NewPassword = $("#NewPassword").val();
+            var ConfirmNewPassword = $("#ConfirmNewPassword").val();
+            //if (Password.toLowerCase() == confirmPassword.toUpperCase()) {
+            if (OldPassword != "" && NewPassword != "" && ConfirmNewPassword != "") {
+                if (NewPassword == ConfirmNewPassword) {
+                    $.ajax({
+                        url: '@Url.Action("ChangeUserPassword", "Admin", new { area = "wholesale" })',
+                        type: 'POST',
+                        data: { 'OldPassword': OldPassword, 'NewPassword': NewPassword, 'ConfirmNewPassword': ConfirmNewPassword },
+                        cache: false,
+                    }).done(function (result) {
+                        if (result.Oldpassmatch == false) {
+                            alert("Old password do not match..!");
+                        }
+                        else if (result.Passchange == true) {
+                            alert("password change successfully..!");
+                            window.location.href = result.redirectUrl;
+                        }
+                        else if (result.isRedirect) {
+                            window.location.href = result.redirectUrl;
+                        }
+                        else if (result.Passchange == false) {
+                            alert("Somthing went wrong please check data..!");
+                        }
+                    });
+                }
+                else {
+                    $("#txtNewPasssword").focus();
+                    // $('div#erroralert').html("Password and confirmpassword do not match");
+                    // showhideErroralert();
+                    alert("Password and confirmpassword do not match");
+                    $("#OldPassword").val("");
+                    $("#NewPassword").val("");
+                    $("#ConfirmNewPassword").val("");
+                    return null;
+                }
+            }
+            else {
+                alert("please enter password details");
+            }
+        });
+    </script>
+
+
+
+    <script>
+        $(function () {
+
+            $(document).ajaxStart(function () {
+                $("#loader").show();
+            }).ajaxStop(function () {
+                $("#loader").hide();
+            });
+
+            //Initialize Select2 Elements
+            $(".select2").select2();
+
+
+
+
+            $(".select22").select2({
+                maximumSelectionLength: 1
+
+            });
+
+
+            //$(".select2-search__field").keyup(function () {
+            //    debugger;
+            //    var searchText = $(this).val();
+
+            //    $('ul > li').each(function () {
+            //        var currentLiText = $(this).text(),
+            //            showCurrentLi = currentLiText.indexOf(searchText) !== -1;
+
+            //        $(this).toggle(showCurrentLi);
+            //    });
+
+            //});
+
+
+
+
+            $('.datepicker').datepicker({
+                autoclose: true
+            });
+
+            $(".timepicker").timepicker({
+                showInputs: false
+            });
+
+            $("[data-mask]").inputmask();
+        });
+    </script>
+
+    <script>
+        $(function () {
+
+            $("#ListDataTable").DataTable();
+
+            $("#ListDataTable2").DataTable();
+
+            //$("#ListDataTablewithourpaging").DataTable({ "paging": false });
+            $("#ListDataTablewithourpaging").DataTable({ "paging": false, 'ordering': false });
+
+            $("#ListDataTableNo").DataTable({
+                "searching": false,
+                "paging": false,
+                'aoColumnDefs': [{
+                    'bSortable': false,
+                    'aTargets': ['nosort']
+
+                }]
+            });
+
+            $("#ListDataTableNoPaging").DataTable({
+                "paging": false,
+                'aoColumnDefs': [{
+                    'bSortable': false,
+                    'aTargets': ['nosort']
+
+                }],
+                "aaSorting": [],
+                scrollX: 1000,
+                scrollCollapse: true,
+            });
+            var windowsize = $(window).width();
+
+            $("#ListDataTableScrollHor").DataTable({
+                "searching": false,
+                "sScrollX": windowsize,
+                "paging": false,
+                "bPaginate": false,
+                "bFilter": false,
+                "bInfo": false,
+                'aoColumnDefs': [{
+                    'bSortable': false,
+                    'aTargets': ['nosort'],
+
+                }]
+            });
+
+
+            $("#ListDataTableNoPaging1").DataTable({
+                "paging": false,
+                'aoColumnDefs': [{
+                    'bSortable': false,
+                    'aTargets': ['nosort']
+
+                }],
+                "aaSorting": [],
+
+            });
+
+
+            //$("#ListDataTableScrollHor").DataTable({
+            //    "paging": false,
+            //    'aoColumnDefs': [{
+            //        'bSortable': false,
+            //        'aTargets': ['nosort']
+
+            //    }],
+            //    "aaSorting": [],
+            //    scrollX: 1000,
+            //    scrollCollapse: true,
+            //});
+
+            $("#ListDataTableWithExport").DataTable({
+
+                dom: 'Bfrtip',
+                buttons: [{
+                    extend: 'excelHtml5',
+                    customize: function (xlsx) {
+                        var sheet = xlsx.xl.worksheets['sheet1.xml'];
+
+                        // jQuery selector to add a border
+                        $('row c[r*="10"]', sheet).attr('s', '25');
+                    }
+                }]
+
+            });
+
+            //$('#example').DataTable({
+            //    responsive: {
+            //        details: {
+            //            display: $.fn.dataTable.Responsive.display.childRowImmediate,
+            //            type: ''
+            //        }
+            //    }
+            //});
+
+        });
+    </script>
+
+    <script>
+        document.onkeypress = function (event) {
+            event = (event || window.event);
+            if (event.keyCode == 123) {
+                return false;
+            }
+        }
+        document.onmousedown = function (event) {
+            event = (event || window.event);
+            if (event.keyCode == 123) {
+                return false;
+            }
+        }
+        document.onkeydown = function (event) {
+            event = (event || window.event);
+            if (event.keyCode == 123) {
+                return false;
+            }
+        }
+    </script>
+
+    <script>
+        $(function () {
+
+            var pgurl = window.location.href.substr(window.location.href.lastIndexOf("/") + 1);
+            $("#navbar-collapse ul li a").each(function () {
+                if ($(this).attr("href") == pgurl || $(this).attr("href") == '')
+                    if ($(this).parent().hasClass('headermenu')) {
+                        $(this).parent().addClass("active");
+                    }
+                    else {
+                        $(this).parent().parent().parent().addClass("active");
+                    }
+            })
+        });
+
+        function showhidealert() {
+            $("#sucessalert").fadeTo(2000, 500).slideUp(500, function () {
+                $("#sucessalert").slideUp(500);
+            });
+        }
+    </script>
+
+
+
+
+    <script>
+
+        function GetParameterValues(param) {
+            var returnTag = 0;
+            var url = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+            for (var i = 0; i < url.length; i++) {
+                var urlparam = url[i].split('=');
+                if (url.length == 1 && urlparam.length > 2) {
+                    for (var i = 0; i < urlparam.length; i++) {
+                        if (urlparam[i] == "") {
+                            urlparam[i] = "=";
+                        }
+                    }
+                }
+                if (urlparam[0] == param) {
+                    if (urlparam.length > 2) {
+                        for (var i = 2; i < urlparam.length; i++) {
+                            urlparam[1] += urlparam[i];
+                        }
+                    }
+                    return urlparam[1];
+                }
+                else {
+                    return false;
+                }
+            }
+        }
+    </script>
+
+    <script src="~/plugins/parsley.js"></script>
+</body>
+
+</html>
+

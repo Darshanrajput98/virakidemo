@@ -1,0 +1,88 @@
+﻿@model List<vb.Data.ResignationLetterResponse>
+@using vb.Data.ViewModel
+
+<div class="box">
+    <div class="box-header text-center">
+        <h3 class="box-title">Resignation Letter List</h3>
+    </div>
+    <div class="box-body table-scrollable1">
+        <table id="ListDataTable" class="table table-bordered table-bordered">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>D.O.J</th>
+                    <th>D.O.L</th>
+                    <th>D.O.A</th>
+                    <th>Status</th>
+                    <th>Edit</th>
+                    <th>Print Resignation Letter</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @item.FullName
+                        </td>
+                        <td>
+                            @item.DateOfJoiningstr
+                        </td>
+                        <td>
+                            @item.DateOfLeavingstr
+                        </td>
+                        <td>
+                            @item.DateOfApplicationstr
+                        </td>
+                        <td>
+                            @item.Statusstr
+                        </td>
+                        <td>
+                            <a style="cursor:pointer;" class="btnedit" data-resignationid="@item.ResignationID" data-employeecode="@item.EmployeeCode" data-fulladdress="@item.FullAddress" data-mobilenumber="@item.MobileNumber" data-dateofjoining="@item.DateOfJoiningstr" data-dateofleavingstr="@item.DateOfLeavingstr" data-dateofapplicationstr="@item.DateOfApplicationstr" data-createdby="@item.CreatedBy" data-createdon="@item.CreatedOn">Edit</a>
+                        </td>
+                        <td><input type="button" value="Print Resignation Letter" onclick="GetPrintResignationLetter(@item.ResignationID)" /></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    $('#ListDataTable').DataTable({
+        'paging': true,
+        'lengthChange': true,
+        'searching': true,
+        'ordering': false,
+        'info': true,
+        'autoWidth': false
+    });
+
+    $('#ListDataTable').on('click', '.btnedit', function () {
+        debugger;
+        $("#ResignationID").val($(this).attr("data-resignationid"));
+        $("#EmployeeCode").val($(this).attr("data-employeecode")).trigger("change");           
+        $("#DateOfJoining").val($(this).attr("data-dateofjoiningstr"));
+        $("#DateOfLeaving").val($(this).attr("data-dateofleavingstr"));
+        $("#DateOfApplication").val($(this).attr("data-dateofapplicationstr"));
+        $("#CreatedBy").val($(this).attr("data-createdby"));
+        $("#CreatedOn").val($(this).attr("data-createdon"));
+        $("html, body").animate({ scrollTop: 0 }, "slow");
+    });
+
+    function GetPrintResignationLetter(ResignationID) {
+        debugger;      
+        $.ajax({
+            url: '@Url.Action("PrintResignationLetter", "Resignation")',
+            type: 'POST',
+            data: { 'ResignationID': ResignationID},
+            cache: false,
+        }).done(function (result) {
+            if (result != '') {
+                window.open(result, "newPage");
+            }
+        });
+    };
+
+</script>
+

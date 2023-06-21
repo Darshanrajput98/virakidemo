@@ -1,0 +1,189 @@
+﻿<div class="box">
+    <div class="box-header text-center">
+        <h3 class="box-title">Retail FSSAI Expire List</h3>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body table-scrollable1">
+        <table id="ListDataTable2" class="table table-bordered table-striped">
+            <thead>               
+                <tr>
+                    <th class="nosort">Customer Name</th>
+                    <th class="nosort">Delivery Area</th>
+                    <th class="nosort">Billing Area</th>
+                    <th class="nosort">FSSAI Number</th>
+                    <th class="nosort">FSSAI Valid UpTo</th>
+                    <th class="nosort">Days Remaining</th>
+                    <th class="nosort">FSSAI Number 2</th>
+                    <th class="nosort">FSSAI Valid UpTo 2</th>
+                    <th class="nosort">Days Remaining</th>
+                    <th class="nosort">Contact Number</th>
+                    <th class="nosort">Email</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    if (item.DaysRemaining > 0 && item.DaysRemaining2 > 0)
+                    {
+                        <tr>
+                            <td>
+                                @item.CustomerName
+                            </td>
+                            <td>
+                                @item.DeliveryAreaName
+                            </td>
+                            <td>
+                                @item.BillingAreaName
+                            </td>
+                            <td>
+                                @item.FSSAI
+                            </td>
+                            <td>
+                                @item.FSSAIValidUpTostr
+                            </td>
+                            <td>
+                                @item.DaysRemaining
+                            </td>
+                            <td>
+                                @item.FSSAI2
+                            </td>
+                            <td>
+                                @item.FSSAIValidUpTostr2
+                            </td>
+                            <td>
+                                @item.DaysRemaining2
+                            </td>
+                            <td>
+                                @item.ContactNumber
+                            </td>
+                            <td>
+                                @item.ContactEmail
+                            </td>
+                        </tr>
+                    }
+
+                    else if (item.DaysRemaining > 0 || item.DaysRemaining2 > 0)
+                    {
+                        <tr>
+                            <td>
+                                @item.CustomerName
+                            </td>
+                            <td>
+                                @item.DeliveryAreaName
+                            </td>
+                            <td>
+                                @item.BillingAreaName
+                            </td>
+                            @if (item.DaysRemaining > 0)
+                            {
+                                <td>
+                                    @item.FSSAI
+                                </td>
+                                <td>
+                                    @item.FSSAIValidUpTostr
+                                </td>
+                                <td>
+                                    @item.DaysRemaining
+                                </td>
+                            }
+                            else
+                            {
+                                <td style="color: red; font-weight: bold;">
+                                    @item.FSSAI
+                                </td>
+                                <td style="color: red; font-weight: bold;">
+                                    @item.FSSAIValidUpTostr
+                                </td>
+                                <td style="color: red; font-weight: bold;">
+                                    @item.DaysRemaining
+                                </td>
+                            }
+                            @if (item.DaysRemaining2 > 0 || @item.FSSAI2 == "")
+                            {
+                                <td>
+                                    @item.FSSAI2
+                                </td>
+                                <td>
+                                    @item.FSSAIValidUpTostr2
+                                </td>
+                                <td>
+                                    @item.DaysRemaining2
+                                </td>
+                            }
+                            else
+                            {
+                                <td style="color: red; font-weight: bold;">
+                                    @item.FSSAI2
+                                </td>
+                                <td style="color: red; font-weight: bold;">
+                                    @item.FSSAIValidUpTostr2
+                                </td>
+                                <td style="color: red; font-weight: bold;">
+                                    @item.DaysRemaining2
+                                </td>
+                            }
+                            <td>
+                                @item.ContactNumber
+                            </td>
+                            <td>
+                                @item.ContactEmail
+                            </td>
+                        </tr>
+                    }
+
+                    else
+                    {
+                        <tr style="color: red; font-weight: bold;">
+                            <td>
+                                @item.CustomerName
+                            </td>
+                            <td>
+                                @item.DeliveryAreaName
+                            </td>
+                            <td>
+                                @item.BillingAreaName
+                            </td>
+                            <td>
+                                @item.FSSAI
+                            </td>
+                            <td>
+                                @item.FSSAIValidUpTostr
+                            </td>
+                            <td>
+                                @item.DaysRemaining
+                            </td>
+                            <td>
+                                @item.FSSAI2
+                            </td>
+                            <td>
+                                @item.FSSAIValidUpTostr2
+                            </td>
+                            <td>
+                                @item.DaysRemaining2
+                            </td>
+                            <td>
+                                @item.ContactNumber
+                            </td>
+                            <td>
+                                @item.ContactEmail
+                            </td>
+                        </tr>
+                    }
+                }
+
+            </tbody>
+        </table>
+    </div>
+
+    <!-- /.box-body -->
+</div>
+
+
+<script>
+    $("#ListDataTable2").DataTable({
+        'aoColumnDefs': [{
+            'bSortable': false,
+            'aTargets': ['nosort'] /* 1st one, start by the right */
+        }]
+    });
+</script>

@@ -1,0 +1,537 @@
+﻿@{
+    ViewBag.Title = "PouchInward";
+    Layout = "~/Areas/wholesale/Views/Shared/_wholesalelayout.cshtml";
+}
+@model vb.Data.PouchInwardOutward
+@using vb.Data.ViewModel
+
+<div class="box box-default">
+    <div class="box-header with-border text-center">
+        <h3 class="box-title">Inward Pouch</h3>
+    </div>
+    <form id="frmPouchInward" class="form-horizontal">
+        <div class="box-body">
+            <div class="col-md-12">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <input name="PouchInwardID" id="PouchInwardID" type="hidden" value="" />
+                        <input type="hidden" id="CreatedBy" class="CreatedBy" value="" />
+                        <input type="hidden" id="CreatedOn" class="CreatedOn" value="" />
+                        <input type="hidden" id="hdnEdit" class="hdnEdit" value="" />
+                        <label for="GodownID" class="col-sm-4 control-label">Godown</label>
+                        <div class="col-sm-8">
+                            @Html.DropDownList("GodownID", new SelectList(ViewBag.Godown, "GodownID", "GodownName"), "Select Godown", new { @class = "form-control", required = "required", @onchange = "GetPouch(this.value)" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="PouchNameID" class="col-sm-4 control-label">Pouch</label>
+                        <div class="col-sm-8">
+                            <select id="PouchNameID" class="form-control PouchNameID"></select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="Opening" class="col-sm-4 control-label">Opening</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="OpeningPouch" value="0" autocomplete="off">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="NoofPcs" class="col-sm-4 control-label">No of Pcs.</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="NoofPcs" value="0" autocomplete="off">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="Total Pouch" class="col-sm-4 control-label">Total Pouch</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="TotalPouch" value="0" autocomplete="off" disabled="disabled">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="PurchaseDate" class="col-sm-4 control-label">Date</label>
+                        <div class="col-sm-8">
+                            <div class="input-group date">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </div>
+                                <input type="text" class="form-control pull-right datepicker" id="PurchaseDate" tabindex="2" autocomplete="off">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="Party" class="col-sm-4 control-label">Party</label>
+                        <div class="col-sm-8">
+                            @Html.DropDownList("SupplierID", new SelectList(ViewBag.Supplier, "SupplierID", "SupplierName"), "Select Supplier", new { @class = "form-control" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="InvoiceNumber" class="col-sm-4 control-label">Invoice Number</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="InvoiceNumber" autocomplete="off">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6" style="margin-top: 15px; margin-left: 80px;">
+                <div id="PouchInwardCostList" class="form-horizontal">
+                    <table class="table table-bordered table-bordered" id="tblPouchInwardCost">
+                        <thead>
+                            <tr class="form-group">
+                                <th class="nosort col-sm-6">Description</th>
+                                <th class="nosort col-sm-6">Amount</th>
+                                <th class="nosort col-sm-2">Add</th>
+                            </tr>
+                        </thead>
+                        <tr class="form-group" id="PouchRateInward">
+                            <td id="row">
+                                <input name="PouchCostID" class="hdnPouchCostID" type="hidden" value="" />
+                                <input type="text" class="form-control Description" name="lstPouchInwardCost[0].Description" placeholder="Description" tabindex="16" autocomplete="off" />
+                            </td>
+                            <td>
+                                <input type="text" class="form-control Amount" name="lstPouchInwardCost[0].Amount" placeholder="Amount" tabindex="16" autocomplete="off" />
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-default addButton" style="width: 45px;">
+                                    <i class="fa fa-plus" tabindex="17"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr class="form-group hide" id="AddPouchInwardCost">
+                            <td id="row">
+                                <input name="PouchCostID" class="hdnPouchCostID" type="hidden" value="" />
+                                <input type="text" class="form-control  Description" name="Description" placeholder="Description" autocomplete="off" />
+
+                            </td>
+                            <td>
+                                <input type="text" class="form-control  Amount" name="Amount" placeholder="Amount" autocomplete="off" />
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-default removeButton" style="width: 45px;">
+                                    <i class="fa fa-minus"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="col-md-4" style="margin-left: 62px;">
+                    <div class="form-group">
+
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="TotalInwardCost" value="0" disabled="disabled">
+                        </div>
+                        <button type="button" id="btnTotalInwardCost" class="col-sm-4 btn btn-info" style="width: 95px;">
+                            Total
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="box-footer ">
+            <div class="pull-right">
+                <button type="button" id="btncancel" class="btn btn-default" tabindex="8">Cancel</button>
+                <button type="button" id="btnsave" class="btn btn-info" tabindex="7">Save</button>
+                <button type="button" id="btnexport" class="btn btn-info">Export To Excel</button>
+            </div>
+        </div>
+    </form>
+    <div id="lstcase">
+    </div>
+
+    <div id="responsive" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="btnclosepopup1 close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" style="text-align: center;">Stock Transfer</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="box-body table-responsive no-padding" style="padding-bottom:10px !important">
+                        <div class="box-body table-striped table-responsive no-padding" id="divtobereceived">
+                            <table id="NoHoldDataTable" class="table table-striped table-bordered ListDataTable" cellspacing="0">
+                                <thead>
+                                    <tr style="background-color:#01ABD6">
+                                        <th style="text-align:center">Is Accept</th>
+                                        <th style="text-align:center">Godawn Name</th>
+                                        <th style="text-align:center">Pouch</th>
+                                        <th style="text-align:center">Pouch Qty.</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <br />
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-info" id="btnPouchAccept">Accept</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        loadhtml5();
+        var AmountValidators = {
+            row: '.col-xs-2',   // The title is placed inside a <div class="col-xs-4"> element
+            validators: {
+                notEmpty: {
+                    message: 'Amount is required'
+                }
+            }
+        },
+            bookIndex = 0;
+        $('#PouchInwardCostList')
+            // Add button click handler
+            .on('click', '.addButton', function () {
+                debugger;
+                bookIndex++;
+                var $template = $('#AddPouchInwardCost'),
+                    $clone = $template
+                                    .clone()
+                                    .removeClass('hide')
+                                    .removeAttr('id')
+                                    .attr('data-book-index', bookIndex)
+                                    .insertBefore($template);
+                // Update the name attributes
+                $clone
+                .find('[name="Description"]').attr('name', 'lstPouchInwardCost[' + bookIndex + '].Description').end()
+                .find('[name="Amount"]').attr('name', 'lstPouchInwardCost[' + bookIndex + '].Amount').end();
+            })
+            // Remove button click handler
+            .on('click', '.removeButton', function () {
+                var $row = $(this).parents('.form-group'),
+                    index = $row.attr('data-book-index');
+                // Remove fields
+                $row.remove();
+            });
+    });
+
+    function loadhtml5() {
+        $.ajax({
+            url: '@Url.Action("GetPouchForTransferByGodownID")',
+            type: 'GET',
+            cache: false,
+        }).done(function (result) {
+            debugger;
+            if (result.length > 0) {
+                for (var i = 0; i < result.length; i++) {
+                    debugger;
+                    var binddata = "";
+                    binddata += "<tr id='rxrow'>";
+                    binddata += "<td>" + "<input type='checkbox' class='checkbox chkselect' />" + "</td>";
+                    binddata += "<td style='text-align:center'>" + result[i].GodownName + "</td>";
+                    binddata += "<td>" + result[i].PouchName + "</td>";
+                    binddata += "<td> <input type='hidden' id='hdnGodownID' value='" + result[i].GodownID + "' /> <input type='hidden' id='hdnPouchTransferID' value='" + result[i].PouchTransferID + "' /> <input type='hidden' id='hdnPouchNameID' value='" + result[i].PouchNameID + "' /> " + result[i].TransferNoofPcs + "</td>";
+                    binddata += "</tr>";
+                    $("#NoHoldDataTable tbody").append(binddata);
+                }
+                $("#responsive").removeClass("modal fade").addClass("modal fade modal-overflow in");
+                $("#responsive").css("display", "block");
+            }
+        });
+    }
+
+    $(".btnclosepopup1").click(function () {
+        $('#responsive').removeClass("modal fade modal-overflow in");
+        $('#responsive').removeAttr('style');
+        $('#responsive').addClass("modal fade");
+    });
+
+    //function SaveNoHoldDetails(e) {
+    $("#btnPouchAccept").click(function () {
+        debugger;
+        var row = $("#NoHoldDataTable tbody").find("tr");
+        var n = $("#NoHoldDataTable tbody").find("tr").length;
+        var Pouch = new Array();
+        if (n > 0) {
+            for (var i = 0; i < n; i++) {
+                var ischk = row.eq(i).find("td").find("input[type=checkbox]");
+                if ($(ischk).is(':checked')) {
+                    var pouch = {};
+                    pouch.GodownName = $.trim(row.eq(i).find("td").eq(1).text());
+                    pouch.PouchName = $.trim(row.eq(i).find("td").eq(2).text());
+                    pouch.TransferNoofPcs = $.trim(row.eq(i).find("td").eq(3).text());
+                    pouch.GodownID = row.eq(i).find("td #hdnGodownID").val();
+                    pouch.PouchTransferID = row.eq(i).find("td #hdnPouchTransferID").val();
+                    pouch.PouchNameID = row.eq(i).find("td #hdnPouchNameID").val();
+                    Pouch.push(pouch);
+                }
+            }
+            if (Pouch.length > 0) {
+                if (confirm("Did you Accept pouch?")) {
+                    $.ajax({
+                        url: '@Url.Action("UpdatePouchTransferAcceptStatusByPouchTransferID")',
+                        type: 'POST',
+                        data: { 'data': Pouch },
+                        dataType: "json",
+                        cache: false,
+                    }).done(function (result) {
+                        if (result == true) {
+                            location.reload();
+                        }
+                        else {
+                            alert("Something went wrong.");
+                        }
+                    });
+                }
+            }
+        }
+    });
+
+</script>
+
+<script>
+    $(document).ready(function () {
+        loadhtml();
+        $("#NoofPcs").on('blur', function (e) {
+            debugger;
+            var NoofPcs = this.value;
+            var OpeningPouch = $("#OpeningPouch").val();
+            var TotalPouch = (parseInt(OpeningPouch) + parseInt(NoofPcs));
+            $('#TotalPouch').val(TotalPouch);
+        });
+
+        $("#PouchNameID").change(function (e) {
+            debugger;
+            var GodownID = $("#GodownID").val();
+            var PouchNameID = this.value;
+            var Edit = $("#hdnEdit").val();
+            if ($("#GodownID").val() != "" && PouchNameID != "") {
+                if (Edit != "Edit") {
+                    $.ajax({
+                        type: 'POST',
+                        url: '@Url.Action("GetOpeningPouchByPouchID")',
+                        data: { 'GodownID': GodownID, 'PouchNameID': PouchNameID },
+                        success: function (result) {
+                            debugger;
+                            $('#OpeningPouch').val(result.OpeningPouch);
+                            $("#PouchNameID").val(PouchNameID);
+                        },
+                        error: function () { alert('Error'); }
+                    });
+
+                    $.ajax({
+                        type: 'Post',
+                        url: '@Url.Action("GetLastPouchCostByPouchID")',
+                        data: { 'PouchNameID': PouchNameID },
+                        success: function (result) {
+                            bookIndex = 0;
+                            if (result.length > 0) {
+                                $(result).each(function (index, row) {
+                                    //debugger;
+                                    bookIndex++;
+                                    if (bookIndex > 1) {
+                                        var $template = $('#AddPouchInwardCost'),
+                                            $clone = $template
+                                                            .clone()
+                                                            .removeClass('hide')
+                                                            .removeAttr('id')
+                                                            .attr('data-book-index', bookIndex)
+                                                            .insertBefore($template);
+                                        // Update the name attributes
+                                        $clone
+                                        .find('[name="Description"]').attr('name', 'lstPouchInwardCost[' + bookIndex + '].Description').end()
+                                        .find('[name="Amount"]').attr('name', 'lstPouchInwardCost[' + bookIndex + '].Amount').end();
+                                        $clone.find("input")[1].value = row.Description;
+                                        $clone.find("input")[2].value = row.Amount;
+                                    }
+                                    else {
+                                        if ($('#tblPouchInwardCost').find('tbody tr:visible').length > 1)
+                                            $('#tblPouchInwardCost').find('tbody tr:visible').not(':first').empty();
+                                        var $template = $('#PouchRateInward');
+                                        $clone = $template;
+                                        $clone.find("input")[1].value = row.Description;
+                                        $clone.find("input")[2].value = row.Amount;
+                                    }
+                                });
+                            }
+                            else {
+                                if ($('#tblVehicleInward').find('tbody tr:visible').length > 1)
+                                    $('#tblVehicleInward').find('tbody tr:visible').not(':first').empty();
+                                var $template = $('#PouchRateInward');
+                                $clone = $template;
+                                $clone.find("input[type=hidden]")[0].value = "";
+                                $clone.find("input")[1].value = "";
+                                $clone.find("input")[2].value = "";
+                            }
+                        },
+                        error: function () { alert('Error'); }
+                    });
+                }
+            }
+            else {
+                alert('select godown and pouch');
+            }
+        });
+
+    });
+
+    function GetPouch(GodownID) {
+        debugger;
+        var lst = "<option value=0> Select Pouch</option>";
+        $.ajax({
+            url: '@Url.Action("GetPouchByGodownID")',
+            type: 'GET',
+            data: { 'GodownID': GodownID },
+            dataType: 'json',
+            success: function (result) {
+                debugger;
+                if (result != undefined) {
+                    if (result.length > 0) {
+                        for (var i = 0; i < result.length; i++) {
+                            lst += "<option value=" + result[i].PouchNameID + ">" + result[i].PouchName + "</option>"
+                        }
+                    }
+                }
+                if ($("#PouchNameID")[0].length > 0) {
+                    $('#PouchNameID').find('option').remove().end()
+                }
+                $("#PouchNameID").append(lst);
+                $('#PouchNameID').val($("#hdnPouchNameID").val() == 0 ? 0 : $("#hdnPouchNameID").val()).trigger('change');
+                $('#hdnEdit').val($("#hdnEdit").val() == "Edit");
+                $("#PouchNameID").select2();
+                $("#PouchNameID").select2({ width: "100%" });
+            }
+        });
+    }
+
+    function loadhtml() {
+        $.ajax({
+            url: '@Url.Action("PouchInwardList")',
+            type: 'GET',
+            cache: false,
+        }).done(function (result) {
+            $('#lstcase').html(result);
+        });
+    }
+
+    $("#btnTotalInwardCost").click(function () {
+        debugger;
+        var TotalPouchInwardCost = 0;
+        $('#tblPouchInwardCost').children('tbody').children('tr:visible').each(function (index, row) {
+            if ($(row).find('td').length == 0) {
+                return;
+            }
+            if ($(row).find("input")[2].value == "") {
+
+                TotalPouchInwardCost = 0;
+            }
+            else {
+                TotalPouchInwardCost = parseFloat(TotalPouchInwardCost) + parseFloat($(row).find("input")[2].value);
+            }
+        });
+        var TotalInwardCost = parseFloat(TotalPouchInwardCost);
+        $('#TotalInwardCost').val(TotalInwardCost);
+    });
+
+    $("#btnsave").click(function () {
+        debugger;
+        if (!($('#frmPouchInward').parsley().validate())) {
+            return;
+        }
+        var lstPouchInwardCost = [];
+        $('#tblPouchInwardCost').children('tbody').children('tr:visible').each(function (index, row) {
+            if ($(row).find('td').length == 0) {
+                return;
+            }
+            debugger;
+            var dataPouchInwardCost = new Object();
+            dataPouchInwardCost.PouchCostID = $(row).find("input[type=hidden]")[0].value;
+            dataPouchInwardCost.Description = $(row).find("input")[1].value;
+            dataPouchInwardCost.Amount = $(row).find("input")[2].value;
+            if ((dataPouchInwardCost.Description != '') && (dataPouchInwardCost.Amount != '')) {
+                lstPouchInwardCost.push(dataPouchInwardCost);
+            }
+        });
+        var datareq = new Object();
+        datareq.PouchInwardID = $("#PouchInwardID").val();
+        datareq.GodownID = $("#GodownID").val();
+        datareq.PouchNameID = $("#PouchNameID").val();
+        datareq.PouchID = $("#PouchID").val();
+        datareq.OpeningPouch = $("#OpeningPouch").val();
+        datareq.NoofPcs = $("#NoofPcs").val();
+        datareq.TotalPouch = $("#TotalPouch").val();
+        datareq.PurchaseDate = $("#PurchaseDate").val();
+        datareq.SupplierID = $("#SupplierID").val();
+        datareq.InvoiceNumber = $("#InvoiceNumber").val();
+        datareq.TotalInwardCost = $("#TotalInwardCost").val();
+        datareq.CreatedBy = $("#CreatedBy").val();
+        datareq.CreatedOn = $("#CreatedOn").val();
+        datareq.lstPouchInwardCost = lstPouchInwardCost;
+        $.ajax({
+            url: '@Url.Action("AddPouchInward")',
+            type: 'POST',
+            data: { 'data': datareq },
+            cache: false,
+        }).done(function (result) {
+            if (result == "Insert Sucessfully") {
+                $("#loader").show();
+                $('div#sucessalert').html("Insert Sucessfully.");
+                showhidealert();
+                clearform();
+                location.reload();
+            }
+            else if (result == "Bill Exist") {
+                $('div#sucessalert').html("Bill Exist.");
+                showhidealert();
+                $("#loader").hide();
+            }
+            else if (result == "Updated Sucessfully") {
+                $('div#sucessalert').html("Updated Sucessfully.");
+                showhidealert();
+                clearform();
+                location.reload();
+            }
+            else {
+                $('div#sucessalert').html("something is wrong.");
+            }
+        });
+    });
+
+    $("#btnexport").click(function () {
+        debugger;
+        var url = '@Url.Action("ExportExcelPouchInward", "PouchStock")';
+        window.location.href = url.replace();
+    });
+
+    $("#btncancel").click(function () {
+        location.reload();
+    });
+
+    function clearform() {
+        $("#PouchInwardID").val("");
+        $("#CreatedBy").val("");
+        $("#CreatedOn").val("");
+        $("#GodownID").prop("disabled", false);
+        $("#NoofPcs").val("0");
+        $("#TotalPouch").val("0");
+        $("#TotalInwardCost").val("0");
+        $("#PurchaseDate").val("");
+        $("#SupplierID").val("").trigger("change");
+        $("#InvoiceNumber").val("");
+    }
+
+</script>

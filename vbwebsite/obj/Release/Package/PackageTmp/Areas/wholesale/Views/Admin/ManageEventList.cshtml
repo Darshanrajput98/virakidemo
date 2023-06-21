@@ -1,0 +1,84 @@
+﻿@model List<vb.Data.EventListResponse>
+@using vb.Data.ViewModel
+
+<div class="box">
+    <div class="box-header text-center">
+        <h3 class="box-title">Event List</h3>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body table-scrollable1">
+        <table id="ListDataTable" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th class="nosort">Name</th>
+                    <th class="nosort">Description</th>
+                    @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.WEEVENT.ToString()))
+                    {
+                        <th>Edit</th>
+                    }
+                    @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.WDEVENT.ToString()))
+                    {
+                        <th>Status</th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td id="row" @item.EventID>
+                            @item.EventName
+                        </td>
+                        <td>
+                            @item.EventDescription
+                        </td>
+                        @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.WEEVENT.ToString()))
+                        {
+                            <td>
+                                <a style="cursor:pointer;" class="btnedit" data-pid="@item.EventID">Edit</a>
+                            </td>
+                        }
+                        @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.WDEVENT.ToString()))
+                        {
+                            if (item.IsDelete == true)
+                            {
+                                <td>
+                                    @Html.ActionLink("Active", "DeleteEvent", "Admin",
+                                new { EventID = item.EventID, IsDelete = false },
+                                     new { onclick = "return confirm('Are you sure you wish to delete Event?');" })
+                                </td>
+                            }
+                            else
+                            {
+                                <td>
+                                    @Html.ActionLink("DeActive", "DeleteEvent", "Admin",
+                                new { EventID = item.EventID, IsDelete = true },
+                                     new { onclick = "return confirm('Are you sure you wish to delete Event?');" })
+                                </td>
+                            }
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <!-- /.box-body -->
+</div>
+
+<script>
+    $("#ListDataTable").DataTable({
+        'aoColumnDefs': [{
+            'bSortable': false,
+            'aTargets': ['nosort'] /* 1st one, start by the right */
+
+        }]
+    });
+
+    $('#ListDataTable').on('click', '.btnedit', function () {
+        $("#UEventID").val($(this).attr("data-pid"));
+        $("#EventName").val($(this).parent().parent().children()[0].innerHTML.trim());
+        $("#EventDescription").val($(this).parent().parent().children()[1].innerHTML.trim());
+        $("html, body").animate({ scrollTop: 0 }, "slow");
+    });
+</script>
+

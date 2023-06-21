@@ -1,0 +1,177 @@
+﻿@{
+    ViewBag.Title = "AddGroundStockTransfer";
+    Layout = "~/Areas/groundstock/Views/Shared/_groundstocklayout.cshtml";
+}
+
+@using vb.Data.ViewModel
+
+<style>
+    #btnCancel, #btnSave {
+        outline: none;
+    }
+</style>
+
+<div class="box box-default">
+    <div class="box-header with-border text-center">
+        <h3 class="box-title">Add Ground Stock Transfer</h3>
+    </div>
+    <form id="frmGroundStockTransfer" class="form-horizontal">
+        <div class="box-body">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <input type="hidden" id="CreatedBy" class="CreatedBy" />
+                    <input type="hidden" id="CreatedOn" class="CreatedOn" />
+                    <input name="GroundStockTransferID" id="GroundStockTransferID" type="hidden" value="" />
+                    <label for="ProductID" class="col-sm-4 control-label">Product</label>
+                    <div class="col-sm-8">
+                        @Html.DropDownList("ProductID", new SelectList(ViewBag.Product, "ProductID", "ProductName"), "Select Product", new { @class = "form-control select2", required = "required", tabindex = "1" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="StockTransferQuantity" class="col-sm-4 control-label">Quantity</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="StockTransferQuantity" id="StockTransferQuantity" placeholder="Quantity" autocomplete="off" tabindex="3" required="required">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="MinStockTransferQuantity" class="col-sm-4 control-label">Min Quantity</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="MinStockTransferQuantity" id="MinStockTransferQuantity" placeholder="Min Quantity" autocomplete="off" tabindex="5" required="required">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="StockTransferDescription" class="col-sm-4 control-label">Description</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="StockTransferDescription" id="StockTransferDescription" placeholder="Description" autocomplete="off" tabindex="2">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="GodownID" class="col-sm-4 control-label">Godown</label>
+                    <div class="col-sm-8">
+                        @Html.DropDownList("GodownID", new SelectList(ViewBag.Godown, "GodownID", "GodownName"), "Select Godown", new { @class = "form-control select2", required = "required", tabindex = "4" })
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="box-footer ">
+            <div class="pull-right">
+                <button type="button" id="btnCancel" class="btn btn-default" tabindex="8">Cancel</button>
+                <button type="button" id="btnSave" class="btn btn-info" tabindex="7">Save</button>
+            </div>
+        </div>
+    </form>
+    <div id="lstcase">
+    </div>
+</div>
+
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script>
+    $(document).ready(function () {
+        loadhtml();
+    });
+
+    //debugger;
+    function loadhtml() {
+        debugger;
+
+        $.ajax({
+            url: '@Url.Action("GroundStockTransferList")',
+            type: 'GET',
+            cache: false,
+        }).done(function (result) {
+            $('#lstcase').html(result);
+        });
+    }
+
+    $("#btnSave").click(function () {
+        //debugger;
+        if (!($('#frmGroundStockTransfer').parsley().validate())) {
+            return;
+        }
+
+        var ProductID = $("#ProductID").val();
+        var GodownID = $("#GodownID").val();
+
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("CheckProductIsExistGroundStockTransfer")',
+            data: { 'ProductID': ProductID, 'GodownID': GodownID },
+            success: function (result) {
+                //debugger;
+                if (result == 0) {
+                    //debugger;
+                    var datareq = new Object();
+                    datareq.GroundStockTransferID = $("#GroundStockTransferID").val();
+                    datareq.ProductID = ProductID;
+                    datareq.StockTransferQuantity = $("#StockTransferQuantity").val();
+                    datareq.MinStockTransferQuantity = $("#MinStockTransferQuantity").val();
+                    datareq.StockTransferDescription = $("#StockTransferDescription").val();
+                    datareq.GodownID = GodownID;
+                    datareq.CreatedBy = $("#CreatedBy").val();
+                    datareq.CreatedOn = $("#CreatedOn").val();
+                    $.ajax({
+                        url: '@Url.Action("AddGroundStockTransfer")',
+                        type: 'POST',
+                        data: { 'data': datareq },
+                        cache: false,
+                    }).done(function (result) {
+                        if (result > 0) {
+                            $('div#sucessalert').html("Ground Stock Transfer Add successfully.");
+                            showhidealert();
+                            loadhtml();
+                            clearform();
+                        }
+
+                    });
+                }
+                else if ($("#GroundStockTransferID").val() != 0) {
+
+                    //debugger;
+                    var datareq = new Object();
+                    datareq.GroundStockTransferID = $("#GroundStockTransferID").val();
+                    datareq.ProductID = ProductID;
+                    datareq.StockTransferQuantity = $("#StockTransferQuantity").val();
+                    datareq.MinStockTransferQuantity = $("#MinStockTransferQuantity").val();
+                    datareq.StockTransferDescription = $("#StockTransferDescription").val();
+                    datareq.GodownID = GodownID;
+                    datareq.CreatedBy = $("#CreatedBy").val();
+                    datareq.CreatedOn = $("#CreatedOn").val();
+                    $.ajax({
+                        url: '@Url.Action("AddGroundStockTransfer")',
+                        type: 'POST',
+                        data: { 'data': datareq },
+                        cache: false,
+                    }).done(function (result) {
+                        if (result > 0) {
+                            //debugger;
+                            $('div#sucessalert').html("Ground Stock Transfer updated successfully.");
+                            showhidealert();
+                            loadhtml();
+                            clearform();
+                        }
+
+                    });
+
+                }
+                else {
+                    alert("Alreay Exist.");
+                }
+            }
+        });
+
+    });
+
+    $("#btnCancel").click(function () {
+        clearform();
+    });
+
+    function clearform() {
+        $("#frmGroundStockTransfer").find("input").val("");
+        $("#GodownID").val("").trigger("change");
+        $("#ProductID").val("").trigger("change");
+    }
+
+</script>

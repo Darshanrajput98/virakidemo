@@ -1,0 +1,1960 @@
+﻿@model vb.Data.Model.SalarySheet_Master
+@using vb.Data.ViewModel
+
+@{
+    ViewBag.Title = "AddSalarySheet";
+    Layout = "~/Areas/attendance/Views/Shared/_attendancelayout.cshtml";
+}
+
+<div class="box box-default">
+    <div class="box-header with-border text-center">
+        <h3 class="box-title">Salary Sheet</h3>
+    </div>
+    <form id="frmSalary" class="form-horizontal">
+        <div class="box-body">
+
+            <div class="col-md-12">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <input name="SalarySheetID" id="SalarySheetID" type="hidden" value="" />
+                        <input name="PerformanceAllowanceStatusID" id="PerformanceAllowanceStatusID" type="hidden" value="" />
+                        <input name="CityAllowanceStatusID" id="CityAllowanceStatusID" type="hidden" value="" />
+                        <input name="PFStatusID" id="PFStatusID" type="hidden" value="" />
+                        <input name="ESICStatusID" id="ESICStatusID" type="hidden" value="" />
+                        <input name="ConveyancePerDay" id="ConveyancePerDay" type="hidden" value="" />
+                        <input name="ConveyancePerMonth" id="ConveyancePerMonth" type="hidden" value="" />
+                        <input name="PerformanceAllowanceAct" id="PerformanceAllowanceAct" type="hidden" value="" />
+                        <input name="HighestSlab" id="HighestSlab" type="hidden" value="" />
+                        <input name="HighestPF" id="HighestPF" type="hidden" value="" />
+                        <input name="PFPercentage" id="PFPercentage" type="hidden" value="" />
+                        <input name="EmployeeSlab" id="EmployeeSlab" type="hidden" value="" />
+                        <input name="PTHighestSlab" id="PTHighestSlab" type="hidden" value="" />
+                        <input name="PTHighestAmount" id="PTHighestAmount" type="hidden" value="" />
+                        <input name="PTLowestSlab" id="PTLowestSlab" type="hidden" value="" />
+                        <input name="PTLowestAmount" id="PTLowestAmount" type="hidden" value="" />
+                        <input name="MLWFHighestSlab" id="MLWFHighestSlab" type="hidden" value="" />
+                        <input name="MLWFHighestAmount" id="MLWFHighestAmount" type="hidden" value="" />
+                        <input name="MLWFMonthID" id="MLWFMonthID" type="hidden" value="" />
+                        <input name="CreatedBy" id="CreatedBy" type="hidden" value="" />
+                        <input name="CreatedOn" id="CreatedOn" type="hidden" value="" />
+                        <label for="Month" class="col-sm-4 control-label">Month</label>
+                        <div class="col-sm-6">
+                            <select name="Month" id="MonthID" class="form-control" tabindex="14" required>
+                                <option value="" selected>Select</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="Name" class="col-sm-4 control-label">Present</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control Present" id="Present" value="0" disabled>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="Sunday" class="col-sm-4 control-label">Sunday</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control Sunday" id="Sunday" value="0" disabled>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="Holiday" class="col-sm-4 control-label">Holiday</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control Holiday" id="Holiday" value="0" disabled>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="Name" class="col-sm-4 control-label">Absent</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" id="Absent" value="0" disabled>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="TotalDays" class="col-sm-4 control-label">Total Days</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" id="TotalDays" value="0">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="Year" class="col-sm-4 control-label">Year</label>
+                        <div class="col-sm-6">
+                            <select name="Year" id="YearID" class="form-control YearID" tabindex="14" required>
+                                <option value="" selected>Select</option>
+                                <option value="2018">2018</option>
+                                <option value="2019">2019</option>
+                                <option value="2020">2020</option>
+                                <option value="2021">2021</option>
+                                <option value="2022">2022</option>
+                                <option value="2023">2023</option>
+                                <option value="2024">2024</option>
+                                <option value="2025">2025</option>
+                                <option value="2026">2026</option>
+                                <option value="2027">2027</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="AdditionalPresent" class="col-sm-4 control-label">Additional Present</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" id="AdditionalPresent" value="0">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="AdditionalSunday" class="col-sm-4 control-label">Additional Sunday</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" id="AdditionalSunday" value="0">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="AdditionalHoliday" class="col-sm-4 control-label">Additional Holiday</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" id="AdditionalHoliday" value="0">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="AdditionalAbsent" class="col-sm-4 control-label">Additional Absent</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" id="AdditionalAbsent" value="0">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="TotalDaysIntheMonth" class="col-sm-4 control-label">Total Days(Month)</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" id="TotalDaysIntheMonth" value="0" disabled>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="inputPassword3" class="col-sm-4 control-label">Employee Name</label>
+                        <div class="col-sm-8">
+                            @Html.DropDownListFor(m => m.EmployeeCode, new SelectList(ViewBag.Employee, "EmployeeCode", "FullName"), "Select Employee", new { @class = "form-control select2 EmployeeCode", tabindex = "4", required = "required" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="TotalPresent" class="col-sm-4 control-label">Total Present</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" id="TotalPresent" value="0" disabled>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="TotalSunday" class="col-sm-4 control-label">Total Sunday</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" id="TotalSunday" value="0" disabled>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="TotalHoliday" class="col-sm-4 control-label">Total Holiday</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" id="TotalHoliday" value="0" disabled>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="TotalAbsent" class="col-sm-4 control-label">Total Absent</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" id="TotalAbsent" value="0" disabled>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-6">
+                            <button type="button" id="btncalculate" class="btn btn-info pull-right">Calculate</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <div class="box box-info">
+                    <div class="with-border text-center">
+                        <h3 class="box-title">Wages</h3>
+                    </div>
+                    <div class="box-body">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="BasicAllowance" class="col-sm-4 control-label">Basic Allowance</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="BasicAllowance" value="0" disabled>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="EarnedBasicWages" class="col-sm-4 control-label">Earned Basic</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="EarnedBasicWages" value="0" disabled>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="CityAllowanceMinutes" class="col-sm-4 control-label">City Allowance Min.</label>
+                                <div class="col-sm-4">
+                                    <input type="text" class="form-control" id="CityAllowanceMinutes">
+                                </div>
+                                <div class="col-sm-4">
+                                    <label for="TotalHours" id="CityAllowanceHours"></label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="VehicleAllowance" class="col-sm-4 control-label">Vehicle Allow.</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="VehicleAllowance" value="0" disabled>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="Conveyance" class="col-sm-4 control-label">Conveyance</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="Conveyance" value="0" disabled>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="PerformanceAllowance" class="col-sm-4 control-label">Performance Allowance</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="PerformanceAllowance" value="0" disabled>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="GrossWagesPayable" class="col-sm-4 control-label">Gross Wages Payable</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="GrossWagesPayable" value="0" disabled>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="HouseRentAllowance" class="col-sm-4 control-label">HRA</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="HouseRentAllowance" value="0" disabled>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="EarnedHouseRentAllowance" class="col-sm-4 control-label">Earned HRA</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="EarnedHouseRentAllowance" value="0" disabled>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="CityAllowance" class="col-sm-4 control-label">City Allowance</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="CityAllowance" value="0" disabled>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="AdditionalVehicleAllowance" class="col-sm-4 control-label">Add Vehicle Allow.</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="AdditionalVehicleAllowance" value="0" autocomplete="off">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="AdditionalConveyance" class="col-sm-4 control-label">Add. Conveyance</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="AdditionalConveyance" value="0" autocomplete="off">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="AdditionalPerformanceAllowance" class="col-sm-4 control-label">Add Performance Allow.</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="AdditionalPerformanceAllowance" value="0" autocomplete="off">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="TotalBasic" class="col-sm-4 control-label">Total Basic</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="TotalBasic" value="0" disabled>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="TotalEarned" class="col-sm-4 control-label">Total Earned</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="TotalEarnedWages" value="0" disabled>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="AdditionalCityAllowance" class="col-sm-4 control-label">Add. City Allow.</label>
+                                <div class="col-sm-4">
+                                    <input type="text" class="form-control" id="AdditionalCityAllowance" value="0" autocomplete="off">
+                                </div>
+                                <div class="col-sm-4">
+                                    <input type="text" class="form-control" id="TotalCityAllowance" value="0" disabled>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="AdditionalVehicleAllowance" class="col-sm-4 control-label">Total Vehicle Allow.</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="TotalVehicleAllowance" value="0" disabled>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="TotalConveyance" class="col-sm-4 control-label">Total Conveyance</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="TotalConveyance" value="0" disabled>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="TotalPerformanceAllowance" class="col-sm-4 control-label">Total Perf. Allow.</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="TotalPerformanceAllowance" value="0" disabled>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <div class="box box-info">
+                    <div class="with-border text-center">
+                        <h3 class="box-title">Deductions</h3>
+                    </div>
+                    <div class="box-body">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="PF" class="col-sm-4 control-label">PF</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="PF" value="0" autocomplete="off">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="MLWF" class="col-sm-4 control-label">MLWF</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="MLWF" value="0" autocomplete="off">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="ESIC" class="col-sm-4 control-label">ESIC</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="ESIC" value="0" autocomplete="off">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="TotalDeductions" class="col-sm-4 control-label">Total Deductions</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="TotalDeductions" value="0" autocomplete="off">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="PT" class="col-sm-4 control-label">PT</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="PT" value="0" autocomplete="off">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="NetWagesPaid" class="col-sm-4 control-label">Net Wages Paid</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="NetWagesPaid" value="0" autocomplete="off">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <div class="box box-info">
+                    <div class="with-border text-center">
+                        <h3 class="box-title">Leaves</h3>
+                    </div>
+                    <div class="box-body">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="OpeningLeaves" class="col-sm-4 control-label">Opening Leaves</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="OpeningLeaves" value="0" autocomplete="off" disabled>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="AvailedLeaves" class="col-sm-4 control-label">Availed Leaves</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="AvailedLeaves" value="0" autocomplete="off" disabled>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="ClosingLeaves" class="col-sm-4 control-label">Closing Leaves</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="ClosingLeaves" value="0" autocomplete="off" disabled>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            @*<div class="form-group">
+                                    <label for="EarnedLeaves" class="col-sm-4 control-label">Earned Leaves</label>
+                                    <div class="col-sm-6">
+                                        <input type="text" class="form-control" id="EarnedLeaves" value="0" autocomplete="off" disabled>
+                                    </div>
+                                </div>*@
+                            <div class="form-group">
+                                <label for="EarnedLeaves" class="col-sm-4 control-label">Earned Leaves</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="EarnedLeaves" value="10" autocomplete="off">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="AdditionalAvailedLeaves" class="col-sm-4 control-label">Addi. Availed Leaves</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="AdditionalAvailedLeaves" value="0" autocomplete="off">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="AdditionalClosingLeaves" class="col-sm-4 control-label">Add. Closing Leaves</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="AdditionalClosingLeaves" value="0" autocomplete="off">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="TotalLeaves" class="col-sm-4 control-label">Total Leaves</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="TotalLeaves" value="0" autocomplete="off" disabled>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="TotalAvailedLeaves" class="col-sm-4 control-label">Total Availed Leaves</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="TotalAvailedLeaves" value="0" autocomplete="off" disabled>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="TotalClosingLeaves" class="col-sm-4 control-label">Total Closing Leaves</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="TotalClosingLeaves" value="0" autocomplete="off" disabled>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <div class="box box-info">
+                    <div class="with-border text-center">
+                        <h3 class="box-title">Advance</h3>
+                    </div>
+                    <div class="box-body">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="OpeningAdvance" class="col-sm-4 control-label">Opening Advance</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="OpeningAdvance" value="0" autocomplete="off">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="ClosingAdvance" class="col-sm-4 control-label">Closing Advance</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="ClosingAdvance" value="0" autocomplete="off">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="Addition" class="col-sm-4 control-label">Addition</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="Addition" value="0" autocomplete="off">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="Deductions" class="col-sm-4 control-label">Deductions</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="Deductions" value="0" autocomplete="off">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <div class="box box-info">
+                    <div class="with-border text-center">
+                        <h3 class="box-title">Other Deductions</h3>
+                    </div>
+                    <div class="box-body">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="TDS" class="col-sm-4 control-label">TDS</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="TDS" value="0" autocomplete="off">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="AnyOtherDeductions2" class="col-sm-4 control-label">Other Deductions 2</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="AnyOtherDeductions2" value="0" autocomplete="off">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="Goods" class="col-sm-4 control-label">Goods</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="Goods" value="0" autocomplete="off">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="AnyOtherDeductions1" class="col-sm-4 control-label">Other Deductions 1</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="AnyOtherDeductions1" value="0" autocomplete="off">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="box-footer">
+            <button type="button" id="btncancel" class="btn btn-default">Cancel</button>
+            <button type="button" id="btnsave" class="btn btn-info pull-right">Save</button>
+        </div>
+    </form>
+    <div id="lsthouserent">
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script>
+    $(document).ready(function () {
+        $(".EmployeeCode").on('change keypress', function (e) {
+            debugger;
+            var EmployeeCode = this.value;
+            var MonthID = $("#MonthID").val();
+            var YearID = $("#YearID").val();
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("GetEmployeeAttandanceDetail")',
+                data: { MonthID: MonthID, YearID: YearID, EmployeeCode: EmployeeCode },
+                success: function (result) {
+                    debugger;
+                    $('#Present').val(result.Present);
+                    $('#AdditionalPresent').val(result.AdditionalPresent);
+                    $('#TotalPresent').val(result.TotalPresent);
+                    $('#Sunday').val(result.TotalMonthSunday);
+                    $('#AdditionalSunday').val(result.AdditionalSunday);
+                    $('#TotalSunday').val(result.TotalSunday);
+                    $('#Holiday').val(result.Holiday);
+                    $('#AdditionalHoliday').val(result.AdditionalHoliday);
+                    $('#TotalHoliday').val(result.TotalHoliday);
+                    $('#Absent').val(result.Absent);
+                    $('#AdditionalAbsent').val(result.AdditionalAbsent);
+                    $('#TotalAbsent').val(result.TotalAbsent);
+                    $('#TotalDays').val(result.TotalDays);
+                    $('#TotalDaysIntheMonth').val(result.TotalMonthDay);
+                    $('#BasicAllowance').val(result.BasicAllowance);
+                    $('#HouseRentAllowance').val(result.HouseRentAllowance);
+                    $('#TotalBasic').val(result.TotalBasic);
+                    $('#EarnedBasicWages').val(result.EarnedBasicWages);
+                    $('#EarnedHouseRentAllowance').val(result.EarnedHouseRentAllowance);
+                    $('#TotalEarnedWages').val(result.TotalEarnedWages);
+                    $('#CityAllowanceMinutes').val(result.CityAllowanceMinutes);
+                    $('#CityAllowanceHours').text(result.CityAllowanceHours);
+                    $('#CityAllowance').val(result.CityAllowance);
+                    $('#AdditionalCityAllowance').val(result.AdditionalCityAllowance);
+                    $('#TotalCityAllowance').val(result.TotalCityAllowance);
+                    $('#VehicleAllowance').val(result.VehicleAllowance);
+                    $('#AdditionalVehicleAllowance').val(result.AdditionalVehicleAllowance);
+                    $('#TotalVehicleAllowance').val(result.TotalVehicleAllowance);
+                    $('#Conveyance').val(result.Conveyance);
+                    $('#AdditionalConveyance').val(result.AdditionalConveyance);
+                    $('#TotalConveyance').val(result.TotalConveyance);
+                    $('#PerformanceAllowance').val(result.PerformanceAllowance);
+                    $('#AdditionalPerformanceAllowance').val(result.AdditionalPerformanceAllowance);
+                    $('#TotalPerformanceAllowance').val(result.TotalPerformanceAllowance);
+                    $('#GrossWagesPayable').val(result.GrossWagesPayable);
+                    $('#PF').val(result.PF);
+                    $('#ESIC').val(result.ESIC);
+                    $('#PT').val(result.PT);
+                    $('#MLWF').val(result.MLWF);
+                    $('#TotalDeductions').val(result.TotalDeductions);
+                    $('#NetWagesPaid').val(result.NetWagesPaid);
+                    $('#OpeningLeaves').val(result.OpeningLeaves);
+                    $('#EarnedLeaves').val(result.EarnedLeaves);
+                    $('#TotalLeaves').val(result.TotalLeaves);
+                    $('#AvailedLeaves').val(result.AvailedLeaves);
+                    $('#AdditionalAvailedLeaves').val(result.AdditionalAvailedLeaves);
+                    $('#TotalAvailedLeaves').val(result.TotalAvailedLeaves);
+                    $('#ClosingLeaves').val(result.ClosingLeaves);
+                    $('#AdditionalClosingLeaves').val(result.AdditionalClosingLeaves);
+                    $('#TotalClosingLeaves').val(result.TotalClosingLeaves);
+                    $('#OpeningAdvance').val(result.OpeningAdvance);
+                    $('#Addition').val(result.Addition);
+                    $('#Deductions').val(result.Deductions);
+                    $('#ClosingAdvance').val(result.ClosingAdvance);
+                    $('#TDS').val(result.TDS);
+                    $('#Goods').val(result.Goods);
+                    $('#AnyOtherDeductions1').val(result.AnyOtherDeductions1);
+                    $('#AnyOtherDeductions2').val(result.AnyOtherDeductions2);
+                    $('#SalarySheetID').val(result.SalarySheetID);
+                    $('#CreatedBy').val(result.CreatedBy);
+                    $('#CreatedOn').val(result.CreatedOnstr);
+
+
+                    $('#PerformanceAllowanceStatusID').val(result.PerformanceAllowanceStatusID);
+                    $('#CityAllowanceStatusID').val(result.CityAllowanceStatusID);
+                    $('#PFStatusID').val(result.PFStatusID);
+                    $('#ESICStatusID').val(result.ESICStatusID);
+                    // PF
+                    $('#HighestSlab').val(result.HighestSlab);
+                    $('#HighestPF').val(result.HighestPF);
+                    $('#PFPercentage').val(result.PFPercentage);
+                    //ESIC
+                    $('#EmployeeSlab').val(result.EmployeeSlab);
+                    //PT
+                    $('#PTHighestSlab').val(result.PTHighestSlab);
+                    $('#PTHighestAmount').val(result.PTHighestAmount);
+                    $('#PTLowestSlab').val(result.PTLowestSlab);
+                    $('#PTLowestAmount').val(result.PTLowestAmount);
+                    //MLWF
+                    $('#MLWFHighestSlab').val(result.MLWFHighestSlab);
+                    $('#MLWFHighestAmount').val(result.MLWFHighestAmount);
+                    $('#MLWFMonthID').val(result.MLWFMonthID);
+                    $('#ConveyancePerMonth').val(result.ConveyancePerMonth);
+                    $('#ConveyancePerDay').val(result.ConveyancePerDay);
+                    $('#PerformanceAllowanceAct').val(result.PerformanceAllowanceAct);
+                    // $(".Sunday").trigger("select");
+                },
+                error: function () { alert('Error'); }
+            });
+        });
+    });
+
+    $(".YearID").on('change keypress', function (e) {
+        debugger;
+        var YearID = this.value;
+        var MonthID = $("#MonthID").val();
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("GetTotalDaysMonthInTheMonth")',
+            data: { MonthID: MonthID, YearID: YearID },
+            success: function (result) {
+                $('#TotalDaysIntheMonth').val(result.TotalMonthDay);
+                $('#Sunday').val(result.TotalSunday);
+            },
+            error: function () { alert('Error'); }
+        });
+    });
+
+    // 22 July 2020 Piyush Limbani
+    $("#AdditionalPresent").on('blur', function (e) {
+        debugger;
+        var AdditionalPresent = this.value;
+        var Present = $("#Present").val();
+        var Sunday = $("#Sunday").val();
+        var Holiday = $("#Holiday").val();
+        var Absent = $("#Absent").val();
+        var TotalMonthDay = $("#TotalDaysIntheMonth").val();
+        var TotalDays = $("#TotalDays").val();
+        var AdditionalSunday = $("#AdditionalSunday").val();
+        var AdditionalHoliday = $("#AdditionalHoliday").val();
+        var OpeningLeaves = $("#OpeningLeaves").val();
+        var EarnedLeaves = $("#EarnedLeaves").val();
+        var AvailedLeaves = $("#AvailedLeaves").val();
+        var ClosingLeaves = $("#ClosingLeaves").val();
+        if (AdditionalPresent < 0) {
+            // Negative Add in Absent
+            var AdditionalPresentPlus = Math.abs(AdditionalPresent);
+            var AdditionalSunday = Math.abs(AdditionalSunday);
+            var AdditionalHoliday = Math.abs(AdditionalHoliday);
+            var TotalSunday = parseInt(Sunday) + parseInt(AdditionalSunday);
+            var TotalHoliday = parseInt(Holiday) + parseInt(AdditionalHoliday);
+            var TotalLeaves = parseInt(OpeningLeaves) + parseInt(EarnedLeaves);
+            if (parseInt(AvailedLeaves) == parseInt(TotalLeaves)) {
+                $('#AdditionalAvailedLeaves').val(0);
+                $('#TotalAvailedLeaves').val(parseInt(AvailedLeaves));
+                $('#AdditionalAbsent').val(0);
+                $('#TotalAbsent').val(0);
+                $('#AdditionalClosingLeaves').val(0);
+                $('#TotalClosingLeaves').val(0);
+                $('#AdditionalAbsent').val(parseInt(AdditionalPresentPlus) + parseInt(AdditionalSunday) + parseInt(AdditionalHoliday));
+                $('#TotalAbsent').val(parseInt(Absent) + parseInt(AdditionalPresentPlus) + parseInt(AdditionalSunday) + parseInt(AdditionalHoliday));
+                $('#TotalDays').val(parseInt(TotalMonthDay) - parseInt(parseInt(Absent) + parseInt(AdditionalPresentPlus) + parseInt(AdditionalSunday) + parseInt(AdditionalHoliday)));
+                var TotalPresent = parseInt(Present) + parseInt(AdditionalPresent);
+                $('#TotalPresent').val(TotalPresent);
+            }
+            else if (parseInt(ClosingLeaves) >= parseInt(AdditionalPresent)) {
+                if (parseInt(ClosingLeaves) != 0) {
+                    $('#AdditionalAvailedLeaves').val(parseInt(AdditionalPresent));
+                    $('#TotalAvailedLeaves').val(parseInt(AvailedLeaves) + parseInt(AdditionalPresent));
+                    $('#AdditionalClosingLeaves').val(parseInt(AdditionalPresent));
+
+
+                    $('#TotalClosingLeaves').val(parseInt(ClosingLeaves) + parseInt(AdditionalPresent));
+
+
+                    var TotalPresent = parseInt(Present) + parseInt(AdditionalPresent);
+                    //var TotalPresent = parseInt(Present);
+                    $('#TotalPresent').val(TotalPresent);
+                    $('#AdditionalAbsent').val(AdditionalPresentPlus);
+                    $('#AdditionalAvailedLeaves').val(AdditionalPresentPlus);
+                    $('#TotalAvailedLeaves').val(parseInt(AdditionalPresentPlus) + parseInt(AvailedLeaves));
+                    // $('#AdditionalAbsent').val(0);
+                    $('#TotalAbsent').val(parseInt(Absent) + parseInt(AdditionalPresentPlus));
+                    $('#TotalDays').val(parseInt(parseInt(TotalPresent) + parseInt(TotalSunday) + parseInt(TotalHoliday)));
+                }
+                else {
+                    $('#AdditionalAvailedLeaves').val(parseInt(0));
+                    $('#TotalAvailedLeaves').val(0);
+                    $('#AdditionalClosingLeaves').val(0);
+                    $('#TotalClosingLeaves').val(0);
+                    $('#AvailedLeaves').val(0);
+                    var TotalPresent = parseInt(Present) - parseInt(AdditionalPresentPlus);
+                    $('#TotalPresent').val(TotalPresent);
+                    $('#AdditionalAbsent').val(AdditionalPresentPlus);
+                    $('#TotalAbsent').val(parseInt(Absent) + parseInt(AdditionalPresentPlus));
+                    $('#TotalDays').val(parseInt(parseInt(TotalPresent) + parseInt(TotalSunday) + parseInt(TotalHoliday)));
+                }
+            }
+            else {
+                $('#AdditionalAvailedLeaves').val(parseInt(ClosingLeaves));
+                $('#AdditionalClosingLeaves').val(parseInt(ClosingLeaves));
+                $('#TotalAvailedLeaves').val(parseInt(AvailedLeaves) + parseInt(ClosingLeaves));
+                $('#TotalClosingLeaves').val(0);
+                var abs = parseInt(AdditionalPresent) - parseInt(ClosingLeaves);
+                $('#TotalPresent').val(parseInt(Present) - parseInt(abs));
+                $('#TotalSunday').val(parseInt(Sunday) + parseInt(AdditionalSunday));
+                $('#TotalHoliday').val(parseInt(Holiday) + parseInt(AdditionalHoliday));
+                $('#AdditionalAbsent').val(parseInt(abs));
+                $('#TotalAbsent').val(parseInt(Absent) + parseInt(abs) + parseInt(AdditionalSunday) + parseInt(AdditionalHoliday));
+                $('#TotalDays').val(parseInt(TotalMonthDay) - parseInt(parseInt(Absent) + parseInt(abs) + parseInt(AdditionalSunday) + parseInt(AdditionalHoliday)));
+            }
+        }
+        else if (AdditionalPresent > 0) {
+            var AdditionalPresentMinus = -Math.abs(AdditionalPresent);
+
+            // 08 Feb 2021 Piyush Limbani
+            $('#TotalPresent').val(parseInt(Present) + parseInt(AdditionalPresent));
+            // 08 Feb 2021 Piyush Limbani
+
+            $('#AdditionalAbsent').val(parseInt(AdditionalPresentMinus));
+            $('#TotalAbsent').val(parseInt(Absent) + parseInt(AdditionalPresentMinus));
+            $('#TotalDays').val(parseInt(TotalMonthDay) - parseInt(parseInt(Absent) + parseInt(AdditionalPresentMinus)));
+        }
+        else {
+            $('#AdditionalAvailedLeaves').val(parseInt(0));
+            $('#TotalAvailedLeaves').val(parseInt(AvailedLeaves));
+            $('#AdditionalClosingLeaves').val(parseInt(0));
+            $('#AdditionalSunday').val(parseInt(0));
+            $('#AdditionalHoliday').val(parseInt(0));
+            $('#TotalClosingLeaves').val(parseInt(ClosingLeaves));
+            $('#TotalPresent').val(parseInt(Present) + parseInt(AdditionalPresent));
+            $('#TotalSunday').val(parseInt(Sunday));
+            $('#TotalHoliday').val(parseInt(Holiday));
+            $('#AdditionalAbsent').val(parseInt(0));
+            $('#TotalAbsent').val(parseInt(Absent));
+            $('#TotalDays').val(parseInt(TotalMonthDay) - parseInt(parseInt(Absent) + parseInt(AdditionalPresent)));
+        }
+    });
+
+
+    // 05 Oct 2020 Piyush Limbani
+    $("#AdditionalAbsent").on('blur', function (e) {
+        debugger;
+        var AdditionalAbsent = this.value;
+        var Absent = $("#Absent").val();
+        var TotalMonthDay = $("#TotalDaysIntheMonth").val();
+        if (AdditionalAbsent == 0) {
+            var TotalAbsent = parseInt(Absent) + parseInt(AdditionalAbsent);
+            $('#TotalAbsent').val(TotalAbsent);
+            $('#TotalDays').val(parseInt(TotalMonthDay) - parseInt(parseInt(TotalAbsent)));
+        }
+        else if (AdditionalAbsent < 0) {
+            var AdditionalAbsentMinus = -Math.abs(AdditionalAbsent);
+            var Absent = $("#Absent").val();
+            var TotalAbsent = parseInt(Absent) + parseInt(AdditionalAbsentMinus);
+            $('#TotalAbsent').val(TotalAbsent);
+            $('#TotalDays').val(parseInt(TotalMonthDay) + parseInt(parseInt(TotalAbsent)));
+        }
+        else {
+            var TotalAbsent = parseInt(Absent) + parseInt(AdditionalAbsent);
+            $('#TotalAbsent').val(TotalAbsent);
+            $('#TotalDays').val(parseInt(TotalMonthDay) - parseInt(parseInt(TotalAbsent)));
+        }
+    });
+
+
+    // 22 July 2020 Piyush Limbani
+    $("#AdditionalSunday").on('blur', function (e) {
+        debugger;
+        var AdditionalSunday = this.value;
+        var Present = $("#Present").val();
+        var Sunday = $("#Sunday").val();
+        var Holiday = $("#Holiday").val();
+        var Absent = $("#Absent").val();
+        var TotalMonthDay = $("#TotalDaysIntheMonth").val();
+        var TotalDays = $("#TotalDays").val();
+        var AdditionalPresent = $("#AdditionalPresent").val();
+        var AdditionalHoliday = $("#AdditionalHoliday").val();
+        var TotalSunday = parseInt(Sunday) + parseInt(AdditionalSunday);
+        var ClosingLeaves = $("#ClosingLeaves").val();
+        $('#TotalSunday').val(TotalSunday);
+        if (AdditionalSunday < 0) {
+            var AdditionalSunday = Math.abs(AdditionalSunday);
+            var AdditionalPresentPlus = Math.abs(AdditionalPresent);
+            var AdditionalHolidayPlus = Math.abs(AdditionalHoliday);
+            var NewAbsent1 = 0;
+            if (AdditionalPresentPlus != 0) {
+                //var NewAbsent = parseInt(AdditionalPresentPlus) - parseInt(ClosingLeaves);
+                var NewAbsent = parseInt(ClosingLeaves) - parseInt(AdditionalPresentPlus);
+                NewAbsent1 = Math.abs(NewAbsent);
+            }
+            else {
+                NewAbsent1 = 0;
+            }
+            $('#AdditionalAbsent').val(parseInt(AdditionalSunday) + Math.abs(NewAbsent1));
+            $('#TotalAbsent').val(parseInt(Absent) + parseInt(AdditionalSunday) + Math.abs(NewAbsent1));
+            $('#TotalDays').val(parseInt(TotalMonthDay) - (parseInt(Absent) + parseInt(AdditionalSunday) + Math.abs(NewAbsent1) + parseInt(AdditionalHolidayPlus)));
+        }
+        else {
+            if (AdditionalPresent > 0)
+            { }
+            else {
+                $('#TotalSunday').val(parseInt(Sunday) + parseInt(AdditionalSunday));
+                $('#TotalHoliday').val(parseInt(Holiday) + parseInt(AdditionalHoliday));
+                var AdditionalSunday = Math.abs(AdditionalSunday);
+                var AdditionalPresentPlus = Math.abs(AdditionalPresent);
+                var NewAbsent1 = 0;
+                if (AdditionalPresentPlus != 0) {
+                    //var NewAbsent = parseInt(AdditionalPresentPlus) - parseInt(ClosingLeaves);
+                    var NewAbsent = parseInt(ClosingLeaves) - parseInt(AdditionalPresentPlus);
+                    NewAbsent1 = Math.abs(NewAbsent);
+                }
+                else {
+                    NewAbsent1 = 0;
+                }
+                $('#AdditionalAbsent').val(Math.abs(NewAbsent1));
+                $('#AdditionalHoliday').val(parseInt(0));
+                $('#TotalHoliday').val(parseInt(Holiday));
+                $('#TotalAbsent').val(parseInt(Absent) + Math.abs(NewAbsent1));
+                $('#TotalDays').val(parseInt(TotalMonthDay) - (parseInt(Absent) + Math.abs(NewAbsent1)));
+            }
+        }
+    });
+
+    // 23 July 2020 Piyush Limbani
+    $("#AdditionalHoliday").on('blur', function (e) {
+        debugger;
+        var AdditionalHoliday = this.value;
+        var Present = $("#Present").val();
+        var Sunday = $("#Sunday").val();
+        var Holiday = $("#Holiday").val();
+        var Absent = $("#Absent").val();
+        var TotalMonthDay = $("#TotalDaysIntheMonth").val();
+        var TotalDays = $("#TotalDays").val();
+        var AdditionalPresent = $("#AdditionalPresent").val();
+        var AdditionalSunday = $("#AdditionalSunday").val();
+        var TotalHoliday = parseInt(Holiday) + parseInt(AdditionalHoliday);
+        var ClosingLeaves = $("#ClosingLeaves").val();
+        $('#TotalHoliday').val(TotalHoliday);
+        if (AdditionalHoliday < 0) {
+            var AdditionalHoliday = Math.abs(AdditionalHoliday);
+            var AdditionalPresentPlus = Math.abs(AdditionalPresent);
+            var AdditionalSundayPlus = Math.abs(AdditionalSunday);
+            var NewAbsent1 = 0;
+            if (AdditionalPresentPlus != 0) {
+                //var NewAbsent = parseInt(AdditionalPresentPlus) - parseInt(ClosingLeaves);
+                var NewAbsent = parseInt(ClosingLeaves) - parseInt(AdditionalPresentPlus);
+                NewAbsent1 = Math.abs(NewAbsent);
+            }
+            else {
+                NewAbsent1 = 0;
+            }
+            $('#AdditionalAbsent').val(parseInt(AdditionalHoliday) + parseInt(NewAbsent1) + parseInt(AdditionalSundayPlus));
+            $('#TotalAbsent').val(parseInt(Absent) + parseInt(AdditionalSundayPlus) + Math.abs(NewAbsent1) + parseInt(AdditionalHoliday));
+            $('#TotalDays').val(parseInt(TotalMonthDay) - (parseInt(Absent) + parseInt(AdditionalSundayPlus) + Math.abs(NewAbsent1) + parseInt(AdditionalHoliday)));
+        }
+        else {
+            if (AdditionalPresent > 0)
+            { }
+            else {
+
+                $('#TotalSunday').val(parseInt(Sunday) + parseInt(AdditionalSunday));
+                $('#TotalHoliday').val(parseInt(Holiday) + parseInt(AdditionalHoliday));
+                var AdditionalSundayPlus = Math.abs(AdditionalSunday);
+                var AdditionalPresentPlus = Math.abs(AdditionalPresent);
+                var AdditionalHoliday = Math.abs(AdditionalHoliday);
+                var NewAbsent1 = 0;
+                if (AdditionalPresentPlus != 0) {
+                    //var NewAbsent = parseInt(AdditionalPresentPlus) - parseInt(ClosingLeaves);
+                    var NewAbsent = parseInt(ClosingLeaves) - parseInt(AdditionalPresentPlus);
+                    NewAbsent1 = Math.abs(NewAbsent);
+                }
+                else {
+                    NewAbsent1 = 0;
+                }
+                $('#AdditionalAbsent').val(Math.abs(NewAbsent1) + Math.abs(AdditionalSundayPlus));
+                $('#TotalAbsent').val(parseInt(Absent) + Math.abs(NewAbsent1) + Math.abs(AdditionalSundayPlus));
+                $('#TotalDays').val(parseInt(TotalMonthDay) - (parseInt(Absent) + Math.abs(NewAbsent1) + Math.abs(AdditionalSundayPlus)));
+            }
+        }
+    });
+
+    // 08 Sep 2020 Piyush Limbani
+    $("#AdditionalAvailedLeaves").on('blur', function (e) {
+        debugger;
+        var AdditionalAvailedLeaves = this.value;
+        var AvailedLeaves = $("#AvailedLeaves").val();
+        //var AvailedLeaves = parseInt("-1")
+        if (AdditionalAvailedLeaves != 0) {
+            var TotalAvailedLeaves = parseInt(AvailedLeaves) + parseInt(AdditionalAvailedLeaves);
+            $('#TotalAvailedLeaves').val(parseInt(TotalAvailedLeaves));
+        }
+    });
+
+    // 08 Sep 2020 Piyush Limbani
+    $("#AdditionalClosingLeaves").on('blur', function (e) {
+        debugger;
+        var AdditionalClosingLeaves = this.value;
+        var ClosingLeaves = $("#ClosingLeaves").val();
+        if (AdditionalAvailedLeaves != 0) {
+            var TotalClosingLeaves = parseInt(ClosingLeaves) + parseInt(AdditionalClosingLeaves);
+            $('#TotalClosingLeaves').val(parseInt(TotalClosingLeaves));
+        }
+    });
+
+
+
+    //$(".Sunday").on('blur', function (e) {
+    //    debugger;
+    //    var TotalSunday = this.value;
+    //    var Present = $("#Present").val();
+    //    var Holiday = $("#Holiday").val();
+    //    var BasicAllowance = $("#BasicAllowance").val();
+    //    var HouseRentAllowance = $("#HouseRentAllowance").val();
+    //    var TotalMonthDays = $("#TotalDaysIntheMonth").val();
+    //    var CityAllowance = $("#CityAllowance").val();
+    //    var VehicleAllowance = $("#VehicleAllowance").val();
+    //    var ConveyancePerMonth = $("#ConveyancePerMonth").val();
+    //    var ConveyancePerDay = $("#ConveyancePerDay").val();
+    //    var TotalBasic = $("#TotalBasic").val();
+    //    var MonthID = $("#MonthID").val();
+    //    var HighestSlab = $("#HighestSlab").val();
+    //    var HighestPF = $("#HighestPF").val();
+    //    var PFPercentage = $("#PFPercentage").val();
+    //    var EmployeeSlab = $("#EmployeeSlab").val();
+    //    var PTHighestSlab = $("#PTHighestSlab").val();
+    //    var PTHighestAmount = $("#PTHighestAmount").val();
+    //    var PTLowestSlab = $("#PTLowestSlab").val();
+    //    var PTLowestAmount = $("#PTLowestAmount").val();
+    //    var MLWFHighestSlab = $("#MLWFHighestSlab").val();
+    //    var MLWFHighestAmount = $("#MLWFHighestAmount").val();
+    //    var MLWFMonthID = $("#MLWFMonthID").val();
+    //    var PF = 0;
+    //    var PT = 0;
+    //    var ESIC = 0;
+    //    var MLWF = 0;
+    //    if (TotalSunday > 0) {
+    //        var TotalDays = (parseInt(TotalSunday) + parseInt(Present) + parseInt(Holiday));
+    //        $('#TotalDays').val(TotalDays);
+    //        var EarnedBasicWages = parseFloat((BasicAllowance / TotalMonthDays) * TotalDays).toFixed(2);
+    //        $('#EarnedBasicWages').val(EarnedBasicWages);
+    //        var EarnedHouseRentAllowance = parseFloat((HouseRentAllowance / TotalMonthDays) * TotalDays).toFixed(2);
+    //        $('#EarnedHouseRentAllowance').val(EarnedHouseRentAllowance);
+    //        var TotalEarnedWages = parseFloat(parseFloat(EarnedBasicWages) + parseFloat(EarnedHouseRentAllowance)).toFixed(2);
+    //        $('#TotalEarnedWages').val(TotalEarnedWages);
+    //        var AvailedLeaves = $("#AvailedLeaves").val();
+    //        var TotalConveyancePerDay = (parseInt(ConveyancePerDay) * (parseInt(Present) - parseFloat(AvailedLeaves)));
+    //        var TotalConveyancePerMonth = ((parseInt(ConveyancePerMonth) / parseInt(TotalMonthDays)) * parseFloat(TotalDays))
+    //        var Conveyance = (parseInt(TotalConveyancePerDay) + parseInt(TotalConveyancePerMonth));
+    //        $('#Conveyance').val(Math.round(Conveyance));
+    //        var PerformanceAllowanceStatusID = $('#PerformanceAllowanceStatusID').val();
+    //        if (PerformanceAllowanceStatusID == 1)  //1 =  applicable old
+    //        {
+    //            var PerformanceAllowanceAct = $("#PerformanceAllowanceAct").val();
+    //            var PerformanceAllowance1 = Math.round(PerformanceAllowanceAct)
+    //            $('#PerformanceAllowance').val(Math.round(PerformanceAllowance1));
+    //        }
+    //        else if (PerformanceAllowanceStatusID == 2) //2 = applicable new
+    //        {
+    //            var PerformanceAllowanceAct = $("#PerformanceAllowanceAct").val();
+    //            var PerformanceAllowance = (parseInt(PerformanceAllowanceAct) / parseInt(TotalMonthDays)) * (parseInt(TotalDays) - parseInt(AvailedLeaves));
+    //            var PerformanceAllowance1 = Math.round(PerformanceAllowance)
+    //            $('#PerformanceAllowance').val(Math.round(PerformanceAllowance1));
+    //        }
+    //        else {
+    //            $('#PerformanceAllowance').val(0);
+    //        }
+    //        var GrossWagesPayable = parseFloat(parseFloat(TotalEarnedWages) + parseFloat(CityAllowance) + parseFloat(VehicleAllowance) + parseFloat(Conveyance) + parseFloat(PerformanceAllowance1)).toFixed(2);
+    //        $('#GrossWagesPayable').val(GrossWagesPayable);
+    //        var PFStatusID = $('#PFStatusID').val();
+    //        if (PFStatusID == 1) //1 =  applicable old
+    //        {
+    //            if (parseFloat(TotalEarnedWages) > parseFloat(HighestSlab)) {
+    //                PF = HighestPF;
+    //                $('#PF').val(PF);
+    //            }
+    //            else {
+    //                PF = ((TotalEarnedWages * PFPercentage) / 100);
+    //                $('#PF').val(Math.round(PF));
+    //            }
+    //        }
+    //        else if (PFStatusID == 2) //2 = applicable new
+    //        {
+    //            if (parseFloat(EarnedBasicWages) > parseFloat(HighestSlab)) {
+    //                PF = HighestPF;
+    //                $('#PF').val(Math.round(PF));
+    //            }
+    //            else {
+    //                PF = ((EarnedBasicWages * PFPercentage) / 100);
+    //                $('#PF').val(Math.round(PF));
+    //            }
+    //        }
+    //        else {
+    //            $('#PF').val(0);
+    //        }
+    //        var ESICStatusID = $('#ESICStatusID').val();
+    //        if (ESICStatusID == 1) //1 =  applicable old
+    //        {
+    //            ESIC = 0;
+    //            $('#ESIC').val(ESIC);
+    //        }
+    //        else if (ESICStatusID == 2) //2 = applicable new
+    //        {
+    //            ESIC = (parseFloat(GrossWagesPayable) * parseFloat(EmployeeSlab)); // 0.0075
+    //            $('#ESIC').val(Math.ceil(ESIC));
+    //        }
+    //        else {
+    //            $('#ESIC').val(0);
+    //        }
+    //        if (parseFloat(GrossWagesPayable) > parseFloat(PTHighestSlab)) {
+    //            PT = PTHighestAmount;
+    //            //if (MonthID == 2) {
+    //            //    PT = 300;
+    //            //}
+    //            //else {
+    //            //    PT = 200;
+    //            //}
+    //            $('#PT').val(PT);
+    //        }
+    //        else if (parseFloat(GrossWagesPayable) > parseFloat(PTLowestSlab)) {
+    //            PT = PTLowestAmount;
+    //            //PT = 175;
+    //            $('#PT').val(PT);
+    //        }
+    //        else {
+    //            PT = 0;
+    //            $('#PT').val(PT);
+    //        }
+    //        if (parseInt(MonthID) == parseInt(MLWFMonthID)) {
+    //            if (parseFloat(GrossWagesPayable) > parseFloat(MLWFHighestSlab)) {
+    //                MLWF = MLWFHighestAmount;
+    //            }
+    //            else {
+    //                MLWF = 0;
+    //            }
+    //        }
+    //        //if (MonthID == 6 || MonthID == 12) {
+    //        //    if (GrossWagesPayable > 5000) {
+    //        //        MLWF = 12;
+    //        //    }
+    //        //    else {
+    //        //        MLWF = 0;
+    //        //    }
+    //        //}
+    //        var TotalDeductions = parseFloat(parseFloat(PF) + parseFloat(PT) + parseFloat(ESIC) + parseFloat(MLWF));
+    //        var TotalDeductionsRound = (Math.round(TotalDeductions));
+    //        $('#TotalDeductions').val(TotalDeductionsRound);
+    //        var NetWagesPaid = parseFloat(parseFloat(GrossWagesPayable) - parseFloat(TotalDeductionsRound));
+    //        var NetWagesPaid1 = Math.round(NetWagesPaid);
+    //        $('#NetWagesPaid').val(NetWagesPaid1);
+    //    }
+    //});
+
+    $("#CityAllowanceMinutes").on('blur', function (e) {
+        debugger;
+        var CityAllowanceMinutes = this.value;
+        var TotalBasic = $("#TotalBasic").val();
+        var TotalDaysIntheMonth = $("#TotalDaysIntheMonth").val();
+        var CityAllowanceStatusID = $('#CityAllowanceStatusID').val();
+        if (CityAllowanceStatusID == 1) //1 =  applicable old
+        {
+            var div = parseFloat((((TotalBasic / TotalDaysIntheMonth) / 8) / 60) * 2).toFixed(2);;
+            var mul = (CityAllowanceMinutes);
+            var CityAllowance = div * mul;
+            $('#CityAllowance').val((CityAllowance).toFixed(2));
+            var TotalEarnedWages = $("#TotalEarnedWages").val();
+            var VehicleAllowance = $("#VehicleAllowance").val();
+            var Conveyance = $("#Conveyance").val();
+            var PerformanceAllowance = $("#PerformanceAllowance").val();
+            var GrossWagesPayable = parseFloat(parseFloat(CityAllowance) + parseFloat(TotalEarnedWages) + parseFloat(VehicleAllowance) + parseFloat(Conveyance) + parseFloat(PerformanceAllowance)).toFixed(2);
+            $('#GrossWagesPayable').val(GrossWagesPayable);
+        }
+        else if (CityAllowanceStatusID == 3) //2 = applicable new
+        {
+            var div = (TotalBasic / TotalDaysIntheMonth);
+            var CityAllowance = div / CityAllowanceMinutes;
+            $('#CityAllowance').val((CityAllowance).toFixed(2));
+            var TotalEarnedWages = $("#TotalEarnedWages").val();
+            var VehicleAllowance = $("#VehicleAllowance").val();
+            var Conveyance = $("#Conveyance").val();
+            var PerformanceAllowance = $("#PerformanceAllowance").val();
+            var GrossWagesPayable = parseFloat(parseFloat(CityAllowance) + parseFloat(TotalEarnedWages) + parseFloat(VehicleAllowance) + parseFloat(Conveyance) + parseFloat(PerformanceAllowance)).toFixed(2);
+            $('#GrossWagesPayable').val(GrossWagesPayable);
+        }
+        else {
+            $('#CityAllowance').val(0);
+        }
+    });
+
+    $("#Addition").on('blur', function (e) {
+        debugger;
+        var Addition = this.value;
+        var OpeningAdvance = $("#OpeningAdvance").val();
+        if (Addition != "") {
+            var ClosingAdvance = parseFloat(Addition) + parseFloat(OpeningAdvance);
+            $('#ClosingAdvance').val(ClosingAdvance);
+        }
+        else {
+            $('#ClosingAdvance').val(OpeningAdvance);
+        }
+    });
+
+    $("#Deductions").on('blur', function (e) {
+        debugger;
+        var Deductions = this.value;
+        var ClosingAdvance = $("#ClosingAdvance").val();
+        if (Deductions != "") {
+            var ClosingAdvance = parseFloat(ClosingAdvance) - parseFloat(Deductions);
+            $('#ClosingAdvance').val(ClosingAdvance);
+        }
+        else {
+            $('#ClosingAdvance').val(OpeningAdvance);
+        }
+    });
+
+    // 16 July 2020 Piyush Limbani
+    $("#AdditionalCityAllowance").on('blur', function (e) {
+        debugger;
+        var AdditionalCityAllowance = this.value;
+        var TotalEarnedWages = $("#TotalEarnedWages").val();
+        var CityAllowance = $("#CityAllowance").val();
+        var VehicleAllowance = $("#VehicleAllowance").val();
+        var Conveyance = $("#Conveyance").val();
+        var PerformanceAllowance = $("#PerformanceAllowance").val();
+        var AdditionalVehicleAllowance = $("#AdditionalVehicleAllowance").val();
+        var AdditionalConveyance = $("#AdditionalConveyance").val();
+        var AdditionalPerformanceAllowance = $("#AdditionalPerformanceAllowance").val();
+        var PF = $("#PF").val();
+        var EmployeeSlab = $("#EmployeeSlab").val();
+        var ESIC = 0;
+        var PTHighestSlab = $("#PTHighestSlab").val();
+        var PTHighestAmount = $("#PTHighestAmount").val();
+        var PTLowestSlab = $("#PTLowestSlab").val();
+        var PTLowestAmount = $("#PTLowestAmount").val();
+        var PT = 0;
+        var MLWFHighestSlab = $("#MLWFHighestSlab").val();
+        var MLWFHighestAmount = $("#MLWFHighestAmount").val();
+        var MLWFMonthID = $("#MLWFMonthID").val();
+        var MLWF = 0;
+        if (AdditionalCityAllowance != "" && AdditionalCityAllowance != 0) {
+            var TotalCityAllowance = parseFloat(CityAllowance) + parseFloat(AdditionalCityAllowance);
+            $('#TotalCityAllowance').val(TotalCityAllowance);
+            var GrossWagesPayable = parseFloat(parseFloat(TotalEarnedWages) + parseFloat(CityAllowance) + parseFloat(AdditionalCityAllowance) + parseFloat(VehicleAllowance) + parseFloat(AdditionalVehicleAllowance) + parseFloat(Conveyance) + parseFloat(AdditionalConveyance) + parseFloat(PerformanceAllowance) + parseFloat(AdditionalPerformanceAllowance)).toFixed(2);
+            $('#GrossWagesPayable').val(GrossWagesPayable);
+            var ESICStatusID = $('#ESICStatusID').val();
+            if (ESICStatusID == 1) //1 =  applicable old
+            {
+                ESIC = 0;
+                $('#ESIC').val(ESIC);
+            }
+            else if (ESICStatusID == 2) //2 = applicable new
+            {
+                ESIC = (parseFloat(GrossWagesPayable) * parseFloat(EmployeeSlab)); // 0.0075
+                $('#ESIC').val(Math.ceil(ESIC));
+            }
+            else {
+                // 05 Jan 2021 Piyush Limbani
+                ESIC = $("#ESIC").val();
+                $('#ESIC').val(ESIC);
+                // 05 Jan 2021 Piyush Limbani
+                //$('#ESIC').val(0);
+            }
+            if (parseFloat(GrossWagesPayable) > parseFloat(PTHighestSlab)) {
+                PT = PTHighestAmount;
+                $('#PT').val(PT);
+            }
+            else if (parseFloat(GrossWagesPayable) > parseFloat(PTLowestSlab)) {
+                PT = PTLowestAmount;
+                $('#PT').val(PT);
+            }
+            else {
+                // 05 Jan 2021 Piyush Limbani
+                PT = $("#PT").val();
+                $('#PT').val(PT);
+                // 05 Jan 2021 Piyush Limbani
+                //PT = 0;
+                //$('#PT').val(PT);
+            }
+            if (parseInt(MonthID) == parseInt(MLWFMonthID)) {
+                if (parseFloat(GrossWagesPayable) > parseFloat(MLWFHighestSlab)) {
+                    MLWF = MLWFHighestAmount;
+                    $('#MLWF').val(MLWF);
+                }
+                else {
+                    // 05 Jan 2021 Piyush Limbani
+                    MLWF = $("#MLWF").val();
+                    $('#MLWF').val(MLWF);
+                    // 05 Jan 2021 Piyush Limbani
+                    // MLWF = 0;
+                }
+            }
+            else {
+                // 05 Jan 2021 Piyush Limbani
+                MLWF = $("#MLWF").val();
+                $('#MLWF').val(MLWF);
+                // 05 Jan 2021 Piyush Limbani
+                // MLWF = 0;
+            }
+            var TotalDeductions = parseFloat(parseFloat(PF) + parseFloat(PT) + Math.ceil(ESIC) + parseFloat(MLWF));
+            var TotalDeductionsRound = (Math.round(TotalDeductions));
+            $('#TotalDeductions').val(TotalDeductionsRound);
+            var NetWagesPaid = parseFloat(parseFloat(GrossWagesPayable) - parseFloat(TotalDeductionsRound));
+            var NetWagesPaid1 = Math.round(NetWagesPaid);
+            $('#NetWagesPaid').val(NetWagesPaid1);
+        }
+        else {
+            $('#TotalCityAllowance').val(CityAllowance);
+            var GrossWagesPayable = parseFloat(parseFloat(TotalEarnedWages) + parseFloat(CityAllowance) + parseFloat(VehicleAllowance) + parseFloat(AdditionalVehicleAllowance) + parseFloat(Conveyance) + parseFloat(AdditionalConveyance) + parseFloat(PerformanceAllowance) + parseFloat(AdditionalPerformanceAllowance)).toFixed(2);
+            $('#GrossWagesPayable').val(GrossWagesPayable);
+            var ESICStatusID = $('#ESICStatusID').val();
+            if (ESICStatusID == 1) //1 =  applicable old
+            {
+                ESIC = 0;
+                $('#ESIC').val(ESIC);
+            }
+            else if (ESICStatusID == 2) //2 = applicable new
+            {
+                ESIC = (parseFloat(GrossWagesPayable) * parseFloat(EmployeeSlab)); // 0.0075
+                $('#ESIC').val(Math.ceil(ESIC));
+            }
+            else {
+                // 05 Jan 2021 Piyush Limbani
+                ESIC = $("#ESIC").val();
+                $('#ESIC').val(ESIC);
+                // 05 Jan 2021 Piyush Limbani
+                //$('#ESIC').val(0);
+            }
+            if (parseFloat(GrossWagesPayable) > parseFloat(PTHighestSlab)) {
+                PT = PTHighestAmount;
+                $('#PT').val(PT);
+            }
+            else if (parseFloat(GrossWagesPayable) > parseFloat(PTLowestSlab)) {
+                PT = PTLowestAmount;
+                $('#PT').val(PT);
+            }
+            else {
+                // 05 Jan 2021 Piyush Limbani
+                PT = $("#PT").val();
+                $('#PT').val(PT);
+                // 05 Jan 2021 Piyush Limbani
+                //PT = 0;
+                //$('#PT').val(PT);
+            }
+            if (parseInt(MonthID) == parseInt(MLWFMonthID)) {
+                if (parseFloat(GrossWagesPayable) > parseFloat(MLWFHighestSlab)) {
+                    MLWF = MLWFHighestAmount;
+                    $('#MLWF').val(MLWF);
+                }
+                else {
+                    // 05 Jan 2021 Piyush Limbani
+                    MLWF = $("#MLWF").val();
+                    $('#MLWF').val(MLWF);
+                    // 05 Jan 2021 Piyush Limbani
+                    // MLWF = 0;
+                }
+            }
+            else {
+                // 05 Jan 2021 Piyush Limbani
+                MLWF = $("#MLWF").val();
+                $('#MLWF').val(MLWF);
+                // 05 Jan 2021 Piyush Limbani
+                // MLWF = 0;
+            }
+            var TotalDeductions = parseFloat(parseFloat(PF) + parseFloat(PT) + Math.ceil(ESIC) + parseFloat(MLWF));
+            var TotalDeductionsRound = (Math.round(TotalDeductions));
+            $('#TotalDeductions').val(TotalDeductionsRound);
+            var NetWagesPaid = parseFloat(parseFloat(GrossWagesPayable) - parseFloat(TotalDeductionsRound));
+            var NetWagesPaid1 = Math.round(NetWagesPaid);
+            $('#NetWagesPaid').val(NetWagesPaid1);
+        }
+    });
+
+    // 16 July 2020 Piyush Limbani
+    $("#AdditionalVehicleAllowance").on('blur', function (e) {
+        debugger;
+        var AdditionalVehicleAllowance = this.value;
+        var TotalEarnedWages = $("#TotalEarnedWages").val();
+        var CityAllowance = $("#CityAllowance").val();
+        var VehicleAllowance = $("#VehicleAllowance").val();
+        var Conveyance = $("#Conveyance").val();
+        var PerformanceAllowance = $("#PerformanceAllowance").val();
+        var AdditionalCityAllowance = $("#AdditionalCityAllowance").val();
+        var AdditionalConveyance = $("#AdditionalConveyance").val();
+        var AdditionalPerformanceAllowance = $("#AdditionalPerformanceAllowance").val();
+        var PF = $("#PF").val();
+        var EmployeeSlab = $("#EmployeeSlab").val();
+        var ESIC = 0;
+        var PTHighestSlab = $("#PTHighestSlab").val();
+        var PTHighestAmount = $("#PTHighestAmount").val();
+        var PTLowestSlab = $("#PTLowestSlab").val();
+        var PTLowestAmount = $("#PTLowestAmount").val();
+        var PT = 0;
+        var MLWFHighestSlab = $("#MLWFHighestSlab").val();
+        var MLWFHighestAmount = $("#MLWFHighestAmount").val();
+        var MLWFMonthID = $("#MLWFMonthID").val();
+        var MLWF = 0;
+        if (AdditionalVehicleAllowance != "" && AdditionalVehicleAllowance != 0) {
+            var TotalVehicleAllowance = parseFloat(VehicleAllowance) + parseFloat(AdditionalVehicleAllowance);
+            $('#TotalVehicleAllowance').val(TotalVehicleAllowance);
+            var GrossWagesPayable = parseFloat(parseFloat(TotalEarnedWages) + parseFloat(CityAllowance) + parseFloat(AdditionalCityAllowance) + parseFloat(VehicleAllowance) + parseFloat(AdditionalVehicleAllowance) + parseFloat(Conveyance) + parseFloat(AdditionalConveyance) + parseFloat(PerformanceAllowance) + parseFloat(AdditionalPerformanceAllowance)).toFixed(2);
+            $('#GrossWagesPayable').val(GrossWagesPayable);
+            var ESICStatusID = $('#ESICStatusID').val();
+            if (ESICStatusID == 1) //1 =  applicable old
+            {
+                ESIC = 0;
+                $('#ESIC').val(ESIC);
+            }
+            else if (ESICStatusID == 2) //2 = applicable new
+            {
+                ESIC = (parseFloat(GrossWagesPayable) * parseFloat(EmployeeSlab)); // 0.0075
+                $('#ESIC').val(Math.ceil(ESIC));
+            }
+            else {
+                // 05 Jan 2021 Piyush Limbani
+                ESIC = $("#ESIC").val();
+                $('#ESIC').val(ESIC);
+                // 05 Jan 2021 Piyush Limbani
+                //$('#ESIC').val(0);
+            }
+            if (parseFloat(GrossWagesPayable) > parseFloat(PTHighestSlab)) {
+                PT = PTHighestAmount;
+                $('#PT').val(PT);
+            }
+            else if (parseFloat(GrossWagesPayable) > parseFloat(PTLowestSlab)) {
+                PT = PTLowestAmount;
+                $('#PT').val(PT);
+            }
+            else {
+                // 05 Jan 2021 Piyush Limbani
+                PT = $("#PT").val();
+                $('#PT').val(PT);
+                // 05 Jan 2021 Piyush Limbani
+                //PT = 0;
+                //$('#PT').val(PT);
+            }
+            if (parseInt(MonthID) == parseInt(MLWFMonthID)) {
+                if (parseFloat(GrossWagesPayable) > parseFloat(MLWFHighestSlab)) {
+                    MLWF = MLWFHighestAmount;
+                    $('#MLWF').val(MLWF);
+                }
+                else {
+                    // 05 Jan 2021 Piyush Limbani
+                    MLWF = $("#MLWF").val();
+                    $('#MLWF').val(MLWF);
+                    // 05 Jan 2021 Piyush Limbani
+                    // MLWF = 0;
+                }
+            }
+            else {
+                // 05 Jan 2021 Piyush Limbani
+                MLWF = $("#MLWF").val();
+                $('#MLWF').val(MLWF);
+                // 05 Jan 2021 Piyush Limbani
+                // MLWF = 0;
+            }
+            var TotalDeductions = parseFloat(parseFloat(PF) + parseFloat(PT) + Math.ceil(ESIC) + parseFloat(MLWF));
+            var TotalDeductionsRound = (Math.round(TotalDeductions));
+            $('#TotalDeductions').val(TotalDeductionsRound);
+            var NetWagesPaid = parseFloat(parseFloat(GrossWagesPayable) - parseFloat(TotalDeductionsRound));
+            var NetWagesPaid1 = Math.round(NetWagesPaid);
+            $('#NetWagesPaid').val(NetWagesPaid1);
+        }
+        else {
+            $('#TotalVehicleAllowance').val(VehicleAllowance);
+            var GrossWagesPayable = parseFloat(parseFloat(TotalEarnedWages) + parseFloat(CityAllowance) + parseFloat(AdditionalCityAllowance) + parseFloat(VehicleAllowance) + parseFloat(AdditionalVehicleAllowance) + parseFloat(Conveyance) + parseFloat(AdditionalConveyance) + parseFloat(PerformanceAllowance) + parseFloat(AdditionalPerformanceAllowance)).toFixed(2);
+            $('#GrossWagesPayable').val(GrossWagesPayable);
+            var ESICStatusID = $('#ESICStatusID').val();
+            if (ESICStatusID == 1) //1 =  applicable old
+            {
+                ESIC = 0;
+                $('#ESIC').val(ESIC);
+            }
+            else if (ESICStatusID == 2) //2 = applicable new
+            {
+                ESIC = (parseFloat(GrossWagesPayable) * parseFloat(EmployeeSlab)); // 0.0075
+                $('#ESIC').val(Math.ceil(ESIC));
+            }
+            else {
+                // 05 Jan 2021 Piyush Limbani
+                ESIC = $("#ESIC").val();
+                $('#ESIC').val(ESIC);
+                // 05 Jan 2021 Piyush Limbani
+                //$('#ESIC').val(0);
+            }
+            if (parseFloat(GrossWagesPayable) > parseFloat(PTHighestSlab)) {
+                PT = PTHighestAmount;
+                $('#PT').val(PT);
+            }
+            else if (parseFloat(GrossWagesPayable) > parseFloat(PTLowestSlab)) {
+                PT = PTLowestAmount;
+                $('#PT').val(PT);
+            }
+            else {
+                // 05 Jan 2021 Piyush Limbani
+                PT = $("#PT").val();
+                $('#PT').val(PT);
+                // 05 Jan 2021 Piyush Limbani
+                //PT = 0;
+                //$('#PT').val(PT);
+            }
+            if (parseInt(MonthID) == parseInt(MLWFMonthID)) {
+                if (parseFloat(GrossWagesPayable) > parseFloat(MLWFHighestSlab)) {
+                    MLWF = MLWFHighestAmount;
+                    $('#MLWF').val(MLWF);
+                }
+                else {
+                    // 05 Jan 2021 Piyush Limbani
+                    MLWF = $("#MLWF").val();
+                    $('#MLWF').val(MLWF);
+                    // 05 Jan 2021 Piyush Limbani
+                    // MLWF = 0;
+                }
+            }
+            else {
+                // 05 Jan 2021 Piyush Limbani
+                MLWF = $("#MLWF").val();
+                $('#MLWF').val(MLWF);
+                // 05 Jan 2021 Piyush Limbani
+                // MLWF = 0;
+            }
+            var TotalDeductions = parseFloat(parseFloat(PF) + parseFloat(PT) + Math.ceil(ESIC) + parseFloat(MLWF));
+            var TotalDeductionsRound = (Math.round(TotalDeductions));
+            $('#TotalDeductions').val(TotalDeductionsRound);
+            var NetWagesPaid = parseFloat(parseFloat(GrossWagesPayable) - parseFloat(TotalDeductionsRound));
+            var NetWagesPaid1 = Math.round(NetWagesPaid);
+            $('#NetWagesPaid').val(NetWagesPaid1);
+        }
+    });
+
+    // 16 July 2020 Piyush Limbani
+    $("#AdditionalConveyance").on('blur', function (e) {
+        debugger;
+        var AdditionalConveyance = this.value;
+        var TotalEarnedWages = $("#TotalEarnedWages").val();
+        var CityAllowance = $("#CityAllowance").val();
+        var VehicleAllowance = $("#VehicleAllowance").val();
+        var Conveyance = $("#Conveyance").val();
+        var PerformanceAllowance = $("#PerformanceAllowance").val();
+        var AdditionalCityAllowance = $("#AdditionalCityAllowance").val();
+        var AdditionalVehicleAllowance = $("#AdditionalVehicleAllowance").val();
+        var AdditionalPerformanceAllowance = $("#AdditionalPerformanceAllowance").val();
+        var PF = $("#PF").val();
+        var EmployeeSlab = $("#EmployeeSlab").val();
+        var ESIC = 0;
+        var PTHighestSlab = $("#PTHighestSlab").val();
+        var PTHighestAmount = $("#PTHighestAmount").val();
+        var PTLowestSlab = $("#PTLowestSlab").val();
+        var PTLowestAmount = $("#PTLowestAmount").val();
+        var PT = 0;
+        var MLWFHighestSlab = $("#MLWFHighestSlab").val();
+        var MLWFHighestAmount = $("#MLWFHighestAmount").val();
+        var MLWFMonthID = $("#MLWFMonthID").val();
+        var MLWF = 0;
+        if (AdditionalConveyance != "" && AdditionalConveyance != 0) {
+            var TotalConveyance = parseFloat(Conveyance) + parseFloat(AdditionalConveyance);
+            $('#TotalConveyance').val(TotalConveyance);
+            var GrossWagesPayable = parseFloat(parseFloat(TotalEarnedWages) + parseFloat(CityAllowance) + parseFloat(AdditionalCityAllowance) + parseFloat(VehicleAllowance) + parseFloat(AdditionalVehicleAllowance) + parseFloat(Conveyance) + parseFloat(AdditionalConveyance) + parseFloat(PerformanceAllowance) + parseFloat(AdditionalPerformanceAllowance)).toFixed(2);
+            $('#GrossWagesPayable').val(GrossWagesPayable);
+            var ESICStatusID = $('#ESICStatusID').val();
+            if (ESICStatusID == 1) //1 =  applicable old
+            {
+                ESIC = 0;
+                $('#ESIC').val(ESIC);
+            }
+            else if (ESICStatusID == 2) //2 = applicable new
+            {
+                ESIC = (parseFloat(GrossWagesPayable) * parseFloat(EmployeeSlab)); // 0.0075
+                $('#ESIC').val(Math.ceil(ESIC));
+            }
+            else {
+                // 05 Jan 2021 Piyush Limbani
+                ESIC = $("#ESIC").val();
+                $('#ESIC').val(ESIC);
+                // 05 Jan 2021 Piyush Limbani
+                //$('#ESIC').val(0);
+            }
+            if (parseFloat(GrossWagesPayable) > parseFloat(PTHighestSlab)) {
+                PT = PTHighestAmount;
+                $('#PT').val(PT);
+            }
+            else if (parseFloat(GrossWagesPayable) > parseFloat(PTLowestSlab)) {
+                PT = PTLowestAmount;
+                $('#PT').val(PT);
+            }
+            else {
+                // 05 Jan 2021 Piyush Limbani
+                PT = $("#PT").val();
+                $('#PT').val(PT);
+                // 05 Jan 2021 Piyush Limbani
+                //PT = 0;
+                //$('#PT').val(PT);
+            }
+            if (parseInt(MonthID) == parseInt(MLWFMonthID)) {
+                if (parseFloat(GrossWagesPayable) > parseFloat(MLWFHighestSlab)) {
+                    MLWF = MLWFHighestAmount;
+                    $('#MLWF').val(MLWF);
+                }
+                else {
+                    // 05 Jan 2021 Piyush Limbani
+                    MLWF = $("#MLWF").val();
+                    $('#MLWF').val(MLWF);
+                    // 05 Jan 2021 Piyush Limbani
+                    // MLWF = 0;
+                }
+            }
+            else {
+                // 05 Jan 2021 Piyush Limbani
+                MLWF = $("#MLWF").val();
+                $('#MLWF').val(MLWF);
+                // 05 Jan 2021 Piyush Limbani
+                // MLWF = 0;
+            }
+            var TotalDeductions = parseFloat(parseFloat(PF) + parseFloat(PT) + Math.ceil(ESIC) + parseFloat(MLWF));
+            var TotalDeductionsRound = (Math.round(TotalDeductions));
+            $('#TotalDeductions').val(TotalDeductionsRound);
+            var NetWagesPaid = parseFloat(parseFloat(GrossWagesPayable) - parseFloat(TotalDeductionsRound));
+            var NetWagesPaid1 = Math.round(NetWagesPaid);
+            $('#NetWagesPaid').val(NetWagesPaid1);
+        }
+        else {
+            $('#TotalConveyance').val(Conveyance);
+            var GrossWagesPayable = parseFloat(parseFloat(TotalEarnedWages) + parseFloat(CityAllowance) + parseFloat(AdditionalCityAllowance) + parseFloat(VehicleAllowance) + parseFloat(AdditionalVehicleAllowance) + parseFloat(Conveyance) + parseFloat(AdditionalConveyance) + parseFloat(PerformanceAllowance) + parseFloat(AdditionalPerformanceAllowance)).toFixed(2);
+            $('#GrossWagesPayable').val(GrossWagesPayable);
+            var ESICStatusID = $('#ESICStatusID').val();
+            if (ESICStatusID == 1) //1 =  applicable old
+            {
+                ESIC = 0;
+                $('#ESIC').val(ESIC);
+            }
+            else if (ESICStatusID == 2) //2 = applicable new
+            {
+                ESIC = (parseFloat(GrossWagesPayable) * parseFloat(EmployeeSlab)); // 0.0075
+                $('#ESIC').val(Math.ceil(ESIC));
+            }
+            else {
+                // 05 Jan 2021 Piyush Limbani
+                ESIC = $("#ESIC").val();
+                $('#ESIC').val(ESIC);
+                // 05 Jan 2021 Piyush Limbani
+                //$('#ESIC').val(0);
+            }
+            if (parseFloat(GrossWagesPayable) > parseFloat(PTHighestSlab)) {
+                PT = PTHighestAmount;
+                $('#PT').val(PT);
+            }
+            else if (parseFloat(GrossWagesPayable) > parseFloat(PTLowestSlab)) {
+                PT = PTLowestAmount;
+                $('#PT').val(PT);
+            }
+            else {
+                // 05 Jan 2021 Piyush Limbani
+                PT = $("#PT").val();
+                $('#PT').val(PT);
+                // 05 Jan 2021 Piyush Limbani
+                //PT = 0;
+                //$('#PT').val(PT);
+            }
+            if (parseInt(MonthID) == parseInt(MLWFMonthID)) {
+                if (parseFloat(GrossWagesPayable) > parseFloat(MLWFHighestSlab)) {
+                    MLWF = MLWFHighestAmount;
+                    $('#MLWF').val(MLWF);
+                }
+                else {
+                    // 05 Jan 2021 Piyush Limbani
+                    MLWF = $("#MLWF").val();
+                    $('#MLWF').val(MLWF);
+                    // 05 Jan 2021 Piyush Limbani
+                    // MLWF = 0;
+                }
+            }
+            else {
+                // 05 Jan 2021 Piyush Limbani
+                MLWF = $("#MLWF").val();
+                $('#MLWF').val(MLWF);
+                // 05 Jan 2021 Piyush Limbani
+                // MLWF = 0;
+            }
+            var TotalDeductions = parseFloat(parseFloat(PF) + parseFloat(PT) + Math.ceil(ESIC) + parseFloat(MLWF));
+            var TotalDeductionsRound = (Math.round(TotalDeductions));
+            $('#TotalDeductions').val(TotalDeductionsRound);
+            var NetWagesPaid = parseFloat(parseFloat(GrossWagesPayable) - parseFloat(TotalDeductionsRound));
+            var NetWagesPaid1 = Math.round(NetWagesPaid);
+            $('#NetWagesPaid').val(NetWagesPaid1);
+        }
+    });
+
+    // 16 July 2020 Piyush Limbani
+    $("#AdditionalPerformanceAllowance").on('blur', function (e) {
+        debugger;
+        var AdditionalPerformanceAllowance = this.value;
+        var TotalEarnedWages = $("#TotalEarnedWages").val();
+        var CityAllowance = $("#CityAllowance").val();
+        var VehicleAllowance = $("#VehicleAllowance").val();
+        var Conveyance = $("#Conveyance").val();
+        var PerformanceAllowance = $("#PerformanceAllowance").val();
+        var AdditionalCityAllowance = $("#AdditionalCityAllowance").val();
+        var AdditionalVehicleAllowance = $("#AdditionalVehicleAllowance").val();
+        var AdditionalConveyance = $("#AdditionalConveyance").val();
+        var PF = $("#PF").val();
+        var EmployeeSlab = $("#EmployeeSlab").val();
+        var ESIC = 0;
+        var PTHighestSlab = $("#PTHighestSlab").val();
+        var PTHighestAmount = $("#PTHighestAmount").val();
+        var PTLowestSlab = $("#PTLowestSlab").val();
+        var PTLowestAmount = $("#PTLowestAmount").val();
+        var PT = 0;
+        var MLWFHighestSlab = $("#MLWFHighestSlab").val();
+        var MLWFHighestAmount = $("#MLWFHighestAmount").val();
+        var MLWFMonthID = $("#MLWFMonthID").val();
+        var MLWF = 0;
+        if (AdditionalPerformanceAllowance != "" && AdditionalPerformanceAllowance != 0) {
+            var TotalPerformanceAllowance = parseFloat(PerformanceAllowance) + parseFloat(AdditionalPerformanceAllowance);
+            $('#TotalPerformanceAllowance').val(TotalPerformanceAllowance);
+            var GrossWagesPayable = parseFloat(parseFloat(TotalEarnedWages) + parseFloat(CityAllowance) + parseFloat(AdditionalCityAllowance) + parseFloat(VehicleAllowance) + parseFloat(AdditionalVehicleAllowance) + parseFloat(Conveyance) + parseFloat(AdditionalConveyance) + parseFloat(PerformanceAllowance) + parseFloat(AdditionalPerformanceAllowance)).toFixed(2);
+            $('#GrossWagesPayable').val(GrossWagesPayable);
+
+            var ESICStatusID = $('#ESICStatusID').val();
+            if (ESICStatusID == 1) //1 =  applicable old
+            {
+                ESIC = 0;
+                $('#ESIC').val(ESIC);
+            }
+            else if (ESICStatusID == 2) //2 = applicable new
+            {
+                ESIC = (parseFloat(GrossWagesPayable) * parseFloat(EmployeeSlab)); // 0.0075
+                $('#ESIC').val(Math.ceil(ESIC));
+            }
+            else {
+                // 05 Jan 2021 Piyush Limbani
+                ESIC = $("#ESIC").val();
+                $('#ESIC').val(ESIC);
+                // 05 Jan 2021 Piyush Limbani
+                //$('#ESIC').val(0);
+            }
+            if (parseFloat(GrossWagesPayable) > parseFloat(PTHighestSlab)) {
+                PT = PTHighestAmount;
+                $('#PT').val(PT);
+            }
+            else if (parseFloat(GrossWagesPayable) > parseFloat(PTLowestSlab)) {
+                PT = PTLowestAmount;
+                $('#PT').val(PT);
+            }
+            else {
+                // 05 Jan 2021 Piyush Limbani
+                PT = $("#PT").val();
+                $('#PT').val(PT);
+                // 05 Jan 2021 Piyush Limbani
+                //PT = 0;
+                //$('#PT').val(PT);
+            }
+            if (parseInt(MonthID) == parseInt(MLWFMonthID)) {
+                if (parseFloat(GrossWagesPayable) > parseFloat(MLWFHighestSlab)) {
+                    MLWF = MLWFHighestAmount;
+                    $('#MLWF').val(MLWF);
+                }
+                else {
+                    // 05 Jan 2021 Piyush Limbani
+                    MLWF = $("#MLWF").val();
+                    $('#MLWF').val(MLWF);
+                    // 05 Jan 2021 Piyush Limbani
+                    // MLWF = 0;
+                }
+            }
+            else {
+                // 05 Jan 2021 Piyush Limbani
+                MLWF = $("#MLWF").val();
+                $('#MLWF').val(MLWF);
+                // 05 Jan 2021 Piyush Limbani
+                // MLWF = 0;
+            }
+            var TotalDeductions = parseFloat(parseFloat(PF) + parseFloat(PT) + Math.ceil(ESIC) + parseFloat(MLWF));
+            var TotalDeductionsRound = (Math.round(TotalDeductions));
+            $('#TotalDeductions').val(TotalDeductionsRound);
+            var NetWagesPaid = parseFloat(parseFloat(GrossWagesPayable) - parseFloat(TotalDeductionsRound));
+            var NetWagesPaid1 = Math.round(NetWagesPaid);
+            $('#NetWagesPaid').val(NetWagesPaid1);
+        }
+        else {
+            $('#TotalPerformanceAllowance').val(PerformanceAllowance);
+            var GrossWagesPayable = parseFloat(parseFloat(TotalEarnedWages) + parseFloat(CityAllowance) + parseFloat(AdditionalCityAllowance) + parseFloat(VehicleAllowance) + parseFloat(AdditionalVehicleAllowance) + parseFloat(Conveyance) + parseFloat(AdditionalConveyance) + parseFloat(PerformanceAllowance) + parseFloat(AdditionalPerformanceAllowance)).toFixed(2);
+            $('#GrossWagesPayable').val(GrossWagesPayable);
+            var ESICStatusID = $('#ESICStatusID').val();
+            if (ESICStatusID == 1) //1 =  applicable old
+            {
+                ESIC = 0;
+                $('#ESIC').val(ESIC);
+            }
+            else if (ESICStatusID == 2) //2 = applicable new
+            {
+                ESIC = (parseFloat(GrossWagesPayable) * parseFloat(EmployeeSlab)); // 0.0075
+                $('#ESIC').val(Math.ceil(ESIC));
+            }
+            else {
+                // 05 Jan 2021 Piyush Limbani
+                ESIC = $("#ESIC").val();
+                $('#ESIC').val(ESIC);
+                // 05 Jan 2021 Piyush Limbani
+                //$('#ESIC').val(0);
+            }
+            if (parseFloat(GrossWagesPayable) > parseFloat(PTHighestSlab)) {
+                PT = PTHighestAmount;
+                $('#PT').val(PT);
+            }
+            else if (parseFloat(GrossWagesPayable) > parseFloat(PTLowestSlab)) {
+                PT = PTLowestAmount;
+                $('#PT').val(PT);
+            }
+            else {
+                // 05 Jan 2021 Piyush Limbani
+                PT = $("#PT").val();
+                $('#PT').val(PT);
+                // 05 Jan 2021 Piyush Limbani
+                //PT = 0;
+                //$('#PT').val(PT);
+            }
+            if (parseInt(MonthID) == parseInt(MLWFMonthID)) {
+                if (parseFloat(GrossWagesPayable) > parseFloat(MLWFHighestSlab)) {
+                    MLWF = MLWFHighestAmount;
+                    $('#MLWF').val(MLWF);
+                }
+                else {
+                    // 05 Jan 2021 Piyush Limbani
+                    MLWF = $("#MLWF").val();
+                    $('#MLWF').val(MLWF);
+                    // 05 Jan 2021 Piyush Limbani
+                    // MLWF = 0;
+                }
+            }
+            else {
+                // 05 Jan 2021 Piyush Limbani
+                MLWF = $("#MLWF").val();
+                $('#MLWF').val(MLWF);
+                // 05 Jan 2021 Piyush Limbani
+                // MLWF = 0;
+            }
+            var TotalDeductions = parseFloat(parseFloat(PF) + parseFloat(PT) + Math.ceil(ESIC) + parseFloat(MLWF));
+            var TotalDeductionsRound = (Math.round(TotalDeductions));
+            $('#TotalDeductions').val(TotalDeductionsRound);
+            var NetWagesPaid = parseFloat(parseFloat(GrossWagesPayable) - parseFloat(TotalDeductionsRound));
+            var NetWagesPaid1 = Math.round(NetWagesPaid);
+            $('#NetWagesPaid').val(NetWagesPaid1);
+        }
+    });
+
+    // 24 July 2020 Piyush Limbani
+    $("#btncalculate").click(function () {
+        debugger;
+        var SalarySheetID = $("#SalarySheetID").val();
+        var EmployeeCode = $("#EmployeeCode").val();
+        var MonthID = $("#MonthID").val();
+        var YearID = $("#YearID").val();
+        var TotalDays = $("#TotalDays").val();
+        var TotalMonthDay = $("#TotalDaysIntheMonth").val();
+        var TotalPresent = $("#TotalPresent").val();
+        var TotalAvailedLeaves = $("#TotalAvailedLeaves").val();
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("GetCalculateEmployeeSalary")',
+            data: { SalarySheetID: SalarySheetID, EmployeeCode: EmployeeCode, MonthID: MonthID, YearID: YearID, TotalDays: TotalDays, TotalMonthDay: TotalMonthDay, TotalPresent: TotalPresent, TotalAvailedLeaves: TotalAvailedLeaves },
+            success: function (result) {
+                //debugger;
+                $('#BasicAllowance').val(result.BasicAllowance);
+                $('#HouseRentAllowance').val(result.HouseRentAllowance);
+                $('#TotalBasic').val(result.TotalBasic);
+                $('#EarnedBasicWages').val(result.EarnedBasicWages);
+                $('#EarnedHouseRentAllowance').val(result.EarnedHouseRentAllowance);
+                $('#TotalEarnedWages').val(result.TotalEarnedWages);
+                $('#ConveyancePerMonth').val(result.ConveyancePerMonth);
+                $('#ConveyancePerDay').val(result.ConveyancePerDay);
+                $('#Conveyance').val(result.Conveyance);
+                $('#AdditionalConveyance').val(result.AdditionalConveyance);
+                $('#TotalConveyance').val(result.TotalConveyance);
+                $('#CityAllowance').val(result.CityAllowance);
+                $('#AdditionalCityAllowance').val(result.AdditionalCityAllowance);
+                $('#TotalCityAllowance').val(result.TotalCityAllowance);
+                $('#PerformanceAllowanceAct').val(result.PerformanceAllowanceAct);
+                $('#PerformanceAllowance').val(result.PerformanceAllowance);
+                $('#AdditionalPerformanceAllowance').val(result.AdditionalPerformanceAllowance);
+                $('#TotalPerformanceAllowance').val(result.TotalPerformanceAllowance);
+                $('#VehicleAllowance').val(result.VehicleAllowance);
+                $('#AdditionalVehicleAllowance').val(result.AdditionalVehicleAllowance);
+                $('#TotalVehicleAllowance').val(result.TotalVehicleAllowance);
+                $('#GrossWagesPayable').val(result.GrossWagesPayable);
+                $('#OpeningLeaves').val(result.OpeningLeaves);
+                $('#EarnedLeaves').val(result.EarnedLeaves);
+                $('#TotalLeaves').val(result.TotalLeaves);
+                $('#PerformanceAllowanceStatusID').val(result.PerformanceAllowanceStatusID);
+                $('#CityAllowanceStatusID').val(result.CityAllowanceStatusID);
+                $('#PFStatusID').val(result.PFStatusID);
+                $('#ESICStatusID').val(result.ESICStatusID);
+                // PF
+                $('#HighestSlab').val(result.HighestSlab);
+                $('#HighestPF').val(result.HighestPF);
+                $('#PFPercentage').val(result.PFPercentage);
+                //ESIC
+                $('#EmployeeSlab').val(result.EmployeeSlab);
+                //PT
+                $('#PTHighestSlab').val(result.PTHighestSlab);
+                $('#PTHighestAmount').val(result.PTHighestAmount);
+                $('#PTLowestSlab').val(result.PTLowestSlab);
+                $('#PTLowestAmount').val(result.PTLowestAmount);
+                //MLWF
+                $('#MLWFHighestSlab').val(result.MLWFHighestSlab);
+                $('#MLWFHighestAmount').val(result.MLWFHighestAmount);
+                $('#MLWFMonthID').val(result.MLWFMonthID);
+                $('#PF').val(result.PF);
+                $('#ESIC').val(result.ESIC);
+                $('#PT').val(result.PT);
+                $('#CityAllowanceMinutes').val(result.CityAllowanceMinutes);
+                $('#CityAllowanceHours').text(result.CityAllowanceHours);
+                $('#MLWF').val(result.MLWF);
+                $('#TotalDeductions').val(result.TotalDeductions);
+                $('#NetWagesPaid').val(result.NetWagesPaid);
+                $('#OpeningLeaves').val(result.OpeningLeaves);
+                $('#EarnedLeaves').val(result.EarnedLeaves);
+                $('#TotalLeaves').val(result.TotalLeaves);
+            },
+            error: function () { alert('Error'); }
+        });
+    });
+
+
+
+    // 15 Feb 2021 Piyush Limbani
+    $("#EarnedLeaves").on('blur', function (e) {
+        debugger;
+        var EarnedLeaves = this.value;
+        var OpeningLeaves = $("#OpeningLeaves").val();
+        //var OpeningLeaves = "10";
+        if (EarnedLeaves < 0) {
+            var TotalLeaves = parseFloat(parseFloat(OpeningLeaves) + parseFloat(EarnedLeaves));
+            $('#TotalLeaves').val(TotalLeaves);
+        }
+        else {
+            var TotalLeaves = parseFloat(parseFloat(OpeningLeaves) + parseFloat(EarnedLeaves));
+            $('#TotalLeaves').val(TotalLeaves);
+        }
+    });
+
+
+
+    $("#btnsave").click(function () {
+        //debugger;
+        if (!($('#frmSalary').parsley().validate())) {
+            return;
+        }
+        var datareq = new Object();
+        datareq.SalarySheetID = $("#SalarySheetID").val();
+        datareq.EmployeeCode = $("#EmployeeCode").val();
+        datareq.MonthID = $("#MonthID").val();
+        datareq.YearID = $("#YearID").val();
+        datareq.Present = $("#Present").val();
+        datareq.AdditionalPresent = $("#AdditionalPresent").val();
+        datareq.TotalPresent = $("#TotalPresent").val();
+        datareq.Sunday = $("#Sunday").val();
+        datareq.AdditionalSunday = $("#AdditionalSunday").val();
+        datareq.TotalSunday = $("#TotalSunday").val();
+        datareq.Holiday = $("#Holiday").val();
+        datareq.AdditionalHoliday = $("#AdditionalHoliday").val();
+        datareq.TotalHoliday = $("#TotalHoliday").val();
+        datareq.Absent = $("#Absent").val();
+        datareq.AdditionalAbsent = $("#AdditionalAbsent").val();
+        datareq.TotalAbsent = $("#TotalAbsent").val();
+        datareq.TotalDays = $("#TotalDays").val();
+        datareq.TotalDaysIntheMonth = $("#TotalDaysIntheMonth").val();
+        datareq.BasicAllowance = $("#BasicAllowance").val();
+        datareq.HouseRentAllowance = $("#HouseRentAllowance").val();
+        datareq.TotalBasic = $("#TotalBasic").val();
+        datareq.EarnedBasicWages = $("#EarnedBasicWages").val();
+        datareq.EarnedHouseRentAllowance = $("#EarnedHouseRentAllowance").val();
+        datareq.TotalEarnedWages = $("#TotalEarnedWages").val();
+        datareq.CityAllowanceMinutes = $("#CityAllowanceMinutes").val();
+        datareq.CityAllowanceHours = $("#CityAllowanceHours").text();
+        datareq.CityAllowance = $("#CityAllowance").val();
+        datareq.AdditionalCityAllowance = $("#AdditionalCityAllowance").val();
+        datareq.TotalCityAllowance = $("#TotalCityAllowance").val();
+        datareq.VehicleAllowance = $("#VehicleAllowance").val();
+        datareq.AdditionalVehicleAllowance = $("#AdditionalVehicleAllowance").val();
+        datareq.TotalVehicleAllowance = $("#TotalVehicleAllowance").val();
+        datareq.Conveyance = $("#Conveyance").val();
+        datareq.AdditionalConveyance = $("#AdditionalConveyance").val();
+        datareq.TotalConveyance = $("#TotalConveyance").val();
+        datareq.PerformanceAllowance = $("#PerformanceAllowance").val();
+        datareq.AdditionalPerformanceAllowance = $("#AdditionalPerformanceAllowance").val();
+        datareq.TotalPerformanceAllowance = $("#TotalPerformanceAllowance").val();
+        datareq.GrossWagesPayable = $("#GrossWagesPayable").val();
+        datareq.PF = $("#PF").val();
+        datareq.ESIC = $("#ESIC").val();
+        datareq.PT = $("#PT").val();
+        datareq.MLWF = $("#MLWF").val();
+        datareq.TotalDeductions = $("#TotalDeductions").val();
+        datareq.NetWagesPaid = $("#NetWagesPaid").val();
+        datareq.OpeningLeaves = $("#OpeningLeaves").val();
+        datareq.EarnedLeaves = $("#EarnedLeaves").val();
+        datareq.AvailedLeaves = $("#AvailedLeaves").val();
+        datareq.AdditionalAvailedLeaves = $("#AdditionalAvailedLeaves").val();
+        datareq.TotalAvailedLeaves = $("#TotalAvailedLeaves").val();
+        datareq.ClosingLeaves = $("#ClosingLeaves").val();
+        datareq.AdditionalClosingLeaves = $("#AdditionalClosingLeaves").val();
+        datareq.TotalClosingLeaves = $("#TotalClosingLeaves").val();
+        datareq.OpeningAdvance = $("#OpeningAdvance").val();
+        datareq.Addition = $("#Addition").val();
+        datareq.Deductions = $("#Deductions").val();
+        datareq.ClosingAdvance = $("#ClosingAdvance").val();
+        datareq.TDS = $("#TDS").val();
+        datareq.Goods = $("#Goods").val();
+        datareq.AnyOtherDeductions1 = $("#AnyOtherDeductions1").val();
+        datareq.AnyOtherDeductions2 = $("#AnyOtherDeductions2").val();
+        $.ajax({
+            url: '@Url.Action("AddSalarySheet")',
+            type: 'POST',
+            data: { 'data': datareq },
+            cache: false,
+        }).done(function (result) {
+            if (result > 0) {
+                $('div#sucessalert').html("Added successfully.");
+            }
+            else {
+                $('div#sucessalert').html("Updated successfully.");
+            }
+            showhidealert();
+            clearform();
+        });
+    });
+
+    $("#btncancel").click(function () {
+        clearform();
+    });
+
+    function clearform() {
+        location.reload();
+    }
+
+</script>

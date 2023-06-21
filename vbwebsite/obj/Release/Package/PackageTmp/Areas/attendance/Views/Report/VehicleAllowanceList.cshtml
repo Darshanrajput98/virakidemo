@@ -1,0 +1,51 @@
+﻿@model List<vb.Data.VehicleListForAllowanceResponse>
+@using vb.Data.ViewModel
+
+<div class="box">
+    <div class="box-header">
+        <h3 class="box-title">Vehicle Allowance List</h3>
+    </div>
+    <div class="box-body">
+        <table id="ListDataTable" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Assigned Date</th>
+                    <th>Tempo No</th>
+                    <th>Vehicle No</th>
+                    <th>Delivery Person1</th>
+                    <th>Delivery Person2</th>
+                    <th>Delivery Person3</th>
+                    <th>Delivery Person4</th>
+                    <th>Area</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.AssignedDatestr</td>
+                        <td>@item.TempoNo</td>
+                        <td>@item.VehicleNo</td>
+                        <td>@item.DeliveryPerson1</td>
+                        <td>@item.DeliveryPerson2</td>
+                        <td>@item.DeliveryPerson3</td>
+                        <td>@item.DeliveryPerson4</td>
+                        <td>@item.AreaName</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    $('#ListDataTable').DataTable({
+        'paging': true,
+        'lengthChange': true,
+        'searching': true,
+        'ordering': false,
+        'info': true,
+        'autoWidth': false
+    });
+</script>
+

@@ -1,0 +1,99 @@
+﻿@{
+    ViewBag.Title = "BarcodeHistory";
+    Layout = "~/Areas/retail/Views/Shared/_retaillayout.cshtml";
+}
+
+<div class="box box-default">
+    <div class="box-header with-border text-center">
+        <h3 class="box-title">Barcode History</h3>
+    </div>
+    <form id="frmBarcodeHistory" class="form-horizontal">
+        <div class="box-body">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for=" deliverydate" class="col-sm-4 control-label">From  </label>
+                    <div class="col-sm-8">
+                        <div class="input-group date">
+                            <div class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
+                            </div>
+                            <input type="text" class="form-control pull-right datepicker" id="txtFrom" tabindex="1" autocomplete="off">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="day" class="col-sm-4 control-label">Area</label>
+                    <div class="col-sm-8">
+                        @Html.DropDownList("EmployeeID", new SelectList(ViewBag.Employee, "EmployeeID", "FullName"), "Select Employee", new { @class = "form-control select2", tabindex = "3" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="DeliveryDate" class="col-sm-4 control-label">To </label>
+                    <div class="col-sm-8">
+                        <div class="input-group date">
+                            <div class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
+                            </div>
+                            <input type="text" class="form-control pull-right datepicker" id="txtTo" tabindex="2" autocomplete="off">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="day" class="col-sm-4 control-label">Product</label>
+                    <div class="col-sm-8">
+                        @Html.DropDownList("ProductQtyID", new SelectList(ViewBag.Product, "ProductQtyID", "ProductName"), "Select Item", new { @class = "form-control select2", tabindex = "4" })
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="box-footer ">
+            <div class="pull-right">
+                <button type="button" id="btnsearch" class="btn btn-info" tabindex="6">Search</button>
+                @*<button type="button" id="btnexport" class="btn btn-info" tabindex="20">Export To Excel</button>*@
+            </div>
+        </div>
+    </form>
+    <div id="lstcase">
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script>
+    $(document).ready(function () {
+        function loadhtml() {
+            var model = new Object();
+            model.From = $("#txtFrom").val();
+            model.To = $("#txtTo").val();
+            model.EmployeeID = $("#EmployeeID").val();
+            model.ProductQtyID = $("#ProductQtyID").val();
+            $.ajax({
+                url: '@Url.Action("ViewBarcodeHistoryList")',
+                type: 'POST',
+                data: { 'model': model },
+                cache: false,
+            }).done(function (result) {
+                $('#lstcase').html(result);
+            });
+        }
+
+        $("#btnsearch").click(function () {
+            loadhtml();
+        });
+
+        @*$("#btnexport").click(function () {
+        debugger;
+        var model = new Object();
+        model.From = $("#txtFrom").val();
+        model.To = $("#txtTo").val();
+        model.AreaID = $("#AreaID").val();
+        model.SupplierID = $("#SupplierID").val();
+        var url = '@Url.Action("ExportExcelPaymentPending", "Payment", new { From = "__From__", To = "__To__", AreaID = "__AreaID__", SupplierID = "__SupplierID__" })';
+        url = url.replace(/amp;/g, '');
+        window.location.href = url.replace('__From__', model.From).replace('__To__', model.To).replace('__AreaID__', model.AreaID).replace('__SupplierID__', model.SupplierID);
+    });*@
+
+    });
+</script>
+

@@ -1,0 +1,784 @@
+﻿@{
+    ViewBag.Title = "VehicleCosting";
+    Layout = "~/Areas/wholesale/Views/Shared/_wholesalelayout.cshtml";
+}
+@using vb.Data.ViewModel
+<!-- Main content -->
+<div class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <!-- Horizontal Form -->
+            <div class="box box-info">
+                <div class="box-header with-border text-center">
+                    <h3 class="box-title">Vehicle Nos.</h3>
+                </div>
+                <!-- /.box-header -->
+                <!-- form start -->
+                <form id="frmVehicleCosting" class="form-horizontal">
+                    <div class="box-body">
+                        <div class="col-md-12">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="ProductName" class="col-sm-4 control-label">Vehicle No (W-1)</label>
+                                    <div class="col-sm-8">
+                                        @Html.DropDownList("WholesaleVehicleNo1", new SelectList(ViewBag.WholesaleVehicleNo, "VehicleNo", "VehicleNo"), "Select VehicleNo", new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="ProductName" class="col-sm-4 control-label">Vehicle No (W-2)</label>
+                                    <div class="col-sm-8">
+                                        @Html.DropDownList("WholesaleVehicleNo2", new SelectList(ViewBag.WholesaleVehicleNo, "VehicleNo", "VehicleNo"), "Select VehicleNo", new { @class = "form-control" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="WholesaleInvioceAmount1" class="col-sm-4 control-label">Inv. Amount</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="WholesaleInvioceAmount1" placeholder="Invioce Amount" value="0">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="WholesaleInvioceAmount2" class="col-sm-4 control-label">Inv. Amount</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="WholesaleInvioceAmount2" placeholder="Invioce Amount" value="0">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="WholesaleTotalKG1" class="col-sm-4 control-label">Total KG</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="WholesaleTotalKG1" placeholder="Total KG" value="0">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="WholesaleTotalKG2" class="col-sm-4 control-label">Total KG</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="WholesaleTotalKG2" placeholder="Total KG" value="0">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="RetailVehicleNo1" class="col-sm-4 control-label">Vehicle No (R-1)</label>
+                                    <div class="col-sm-8">
+                                        @Html.DropDownList("RetailVehicleNo1", new SelectList(ViewBag.RetailVehicleNo, "VehicleNo", "VehicleNo"), "Select VehicleNo", new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="RetailVehicleNo2" class="col-sm-4 control-label">Vehicle No (R-2)</label>
+                                    <div class="col-sm-8">
+                                        @Html.DropDownList("RetailVehicleNo2", new SelectList(ViewBag.RetailVehicleNo, "VehicleNo", "VehicleNo"), "Select VehicleNo", new { @class = "form-control" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="RetailInvioceAmount1" class="col-sm-4 control-label">Inv. Amount</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="RetailInvioceAmount1" placeholder="Invioce Amount" value="0">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="RetailInvioceAmount2" class="col-sm-4 control-label">Inv. Amount</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="RetailInvioceAmount2" placeholder="Invioce Amount" value="0">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="GrandInvoiceAmount" class="col-sm-4 control-label">Grand Inv. Amount</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="GrandInvoiceAmount" placeholder="Grand Invioce Amount" value="0">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="RetailTotalKG1" class="col-sm-4 control-label">Total KG</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="RetailTotalKG1" placeholder="Total KG" value="0">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="RetailTotalKG2" class="col-sm-4 control-label">Total KG</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="RetailTotalKG2" placeholder="Total KG" value="0">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="GrandTotalKG" class="col-sm-4 control-label">Grand Total KG</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="GrandTotalKG" placeholder="Grand Total KG" value="0">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <input name="VehicleCostingID" id="VehicleCostingID" type="hidden" value="" />
+                                    <input type="hidden" id="CreatedBy" class="CreatedBy" value="" />
+                                    <input type="hidden" id="CreatedOn" class="CreatedOn" value="" />
+                                    <label for="TempoNumber" class="col-sm-4 control-label">Tempo Number</label>
+                                    <div class="col-sm-8">
+                                        @Html.DropDownList("VehicleDetailID", new SelectList(ViewBag.TempoNumber, "VehicleDetailID", "VehicleNumber"), "Select Tempo No", new { @class = "form-control", required = "required", @disabled = "disabled" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="TempoNumber" class="col-sm-4 control-label">Delivery Person2</label>
+                                    <div class="col-sm-8">
+                                        @*@Html.DropDownListFor(m => m.DeliveryPerson2, new SelectList(ViewBag.DeliveryPerson, "DeliveryPerson2", "DeliveryPersonName2"), "Select", new { @class = "form-control select2", tabindex = "3" })*@
+                                        @Html.DropDownList("DeliveryPerson2", new SelectList(ViewBag.DeliveryPerson, "DeliveryPerson2", "DeliveryPersonName2"), "Select", new { @class = "form-control select2", @disabled = "disabled" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="OpeningKM" class="col-sm-4 control-label">Opening KM</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="OpeningKM" value="0" required="required" autocomplete="off">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="VehicleOutDate" class="col-sm-4 control-label">Out Date</label>
+                                    <div class="col-sm-8">
+                                        <div class="input-group date">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </div>
+                                            <input type="text" class="form-control pull-right datepicker" id="VehicleOutDate" tabindex="2" required="required" autocomplete="off">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="Opening" class="col-sm-4 control-label">Area</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="Area" placeholder="Area" disabled="disabled">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="TempoNumber" class="col-sm-4 control-label">Delivery Person3</label>
+                                    <div class="col-sm-8">
+                                        @*@Html.DropDownListFor(m => m.DeliveryPerson3, new SelectList(ViewBag.DeliveryPerson, "DeliveryPerson3", "DeliveryPersonName3"), "Select", new { @class = "form-control select2", tabindex = "4" })*@
+                                        @Html.DropDownList("DeliveryPerson3", new SelectList(ViewBag.DeliveryPerson, "DeliveryPerson3", "DeliveryPersonName3"), "Select", new { @class = "form-control select2", @disabled = "disabled" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="ClosingKM" class="col-sm-4 control-label">Closing KM</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="ClosingKM" value="0" required="required" autocomplete="off">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="OutTime" class="col-sm-4 control-label">Out Time</label>
+                                    <div class="col-sm-8">
+                                        <div class="bootstrap-timepicker">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control timepicker" name="OutTime" id="OutTime" placeholder="Out Time" tabindex="10" autocomplete="off">
+                                                <div class="input-group-addon">
+                                                    <i class="fa fa-clock-o"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="TempoNumber" class="col-sm-4 control-label">Delivery Person1</label>
+                                    <div class="col-sm-8">
+                                        @*@Html.DropDownListFor(m => m.DeliveryPerson1, new SelectList(ViewBag.DeliveryPerson, "DeliveryPerson1", "DeliveryPersonName1"), "Select", new { @class = "form-control select2", tabindex = "2" })*@
+                                        @Html.DropDownList("DeliveryPerson1", new SelectList(ViewBag.DeliveryPerson, "DeliveryPerson1", "DeliveryPersonName1"), "Select", new { @class = "form-control select2", @disabled = "disabled" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="TempoNumber" class="col-sm-4 control-label">Delivery Person4</label>
+                                    <div class="col-sm-8">
+                                        @*@Html.DropDownListFor(m => m.DeliveryPerson4, new SelectList(ViewBag.DeliveryPerson, "DeliveryPerson4", "DeliveryPersonName4"), "Select", new { @class = "form-control select2", tabindex = "5" })*@
+                                        @Html.DropDownList("DeliveryPerson4", new SelectList(ViewBag.DeliveryPerson, "DeliveryPerson4", "DeliveryPersonName4"), "Select", new { @class = "form-control select2", @disabled = "disabled" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="VehicleInDate" class="col-sm-4 control-label">In Date</label>
+                                    <div class="col-sm-8">
+                                        <div class="input-group date">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </div>
+                                            <input type="text" class="form-control pull-right datepicker" id="VehicleInDate" tabindex="2" autocomplete="off">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="InTime" class="col-sm-4 control-label">In Time</label>
+                                    <div class="col-sm-8">
+                                        <div class="bootstrap-timepicker">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control timepicker" name="InTime" id="InTime" tabindex="10" autocomplete="off">
+                                                <div class="input-group-addon">
+                                                    <i class="fa fa-clock-o"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="box-header with-border text-center">
+                                <h3 class="box-title">Diesel</h3>
+                            </div>
+                            <div class="col-md-12" style="margin-top: 15px;">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="DieselOpeningKM" class="col-sm-4 control-label">Opening KM</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" id="DieselOpeningKM" value="0" required="required" autocomplete="off">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="DieselKM" class="col-sm-4 control-label">Closing KM</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" id="DieselKM" value="0" required="required" autocomplete="off">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="DieselAmount" class="col-sm-4 control-label">Amount</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" id="DieselAmount" value="0" autocomplete="off">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="DieselLiter" class="col-sm-4 control-label">Liter</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" id="DieselLiter" value="0" autocomplete="off">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="box-header with-border text-center">
+                                <h3 class="box-title">Repairing</h3>
+                            </div>
+                            <div class="col-md-12" style="margin-top: 15px;">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="RepairingAmount" class="col-sm-4 control-label">Amount 1</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" id="RepairingAmount" value="0" autocomplete="off">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="RepairingDetail" class="col-sm-4 control-label">Detail 1</label>
+                                        <div class="col-sm-8">
+                                            <textarea class="form-control" id="RepairingDetail" name="RepairingDetail" rows="2" cols="20" placeholder="Repairing Detail"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12" style="margin-top: 15px;">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="RepairingAmount2" class="col-sm-4 control-label">Amount 2</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" id="RepairingAmount2" value="0" autocomplete="off">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="RepairingDetail2" class="col-sm-4 control-label">Detail 2</label>
+                                        <div class="col-sm-8">
+                                            <textarea class="form-control" id="RepairingDetail2" name="RepairingDetail2" rows="2" cols="20" placeholder="Repairing Detail"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12" style="margin-top: 15px;">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="RepairingAmount3" class="col-sm-4 control-label">Amount 3</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" id="RepairingAmount3" value="0" autocomplete="off">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="RepairingDetail3" class="col-sm-4 control-label">Detail 3</label>
+                                        <div class="col-sm-8">
+                                            <textarea class="form-control" id="RepairingDetail3" name="RepairingDetail3" rows="2" cols="20" placeholder="Repairing Detail"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="box-header with-border text-center">
+                                <h3 class="box-title">Toll</h3>
+                            </div>
+                            <div class="col-md-12" style="margin-top: 15px;">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="TollAmount" class="col-sm-4 control-label">Amount</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" id="TollAmount" value="0" autocomplete="off">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="TollDetail" class="col-sm-4 control-label">Detail</label>
+                                        <div class="col-sm-8">
+                                            <textarea class="form-control" id="TollDetail" name="TollDetail" rows="2" cols="20" placeholder="Toll Detail"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="box-header with-border text-center">
+                                <h3 class="box-title">Bharai</h3>
+                            </div>
+                            <div class="col-md-12" style="margin-top: 15px;">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="BharaiAmount" class="col-sm-4 control-label">Amount</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" id="BharaiAmount" value="0" autocomplete="off">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="BharaiDetail" class="col-sm-4 control-label">Detail</label>
+                                        <div class="col-sm-8">
+                                            <textarea class="form-control" id="BharaiDetail" name="BharaiDetail" rows="2" cols="20" placeholder="Bharai Detail"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="box-header with-border text-center">
+                                <h3 class="box-title">Miscellaneous</h3>
+                            </div>
+                            <div class="col-md-12" style="margin-top: 15px;">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="MiscellaneousAmount1" class="col-sm-4 control-label">Amount 1</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" id="MiscellaneousAmount1" value="0" autocomplete="off">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="MiscellaneousDetail1" class="col-sm-4 control-label">Detail 1</label>
+                                        <div class="col-sm-8">
+                                            <textarea class="form-control" id="MiscellaneousDetail1" name="MiscellaneousDetail1" rows="2" cols="20" placeholder="Miscellaneous Detail"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12" style="margin-top: 15px;">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="MiscellaneousAmount2" class="col-sm-4 control-label">Amount 2</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" id="MiscellaneousAmount2" value="0" autocomplete="off">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="MiscellaneousDetail2" class="col-sm-4 control-label">Detail 2</label>
+                                        <div class="col-sm-8">
+                                            <textarea class="form-control" id="MiscellaneousDetail2" name="MiscellaneousDetail2" rows="2" cols="20" placeholder="Miscellaneous Detail"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12" style="margin-top: 15px;">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="MiscellaneousAmount3" class="col-sm-4 control-label">Amount 3</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" id="MiscellaneousAmount3" value="0" autocomplete="off">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="MiscellaneousDetail3" class="col-sm-4 control-label">Detail 3</label>
+                                        <div class="col-sm-8">
+                                            <textarea class="form-control" id="MiscellaneousDetail3" name="MiscellaneousDetail3" rows="2" cols="20" placeholder="Miscellaneous Detail"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.box-body -->
+                    <div class="box-footer">
+                        <button type="button" id="btncancel" class="btn btn-default">Cancel</button>
+                        @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.AVehicleCosting.ToString()))
+                        {
+                            <button type="button" id="btnsave" class="btn btn-info pull-right">Save</button>
+                        }
+                    </div>
+                    <!-- /.box-footer -->
+                </form>
+                <div id="lstcase">
+                </div>
+            </div>
+            <!-- /.box -->
+        </div>
+    </div>
+    <!-- /.row -->
+</div>
+<!-- /.content -->
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script>
+    $(document).ready(function () {
+        loadhtml();
+    });
+
+    function loadhtml() {
+        $.ajax({
+            url: '@Url.Action("VehicleCostingList")',
+            type: 'GET',
+            cache: false,
+        }).done(function (result) {
+            $('#lstcase').html(result);
+        });
+    }
+
+    $("#WholesaleVehicleNo1").on('change keypress', function (e) {
+        debugger;
+        var FullVehicleNo = $("#WholesaleVehicleNo1").val();
+        var arr = []; arr = FullVehicleNo.split('/');
+        var WholesaleVehicleNo1 = arr[0];
+        var CreatedOn = arr[1];
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("GetWholesaleVehicleDetailsForVehicleCosting")',
+            data: { 'WholesaleVehicleNo1': WholesaleVehicleNo1, 'CreatedOn': CreatedOn },
+            success: function (result) {
+                debugger;
+                $('#Area').val(result.AreaName);
+                $('#DeliveryPerson1').val(result.DeliveryPerson1).trigger('change');
+                $('#DeliveryPerson2').val(result.DeliveryPerson2).trigger('change');
+                $('#DeliveryPerson3').val(result.DeliveryPerson3).trigger('change');
+                $('#DeliveryPerson4').val(result.DeliveryPerson4).trigger('change');
+                $('#VehicleDetailID').val(result.VehicleDetailID).trigger('change');
+                $('#WholesaleInvioceAmount1').val(result.WholesaleInvioceAmount1);
+                $('#OpeningKM').val(result.OpeningKM);
+                $('#DieselOpeningKM').val(result.DieselOpeningKM);
+                $('#WholesaleTotalKG1').val((result.WholesaleTotalKG1).toFixed(3));
+                var WholesaleInvioceAmount2 = $('#WholesaleInvioceAmount2').val();
+                var RetailInvioceAmount1 = $('#RetailInvioceAmount1').val();
+                var RetailInvioceAmount2 = $('#RetailInvioceAmount2').val();
+                var WholesaleTotalKG2 = $('#WholesaleTotalKG2').val();
+                var RetailTotalKG1 = $('#RetailTotalKG1').val();
+                var RetailTotalKG2 = $('#RetailTotalKG2').val();
+                $('#GrandInvoiceAmount').val(parseFloat(result.WholesaleInvioceAmount1) + parseFloat(WholesaleInvioceAmount2) + parseFloat(RetailInvioceAmount1) + parseFloat(RetailInvioceAmount2));
+                $('#GrandTotalKG').val((parseFloat(result.WholesaleTotalKG1) + parseFloat(WholesaleTotalKG2) + parseFloat(RetailTotalKG1) + parseFloat(RetailTotalKG2)).toFixed(3));
+            },
+            error: function () { alert('Error'); }
+        });
+    });
+
+    $("#WholesaleVehicleNo2").on('change keypress', function (e) {
+        debugger;
+        var FullVehicleNo2 = $("#WholesaleVehicleNo2").val();
+        var arr = []; arr = FullVehicleNo2.split('/');
+        var WholesaleVehicleNo2 = arr[0];
+        var CreatedOn = arr[1];
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("GetWholesaleTotalInvoiceAmountVehicle2")',
+            data: { 'WholesaleVehicleNo2': WholesaleVehicleNo2, 'CreatedOn': CreatedOn },
+            success: function (result) {
+                $('#WholesaleInvioceAmount2').val(result.WholesaleInvioceAmount2);
+                $('#WholesaleTotalKG2').val((result.WholesaleTotalKG2).toFixed(3));
+                var WholesaleInvioceAmount1 = $('#WholesaleInvioceAmount1').val();
+                var RetailInvioceAmount1 = $('#RetailInvioceAmount1').val();
+                var RetailInvioceAmount2 = $('#RetailInvioceAmount2').val();
+                var WholesaleTotalKG1 = $('#WholesaleTotalKG1').val();
+                var RetailTotalKG1 = $('#RetailTotalKG1').val();
+                var RetailTotalKG2 = $('#RetailTotalKG2').val();
+                $('#GrandInvoiceAmount').val(parseFloat(result.WholesaleInvioceAmount2) + parseFloat(WholesaleInvioceAmount1) + parseFloat(RetailInvioceAmount1) + parseFloat(RetailInvioceAmount2));
+                $('#GrandTotalKG').val((parseFloat(result.WholesaleTotalKG2) + parseFloat(WholesaleTotalKG1) + parseFloat(RetailTotalKG1) + parseFloat(RetailTotalKG2)).toFixed(3));
+            },
+            error: function () { alert('Error'); }
+        });
+    });
+
+    $("#RetailVehicleNo1").on('change keypress', function (e) {
+        debugger;
+        var FullVehicleNo = $("#WholesaleVehicleNo1").val();
+        if (FullVehicleNo == "") {
+            var RetailVehicleNo1 = $("#RetailVehicleNo1").val();
+            var arr = []; arr = RetailVehicleNo1.split('/');
+            var RetailVehicleNo1 = arr[0];
+            var CreatedOn = arr[1];
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("GetRetailVehicleDetailsForVehicleCosting")',
+                data: { 'RetailVehicleNo1': RetailVehicleNo1, 'CreatedOn': CreatedOn },
+                success: function (result) {
+                    debugger;
+                    $('#Area').val(result.AreaName);
+                    $('#DeliveryPerson1').val(result.DeliveryPerson1).trigger('change');
+                    $('#DeliveryPerson2').val(result.DeliveryPerson2).trigger('change');
+                    $('#DeliveryPerson3').val(result.DeliveryPerson3).trigger('change');
+                    $('#DeliveryPerson4').val(result.DeliveryPerson4).trigger('change');
+                    $('#VehicleDetailID').val(result.VehicleDetailID).trigger('change');
+                    $('#RetailInvioceAmount1').val(result.RetailInvioceAmount1);
+                    $('#OpeningKM').val(result.OpeningKM);
+                    $('#DieselOpeningKM').val(result.DieselOpeningKM);
+                    $('#RetailTotalKG1').val((result.RetailTotalKG1).toFixed(3));
+                    var WholesaleInvioceAmount1 = $('#WholesaleInvioceAmount1').val();
+                    var WholesaleInvioceAmount2 = $('#WholesaleInvioceAmount2').val();
+                    var RetailInvioceAmount2 = $('#RetailInvioceAmount2').val();
+                    var WholesaleTotalKG1 = $('#WholesaleTotalKG1').val();
+                    var WholesaleTotalKG2 = $('#WholesaleTotalKG2').val();
+                    var RetailTotalKG2 = $('#RetailTotalKG2').val();
+                    $('#GrandInvoiceAmount').val(parseFloat(result.RetailInvioceAmount1) + parseFloat(WholesaleInvioceAmount1) + parseFloat(WholesaleInvioceAmount2) + parseFloat(RetailInvioceAmount2));
+                    $('#GrandTotalKG').val((parseFloat(result.RetailTotalKG1) + parseFloat(WholesaleTotalKG1) + parseFloat(WholesaleTotalKG2) + parseFloat(RetailTotalKG2)).toFixed(3));
+                },
+                error: function () { alert('Error'); }
+            });
+        }
+        else {
+            var RetailVehicleNo1 = $("#RetailVehicleNo1").val();
+            var arr = []; arr = RetailVehicleNo1.split('/');
+            var RetailVehicleNo1 = arr[0];
+            var CreatedOn = arr[1];
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("GetRetailTotalInvoiceAmountVehicle1")',
+                data: { 'RetailVehicleNo1': RetailVehicleNo1, 'CreatedOn': CreatedOn },
+                success: function (result) {
+                    $('#RetailInvioceAmount1').val(result.RetailInvioceAmount1);
+                    $('#RetailTotalKG1').val((result.RetailTotalKG1).toFixed(3));
+                    var WholesaleInvioceAmount1 = $('#WholesaleInvioceAmount1').val();
+                    var WholesaleInvioceAmount2 = $('#WholesaleInvioceAmount2').val();
+                    var RetailInvioceAmount2 = $('#RetailInvioceAmount2').val();
+                    var WholesaleTotalKG1 = $('#WholesaleTotalKG1').val();
+                    var WholesaleTotalKG2 = $('#WholesaleTotalKG2').val();
+                    var RetailTotalKG2 = $('#RetailTotalKG2').val();
+                    $('#GrandInvoiceAmount').val(parseFloat(result.RetailInvioceAmount1) + parseFloat(WholesaleInvioceAmount1) + parseFloat(WholesaleInvioceAmount2) + parseFloat(RetailInvioceAmount2));
+                    $('#GrandTotalKG').val((parseFloat(result.RetailTotalKG1) + parseFloat(WholesaleTotalKG1) + parseFloat(WholesaleTotalKG2) + parseFloat(RetailTotalKG2)).toFixed(3));
+                },
+                error: function () { alert('Error'); }
+            });
+        }
+    });
+
+    $("#RetailVehicleNo2").on('change keypress', function (e) {
+        debugger;
+        var RetailVehicleNo2 = $("#RetailVehicleNo2").val();
+        var arr = []; arr = RetailVehicleNo2.split('/');
+        var RetailVehicleNo2 = arr[0];
+        var CreatedOn = arr[1];
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("GetRetailTotalInvoiceAmountVehicle2")',
+            data: { 'RetailVehicleNo2': RetailVehicleNo2, 'CreatedOn': CreatedOn },
+            success: function (result) {
+                debugger;
+                $('#RetailInvioceAmount2').val(result.RetailInvioceAmount2);
+                $('#RetailTotalKG2').val((result.RetailTotalKG2).toFixed(3));
+                var WholesaleInvioceAmount1 = $('#WholesaleInvioceAmount1').val();
+                var WholesaleInvioceAmount2 = $('#WholesaleInvioceAmount2').val();
+                var RetailInvioceAmount1 = $('#RetailInvioceAmount1').val();
+                var WholesaleTotalKG1 = $('#WholesaleTotalKG1').val();
+                var WholesaleTotalKG2 = $('#WholesaleTotalKG2').val();
+                var RetailTotalKG1 = $('#RetailTotalKG1').val();
+                $('#GrandInvoiceAmount').val(parseFloat(result.RetailInvioceAmount2) + parseFloat(WholesaleInvioceAmount1) + parseFloat(WholesaleInvioceAmount2) + parseFloat(RetailInvioceAmount1));
+                $('#GrandTotalKG').val((parseFloat(result.RetailTotalKG2) + parseFloat(WholesaleTotalKG1) + parseFloat(WholesaleTotalKG2) + parseFloat(RetailTotalKG1)).toFixed(3));
+            },
+            error: function () { alert('Error'); }
+        });
+    });
+
+    $("#btnsave").click(function () {
+        debugger;
+        if (!($('#frmVehicleCosting').parsley().validate())) {
+            return;
+        }
+        var datareq = new Object();
+        var FullWholesaleVehicleNo1 = $("#WholesaleVehicleNo1").val();
+        var array1 = [];
+        array1 = FullWholesaleVehicleNo1.split('/');
+        var WholesaleVehicleNo1 = array1[0];
+        var WholesaleVehicleNo1Date = array1[1];
+        datareq.WholesaleVehicleNo1 = WholesaleVehicleNo1;
+        datareq.WholesaleVehicleNo1Date = WholesaleVehicleNo1Date;
+        datareq.WholesaleInvioceAmount1 = $("#WholesaleInvioceAmount1").val();
+        datareq.WholesaleTotalKG1 = $("#WholesaleTotalKG1").val();
+        var FullWholesaleVehicleNo2 = $("#WholesaleVehicleNo2").val();
+        var array2 = [];
+        array2 = FullWholesaleVehicleNo2.split('/');
+        var WholesaleVehicleNo2 = array2[0];
+        var WholesaleVehicleNo2Date = array2[1];
+        datareq.WholesaleVehicleNo2 = WholesaleVehicleNo2;
+        datareq.WholesaleVehicleNo2Date = WholesaleVehicleNo2Date;
+        datareq.WholesaleInvioceAmount2 = $("#WholesaleInvioceAmount2").val();
+        datareq.WholesaleTotalKG2 = $("#WholesaleTotalKG2").val();
+        var FullRetailVehicleNo1 = $("#RetailVehicleNo1").val();
+        var array3 = [];
+        array3 = FullRetailVehicleNo1.split('/');
+        var RetailVehicleNo1 = array3[0];
+        var RetailVehicleNo1Date = array3[1];
+        datareq.RetailVehicleNo1 = RetailVehicleNo1;
+        datareq.RetailVehicleNo1Date = RetailVehicleNo1Date;
+        datareq.RetailInvioceAmount1 = $("#RetailInvioceAmount1").val();
+        datareq.RetailTotalKG1 = $("#RetailTotalKG1").val();
+        var FullRetailVehicleNo2 = $("#RetailVehicleNo2").val();
+        var array4 = [];
+        array4 = FullRetailVehicleNo2.split('/');
+        var RetailVehicleNo2 = array4[0];
+        var RetailVehicleNo2Date = array4[1];
+        datareq.RetailVehicleNo2 = RetailVehicleNo2;
+        datareq.RetailVehicleNo2Date = RetailVehicleNo2Date;
+        datareq.RetailInvioceAmount2 = $("#RetailInvioceAmount2").val();
+        datareq.RetailTotalKG2 = $("#RetailTotalKG2").val();
+        datareq.GrandInvoiceAmount = $("#GrandInvoiceAmount").val();
+        datareq.GrandTotalKG = $("#GrandTotalKG").val();
+        datareq.VehicleCostingID = $("#VehicleCostingID").val();
+        datareq.VehicleDetailID = $("#VehicleDetailID").val();
+        datareq.AreaName = $("#Area").val();
+        datareq.DeliveryPerson1 = $("#DeliveryPerson1").val();
+        datareq.DeliveryPerson2 = $("#DeliveryPerson2").val();
+        datareq.DeliveryPerson3 = $("#DeliveryPerson3").val();
+        datareq.DeliveryPerson4 = $("#DeliveryPerson4").val();
+        datareq.OpeningKM = $("#OpeningKM").val();
+        datareq.ClosingKM = $("#ClosingKM").val();
+        datareq.DieselOpeningKM = $("#DieselOpeningKM").val();
+        datareq.DieselKM = $("#DieselKM").val();
+        datareq.DieselAmount = $("#DieselAmount").val();
+        datareq.DieselLiter = $("#DieselLiter").val();
+        datareq.RepairingAmount = $("#RepairingAmount").val();
+        datareq.RepairingDetail = $("#RepairingDetail").val();
+        datareq.RepairingAmount2 = $("#RepairingAmount2").val();
+        datareq.RepairingDetail2 = $("#RepairingDetail2").val();
+        datareq.RepairingAmount3 = $("#RepairingAmount3").val();
+        datareq.RepairingDetail3 = $("#RepairingDetail3").val();
+        datareq.TollAmount = $("#TollAmount").val();
+        datareq.TollDetail = $("#TollDetail").val();
+        datareq.BharaiAmount = $("#BharaiAmount").val();
+        datareq.BharaiDetail = $("#BharaiDetail").val();
+        datareq.VehicleOutDate = $("#VehicleOutDate").val();
+        datareq.OutTime = $("#OutTime").val();
+        datareq.VehicleInDate = $("#VehicleInDate").val();
+        datareq.InTime = $("#InTime").val();
+        datareq.MiscellaneousAmount1 = $("#MiscellaneousAmount1").val();
+        datareq.MiscellaneousAmount2 = $("#MiscellaneousAmount2").val();
+        datareq.MiscellaneousAmount3 = $("#MiscellaneousAmount3").val();
+        datareq.MiscellaneousDetail1 = $("#MiscellaneousDetail1").val();
+        datareq.MiscellaneousDetail2 = $("#MiscellaneousDetail2").val();
+        datareq.MiscellaneousDetail3 = $("#MiscellaneousDetail3").val();
+        datareq.CreatedBy = $("#CreatedBy").val();
+        datareq.CreatedOn = $("#CreatedOn").val();
+        $.ajax({
+            url: '@Url.Action("AddVehicleCosting")',
+            type: 'POST',
+            data: { 'data': datareq },
+            cache: false,
+        }).done(function (result) {
+            if (result > 0) {
+                if ($("#VehicleCostingID").val() == "") {
+                    $('div#sucessalert').html("Vehicle Costing Add successfully.");
+                }
+                else {
+                    $('div#sucessalert').html("Vehicle Costing updated successfully.");
+                }
+                showhidealert();
+                loadhtml();
+                clearform();
+                location.reload();
+            }
+        });
+    });
+
+    function clearform() {
+        $("#VehicleCostingID").val("");
+        //$("#VehicleDetailID").val("").trigger("change");
+        $("#WholesaleVehicleNo1").val("");
+        $("#WholesaleInvioceAmount1").val("0");
+        $("#WholesaleTotalKG1").val("0");
+        $("#WholesaleVehicleNo2").val("");
+        $("#WholesaleInvioceAmount2").val("0");
+        $("#WholesaleTotalKG2").val("0");
+        $("#RetailVehicleNo1").val("");
+        $("#RetailInvioceAmount1").val("0");
+        $("#RetailTotalKG2").val("0");
+        $("#GrandInvoiceAmount").val("0");
+        $("#GrandTotalKG").val("0");
+        $("#VehicleDetailID").val("");
+        $("#Area").val("");
+        $("#DeliveryPerson1").val("").trigger("change");
+        $("#DeliveryPerson2").val("").trigger("change");
+        $("#DeliveryPerson3").val("").trigger("change");
+        $("#DeliveryPerson4").val("").trigger("change");
+        $("#OpeningKM").val("0");
+        $("#ClosingKM").val("0");
+        $("#VehicleOutDate").val("");
+        $("#OutTime").val("");
+        $("#VehicleInDate").val("");
+        $("#InTime").val("");
+        $("#DieselOpeningKM").val("0");
+        $("#DieselKM").val("0");
+        $("#DieselAmount").val("0");
+        $("#DieselLiter").val("0");
+        $("#RepairingAmount").val("0");
+        $("#RepairingDetail").val("");
+        $("#RepairingAmount2").val("0");
+        $("#RepairingDetail2").val("");
+        $("#RepairingAmount3").val("0");
+        $("#RepairingDetail3").val("");
+        $("#TollAmount").val("0");
+        $("#TollDetail").val("");
+        $("#BharaiAmount").val("0");
+        $("#BharaiDetail").val("");
+        $("#WholesaleAssignedDate").val("");
+        $("#RetailCash").val("0");
+        $("#RetailAssignedDate").val("");
+        $("#RetailCash").val("0");
+        $("#MiscellaneousAmount1").val("0");
+        $("#MiscellaneousAmount2").val("0");
+        $("#MiscellaneousAmount3").val("0");
+        $("#MiscellaneousDetail1").val("");
+        $("#MiscellaneousDetail2").val("");
+        $("#MiscellaneousDetail3").val("");
+        $("#CreatedBy").val("");
+        $("#CreatedOn").val("");
+    }
+
+    $("#btncancel").click(function () {
+        location.reload();
+    });
+</script>

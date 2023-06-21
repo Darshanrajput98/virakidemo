@@ -1,0 +1,107 @@
+﻿@{
+    ViewBag.Title = "ManageTax";
+    Layout = "~/Areas/wholesale/Views/Shared/_wholesalelayout.cshtml";
+}
+@using vb.Data.ViewModel
+
+<div class="box box-default">
+    <div class="box-header with-border text-center">
+        <h3 class="box-title">Manage Tax</h3>
+    </div>
+    <form id="frmTax" class="form-horizontal">
+        <div class="box-body">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <input name="TaxID" id="UTaxID" type="hidden" value="" />
+                    <label for="Name" class="col-sm-4 control-label">Code</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="Code" id="TaxCode" placeholder="Tax Code" tabindex="1" required="required">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="PinCode" class="col-sm-4 control-label">Name</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="TaxName" id="TaxName" placeholder="Tax Name" tabindex="3" required="required">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="Phone" class="col-sm-4 control-label">Description </label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="Description" id="TaxDescription" placeholder="Description" tabindex="2">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.box-body -->
+        <div class="box-footer ">
+            <div class="pull-right">
+                <button type="button" id="CancelTax" class="btn btn-default" tabindex="5">Cancel</button>
+                @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.WATAX.ToString()))
+                {
+                    <button type="button" id="btnsavecase" class="btn btn-info" tabindex="4">Save</button>
+                }
+            </div>
+        </div>
+        <!-- /.box-footer -->
+    </form>
+    <div id="lstcase">
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script>
+    $(document).ready(function () {
+        loadhtml();
+    });
+
+    function loadhtml() {
+        $.ajax({
+            url: '@Url.Action("ManageTaxList")',
+            type: 'GET',
+            cache: false,
+        }).done(function (result) {
+            $('#lstcase').html(result);
+        });
+    }
+
+    $("#btnsavecase").click(function () {
+        if (!($('#frmTax').parsley().validate())) {
+            return;
+        }
+        var datareq = new Object();
+        datareq.TaxID = $("#UTaxID").val();
+        datareq.TaxCode = $("#TaxCode").val();
+        datareq.TaxName = $("#TaxName").val();
+        datareq.TaxDescription = $("#TaxDescription").val();
+        $.ajax({
+            url: '@Url.Action("ManageTax")',
+            type: 'POST',
+            data: { 'data': datareq },
+            cache: false,
+        }).done(function (result) {
+            if (result == true) {
+                if ($("#TaxID").val() == "") {
+                    $('div#sucessalert').html("Tax Add successfully.");
+                }
+                else {
+                    $('div#sucessalert').html("Tax updated successfully.");
+                }
+                showhidealert();
+                loadhtml();
+                clearform();
+            }
+        });
+    });
+
+    $("#CancelTax").click(function () {
+        clearform();
+    });
+
+    function clearform() {
+        $("#frmTax").find("input").val("");
+        $("#TaxID").val("").trigger("change");
+    }
+</script>
+

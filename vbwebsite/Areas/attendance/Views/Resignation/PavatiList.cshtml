@@ -1,0 +1,148 @@
+﻿@model List<vb.Data.PavatiListResponse>
+@using vb.Data.ViewModel
+
+<div class="box">
+    <div class="box-header text-center">
+        <h3 class="box-title">Pavati List</h3>
+    </div>
+    <div class="box-body table-scrollable1">
+        <table id="ListDataTable" class="table table-bordered table-striped lstpopup">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Basic Salary</th>
+                    <th>Total Service</th>
+                    <th>Month</th>
+                    <th>Gratuity</th>
+                    <th>Leave Encashment</th>
+                    <th>Bonus</th>
+                    <th>Grand Total</th>
+                    <th>Advance</th>
+                    <th>Net Amount</th>
+                    <th>Status</th>
+                    <th>Witness 1</th>
+                    <th>Witness 2</th>
+                    <th>Print Pavati</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @item.FullName
+                        </td>
+                        <td>
+                            @item.LastDrawnSalary.ToString("0.00")
+                        </td>
+                        <td>
+                            @item.TotalService
+                        </td>
+                        <td>
+                            @item.TotalMonth
+                        </td>
+                        <td>
+                            @item.TotalGratuity.ToString("0.00")
+                        </td>
+                        <td>
+                            @item.TotalLeaveEncashment.ToString("0.00")
+                        </td>
+                        <td>
+                            @item.TotalBonusAmount.ToString("0.00")
+                        </td>
+                        <td>
+                            @item.GrandTotalAmount.ToString("0.00")
+                        </td>
+                        <td>
+                            @item.Advance.ToString("0.00")
+                        </td>
+                        <td>
+                            @item.NetAmount.ToString("0.00")
+                        </td>
+                        <td>
+                            @item.Statusstr
+                        </td>
+
+                        @if (item.WitnessOneID == 0)
+                        { 
+                         <td>
+                            @Html.DropDownList("WitnessOneID", new SelectList(ViewBag.Employee, "EmployeeCode", "FullName"), "Select Employee", new { @class = "form-control select2 WitnessOneID", style = "width: 200px;" })
+                        </td>
+                        }
+                        else
+                        { 
+                         <td>
+                            @Html.DropDownList("WitnessOneID", new SelectList(ViewBag.Employee, "EmployeeCode", "FullName", @item.WitnessOneID), "Select Employee", new { @class = "form-control select2 WitnessOneID", style = "width: 200px;" })
+                        </td>
+                        }
+                       @if (item.WitnessTwoID == 0)
+                        {
+                        <td>
+                            @Html.DropDownList("WitnessTwoID", new SelectList(ViewBag.Employee, "EmployeeCode", "FullName"), "Select Employee", new { @class = "form-control select2 WitnessTwoID", style = "width: 200px;" })
+                        </td>
+                       }
+                       else
+                       { 
+                        <td>
+                            @Html.DropDownList("WitnessTwoID", new SelectList(ViewBag.Employee, "EmployeeCode", "FullName", @item.WitnessTwoID), "Select Employee", new { @class = "form-control select2 WitnessTwoID", style = "width: 200px;" })
+                        </td>
+                       }
+                        <td style="width: 68px;">
+                            @*<input type="button" value="Print Pavati" onclick="GetPrintPavati(@item.Gratuity_Hisab_ID)" />*@
+                        <a style="cursor:pointer; width :150px" class="btnprintpavati" data-gratuity_hisab_id="@item.Gratuity_Hisab_ID">Print Pavati</a>
+                    </td>
+                        
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    $('#ListDataTable').DataTable({
+        'paging': true,
+        'lengthChange': true,
+        'searching': true,
+        'ordering': false,
+        'info': true,
+        'autoWidth': false
+    });
+
+    @*function GetPrintPavati(Gratuity_Hisab_ID) {
+        debugger;
+        var WitnessOne = $(this).closest('tr').find('.WitnessOne').val();
+        var WitnessOneTwo = $(this).closest('tr').find('.WitnessOneTwo').val();
+        $.ajax({
+            url: '@Url.Action("PrintPavati", "Resignation")',
+            type: 'POST',
+            data: { 'Gratuity_Hisab_ID': Gratuity_Hisab_ID },
+            cache: false,
+        }).done(function (result) {
+            if (result != '') {
+                window.open(result, "newPage");
+            }
+        });
+    };*@
+
+
+    $(".btnprintpavati").click(function () {
+        debugger;
+        var Gratuity_Hisab_ID = $(this).data('gratuity_hisab_id');
+        var WitnessOneID = $(this).closest('tr').find('.WitnessOneID').val();
+        var WitnessTwoID = $(this).closest('tr').find('.WitnessTwoID').val();
+        $.ajax({
+            url: '@Url.Action("PrintPavati", "Resignation")',
+            type: 'POST',
+            data: { 'Gratuity_Hisab_ID': Gratuity_Hisab_ID, 'WitnessOneID': WitnessOneID, 'WitnessTwoID': WitnessTwoID },
+            cache: false,
+        }).done(function (result) {
+            if (result != '') {
+                window.open(result, "newPage");
+            }
+        });
+    });
+
+</script>
+
+

@@ -1,0 +1,120 @@
+﻿@model List<vb.Data.OrderListResponse>
+
+<div class="box">
+    <div class="box-header text-center">
+        <h3 class="box-title">Order List</h3>
+        <button type="button" id="btnBack" class="btn btn-info pull-right">Back</button>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body">
+        <table id="ListDataTable" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th class="nosort">Invoice No</th>
+                    <th class="nosort">Order Date</th>
+                    <th class="nosort">Customer Name</th>
+                    <th class="nosort">Area</th>
+                    <th class="nosort">Total Item</th>
+                    <th class="nosort">Total Bill</th>
+                    <th class="nosort">Sales Person</th>
+                    <th class="nosort">View Invoice</th>
+                    <th class="nosort">Print Invoice</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td id="row" @item.OrderID>
+                            @item.InvoiceNumber
+                        </td>
+                        <td>
+                            @item.CreatedOn.ToString("MM-dd-yyyy")
+                        </td>
+                        <td>
+                            @item.CustomerName
+                        </td>
+                        <td>
+                            @item.AreaName
+                        </td>
+                        <td>
+                            @item.Quantity
+                        </td>
+                        <td>
+                            @item.FinalTotal.ToString("0.00")
+                        </td>
+                        <td>
+                            @item.UserName
+                        </td>
+                        <td>
+                            <input class="btnViewInvoice" type="button" value="View Invoice" data-orderid="@item.InvoiceNumber" />
+                        </td>
+                        <td>
+                            <input id="btnPrintInvoice" type="button" value="Print Invoice" onclick="GetPrint(@item.OrderID,'@item.InvoiceNumber')" data-orderid="@item.OrderID" />
+                        </td>
+                    </tr>
+                }
+            </tbody>
+
+        </table>
+    </div>
+    <!-- /.box-body -->
+</div>
+
+<script>
+
+    $(".btnViewInvoice").click(function () {
+        debugger;
+        var url = '@Url.Action("ViewBillWiseInvoiceForProductWiseSalesReport", "Report", new { invid = "__id__", custid = "__custid__", uid = "__uid__", txtfrom = "__txtfrom__", txtto = "__txtto__", productid = "__productid__", categoryid = "__categoryid__", areaid = "__areaid__" })';
+        url = url.replace(/amp;/g, '');
+        var Data = url.replace('__id__', $(this).attr("data-orderid")).replace('__custid__', $('#CustomerID').val()).replace('__uid__', $('#UserID').val()).replace('__txtfrom__', $('#txtFrom').val()).replace('__txtto__', $('#txtTo').val()).replace('__productid__', $('#ProductID').val()).replace('__categoryid__', $('#ProductCategoryID').val()).replace('__areaid__', $('#AreaID').val());
+        window.open(Data, '_blank');
+    });
+
+    function GetPrint(id, invnum) {
+        debugger;
+        $.ajax({
+            url: '@Url.Action("PrintInvoice", "Orders")',
+            type: 'POST',
+            data: { 'InvoiceID': id, 'InvoiceNumber': invnum },
+            cache: false,
+        }).done(function (result) {
+            if (result != '') {
+                window.open(result, "newPage");
+            }
+        });
+    };
+
+    $("#btnBack").click(function () {
+        debugger;
+        loadhtml();
+        var txtFrom = '@Session["txtFrom"].ToString()';
+        var txtTo = '@Session["txtTo"].ToString()';
+        $('#txtFrom').val(txtFrom).trigger('change');
+        $('#txtTo').val(txtTo).trigger('change');
+    });
+
+    function loadhtml() {
+        var model = new Object();
+        model.CustomerID = $('#CustomerID').val();
+        model.ProductCategoryID = $('#ProductCategoryID').val();
+        model.UserID = $('#UserID').val();
+        model.AreaID = $('#AreaID').val();
+        $.ajax({
+            url: '@Url.Action("FestivalProductWiseDailySalesList", "Report")',
+            type: 'POST',
+            data: { 'model': model },
+            cache: false,
+        }).done(function (result) {
+
+            $('#lstcase').html(result);
+        });
+    }
+
+</script>
+
+
+
+
+
+

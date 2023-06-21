@@ -1,0 +1,874 @@
+﻿@model List<vb.Data.PurchasePaymentListResponse>
+<div class="box">
+    <div class="box-header text-center">
+        <h3 class="box-title">Pending Payments</h3>
+        <div>
+            <div class="col-md-6">
+            </div>
+            <div class="col-md-4">
+            </div>
+            <div class="col-md-2">
+                <label>Grand Total : </label>
+                <label id="lblgrandtotal" style="padding-right:20px;"></label>
+                <button type="button" id="btnsavepayment" onclick="savepayment()" class="btn btn-info">Save</button>
+            </div>
+        </div>
+    </div>
+    <div class="box-body table-scrollable1">
+        <table id="ListDataTable" class="table table-bordered table-striped lstprintinvoice">
+            <thead>
+                <tr>
+                    <th class="nosort">Supplier Name</th>
+                    <th class="nosort">Area</th>
+                    <th class="nosort">Bill Number</th>
+                    <th class="nosort">Bill Date</th>
+                    <th class="nosort">Payment Amount</th>
+                    <th class="nosort">Out. Amount</th>
+                    <th class="nosort text-center" colspan="4">Payment Mode</th>
+                    <th class="nosort" colspan="2">Adjust Amt</th>
+                    <th class="nosort">Remark</th>
+                    <th class="nosort">Select</th>
+                    @*<th class="nosort">Add Credit Note</th>*@
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td id="row">
+                            <input type="hidden" id="hdnPurchaseID" class="hdnPurchaseID" value="@item.PurchaseID" />
+                            <input type="hidden" id="hdnSupplierID" class="hdnSupplierID" value="@item.SupplierID" />
+                            @item.SupplierName
+                        </td>
+                        <td>
+                            @item.AreaName
+                        </td>
+                        <td>
+                            @item.BillNumber
+                        </td>
+                        <td>
+                            @item.BillDate.ToString("dd-MM-yyyy")
+                        </td>
+                        <td>
+                            @item.PaymentAmount.ToString("0.00")
+                        </td>
+                        <td style="width:150px;">
+                            @item.OutstandingAmount.ToString("0.00")
+                            <input type="checkbox" class="chkpay" style="margin-left:5px;" />
+                            <input type="button" style="display:none;" id="btnView3" value="View" class="btnpopupcash btn btn-info" />
+                        </td>
+                        <td style="width: 110px;">
+                            <span>Cash</span>
+                            <input type="text" id="txtcashamount" class="form-control txtcashamount" value="@item.ByCash" />
+                        </td>
+                        <td>
+                            <input type="hidden" id="hdnOutstandingAmount" class="hdnOutstandingAmount" value="@item.OutstandingAmount.ToString("0.00")" />
+                            <input type="hidden" id="hdnPaymentAmount" class="hdnPaymentAmount" value="@item.PaymentAmount.ToString("0.00")" />
+                            <input type="hidden" id="hdnBankName" class="hdnBankName" value="@item.BankName" />
+                            <input type="hidden" id="hdnBankBranch" class="hdnBankBranch" value="@item.BankBranch" />
+                            <input type="hidden" id="hdnChequeNo" class="hdnChequeNo" value="@item.ChequeNo" />
+                            <input type="hidden" id="hdnBillNumber" class="hdnBillNumber" value="@item.BillNumber" />
+                            <div style="width:130px;">
+                                Cheque
+                                <input type="checkbox" class="chkcheque" style="margin-left:5px;margin-right:5px;" />
+                                <input type="button" style="display:none;" id="btnView" value="View" class="btnpopup btn btn-info" />
+                            </div>
+                        </td>
+                        <td>
+                            <div style="width:130px;">
+                                Card
+                                <input type="checkbox" class="chkcard" style="margin-left:5px;margin-right:5px;" />
+                                <input type="button" style="display:none;" id="btnView1" value="View" class="btnpopupcard btn btn-info" />
+                            </div>
+                        </td>
+                        <td>
+                            <div style="width:130px;">
+                                Online
+                                <input type="checkbox" class="chkonline" style="margin-left:5px;margin-right:5px;" />
+                                <input type="button" style="display:none;" id="btnView2" value="View" class="btnpopuponline btn btn-info" />
+                            </div>
+                        </td>
+                        <td>
+                            <input type="checkbox" class="chkadjustamount" style="margin-left:5px;margin-right:5px;" />
+                        </td>
+                        <td style="width: 110px;">
+                            <input type="text" id="txtadjustamount" class="form-control txtadjustamount" value="@item.AdjustAmount" />
+                        </td>
+                        <td>
+                            <input type="text" id="txtremark" class="form-control" />
+                        </td>
+                        <td>
+                            <input type="checkbox" class="chkselect" />
+                        </td>
+                        @*<td>
+                                <a style='cursor: pointer;' class='Add' data-date="@item.CreatedOn" data-cid="@item.CustomerID" id="@item.InvoiceNumber">Credit Note</a>
+                            </td>*@
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div id="responsive" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="btnclosepopup1 close" data-dismiss="modal" aria-hidden="true"></button>
+                    <h4 class="modal-title">Cheque Details</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12" style="padding-bottom: 8px;">
+                            <div class="form-group">
+                                <input name="PaymentID" id="PaymentID" type="hidden" value="" />
+                                <label for="Name" class="col-sm-4 control-label">Bank Name</label>
+                                <div class="col-sm-8">
+                                    <input type="hidden" id="hdnBillNumberForCheque" />
+                                    @Html.DropDownList("BankID", new SelectList(ViewBag.BankName, "BankID", "BankName"), "Select Bank", new { @class = "form-control", tabindex = "1" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12" style="padding-bottom: 8px;">
+                            <div class="form-group">
+                                <label for="Branch" class="col-sm-4 control-label">Bank Branch</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" name="BankBranch" maxlength="100" id="BankBranch" placeholder="Bank Branch" tabindex="2" autocomplete="off" disabled="disabled">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12" style="padding-bottom: 8px;">
+                            <div class="form-group">
+                                <label for="ChequeNo" class="col-sm-4 control-label">Cheque No</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" name="ChequeNo" maxlength="100" id="ChequeNo" placeholder="Cheque No" tabindex="3" autocomplete="off">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12" style="padding-bottom: 8px;">
+                            <div class="form-group">
+                                <label for="ChequeDate" class="col-sm-4 control-label">Cheque Date</label>
+                                <div class="col-sm-8">
+                                    <div class="input-group date">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
+                                        <input type="text" class="form-control pull-right datepicker" id="ChequeDate" tabindex="4" autocomplete="off">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12" style="padding-bottom: 8px;">
+                            <div class="form-group">
+                                <label for="ChequeNo" class="col-sm-4 control-label">IFC Code</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" name="IFSCCode" maxlength="100" id="IFSCCode" placeholder="IFSC Code" tabindex="5" autocomplete="off" disabled="disabled">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btnsavepopup btn btn-info">Save</button>
+                    <button type="button" class="btnclosepopup btn btn-info" data-dismiss="modal" aria-hidden="true">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="responsive2" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="btnclosepopup1 close" data-dismiss="modal" aria-hidden="true"></button>
+                    <h4 class="modal-title">Card Details</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12" style="padding-bottom: 8px;">
+                            <div class="form-group">
+                                <input name="PaymentID" id="PaymentID" type="hidden" value="" />
+                                <label for="Name" class="col-sm-4 control-label">Bank Name</label>
+                                <div class="col-sm-8">
+                                    <input type="hidden" id="hdnBillNumberForCard" />
+                                    @Html.DropDownList("BankIDForCard", new SelectList(ViewBag.BankName, "BankID", "BankName"), "Select Bank", new { @class = "form-control", tabindex = "1" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12" style="padding-bottom: 8px;">
+                            <div class="form-group">
+                                <label for="Branch" class="col-sm-4 control-label">Type Of Card</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" name="TypeOfCard" maxlength="100" id="TypeOfCard" placeholder="Type Of Card" tabindex="2" autocomplete="off">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12" style="padding-bottom: 8px;">
+                            <div class="form-group">
+                                <label for="CardPaymentDate" class="col-sm-4 control-label">Date</label>
+                                <div class="col-sm-8">
+                                    <div class="input-group date">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
+                                        <input type="text" class="form-control pull-right datepicker" id="CardPaymentDate" tabindex="3" autocomplete="off">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btnsavepopup2 btn btn-info">Save</button>
+                    <button type="button" class="btnclosepopup2 btn btn-info" data-dismiss="modal" aria-hidden="true">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="responsive3" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="btnclosepopup1 close" data-dismiss="modal" aria-hidden="true"></button>
+                    <h4 class="modal-title">Bank Details</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12" style="padding-bottom: 8px;">
+                            <div class="form-group">
+                                <input name="PaymentID" id="PaymentID" type="hidden" value="" />
+                                <label for="Name" class="col-sm-4 control-label">Bank Name</label>
+                                <div class="col-sm-8">
+                                    <input type="hidden" id="hdnBillNumberForOnline" />
+                                    @Html.DropDownList("BankIDForOnline", new SelectList(ViewBag.BankName, "BankID", "BankName"), "Select Bank", new { @class = "form-control", tabindex = "1" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12" style="padding-bottom: 8px;">
+                            <div class="form-group">
+                                <label for="Branch" class="col-sm-4 control-label">UTR Number</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" name="UTRNumber" maxlength="100" id="UTRNumber" placeholder="UTR Number" tabindex="2" autocomplete="off">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12" style="padding-bottom: 8px;">
+                            <div class="form-group">
+                                <label for="OnlineDate" class="col-sm-4 control-label">Date</label>
+                                <div class="col-sm-8">
+                                    <div class="input-group date">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
+                                        <input type="text" class="form-control pull-right datepicker" id="OnlinePaymentDate" tabindex="3" autocomplete="off">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btnsavepopup3 btn btn-info">Save</button>
+                    <button type="button" class="btnclosepopup3 btn btn-info" data-dismiss="modal" aria-hidden="true">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="responsive4" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="btnclosepopup1 close" data-dismiss="modal" aria-hidden="true"></button>
+                    <h4 class="modal-title">Cash Details</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12" style="padding-bottom: 8px;">
+                            <div class="form-group">
+                                <input name="PaymentID" id="PaymentID" type="hidden" value="" />
+                                <label for="Name" class="col-sm-4 control-label">Cash Option</label>
+                                <div class="col-sm-8">
+                                    <input type="hidden" id="hdnBillNumberForCash" />
+                                    @Html.DropDownList("GodownID", new SelectList(ViewBag.CashOption, "GodownID", "CashOption"), "Select Cash", new { @class = "form-control" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12" style="padding-bottom: 8px;">
+                            <div class="form-group">
+                                <label for="PaymentDateForCash" class="col-sm-4 control-label">Payment Date</label>
+                                <div class="col-sm-8">
+                                    <div class="input-group date">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
+                                        <input type="text" class="form-control pull-right datepicker" id="PaymentDateForCash" tabindex="4" autocomplete="off">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btnsavepopup4 btn btn-info">Save</button>
+                    <button type="button" class="btnclosepopup4 btn btn-info" data-dismiss="modal" aria-hidden="true">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    var Checkbank = [];
+    var Checkbank2 = [];
+    var Checkbank3 = [];
+    var Checkbank4 = [];
+
+    $('.datepicker').datepicker({
+        autoclose: true
+    });
+
+    $(document).ready(function () {
+
+        // By Cash
+        $('.chkpay').change(function (e) {
+            clearcontents4();
+            if (this.checked) {
+                openpopup4();
+                $("#hdnBillNumberForCash").val($(this).closest('tr').find(".hdnBillNumber").val());
+                var payment = $($(this).closest('tr').find("input[type=hidden]")[2]).val()
+                $(this).closest('tr').find('.txtcashamount').val(payment);
+                $(this).closest('tr').find('.chkselect').prop('checked', true);
+                $(this).closest('tr').find('.chkcheque').prop('checked', false);
+                $(this).closest('tr').find('.chkcard').prop('checked', false);
+                $(this).closest('tr').find('.chkonline').prop('checked', false);
+                $($(this).closest('tr').find("input[type=button]")[0]).show();
+                $($(this).closest('tr').find("input[type=button]")[1]).hide();
+                $($(this).closest('tr').find("input[type=button]")[2]).hide();
+                $($(this).closest('tr').find("input[type=button]")[3]).hide();
+                $(this).closest('tr').find('.chkadjustamount').prop('checked', false);
+                $(this).closest('tr').find('.txtadjustamount').val("0");
+            }
+            else {
+                $(this).closest('tr').find('.txtcashamount').val("0");
+                $(this).closest('tr').find('.chkselect').prop('checked', false);
+                $($(this).closest('tr').find("input[type=button]")[0]).hide();
+                $($(this).closest('tr').find("input[type=button]")[1]).hide();
+                $($(this).closest('tr').find("input[type=button]")[2]).hide();
+                $($(this).closest('tr').find("input[type=button]")[3]).hide();
+                clearcontents4();
+            }
+            var sum = 0;
+            $('#ListDataTable').children('tbody').children('tr:visible').each(function (index, row) {
+                var ischk = $(row).find("input[type=checkbox]")[0];
+                var ischk2 = $(row).find("input[type=checkbox]")[1];
+                var ischk3 = $(row).find("input[type=checkbox]")[2];
+                var ischk4 = $(row).find("input[type=checkbox]")[3];
+                if ($(ischk).is(':checked') || $(ischk2).is(':checked') || $(ischk3).is(':checked') || $(ischk4).is(':checked')) {
+                    sum = +sum + +($(row).find(".txtcashamount").val());
+                }
+            });
+            $("#lblgrandtotal").text(sum);
+        });
+
+        function openpopup4() {
+            $("#responsive4").removeClass("modal fade").addClass("modal fade modal-overflow in");
+            $("#responsive4").css("display", "block");
+        }
+
+        $(".btnclosepopup4").click(function () {
+            $('#responsive4').removeClass("modal fade modal-overflow in");
+            $('#responsive4').removeAttr('style');
+            $('#responsive4').addClass("modal fade");
+        });
+
+        function closepopup4() {
+            $('#responsive4').removeClass("modal fade modal-overflow in");
+            $('#responsive4').removeAttr('style');
+            $('#responsive4').addClass("modal fade");
+        }
+
+        $(".btnsavepopup4").click(function () {
+            if ($("#PaymentDateForCash").val() != "" && $("#GodownID").val() != "") {
+                var cashdetail = new Object();
+                cashdetail.BillNumber = $("#hdnBillNumberForCash").val();
+                cashdetail.GodownID = $("#GodownID").val();
+                cashdetail.PaymentDateForCash = $("#PaymentDateForCash").val();
+                Checkbank4.push(cashdetail);
+                clearcontents4();
+                closepopup4();
+            }
+            else {
+                alert("please select godown & payment date  to save");
+            }
+        });
+
+        $(".btnpopupcash").click(function () {
+            var BillNumber = ($(this).closest('tr').find(".hdnBillNumber").val());
+            for (var i = 0; i < Checkbank4.length; i++) {
+                if (Checkbank4[i].BillNumber == BillNumber) {
+                    $("#hdnBillNumberForCash").val(Checkbank4[i].BillNumber);
+                    $("#GodownID").val(Checkbank4[i].GodownID);
+                    $("#PaymentDateForCash").val(Checkbank4[i].PaymentDateForCash);
+                }
+            }
+            $("#responsive4").removeClass("modal fade").addClass("modal fade modal-overflow in");
+            $("#responsive4").css("display", "block");
+        });
+
+        // By Cheque
+        $(".chkcheque").change(function () {
+            clearcontents();
+            if (this.checked) {
+                openpopup();
+                $("#hdnBillNumberForCheque").val($(this).closest('tr').find(".hdnBillNumber").val());
+                $($(this).closest('tr').find("input[type=button]")[0]).hide();
+                $($(this).closest('tr').find("input[type=button]")[1]).show();
+                $($(this).closest('tr').find("input[type=button]")[2]).hide();
+                $($(this).closest('tr').find("input[type=button]")[3]).hide();
+            }
+            else {
+                $($(this).closest('tr').find("input[type=button]")[0]).hide();
+                $($(this).closest('tr').find("input[type=button]")[1]).hide();
+                $($(this).closest('tr').find("input[type=button]")[2]).hide();
+                $($(this).closest('tr').find("input[type=button]")[3]).hide();
+                clearcontents();
+            }
+            if (this.checked) {
+                var payment = $($(this).closest('tr').find(".hdnOutstandingAmount")).val()
+                $(this).closest('tr').find('.txtcashamount').val(payment);
+                $(this).closest('tr').find('.chkselect').prop('checked', true);
+                $(this).closest('tr').find('.chkpay').prop('checked', false);
+                $(this).closest('tr').find('.chkcard').prop('checked', false);
+                $(this).closest('tr').find('.chkonline').prop('checked', false);
+                $(this).closest('tr').find('.chkadjustamount').prop('checked', false);
+                $(this).closest('tr').find('.txtadjustamount').val("0");
+            }
+            else {
+                $(this).closest('tr').find('.txtcashamount').val("");
+                $(this).closest('tr').find('.chkselect').prop('checked', false);
+                $($(this).closest('tr').find("input[type=button]")[0]).hide();
+            }
+            var sum = 0;
+            $('#ListDataTable').children('tbody').children('tr:visible').each(function (index, row) {
+                var ischk = $(row).find("input[type=checkbox]")[0];
+                var ischk2 = $(row).find("input[type=checkbox]")[1];
+                var ischk3 = $(row).find("input[type=checkbox]")[2];
+                var ischk4 = $(row).find("input[type=checkbox]")[3];
+                if ($(ischk).is(':checked') || $(ischk2).is(':checked') || $(ischk3).is(':checked') || $(ischk4).is(':checked')) {
+                    sum = +sum + +($(row).find(".txtcashamount").val());
+                }
+            });
+            $("#lblgrandtotal").text(sum);
+        });
+
+        function openpopup() {
+            $("#responsive").removeClass("modal fade").addClass("modal fade modal-overflow in");
+            $("#responsive").css("display", "block");
+        }
+
+        $(".btnclosepopup").click(function () {
+            $('#responsive').removeClass("modal fade modal-overflow in");
+            $('#responsive').removeAttr('style');
+            $('#responsive').addClass("modal fade");
+        });
+
+        function closepopup() {
+            $('#responsive').removeClass("modal fade modal-overflow in");
+            $('#responsive').removeAttr('style');
+            $('#responsive').addClass("modal fade");
+        }
+
+        $("#BankID").on('change keypress', function (e) {
+            var BankID = this.value;
+            if (BankID != "") {
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("GetBankDetailByBankID")',
+                    data: { BankID: BankID },
+                    success: function (result) {
+                        debugger;
+                        $('#BankBranch').val(result.Branch);
+                        $('#IFSCCode').val(result.IFSCCode);
+                    },
+                    error: function () { alert('Error'); }
+                });
+            }
+            else {
+                clearcontents();
+            }
+        });
+
+        $(".btnpopup").click(function () {
+            var BillNumber = ($(this).closest('tr').find(".hdnBillNumber").val());
+            for (var i = 0; i < Checkbank.length; i++) {
+
+                if (Checkbank[i].BillNumber == BillNumber) {
+                    $("#hdnBillNumberForCheque").val(Checkbank[i].BillNumber);
+                    $("#BankID").val(Checkbank[i].BankID);
+                    $("#BankBranch").val(Checkbank[i].BankBranch);
+                    $("#ChequeNo").val(Checkbank[i].ChequeNo);
+                    $("#ChequeDate").val(Checkbank[i].ChequeDate);
+                    $("#IFSCCode").val(Checkbank[i].IFSCCode);
+                }
+            }
+            $("#responsive").removeClass("modal fade").addClass("modal fade modal-overflow in");
+            $("#responsive").css("display", "block");
+        });
+
+        $(".btnsavepopup").click(function () {
+            if ($("#ChequeDate").val() != "" && $("#BankID").val() != "" && $("#ChequeNo").val() != "") {
+                var checkdetail = new Object();
+                checkdetail.BillNumber = $("#hdnBillNumberForCheque").val();
+                checkdetail.BankID = $("#BankID").val();
+                checkdetail.BankName = $("#BankID option:selected").text();
+                checkdetail.BankBranch = $("#BankBranch").val();
+                checkdetail.ChequeNo = $("#ChequeNo").val();
+                checkdetail.ChequeDate = $("#ChequeDate").val();
+                checkdetail.IFSCCode = $("#IFSCCode").val();
+                Checkbank.push(checkdetail);
+                clearcontents();
+                closepopup();
+            }
+            else {
+                alert("please select bank & payment date  to save");
+            }
+        });
+
+        // By Card
+        $('.chkcard').change(function (e) {
+            clearcontents2();
+            if (this.checked) {
+                openpopup2();
+                $("#hdnBillNumberForCard").val($(this).closest('tr').find(".hdnBillNumber").val());
+                var payment = $($(this).closest('tr').find(".hdnOutstandingAmount")).val()
+                $(this).closest('tr').find('.txtcashamount').val(payment);
+                $(this).closest('tr').find('.chkselect').prop('checked', true);
+                $(this).closest('tr').find('.chkcheque').prop('checked', false);
+                $(this).closest('tr').find('.chkpay').prop('checked', false);
+                $(this).closest('tr').find('.chkonline').prop('checked', false);
+                $($(this).closest('tr').find("input[type=button]")[2]).show();
+                $($(this).closest('tr').find("input[type=button]")[0]).hide();
+                $($(this).closest('tr').find("input[type=button]")[1]).hide();
+                $($(this).closest('tr').find("input[type=button]")[3]).hide();
+                $(this).closest('tr').find('.chkadjustamount').prop('checked', false);
+                $(this).closest('tr').find('.txtadjustamount').val("0");
+            }
+            else {
+                $(this).closest('tr').find('.txtcashamount').val("0");
+                $(this).closest('tr').find('.chkselect').prop('checked', false);
+                $($(this).closest('tr').find("input[type=button]")[0]).hide();
+                $($(this).closest('tr').find("input[type=button]")[1]).hide();
+                $($(this).closest('tr').find("input[type=button]")[2]).hide();
+                $($(this).closest('tr').find("input[type=button]")[3]).hide();
+                clearcontents2();
+            }
+            var sum = 0;
+            $('#ListDataTable').children('tbody').children('tr:visible').each(function (index, row) {
+                var ischk = $(row).find("input[type=checkbox]")[0];
+                var ischk2 = $(row).find("input[type=checkbox]")[1];
+                var ischk3 = $(row).find("input[type=checkbox]")[2];
+                var ischk4 = $(row).find("input[type=checkbox]")[3];
+                if ($(ischk).is(':checked') || $(ischk2).is(':checked') || $(ischk3).is(':checked') || $(ischk4).is(':checked')) {
+                    sum = +sum + +($(row).find(".txtcashamount").val());
+                }
+            });
+            $("#lblgrandtotal").text(sum);
+        });
+
+        function openpopup2() {
+            $("#responsive2").removeClass("modal fade").addClass("modal fade modal-overflow in");
+            $("#responsive2").css("display", "block");
+        }
+
+        $(".btnclosepopup2").click(function () {
+            $('#responsive2').removeClass("modal fade modal-overflow in");
+            $('#responsive2').removeAttr('style');
+            $('#responsive2').addClass("modal fade");
+        });
+
+        function closepopup2() {
+            $('#responsive2').removeClass("modal fade modal-overflow in");
+            $('#responsive2').removeAttr('style');
+            $('#responsive2').addClass("modal fade");
+        }
+
+        $(".btnpopupcard").click(function () {
+            var BillNumber = ($(this).closest('tr').find(".hdnBillNumber").val());
+            for (var i = 0; i < Checkbank2.length; i++) {
+                if (Checkbank2[i].BillNumber == BillNumber) {
+                    $("#hdnBillNumberForCard").val(Checkbank2[i].BillNumber);
+                    $("#BankIDForCard").val(Checkbank2[i].BankIDForCard);
+                    $("#TypeOfCard").val(Checkbank2[i].TypeOfCard);
+                    $("#CardPaymentDate").val(Checkbank2[i].CardPaymentDate);
+                }
+            }
+            $("#responsive2").removeClass("modal fade").addClass("modal fade modal-overflow in");
+            $("#responsive2").css("display", "block");
+        });
+
+        $(".btnsavepopup2").click(function () {
+            if ($("#CardPaymentDate").val() != "" && $("#BankIDForCard").val() != "") {
+                var checkdetailcard = new Object();
+                checkdetailcard.BillNumber = $("#hdnBillNumberForCard").val();
+                checkdetailcard.BankIDForCard = $("#BankIDForCard").val();
+                checkdetailcard.BankNameForCard = $("#BankIDForCard option:selected").text();
+                checkdetailcard.TypeOfCard = $("#TypeOfCard").val();
+                checkdetailcard.CardPaymentDate = $("#CardPaymentDate").val();
+                Checkbank2.push(checkdetailcard);
+                clearcontents2();
+                closepopup2();
+            }
+            else {
+                alert("please select bank & payment date  to save");
+            }
+        });
+
+        //By Online
+        $('.chkonline').change(function (e) {
+            clearcontents3();
+            if (this.checked) {
+                openpopup3();
+                $("#hdnBillNumberForOnline").val($(this).closest('tr').find(".hdnBillNumber").val());
+                var payment = $($(this).closest('tr').find(".hdnOutstandingAmount")).val()
+                $(this).closest('tr').find('.txtcashamount').val(payment);
+                $(this).closest('tr').find('.chkselect').prop('checked', true);
+                $(this).closest('tr').find('.chkcheque').prop('checked', false);
+                $(this).closest('tr').find('.chkpay').prop('checked', false);
+                $(this).closest('tr').find('.chkcard').prop('checked', false);
+                $($(this).closest('tr').find("input[type=button]")[3]).show();
+                $($(this).closest('tr').find("input[type=button]")[1]).hide();
+                $($(this).closest('tr').find("input[type=button]")[0]).hide();
+                $($(this).closest('tr').find("input[type=button]")[2]).hide();
+                $(this).closest('tr').find('.chkadjustamount').prop('checked', false);
+                $(this).closest('tr').find('.txtadjustamount').val("0");
+            }
+            else {
+                $(this).closest('tr').find('.txtcashamount').val("0");
+                $(this).closest('tr').find('.chkselect').prop('checked', false);
+                $($(this).closest('tr').find("input[type=button]")[2]).hide();
+                $($(this).closest('tr').find("input[type=button]")[0]).hide();
+                $($(this).closest('tr').find("input[type=button]")[1]).hide();
+                $($(this).closest('tr').find("input[type=button]")[3]).hide();
+                clearcontents3();
+            }
+            var sum = 0;
+            $('#ListDataTable').children('tbody').children('tr:visible').each(function (index, row) {
+                var ischk = $(row).find("input[type=checkbox]")[0];
+                var ischk2 = $(row).find("input[type=checkbox]")[1];
+                var ischk3 = $(row).find("input[type=checkbox]")[2];
+                var ischk4 = $(row).find("input[type=checkbox]")[3];
+                if ($(ischk).is(':checked') || $(ischk2).is(':checked') || $(ischk3).is(':checked') || $(ischk4).is(':checked')) {
+                    sum = +sum + +($(row).find(".txtcashamount").val());
+                }
+            });
+            $("#lblgrandtotal").text(sum);
+        });
+
+        function openpopup3() {
+            $("#responsive3").removeClass("modal fade").addClass("modal fade modal-overflow in");
+            $("#responsive3").css("display", "block");
+        }
+
+        $(".btnclosepopup3").click(function () {
+            $('#responsive3').removeClass("modal fade modal-overflow in");
+            $('#responsive3').removeAttr('style');
+            $('#responsive3').addClass("modal fade");
+        });
+
+        function closepopup3() {
+            $('#responsive3').removeClass("modal fade modal-overflow in");
+            $('#responsive3').removeAttr('style');
+            $('#responsive3').addClass("modal fade");
+        }
+
+        $(".btnpopuponline").click(function () {
+            var BillNumber = ($(this).closest('tr').find(".hdnBillNumber").val());
+            for (var i = 0; i < Checkbank3.length; i++) {
+                if (Checkbank3[i].BillNumber == BillNumber) {
+                    $("#hdnBillNumberForOnline").val(Checkbank3[i].BillNumber);
+                    $("#BankIDForOnline").val(Checkbank3[i].BankIDForOnline);
+                    $("#UTRNumber").val(Checkbank3[i].UTRNumber);
+                    $("#OnlinePaymentDate").val(Checkbank3[i].OnlinePaymentDate);
+                }
+            }
+            $("#responsive3").removeClass("modal fade").addClass("modal fade modal-overflow in");
+            $("#responsive3").css("display", "block");
+        });
+
+        $(".btnsavepopup3").click(function () {
+            if ($("#OnlinePaymentDate").val() != "" && $("#BankIDForOnline").val() != "") {
+                var checkdetailonline = new Object();
+                checkdetailonline.BillNumber = $("#hdnBillNumberForOnline").val();
+                checkdetailonline.BankIDForOnline = $("#BankIDForOnline").val();
+                checkdetailonline.BankNameForOnline = $("#BankIDForOnline option:selected").text();
+                checkdetailonline.UTRNumber = $("#UTRNumber").val();
+                checkdetailonline.OnlinePaymentDate = $("#OnlinePaymentDate").val();
+                Checkbank3.push(checkdetailonline);
+                clearcontents3();
+                closepopup3();
+            }
+            else {
+                alert("please select bank & payment date  to save");
+            }
+        });
+
+        $(".txtcashamount").on('blur', function (e) {
+            var end = this;
+            var cashamount = this.value;
+            if (cashamount != 0 || cashamount != null) {
+                var sum = 0;
+                $('#ListDataTable').children('tbody').children('tr:visible').each(function (index, row) {
+                    var ischk = $(row).find("input[type=checkbox]")[0];
+                    var ischk2 = $(row).find("input[type=checkbox]")[1];
+                    var ischk3 = $(row).find("input[type=checkbox]")[2];
+                    var ischk4 = $(row).find("input[type=checkbox]")[3];
+                    if ($(ischk).is(':checked') || $(ischk2).is(':checked') || $(ischk3).is(':checked') || $(ischk4).is(':checked')) {
+                        sum = +sum + +($(row).find(".txtcashamount").val());
+                    }
+                });
+                $("#lblgrandtotal").text(sum);
+            }
+        });
+
+        $('.chkadjustamount').change(function (e) {
+            if (this.checked) {
+                var payment = $($(this).closest('tr').find(".hdnOutstandingAmount")).val()
+                $(this).closest('tr').find('.txtadjustamount').val(payment);
+                $(this).closest('tr').find('.chkselect').prop('checked', true);
+                $(this).closest('tr').find('.chkcheque').prop('checked', false);
+                $(this).closest('tr').find('.chkcard').prop('checked', false);
+                $(this).closest('tr').find('.chkpay').prop('checked', false);
+                $($(this).closest('tr').find("input[type=button]")[0]).hide();
+                $($(this).closest('tr').find("input[type=button]")[1]).hide();
+                $($(this).closest('tr').find("input[type=button]")[2]).hide();
+                $($(this).closest('tr').find("input[type=button]")[3]).hide();
+                $(this).closest('tr').find('.txtcashamount').val("0");
+            }
+            else {
+                $(this).closest('tr').find('.txtadjustamount').val("0");
+                $(this).closest('tr').find('.chkselect').prop('checked', false);
+                $($(this).closest('tr').find("input[type=button]")[0]).hide();
+                $($(this).closest('tr').find("input[type=button]")[1]).hide();
+                $($(this).closest('tr').find("input[type=button]")[2]).hide();
+                $($(this).closest('tr').find("input[type=button]")[3]).hide();
+            }
+        });
+    });
+
+    function clearcontents() {
+        $("#hdnBillNumberForCheque").val("");
+        $("#BankID").val("");
+        $("#BankBranch").val("");
+        $("#ChequeNo").val("");
+        $("#ChequeDate").val("");
+        $("#IFSCCode").val("");
+    }
+
+    function clearcontents2() {
+        $("#hdnBillNumberForCard").val("");
+        $("#BankIDForCard").val("");
+        $("#TypeOfCard").val("");
+    }
+
+    function clearcontents3() {
+        $("#hdnBillNumberForOnline").val("");
+        $("#BankIDForOnline").val("");
+        $("#UTRNumber").val("");
+        $("#OnlinePaymentDate").val("");
+    }
+
+    function clearcontents4() {
+        $("#hdnBillNumberForCash").val("");
+        $("#GodownID").val("");
+        $("#PaymentDateForCash").val("");
+    }
+
+    function loadhtml() {
+        location.reload();
+    }
+
+    function savepayment() {
+        $('#btnsavepayment').attr('disabled', true);
+        var data = [];
+        $('#ListDataTable').children('tbody').children('tr:visible').each(function (index, row) {
+            var ischk = $(row).find("input[type=checkbox]")[5];
+            if ($(ischk).is(':checked')) {
+                var datadel = new Object();
+                datadel.PurchaseID = $(row).find(".hdnPurchaseID").val();
+                datadel.SupplierID = $(row).find(".hdnSupplierID").val();
+                datadel.BillNumber = $(row).find(".hdnBillNumber").val();
+                datadel.ByCash = $(row).find("input[type=text]")[0].value;
+                datadel.PaymentAmount = $(row).find(".hdnPaymentAmount").val();
+                datadel.ChkPay = $($(row).find("input[type=checkbox]")[0]).is(':checked');
+                if (datadel.ChkPay == true) {
+                    for (var i = 0; i < Checkbank4.length; i++) {
+                        if (Checkbank4[i].BillNumber == datadel.BillNumber) {
+                            datadel.GodownID = Checkbank4[i]["GodownID"];
+                            datadel.PaymentDateForCash = Checkbank4[i]["PaymentDateForCash"];
+                        }
+                    }
+                }
+                datadel.ByCheque = $($(row).find("input[type=checkbox]")[1]).is(':checked');
+                if (datadel.ByCheque == true) {
+                    for (var i = 0; i < Checkbank.length; i++) {
+                        if (Checkbank[i].BillNumber == datadel.BillNumber) {
+                            datadel.BankID = Checkbank[i]["BankID"];
+                            datadel.BankName = Checkbank[i]["BankName"];
+                            datadel.BankBranch = Checkbank[i]["BankBranch"];
+                            datadel.ChequeNo = Checkbank[i]["ChequeNo"];
+                            datadel.ChequeDate = Checkbank[i]["ChequeDate"];
+                            datadel.IFSCCode = Checkbank[i]["IFSCCode"];
+                        }
+                    }
+                }
+                datadel.ByCard = $($(row).find("input[type=checkbox]")[2]).is(':checked');
+                if (datadel.ByCard == true) {
+                    for (var i = 0; i < Checkbank2.length; i++) {
+                        if (Checkbank2[i].BillNumber == datadel.BillNumber) {
+                            datadel.BankIDForCard = Checkbank2[i]["BankIDForCard"];
+                            datadel.BankNameForCard = Checkbank2[i]["BankNameForCard"];
+                            datadel.TypeOfCard = Checkbank2[i]["TypeOfCard"];
+                            datadel.CardPaymentDate = Checkbank2[i]["CardPaymentDate"];
+                        }
+                    }
+                }
+                datadel.ByOnline = $($(row).find("input[type=checkbox]")[3]).is(':checked');
+                if (datadel.ByOnline == true) {
+                    for (var i = 0; i < Checkbank3.length; i++) {
+                        if (Checkbank3[i].BillNumber == datadel.BillNumber) {
+                            datadel.BankIDForOnline = Checkbank3[i]["BankIDForOnline"];
+                            datadel.BankNameForOnline = Checkbank3[i]["BankNameForOnline"];
+                            datadel.UTRNumber = Checkbank3[i]["UTRNumber"];
+                            datadel.OnlinePaymentDate = Checkbank3[i]["OnlinePaymentDate"];
+                        }
+                    }
+                }
+                datadel.AdjustAmount = $(row).find("input[type=text]")[1].value;
+                datadel.Remark = $(row).find("input[type=text]")[2].value;
+                data.push(datadel);
+            }
+        });
+        if (data.length > 0) {
+            $.ajax({
+                url: '@Url.Action("SavePayment")',
+                type: 'POST',
+                data: { 'data': data },
+                cache: false,
+            }).done(function (result) {
+                if (result == true) {
+                    $('div#sucessalert').html("payment added successfully.");
+                    $('div#lstcase').html("");
+                    showhidealert();
+                    loadhtml();
+                }
+            });
+        }
+        else {
+            alert("please select atleast one payment to save");
+            return false;
+        }
+    }
+
+</script>

@@ -1,0 +1,53 @@
+﻿@model List<vb.Data.RetPouchListResponse>
+
+<div class="box">
+    <div class="box-header text-center">
+        <h3 class="box-title">View Pouch Report List</h3>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body table-scrollable1">
+        <table id="ListDataTable" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th class="nosort">Pouch</th>
+                    <th class="nosort">Product Name</th>
+                    <th class="nosort">Unit</th>
+                    <th class="nosort">Quantity</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td id="row">
+                            @item.PouchName
+                        </td>
+
+                        <td>
+                            @item.ProductName
+                        </td>
+                        <td>
+                            @item.Unit
+                        </td>
+
+                        <td>
+                            @item.Quantity
+                        </td>
+                    </tr>
+                }
+                @if (Model.Count > 0)
+                {
+                    <tr style="font-weight:bold">
+                        <td colspan="3" style="text-align:right">
+                            Grand Total :
+                        </td>
+                        <td>
+                            @Model[0].TotalPouch
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <!-- /.box-body -->
+</div>

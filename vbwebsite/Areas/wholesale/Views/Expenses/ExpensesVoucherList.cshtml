@@ -1,0 +1,150 @@
+﻿@model List<vb.Data.ExpensesVoucherListResponse>
+@using vb.Data.ViewModel
+
+<div class="box">
+    <div class="box-header text-center">
+        <h3 class="box-title">Expenses Voucher List</h3>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body table-scrollable1">
+        <table id="ListDataTable" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th class="nosort">Cash</th>
+                    <th class="nosort">Date of Voucher</th>
+                    <th class="nosort">Voucher No.</th>
+                    <th class="nosort">Pay Mr./M/s</th>
+                    @*<th class="nosort">Remarks</th>*@
+                    <th class="nosort">Debit A/c</th>
+                    <th class="nosort">Bill No.</th>
+                    <th class="nosort">Amount</th>
+                    <th class="nosort">Prepared By</th>
+                    @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.EExpensesVoucher.ToString()))
+                    {
+                        <th>Edit</th>
+                    }
+                    @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.DExpensesVoucher.ToString()))
+                    {
+                        <th>Status</th>
+                    }
+                    <th class="nosort">Print Voucher</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td id="row">
+                            @item.GodownName
+                        </td>
+                        <td>
+                            @item.DateofVoucherstr
+                        </td>
+                        <td>
+                            @item.VoucherNumber
+                        </td>
+                        <td>
+                            @item.Pay
+                        </td>
+                        @*<td>
+                                @item.Remarks
+                            </td>*@
+                        <td>
+                            @item.DebitAccountType
+                        </td>
+                        <td>
+                            @item.BillNumber
+                        </td>
+
+                        <td>
+                            @item.Amount.ToString("0.00")
+                        </td>
+                        <td>
+                            @item.PreparedBy
+                        </td>
+                        @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.EExpensesVoucher.ToString()))
+                        {
+                            <td>
+                                <a style="cursor:pointer;" class="btnedit" data-expensesvoucherid="@item.ExpensesVoucherID" data-debitaccounttypeid="@item.DebitAccountTypeID" data-createdby="@item.CreatedBy" data-createdon="@item.CreatedOn" data-dateofvoucher="@item.DateofVoucher" data-godownid="@item.GodownID"
+                                   data-remarksl1="@item.RemarksL1" data-remarksl2="@item.RemarksL2" data-remarksl3="@item.RemarksL3" data-billnumber="@item.BillNumber" data-identification="@item.Identification" data-customerid="@item.CustomerID">Edit</a>
+                            </td>
+                        }
+                        @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.DExpensesVoucher.ToString()))
+                        {
+                            <td>
+                                @Html.ActionLink("Delete", "DeleteExpensesVoucher",
+                                 new { ExpensesVoucherID = item.ExpensesVoucherID, IsDelete = true, },
+                                    new { onclick = "return confirm('Are you sure you wish to delete this article?');" })
+                            </td>
+                        }
+                        <td>
+                            <input type="button" value="Print Voucher" onclick="GetPrintExpensesVoucher(@item.ExpensesVoucherID)" />
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+    <!-- /.box-body -->
+</div>
+
+<script>
+    $("#ListDataTable").DataTable({
+        'aoColumnDefs': [{
+            'bSortable': false,
+            'aTargets': ['nosort'] /* 1st one, start by the right */
+
+        }]
+    });
+    $('#ListDataTable').on('click', '.btnedit', function () {
+        debugger;
+        $("#UExpensesVoucherID").val($(this).attr("data-expensesvoucherid"));        
+        $("#GodownID").val($(this).attr("data-godownid")).trigger("change");
+        $("#DateofVoucher").val($(this).parent().parent().children()[1].innerHTML.trim());
+        $("#VoucherNumber").val($(this).parent().parent().children()[2].innerHTML.trim());
+        $("#Pay").val($(this).parent().parent().children()[3].innerHTML.trim());
+        
+        var identification = $(this).attr("data-identification")
+        if (identification == "Wholesale") {
+            $("#WCustomerID").val($(this).attr("data-customerid"));
+            $('#WCustomerID').select2();
+            $("#RCustomerID").val("");
+            $('#RCustomerID').select2();
+           // $("#WCustomerID").val($(this).attr("data-customerid")).trigger("change");
+        }
+        else {
+            $("#RCustomerID").val($(this).attr("data-customerid"));
+            $('#RCustomerID').select2();
+            $("#WCustomerID").val("");
+            $('#WCustomerID').select2();
+            //$("#RCustomerID").val($(this).attr("data-customerid")).trigger("change");
+        }
+
+        $("#RemarksL1").val($(this).attr("data-remarksl1"));
+        $("#RemarksL2").val($(this).attr("data-remarksl2"));
+        $("#RemarksL3").val($(this).attr("data-remarksl3"));
+        $("#Amount").val($(this).parent().parent().children()[6].innerHTML.trim());
+        $("#BillNumber").val($(this).attr("data-billnumber"));
+        $("#DebitAccountTypeID").val($(this).attr("data-debitaccounttypeid")).trigger("change");
+        $("#CreatedBy").val($(this).attr("data-createdby"));
+        $("#CreatedOn").val($(this).attr("data-createdon"));
+        $("html, body").animate({ scrollTop: 0 }, "slow");
+    });
+
+
+    function GetPrintExpensesVoucher(ExpensesVoucherID) {
+        debugger;
+        $.ajax({
+            url: '@Url.Action("PrintExpensesVoucher", "Expenses")',
+            type: 'POST',
+            data: { 'ExpensesVoucherID': ExpensesVoucherID },
+            cache: false,
+        }).done(function (result) {
+            if (result != '') {
+                window.open(result, "newPage");
+            }
+        });
+    };
+
+</script>

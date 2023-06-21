@@ -1,0 +1,375 @@
+﻿@{
+    ViewBag.Title = "FormSixteenDetail";
+    Layout = "~/Areas/attendance/Views/Shared/_attendancelayout.cshtml";
+}
+
+<style>
+    input.form-control.col-sm-2.TaxOnTotalIncome {
+        width: 49%;
+        margin-right: 3px;
+    }
+
+    input.form-control.col-sm-2.TaxOnTotalIncome_one {
+        width: 49%;
+    }
+</style>
+
+<div class="box box-default">
+    <div class="box-header with-border text-center">
+        <h3 class="box-title">Add Form Sixteen Detail</h3>
+    </div>
+    <form id="frmFormSixteenDetail" class="form-horizontal">
+        <div class="box-body">
+            <div class="col-md-12">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <input name="FormSixteenDetailID" id="FormSixteenDetailID" class="FormSixteenDetailID" type="hidden" value="" />
+                        <input type="hidden" id="CreatedBy" class="CreatedBy" value="" />
+                        <input type="hidden" id="CreatedOn" class="CreatedOn" value="" />
+                        <label for="StandardDeduction" class="col-sm-4 control-label">Standard Deduction</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" id="StandardDeduction" tabindex="1" onkeypress="return onlyNumberKey(event)" required autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="HealthInsurancePremiaUnderSection80D" class="col-sm-4 control-label">Health Insurance Section 80D</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" id="HealthInsurancePremiaUnderSection80D" tabindex="3" onkeypress="return onlyNumberKey(event)" required autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="UnderSection80TTA" class="col-sm-4 control-label">Under Section 80TTA</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" id="UnderSection80TTA" tabindex="5" onkeypress="return onlyNumberKey(event)" required autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="PensionUnderSection80CCD_1" class="col-sm-4 control-label">Pension Under Section 80CCD(1) </label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" id="PensionUnderSection80CCD_1" tabindex="7" onkeypress="return onlyNumberKey(event)" required autocomplete="off">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="UnderSection80C" class="col-sm-4 control-label">Under Section 80C</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" id="UnderSection80C" tabindex="2" onkeypress="return onlyNumberKey(event)" required autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="InterestOn80E" class="col-sm-4 control-label">Interest On 80E</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" id="InterestOn80E" tabindex="4" onkeypress="return onlyNumberKey(event)" required autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="RebateUnderSection87A" class="col-sm-4 control-label">Rebate Under Section 87A</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" id="RebateUnderSection87A" tabindex="6" onkeypress="return onlyNumberKey(event)" required autocomplete="off">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <div id="Form16TexableIncomeList" class="form-horizontal">
+                <table class="table table-bordered table-bordered" id="Form16TexableIncomeQty">
+                    <thead>
+                        <tr class="form-group">
+                            <th class="nosort col-sm-2">From</th>
+                            <th class="nosort col-sm-2">To</th>
+                            <th class="nosort col-sm-2">Tax On TotalIncome(13)</th>
+                            <th class="nosort col-sm-2">Rebate UnderSection87A(14)</th>
+                            <th class="nosort col-sm-2">Surcharge(15)</th>
+                            <th class="nosort col-sm-2">Education(16)</th>
+                            <th class="nosort col-sm-2">Add</th>
+                        </tr>
+                    </thead>
+                    <tr class="form-group" id="AddForm16TexableIncomeQty">
+                        <td id="row">
+                            <input type="text" class="form-control  col-sm-2 IncomeFrom" name="lstForm16TexableIncomeQty[0].IncomeFrom" placeholder="From" tabindex="14" autocomplete="off" />
+                            <input name="FormSixteenTexableID" class="hdnFormSixteenTexableID" type="hidden" value="" />
+                        </td>
+                        <td>
+                            <input type="text" class="form-control  col-sm-2 IncomeTo" name="lstForm16TexableIncomeQty[0].IncomeTo" placeholder="To" tabindex="15" autocomplete="off" />
+                        </td>
+                        <td class="clsDesign">
+                            <input type="text" class="form-control  col-sm-2 TaxOnTotalIncome" name="lstForm16TexableIncomeQty[0].TaxOnTotalIncome" placeholder="Tax On TotalIncome" tabindex="16" autocomplete="off" />
+                            <input type="text" class="form-control  col-sm-2 TaxOnTotalIncome_one" name="lstForm16TexableIncomeQty[0].TaxOnTotalIncome_one" placeholder="Percentage" tabindex="17" autocomplete="off" />
+                        </td>
+                        <td>
+                            <input type="text" class="form-control  col-sm-2 RebateUnderSection87A_Income" name="lstForm16TexableIncomeQty[0].RebateUnderSection87A_Income" placeholder="Rebate UnderSection87A" tabindex="18" autocomplete="off" />
+                        </td>
+                        <td>
+                            <input type="text" class="form-control  col-sm-2 Surcharge" name="lstForm16TexableIncomeQty[0].Surcharge" placeholder="Surcharge" tabindex="19" autocomplete="off" />
+                        </td>
+                        <td>
+                            <input type="text" class="form-control  col-sm-2 Education" name="lstForm16TexableIncomeQty[0].Education" placeholder="Education" tabindex="20" autocomplete="off" />
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-default addButton"><i class="fa fa-plus" tabindex="21"></i></button>
+                        </td>
+                    </tr>
+                    <tr class="form-group hide" id="AddMoreForm16Texable">
+                        <td id="row" class="">
+                            <input type="text" class="form-control  col-sm-2 IncomeFrom" name="lstForm16TexableIncomeQty[1].IncomeFrom" placeholder="From" />
+                            <input name="ProductQtyIDnew" class="hdnProductQtyID" type="hidden" value="" />
+                        </td>
+                        <td>
+                            <input type="text" class="form-control  col-sm-2 IncomeTo" name="IncomeTo" placeholder="To" />
+                        </td>
+                        <td class="clsDesign">
+                            <input type="text" class="form-control  col-sm-2 TaxOnTotalIncome" name="TaxOnTotalIncome" placeholder="Tax On TotalIncome" />
+                            <input type="text" class="form-control  col-sm-2 TaxOnTotalIncome_one" name="TaxOnTotalIncome_one" placeholder="Tax On TotalIncome One" />
+                        </td>
+                        <td>
+                            <input type="text" class="form-control  col-sm-2 RebateUnderSection87A_Income" name="RebateUnderSection87A_Income" placeholder="Rebate UnderSection87A" />
+                        </td>
+                        <td>
+                            <input type="text" class="form-control  col-sm-2 Surcharge" name="Surcharge" placeholder="Surcharge" />
+                        </td>
+                        <td>
+                            <input type="text" class="form-control  col-sm-2 Education" name="Education" placeholder="Education" />
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-default removeButton"><i class="fa fa-minus"></i></button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <div class="box-footer ">
+            <div class="pull-right">
+                <button type="button" id="btncancel" class="btn btn-default" tabindex="22">Cancel</button>
+                @*@if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.APurchaseType.ToString()))
+                    {*@
+                <button type="button" id="btnsave" class="btn btn-info" tabindex="23">Save</button>
+                @*}*@
+            </div>
+        </div>
+    </form>
+    <div id="lstcase">
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script>
+    function onlyNumberKey(evt) {
+        var ASCIICode = (evt.which) ? evt.which : evt.keyCode
+        if (ASCIICode > 31 && (ASCIICode < 48 || ASCIICode > 57))
+            return false;
+        return true;
+    }
+
+    var DeleteItem = '';
+    $(document).ready(function () {
+        loadhtml();
+
+        debugger;
+        var IncomeFromValidators = {
+            row: '.col-xs-2',   // The title is placed inside a <div class="col-xs-4"> element
+            validators: {
+                notEmpty: {
+                    message: 'The From is required'
+                }
+            }
+        },
+        ToValidators = {
+            row: '.col-xs-2',
+            validators: {
+                notEmpty: {
+                    message: 'The Upper Qty is required'
+                },
+                To: {
+                    message: 'The Upper Qty is not valid'
+                }
+            }
+        },
+        TaxOnTotalIncomeValidators = {
+            row: '.col-xs-2',
+            validators: {
+                notEmpty: {
+                    message: 'The Tax On TotalIncome is required'
+                },
+                TaxOnTotalIncome: {
+                    message: 'The Tax On TotalIncome is not valid'
+                }
+            }
+        },
+        TaxOnTotalIncome_oneValidators = {
+            row: '.col-xs-2',
+            validators: {
+                notEmpty: {
+                    message: 'The Tax On TaxOnTotalIncome one is required'
+                },
+                TaxOnTotalIncome: {
+                    message: 'The Tax On TotalIncome one is not valid'
+                }
+            }
+        },
+        RebateUnderSection87AValidators = {
+            row: '.col-xs-2',
+            validators: {
+                notEmpty: {
+                    message: 'The Rebate UnderSection87A is required'
+                },
+                RebateUnderSection87A: {
+                    message: 'The Rebate UnderSection87A is not valid'
+                }
+            }
+        },
+         SurchargeValidators = {
+             row: '.col-xs-2',
+             validators: {
+                 notEmpty: {
+                     message: 'The Surcharge is required'
+                 },
+                 Surcharge: {
+                     message: 'The Surcharge is not valid'
+                 }
+             }
+         },
+          EducationValidators = {
+              row: '.col-xs-2',
+              validators: {
+                  notEmpty: {
+                      message: 'The Education is required'
+                  },
+                  Education: {
+                      message: 'The Education is not valid'
+                  }
+              }
+          },
+        bookIndex = 0;
+        $('#Form16TexableIncomeList')
+
+            // Add button click handler
+            .on('click', '.addButton', function () {
+                //debugger;
+                bookIndex++;
+                var $template = $('#AddMoreForm16Texable'),
+                    $clone = $template
+                                    .clone()
+                                    .removeClass('hide')
+                                    .removeAttr('id')
+                                    .attr('data-book-index', bookIndex)
+                                    .insertBefore($template);
+
+                // Update the name attributes
+                $clone
+                     .find('[name="IncomeFrom"]').attr('name', 'lstForm16TexableIncomeQty[' + bookIndex + '].IncomeFrom').end()
+                     .find('[name="IncomeTo"]').attr('name', 'lstForm16TexableIncomeQty[' + bookIndex + '].IncomeTo').end()
+                     .find('[name="TaxOnTotalIncome"]').attr('name', 'lstForm16TexableIncomeQty[' + bookIndex + '].TaxOnTotalIncome').end()
+                     .find('[name="TaxOnTotalIncome_one"]').attr('name', 'lstForm16TexableIncomeQty[' + bookIndex + '].TaxOnTotalIncome_one').end()
+                     .find('[name="RebateUnderSection87A_Income"]').attr('name', 'lstForm16TexableIncomeQty[' + bookIndex + '].RebateUnderSection87A').end()
+                     .find('[name="Surcharge"]').attr('name', 'lstForm16TexableIncomeQty[' + bookIndex + '].Surcharge').end()
+                     .find('[name="Education"]').attr('name', 'lstForm16TexableIncomeQty[' + bookIndex + '].Education').end();
+            })
+
+            // Remove button click handler
+
+            .on('click', '.removeButton', function () {
+                debugger;
+                if ($(this).closest('tr').find("input[type=hidden]")[0].value != '') {
+                    if (DeleteItem == "") {
+                        DeleteItem = $(this).closest('tr').find("input[type=hidden]")[0].value;
+                    }
+                    else {
+                        DeleteItem = DeleteItem + ',' + $(this).closest('tr').find("input[type=hidden]")[0].value;
+                    }
+                }
+
+                var $row = $(this).parents('.form-group'),
+                    index = $row.attr('data-book-index');
+                $row.remove();
+            });
+    });
+
+
+    function loadhtml() {
+        $.ajax({
+            url: '@Url.Action("FormSixteenDetailList")',
+            type: 'GET',
+            cache: false,
+        }).done(function (result) {
+            $('#lstcase').html(result);
+        });
+    }
+
+    $("#btnsave").click(function () {
+        if (!($('#frmFormSixteenDetail').parsley().validate())) {
+            return;
+        }
+
+        var lstForm16TexableIncomeQty = [];
+
+        $('#Form16TexableIncomeQty').children('tbody').children('tr:visible').each(function (index, row) {
+            if ($(row).find('td').length == 0) {
+                return;
+            }
+            debugger;
+            var dataTexableIncomeQty = new Object();
+            dataTexableIncomeQty.IncomeFrom = $(row).find("input")[0].value;
+            dataTexableIncomeQty.IncomeTo = $(row).find("input")[2].value;
+            dataTexableIncomeQty.TaxOnTotalIncome = $(row).find("input")[3].value;
+            dataTexableIncomeQty.TaxOnTotalIncome_one = $(row).find("input")[4].value;
+            dataTexableIncomeQty.RebateUnderSection87A_Income = $(row).find("input")[5].value;
+            dataTexableIncomeQty.Surcharge = $(row).find("input")[6].value;
+            dataTexableIncomeQty.Education = $(row).find("input")[7].value;
+            dataTexableIncomeQty.FormSixteenTexableID = $(row).find("input[type=hidden]")[0].value;
+
+            lstForm16TexableIncomeQty.push(dataTexableIncomeQty);
+
+        });
+
+        debugger;
+        var datareq = new Object();
+        datareq.DeleteItems = DeleteItem;
+        datareq.FormSixteenDetailID = $("#FormSixteenDetailID").val();
+        datareq.StandardDeduction = $("#StandardDeduction").val();
+        datareq.UnderSection80C = $("#UnderSection80C").val();
+        datareq.HealthInsurancePremiaUnderSection80D = $("#HealthInsurancePremiaUnderSection80D").val();
+        datareq.InterestOn80E = $("#InterestOn80E").val();
+        datareq.UnderSection80TTA = $("#UnderSection80TTA").val();
+        datareq.RebateUnderSection87A = $("#RebateUnderSection87A").val();
+        datareq.PensionUnderSection80CCD_1 = $("#PensionUnderSection80CCD_1").val();
+        datareq.CreatedBy = $("#CreatedBy").val();
+        datareq.CreatedOn = $("#CreatedOn").val();
+        datareq.lstForm16TexableIncomeQty = lstForm16TexableIncomeQty;
+
+        $.ajax({
+            url: '@Url.Action("AddFormSixteenDetail")',
+            type: 'POST',
+            data: { 'data': datareq },
+            cache: false,
+        }).done(function (result) {
+            debugger;
+            if (result >= 0) {
+                if ($("#FormSixteenDetailID").val() == "") {
+                    $('div#sucessalert').html("Add successfully.");
+                    window.location = "/attendance/Admin/FormSixteenDetail";
+                }
+                else {
+                    $('div#sucessalert').html("Updated successfully.");
+                    window.location = "/attendance/Admin/FormSixteenDetail";
+                }
+                showhidealert();
+                loadhtml();
+
+                clearform();
+            }
+        });
+    });
+
+    $("#btncancel").click(function () {
+        clearform();
+    });
+
+    function clearform() {
+        $("#frmFormSixteenDetail").find("input").val("");
+        $("#frmFormSixteenDetail").find("textarea").val("");
+    }
+</script>

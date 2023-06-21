@@ -1,0 +1,133 @@
+﻿@model vb.Data.GuiLanguageViewModel
+
+@{
+    ViewBag.Title = "ManageLanguage";
+    Layout = "~/Areas/retail/Views/Shared/_retaillayout.cshtml";
+}
+
+
+
+
+<div class="box box-default">
+    <div class="box-header with-border text-center">
+        <h3 class="box-title">Add Language</h3>
+    </div>
+    <form id="frmLanguage" class="form-horizontal">
+        <div class="box-body">
+            @*<div class="col-md-1">*@
+                <input type="hidden" id="hdnGuiID" />
+                <input type="hidden" id="hdnCreatedBy" />
+                <input type="hidden" id="hdnCreatedOn" />
+            @*</div>*@
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="ProductName" class="col-sm-4 control-label">Language Name</label>
+                    <div class="col-sm-8"> 
+                        <input type="text" class="form-control" name="LanguageName" id="LanguageName" placeholder="Language Name" tabindex="1">
+                    </div>
+                </div> 
+            </div> 
+        </div>
+
+        <div class="box-footer ">
+            <div class="pull-right">
+                <button type="button" id="CancelLanguage" class="btn btn-default" tabindex="17">Cancel</button>
+                <button type="button" id="btnsavelanguage" class="btn btn-info" tabindex="16">Save</button>
+            </div>
+        </div>
+    </form>
+
+    <div id="lstcase">
+    </div>
+
+</div>
+
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script>
+
+    $(document).ready(function () {
+
+        $(document).ready(function () {
+            loadhtml();
+
+        });
+        function loadhtml() {
+            $.ajax({
+                url: '@Url.Action("GetAllLanguageList")',
+                type: 'GET',
+                cache: false,
+            }).done(function (result) {
+                $('#lstcase').html(result);
+            });
+        }
+
+    
+        $("#CancelLanguage").click(function () {
+            clearform();
+        });
+
+
+
+        $("#btnsavelanguage").click(function () {
+            var dataObj = new Object();
+            dataObj.GuiID = $("#hdnGuiID").val();
+            dataObj.CreatedBy = $("#hdnCreatedBy").val();
+            dataObj.CreatedOn = $("#hdnCreatedOn").val();
+            dataObj.LanguageName = $("#LanguageName").val(); 
+
+            debugger;
+            $.ajax({
+                url: '@Url.Action("AddLanguage")',
+                type: 'POST',
+                data: { 'data': dataObj },
+                cache: false,
+            }).done(function (result) {
+                if (result == true) {
+
+                    if ($("#ProductID").val() == "") {
+                        $('div#sucessalert').html("Product Add successfully.");
+                    }
+                    else {
+                        $('div#sucessalert').html("Product updated successfully.");
+                    } 
+                    loadhtml();
+                    clearform();
+                }
+                else {
+                    alert(dataObj.LanguageName + " Language is already exist.");
+                }
+            });
+        });
+    });
+
+    function clearform() {
+
+          $("#hdnGuiID").val("0");
+          $("#hdnCreatedBy").val("");
+          $("#hdnCreatedOn").val("");
+          $("#LanguageName").val("");
+    }
+    function editLanguages(GuiID) {
+        debugger;
+        $.ajax({
+            url: '@Url.Action("EditLanguage")',
+            type: 'POST',
+            data: { 'GuiID': GuiID },
+            cache: false,
+        }).done(function (result) {
+            $("#hdnGuiID").val(result.GuiID);
+            $("#hdnCreatedBy").val(result.CreatedBy);
+            $("#LanguageName").val(result.LanguageName);
+            if( result.CreatedOn != "" && result.CreatedOn != undefined){
+
+                var date = new Date(parseInt(result.CreatedOn.substr(6)));
+                $("#hdnCreatedOn").val(date.toISOString());
+            }
+
+            $("html, body").animate({ scrollTop: 0 }, "slow");
+        });
+
+    }
+
+</script>

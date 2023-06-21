@@ -1,0 +1,26 @@
+
+Log Entry : 14:14:18 10 January 2022
+  :Print Tempo Sheet Method
+==================================================================
+
+Log Entry : 14:19:25 10 January 2022
+  :Print Tempo Sheet Method
+==================================================================
+
+Log Entry : 14:20:07 10 January 2022
+  :email not null
+==================================================================
+strat send email
+email sent succ
+
+Log Entry : 4:02:41 PM Wednesday, May 11, 2022
+  :Print Tempo Sheet Method
+==================================================================
+
+Log Entry : 4:03:41 PM Wednesday, May 11, 2022
+  :Print Tempo Sheet Method
+==================================================================
+
+Log Entry : 4:17:08 PM Wednesday, May 11, 2022
+  :Print Tempo Sheet Method
+==================================================================

@@ -1,0 +1,219 @@
+﻿@model List<vb.Data.RetPackSummary>
+@{
+    ViewBag.Title = "PackDetailList";
+    Layout = "~/Areas/wholesale/Views/Shared/_wholesalelayout.cshtml";
+}
+
+<div class="box">
+    <div class="box-header text-center">
+        <h3 class="box-title">Pack Detail List</h3>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body">
+        <table id="ListDataTablewithourpaging" class="table table-bordered table-striped lst1">
+            <thead>
+                <tr>
+                    <th class="nosort">Bag</th>
+                    <th class="nosort">Product</th>
+                    <th class="nosort">Total KG</th>
+                    <th class="nosort">Edit</th>
+                    <th class="nosort">Delete</th>
+                    <th class="nosort">Print</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    if (item.IsDelete == false)
+                    {
+                        <tr>
+                            <td id="row">
+                                <input type="hidden" class="hdnPackSummaryID" value="@item.PackSummaryID" />
+                                <input type="hidden" class="hdnCustomerName" value="@item.CustomerName" />
+                                <input type="hidden" class="hdnAreaName" value="@item.AreaName" />
+                                <input type="hidden" class="hdnPONumber" value="@item.PONumber" />
+                                <input type="hidden" class="hdnProductName" value="@item.ProductName" />
+                                <input type="hidden" class="hdnBag" value="@item.Bag" />
+                                <input type="hidden" class="hdnTotalKG" value="@item.TotalKG" />
+                                <input type="hidden" class="hdnOrderDate" value="@item.OrderDate" />
+                                <input type="hidden" class="hdnTag" value="@item.Tag" />
+                                @*<input type="hidden" class="hdnOrderID" value="@item.OrderID" />*@
+                                @item.Bag @item.Tag
+                            </td>
+                            <td>
+                                @item.ProductName
+                            </td>
+                            <td>
+                                @item.TotalKG
+                            </td>
+
+                            <td>
+                                <a style="cursor:pointer;" class="btnedit" data-packsummaryid="@item.PackSummaryID">Edit</a>
+                            </td>
+
+                            <td>
+                                <a style="cursor:pointer;" class="btndeletebag" data-packsummaryid="@item.PackSummaryID">Delete</a>
+                            </td>
+
+                            <td>
+                                <a style="cursor:pointer;" class="btnprintlabel" data-customername="@item.CustomerName" data-areaname="@item.AreaName" data-ponumber="@item.PONumber" data-productname="@item.ProductName" data-bag="@item.Bag" data-totalkg="@item.TotalKG" data-orderdate="@item.OrderDate" data-tag="@item.Tag">Print</a>
+                            </td>
+                        </tr>
+                    }
+                    else
+                    {
+                        <tr style="background-color:#f2dede;">
+                            <td id="row">
+                                <input type="hidden" class="hdnPackSummaryID" value="@item.PackSummaryID" />
+                                <input type="hidden" class="hdnCustomerName" value="@item.CustomerName" />
+                                <input type="hidden" class="hdnAreaName" value="@item.AreaName" />
+                                <input type="hidden" class="hdnPONumber" value="@item.PONumber" />
+                                <input type="hidden" class="hdnProductName" value="@item.ProductName" />
+                                <input type="hidden" class="hdnBag" value="@item.Bag" />
+                                <input type="hidden" class="hdnTotalKG" value="@item.TotalKG" />
+                                <input type="hidden" class="hdnOrderDate" value="@item.OrderDate" />
+                                <input type="hidden" class="hdnTag" value="@item.Tag" />
+                                @*<input type="hidden" class="hdnOrderID" value="@item.OrderID" />*@
+                                @item.Bag @item.Tag
+                            </td>
+                            <td>
+                                @item.ProductName
+                            </td>
+                            <td>
+                                @item.TotalKG
+                            </td>
+
+                            <td>
+                                <a style="cursor:pointer;" class="btnedit" data-packsummaryid="@item.PackSummaryID">Edit</a>
+                            </td>
+
+                            <td>
+                                <a style="cursor:pointer;" class="btndeletebag" data-packsummaryid="@item.PackSummaryID">Delete</a>
+                            </td>
+                            <td>
+                                <a style="cursor:pointer;" class="btnprintlabel" data-customername="@item.CustomerName" data-areaname="@item.AreaName" data-ponumber="@item.PONumber" data-productname="@item.ProductName" data-bag="@item.Bag" data-totalkg="@item.TotalKG" data-orderdate="@item.OrderDate" data-tag="@item.Tag">Print</a>
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+
+        <div class="box-footer ">
+            <div style="text-align:center">
+                <button type="button" class="btn btn-info" id="btnPrintSummary">Print Summary</button>
+                @*<button type="button" id="btnTotalBag" class="btn btn-info" tabindex="6">Print Total Bag</button>*@
+            </div>
+        </div>
+    </div>
+
+    <div id="responsive" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" style="padding-bottom: 0px;">
+                    <h4 class="modal-title">Pack Detail</h4>
+                </div>
+                <div class="modal-body">
+                    <div id="dvlstproduct"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /.box-body -->
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script>
+    $('#ListDataTablewithourpaging').on('click', '.btndeletebag', function () {
+        if (confirm('Are you sure you wish to Delete this bag?')) {
+            var PackSummaryID = $(this).attr('data-packsummaryid');
+            var IsDelete = true;
+            $.ajax({
+                url: '@Url.Action("DeleteBag")',
+                type: 'POST',
+                data: { 'PackSummaryID': PackSummaryID, 'IsDelete': IsDelete },
+                cache: false,
+            }).done(function (result) {
+                if (result == "true") {
+                    $('div#sucessalert').html("Bag Deleted successfully.");
+                    showhidealert();
+                }
+            });
+        }
+    });
+
+    $('.lst1').on('click', '.btnprintlabel', function () {
+        debugger;
+        var CustomerName = $(this).attr("data-customername");
+        var AreaName = $(this).attr("data-areaname");
+        var PONumber = $(this).attr("data-ponumber");
+        var Bag = $(this).attr("data-bag");
+        var ProductName = $(this).attr("data-productname");
+        var TotalKG = $(this).attr("data-totalkg");
+        var OrderDate = $(this).attr("data-orderdate");
+        var Tag = $(this).attr("data-tag");
+        $.ajax({
+            url: '@Url.Action("PrintContentLabelE")',
+            type: 'POST',
+            data: { 'CustomerName': CustomerName, 'AreaName': AreaName, 'PONumber': PONumber, 'Bag': Bag, 'ProductName': ProductName, 'TotalKG': TotalKG, 'OrderDate': OrderDate, 'Tag': Tag },
+            cache: false,
+        }).done(function (result) {
+            if (result != '') {
+                window.open(result, "newPage");
+                //location.reload();
+            }
+        });
+    });
+
+    $('.lst1').on('click', '.btnedit', function () {
+        debugger;
+        var packsummaryid = $(this).attr("data-packsummaryid");
+        if (packsummaryid != '') {
+            debugger;
+            $.ajax({
+                url: '@Url.Action("PopupProduct")',
+                type: 'GET',
+                data: { 'packsummaryid': packsummaryid },
+                cache: false,
+            }).done(function (result) {
+                $('#dvlstproduct').html(result);
+
+            });
+        }
+        else {
+            alert("please enter customer name");
+        }
+
+        $("#responsive").modal("show");
+        //$("#responsive").removeClass("modal fade").addClass("modal fade modal-overflow in");
+        //$("#responsive").css("display", "block");
+    });
+
+    $(".btncloselabelpopup").click(function () {
+        debugger;
+        $('#responsive').removeClass("modal fade modal-overflow in");
+        $('#responsive').removeAttr('style');
+        $('#responsive').addClass("modal fade");
+    });
+
+    $("#btnPrintSummary").click(function () {
+        debugger;
+
+        var ID = window.location.search.split('=')[1];
+        var OrderID = window.location.search.split('=')[2];
+
+        debugger;
+        $.ajax({
+            url: '@Url.Action("PrintSummary", "Order")',
+            type: 'POST',
+            data: { 'OrderID': OrderID },
+            cache: false,
+        }).done(function (result) {
+            if (result != '') {
+                window.open(result, "newPage");
+            }
+        });
+    });
+
+
+</script>

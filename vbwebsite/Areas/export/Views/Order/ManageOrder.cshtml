@@ -1,0 +1,933 @@
+﻿@model vb.Data.ExportOrderViewModel
+
+@{
+    ViewBag.Title = "ManageOrder";
+    Layout = "~/Areas/export/Views/Shared/_exportlayout.cshtml";
+}
+
+<style>
+    .dropset ul {
+        z-index: 1030 !important;
+        height: 200px !important;
+        overflow-x: hidden !important;
+        overflow-y: auto !important;
+    }
+</style>
+
+
+<style>
+    .table_wrapper {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+
+    .td_fixedwidth {
+        width: 100px;
+    }
+
+    .td_fixedwidthdropdown {
+        width: 300px;
+    }
+
+    .td_fixedwidthlabel {
+        width: 50px;
+    }
+
+    .td_fixedwidthlabel2 {
+        width: 100px;
+    }
+</style>
+
+
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+
+<div class="box box-default">
+    <div class="box-header with-border text-center">
+        <h3 class="box-title">Manage Orders</h3>
+    </div>
+    <form id="frmOrder" method="post" class="form-horizontal">
+        <div class="box-body">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <input name="OrderID" id="OrderID" type="hidden" value="@Model.OrderID" />
+                    <input name="InvoiceNumber" id="InvoiceNumber" type="hidden" value="@Model.InvoiceNumber" />
+                    <input name="CustomerID" id="CustomerID" type="hidden" value="@Model.CustomerID" />
+                    <input name="CountryID" id="CountryID" type="hidden" value="@Model.CountryID" />
+                    <input type="hidden" id="CreatedBy" class="CreatedBy" value="@Model.CreatedBy" />
+                    <input type="hidden" id="CreatedOn" class="CreatedOn" value="@Model.CreatedOn" />
+                    @*<input name="CustomerID" id="CustomerID" type="hidden" />
+                        <input name="CountryID" id="CountryID" type="hidden" />*@
+                    <label for="CustomerName" class="col-sm-4 control-label">Customer</label>
+                    <div class="col-sm-8 dropset">
+                        <input type="text" id="txtCustomerName" class="form-control" tabindex="4" maxlength="100" placeholder="Customer Name" value="@Model.CustomerName" required />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="CountryOfFinalDestination" class="col-sm-4 control-label">Country Of Final Dest.</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="CountryOfFinalDestination" id="CountryOfFinalDestination" autocomplete="off" placeholder="Country Of Final Destination" value="@Model.CountryOfFinalDestination">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="VesselName" class="col-sm-4 control-label">Vessel Name</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="VesselName" id="VesselName" placeholder="Vessel Name & VOY No." autocomplete="off" tabindex="4" value="@Model.VesselName">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="FinalDestination" class="col-sm-4 control-label">Final Destination</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="Final Destination" id="FinalDestination" placeholder="Final Destination" autocomplete="off" tabindex="4" value="@Model.FinalDestination">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="BuyersOrderNo" class="col-sm-4 control-label">Buyer's Order No.</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="BuyersOrderNo" id="BuyersOrderNo" placeholder="Buyer's Order No" autocomplete="off" value="@Model.BuyersOrderNo">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="OrderDate" class="col-sm-4 control-label">Order Date </label>
+                    <div class="col-sm-8">
+                        <div class="input-group date">
+                            <div class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
+                            </div>
+                            <input type="text" class="form-control pull-right datepicker" id="OrderDate" tabindex="2" autocomplete="off" value="@Model.OrderDate">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="PreCarriageBy" class="col-sm-4 control-label">Pre-Carriage By</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="PreCarriageBy" id="PreCarriageBy" placeholder="Pre Carriage By" autocomplete="off" value="@Model.PreCarriageBy">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="PortofLoading" class="col-sm-4 control-label">Port of Loading</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="PortofLoading" id="PortofLoading" placeholder="Port of Loading" autocomplete="off" value="@Model.PortofLoading">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="Delivery" class="col-sm-4 control-label">Delivery</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="Delivery" id="Delivery" placeholder="Delivery" autocomplete="off" value="@Model.Delivery">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="CountryOfOrigin" class="col-sm-4 control-label">Country Of Origin </label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="CountryOfOrigin" id="CountryOfOrigin" placeholder="Country Of Origin" autocomplete="off" value="@Model.CountryOfOrigin">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="PlaceOfReceiptByPreCarrier" class="col-sm-4 control-label">Pre-Carrier</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="PlaceOfReceiptByPreCarrier" id="PlaceOfReceiptByPreCarrier" autocomplete="off" placeholder="Place Of Receipt By Pre-Carrier" value="@Model.PlaceOfReceiptByPreCarrier">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="PortofDischarge" class="col-sm-4 control-label">Port of Discharge</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="PortofDischarge" id="PortofDischarge" placeholder="Port of Discharge" autocomplete="off" tabindex="4" value="@Model.PortofDischarge">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="Payment" class="col-sm-4 control-label">Payment</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="Payment" id="Payment" placeholder="Payment" autocomplete="off" value="@Model.Payment">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div id="OrderList" class="form-horizontal tblresponsive table_wrapper">
+                    <table class="table table-bordered table-bordered" id="OrderQty">
+                        <thead>
+                            <tr class="form-group">
+                                <th class="nosort">Sr. No.</th>
+                                <th class="nosort">Item Name</th>
+                                <th class="nosort">Packate In Each Carton</th>
+                                <th class="nosort">HSN Number</th>
+                                <th class="nosort">Carton No</th>
+                                <th class="nosort">Carton</th>
+                                <th class="nosort">Quantity</th>
+                                <th class="nosort">Rate</th>
+                                <th class="nosort">Total Amount</th>
+                                @*<th class="nosort col-sm-1">Tax(%)</th>
+                                    <th class="nosort col-sm-1">Tax Amount</th>
+                                    <th class="nosort col-sm-1">MRP</th>*@
+                                <th class="nosort">Add</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{int cnt = 0;}
+                            @if (@Model.lstOrderQty.Count <= 10)
+                            {
+                                cnt = 10;
+                            }
+                            else
+                            { cnt = @Model.lstOrderQty.Count; }
+                            @for (int i = 0; i < cnt; i++)
+                            {
+                                <tr class="form-group" id="trclear">
+                                    <td id="row">
+                                        @(i + 1)
+                                    </td>
+                                    <td>
+                                        @Html.DropDownList("ProductQtyID" + i.ToString(), new SelectList(ViewBag.Product, "ProductQtyID", "ProductName", @Model.lstOrderQty.Count > i ? @Model.lstOrderQty[i].ProductQtyID : 0), new { @class = "form-control td_fixedwidthdropdown select22 ProductID", tabindex = (3 * i) + 6, multiple = true })
+                                    </td>
+
+                                    <td>
+                                        <input type="text" class="form-control td_fixedwidthdropdown PackateInEachCarton" name="lstOrderQty[0].PackateInEachCarton" placeholder="Packate In Each Carton" value="@(Model.lstOrderQty.Count > i ? @Model.lstOrderQty[i].PackateInEachCarton.ToString() : "")" id="PackateInEachCarton" autocomplete="off">
+                                    </td>
+
+
+                                    <td>
+                                        <label for="srno" class="control-label td_fixedwidthlabel">@(Model.lstOrderQty.Count > i ? @Model.lstOrderQty[i].HSNNumber : "")</label>
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control td_fixedwidth CartonNo" name="lstOrderQty[0].CartonNo" placeholder="Carton No" value="@(Model.lstOrderQty.Count > i ? @Model.lstOrderQty[i].CartonNo.ToString() : "")" id="CartonNo" autocomplete="off">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control td_fixedwidth Carton" name="lstOrderQty[0].Carton" placeholder="Carton" value="@(Model.lstOrderQty.Count > i ? @Model.lstOrderQty[i].Carton.ToString() : "")" id="Carton" autocomplete="off">
+                                    </td>
+                                    <td>
+                                        <input type="hidden" name="categotytypeid" class="form-control" value="@(Model.lstOrderQty.Count > i ? @Model.lstOrderQty[i].CategoryTypeID.ToString() : "")">
+                                        <input type="hidden" name="product" class="form-control" value="@(Model.lstOrderQty.Count > i ? @Model.lstOrderQty[i].ProductID.ToString() : "")">
+                                        <input type="hidden" name="orderqtyID" class="form-control" value="@(Model.lstOrderQty.Count > i ? @Model.lstOrderQty[i].OrderQtyID.ToString() : "")">
+                                        <input type="text" class="form-control td_fixedwidth Quantity" name="lstOrderQty[0].Quantity" placeholder="Quantity" value="@(Model.lstOrderQty.Count > i ? @Model.lstOrderQty[i].Quantity.ToString() : "")" id="Quantity" autocomplete="off">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="@(i == cnt - 1 ? "form-control td_fixedwidth Rate addenter" : "form-control td_fixedwidth Rate")" placeholder="Rate" value="@(Model.lstOrderQty.Count > i ? @Model.lstOrderQty[i].Rate.ToString() : "")" id="Rate" autocomplete="off">
+                                    </td>
+                                    <td>
+                                        <label for="srno" class="control-label td_fixedwidthlabel">@(Model.lstOrderQty.Count > i ? @Model.lstOrderQty[i].TotalAmount.ToString() : "")</label>
+                                    </td>
+                                    <td>
+                                        <button type="button" class="btn btn-default removeButton tab-content" style="width: 35px;"><i class="fa fa-times-circle"></i></button>
+                                    </td>
+                                </tr>
+                            }
+                            <tr class="form-group hide" id="AddOrder">
+                                <td id="row"></td>
+                                <td>
+                                    @Html.DropDownList("ProductQtyID", new SelectList(ViewBag.Product, "ProductQtyID", "ProductName"), new { @class = "form-control td_fixedwidthdropdown select22 ProductID", tabindex = "25", multiple = true })
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control td_fixedwidthdropdown PackateInEachCarton" name="PackateInEachCarton" placeholder="Packate In EachCarton">
+                                </td>
+                                <td>
+                                    <label for="srno" class="control-label td_fixedwidthlabel"> </label>
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control td_fixedwidth CartonNo" name="CartonNo" placeholder="Carton No">
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control td_fixedwidth Carton" name="Carton" placeholder="Carton">
+                                </td>
+
+                                <td>
+                                    <input type="hidden" class="form-control" name="CategoryTypeID">
+                                    <input type="hidden" class="form-control" name="ProductID">
+                                    <input type="hidden" class="form-control" name="OrderQtyID">
+                                    <input type="text" class="form-control td_fixedwidth Quantity" name="Quantity" placeholder="Quantity">
+                                </td>
+
+                                <td>
+                                    <input type="text" class="form-control td_fixedwidth Rate addenter" name="Rate" placeholder="Rate">
+                                </td>
+                                <td>
+                                    <label for="srno" class="control-label td_fixedwidthlabel"> </label>
+                                </td>
+                                <td>
+                                    <button type="button" class="btn btn-default removeButton tab-content" style="width: 35px;"><i class="fa fa-times-circle"></i></button>
+                                </td>
+                            </tr>
+                            <tr class="form-group">
+                                <td id="row"></td>
+                                <td>
+                                    <label for="srno" class="control-label"> Total</label>
+                                </td>
+                                <td>
+                                    <label for="srno" class="control-label"> </label>
+                                </td>
+                                <td>
+                                    <label for="srno" class="control-label"> </label>
+                                </td>
+                                <td>
+                                    <label for="srno" class="control-label"> </label>
+                                </td>
+                                <td>
+                                    <label for="srno" class="control-label" id="TotalCarton">@Model.TotalPkgs</label>
+                                </td>
+                                <td>
+                                    <label for="srno" class="control-label" id="TotalQuantity"></label>
+                                </td>
+                                <td>
+                                    <label for="srno" class="control-label" id="TotalRate"></label>
+                                </td>
+                                <td>
+                                    <label for="srno" class="control-label" id="InvoiceTotalAmt"> @Model.InvoiceTotalAmt</label>
+                                </td>
+                                <td>
+                                    <label for="srno" class="control-label"> </label>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-md-12">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="TotalNetWeight" class="col-sm-6 control-label">Total Net Weight : </label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" name="TotalNetWeight" id="TotalNetWeight" autocomplete="off" placeholder="Total Net Weight" value="@Model.TotalNetWeight">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" name="Insurance" id="Insurance" autocomplete="off" placeholder="Insurance" value="@Model.InsuranceText">
+                            </div>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" name="InsuranceAmount" id="InsuranceAmount" autocomplete="off" placeholder="Insurance Amount" value="@Model.InsuranceAmount">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="TotalGrossWeight" class="col-sm-6 control-label">Total Gross Weight : </label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" name="TotalGrossWeight" id="TotalGrossWeight" autocomplete="off" placeholder="Total Gross Weight" value="@Model.TotalGrossWeight">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" name="Freight" id="Freight" autocomplete="off" placeholder="Freight" value="@Model.FreightText">
+                            </div>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" name="FreightAmount" id="FreightAmount" autocomplete="off" placeholder="Freight Amount" value="@Model.FreightAmount">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="TotalPkgs" class="col-sm-6 control-label">Total Pkgs : </label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" name="TotalPkgs" id="TotalPkgs" autocomplete="off" placeholder="Total Pkgs" value="@Model.TotalPkgs">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="OrderRef" class="col-sm-6 control-label">Final Grand Total : </label>
+                            <div class="col-sm-6">
+                                @*<input type="hidden" class="form-control" name="TextInvoiceTotalAmt" id="TextInvoiceTotalAmt">*@
+                                <input type="text" class="form-control" name="GrandInvoiceTotalAmt" id="GrandInvoiceTotalAmt" autocomplete="off" placeholder="Final Grand Total" value="@Model.GrandInvoiceTotalAmt">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="ContainerNo" class="col-sm-6 control-label">Container No. : </label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" name="ContainerNo" id="ContainerNo" autocomplete="off" placeholder="Container No" value="@Model.ContainerNo">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @*<label for="OrderRef" class="col-sm-6 control-label">Calculate : </label>*@
+                            <div class="col-sm-6 pull-right">
+                                <button type="button" id="btncalculate" class="btn btn-info" tabindex="10000">Calculate</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.box-body -->
+        <div class="box-footer ">
+            <div class="pull-right">
+                @*<button type="button" id="FinaliseOrder" class="btn btn-default" tabindex="10001">Finalise Order</button>*@
+                <button type="button" id="CancelOrder" class="btn btn-default" tabindex="10002">Cancel</button>
+                <button type="button" id="btnsavecase" class="btn btn-info" tabindex="10003">Place Order</button>
+            </div>
+            <div class="pull-left">
+                @*<button type="button" id="DeleteOrder" class="btn btn-info" tabindex="10004">Delete Order</button>*@
+            </div>
+        </div>
+        <!-- /.box-footer -->
+    </form>
+    <div id="lstcase">
+    </div>
+
+    <div id="deletepopup" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" style="padding-bottom: 0px;">
+                    <h4 class="modal-title">Confirmation</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row" style="margin-top:10px;">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <input name="OrderIDForDelete" id="OrderIDForDelete" class="hdnInvoiceNumberfordelete" type="hidden" value="" />
+
+                                <label class="col-sm-12 control-label">  Are you sure want to delete this Order????</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btnyesdeletepopup btn btn-info">Yes</button>
+                    <button type="button" class="btnnodeletepopup btn btn-info" data-dismiss="modal" aria-hidden="true">No</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+</div>
+
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script type="text/javascript">
+    var DeleteItem = '';
+    $(document).ready(function () {
+        $("#txtCustomerName").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("txtCustomerName_TextChanged")',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: { 'obj': request.term },
+                    success: function (data) {
+                        debugger;
+                        response($.map(data, function (item) {
+                            debugger;
+                            $('#ui-id-1').appendTo('.dropset');
+                            $("#loader").hide();
+                            return { label: item.CustomerName, value: item.CustomerName };
+                        }))
+                        $("#loader").hide();
+                    }
+                })
+            },
+            messages: {
+                noResults: "", results: ""
+            }
+        });
+
+        $(document).on('keyup focusin mousedown  keypress blur change', "#txtCustomerName", function () {
+            var set = $("#txtCustomerName").val();
+            debugger;
+            if (set != "") {
+                var check = set.split(',').length;
+                if (check >= 2) {
+                    $.ajax({
+                        type: 'Post',
+                        url: '@Url.Action("GetCustomerDetailForExportOrder")',
+                        data: { obj: set },
+                        success: function (result) {
+                            $('#CustomerID').val(result.CustomerID);
+                            $('#CountryID').val(result.CountryID);
+                            $('#PortofDischarge').val(result.CountryName);
+                            $('#FinalDestination').val(result.CountryName);
+                            $('#CountryOfOrigin').val(result.CountryOfOrigin);
+                        },
+                        error: function () { alert('Error'); }
+                    });
+                }
+            }
+        });
+
+        bookIndex = 10;
+        $('#OrderList').on('keydown', '.addenter', function (e) {
+            debugger;
+            if (e.keyCode == 13) {
+                bookIndex++;
+                var $template = $('#AddOrder'),
+                    $clone = $template
+                                    .clone()
+                                    .removeClass('hide')
+                                    .removeAttr('id')
+                                    .attr('data-book-index', bookIndex)
+                                    .insertBefore($template);
+                // Update the name attributes
+                $clone
+                    //.find('[name="ProductQtyID"]').attr('tabindex', (bookIndex * 2) + 5).attr('name', 'lstOrderQty[' + bookIndex + '].ProductQtyID').end()
+                //.find('[name="Quantity"]').attr('tabindex', (bookIndex * 2) + 6).attr('name', 'lstOrderQty[' + bookIndex + '].Quantity').end()
+                .find('[name="ProductQtyID"]').attr('tabindex', (bookIndex * 2) + 5).attr('name', 'lstOrderQty[' + bookIndex + '].ProductQtyID').end()
+                .find('[name="CartonNo"]').attr('name', 'lstOrderQty[' + bookIndex + '].CartonNo').end()
+                .find('[name="Carton"]').attr('name', 'lstOrderQty[' + bookIndex + '].Carton').end()
+                .find('[name="Quantity"]').attr('name', 'lstOrderQty[' + bookIndex + '].Quantity').end()
+                .find('[name="Rate"]').attr('name', 'lstOrderQty[' + bookIndex + '].Rate').end();
+                $clone.find('select').select2({ width: '100%' });
+                $tdvalue = $clone.find('td')[1];
+                $($tdvalue).find('span.select2.select2-container.select2-container--default')[1].remove();
+                $($clone).find(".select22").select2({
+                    maximumSelectionLength: 1
+                });
+                var i = 1;
+                $('#OrderQty').children('tbody').children('tr:visible').each(function (index, row) {
+                    if (index != ($('#OrderQty').children('tbody').children('tr:visible').length - 1)) {
+                        $(row).find("td")[0].innerText = i++;
+                    }
+                });
+
+                $(document).on('change', ".select22", function () {
+                    debugger;
+                    var end = this;
+                    if (this.value != '') {
+                        $.ajax({
+                            type: 'Post',
+                            url: '@Url.Action("GetExportProductDetails")',
+                            data: { ProductQtyID: this.value },
+                            success: function (result) {
+                                var newdata = end;
+                                $(newdata).closest('tr').find('td').each(function (index, td) {
+
+                                    if (index == 3) {
+                                        td.innerText = result.HSNNumber
+                                    }
+                                    if (index == 6) {
+                                        var textbox = $(newdata).closest('tr').find('input')[4];
+                                        textbox.value = result.CategoryTypeID;
+                                        var textbox = $(newdata).closest('tr').find('input')[5];
+                                        textbox.value = result.ProductID;
+                                    }
+                                });
+                                var tdN = $(end).closest('tr').find('td')[2];
+                                $(tdN).find('input').focus();
+                                return;
+                            },
+                            error: function () { alert('Error'); }
+                        });
+                    }
+                    else {
+                        var newdata = end;
+                        $(newdata).closest('tr').find('td').each(function (index, td) {
+                            if (index == 3) {
+                                td.innerText = "";
+                            }
+                            else if (index == 6) {
+                                $(newdata).closest('tr').find('.Quantity').attr('disabled', false);
+                                var textbox = $(newdata).closest('tr').find('input')[6];
+                                $('#btnsavecase').attr('disabled', false);
+                                textbox.value = "";
+                            }
+                        });
+                    }
+                });
+
+                $(".Rate").on('input propertychange paste keypress', function (e) {
+                    var end = this;
+                    debugger;
+                    if (this.value != '') {
+                        var Rate = this.value;
+                        var row = $(this).closest('tr');
+                        var Quantity = $(row).find('input')[7].value;
+                        var lastChar = Rate.slice(-1);
+                        if (lastChar != '.') {
+                            {
+                                if (Rate >= 0) {
+                                    debugger;
+                                    var TotalAmount = Quantity * Rate;
+                                    $(end).closest('tr').find('td').each(function (index, td) {
+                                        if (index == 8) {
+                                            if (TotalAmount != 0) {
+                                                td.innerText = parseFloat(TotalAmount).toFixed(2);
+                                                $('#btnsavecase').attr('disabled', false);
+                                            }
+                                            else {
+                                                td.innerText = 0;
+                                                $('#btnsavecase').attr('disabled', true);
+                                            }
+                                        }
+                                    });
+                                }
+                                //else {
+                                //    var textbox = $(this).closest('tr').find('input')[1];
+                                //    textbox.value = '';
+                                //}
+                            }
+                        }
+                    }
+                    else {
+                        $(end).closest('tr').find('td').each(function (index, td) {
+                            if (index == 8) {
+                                td.innerText = 0;
+                                $('#btnsavecase').attr('disabled', true);
+                            }
+                        });
+                    }
+                });
+            }
+        })
+
+            // Remove button click handler
+            .on('click', '.removeButton', function () {
+                debugger;
+                if ($(this).closest('tr').find('input')[6].value != '') {
+                    if (DeleteItem == "") {
+                        DeleteItem = $(this).closest('tr').find('input')[6].value;
+                    }
+                    else {
+                        DeleteItem = DeleteItem + ',' + $(this).closest('tr').find('input')[6].value;
+                    }
+                }
+                var $row = $(this).parents('.form-group'),
+                    index = $row.attr('data-book-index');
+                if ($(this).closest('tr').find('.Quantity').is('[disabled=disabled]') == true) {
+                    document.getElementById('btnsavecase').disabled = false;
+                }
+                $row.remove();
+                var i = 1;
+                $('#OrderQty').children('tbody').children('tr:visible').each(function (index, row) {
+                    if (index != ($('#OrderQty').children('tbody').children('tr:visible').length - 1)) {
+                        $(row).find("td")[0].innerText = i++;
+                    }
+                });
+            });
+
+        $(".ProductID").on('change keypress', function (e) {
+            debugger;
+            var end = this;
+            if (this.value != '') {
+                if (e.keyCode == 13) {
+                    var tdN = $(end).closest('tr').find('td')[3];
+                    $(tdN).find('input').focus();
+                    return;
+                }
+                $.ajax({
+                    type: 'Post',
+                    url: '@Url.Action("GetExportProductDetails")',
+                    data: { ProductQtyID: this.value },
+                    success: function (result) {
+                        var newdata = end;
+                        debugger;
+                        $(newdata).closest('tr').find('td').each(function (index, td) {
+                            if (index == 3) {
+                                td.innerText = result.HSNNumber
+                            }
+                            if (index == 6) {
+                                var textbox = $(newdata).closest('tr').find('input')[4];
+                                textbox.value = result.CategoryTypeID;
+                                var textbox = $(newdata).closest('tr').find('input')[5];
+                                textbox.value = result.ProductID;
+                            }
+                        });
+                        var tdN = $(end).closest('tr').find('td')[2];
+                        $(tdN).find('input').focus();
+                        return;
+                    },
+                    error: function () { alert('Error'); }
+                });
+            }
+            else {
+                var newdata = end;
+                $(newdata).closest('tr').find('td').each(function (index, td) {
+                    if (index == 3) {
+                        td.innerText = "";
+                    }
+                    else if (index == 6) {
+                        $(newdata).closest('tr').find('.Quantity').attr('disabled', false);
+                        var textbox = $(newdata).closest('tr').find('input')[6];
+                        $('#btnsavecase').attr('disabled', false);
+                        textbox.value = "";
+                    }
+                });
+            }
+        });
+
+        $(".Rate").on('input propertychange paste keypress', function (e) {
+            var end = this;
+            debugger;
+            if (this.value != '') {
+                var Rate = this.value;
+                var row = $(this).closest('tr');
+                var Quantity = $(row).find('input')[7].value;
+                var lastChar = Rate.slice(-1);
+                if (lastChar != '.') {
+                    {
+                        if (Rate >= 0) {
+                            debugger;
+                            var TotalAmount = Quantity * Rate;
+                            $(end).closest('tr').find('td').each(function (index, td) {
+                                if (index == 8) {
+                                    if (TotalAmount != 0) {
+                                        td.innerText = parseFloat(TotalAmount).toFixed(2);
+                                        $('#btnsavecase').attr('disabled', false);
+                                    }
+                                    else {
+                                        td.innerText = 0;
+                                        $('#btnsavecase').attr('disabled', true);
+                                    }
+                                }
+                            });
+                        }
+                        //else {
+                        //    var textbox = $(this).closest('tr').find('input')[1];
+                        //    textbox.value = '';
+                        //}
+                    }
+                }
+            }
+            else {
+                $(end).closest('tr').find('td').each(function (index, td) {
+                    if (index == 8) {
+                        td.innerText = 0;
+                        $('#btnsavecase').attr('disabled', true);
+                    }
+                });
+            }
+        });
+
+        $("#btncalculate").click(function () {
+            debugger;
+            FinalTotal();
+        });
+
+
+        function FinalTotal() {
+            debugger;
+            var TotalCarton = 0;
+            var TotalQuantity = 0;
+            var InvoiceTotalAmt = 0;
+            $('#OrderQty').find('tr:visible').not(':last').each(function (index, tr) {
+                $(tr).find('td').each(function (index, td) {
+                    if (index == 5) {
+                        var Carton = $(tr).find('input')[3].value;
+                        if (Carton != '') {
+                            TotalCarton = TotalCarton + parseFloat(Carton);
+                            $('#TotalCarton').text(parseFloat(TotalCarton));
+                            $('#TotalPkgs').val(parseFloat(TotalCarton));
+                        }
+                    }
+                    else if (index == 6) {
+                        var Quantity = $(tr).find('input')[7].value;
+                        if (Quantity != '') {
+                            TotalQuantity = TotalQuantity + parseFloat(Quantity);
+                            $('#TotalQuantity').text(parseFloat(TotalQuantity));
+                        }
+                    }
+                    else if (index == 8) {
+                        if (td.innerText.trim() != '') {
+                            InvoiceTotalAmt = parseFloat(InvoiceTotalAmt) + parseFloat(td.innerText);
+                            $('#InvoiceTotalAmt').text(parseFloat(InvoiceTotalAmt).toFixed(2));
+                            //$('#TextInvoiceTotalAmt').val(parseFloat(InvoiceTotalAmt).toFixed(2));
+                            $('#GrandInvoiceTotalAmt').val((parseFloat(InvoiceTotalAmt) + parseFloat($('#InsuranceAmount').val()) + parseFloat($('#FreightAmount').val())).toFixed(2));
+                        }
+                    }
+                });
+            });
+        }
+    });
+
+    $("#btnsavecase").click(function () {
+        $("#loader").show();
+        var lstOrderQty = [];
+        debugger;
+        $('#OrderQty').children('tbody').children('tr:visible').each(function (index, row) {
+            if ($(row).find("select").val() != undefined && $(row).find("select").val() != '') {
+                var dataOrderQty = new Object();
+                dataOrderQty.PackateInEachCarton = $(row).find("input")[1].value;
+                dataOrderQty.CartonNo = $(row).find("input")[2].value;
+                dataOrderQty.Carton = $(row).find("input")[3].value;
+                dataOrderQty.CategoryTypeID = $(row).find("input")[4].value;
+                dataOrderQty.ProductID = $(row).find("input")[5].value;
+                dataOrderQty.ProductQtyID = $(row).find("select").val();
+                dataOrderQty.OrderQtyID = $(row).find("input")[6].value;
+                dataOrderQty.Quantity = $(row).find("input")[7].value;
+                dataOrderQty.Rate = $(row).find("input")[8].value;
+                dataOrderQty.TotalAmount = $(row).find('td')[8].innerText;
+                // dataOrderQty.ProductName = $(row).find("select option:selected").text();
+                lstOrderQty.push(dataOrderQty);
+            }
+        });
+        var datareq = new Object();
+        datareq.OrderID = $("#OrderID").val();
+        datareq.InvoiceNumber = $("#InvoiceNumber").val();
+        datareq.CustomerID = $("#CustomerID").val();
+        datareq.CountryID = $("#CountryID").val();
+        datareq.OrderDate = $("#OrderDate").val();
+        datareq.CountryOfOrigin = $("#CountryOfOrigin").val();
+        datareq.CountryOfFinalDestination = $("#CountryOfFinalDestination").val();
+        datareq.PreCarriageBy = $("#PreCarriageBy").val();
+        datareq.PlaceOfReceiptByPreCarrier = $("#PlaceOfReceiptByPreCarrier").val();
+        datareq.VesselName = $("#VesselName").val();
+        datareq.PortofLoading = $("#PortofLoading").val();
+        datareq.PortofDischarge = $("#PortofDischarge").val();
+        datareq.FinalDestination = $("#FinalDestination").val();
+        datareq.Delivery = $("#Delivery").val();
+        datareq.Payment = $("#Payment").val();
+        datareq.BuyersOrderNo = $("#BuyersOrderNo").val();
+        datareq.TotalNetWeight = $("#TotalNetWeight").val();
+        datareq.TotalGrossWeight = $("#TotalGrossWeight").val();
+        datareq.TotalPkgs = $("#TotalPkgs").val();
+        datareq.ContainerNo = $("#ContainerNo").val();
+        datareq.InsuranceText = $("#Insurance").val();
+        datareq.FreightText = $("#Freight").val();
+        //datareq.InvoiceTotalAmt = $("#TextInvoiceTotalAmt").val();
+        datareq.InsuranceAmount = $("#InsuranceAmount").val();
+        datareq.FreightAmount = $("#FreightAmount").val();
+        datareq.GrandInvoiceTotalAmt = $("#GrandInvoiceTotalAmt").val();
+        datareq.CreatedBy = $("#CreatedBy").val();
+        datareq.CreatedOn = $("#CreatedOn").val();
+        datareq.lstOrderQty = lstOrderQty;
+        datareq.DeleteItems = DeleteItem;
+        $.ajax({
+            url: '@Url.Action("AddExportOrder")',
+            type: 'POST',
+            data: { 'data': datareq },
+            cache: false,
+        }).done(function (result) {
+            DeleteItem = "";
+            if (result > 0) {
+                $("#loader").show();
+                if ($("#OrderID").val() == "") {
+                    $('div#sucessalert').html("Order Add successfully.");
+                }
+                else {
+                    $('div#sucessalert').html("Order updated successfully.");
+                }
+                showhidealert();
+                // loadhtml();
+                clearform();
+            }
+            else {
+                $('div#sucessalert').html("something is wrong.");
+            }
+        });
+    });
+
+    $("#CancelOrder").click(function () {
+        clearform();
+    });
+
+    @*$("#FinaliseOrder").click(function () {
+        $("#loader").show();
+        var lstOrderQty = [];
+        debugger;
+        $('#OrderQty').children('tbody').children('tr:visible').each(function (index, row) {
+            if ($(row).find("select").val() != undefined && $(row).find("select").val() != '') {
+                var dataOrderQty = new Object();
+                dataOrderQty.OrderQtyID = $(row).find("input")[4].value;
+                dataOrderQty.ProductQtyID = $(row).find("select").val();
+                dataOrderQty.CategoryTypeID = $(row).find("input")[1].value;
+                dataOrderQty.Quantity = $(row).find("input")[2].value;
+                dataOrderQty.ProductID = $(row).find("input")[3].value;
+                dataOrderQty.DiscountPer = $(row).find("input")[5].value;
+                dataOrderQty.ProductMRP = $(row).find("input")[6].value;
+                dataOrderQty.ArticleCode = $(row).find("input")[7].value;
+                dataOrderQty.ProductPrice = $(row).find('td')[4].innerText;
+                dataOrderQty.DiscountPrice = $(row).find('td')[5].innerText;
+                dataOrderQty.Tax = $(row).find('td')[6].innerText;
+                dataOrderQty.TaxAmount = $(row).find('td')[7].innerText;
+                dataOrderQty.TotalAmount = $(row).find('td')[8].innerText;
+                dataOrderQty.ProductName = $(row).find("select option:selected").text();
+                lstOrderQty.push(dataOrderQty);
+            }
+        });
+        var datareq = new Object();
+        datareq.IsFinalised = true;
+        datareq.InvoiceNumber = $("#UInvoiceNumber").val();
+        datareq.DeleteItems = DeleteItem;
+        datareq.OrderID = $("#UOrderID").val();
+        datareq.CustomerID = $("#CustomerID").val();
+        datareq.Tax = $("#Tax").val();
+        datareq.ShipTo = $("#ShipTo").val();
+        datareq.BillTo = $("#BillTo").val();
+        datareq.OrderDate = $("#OrderDate").val();
+        datareq.PODate = $("#PODate").val();
+        datareq.PONumber = $("#PONumber").val();
+        datareq.OrderNote = $("#OrderNote").val();
+        datareq.TotalDiscount = $("#TotalDiscount").val();
+        datareq.lstOrderQty = lstOrderQty;
+        $.ajax({
+            url: '@Url.Action("FinaliseOrder")',
+            type: 'POST',
+            data: { 'data': datareq },
+            cache: false,
+        }).done(function (result) {
+            DeleteItem = "";
+            if (result == "true") {
+                $("#loader").show();
+                if ($("#OrderID").val() == "") {
+                    $('div#sucessalert').html("Order Add successfully.");
+                }
+                else {
+                    $('div#sucessalert').html("Order updated successfully.");
+                }
+                showhidealert();
+                // loadhtml();
+                clearform();
+            }
+            else {
+                if (result == "finalised") {
+                    clearform();
+                }
+            }
+        });
+    });*@
+
+
+    function clearform() {
+        location.reload();
+    }
+
+    $("#DeleteOrder").click(function () {
+        debugger;
+        var id = $("#UOrderID").val();
+        $('#OrderIDForDelete').attr('value', id);
+        $("#deletepopup").removeClass("modal fade").addClass("modal fade modal-overflow in");
+        $("#deletepopup").css("display", "block");
+    });
+
+    $(".btnyesdeletepopup").click(function () {
+        debugger;
+        // var id = $(this).attr("data-oid");
+        var id = $("#OrderIDForDelete").val();
+        $.ajax({
+            url: '@Url.Action("DeleteOrder", "Order")',
+            type: 'POST',
+            data: { 'OrderID': id },
+            cache: false,
+        }).done(function (result) {
+            if (result == true) {
+                debugger;
+                $('div#sucessalert').html("Order Deleted successfully.");
+                //showhidealert();
+                window.location.href = '/retail/Order/ManageOrders/';
+            }
+        });
+        $('#deletepopup').removeClass("modal fade modal-overflow in");
+        $('#deletepopup').removeAttr('style');
+        $('#deletepopup').addClass("modal fade");
+    });
+
+    $(".btnnodeletepopup").click(function () {
+        debugger;
+        $('#deletepopup').removeClass("modal fade modal-overflow in");
+        $('#deletepopup').removeAttr('style');
+        $('#deletepopup').addClass("modal fade");
+    });
+
+</script>

@@ -1,0 +1,1254 @@
+﻿@model List<vb.Data.RetOrderPackList>
+
+@{
+    ViewBag.Title = "PrintPackList";
+    Layout = "~/Areas/retail/Views/Shared/_retaillayout.cshtml";
+}
+
+
+<div class="box">
+    <div class="box-header text-center">
+        <h3 class="box-title">Pack List</h3>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body">
+
+        <div class="modal-footer">
+            <label>Total : </label>
+            <label id="lbltotal" style="padding-right:20px;"></label>
+        </div>
+
+        <table id="ListDataTablewithourpaging" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th class="nosort">PouchSize</th>
+                    <th class="nosort">Category</th>
+                    <th class="nosort">Product</th>
+                    <th class="nosort">SKU</th>
+                    <th class="nosort">Qty Package</th>
+                    <th class="nosort">Is Done?</th>
+                    <th class="nosort">Qty Available</th>
+                    <th class="nosort">Qty to be packed</th>
+                    <th class="nosort">Total</th>
+                    <td class="nosort">Select <input type="checkbox" class="chkSelectAll" checked="checked" /></td>
+                    <th class="nosort">Ingredients</th>
+                    <th class="nosort">Section</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+
+                    if (item.IsPackDone == false)
+                    {
+                        <tr>
+                            <td>
+                                @item.PouchSize
+                            </td>
+                            <td>
+                                @item.CategoryName
+                            </td>
+                            <td>
+                                @item.ProductName
+                            </td>
+                            <td>
+                                @item.SKU
+                            </td>
+
+                            <td>
+                                @item.QuantityPackage
+                            </td>
+                            <td>
+                                <button class="btn btn-info IsPackDone" name="IsPackDone" data-productqtyid="@item.ProductQtyID">Done</button>
+                            </td>
+
+                            <td>@item.QtyAvailable</td>
+                            <td>@item.QtyPacked</td>
+                            <td>@(item.Total == 0 ? "" : item.Total + " KG")</td>
+                            <td>
+                                <input type="hidden" id="hdnProductQtyID" class="hdnProductQtyID" value="@item.ProductQtyID" />
+                                <input type="checkbox" class="chkSelect" checked="checked" />
+                                <input type="hidden" class="hdnProductID" value="@item.ProductID" />
+                                <input type="hidden" class="hdnTotal" value="@item.TotalSum" />
+                                <input type="hidden" class="hdnProductName" value="@item.ProductName" />
+                                <input type="hidden" class="hdnQuantityPackage" value="@item.QuantityPackage" />
+                                <input type="hidden" class="hdnSKU" value="@item.SKU" />
+                                <input type="hidden" class="hdnMRP" value="@item.MRP" />
+                                <input type="hidden" class="hdnProductBarcode" value="@item.ProductBarcode" />
+                                <input type="hidden" class="hdnNutritionValue" value="@item.NutritionValue" />
+                                <input type="hidden" class="hdnContentValue" value="@item.ContentValue" />
+                                <input type="hidden" class="hdnCategoryID" value="@item.CategoryID" />
+
+                                <input type="hidden" class="hdnPouchSize" value="@item.PouchSize" />
+                                
+                                <input type="hidden" class="hdnGramPerKG" value="@item.GramPerKG" />
+
+                                @*<input type="hidden" class="hdnCustomerName" value="@item.CustomerName" />*@
+                            </td>
+                            <td>
+                                @if (item.NutritionValue == "" && item.ContentValue == "")
+                                {
+
+                                    <input class="chkContent" type="checkbox" placeholder="Content" value="false" disabled="disabled" />
+                                }
+                                else
+                                {
+                                    <input class="chkContent" type="checkbox" placeholder="Content" checked="checked" disabled="disabled" />
+                                }
+                            </td>
+                            <td><input type="text" class="txtSection" value="@item.Section"></td>
+                        </tr>
+                    }
+                    else
+                    {
+                        <tr style="background-color: #cdffcd;">
+                            <td>
+                                @item.PouchSize
+                            </td>
+                            <td>
+                                @item.CategoryName
+                            </td>
+                            <td>
+                                @item.ProductName
+                            </td>
+                            <td>
+                                @item.SKU
+                            </td>
+
+                            <td>
+                                @item.QuantityPackage
+                            </td>
+
+                            <td>
+                                <button class="btn btn-info IsPackDone" name="IsPackDone" data-productqtyid="@item.ProductQtyID">Done</button>
+                            </td>
+
+                            <td>@item.QtyAvailable</td>
+                            <td>@item.QtyPacked</td>
+                            <td>@(item.Total == 0 ? "" : item.Total + " KG")</td>
+                            <td>
+                                <input type="hidden" id="hdnProductQtyID" class="hdnProductQtyID" value="@item.ProductQtyID" />
+                                <input type="checkbox" class="chkSelect" checked="checked" />
+                                <input type="hidden" class="hdnProductID" value="@item.ProductID" />
+                                <input type="hidden" class="hdnTotal" value="@item.TotalSum" />
+                                <input type="hidden" class="hdnProductName" value="@item.ProductName" />
+                                <input type="hidden" class="hdnQuantityPackage" value="@item.QuantityPackage" />
+                                <input type="hidden" class="hdnSKU" value="@item.SKU" />
+                                <input type="hidden" class="hdnMRP" value="@item.MRP" />
+                                <input type="hidden" class="hdnProductBarcode" value="@item.ProductBarcode" />
+                                <input type="hidden" class="hdnNutritionValue" value="@item.NutritionValue" />
+                                <input type="hidden" class="hdnContentValue" value="@item.ContentValue" />
+                                <input type="hidden" class="hdnCategoryID" value="@item.CategoryID" />
+
+                                <input type="hidden" class="hdnPouchSize" value="@item.PouchSize" />
+
+                                <input type="hidden" class="hdnGramPerKG" value="@item.GramPerKG" />
+                                @*<input type="hidden" class="hdnCustomerName" value="@item.CustomerName" />*@
+                            </td>
+                            <td>
+                                @if (item.NutritionValue == "" && item.ContentValue == "")
+                                {
+
+                                    <input class="chkContent" type="checkbox" placeholder="Content" value="false" disabled="disabled" />
+                                }
+                                else
+                                {
+                                    <input class="chkContent" type="checkbox" placeholder="Content" checked="checked" disabled="disabled" />
+                                }
+                            </td>
+                            <td><input type="text" class="txtSection" value="@item.Section"></td>
+                        </tr>
+                    }
+                }
+            </tbody>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>
+                    @if (Model.Count > 0)
+                    {
+                        @Model[0].TotalQuantityPackage
+                    }
+                </td>
+                <td></td>
+                <td>
+                    @if (Model.Count > 0)
+                    {@Model[0].TotalQtyAvailable
+                    }
+                </td>
+                <td>
+                    @if (Model.Count > 0)
+                    {@Model[0].TotalQtyPacked
+                    }
+                </td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </table>
+
+        <div class="box-footer ">
+            <div style="text-align:center">
+                <button type="button" id="btnexport" class="btn btn-info" tabindex="6">Export To Excel</button>
+            </div>
+        </div>
+        <div class="box-footer ">
+            <div style="text-align:center">
+                <button type="button" id="btnprintlabels" class="btn btn-info" tabindex="7">Print Labels</button>
+                <button type="button" id="btnprintbarcode" class="btn btn-info" tabindex="6">Print Barcodes</button>
+                <button type="button" id="btnprintcontentbarcode" class="btn btn-info" tabindex="6">Print Content Barcodes</button>
+                <button type="button" id="btnprintnonfoodbarcode" class="btn btn-info" tabindex="6">Print Non Food Barcodes</button>
+                <button type="button" id="btnprintnonfoodcontentbarcode" class="btn btn-info" tabindex="6">Print Non Food Content Barcodes</button>
+
+                @*<button type="button" id="btnprintpouchbarcodes" class="btn btn-info" tabindex="6">Print Pouch Barcodes</button>
+                    <button type="button" id="btnprintpouchcontentbarcodes" class="btn btn-info" tabindex="6">Print Pouch Content Barcodes</button>*@
+
+                <button type="button" id="btnexportpouchbarcodedetails" class="btn btn-info" tabindex="6">Export Barcodes Details</button>
+
+            </div>
+        </div>
+    </div>
+
+    <div id="responsive" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" style="padding-bottom: 0px;">
+                    <h4 class="modal-title">Barcode Details</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row" style="margin-top:10px;">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="Godown" class="col-sm-4 control-label">Godown</label>
+                                <div class="col-sm-8">
+                                    @Html.DropDownList("GodownID", new SelectList(ViewBag.Godown, "GodownID", "GodownName"), "Select Godown", new { @class = "form-control select2", @style = "width:200px", tabindex = "5" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btnsavepopup btn btn-info">Print</button>
+                    <button type="button" class="btnclosepopup btn btn-info" data-dismiss="modal" aria-hidden="true">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="ContentPopup" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" style="padding-bottom: 0px;">
+                    <h4 class="modal-title">Content Barcode Details</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row" style="margin-top:10px;">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="Godown" class="col-sm-4 control-label">Godown</label>
+                                <div class="col-sm-8">
+                                    @Html.DropDownList("GodownID1", new SelectList(ViewBag.Godown, "GodownID", "GodownName"), "Select Godown", new { @class = "form-control select2", @style = "width:200px", tabindex = "5" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btnsavecontentbarcode btn btn-info">Print</button>
+                    <button type="button" class="btnclosepopupcontent btn btn-info" data-dismiss="modal" aria-hidden="true">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="NonFoodPopup" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" style="padding-bottom: 0px;">
+                    <h4 class="modal-title">Non Food Barcode Details</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row" style="margin-top:10px;">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="Godown" class="col-sm-4 control-label">Godown</label>
+                                <div class="col-sm-8">
+                                    @Html.DropDownList("GodownID3", new SelectList(ViewBag.Godown, "GodownID", "GodownName"), "Select Godown", new { @class = "form-control select2", @style = "width:200px", tabindex = "5" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btnsavenonfoodbarcode btn btn-info">Print</button>
+                    <button type="button" class="btnclosepopupnonfood btn btn-info" data-dismiss="modal" aria-hidden="true">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="NonFoodContentPopup" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" style="padding-bottom: 0px;">
+                    <h4 class="modal-title">Non Food Content Barcode Details</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row" style="margin-top:10px;">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="Godown" class="col-sm-4 control-label">Godown</label>
+                                <div class="col-sm-8">
+                                    @Html.DropDownList("GodownID4", new SelectList(ViewBag.Godown, "GodownID", "GodownName"), "Select Godown", new { @class = "form-control select2", @style = "width:200px", tabindex = "5" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btnsavenonfoodbarcodecontent btn btn-info">Print</button>
+                    <button type="button" class="btnclosepopupnonfoodcontent btn btn-info" data-dismiss="modal" aria-hidden="true">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @*Pouch Barcode*@
+    @*<div id="pouchpopup" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header" style="padding-bottom: 0px;">
+                        <h4 class="modal-title">Barcode Details</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row" style="margin-top:10px;">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="Godown" class="col-sm-4 control-label">Godown</label>
+                                    <div class="col-sm-8">
+                                        @Html.DropDownList("PouchGodownID", new SelectList(ViewBag.Godown, "GodownID", "GodownName"), "Select Godown", new { @class = "form-control select2", @style = "width:200px", tabindex = "5" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btnprintpouchbarcode btn btn-info">Print</button>
+                        <button type="button" class="btnclosepouchbarcodepopup btn btn-info" data-dismiss="modal" aria-hidden="true">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>*@
+
+    @*Pouch Content Barcode*@
+    @*<div id="pouchcontentpopup" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header" style="padding-bottom: 0px;">
+                        <h4 class="modal-title">Barcode Details</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row" style="margin-top:10px;">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="Godown" class="col-sm-4 control-label">Godown</label>
+                                    <div class="col-sm-8">
+                                        @Html.DropDownList("PouchContentGodownID", new SelectList(ViewBag.Godown, "GodownID", "GodownName"), "Select Godown", new { @class = "form-control select2", @style = "width:200px", tabindex = "5" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btnprintpouchcontentbarcode btn btn-info">Print</button>
+                        <button type="button" class="btnclosepouchcontentbarcodepopup btn btn-info" data-dismiss="modal" aria-hidden="true">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>*@
+
+    <div id="exportbarcodepopup" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" style="padding-bottom: 0px;">
+                    <h4 class="modal-title">Barcode Details</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row" style="margin-top:10px;">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="Godown" class="col-sm-4 control-label">Godown</label>
+                                <div class="col-sm-8">
+                                    @Html.DropDownList("PouchExGodownID", new SelectList(ViewBag.Godown, "GodownID", "GodownName"), "Select Godown", new { @class = "form-control select2", @style = "width:200px", tabindex = "5" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btnexportbarcodedetails btn btn-info" id="btnexportbarcodedetails">Export To Excel</button>
+                    <button type="button" class="btnclosepouchcontentbarcodepopup btn btn-info" data-dismiss="modal" aria-hidden="true">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="lstcase">
+    </div>
+    <!-- /.box-body -->
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script>
+
+    // 18 Jan, 2022 Piyush Limbani
+    $(document).ready(function () {
+        loadhtml();
+    });
+
+    function loadhtml() {
+        var date = location.search.split('date=')[1];
+        $.ajax({
+            url: '@Url.Action("TotalPouchGodownWiseList")',
+            type: 'GET',
+            data: { 'date': date },
+            cache: false,
+        }).done(function (result) {
+            $('#lstcase').html(result);
+        });
+    }
+    // 18 Jan, 2022 Piyush Limbani
+
+    $('#ListDataTablewithourpaging').on('change', '.chkSelect', function () {
+        var cnt = 0;
+        debugger;
+        $('#ListDataTablewithourpaging').children('tbody').children('tr:visible').each(function (index, row) {
+            debugger;
+            if ($(row).closest("tr").find(".chkSelect").is(':checked')) {
+            }
+            else {
+                cnt = 1;
+            }
+        });
+        if (cnt == 0) {
+            $('#ListDataTablewithourpaging').children('thead').children('tr').find('.chkSelectAll').prop('checked', true);
+        }
+        else {
+            $('#ListDataTablewithourpaging').children('thead').children('tr').find('.chkSelectAll').prop('checked', false);
+        }
+        //New
+        var sum = 0;
+        $('#ListDataTablewithourpaging').children('tbody').children('tr:visible').each(function (index, row) {
+            debugger;
+            if ($(row).find('.chkSelect').is(':disabled') == false) {
+                var ischk = $(row).find("input[type=checkbox]")[0];
+                if ($(ischk).is(':checked')) {
+                    sum = +sum + +($(this).closest('tr').find(".hdnQuantityPackage").val());
+                }
+            }
+        });
+        $("#lbltotal").text(sum);
+        //New
+    });
+
+    $('#ListDataTablewithourpaging').on('change', '.chkSelectAll', function () {
+        debugger;
+        if ($(this).closest("tr").find(".chkSelectAll").is(':checked')) {
+            $('#ListDataTablewithourpaging').children('tbody').children('tr:visible').each(function (index, row) {
+                debugger;
+                $(row).closest("tr").find(".chkSelect").prop('checked', true);
+                //New
+                var sum = 0;
+                $('#ListDataTablewithourpaging').children('tbody').children('tr:visible').each(function (index, row) {
+                    debugger;
+                    if ($(row).find('.chkSelect').is(':disabled') == false) {
+                        var ischk = $(row).find("input[type=checkbox]")[0];
+                        if ($(ischk).is(':checked')) {
+                            sum = +sum + +($(this).closest('tr').find(".hdnQuantityPackage").val());
+                        }
+                    }
+                });
+                $("#lbltotal").text(sum);
+                //New
+            });
+        }
+        else {
+            $('#ListDataTablewithourpaging').children('tbody').children('tr:visible').each(function (index, row) {
+                debugger;
+                $(row).closest("tr").find(".chkSelect").prop('checked', false);
+                //New
+                $("#lbltotal").text(0);
+                //New
+            });
+        }
+    });
+
+    $('#ListDataTablewithourpaging').on('change', '.chkSelectAll', function () {
+        var ProductID = 0;
+        var sum = 0;
+        var qty = 0;
+        if ($(this).closest("tr").find(".chkSelectAll").is(':checked')) {
+            $('#ListDataTablewithourpaging').children('tbody').children('tr:visible').each(function (index, row) {
+                $(row).closest("tr").find(".chkSelect").prop('checked', true);
+                if (index == (parseInt($('#ListDataTablewithourpaging').children('tbody').children('tr').length) - parseInt(1))) {
+                    $(row).closest("tr").find("td")[3].innerText = qty;
+                    qty = 0;
+                }
+                else {
+                    qty = parseFloat(qty) + parseFloat($(row).closest("tr").find("td")[3].innerText);
+                }
+                if (ProductID != $(row).closest("tr").find(".hdnProductID").val()) {
+                    if (ProductID != 0) {
+                        $('#ListDataTablewithourpaging').children('tbody').children('tr:visible').each(function (index, row) {
+                            if (ProductID == $(row).closest("tr").find(".hdnProductID").val()) {
+                                var result = parseFloat(sum).toFixed(2); // + parseFloat(cntsum);
+                                $(row).closest("tr").find("td")[6].innerText = result + " KG";
+                                return false;
+                            }
+                        });
+                    }
+                    ProductID = $(row).closest("tr").find(".hdnProductID").val();
+                    sum = parseFloat($(row).closest("tr").find(".hdnTotal").val());
+                }
+                else {
+                    sum = parseFloat(sum) + parseFloat($(row).closest("tr").find(".hdnTotal").val());
+                }
+            });
+        }
+        else {
+            $('#ListDataTablewithourpaging').children('tbody').children('tr:visible').each(function (index, row) {
+                if (index == (parseInt($('#ListDataTablewithourpaging').children('tbody').children('tr').length) - parseInt(1))) {
+                    $(row).closest("tr").find("td")[3].innerText = qty;
+                    qty = 0;
+                }
+                $(row).closest("tr").find(".chkSelect").prop('checked', false);
+                if (ProductID != $(row).closest("tr").find(".hdnProductID").val()) {
+                    if (ProductID != 0) {
+                        $('#ListDataTablewithourpaging').children('tbody').children('tr:visible').each(function (index, row) {
+                            if (ProductID == $(row).closest("tr").find(".hdnProductID").val()) {
+                                var result = parseFloat(sum).toFixed(2); // + parseFloat(cntsum);
+                                $(row).closest("tr").find("td")[6].innerText = result + " KG";
+                                return false;
+                            }
+                        });
+                    }
+                    ProductID = $(row).closest("tr").find(".hdnProductID").val();
+                    sum = 0;//parseFloat($(row).closest("tr").find(".hdnTotal").val());
+                }
+                else {
+                    sum = 0;//parseFloat(sum) + parseFloat($(row).closest("tr").find(".hdnTotal").val());
+                }
+            });
+        }
+    });
+
+    $('#ListDataTablewithourpaging').on('change', '.chkSelect', function () {
+        var end = $(this).closest("tr").closest("tr").find(".hdnProductID").val();
+        var cnt = 0;
+        var sum = 0;
+        var ProductID = 0;
+        var qty = 0;
+        $('#ListDataTablewithourpaging').children('tbody').children('tr:visible').each(function (index, row) {
+
+            if ($(row).closest("tr").find(".chkSelect").is(':checked')) {
+                qty = parseFloat(qty) + parseFloat($(row).closest("tr").find("td")[3].innerText);
+            }
+            else {
+                if (index != (parseInt($('#ListDataTablewithourpaging').children('tbody').children('tr').length) - parseInt(1))) {
+                    cnt = 1;
+                }
+            }
+            if (index == (parseInt($('#ListDataTablewithourpaging').children('tbody').children('tr').length) - parseInt(1))) {
+                $(row).closest("tr").find("td")[3].innerText = qty;
+                qty = 0;
+            }
+            if (end == $(row).closest("tr").find(".hdnProductID").val()) {
+                if ($(row).closest("tr").find(".chkSelect").is(':checked')) {
+
+                    ProductID = $(row).closest("tr").find(".hdnProductID").val();
+                    sum = parseFloat(sum) + parseFloat($(row).closest("tr").find(".hdnTotal").val());
+                }
+
+                else {
+                    ProductID = $(row).closest("tr").find(".hdnProductID").val();
+                }
+            }
+        });
+
+        if (ProductID != 0) {
+            $('#ListDataTablewithourpaging').children('tbody').children('tr:visible').each(function (index, row) {
+                if (ProductID == $(row).closest("tr").find(".hdnProductID").val()) {
+                    var result = parseFloat(sum).toFixed(2); // + parseFloat(cntsum);
+                    $(row).closest("tr").find("td")[6].innerText = result + " KG";
+                    return false;
+                }
+            });
+        }
+        if (cnt == 0) {
+            $('#ListDataTablewithourpaging').children('thead').children('tr').find('.chkSelectAll').prop('checked', true);
+        }
+        else {
+            $('#ListDataTablewithourpaging').children('thead').children('tr').find('.chkSelectAll').prop('checked', false);
+        }
+    });
+
+    $("#btnexport").click(function () {
+        debugger;
+        var myParam = location.search.split('date=')[1];
+        var id = "";
+        var sectionid = "";
+        var lstsection = [];
+        $('#ListDataTablewithourpaging').children('tbody').children('tr:visible').each(function (index, row) {
+            if ($(row).closest("tr").find(".chkSelect").is(':checked')) {
+                if (id == "") {
+                    id = $(row).closest("tr").find(".hdnProductQtyID").val();
+                }
+                else {
+                    id = id + "," + $(row).closest("tr").find(".hdnProductQtyID").val();
+                }
+                var obj = new Object();
+                obj.ProductQtyID = $(row).closest("tr").find(".hdnProductQtyID").val();
+                obj.Section = $(row).closest("tr").find(".txtSection").val();
+                obj.OrderID = '@Session["PLOrderID"]';
+                lstsection.push(obj);
+            }
+        });
+        $.ajax({
+            url: '@Url.Action("ExportExcelSession", "Order")',
+            type: 'POST',
+            data: { 'id': id, 'date': myParam },
+            cache: false,
+        }).done(function (result) {
+
+        });
+        $.ajax({
+            url: '@Url.Action("UpdateSection")',
+            type: 'POST',
+            data: { 'data': lstsection },
+            cache: false,
+        }).done(function (result) {
+            var url = '@Url.Action("ExportExcel", "Order", new { date ="__date__" })';
+            url = url.replace(/amp;/g, '');
+            window.location.href = url.replace('__date__', myParam);
+        });
+    });
+
+    $("#btnprintbarcode").click(function () {
+        debugger;
+        clearcontents();
+        $("#responsive").removeClass("modal fade").addClass("modal fade modal-overflow in");
+        $("#responsive").css("display", "block");
+    });
+
+    function clearcontents() {
+        debugger;
+        var myParam = location.search.split('date=')[1];
+        $("#GodownID").val("").trigger("change");
+    }
+
+    $(".btnclosepopup").click(function () {
+        debugger;
+        $('#responsive').removeClass("modal fade modal-overflow in");
+        $('#responsive').removeAttr('style');
+        $('#responsive').addClass("modal fade");
+    });
+
+    $(".btnsavepopup").click(function () {
+        debugger;
+        var godown = $("#GodownID").val();
+        var myParam = location.search.split('date=')[1];
+        var id = "";
+        var sectionid = "";
+        var lstsection = [];
+        $('#ListDataTablewithourpaging').children('tbody').children('tr:visible').each(function (index, row) {
+            if ($(row).closest("tr").find(".chkSelect").is(':checked')) {
+                if ($(row).closest("tr").find(".chkContent").val() == "false") {
+                    if (id == "") {
+                        id = $(row).closest("tr").find(".hdnProductQtyID").val();
+                    }
+                    else {
+                        id = id + "," + $(row).closest("tr").find(".hdnProductQtyID").val();
+                    }
+                    var obj = new Object();
+                    obj.ProductQtyID = $(row).closest("tr").find(".hdnProductQtyID").val();
+                    obj.Section = $(row).closest("tr").find(".txtSection").val();
+                    obj.OrderID = '@Session["PLOrderID"]';
+                    obj.ProductID = $(row).closest("tr").find(".hdnProductID").val();
+                    obj.ProductName = $(row).closest("tr").find(".hdnProductName").val();
+                    obj.QuantityPackage = $(row).closest("tr").find(".hdnQuantityPackage").val();
+                    obj.SKU = $(row).closest("tr").find(".hdnSKU").val();
+                    obj.MRP = $(row).closest("tr").find(".hdnMRP").val();
+                    obj.GramPerKG = $(row).closest("tr").find(".hdnGramPerKG").val();
+                    obj.ProductBarcode = $(row).closest("tr").find(".hdnProductBarcode").val();
+                    obj.NutritionValue = $(row).closest("tr").find(".hdnNutritionValue").val();
+                    obj.ContentValue = $(row).closest("tr").find(".hdnContentValue").val();
+                    obj.CategoryID = $(row).closest("tr").find(".hdnCategoryID").val();
+
+
+                    lstsection.push(obj);
+                }
+            }
+        });
+        $.ajax({
+            url: '@Url.Action("PrintBarcodeSession", "Order")',
+            type: 'POST',
+            data: { 'id': id, 'date': myParam },
+            cache: false,
+        }).done(function (result) {
+
+        });
+
+
+        if ($("#GodownID").val() != "") {
+            $.ajax({
+                url: '@Url.Action("PrintBarcode")',
+                type: 'POST',
+                data: { 'data': lstsection, 'godown': godown, 'date': myParam },
+                cache: false,
+            }).done(function (result) {
+                if (result != '') {
+                    window.open(result, "newPage");
+                }
+            });
+        }
+        else {
+            alert("Please select godown");
+        }
+
+        $('#responsive').removeClass("modal fade modal-overflow in");
+        $('#responsive').removeAttr('style');
+        $('#responsive').addClass("modal fade");
+    });
+
+    $("#btnprintlabels").click(function () {
+        debugger;
+        var myParam = location.search.split('date=')[1];
+        var id = "";
+        var sectionid = "";
+        var lstsection = [];
+        $('#ListDataTablewithourpaging').children('tbody').children('tr:visible').each(function (index, row) {
+            if ($(row).closest("tr").find(".chkSelect").is(':checked')) {
+                if (id == "") {
+                    id = $(row).closest("tr").find(".hdnProductQtyID").val();
+                }
+                else {
+                    id = id + "," + $(row).closest("tr").find(".hdnProductQtyID").val();
+                }
+                var obj = new Object();
+                obj.ProductQtyID = $(row).closest("tr").find(".hdnProductQtyID").val();
+                obj.Section = $(row).closest("tr").find(".txtSection").val();
+                obj.OrderID = '@Session["PLOrderID"]';
+                lstsection.push(obj);
+            }
+        });
+        $.ajax({
+            url: '@Url.Action("PrintLabelSession", "Order")',
+            type: 'POST',
+            data: { 'id': id, 'date': myParam },
+            cache: false,
+        }).done(function (result) {
+        });
+        $.ajax({
+            url: '@Url.Action("PrintLabel")',
+            type: 'POST',
+            data: { 'data': lstsection, 'date': myParam },
+            cache: false,
+        }).done(function (result) {
+            if (result != '') {
+                window.open(result, "newPage");
+            }
+        });
+    });
+
+    //Newpopup Content Barcode
+    $("#btnprintcontentbarcode").click(function () {
+        debugger;
+        clearcontents2();
+        $("#ContentPopup").removeClass("modal fade").addClass("modal fade modal-overflow in");
+        $("#ContentPopup").css("display", "block");
+    });
+
+    function clearcontents2() {
+        debugger;
+        var myParam = location.search.split('date=')[1];
+        $("#GodownID1").val("").trigger("change");
+    }
+
+    $(".btnclosepopupcontent").click(function () {
+        debugger;
+        $('#ContentPopup').removeClass("modal fade modal-overflow in");
+        $('#ContentPopup').removeAttr('style');
+        $('#ContentPopup').addClass("modal fade");
+    });
+
+    $(".btnsavecontentbarcode").click(function () {
+        debugger;
+        var godownid = $("#GodownID1").val();
+        var myParam = location.search.split('date=')[1];
+        var id = "";
+        var sectionid = "";
+        var lstsection = [];
+        $('#ListDataTablewithourpaging').children('tbody').children('tr:visible').each(function (index, row) {
+            if ($(row).closest("tr").find(".chkSelect").is(':checked')) {
+                if ($(row).closest("tr").find(".chkContent").is(':checked')) {
+                    if (id == "") {
+                        id = $(row).closest("tr").find(".hdnProductQtyID").val();
+                    }
+                    else {
+                        id = id + "," + $(row).closest("tr").find(".hdnProductQtyID").val();
+                    }
+                    var obj = new Object();
+                    obj.ProductQtyID = $(row).closest("tr").find(".hdnProductQtyID").val();
+                    obj.Section = $(row).closest("tr").find(".txtSection").val();
+                    obj.OrderID = '@Session["PLOrderID"]';
+                    obj.ProductID = $(row).closest("tr").find(".hdnProductID").val();
+                    obj.ProductName = $(row).closest("tr").find(".hdnProductName").val();
+                    obj.QuantityPackage = $(row).closest("tr").find(".hdnQuantityPackage").val();
+                    obj.SKU = $(row).closest("tr").find(".hdnSKU").val();
+                    obj.MRP = $(row).closest("tr").find(".hdnMRP").val();
+                    obj.GramPerKG = $(row).closest("tr").find(".hdnGramPerKG").val();
+                    obj.ProductBarcode = $(row).closest("tr").find(".hdnProductBarcode").val();
+                    obj.NutritionValue = $(row).closest("tr").find(".hdnNutritionValue").val();
+                    obj.ContentValue = $(row).closest("tr").find(".hdnContentValue").val();
+                    obj.CategoryID = $(row).closest("tr").find(".hdnCategoryID").val();
+
+
+                    lstsection.push(obj);
+                }
+            }
+        });
+        $.ajax({
+            url: '@Url.Action("PrintBarcodeSession", "Order")',
+            type: 'POST',
+            data: { 'id': id, 'date': myParam },
+            cache: false,
+        }).done(function (result) {
+        });
+        if ($("#GodownID1").val() != "") {
+            $.ajax({
+                url: '@Url.Action("PrintContentBarcode")',
+                type: 'POST',
+                data: { 'data': lstsection, 'godownid': godownid, 'date': myParam },
+                cache: false,
+            }).done(function (result) {
+                if (result != '') {
+                    window.open(result, "newPage");
+                }
+            });
+        }
+        else {
+            alert("Please enter godown");
+        }
+        $('#ContentPopup').removeClass("modal fade modal-overflow in");
+        $('#ContentPopup').removeAttr('style');
+        $('#ContentPopup').addClass("modal fade");
+    });
+
+    //Newpopup Non Food Barcode
+    $("#btnprintnonfoodbarcode").click(function () {
+        debugger;
+        clearcontents3();
+        $("#NonFoodPopup").removeClass("modal fade").addClass("modal fade modal-overflow in");
+        $("#NonFoodPopup").css("display", "block");
+    });
+
+    function clearcontents3() {
+        debugger;
+        var myParam = location.search.split('date=')[1];
+        $("#GodownID3").val("").trigger("change");
+    }
+
+    $(".btnclosepopupnonfood").click(function () {
+        debugger;
+        $('#NonFoodPopup').removeClass("modal fade modal-overflow in");
+        $('#NonFoodPopup').removeAttr('style');
+        $('#NonFoodPopup').addClass("modal fade");
+    });
+
+    $(".btnsavenonfoodbarcode").click(function () {
+        debugger;
+        var godownidnonfood = $("#GodownID3").val();
+        var myParam = location.search.split('date=')[1];
+        var id = "";
+        var sectionid = "";
+        var lstsection = [];
+        $('#ListDataTablewithourpaging').children('tbody').children('tr:visible').each(function (index, row) {
+            if ($(row).closest("tr").find(".chkSelect").is(':checked')) {
+                if ($(row).closest("tr").find(".chkContent").val() == "false") {
+                    if (id == "") {
+                        id = $(row).closest("tr").find(".hdnProductQtyID").val();
+                    }
+                    else {
+                        id = id + "," + $(row).closest("tr").find(".hdnProductQtyID").val();
+                    }
+                    var obj = new Object();
+                    obj.ProductQtyID = $(row).closest("tr").find(".hdnProductQtyID").val();
+                    obj.Section = $(row).closest("tr").find(".txtSection").val();
+                    obj.OrderID = '@Session["PLOrderID"]';
+                    obj.ProductID = $(row).closest("tr").find(".hdnProductID").val();
+                    obj.ProductName = $(row).closest("tr").find(".hdnProductName").val();
+                    obj.QuantityPackage = $(row).closest("tr").find(".hdnQuantityPackage").val();
+                    obj.SKU = $(row).closest("tr").find(".hdnSKU").val();
+                    obj.MRP = $(row).closest("tr").find(".hdnMRP").val();
+                    obj.GramPerKG = $(row).closest("tr").find(".hdnGramPerKG").val();
+                    obj.ProductBarcode = $(row).closest("tr").find(".hdnProductBarcode").val();
+                    obj.NutritionValue = $(row).closest("tr").find(".hdnNutritionValue").val();
+                    obj.ContentValue = $(row).closest("tr").find(".hdnContentValue").val();
+                    obj.CategoryID = $(row).closest("tr").find(".hdnCategoryID").val();
+
+
+
+                    lstsection.push(obj);
+                }
+            }
+        });
+        $.ajax({
+            url: '@Url.Action("PrintBarcodeSession", "Order")',
+            type: 'POST',
+            data: { 'id': id, 'date': myParam },
+            cache: false,
+        }).done(function (result) {
+
+        });
+        if ($("#GodownID3").val() != "") {
+            $.ajax({
+                url: '@Url.Action("PrintNonFoodBarcode")',
+                type: 'POST',
+                data: { 'data': lstsection, 'godownidnonfood': godownidnonfood, 'date': myParam },
+                cache: false,
+            }).done(function (result) {
+                if (result != '') {
+                    window.open(result, "newPage");
+                }
+            });
+        }
+        else {
+            alert("Please enter godown");
+        }
+        $('#NonFoodPopup').removeClass("modal fade modal-overflow in");
+        $('#NonFoodPopup').removeAttr('style');
+        $('#NonFoodPopup').addClass("modal fade");
+    });
+
+    // NonFoodContentBarcode
+    $("#btnprintnonfoodcontentbarcode").click(function () {
+        debugger;
+        clearcontents4();
+        $("#NonFoodContentPopup").removeClass("modal fade").addClass("modal fade modal-overflow in");
+        $("#NonFoodContentPopup").css("display", "block");
+    });
+
+    function clearcontents4() {
+        debugger;
+        var myParam = location.search.split('date=')[1];
+        $("#GodownID4").val("").trigger("change");
+    }
+
+    $(".btnclosepopupnonfoodcontent").click(function () {
+        debugger;
+        $('#NonFoodContentPopup').removeClass("modal fade modal-overflow in");
+        $('#NonFoodContentPopup').removeAttr('style');
+        $('#NonFoodContentPopup').addClass("modal fade");
+    });
+
+    $(".btnsavenonfoodbarcodecontent").click(function () {
+        debugger;
+        var godownidnonfoodcontent = $("#GodownID4").val();
+        var myParam = location.search.split('date=')[1];
+        var id = "";
+        var sectionid = "";
+        var lstsection = [];
+        $('#ListDataTablewithourpaging').children('tbody').children('tr:visible').each(function (index, row) {
+            if ($(row).closest("tr").find(".chkSelect").is(':checked')) {
+                if ($(row).closest("tr").find(".chkContent").is(':checked')) {
+                    if (id == "") {
+                        id = $(row).closest("tr").find(".hdnProductQtyID").val();
+                    }
+                    else {
+                        id = id + "," + $(row).closest("tr").find(".hdnProductQtyID").val();
+                    }
+                    var obj = new Object();
+                    obj.ProductQtyID = $(row).closest("tr").find(".hdnProductQtyID").val();
+                    obj.Section = $(row).closest("tr").find(".txtSection").val();
+                    obj.OrderID = '@Session["PLOrderID"]';
+                    obj.ProductID = $(row).closest("tr").find(".hdnProductID").val();
+                    obj.ProductName = $(row).closest("tr").find(".hdnProductName").val();
+                    obj.QuantityPackage = $(row).closest("tr").find(".hdnQuantityPackage").val();
+                    obj.SKU = $(row).closest("tr").find(".hdnSKU").val();
+                    obj.MRP = $(row).closest("tr").find(".hdnMRP").val();
+                    obj.GramPerKG = $(row).closest("tr").find(".hdnGramPerKG").val();
+                    obj.ProductBarcode = $(row).closest("tr").find(".hdnProductBarcode").val();
+                    obj.NutritionValue = $(row).closest("tr").find(".hdnNutritionValue").val();
+                    obj.ContentValue = $(row).closest("tr").find(".hdnContentValue").val();
+                    obj.CategoryID = $(row).closest("tr").find(".hdnCategoryID").val();
+
+
+                    lstsection.push(obj);
+                }
+            }
+        });
+        $.ajax({
+            url: '@Url.Action("PrintBarcodeSession", "Order")',
+            type: 'POST',
+            data: { 'id': id, 'date': myParam },
+            cache: false,
+        }).done(function (result) {
+        });
+        if ($("#GodownID4").val() != "") {
+            $.ajax({
+                url: '@Url.Action("PrintNonFoodContentBarcode")',
+                type: 'POST',
+                data: { 'data': lstsection, 'godownidnonfoodcontent': godownidnonfoodcontent, 'date': myParam },
+                cache: false,
+            }).done(function (result) {
+                if (result != '') {
+                    window.open(result, "newPage");
+                }
+            });
+        }
+        else {
+            alert("Please enter godown");
+        }
+        $('#NonFoodContentPopup').removeClass("modal fade modal-overflow in");
+        $('#NonFoodContentPopup').removeAttr('style');
+        $('#NonFoodContentPopup').addClass("modal fade");
+    });
+
+
+
+    @*//Print Pouch Barcode
+    $("#btnprintpouchbarcodes").click(function () {
+        debugger;
+        fnpouchbarcodes();
+        $("#pouchpopup").removeClass("modal fade").addClass("modal fade modal-overflow in");
+        $("#pouchpopup").css("display", "block");
+    });
+
+    function fnpouchbarcodes() {
+        debugger;
+        var myParam = location.search.split('date=')[1];
+        $("#PouchGodownID").val("").trigger("change");
+    }
+
+    $(".btnclosepouchbarcodepopup").click(function () {
+        debugger;
+        $('#pouchpopup').removeClass("modal fade modal-overflow in");
+        $('#pouchpopup').removeAttr('style');
+        $('#pouchpopup').addClass("modal fade");
+    });
+
+    $(".btnprintpouchbarcode").click(function () {
+        debugger;
+        var godown = $("#PouchGodownID").val();
+        var myParam = location.search.split('date=')[1];
+
+        var PouchSize = PouchSize;
+
+        var id = "";
+        var sectionid = "";
+        var lstsection = [];
+        $('#ListDataTablewithourpaging').children('tbody').children('tr:visible').each(function (index, row) {
+            if ($(row).closest("tr").find(".chkSelect").is(':checked')) {
+                if ($(row).closest("tr").find(".chkContent").val() == "false") {
+                    if (id == "") {
+                        id = $(row).closest("tr").find(".hdnProductQtyID").val();
+                    }
+                    else {
+                        id = id + "," + $(row).closest("tr").find(".hdnProductQtyID").val();
+                    }
+                    var obj = new Object();
+                    obj.ProductQtyID = $(row).closest("tr").find(".hdnProductQtyID").val();
+                    obj.Section = $(row).closest("tr").find(".txtSection").val();
+                    obj.OrderID = '@Session["PLOrderID"]';
+                    obj.ProductID = $(row).closest("tr").find(".hdnProductID").val();
+                    obj.ProductName = $(row).closest("tr").find(".hdnProductName").val();
+                    obj.QuantityPackage = $(row).closest("tr").find(".hdnQuantityPackage").val();
+                    obj.SKU = $(row).closest("tr").find(".hdnSKU").val();
+                    obj.MRP = $(row).closest("tr").find(".hdnMRP").val();
+                    obj.ProductBarcode = $(row).closest("tr").find(".hdnProductBarcode").val();
+                    obj.NutritionValue = $(row).closest("tr").find(".hdnNutritionValue").val();
+                    obj.ContentValue = $(row).closest("tr").find(".hdnContentValue").val();
+                    obj.CategoryID = $(row).closest("tr").find(".hdnCategoryID").val();
+
+                    PouchSize = $(row).closest("tr").find(".hdnPouchSize").val();
+
+                    lstsection.push(obj);
+                }
+            }
+        });
+        $.ajax({
+            url: '@Url.Action("PrintBarcodeSession", "Order")',
+            type: 'POST',
+            data: { 'id': id, 'date': myParam },
+            cache: false,
+        }).done(function (result) {
+
+        });
+
+        $.ajax({
+            url: '@Url.Action("PrintPouchBarcode")',
+            type: 'POST',
+            data: { 'data': lstsection, 'godown': godown, 'date': myParam, 'PouchSize': PouchSize },
+            cache: false,
+        }).done(function (result) {
+            if (result != '') {
+                window.open(result, "newPage");
+            }
+        });
+        $('#pouchpopup').removeClass("modal fade modal-overflow in");
+        $('#pouchpopup').removeAttr('style');
+        $('#pouchpopup').addClass("modal fade");
+    });
+
+    //Print Pouch Content Barcode
+    $("#btnprintpouchcontentbarcodes").click(function () {
+        debugger;
+        fnpouchcontentbarcodes();
+        $("#pouchcontentpopup").removeClass("modal fade").addClass("modal fade modal-overflow in");
+        $("#pouchcontentpopup").css("display", "block");
+    });
+
+    function fnpouchcontentbarcodes() {
+        debugger;
+        var myParam = location.search.split('date=')[1];
+        $("#PouchContentGodownID").val("").trigger("change");
+    }
+
+    $(".btnclosepouchcontentbarcodepopup").click(function () {
+        debugger;
+        $('#pouchcontentpopup').removeClass("modal fade modal-overflow in");
+        $('#pouchcontentpopup').removeAttr('style');
+        $('#pouchcontentpopup').addClass("modal fade");
+    });
+
+    $(".btnprintpouchcontentbarcode").click(function () {
+        debugger;
+        var godownid = $("#PouchContentGodownID").val();
+        var date = location.search.split('date=')[1];
+        var id = "";
+        var sectionid = "";
+        var lstsection = [];
+        var PouchSize = PouchSize;
+        $('#ListDataTablewithourpaging').children('tbody').children('tr:visible').each(function (index, row) {
+            if ($(row).closest("tr").find(".chkSelect").is(':checked')) {
+                if ($(row).closest("tr").find(".chkContent").is(':checked')) {
+                    if (id == "") {
+                        id = $(row).closest("tr").find(".hdnProductQtyID").val();
+                    }
+                    else {
+                        id = id + "," + $(row).closest("tr").find(".hdnProductQtyID").val();
+                    }
+                    var obj = new Object();
+                    obj.ProductQtyID = $(row).closest("tr").find(".hdnProductQtyID").val();
+                    obj.Section = $(row).closest("tr").find(".txtSection").val();
+                    obj.OrderID = '@Session["PLOrderID"]';
+                    obj.ProductID = $(row).closest("tr").find(".hdnProductID").val();
+                    obj.ProductName = $(row).closest("tr").find(".hdnProductName").val();
+                    obj.QuantityPackage = $(row).closest("tr").find(".hdnQuantityPackage").val();
+                    obj.SKU = $(row).closest("tr").find(".hdnSKU").val();
+                    obj.MRP = $(row).closest("tr").find(".hdnMRP").val();
+                    obj.ProductBarcode = $(row).closest("tr").find(".hdnProductBarcode").val();
+                    obj.NutritionValue = $(row).closest("tr").find(".hdnNutritionValue").val();
+                    obj.ContentValue = $(row).closest("tr").find(".hdnContentValue").val();
+                    obj.CategoryID = $(row).closest("tr").find(".hdnCategoryID").val();
+                    PouchSize = $(row).closest("tr").find(".hdnPouchSize").val();
+                    lstsection.push(obj);
+                }
+            }
+        });
+        $.ajax({
+            url: '@Url.Action("PrintBarcodeSession", "Order")',
+            type: 'POST',
+            data: { 'id': id, 'date': date },
+            cache: false,
+        }).done(function (result) {
+        });
+        $.ajax({
+            url: '@Url.Action("PrintPouchContentBarcode")',
+            type: 'POST',
+            data: { 'data': lstsection, 'godownid': godownid, 'date': date, 'PouchSize': PouchSize },
+            cache: false,
+        }).done(function (result) {
+            if (result != '') {
+                window.open(result, "newPage");
+            }
+        });
+        $('#pouchcontentpopup').removeClass("modal fade modal-overflow in");
+        $('#pouchcontentpopup').removeAttr('style');
+        $('#pouchcontentpopup').addClass("modal fade");
+    });*@
+
+
+
+
+
+    // 04 Feb, 2022 Piyush Limbani
+    $("#btnexportpouchbarcodedetails").click(function () {
+        debugger;
+        fnpouchcontentbarcodes();
+        $("#exportbarcodepopup").removeClass("modal fade").addClass("modal fade modal-overflow in");
+        $("#exportbarcodepopup").css("display", "block");
+    });
+
+    function fnpouchcontentbarcodes() {
+        debugger;
+        var myParam = location.search.split('date=')[1];
+        $("#PouchExGodownID").val("").trigger("change");
+    }
+
+    $(".btnclosepouchcontentbarcodepopup").click(function () {
+        debugger;
+        $('#exportbarcodepopup').removeClass("modal fade modal-overflow in");
+        $('#exportbarcodepopup').removeAttr('style');
+        $('#exportbarcodepopup').addClass("modal fade");
+    });
+
+    $(".btnexportbarcodedetails").click(function () {
+        debugger;
+        if ($("#PouchExGodownID").val() != 0) {
+            var GodownID = $("#PouchExGodownID").val();
+            var date = location.search.split('date=')[1];
+            var PouchSize = PouchSize;
+            var url = '@Url.Action("ExportExcelDataForBarcode", "Order", new
+              {GodownID = "__GodownID__",date = "__date__",})';
+            url = url.replace(/amp;/g, '');
+            window.location.href = url.replace('__GodownID__', GodownID).replace('__date__', date);
+        }
+        else {
+            alert("Please select godown");
+        }
+        $('#exportbarcodepopup').removeClass("modal fade modal-overflow in");
+        $('#exportbarcodepopup').removeAttr('style');
+        $('#exportbarcodepopup').addClass("modal fade");
+    });
+
+
+    $('#ListDataTablewithourpaging').on('click', '.IsPackDone', function () {
+        debugger;
+        var productqtyid = $(this).attr("data-productqtyid");
+        var date = location.search.split('date=')[1];
+
+        $.ajax({
+            url: '@Url.Action("IsDonePrintPackList", "Order")',
+            type: 'POST',
+            data: { 'ProductQtyID': productqtyid, 'date': date },
+            cache: false,
+        }).done(function (result) {
+
+        });
+        location.reload();
+    });
+
+
+</script>
+
+
+
+
+
+
+

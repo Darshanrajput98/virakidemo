@@ -1,0 +1,1234 @@
+﻿@model vb.Data.Model.Allowance_Master
+@{
+    ViewBag.Title = "AllowanceDetail";
+    Layout = "~/Areas/attendance/Views/Shared/_attendancelayout.cshtml";
+}
+
+<div class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Allowance Detail</h3>
+                </div>
+                <form id="frmAllowanceDetail" class="form-horizontal">
+                    <div class="box-body">
+                        <div class="col-md-12">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <input name="UserID" id="UserID" type="hidden" value="" />
+                                    <input name="AllowanceDetailID" id="AllowanceDetailID" type="hidden" value="" />
+                                    <input type="hidden" id="CreatedBy" class="CreatedBy" value="" />
+                                    <input type="hidden" id="CreatedOn" class="CreatedOn" value="" />
+                                    <label for="inputPassword3" class="col-sm-4 control-label">Employee Name</label>
+                                    <div class="col-sm-8">
+                                        @Html.DropDownList("EmployeeCode", new SelectList(ViewBag.Employee, "EmployeeCode", "FullName"), "Select Employee", new { @class = "form-control select2", tabindex = "1", required = "required" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="Age" class="col-sm-5 control-label">Age</label>
+                                    <div class="col-sm-7">
+                                        <input type="text" class="form-control" id="Age" placeholder="Age" disabled="disabled" tabindex="2">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="DateOfJoining" class="col-sm-4 control-label">D.O.J</label>
+                                    <div class="col-sm-8">
+                                        <div class="input-group date">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </div>
+                                            <input type="text" class="form-control pull-right datepicker" id="DateOfJoining" disabled="disabled" tabindex="3">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="OpeningDate" class="col-sm-4 control-label">Opening Date</label>
+                                    <div class="col-sm-8">
+                                        <div class="input-group date">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </div>
+                                            <input type="text" class="form-control pull-right datepicker" id="OpeningDate" tabindex="4" autocomplete="off">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="IncrementDate" class="col-sm-4 control-label">Incr. Date</label>
+                                    <div class="col-sm-8">
+                                        <div class="input-group date">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </div>
+                                            <input type="text" class="form-control pull-right datepicker" id="IncrementDate" tabindex="8" autocomplete="off">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="DA1Date" class="col-sm-4 control-label">D.A-1 Date</label>
+                                    <div class="col-sm-8">
+                                        <div class="input-group date">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </div>
+                                            <input type="text" class="form-control pull-right datepicker" id="DA1Date" tabindex="12" autocomplete="off">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="DA2Date" class="col-sm-4 control-label">D.A-1 Date</label>
+                                    <div class="col-sm-8">
+                                        <div class="input-group date">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </div>
+                                            <input type="text" class="form-control pull-right datepicker" id="DA2Date" tabindex="16" autocomplete="off">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="OthersDate" class="col-sm-4 control-label">Others Date</label>
+                                    <div class="col-sm-8">
+                                        <div class="input-group date">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </div>
+                                            <input type="text" class="form-control pull-right datepicker" id="OthersDate" tabindex="20" autocomplete="off">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="BasicAllowance1" class="col-sm-5 control-label">BA - 1</label>
+                                    <div class="col-sm-7">
+                                        <input type="text" class="form-control" id="BasicAllowance1" placeholder="Basic Allowance" tabindex="5" value="0" autocomplete="off">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="BasicAllowance2" class="col-sm-5 control-label">BA - 2</label>
+                                    <div class="col-sm-7">
+                                        <input type="text" class="form-control" id="BasicAllowance2" placeholder="Basic Allowance" tabindex="9" value="0" autocomplete="off">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="BasicAllowance3" class="col-sm-5 control-label">BA - 3</label>
+                                    <div class="col-sm-7">
+                                        <input type="text" class="form-control" id="BasicAllowance3" placeholder="Basic Allowance" tabindex="13" value="0" autocomplete="off">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="BasicAllowance4" class="col-sm-5 control-label">BA - 4</label>
+                                    <div class="col-sm-7">
+                                        <input type="text" class="form-control" id="BasicAllowance4" placeholder="Basic Allowance" tabindex="17" value="0" autocomplete="off">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="BasicAllowance5" class="col-sm-5 control-label">BA - 5</label>
+                                    <div class="col-sm-7">
+                                        <input type="text" class="form-control" id="BasicAllowance5" placeholder="Basic Allowance" tabindex="21" value="0" autocomplete="off">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="TotalBasicAllowance" class="col-sm-5 control-label">Total B.A</label>
+                                    <div class="col-sm-7">
+                                        <input type="text" class="form-control" id="TotalBasicAllowance" placeholder="Basic Allowance" value="0" autocomplete="off">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="HouseRentAllowancePercentage1" class="col-sm-5 control-label">HRA-1(%)</label>
+                                    <div class="col-sm-7">
+                                        <input type="text" class="form-control" id="HouseRentAllowancePercentage1" placeholder="HRA Perc." tabindex="6" value="0" autocomplete="off">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="HouseRentAllowancePercentage2" class="col-sm-5 control-label">HRA-2(%)</label>
+                                    <div class="col-sm-7">
+                                        <input type="text" class="form-control" id="HouseRentAllowancePercentage2" placeholder="HRA Perc." tabindex="10" value="0" autocomplete="off">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="HouseRentAllowancePercentage3" class="col-sm-5 control-label">HRA-3(%)</label>
+                                    <div class="col-sm-7">
+                                        <input type="text" class="form-control" id="HouseRentAllowancePercentage3" placeholder="HRA Perc." tabindex="14" value="0" autocomplete="off">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="HouseRentAllowancePercentage4" class="col-sm-5 control-label">HRA-4(%)</label>
+                                    <div class="col-sm-7">
+                                        <input type="text" class="form-control" id="HouseRentAllowancePercentage4" placeholder="HRA Perc." tabindex="18" value="0" autocomplete="off">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="HouseRentAllowancePercentage5" class="col-sm-5 control-label">HRA-5(%)</label>
+                                    <div class="col-sm-7">
+                                        <input type="text" class="form-control" id="HouseRentAllowancePercentage5" placeholder="HRA Perc." tabindex="22" value="0" autocomplete="off">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="HouseRentAllowance1" class="col-sm-5 control-label">HRA - 1</label>
+                                    <div class="col-sm-7">
+                                        <input type="text" class="form-control" id="HouseRentAllowance1" placeholder="House Rent Allowance" tabindex="7" value="0" autocomplete="off">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="HouseRentAllowance2" class="col-sm-5 control-label">HRA - 2</label>
+                                    <div class="col-sm-7">
+                                        <input type="text" class="form-control" id="HouseRentAllowance2" placeholder="House Rent Allowance" tabindex="11" value="0" autocomplete="off">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="HouseRentAllowance3" class="col-sm-5 control-label">HRA - 3</label>
+                                    <div class="col-sm-7">
+                                        <input type="text" class="form-control" id="HouseRentAllowance3" placeholder="House Rent Allowance" tabindex="15" value="0" autocomplete="off">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="HouseRentAllowance4" class="col-sm-5 control-label">HRA - 4</label>
+                                    <div class="col-sm-7">
+                                        <input type="text" class="form-control" id="HouseRentAllowance4" placeholder="House Rent Allowance" tabindex="19" value="0">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="HouseRentAllowance5" class="col-sm-5 control-label">HRA - 5</label>
+                                    <div class="col-sm-7">
+                                        <input type="text" class="form-control" id="HouseRentAllowance5" placeholder="House Rent Allowance" tabindex="23" value="0" autocomplete="off">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="TotalHouseRentAllowance" class="col-sm-5 control-label">Total HRA</label>
+                                    <div class="col-sm-7">
+                                        <input type="text" class="form-control" id="TotalHouseRentAllowance" placeholder="House Rent Allowance" value="0" autocomplete="off">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="TotalWages1" class="col-sm-5 control-label">Total</label>
+                                    <div class="col-sm-7">
+                                        <input type="text" class="form-control" id="TotalWages1" placeholder="Total Wages" tabindex="7" value="0" autocomplete="off">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="TotalWages2" class="col-sm-5 control-label">Total</label>
+                                    <div class="col-sm-7">
+                                        <input type="text" class="form-control" id="TotalWages2" placeholder="Total Wages" tabindex="11" value="0" autocomplete="off">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="TotalWages3" class="col-sm-5 control-label">Total</label>
+                                    <div class="col-sm-7">
+                                        <input type="text" class="form-control" id="TotalWages3" placeholder="Total Wages" tabindex="15" value="0" autocomplete="off">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="TotalWages4" class="col-sm-5 control-label">Total</label>
+                                    <div class="col-sm-7">
+                                        <input type="text" class="form-control" id="TotalWages4" placeholder="Total Wages" tabindex="19" value="0">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="TotalWages5" class="col-sm-5 control-label">Total</label>
+                                    <div class="col-sm-7">
+                                        <input type="text" class="form-control" id="TotalWages5" placeholder="Total Wages" tabindex="23" value="0" autocomplete="off">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="GrandTotalWages" class="col-sm-5 control-label">GT Wages</label>
+                                    <div class="col-sm-7">
+                                        <input type="text" class="form-control" id="GrandTotalWages" placeholder="Total Wages" value="0" autocomplete="off">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="Conveyance" class="col-sm-4 control-label">Conveyance/Month</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="Conveyance" placeholder="Conveyance" tabindex="24" value="0" autocomplete="off">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="ConveyancePerDay" class="col-sm-4 control-label">Conveyance/Day</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="ConveyancePerDay" placeholder="ConveyancePerDay" tabindex="24" value="0" autocomplete="off">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="VehicleAllowance" class="col-sm-5 control-label">Vehicle Allowance</label>
+                                    <div class="col-sm-7">
+                                        <input type="text" class="form-control" id="VehicleAllowance" placeholder="Vehicle Allowance" tabindex="25" value="0" autocomplete="off">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="PerformanceAllowance" class="col-sm-5 control-label">Performance Allowance</label>
+                                    <div class="col-sm-7">
+                                        <input type="text" class="form-control" id="PerformanceAllowance" placeholder="Performance Allowance" tabindex="26" value="0" autocomplete="off">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="AllowanceStatus" class="col-sm-4 control-label">Status</label>
+                                    <div class="col-sm-8">
+                                        @Html.DropDownList("PerformanceAllowanceStatusID", new SelectList(ViewBag.AllowanceStatus, "AllowanceStatusID", "Status"), "Select PA Status", new { @class = "form-control select2", tabindex = "30" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="AllowanceStatus" class="col-sm-4 control-label">City Allow. Status</label>
+                                    <div class="col-sm-8">
+                                        @Html.DropDownList("CityAllowanceStatusID", new SelectList(ViewBag.AllowanceStatus, "AllowanceStatusID", "Status"), "Select City Allow. Status", new { @class = "form-control select2", tabindex = "30" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="PFStatus" class="col-sm-4 control-label">PF Status</label>
+                                    <div class="col-sm-8">
+                                        @Html.DropDownList("PFStatusID", new SelectList(ViewBag.AllowanceStatus, "AllowanceStatusID", "Status"), "Select PF Status", new { @class = "form-control select2", tabindex = "30" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="ESICStatus" class="col-sm-4 control-label">ESIC Status</label>
+                                    <div class="col-sm-8">
+                                        @Html.DropDownList("ESICStatusID", new SelectList(ViewBag.AllowanceStatus, "AllowanceStatusID", "Status"), "Select ESIC Status", new { @class = "form-control select2", tabindex = "30" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="BonusPercentage" class="col-sm-4 control-label">Bonus (%)</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="BonusPercentage" placeholder="Bonus Percentage" tabindex="24" value="0" autocomplete="off">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="BonusAmount" class="col-sm-4 control-label">Bonus Amount</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="BonusAmount" placeholder="Bonus Amount" tabindex="24" value="0" autocomplete="off">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="BonusStatus" class="col-sm-4 control-label">Bonus Status</label>
+                                    <div class="col-sm-8">
+                                        @Html.DropDownList("BonusStatusID", new SelectList(ViewBag.AllowanceStatus, "AllowanceStatusID", "Status"), "Select Bonus Status", new { @class = "form-control select2", tabindex = "30" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="LeaveEnhancementPercentage" class="col-sm-6 control-label">Leave Enhancement (%)</label>
+                                    <div class="col-sm-6">
+                                        <input type="text" class="form-control" id="LeaveEnhancementPercentage" placeholder="Leave Enhancement Percentage" tabindex="24" value="0" autocomplete="off">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="LeaveEnhancementAmount" class="col-sm-4 control-label">Amount</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="LeaveEnhancementAmount" placeholder="Leave Enhancement Amount" tabindex="24" value="0" autocomplete="off">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="LeaveEnhancementStatus" class="col-sm-4 control-label">Status</label>
+                                    <div class="col-sm-8">
+                                        @Html.DropDownList("LeaveEnhancementStatusID", new SelectList(ViewBag.AllowanceStatus, "AllowanceStatusID", "Status"), "Select Enhancement Status", new { @class = "form-control select2", tabindex = "30" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="GratuityPercentage" class="col-sm-4 control-label">Gratuity (%)</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="GratuityPercentage" placeholder="Gratuity Percentage" tabindex="24" value="0" autocomplete="off">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="GratuityAmount" class="col-sm-4 control-label">Gratuity Amount</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="GratuityAmount" placeholder="Gratuity Amount" tabindex="24" value="0" autocomplete="off">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="GratuityStatus" class="col-sm-4 control-label">Gratuity Status</label>
+                                    <div class="col-sm-8">
+                                        @Html.DropDownList("GratuityStatusID", new SelectList(ViewBag.AllowanceStatus, "AllowanceStatusID", "Status"), "Select Gratuity Status", new { @class = "form-control select2", tabindex = "30" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="GratuityStatus" class="col-sm-4 control-label">Customer</label>
+                                    <div class="col-sm-8">
+                                        @Html.DropDownList("CustomerID", new SelectList(ViewBag.Customer, "CustomerID", "CustomerName"), "Select Customer", new { @class = "form-control select2", tabindex = "30" })
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="box-footer">
+                        <div class="pull-right">
+                            <button type="button" id="btnsave" class="btn btn-info" tabindex="30">Save</button>
+                            <button type="button" id="btncancel" class="btn btn-default" tabindex="31">Cancel</button>
+                            <button type="button" id="btnexport" class="btn btn-info">Export To Excel</button>
+                        </div>
+                    </div>
+                </form>
+                <div id="lstAllowance">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script>
+
+    $(document).ready(function () {
+        loadhtml();
+
+        $("#EmployeeCode").on('change keypress', function (e) {
+            //debugger;
+            var EmployeeCode = this.value;
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("GetEmployeeDetailByEmployeeCode")',
+                data: { 'EmployeeCode': EmployeeCode },
+                success: function (result) {
+                    //debugger;
+                    if (result.UserID > 0) {
+                        $('#UserID').val(result.UserID);
+                        $('#AllowanceDetailID').val(result.AllowanceDetailID);
+                        $('#DateOfJoining').val(result.DateOfJoiningstr);
+                        $('#Age').val(result.Age);
+                        $('#OpeningDate').val(result.OpeningDatestr);
+                        $('#IncrementDate').val(result.IncrementDatestr);
+                        $('#DA1Date').val(result.DA1Datestr);
+                        $('#DA2Date').val(result.DA2Datestr);
+                        $('#OthersDate').val(result.OthersDatestr);
+                        $('#BasicAllowance1').val(result.BasicAllowance1);
+                        $('#BasicAllowance2').val(result.BasicAllowance2);
+                        $('#BasicAllowance3').val(result.BasicAllowance3);
+                        $('#BasicAllowance4').val(result.BasicAllowance4);
+                        $('#BasicAllowance5').val(result.BasicAllowance5);
+                        $('#TotalBasicAllowance').val(result.TotalBasicAllowance);
+                        $('#HouseRentAllowancePercentage1').val(result.HRAPercentage1);
+                        $('#HouseRentAllowancePercentage2').val(result.HRAPercentage2);
+                        $('#HouseRentAllowancePercentage3').val(result.HRAPercentage3);
+                        $('#HouseRentAllowancePercentage4').val(result.HRAPercentage4);
+                        $('#HouseRentAllowancePercentage5').val(result.HRAPercentage5);
+                        $('#HouseRentAllowance1').val(result.HouseRentAllowance1);
+                        $('#HouseRentAllowance2').val(result.HouseRentAllowance2);
+                        $('#HouseRentAllowance3').val(result.HouseRentAllowance3);
+                        $('#HouseRentAllowance4').val(result.HouseRentAllowance4);
+                        $('#HouseRentAllowance5').val(result.HouseRentAllowance5);
+                        $('#TotalHouseRentAllowance').val(result.TotalHouseRentAllowance);
+
+                        $('#TotalWages1').val(result.TotalWages1);
+                        $('#TotalWages2').val(result.TotalWages2);
+                        $('#TotalWages3').val(result.TotalWages3);
+                        $('#TotalWages4').val(result.TotalWages4);
+                        $('#TotalWages5').val(result.TotalWages5);
+                        $('#GrandTotalWages').val(result.GrandTotalWages);
+
+                        $('#Conveyance').val(result.Conveyance);
+                        $('#ConveyancePerDay').val(result.ConveyancePerDay);
+                        $('#VehicleAllowance').val(result.VehicleAllowance);
+                        $('#PerformanceAllowance').val(result.PerformanceAllowance);
+
+                        $('#PerformanceAllowanceStatusID').val(result.PerformanceAllowanceStatusID);
+                        $('#PerformanceAllowanceStatusID').select2();
+                        $('#CityAllowanceStatusID').val(result.CityAllowanceStatusID);
+                        $('#CityAllowanceStatusID').select2();
+                        $('#PFStatusID').val(result.PFStatusID);
+                        $('#PFStatusID').select2();
+                        $('#ESICStatusID').val(result.ESICStatusID);
+                        $('#ESICStatusID').select2();
+                        $('#BonusPercentage').val(result.BonusPercentage);
+                        $('#BonusAmount').val(result.BonusAmount);
+                        $('#BonusStatusID').val(result.BonusStatusID);
+                        $('#BonusStatusID').select2();
+                        $('#LeaveEnhancementPercentage').val(result.LeaveEnhancementPercentage);
+                        $('#LeaveEnhancementAmount').val(result.LeaveEnhancementAmount);
+                        $('#LeaveEnhancementStatusID').val(result.LeaveEnhancementStatusID);
+                        $('#LeaveEnhancementStatusID').select2();
+                        $('#GratuityPercentage').val(result.GratuityPercentage);
+                        $('#GratuityAmount').val(result.GratuityAmount);
+                        $('#GratuityStatusID').val(result.GratuityStatusID);
+                        $('#GratuityStatusID').select2();
+
+                        $('#CustomerID').val(result.CustomerID);
+                        $('#CustomerID').select2();
+
+                        $('#CreatedBy').val(result.CreatedBy);
+                        $('#CreatedOn').val(result.CreatedOnstr);
+                    }
+                    else {
+                        clearform();
+                        $.ajax({
+                            type: 'POST',
+                            url: '@Url.Action("GetOpeningAllowanceDetail")',
+                            data: { 'EmployeeCode': EmployeeCode },
+                            success: function (result) {
+                                //debugger;
+                                $('#UserID').val(result.UserID);
+                                $('#DateOfJoining').val(result.DateOfJoiningstr);
+                                $('#Age').val(result.Age);
+                                $('#BasicAllowance1').val(result.BasicAllowance1);
+                                $('#BasicAllowance2').val("0");
+                                $('#BasicAllowance3').val("0");
+                                $('#BasicAllowance4').val("0");
+                                $('#BasicAllowance5').val("0");
+                                $('#TotalBasicAllowance').val(result.BasicAllowance1);
+                                $('#HouseRentAllowancePercentage1').val("0");
+                                $('#HouseRentAllowancePercentage2').val("0");
+                                $('#HouseRentAllowancePercentage3').val("0");
+                                $('#HouseRentAllowancePercentage4').val("0");
+                                $('#HouseRentAllowancePercentage5').val("0");
+                                $('#HouseRentAllowance1').val(result.HouseRentAllowance1);
+                                $('#HouseRentAllowance2').val("0");
+                                $('#HouseRentAllowance3').val("0");
+                                $('#HouseRentAllowance4').val("0");
+                                $('#HouseRentAllowance5').val("0");
+
+                                $('#TotalWages1').val("0");
+                                $('#TotalWages2').val("0");
+                                $('#TotalWages3').val("0");
+                                $('#TotalWages4').val("0");
+                                $('#TotalWages5').val("0");
+                                $('#GrandTotalWages').val("0");
+                                $('#ConveyancePerDay').val("0");
+                                $('#TotalHouseRentAllowance').val(result.HouseRentAllowance1);
+                                $('#Conveyance').val(result.Conveyance);
+                                $('#VehicleAllowance').val(result.VehicleAllowance);
+                                $('#PerformanceAllowance').val(result.PerformanceAllowance);
+                            },
+                            error: function () { alert('Error'); }
+                        });
+                    }
+                },
+                error: function () { alert('Error'); }
+            });
+        });
+    });
+
+    //$(".Percentage").on('blur', function (e) {
+    //    var end = this;
+    //    debugger;
+    //    var Percentage = this.value;
+    //    var BasicAllowance = $("#BasicAllowance").val();
+    //    debugger;
+    //    if (Percentage > 0) {
+    //        var Mul = BasicAllowance * Percentage;
+    //        var HouseRentAllowance = Mul / 100;
+    //        $('#HouseRentAllowance').val(HouseRentAllowance);
+    //    }
+    //});
+
+    //$("#BasicAllowance1").on('blur', function (e) {
+    //    var BasicAllowance1 = this.value;
+    //    debugger;
+    //    var HouseRentAllowance1 = $("#HouseRentAllowance1").val();
+    //    var HouseRentAllowancePercentage1 = $("#HouseRentAllowancePercentage1").val();
+    //    if (HouseRentAllowancePercentage1 > 0 && HouseRentAllowancePercentage1 != "") {
+    //        var Mul = BasicAllowance1 * HouseRentAllowancePercentage1;
+    //        var HouseRentAllowance1 = Mul / 100;
+    //        $('#HouseRentAllowance1').val(HouseRentAllowance1);
+    //        var TotalWages1 = parseFloat(BasicAllowance1) + parseFloat(HouseRentAllowance1);
+    //        $('#TotalWages1').val(TotalWages1);
+    //    }
+    //    else {
+    //        var TotalWages1 = parseFloat(BasicAllowance1) + parseFloat(HouseRentAllowance1);
+    //        $('#TotalWages1').val(TotalWages1);
+    //    }
+    //});
+
+
+    $("#BasicAllowance1").on('blur', function (e) {
+        var end = this;
+        //debugger;
+        var BasicAllowance1 = this.value;
+        var BasicAllowance2 = $("#BasicAllowance2").val();
+        var BasicAllowance3 = $("#BasicAllowance3").val();
+        var BasicAllowance4 = $("#BasicAllowance4").val();
+        var BasicAllowance5 = $("#BasicAllowance5").val();
+        var TotalWages1 = 0;
+        var TotalWages2 = $("#TotalWages2").val();
+        var TotalWages3 = $("#TotalWages3").val();
+        var TotalWages4 = $("#TotalWages4").val();
+        var TotalWages5 = $("#TotalWages5").val();
+        if (BasicAllowance1 >= 0 && BasicAllowance1 != "") {
+            // 14-04-2020
+            var HouseRentAllowance1 = $("#HouseRentAllowance1").val();
+            var HouseRentAllowancePercentage1 = $("#HouseRentAllowancePercentage1").val();
+            if (HouseRentAllowancePercentage1 > 0 && HouseRentAllowancePercentage1 != "") {
+                var Mul = BasicAllowance1 * HouseRentAllowancePercentage1;
+                var HouseRentAllowance1 = Mul / 100;
+                $('#HouseRentAllowance1').val(HouseRentAllowance1);
+                TotalWages1 = parseFloat(BasicAllowance1) + parseFloat(HouseRentAllowance1);
+                $('#TotalWages1').val(TotalWages1);
+            }
+            else {
+                TotalWages1 = parseFloat(BasicAllowance1) + parseFloat(HouseRentAllowance1);
+                $('#TotalWages1').val(TotalWages1);
+            }
+
+
+            var GrandTotalWages = parseFloat(TotalWages1) + parseFloat(TotalWages2) + parseFloat(TotalWages3) + parseFloat(TotalWages4) + parseFloat(TotalWages5);
+            $('#GrandTotalWages').val(GrandTotalWages);
+
+            var TotalHouseRentAllowance = parseFloat(HouseRentAllowance1) + parseFloat($("#HouseRentAllowance2").val()) + parseFloat($("#HouseRentAllowance3").val()) + parseFloat($("#HouseRentAllowance4").val()) + parseFloat($("#HouseRentAllowance5").val());
+            $('#TotalHouseRentAllowance').val(TotalHouseRentAllowance);
+
+            // 14-04-2020
+            var TotalBasicAllowance = parseFloat(BasicAllowance1) + parseFloat(BasicAllowance2) + parseFloat(BasicAllowance3) + parseFloat(BasicAllowance4) + parseFloat(BasicAllowance5);
+            $('#TotalBasicAllowance').val(TotalBasicAllowance);
+        }
+        else {
+            alert('enter basic allowance');
+            //$("#BasicAllowance1").val("0");
+        }
+    });
+
+    $("#BasicAllowance2").on('blur', function (e) {
+        var end = this;
+        //debugger;
+        var BasicAllowance2 = this.value;
+        var BasicAllowance1 = $("#BasicAllowance1").val();
+        var BasicAllowance3 = $("#BasicAllowance3").val();
+        var BasicAllowance4 = $("#BasicAllowance4").val();
+        var BasicAllowance5 = $("#BasicAllowance5").val();
+        var TotalWages2 = 0;
+        var TotalWages1 = $("#TotalWages1").val();
+        var TotalWages3 = $("#TotalWages3").val();
+        var TotalWages4 = $("#TotalWages4").val();
+        var TotalWages5 = $("#TotalWages5").val();
+        if (BasicAllowance2 >= 0 && BasicAllowance2 != "") {
+            // 14-04-2020
+            var HouseRentAllowance2 = $("#HouseRentAllowance2").val();
+            var HouseRentAllowancePercentage2 = $("#HouseRentAllowancePercentage2").val();
+            if (HouseRentAllowancePercentage2 > 0 && HouseRentAllowancePercentage2 != "") {
+                var Mul = BasicAllowance2 * HouseRentAllowancePercentage2;
+                var HouseRentAllowance2 = Mul / 100;
+                $('#HouseRentAllowance2').val(HouseRentAllowance2);
+                TotalWages2 = parseFloat(BasicAllowance2) + parseFloat(HouseRentAllowance2);
+                $('#TotalWages2').val(TotalWages2);
+            }
+            else {
+                TotalWages2 = parseFloat(BasicAllowance2) + parseFloat(HouseRentAllowance2);
+                $('#TotalWages2').val(TotalWages2);
+            }
+
+            var GrandTotalWages = parseFloat(TotalWages1) + parseFloat(TotalWages2) + parseFloat(TotalWages3) + parseFloat(TotalWages4) + parseFloat(TotalWages5);
+            $('#GrandTotalWages').val(GrandTotalWages);
+
+            var TotalHouseRentAllowance = parseFloat(HouseRentAllowance2) + parseFloat($("#HouseRentAllowance1").val()) + parseFloat($("#HouseRentAllowance3").val()) + parseFloat($("#HouseRentAllowance4").val()) + parseFloat($("#HouseRentAllowance5").val());
+            $('#TotalHouseRentAllowance').val(TotalHouseRentAllowance);
+
+            // 14-04-2020
+            var TotalBasicAllowance = parseFloat(BasicAllowance1) + parseFloat(BasicAllowance2) + parseFloat(BasicAllowance3) + parseFloat(BasicAllowance4) + parseFloat(BasicAllowance5);
+            $('#TotalBasicAllowance').val(TotalBasicAllowance);
+        }
+        else {
+            alert('enter basic allowance');
+            //$("#BasicAllowance2").val("0");
+        }
+    });
+
+    $("#BasicAllowance3").on('blur', function (e) {
+        var end = this;
+        //debugger;
+        var BasicAllowance3 = this.value;
+        var BasicAllowance1 = $("#BasicAllowance1").val();
+        var BasicAllowance2 = $("#BasicAllowance2").val();
+        var BasicAllowance4 = $("#BasicAllowance4").val();
+        var BasicAllowance5 = $("#BasicAllowance5").val();
+        var TotalWages3 = 0;
+        var TotalWages1 = $("#TotalWages1").val();
+        var TotalWages2 = $("#TotalWages2").val();
+        var TotalWages4 = $("#TotalWages4").val();
+        var TotalWages5 = $("#TotalWages5").val();
+        if (BasicAllowance3 >= 0 && BasicAllowance3 != "") {
+            // 14-04-2020
+            var HouseRentAllowance3 = $("#HouseRentAllowance3").val();
+            var HouseRentAllowancePercentage3 = $("#HouseRentAllowancePercentage3").val();
+            if (HouseRentAllowancePercentage3 > 0 && HouseRentAllowancePercentage3 != "") {
+                var Mul = BasicAllowance3 * HouseRentAllowancePercentage3;
+                var HouseRentAllowance3 = Mul / 100;
+                $('#HouseRentAllowance3').val(HouseRentAllowance3);
+                TotalWages3 = parseFloat(BasicAllowance3) + parseFloat(HouseRentAllowance3);
+                $('#TotalWages3').val(TotalWages3);
+            }
+            else {
+                TotalWages3 = parseFloat(BasicAllowance3) + parseFloat(HouseRentAllowance3);
+                $('#TotalWages3').val(TotalWages3);
+            }
+
+            var GrandTotalWages = parseFloat(TotalWages1) + parseFloat(TotalWages2) + parseFloat(TotalWages3) + parseFloat(TotalWages4) + parseFloat(TotalWages5);
+            $('#GrandTotalWages').val(GrandTotalWages);
+
+            var TotalHouseRentAllowance = parseFloat(HouseRentAllowance3) + parseFloat($("#HouseRentAllowance1").val()) + parseFloat($("#HouseRentAllowance2").val()) + parseFloat($("#HouseRentAllowance4").val()) + parseFloat($("#HouseRentAllowance5").val());
+            $('#TotalHouseRentAllowance').val(TotalHouseRentAllowance);
+
+            // 14-04-2020
+            var TotalBasicAllowance = parseFloat(BasicAllowance1) + parseFloat(BasicAllowance2) + parseFloat(BasicAllowance3) + parseFloat(BasicAllowance4) + parseFloat(BasicAllowance5);
+            $('#TotalBasicAllowance').val(TotalBasicAllowance);
+        }
+        else {
+            alert('enter basic allowance');
+            //$("#BasicAllowance3").val("0");
+        }
+    });
+
+    $("#BasicAllowance4").on('blur', function (e) {
+        var end = this;
+        //debugger;
+        var BasicAllowance4 = this.value;
+        var BasicAllowance1 = $("#BasicAllowance1").val();
+        var BasicAllowance2 = $("#BasicAllowance2").val();
+        var BasicAllowance3 = $("#BasicAllowance3").val();
+        var BasicAllowance5 = $("#BasicAllowance5").val();
+        var TotalWages4 = 0;
+        var TotalWages1 = $("#TotalWages1").val();
+        var TotalWages2 = $("#TotalWages2").val();
+        var TotalWages3 = $("#TotalWages3").val();
+        var TotalWages5 = $("#TotalWages5").val();
+        if (BasicAllowance4 >= 0 && BasicAllowance4 != "") {
+            // 14-04-2020
+            var HouseRentAllowance4 = $("#HouseRentAllowance4").val();
+            var HouseRentAllowancePercentage4 = $("#HouseRentAllowancePercentage4").val();
+            if (HouseRentAllowancePercentage4 > 0 && HouseRentAllowancePercentage4 != "") {
+                var Mul = BasicAllowance4 * HouseRentAllowancePercentage4;
+                var HouseRentAllowance4 = Mul / 100;
+                $('#HouseRentAllowance4').val(HouseRentAllowance4);
+                TotalWages4 = parseFloat(BasicAllowance4) + parseFloat(HouseRentAllowance4);
+                $('#TotalWages4').val(TotalWages4);
+            }
+            else {
+                TotalWages4 = parseFloat(BasicAllowance4) + parseFloat(HouseRentAllowance4);
+                $('#TotalWages4').val(TotalWages4);
+            }
+
+            var GrandTotalWages = parseFloat(TotalWages1) + parseFloat(TotalWages2) + parseFloat(TotalWages3) + parseFloat(TotalWages4) + parseFloat(TotalWages5);
+            $('#GrandTotalWages').val(GrandTotalWages);
+
+            var TotalHouseRentAllowance = parseFloat(HouseRentAllowance4) + parseFloat($("#HouseRentAllowance1").val()) + parseFloat($("#HouseRentAllowance2").val()) + parseFloat($("#HouseRentAllowance3").val()) + parseFloat($("#HouseRentAllowance5").val());
+            $('#TotalHouseRentAllowance').val(TotalHouseRentAllowance);
+
+            // 14-04-2020
+            var TotalBasicAllowance = parseFloat(BasicAllowance1) + parseFloat(BasicAllowance2) + parseFloat(BasicAllowance3) + parseFloat(BasicAllowance4) + parseFloat(BasicAllowance5);
+            $('#TotalBasicAllowance').val(TotalBasicAllowance);
+        }
+        else {
+            alert('enter basic allowance');
+            //$("#BasicAllowance4").val("0");
+        }
+    });
+
+    $("#BasicAllowance5").on('blur', function (e) {
+        var end = this;
+        //debugger;
+        var BasicAllowance5 = this.value;
+        var BasicAllowance1 = $("#BasicAllowance1").val();
+        var BasicAllowance2 = $("#BasicAllowance2").val();
+        var BasicAllowance3 = $("#BasicAllowance3").val();
+        var BasicAllowance4 = $("#BasicAllowance4").val();
+        var TotalWages5 = 0;
+        var TotalWages1 = $("#TotalWages1").val();
+        var TotalWages2 = $("#TotalWages2").val();
+        var TotalWages3 = $("#TotalWages3").val();
+        var TotalWages4 = $("#TotalWages4").val();
+        if (BasicAllowance5 >= 0 && BasicAllowance5 != "") {
+            // 14-04-2020
+            var HouseRentAllowance5 = $("#HouseRentAllowance5").val();
+            var HouseRentAllowancePercentage5 = $("#HouseRentAllowancePercentage5").val();
+            if (HouseRentAllowancePercentage5 > 0 && HouseRentAllowancePercentage5 != "") {
+                var Mul = BasicAllowance5 * HouseRentAllowancePercentage5;
+                var HouseRentAllowance5 = Mul / 100;
+                $('#HouseRentAllowance5').val(HouseRentAllowance5);
+                TotalWages5 = parseFloat(BasicAllowance5) + parseFloat(HouseRentAllowance5);
+                $('#TotalWages5').val(TotalWages5);
+            }
+            else {
+                TotalWages5 = parseFloat(BasicAllowance5) + parseFloat(HouseRentAllowance5);
+                $('#TotalWages5').val(TotalWages5);
+            }
+
+            var GrandTotalWages = parseFloat(TotalWages1) + parseFloat(TotalWages2) + parseFloat(TotalWages3) + parseFloat(TotalWages4) + parseFloat(TotalWages5);
+            $('#GrandTotalWages').val(GrandTotalWages);
+
+            var TotalHouseRentAllowance = parseFloat(HouseRentAllowance5) + parseFloat($("#HouseRentAllowance1").val()) + parseFloat($("#HouseRentAllowance2").val()) + parseFloat($("#HouseRentAllowance3").val()) + parseFloat($("#HouseRentAllowance4").val());
+            $('#TotalHouseRentAllowance').val(TotalHouseRentAllowance);
+
+
+            // 14-04-2020
+            var TotalBasicAllowance = parseFloat(BasicAllowance1) + parseFloat(BasicAllowance2) + parseFloat(BasicAllowance3) + parseFloat(BasicAllowance4) + parseFloat(BasicAllowance5);
+            $('#TotalBasicAllowance').val(TotalBasicAllowance);
+        }
+        else {
+            alert('enter basic allowance');
+            //$("#BasicAllowance5").val("0");
+        }
+    });
+
+    $("#HouseRentAllowancePercentage1").on('blur', function (e) {
+        var end = this;
+        //debugger;
+        var HouseRentAllowancePercentage1 = this.value;
+        var BasicAllowance1 = $("#BasicAllowance1").val();
+        //debugger;
+        if (HouseRentAllowancePercentage1 > 0 && HouseRentAllowancePercentage1 != "") {
+            var Mul = BasicAllowance1 * HouseRentAllowancePercentage1;
+            var HouseRentAllowance1 = Mul / 100;
+            $('#HouseRentAllowance1').val(HouseRentAllowance1);
+            // 14-04-2020
+            var TotalWages1 = parseFloat(BasicAllowance1) + parseFloat(HouseRentAllowance1);
+            $('#TotalWages1').val(TotalWages1);
+
+            var GrandTotalWages = parseFloat(TotalWages1) + parseFloat($("#TotalWages2").val()) + parseFloat($("#TotalWages3").val()) + parseFloat($("#TotalWages4").val()) + parseFloat($("#TotalWages5").val());
+            $('#GrandTotalWages').val(GrandTotalWages);
+
+            // 14-04-2020
+            var TotalHouseRentAllowance = parseFloat(HouseRentAllowance1) + parseFloat($("#HouseRentAllowance2").val()) + parseFloat($("#HouseRentAllowance3").val()) + parseFloat($("#HouseRentAllowance4").val()) + parseFloat($("#HouseRentAllowance5").val());
+            $('#TotalHouseRentAllowance').val(TotalHouseRentAllowance);
+        }
+            // 14-04-2020
+        else {
+            $('#TotalWages1').val(BasicAllowance1);
+            var GrandTotalWages = parseFloat($("#TotalWages1").val()) + parseFloat($("#TotalWages2").val()) + parseFloat($("#TotalWages3").val()) + parseFloat($("#TotalWages4").val()) + parseFloat($("#TotalWages5").val());
+            $('#GrandTotalWages').val(GrandTotalWages);
+            $("#HouseRentAllowance1").val("0");
+        }
+        // 14-04-2020
+    });
+
+    $("#HouseRentAllowancePercentage2").on('blur', function (e) {
+        var end = this;
+        //debugger;
+        var HouseRentAllowancePercentage2 = this.value;
+        var BasicAllowance2 = $("#BasicAllowance2").val();
+        //debugger;
+        if (HouseRentAllowancePercentage2 > 0 && HouseRentAllowancePercentage2 != "") {
+            var Mul = BasicAllowance2 * HouseRentAllowancePercentage2;
+            var HouseRentAllowance2 = Mul / 100;
+            $('#HouseRentAllowance2').val(HouseRentAllowance2);
+            // 14-04-2020
+            var TotalWages2 = parseFloat(BasicAllowance2) + parseFloat(HouseRentAllowance2);
+            $('#TotalWages2').val(TotalWages2);
+
+            var GrandTotalWages = parseFloat(TotalWages2) + parseFloat($("#TotalWages1").val()) + parseFloat($("#TotalWages3").val()) + parseFloat($("#TotalWages4").val()) + parseFloat($("#TotalWages5").val());
+            $('#GrandTotalWages').val(GrandTotalWages);
+
+            // 14-04-2020
+            var TotalHouseRentAllowance = parseFloat(HouseRentAllowance2) + parseFloat($("#HouseRentAllowance1").val()) + parseFloat($("#HouseRentAllowance3").val()) + parseFloat($("#HouseRentAllowance4").val()) + parseFloat($("#HouseRentAllowance5").val());
+            $('#TotalHouseRentAllowance').val(TotalHouseRentAllowance);
+        }
+            // 14-04-2020
+        else {
+            $('#TotalWages2').val(BasicAllowance2);
+            var GrandTotalWages = parseFloat($("#TotalWages1").val()) + parseFloat($("#TotalWages2").val()) + parseFloat($("#TotalWages3").val()) + parseFloat($("#TotalWages4").val()) + parseFloat($("#TotalWages5").val());
+            $('#GrandTotalWages').val(GrandTotalWages);
+            $("#HouseRentAllowance2").val("0");
+        }
+        // 14-04-2020
+    });
+
+    $("#HouseRentAllowancePercentage3").on('blur', function (e) {
+        var end = this;
+        //debugger;
+        var HouseRentAllowancePercentage3 = this.value;
+        var BasicAllowance3 = $("#BasicAllowance3").val();
+        //debugger;
+        if (HouseRentAllowancePercentage3 > 0 && HouseRentAllowancePercentage3 != "") {
+            var Mul = BasicAllowance3 * HouseRentAllowancePercentage3;
+            var HouseRentAllowance3 = Mul / 100;
+            $('#HouseRentAllowance3').val(HouseRentAllowance3);
+            // 14-04-2020
+            var TotalWages3 = parseFloat(BasicAllowance3) + parseFloat(HouseRentAllowance3);
+            $('#TotalWages3').val(TotalWages3);
+
+            var GrandTotalWages = parseFloat(TotalWages3) + parseFloat($("#TotalWages1").val()) + parseFloat($("#TotalWages2").val()) + parseFloat($("#TotalWages4").val()) + parseFloat($("#TotalWages5").val());
+            $('#GrandTotalWages').val(GrandTotalWages);
+
+            // 14-04-2020
+            var TotalHouseRentAllowance = parseFloat(HouseRentAllowance3) + parseFloat($("#HouseRentAllowance1").val()) + parseFloat($("#HouseRentAllowance2").val()) + parseFloat($("#HouseRentAllowance4").val()) + parseFloat($("#HouseRentAllowance5").val());
+            $('#TotalHouseRentAllowance').val(TotalHouseRentAllowance);
+        }
+            // 14-04-2020
+        else {
+            $('#TotalWages3').val(BasicAllowance3);
+            var GrandTotalWages = parseFloat($("#TotalWages1").val()) + parseFloat($("#TotalWages2").val()) + parseFloat($("#TotalWages3").val()) + parseFloat($("#TotalWages4").val()) + parseFloat($("#TotalWages5").val());
+            $('#GrandTotalWages').val(GrandTotalWages);
+            $("#HouseRentAllowance3").val("0");
+        }
+        // 14-04-2020
+    });
+
+    $("#HouseRentAllowancePercentage4").on('blur', function (e) {
+        var end = this;
+        //debugger;
+        var HouseRentAllowancePercentage4 = this.value;
+        var BasicAllowance4 = $("#BasicAllowance4").val();
+        //debugger;
+        if (HouseRentAllowancePercentage4 > 0 && HouseRentAllowancePercentage4 != "") {
+            var Mul = BasicAllowance4 * HouseRentAllowancePercentage4;
+            var HouseRentAllowance4 = Mul / 100;
+            $('#HouseRentAllowance4').val(HouseRentAllowance4);
+            // 14-04-2020
+            var TotalWages4 = parseFloat(BasicAllowance4) + parseFloat(HouseRentAllowance4);
+            $('#TotalWages4').val(TotalWages4);
+
+            var GrandTotalWages = parseFloat(TotalWages4) + parseFloat($("#TotalWages1").val()) + parseFloat($("#TotalWages2").val()) + parseFloat($("#TotalWages3").val()) + parseFloat($("#TotalWages5").val());
+            $('#GrandTotalWages').val(GrandTotalWages);
+
+            // 14-04-2020
+            var TotalHouseRentAllowance = parseFloat(HouseRentAllowance4) + parseFloat($("#HouseRentAllowance1").val()) + parseFloat($("#HouseRentAllowance2").val()) + parseFloat($("#HouseRentAllowance3").val()) + parseFloat($("#HouseRentAllowance5").val());
+            $('#TotalHouseRentAllowance').val(TotalHouseRentAllowance);
+        }
+            // 14-04-2020
+        else {
+            $('#TotalWages4').val(BasicAllowance4);
+            var GrandTotalWages = parseFloat($("#TotalWages1").val()) + parseFloat($("#TotalWages2").val()) + parseFloat($("#TotalWages3").val()) + parseFloat($("#TotalWages4").val()) + parseFloat($("#TotalWages5").val());
+            $('#GrandTotalWages').val(GrandTotalWages);
+            $("#HouseRentAllowance4").val("0");
+        }
+        // 14-04-2020
+    });
+
+    $("#HouseRentAllowancePercentage5").on('blur', function (e) {
+        var end = this;
+        //debugger;
+        var HouseRentAllowancePercentage5 = this.value;
+        var BasicAllowance5 = $("#BasicAllowance5").val();
+        //debugger;
+        if (HouseRentAllowancePercentage5 > 0 && HouseRentAllowancePercentage5 != "") {
+            var Mul = BasicAllowance5 * HouseRentAllowancePercentage5;
+            var HouseRentAllowance5 = Mul / 100;
+            $('#HouseRentAllowance5').val(HouseRentAllowance5);
+            // 14-04-2020
+            var TotalWages5 = parseFloat(BasicAllowance5) + parseFloat(HouseRentAllowance5);
+            $('#TotalWages5').val(TotalWages5);
+
+            var GrandTotalWages = parseFloat(TotalWages5) + parseFloat($("#TotalWages1").val()) + parseFloat($("#TotalWages2").val()) + parseFloat($("#TotalWages3").val()) + parseFloat($("#TotalWages4").val());
+            $('#GrandTotalWages').val(GrandTotalWages);
+
+            // 14-04-2020
+            var TotalHouseRentAllowance = parseFloat(HouseRentAllowance5) + parseFloat($("#HouseRentAllowance1").val()) + parseFloat($("#HouseRentAllowance2").val()) + parseFloat($("#HouseRentAllowance3").val()) + parseFloat($("#HouseRentAllowance4").val());
+            $('#TotalHouseRentAllowance').val(TotalHouseRentAllowance);
+        }
+            // 14-04-2020
+        else {
+            $('#TotalWages5').val(BasicAllowance5);
+            var GrandTotalWages = parseFloat($("#TotalWages1").val()) + parseFloat($("#TotalWages2").val()) + parseFloat($("#TotalWages3").val()) + parseFloat($("#TotalWages4").val()) + parseFloat($("#TotalWages5").val());
+            $('#GrandTotalWages').val(GrandTotalWages);
+            $("#HouseRentAllowance5").val("0");
+        }
+        // 14-04-2020
+    });
+
+    $("#HouseRentAllowance1").on('blur', function (e) {
+        var end = this;
+        //debugger;
+        var HouseRentAllowance1 = this.value;
+        var HouseRentAllowance2 = $("#HouseRentAllowance2").val();
+        var HouseRentAllowance3 = $("#HouseRentAllowance3").val();
+        var HouseRentAllowance4 = $("#HouseRentAllowance4").val();
+        var HouseRentAllowance5 = $("#HouseRentAllowance5").val();
+        // 14-04-2020
+        var BasicAllowance1 = $("#BasicAllowance1").val();
+        var TotalWages1 = parseFloat(BasicAllowance1) + parseFloat(HouseRentAllowance1);
+        $('#TotalWages1').val(TotalWages1);
+
+        var GrandTotalWages = parseFloat(TotalWages1) + parseFloat($("#TotalWages2").val()) + parseFloat($("#TotalWages3").val()) + parseFloat($("#TotalWages4").val()) + parseFloat($("#TotalWages5").val());
+        $('#GrandTotalWages').val(GrandTotalWages);
+
+        // 14-04-2020
+        if (HouseRentAllowance1 >= 0 && HouseRentAllowance1 != "") {
+            var TotalHouseRentAllowance = parseFloat(HouseRentAllowance1) + parseFloat(HouseRentAllowance2) + parseFloat(HouseRentAllowance3) + parseFloat(HouseRentAllowance4) + parseFloat(HouseRentAllowance5);
+            $('#TotalHouseRentAllowance').val(TotalHouseRentAllowance);
+            $("#HouseRentAllowancePercentage1").val("0");
+        }
+        else {
+            alert('enter basic allowance');
+            //$("#HouseRentAllowance1").val("0");
+        }
+    });
+
+    $("#HouseRentAllowance2").on('blur', function (e) {
+        var end = this;
+        //debugger;
+        var HouseRentAllowance2 = this.value;
+        var HouseRentAllowance1 = $("#HouseRentAllowance1").val();
+        var HouseRentAllowance3 = $("#HouseRentAllowance3").val();
+        var HouseRentAllowance4 = $("#HouseRentAllowance4").val();
+        var HouseRentAllowance5 = $("#HouseRentAllowance5").val();
+        // 14-04-2020
+        var BasicAllowance2 = $("#BasicAllowance2").val();
+        var TotalWages2 = parseFloat(BasicAllowance2) + parseFloat(HouseRentAllowance2);
+        $('#TotalWages2').val(TotalWages2);
+
+        var GrandTotalWages = parseFloat(TotalWages2) + parseFloat($("#TotalWages1").val()) + parseFloat($("#TotalWages3").val()) + parseFloat($("#TotalWages4").val()) + parseFloat($("#TotalWages5").val());
+        $('#GrandTotalWages').val(GrandTotalWages);
+
+        // 14-04-2020
+        if (HouseRentAllowance2 >= 0 && HouseRentAllowance2 != "") {
+            var TotalHouseRentAllowance = parseFloat(HouseRentAllowance1) + parseFloat(HouseRentAllowance2) + parseFloat(HouseRentAllowance3) + parseFloat(HouseRentAllowance4) + parseFloat(HouseRentAllowance5);
+            $('#TotalHouseRentAllowance').val(TotalHouseRentAllowance);
+            $("#HouseRentAllowancePercentage2").val("0");
+        }
+        else {
+            alert('enter basic allowance');
+            //$("#HouseRentAllowance2").val("0");
+        }
+    });
+
+    $("#HouseRentAllowance3").on('blur', function (e) {
+        var end = this;
+        //debugger;
+        var HouseRentAllowance3 = this.value;
+        var HouseRentAllowance1 = $("#HouseRentAllowance1").val();
+        var HouseRentAllowance2 = $("#HouseRentAllowance2").val();
+        var HouseRentAllowance4 = $("#HouseRentAllowance4").val();
+        var HouseRentAllowance5 = $("#HouseRentAllowance5").val();
+        // 14-04-2020
+        var BasicAllowance3 = $("#BasicAllowance3").val();
+        var TotalWages3 = parseFloat(BasicAllowance3) + parseFloat(HouseRentAllowance3);
+        $('#TotalWages3').val(TotalWages3);
+
+        var GrandTotalWages = parseFloat(TotalWages3) + parseFloat($("#TotalWages1").val()) + parseFloat($("#TotalWages2").val()) + parseFloat($("#TotalWages4").val()) + parseFloat($("#TotalWages5").val());
+        $('#GrandTotalWages').val(GrandTotalWages);
+
+        // 14-04-2020
+        if (HouseRentAllowance3 >= 0 && HouseRentAllowance3 != "") {
+            var TotalHouseRentAllowance = parseFloat(HouseRentAllowance1) + parseFloat(HouseRentAllowance2) + parseFloat(HouseRentAllowance3) + parseFloat(HouseRentAllowance4) + parseFloat(HouseRentAllowance5);
+            $('#TotalHouseRentAllowance').val(TotalHouseRentAllowance);
+            $("#HouseRentAllowancePercentage3").val("0");
+        }
+        else {
+            alert('enter basic allowance');
+            //$("#HouseRentAllowance3").val("0");
+        }
+    });
+
+    $("#HouseRentAllowance4").on('blur', function (e) {
+        var end = this;
+        //debugger;
+        var HouseRentAllowance4 = this.value;
+        var HouseRentAllowance1 = $("#HouseRentAllowance1").val();
+        var HouseRentAllowance2 = $("#HouseRentAllowance2").val();
+        var HouseRentAllowance3 = $("#HouseRentAllowance3").val();
+        var HouseRentAllowance5 = $("#HouseRentAllowance5").val();
+        // 14-04-2020
+        var BasicAllowance4 = $("#BasicAllowance4").val();
+        var TotalWages4 = parseFloat(BasicAllowance4) + parseFloat(HouseRentAllowance4);
+        $('#TotalWages4').val(TotalWages4);
+
+        var GrandTotalWages = parseFloat(TotalWages4) + parseFloat($("#TotalWages1").val()) + parseFloat($("#TotalWages2").val()) + parseFloat($("#TotalWages3").val()) + parseFloat($("#TotalWages5").val());
+        $('#GrandTotalWages').val(GrandTotalWages);
+
+        // 14-04-2020
+        if (HouseRentAllowance4 >= 0 && HouseRentAllowance4 != "") {
+            var TotalHouseRentAllowance = parseFloat(HouseRentAllowance1) + parseFloat(HouseRentAllowance2) + parseFloat(HouseRentAllowance3) + parseFloat(HouseRentAllowance4) + parseFloat(HouseRentAllowance5);
+            $('#TotalHouseRentAllowance').val(TotalHouseRentAllowance);
+            $("#HouseRentAllowancePercentage4").val("0");
+        }
+        else {
+            alert('enter basic allowance');
+            //$("#HouseRentAllowance4").val("0");
+        }
+    });
+
+    $("#HouseRentAllowance5").on('blur', function (e) {
+        var end = this;
+        //debugger;
+        var HouseRentAllowance5 = this.value;
+        var HouseRentAllowance1 = $("#HouseRentAllowance1").val();
+        var HouseRentAllowance2 = $("#HouseRentAllowance2").val();
+        var HouseRentAllowance3 = $("#HouseRentAllowance3").val();
+        var HouseRentAllowance4 = $("#HouseRentAllowance4").val();
+        // 14-04-2020
+        var BasicAllowance5 = $("#BasicAllowance5").val();
+        var TotalWages5 = parseFloat(BasicAllowance5) + parseFloat(HouseRentAllowance5);
+        $('#TotalWages5').val(TotalWages5);
+
+        var GrandTotalWages = parseFloat(TotalWages5) + parseFloat($("#TotalWages1").val()) + parseFloat($("#TotalWages2").val()) + parseFloat($("#TotalWages3").val()) + parseFloat($("#TotalWages4").val());
+        $('#GrandTotalWages').val(GrandTotalWages);
+
+        // 14-04-2020
+        if (HouseRentAllowance5 >= 0 && HouseRentAllowance5 != "") {
+            var TotalHouseRentAllowance = parseFloat(HouseRentAllowance1) + parseFloat(HouseRentAllowance2) + parseFloat(HouseRentAllowance3) + parseFloat(HouseRentAllowance4) + parseFloat(HouseRentAllowance5);
+            $('#TotalHouseRentAllowance').val(TotalHouseRentAllowance);
+            $("#HouseRentAllowancePercentage5").val("0");
+        }
+        else {
+            alert('enter basic allowance');
+            //$("#HouseRentAllowance5").val("0");
+        }
+    });
+
+    function loadhtml() {
+        $.ajax({
+            url: '@Url.Action("ViewAllowanceList")',
+            type: 'GET',
+            cache: false,
+        }).done(function (result) {
+            $('#lstAllowance').html(result);
+        });
+    }
+
+    $("#btnsave").click(function () {
+        //debugger;
+        if (!($('#frmAllowanceDetail').parsley().validate())) {
+            return;
+        }
+        var datareq = new Object();
+        datareq.AllowanceDetailID = $("#AllowanceDetailID").val();
+        datareq.EmployeeCode = $("#EmployeeCode").val();
+        datareq.OpeningDate = $("#OpeningDate").val();
+        datareq.IncrementDate = $("#IncrementDate").val();
+        datareq.DA1Date = $("#DA1Date").val();
+        datareq.DA2Date = $("#DA2Date").val();
+        datareq.OthersDate = $("#OthersDate").val();
+        datareq.BasicAllowance1 = $("#BasicAllowance1").val();
+        datareq.BasicAllowance2 = $("#BasicAllowance2").val();
+        datareq.BasicAllowance3 = $("#BasicAllowance3").val();
+        datareq.BasicAllowance4 = $("#BasicAllowance4").val();
+        datareq.BasicAllowance5 = $("#BasicAllowance5").val();
+        datareq.TotalBasicAllowance = $("#TotalBasicAllowance").val();
+        datareq.HouseRentAllowancePercentage1 = $("#HouseRentAllowancePercentage1").val();
+        datareq.HouseRentAllowancePercentage2 = $("#HouseRentAllowancePercentage2").val();
+        datareq.HouseRentAllowancePercentage3 = $("#HouseRentAllowancePercentage3").val();
+        datareq.HouseRentAllowancePercentage4 = $("#HouseRentAllowancePercentage4").val();
+        datareq.HouseRentAllowancePercentage5 = $("#HouseRentAllowancePercentage5").val();
+        datareq.HouseRentAllowance1 = $("#HouseRentAllowance1").val();
+        datareq.HouseRentAllowance2 = $("#HouseRentAllowance2").val();
+        datareq.HouseRentAllowance3 = $("#HouseRentAllowance3").val();
+        datareq.HouseRentAllowance4 = $("#HouseRentAllowance4").val();
+        datareq.HouseRentAllowance5 = $("#HouseRentAllowance5").val();
+        datareq.TotalHouseRentAllowance = $("#TotalHouseRentAllowance").val();
+        datareq.TotalWages1 = $("#TotalWages1").val();
+        datareq.TotalWages2 = $("#TotalWages2").val();
+        datareq.TotalWages3 = $("#TotalWages3").val();
+        datareq.TotalWages4 = $("#TotalWages4").val();
+        datareq.TotalWages5 = $("#TotalWages5").val();
+        datareq.GrandTotalWages = $("#GrandTotalWages").val();
+        datareq.Conveyance = $("#Conveyance").val();
+        datareq.ConveyancePerDay = $("#ConveyancePerDay").val();
+        datareq.VehicleAllowance = $("#VehicleAllowance").val();
+        datareq.PerformanceAllowance = $("#PerformanceAllowance").val();
+        datareq.PerformanceAllowanceStatusID = $("#PerformanceAllowanceStatusID").val();
+        datareq.CityAllowanceStatusID = $("#CityAllowanceStatusID").val();
+        datareq.PFStatusID = $("#PFStatusID").val();
+        datareq.ESICStatusID = $("#ESICStatusID").val();
+        datareq.BonusPercentage = $("#BonusPercentage").val();
+        datareq.BonusAmount = $("#BonusAmount").val();
+        datareq.BonusStatusID = $("#BonusStatusID").val();
+        datareq.LeaveEnhancementPercentage = $("#LeaveEnhancementPercentage").val();
+        datareq.LeaveEnhancementAmount = $("#LeaveEnhancementAmount").val();
+        datareq.LeaveEnhancementStatusID = $("#LeaveEnhancementStatusID").val();
+        datareq.GratuityPercentage = $("#GratuityPercentage").val();
+        datareq.GratuityAmount = $("#GratuityAmount").val();
+        datareq.GratuityStatusID = $("#GratuityStatusID").val();
+        datareq.CustomerID = $("#CustomerID").val();
+        //datareq.IsOldPF = $('#IsOldPF').is(":checked");
+        //datareq.IsOldESIC = $('#IsOldESIC').is(":checked");
+        //datareq.IsOldCityAllowance = $('#IsOldCityAllowance').is(":checked");
+
+        datareq.CreatedBy = $("#CreatedBy").val();
+        datareq.CreatedOn = $("#CreatedOn").val();
+        datareq.IsDelete = $('#IsDelete').is(":checked");
+        $.ajax({
+            url: '@Url.Action("AddAllowanceDetail")',
+            type: 'POST',
+            data: { 'data': datareq },
+            cache: false,
+        }).done(function (result) {
+            if (result == true) {
+                if ($("#AllowanceDetailID").val() == "") {
+                    $('div#sucessalert').html("Added successfully.");
+                }
+                else {
+                    $('div#sucessalert').html("Updated successfully.");
+                }
+                showhidealert();
+                //loadhtml();
+                location.reload();
+                clearform();
+            }
+        });
+    });
+
+    $("#btncancel").click(function () {
+        location.reload();
+        //clearform();
+    });
+
+    function clearform() {
+        $("#frmAllowanceDetail").find("input").val("");
+    }
+
+
+
+    $("#btnexport").click(function () {
+        debugger;
+        var url = '@Url.Action("ExportExcelAllowanceList", "Admin")';
+        window.location.href = url.replace();
+    });
+
+
+</script>

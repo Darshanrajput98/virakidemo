@@ -1,0 +1,155 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{05A32448-29F0-456E-A2EC-3D7D674B6807}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>vb.Service</RootNamespace>
+    <AssemblyName>vb.Service</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="TaxProEInvoice.API">
+      <HintPath>..\..\..\VirakiBrothers\Source\vbwebsite\bin\TaxProEInvoice.API.dll</HintPath>
+    </Reference>
+    <Reference Include="TaxProEWB.API">
+      <HintPath>..\..\..\VirakiBrothers\Source\vbwebsite\bin\TaxProEWB.API.dll</HintPath>
+    </Reference>
+    <Reference Include="WAProAPI">
+      <HintPath>..\vbwebsite\bin\WAProAPI.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Class1.cs" />
+    <Compile Include="Common\ECredentials.cs" />
+    <Compile Include="Common\Utility.cs" />
+    <Compile Include="Common\Utility1.cs" />
+    <Compile Include="Common\Utility2.cs" />
+    <Compile Include="Common\WAAPI.cs" />
+    <Compile Include="Implementation\AdminServices.cs" />
+    <Compile Include="Implementation\AttandanceServices.cs" />
+    <Compile Include="Implementation\AuthorizeAccessServicecs.cs" />
+    <Compile Include="Implementation\PadtarServices.cs" />
+    <Compile Include="Implementation\GroundStockService.cs" />
+    <Compile Include="Implementation\ColdStorageServices.cs" />
+    <Compile Include="Implementation\CommonService.cs" />
+    <Compile Include="Implementation\CustomerServices.cs" />
+    <Compile Include="Implementation\DeliveryServices.cs" />
+    <Compile Include="Implementation\EWayBillService.cs" />
+    <Compile Include="Implementation\ExpensesServices.cs" />
+    <Compile Include="Implementation\OrderServices.cs" />
+    <Compile Include="Implementation\PaymentServices.cs" />
+    <Compile Include="Implementation\ProductService.cs" />
+    <Compile Include="Implementation\PurchaseServices.cs" />
+    <Compile Include="Implementation\ReportServices.cs" />
+    <Compile Include="Implementation\RetAdminServices.cs" />
+    <Compile Include="Implementation\RetCustomerServices.cs" />
+    <Compile Include="Implementation\RetDeliveryServices.cs" />
+    <Compile Include="Implementation\RetOrderServices.cs" />
+    <Compile Include="Implementation\RetPaymentServices.cs" />
+    <Compile Include="Implementation\RetProductServices.cs" />
+    <Compile Include="Implementation\RetReportService.cs" />
+    <Compile Include="Implementation\SupplierServices.cs" />
+    <Compile Include="Interface\IAdminService.cs" />
+    <Compile Include="Interface\IAttandanceService.cs" />
+    <Compile Include="Interface\IAuthorizeAccess.cs" />
+    <Compile Include="Interface\IGroundStockService.cs" />
+    <Compile Include="Interface\IColdStorageService.cs" />
+    <Compile Include="Interface\ICommonService.cs" />
+    <Compile Include="Interface\ICustomerService.cs" />
+    <Compile Include="Interface\IDeliveryService.cs" />
+    <Compile Include="Interface\IExpensesService.cs" />
+    <Compile Include="Interface\IEWayBillService.cs" />
+    <Compile Include="Interface\IOrderService.cs" />
+    <Compile Include="Interface\IPadtarService.cs" />
+    <Compile Include="Interface\IPaymentService.cs" />
+    <Compile Include="Interface\IProductService.cs" />
+    <Compile Include="Interface\IPurchaseService.cs" />
+    <Compile Include="Interface\IReportService.cs" />
+    <Compile Include="Interface\IRetAdminService.cs" />
+    <Compile Include="Interface\IRetCustomerService.cs" />
+    <Compile Include="Interface\IRetDeliveryService.cs" />
+    <Compile Include="Interface\IRetOrderService.cs" />
+    <Compile Include="Interface\IRetPaymentService.cs" />
+    <Compile Include="Interface\IRetProductService.cs" />
+    <Compile Include="Interface\IRetReportService.cs" />
+    <Compile Include="Interface\ISupplierService.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\vb.Data\vb.Data.csproj">
+      <Project>{77dece03-d49b-400f-a060-f5ebaf58f2b1}</Project>
+      <Name>vb.Data</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,232 @@
+﻿@model vb.Data.RetDeliveryStatus
+
+@{
+    ViewBag.Title = "TempoSheet";
+    Layout = "~/Areas/retail/Views/Shared/_retaillayout.cshtml";
+}
+
+<div class="box box-default">
+    <div class="box-header with-border text-center">
+        <h3 class="box-title">Tempo Sheet</h3>
+    </div>
+    <form id="frmCustomerGroup" class="form-horizontal">
+        <div class="box-body">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="ProductName" class="col-sm-4 control-label">Vehicle Number</label>
+                    <div class="col-sm-8">
+                        @Html.DropDownListFor(m => m.VehicleNo, new SelectList(ViewBag.VehicleNo, "VehicleNo", "VehicleNo"), "Select VehicleNo", new { @class = "form-control", tabindex = "0" })
+                        <input type="hidden" id="DeliveryAllocationID" name="DeliveryAllocationID" />
+                    </div>
+                </div>
+                @*<div class="form-group">
+                        <label for="ProductName" class="col-sm-4 control-label">Tempo Number</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" name="TempoNumber" id="TempoNumber" placeholder="Tempo Number" tabindex="1">
+                        </div>
+                    </div>*@
+                <div class="form-group">
+                    <label for="TempoNumber" class="col-sm-4 control-label">Tempo Number</label>
+                    <div class="col-sm-8">
+                        @Html.DropDownList("TempoNumber", new SelectList(ViewBag.TempoNumber, "TempoNumber", "VehicleNumber"), "Select Tempo No", new { @class = "form-control select2" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="ProductName" class="col-sm-4 control-label">Delivery Person1</label>
+                    <div class="col-sm-8">
+                        @Html.DropDownListFor(m => m.DeliveryPerson1, new SelectList(ViewBag.DeliveryPerson, "DeliveryPerson1", "DeliveryPersonName1"), "Select", new { @class = "form-control select2", tabindex = "2" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="ProductName" class="col-sm-4 control-label">Delivery Person3</label>
+                    <div class="col-sm-8">
+                        @Html.DropDownListFor(m => m.DeliveryPerson3, new SelectList(ViewBag.DeliveryPerson, "DeliveryPerson3", "DeliveryPersonName3"), "Select", new { @class = "form-control select2", tabindex = "4" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="ProductName" class="col-sm-4 control-label">Area</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="AreaID" id="AreaID" placeholder="Area" tabindex="1">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="ProductName" class="col-sm-4 control-label">Delivery Person2</label>
+                    <div class="col-sm-8">
+                        @Html.DropDownListFor(m => m.DeliveryPerson2, new SelectList(ViewBag.DeliveryPerson, "DeliveryPerson2", "DeliveryPersonName2"), "Select", new { @class = "form-control select2", tabindex = "3" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="ProductName" class="col-sm-4 control-label">Delivery Person4</label>
+                    <div class="col-sm-8">
+                        @Html.DropDownListFor(m => m.DeliveryPerson4, new SelectList(ViewBag.DeliveryPerson, "DeliveryPerson4", "DeliveryPersonName4"), "Select", new { @class = "form-control select2", tabindex = "5" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="CreatedDateWise" class="col-sm-4 control-label">Created Date Wise</label>
+                    <div class="col-sm-8">
+                        <input type="checkbox" id="IsCheckActualCreatedDate" style="margin-left:5px;margin-right:5px;" />
+                    </div>
+                </div>
+            </div>
+            <div class="box-footer ">
+                <div class="pull-right">
+                    <button type="button" id="btnCancel" class="btn btn-default" tabindex="19">Cancel</button>
+                    <button type="button" id="btnsavecase" class="btn btn-info" tabindex="18">Save</button>
+                </div>
+            </div>
+        </div>
+    </form>
+    <div id="lstcase">
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script>
+
+    $(document).ready(function () {
+        debugger;
+        var model = new Object
+        model.VehicleNo = $("#VehicleNo").val();
+        var arr = []; arr = model.VehicleNo.split('/');
+        model.VehicleNo = arr[0];
+        model.CreatedOn = arr[1];
+        $.ajax({
+            url: '@Url.Action("TempoSheetList")',
+            type: 'POST',
+            data: { 'model': model },
+            cache: false,
+        }).done(function (result) {
+            debugger;
+            //$("#TempoNumber").val($(result).find("#hdnTempoNo").val());
+            $("#TempoNumber").val($(result).find("#hdnTempoNo").val()).trigger('change');
+            $("#DeliveryPerson1").val($(result).find("#hdnDeliveryPerson1").val()).trigger('change');
+            $("#DeliveryPerson2").val($(result).find("#hdnDeliveryPerson2").val()).trigger('change');
+            $("#DeliveryPerson3").val($(result).find("#hdnDeliveryPerson3").val()).trigger('change');
+            $("#DeliveryPerson4").val($(result).find("#hdnDeliveryPerson4").val()).trigger('change');
+            var ar = $(result).find("#hdnAreaID").val();
+            $("#AreaID").val($(result).find("#hdnAreaID").val());
+            $("#DeliveryAllocationID").val($(result).find("#hdnDeliveryAllocationID").val());
+            $('#lstcase').html(result);
+        });
+    });
+    function loadhtml() {
+        debugger;
+        $.ajax({
+            url: '@Url.Action("TempoSheetList")',
+            type: 'POST',
+            data: { 'model': model },
+            cache: false,
+        }).done(function (result) {
+            debugger;
+            $("#VehicleNo").val($("#VehicleNo").val()).trigger('change');
+            //$("#TempoNumber").val($(result).find("#hdnTempoNo").val());
+            $("#TempoNumber").val($(result).find("#hdnTempoNo").val()).trigger('change');
+            $("#DeliveryPerson1").val($(result).find("#hdnDeliveryPerson1").val()).trigger('change');
+            $("#DeliveryPerson2").val($(result).find("#hdnDeliveryPerson2").val()).trigger('change');
+            $("#DeliveryPerson3").val($(result).find("#hdnDeliveryPerson3").val()).trigger('change');
+            $("#DeliveryPerson4").val($(result).find("#hdnDeliveryPerson4").val()).trigger('change');
+            $("#AreaID").val($(result).find("#hdnAreaID").val());
+            $("#DeliveryAllocationID").val($(result).find("#hdnDeliveryAllocationID").val());
+
+            // 05 Aug 2020 Piyush Limbani
+            $("#IsCheckActualCreatedDate").prop("checked", false);
+            // 05 Aug 2020 Piyush Limbani
+
+            $('#lstcase').html(result);
+        });
+    }
+
+    $("#VehicleNo").change(function () {
+        debugger;
+        if ($("#VehicleNo").val() == "") {
+            clearform();
+        }
+        else {
+            var model = new Object
+            model.VehicleNo = $("#VehicleNo").val();
+            var arr = []; arr = model.VehicleNo.split('/');
+            model.VehicleNo = arr[0];
+            model.CreatedOn = arr[1];
+            $.ajax({
+                url: '@Url.Action("TempoSheetList")',
+                type: 'POST',
+                data: { 'model': model },
+                cache: false,
+            }).done(function (result) {
+                debugger;
+                //$("#TempoNumber").val($(result).find("#hdnTempoNo").val());
+                $("#TempoNumber").val($(result).find("#hdnTempoNo").val()).trigger('change');
+                $("#DeliveryPerson1").val($(result).find("#hdnDeliveryPerson1").val()).trigger('change');
+                $("#DeliveryPerson2").val($(result).find("#hdnDeliveryPerson2").val()).trigger('change');
+                $("#DeliveryPerson3").val($(result).find("#hdnDeliveryPerson3").val()).trigger('change');
+                $("#DeliveryPerson4").val($(result).find("#hdnDeliveryPerson4").val()).trigger('change');
+                var ar = $(result).find("#hdnAreaID").val();
+                $("#AreaID").val($(result).find("#hdnAreaID").val());
+                $("#DeliveryAllocationID").val($(result).find("#hdnDeliveryAllocationID").val());
+
+                // 05 Aug 2020 Piyush Limbani
+                $("#IsCheckActualCreatedDate").prop("checked", false);
+                // 05 Aug 2020 Piyush Limbani
+
+                $('#lstcase').html(result);
+            });
+        }
+    });
+
+    $("#btnsavecase").click(function () {
+        debugger;
+        var datareq = new Object
+        datareq.VehicleNo = $("#VehicleNo").val();
+        var arr = []; arr = datareq.VehicleNo.split('/');
+        datareq.VehicleNo = arr[0];
+        datareq.AssignedDate = arr[1];
+        //datareq.TempoNo = $("#TempoNumber").val();
+        datareq.TempoNo = $("#TempoNumber").find("option:selected").text();
+        datareq.DeliveryPerson1 = $("#DeliveryPerson1").val();
+        datareq.DeliveryPerson2 = $("#DeliveryPerson2").val();
+        datareq.DeliveryPerson3 = $("#DeliveryPerson3").val();
+        datareq.DeliveryPerson4 = $("#DeliveryPerson4").val();
+        datareq.AreaID = $("#AreaID").val();
+        datareq.DeliveryAllocationID = $("#DeliveryAllocationID").val();
+        $.ajax({
+            url: '@Url.Action("AddDeliveryAllocation")',
+            type: 'POST',
+            data: { 'data': datareq },
+            cache: false,
+        }).done(function (result) {
+            if (result > 0) {
+                $("#DeliveryAllocationID").val(result);
+                if ($("#DeliveryAllocationID").val() == "0") {
+                    $('div#sucessalert').html("Order Details Added successfully.");
+                }
+                else {
+                    $('div#sucessalert').html("Order Details updated successfully.");
+                }
+                showhidealert();
+                loadhtml();
+                //clearform();
+            }
+        });
+    });
+
+    $("#btnCancel").click(function () {
+        clearform();
+    });
+
+    function clearform() {
+        debugger;
+        //$("#TempoNumber").val("");
+        $("#TempoNumber").val("").trigger("change");
+        $("#VehicleNo").val("").trigger("change");
+        $("#DeliveryPerson1").val("").trigger("change");
+        $("#DeliveryPerson2").val("").trigger("change");
+        $("#DeliveryPerson3").val("").trigger("change");
+        $("#DeliveryPerson4").val("").trigger("change");
+        $("#AreaID").val("");
+        $("#DeliveryAllocationID").val("");
+        $('#lstcase').html("");
+    }
+
+</script>

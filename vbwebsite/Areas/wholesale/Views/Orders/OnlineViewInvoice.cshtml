@@ -1,0 +1,160 @@
+﻿@model List<vb.Data.OrderQtyList>
+
+@{
+    ViewBag.Title = "ViewInvoice";
+    Layout = "~/Areas/wholesale/Views/Shared/_wholesalelayout.cshtml";
+}
+
+<div class="box">
+    <div class="box-header text-center">
+        <h3 class="box-title">View - Wholesale Order</h3>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body">
+        @if (Model.Count > 0)
+        {
+            <form id="frmwinv" class="form-horizontal">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="CustomerName" class="col-sm-4 control-label">Customer</label>
+                            <div class="col-sm-8">
+                                <label for="CustomerName" class="col-sm-8 control-label">@Model[0].CustomerName</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="InvoiceNumber" class="col-sm-4 control-label">Order Code</label>
+                            <div class="col-sm-8">
+                                <label for="InvoiceNumber" class="col-sm-8 control-label">@Model[0].InvoiceNumber</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="BillTo" class="col-sm-4 control-label">Bill To</label>
+                            <div class="col-sm-8">
+                                <label for="BillTo" class="col-sm-8 control-label">@Model[0].BillTo</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="Tax" class="col-sm-4 control-label">Tax</label>
+                            <div class="col-sm-8">
+                                <label for="Tax" class="col-sm-8 control-label">@Model[0].TaxName</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="ShipTo" class="col-sm-4 control-label">Customer Group</label>
+                            <div class="col-sm-8">
+                                <label for="CustomerGroupName" class="col-sm-8 control-label">@Model[0].CustomerGroupName</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="ShipTo" class="col-sm-4 control-label">Ship To</label>
+                            <div class="col-sm-8">
+                                <label for="ShipTo" class="col-sm-8 control-label">@Model[0].ShipTo</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="DeliveryDate" class="col-sm-4 control-label">Delivery Date</label>
+                            <div class="col-sm-8">
+                                <label for="DeliveryDate" class="col-sm-8 control-label">@Model[0].DeliveredDate.ToString("MM-dd-yyyy")</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="Notes" class="col-sm-4 control-label">Notes</label>
+                            <div class="col-sm-8">
+                                <label for="Notes" class="col-sm-8 control-label">@Model[0].CustomerNote</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            @*<div class="box-footer ">
+                <div class="pull-right">
+                    <button type="button" id="btnback" class="btn btn-info" tabindex="42">Back</button>
+                </div>
+            </div>*@
+            <div class="row" style="margin-top:50px;">
+                <table id="ListDataTableNo" class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th class="nosort">Sr No</th>
+                            <th class="nosort">Item Name</th>
+                            <th class="nosort">Quantity</th>
+                            <th class="nosort">Unit</th>
+                            <th class="nosort">Base Rate</th>
+                            <th class="nosort">Disc. Rate</th>
+                            <th class="nosort">Sale Rate</th>
+                            <th class="nosort">Bill Discount</th>
+                            <th class="nosort">Total</th>
+                            <th class="nosort">Tax</th>
+                            <th class="nosort">Tax amt</th>
+                            <th class="nosort">Final Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td id="row" @item.OrderID>
+                                    @item.SerialNumber
+                                </td>
+                                <td>
+                                    @item.ProductName
+                                </td>
+                                <td>
+                                    @item.Quantity
+                                </td>
+                                <td>
+                                    @item.UnitName
+                                </td>
+                                <td>
+                                    @item.ProductPrice
+                                </td>
+                                <td>
+                                    @item.LessAmount
+                                </td>
+                                <td>
+                                    @item.SaleRate
+                                </td>
+                                <td>
+                                    @item.BillDiscount
+                                </td>
+                                <td>
+                                    @item.Total
+                                </td>
+                                <td>
+                                    @item.Tax
+                                </td>
+                                <td>
+                                    @item.TaxAmt
+                                </td>
+                                <td>
+                                    @item.FinalTotal
+                                </td>
+                            </tr>
+                        }
+                        <tr>
+                            <td colspan="10"></td>
+                            <td align="right" style="font-weight:bold">Grand Total : </td>
+                            <td align="left" style="font-weight:bold">@Model[0].GrandTotal</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
+    <!-- /.box-body -->
+</div>
+
+@*<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        debugger;
+        $("#btnback").click(function () {
+            debugger;
+            var url = '@Url.Action("OnlineOrderProductList", "Report")';
+            window.location.href = url;
+        });
+    });
+</script>*@

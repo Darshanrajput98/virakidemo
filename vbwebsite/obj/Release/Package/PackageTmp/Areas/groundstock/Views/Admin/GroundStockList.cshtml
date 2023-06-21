@@ -1,0 +1,99 @@
+﻿@model List<vb.Data.GroundStockListResponse>
+
+@using vb.Data.ViewModel
+
+
+<div class="box">
+    <div class="box-header text-center">
+        <h3 class="box-title">Ground Stock List</h3>
+    </div>
+    <div class="box-body table-scrollable1">
+        <table id="ListDataTable" class="table table-bordered table-bordered">
+            <thead>
+                <tr>
+                    <th>ProductName</th>
+                    <th>Quantity</th>
+                    <th>Min. Quantity</th>
+                    <th>Description</th>
+                    <th>Godown Name</th>
+
+                    @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.GEGroundStock.ToString()))
+                    {
+                        <th>Edit</th>
+                    }
+                    
+                    @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.GDGroundStock.ToString()))
+                    {
+                        <th>Status</th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.ProductName</td>
+                        <td>@item.GroundStockQuantity</td>
+                        <td>@item.MinGroundStockQuantity</td>
+                        <td>@item.GroundStockDescription</td>
+                        <td>@item.GodownName</td>
+
+                        @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.GEGroundStock.ToString()))
+                        {
+                            <td>
+                                <a style="cursor:pointer;" class="btnedit" data-groundstockid="@item.GroundStockID" data-createdby="@item.CreatedBy" data-createdon="@item.CreatedOn" data-productid="@item.ProductID" data-groundstockquantity="@item.GroundStockQuantity" data-mingroundstockquantity="@item.MinGroundStockQuantity" data-groundstockdescription="@item.GroundStockDescription" data-godownid="@item.GodownID">Edit</a>
+                            </td>
+                        }
+                        
+                        @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.GDGroundStock.ToString()))
+                        {
+                            
+                            if (item.IsDelete == true)
+                            {
+                                <td>
+                                    @Html.ActionLink("Active", "Delete", "Admin",
+                                  new { GroundStockID = item.GroundStockID, IsDelete = false },
+                                new { onclick = "return confirm('Are you sure you wish to delete this article?');" })
+                                </td>
+                            }
+                            else
+                            {
+                                <td>
+                                    @Html.ActionLink("DeActive", "Delete", "Admin",
+                                  new { GroundStockID = item.GroundStockID, IsDelete = true },
+                                new { onclick = "return confirm('Are you sure you wish to delete this article?');" })
+                                </td>
+                            }
+                            
+                        }
+                        
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    $('#ListDataTable').DataTable({
+        'paging': true,
+        'lengthChange': true,
+        'searching': true,
+        'ordering': false,
+        'info': true,
+        'autoWidth': false
+    });
+
+    $('#ListDataTable').on('click', '.btnedit', function () {
+        debugger;
+        $("#GroundStockID").val($(this).attr("data-groundstockid"));
+        $("#ProductID").val($(this).attr("data-productid")).trigger("change");
+        $("#GroundStockQuantity").val($(this).attr("data-groundstockquantity"));
+        $("#MinGroundStockQuantity").val($(this).attr("data-mingroundstockquantity"));
+        $("#GroundStockDescription").val($(this).attr("data-groundstockdescription"));
+        $("#GodownID").val($(this).attr("data-godownid")).trigger("change");
+        $("#CreatedBy").val($(this).attr("data-createdby"));
+        $("#CreatedOn").val($(this).attr("data-createdon"));
+        $("html, body").animate({ scrollTop: 0 }, "slow");
+    });
+</script>

@@ -1,0 +1,94 @@
+﻿@model List<vb.Data.BankListResponse>
+@using vb.Data.ViewModel
+
+<div class="box">
+    <div class="box-header text-center">
+        <h3 class="box-title">Bank List</h3>
+    </div>
+    <div class="box-body table-scrollable1">
+        <table id="ListDataTable" class="table table-bordered table-bordered">
+            <thead>
+                <tr>
+                    <th>Bank Name</th>
+                    <th>Branch</th>
+                    <th>IFSC Code</th>
+                    <th>Account Number</th>
+                    @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.EBank.ToString()))
+                    {
+                        <th>Edit</th>
+                    }
+                    @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.DBank.ToString()))
+                    {
+                        <th>Status</th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @item.BankName
+                        </td>
+                        <td>
+                            @item.Branch
+                        </td>
+                        <td>
+                            @item.IFSCCode
+                        </td>
+                        <td>
+                            @item.AccountNumber
+                        </td>
+                        @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.EBank.ToString()))
+                        {
+                            <td>
+                                <a style="cursor:pointer;" class="btnedit" data-bankid="@item.BankID" data-bankname="@item.BankName" data-branch="@item.Branch" data-ifsccode="@item.IFSCCode" data-createdby="@item.CreatedBy" data-accountnumber="@item.AccountNumber" data-createdon="@item.CreatedOn">Edit</a>
+                            </td>
+                        }
+                        @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.DBank.ToString()))
+                        {
+                            if (item.IsDelete == true)
+                            {
+                                <td>
+                                    @Html.ActionLink("Active", "DeleteBank", "Admin",
+                                        new { BankID = item.BankID, IsDelete = false },
+                                        new { onclick = "return confirm('Are you sure you wish to delete this article?');" })
+                                </td>
+                            }
+                            else
+                            {
+                                <td>
+                                    @Html.ActionLink("DeActive", "DeleteBank", "Admin",
+                                          new { BankID = item.BankID, IsDelete = true },
+                                        new { onclick = "return confirm('Are you sure you wish to delete this article?');" })
+                                </td>
+                            }
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    $("#ListDataTable").DataTable({
+        'aoColumnDefs': [{
+            'bSortable': false,
+            //"aTargets": [0],
+            'aTargets': ['nosort'] /* 1st one, start by the right */
+        }]
+    });
+
+    $('#ListDataTable').on('click', '.btnedit', function () {
+        $("#BankID").val($(this).attr("data-bankid"));
+        $("#BankName").val($(this).attr("data-bankname"));
+        $("#Branch").val($(this).attr("data-branch"));
+        $("#IFSCCode").val($(this).attr("data-ifsccode"));
+        $("#AccountNumber").val($(this).attr("data-accountnumber"));
+        $("#CreatedBy").val($(this).attr("data-createdby"));
+        $("#CreatedOn").val($(this).attr("data-createdon"));
+        $("html, body").animate({ scrollTop: 0 }, "slow");
+    });
+
+</script>

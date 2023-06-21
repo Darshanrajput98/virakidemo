@@ -1,0 +1,161 @@
+﻿@{
+    ViewBag.Title = "Inward";
+    Layout = "~/Areas/groundstock/Views/Shared/_groundstocklayout.cshtml";
+}
+
+
+
+
+
+<div class="box box-default">
+    <div class="box-header with-border text-center">
+        <h3 class="box-title">Inward</h3>
+    </div>
+    <form id="frmCustomerGroup" class="form-horizontal">
+        <div class="box-body">
+
+            <div class="col-md-6">
+                <div class="form-group">
+                    <div class="form-group">
+                        <label for="challanDate" class="col-sm-4 control-label">DeliveryChallan Date</label>
+                        <div class="col-sm-8">
+                            <div class="input-group date">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </div>
+                                <input type="text" class="form-control pull-right datepicker" id="challanDate" tabindex="2">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="GodownName" class="col-sm-4 control-label">Coldstorage</label>
+                    <div class="col-sm-8" style="padding-bottom:5px;">
+                        @Html.DropDownList("ColdStorageID", new SelectList(ViewBag.ColdStorage, "ColdStorageID", "Name"), "Select ColdStorage", new { @class = "form-control select2 ColdStorageID" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="LotNo" class="col-sm-4 control-label">LotNo</label>
+                    <div class="col-sm-8" style="padding-bottom:5px;">
+                        <input type="text" class="form-control LotNo" name="LotNo" id="LotNo" placeholder="LOT NO" tabindex="5" value="" autocomplete="off">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="GodownName" class="col-sm-4 control-label">Product</label>
+                    <div class="col-sm-8" style="padding-bottom:5px;">
+                        @Html.DropDownList("ProductID", new SelectList(ViewBag.Product, "ProductID", "ProductName"), "Select Product", new { @class = "form-control select2 ProductID" })
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="box-footer ">
+            <div class="pull-right">
+                <button type="button" id="btnclear" class="btn btn-default" tabindex="19">Cancel</button>
+                <button type="button" id="btnsearch" class="btn btn-info" tabindex="18">Search</button>
+            </div>
+        </div>
+    </form>
+    <div id="lstcaseInward">
+    </div>
+
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script>
+    $(document).ready(function () {
+        //debugger;
+
+
+        //if ($("#challanDate").val() == "") {
+        //    var model = new Object();
+        //    var today = new Date();
+        //    var dd = today.getDate();
+        //    var mm = today.getMonth() + 1; //January is 0!
+        //    var yyyy = today.getFullYear();
+        //    $("#challanDate").val(mm + "/" + dd + "/" + yyyy);
+        //    loadhtmlInward();
+        //}
+
+        loadhtmlInward();
+
+        $("#btnsearch").click(function () {
+            //debugger;
+            loadhtmlInward();
+        });
+
+        function loadhtmlInward() {
+            var model = new Object();
+            model.challanDate = $("#challanDate").val();
+            model.ColdStorageID = $("#ColdStorageID").val();
+            model.LotNo = $("#LotNo").val();
+            model.ProductID = $("#ProductID").val();
+
+            $.ajax({
+                url: '@Url.Action("InwardList")',
+                type: 'POST',
+                data: { 'model': model },
+                cache: false,
+            }).done(function (result) {
+                $('#lstcaseInward').html(result);
+            });
+        }
+
+        $("#btnclear").click(function () {
+            //debugger;
+            //$("#txtFrom").val("");
+            //$("#txtTo").val("");
+            //$("#GodownIDTo").val("").trigger("change");
+            //$("#ProductID").val("").trigger("change");
+
+            location.reload();
+            loadhtml();
+        });
+
+
+    });
+
+    function CalculateGrandTotal() {
+        //debugger
+        var BalanceGrandTotal = 0;
+        var TotalWeightGrandTotal = 0;
+        var TotalAmountGrandTotal = 0;
+        $('#ListDataTableInwardList').find('tr:visible').not(':last').each(function (index, tr) {
+            //debugger
+            $(tr).find('td').each(function (index, td) {
+                var ischk = $(tr).find("input[type=checkbox]")[0];
+                if (!ischk) {
+                    //debugger
+                    if (index == 5) {
+                        //debugger
+                        if (td.innerText.trim() != '') {
+                            //debugger
+                            BalanceGrandTotal = BalanceGrandTotal + parseFloat(td.innerText);
+                            $('#lblBalanceGrandTotal').html(parseFloat(BalanceGrandTotal).toFixed(0));
+                        }
+
+                    }
+                    else if (index == 8) {
+                        if (td.innerText.trim() != '') {
+                            //debugger
+                            TotalWeightGrandTotal = TotalWeightGrandTotal + parseFloat(td.innerText);
+                            $('#lblTotalWeightGrandTotal').html(parseFloat(TotalWeightGrandTotal).toFixed(2));
+                        }
+                    }
+                    else if (index == 10) {
+                        if (td.innerText.trim() != '') {
+                            //debugger
+                            TotalAmountGrandTotal = TotalAmountGrandTotal + parseFloat(td.innerText);
+                            $('#lblTotalAmountGrandTotal').html(parseFloat(TotalAmountGrandTotal).toFixed(2));
+                        }
+                    }
+                }
+            });
+        });
+    }
+</script>

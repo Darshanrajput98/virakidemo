@@ -1,0 +1,138 @@
+﻿@model List<vb.Data.VehicleCostingListReport>
+@using vb.Data.ViewModel
+
+<div class="box">
+    @*<div class="box-header text-center">
+            <h3 class="box-title">Expenses Voucher List</h3>
+        </div>*@
+    <!-- /.box-header -->
+    <div class="box-body table-scrollable1">
+        <table id="ListDataTable" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th class="nosort">Vehicle No</th>                  
+                    <th class="nosort">Opening KM</th>
+                    <th class="nosort">Closing KM</th>
+                    <th class="nosort">Diff. KM</th>
+                    <th class="nosort">Diesel Opening KM</th>
+                    <th class="nosort">Diesel Closing KM</th>
+                    <th class="nosort">Diesel Diff. KM</th>
+                    <th class="nosort">Total Diesel Amt.</th>
+                    <th class="nosort">Avg Diesel Cost</th>
+                    <th class="nosort">Total Diesel Ltr.</th>
+                    <th class="nosort">Avg KM/Ltr</th>
+                    <th class="nosort">Total Repairing Amt.</th>
+                    <th class="nosort">Repairing Cost/KM</th>
+                    <th class="nosort">Total Toll Amt.</th>
+                    <th class="nosort">Toll Cost/KM</th>
+                    <th class="nosort">Total Bharai Amt.</th>
+                    <th class="nosort">Bharai Cost/KM</th>
+                    <th class="nosort">Total Misc. Amt.</th>
+                    <th class="nosort">Misc. Cost/KM</th>
+                    <th class="nosort">Total Cost/KM</th>
+                    <th class="nosort">Actual Total Cost</th>
+                    <th class="nosort">Total Invoice Amt.</th>
+                    <th class="nosort">Per. Invoice Amt.</th>
+                    <th class="nosort">Total KG</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td id="row">
+                            @*@item.OutDateTime.ToString("dd/MM/yyyy")*@
+                            @item.VehicleNumber
+                        </td>
+                        <td>
+                            @item.OpeningKM.ToString("0.00")
+                        </td>
+                        <td>
+                            @item.ClosingKM.ToString("0.00")
+                        </td>
+                        <td>
+                            @item.DiffKM.ToString("0.00")
+                        </td>
+
+                        <td>
+                            @item.DieselOpeningKM.ToString("0.00")
+                        </td>
+                        <td>
+                            @item.DieselClosingKM.ToString("0.00")
+                        </td>
+                        <td>
+                            @item.DieselDiffKM.ToString("0.00")
+                        </td>
+                        <td>
+                            @item.TotalDieselAmount.ToString("0.00")
+                        </td>
+                        <td>
+                            @item.AvgDieselCost.ToString("0.00")
+                        </td>
+                        <td>
+                            @item.TotalDieselLiter.ToString("0.00")
+                        </td>
+                        <td>
+                            @item.AvgKMPerLtr.ToString("0.00")
+                        </td>
+
+                        <td>
+                            @item.TotalRepairingAmount.ToString("0.00")
+                        </td>
+                        <td>
+                            @item.RepairingCostPerKM.ToString("0.00")
+                        </td>
+                        <td>
+                            @item.TotalTollAmount.ToString("0.00")
+                        </td>
+                        <td>
+                            @item.TollCostPerKM.ToString("0.00")
+                        </td>
+                        <td>
+                            @item.TotalBharaiAmount.ToString("0.00")
+                        </td>
+                        <td>
+                            @item.BharaiCostPerKM.ToString("0.00")
+                        </td>
+                        <td>
+                            @item.TotalMiscellaneousAmount.ToString("0.00")
+                        </td>
+                        <td>
+                            @item.MiscellaneousCostPerKM.ToString("0.00")
+                        </td>
+                        <td>
+                            @item.TotalCostPerKM.ToString("0.00")
+                        </td>
+                        <td>
+                            @item.ActualTotalCost.ToString("0.00")
+                        </td>
+                        <td>
+                            @item.GrandInvoiceAmount.ToString("0.00")
+                        </td>
+                        <td>
+                            @item.PerOfInvoiceAmount.ToString("0.00")
+                        </td>
+                        <td>
+                            @item.GrandTotalKG.ToString("0.00")
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+    <!-- /.box-body -->
+</div>
+
+<script>
+    $('#ListDataTable').DataTable({
+        'paging': true,
+        'lengthChange': true,
+        'searching': true,
+        'ordering': false,
+        'info': true,
+        //'autoWidth': false,
+        "scrollX": true
+    });
+
+</script>

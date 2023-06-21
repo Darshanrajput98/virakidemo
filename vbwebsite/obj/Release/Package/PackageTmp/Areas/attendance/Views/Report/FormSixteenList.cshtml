@@ -1,0 +1,132 @@
+﻿@model List<vb.Data.FormSixteenValueModel>
+@using vb.Data.ViewModel
+
+<div class="box">
+    <div class="box-header">
+        <h3 class="box-title">Form 16 Detail</h3>
+    </div>
+    <div class="box-body">
+        <table id="ListDataTablewithourpaging" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>From</th>
+                    <th>To</th>
+                    <th>Name</th>
+                    <th>Standard Deductions</th>
+                    <th>Housing Loan Principal</th>
+                    <th>ELSS</th>
+                    <th>PPF</th>
+                    <th>Life Insurance</th>
+                    <th>Others</th>
+                    <th>Pension Under Section 80CCD(1)</th>
+                    <th>Pension Under Section 80CCD(1) Act</th>
+                    <th>Section 80D</th>
+                    <th>Section 80D Act</th>
+                    <th>Interest On 80E</th>
+                    <th>Interest On 80E Act</th>
+                    <th>Under Section 80G</th>
+                    <th>Under Section 80TTA</th>
+                    <th>Under Section 80TTA Act</th>
+                    <th>RebateUnder Section 87A</th>
+                    <th>Under Section 80C</th>
+                    <th>Tax (%)</th>
+                    <th>Surcharge (%)</th>
+                    <th>Education (%)</th>
+                    <th>Send Email</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.FromDate.ToString("dd/MM/yyyy")</td>
+                        <td>@item.ToDate.ToString("dd/MM/yyyy")</td>
+                        <td>@item.FullName</td>
+                        <td>@item.StandardDeductions.ToString("0.00")</td>
+                        <td>@item.HousingLoanPrincipal.ToString("0.00")</td>
+                        <td>@item.ELSS.ToString("0.00")</td>
+                        <td>@item.PPF.ToString("0.00")</td>
+                        <td>@item.LifeInsurance.ToString("0.00")</td>
+                        <td>@item.Others.ToString("0.00")</td>
+                        <td>@item.PensionUnderSection80CCD_1.ToString("0.00")</td>
+                        <td>@item.PensionUnderSection80CCD_1_Actual.ToString("0.00")</td>
+                        <td>@item.HealthInsurancePremiaUnderSection80D.ToString("0.00")</td>
+                        <td>@item.HealthInsurancePremiaUnderSection80D_Actual.ToString("0.00")</td>
+                        <td>@item.InterestOn80E.ToString("0.00")</td>
+                        <td>@item.InterestOn80E_Actual.ToString("0.00")</td>
+                        <td>@item.UnderSection80G.ToString("0.00")</td>
+                        <td>@item.UnderSection80TTA.ToString("0.00")</td>
+                        <td>@item.UnderSection80TTA_Actual.ToString("0.00")</td>
+                        <td>@item.RebateUnderSection87A.ToString("0.00")</td>
+                        <td>@item.UnderSection80C.ToString("0.00")</td>
+                        <td>@item.TaxSlabPer.ToString("0.00")</td>
+                        <td>@item.SurchargeSlabPer.ToString("0.00")</td>
+                        <td>@item.EducationSlabPer.ToString("0.00")</td>
+
+                        <td>
+                            <a style="cursor:pointer;" id="btnsendemail" data-fromdate="@item.FromDate" data-todate="@item.ToDate" data-employeecode="@item.EmployeeCode" data-standarddeductions="@item.StandardDeductions"
+                               data-housingloanprincipal="@item.HousingLoanPrincipal" data-elss="@item.ELSS" data-ppf="@item.PPF" data-lifeinsurance="@item.LifeInsurance" data-others="@item.Others"
+                               data-healthinsurancepremiaundersection80d="@item.HealthInsurancePremiaUnderSection80D" data-healthinsurancepremiaundersection80d_actual="@item.HealthInsurancePremiaUnderSection80D_Actual"
+                               data-intereston80e="@item.InterestOn80E" data-intereston80e_actual="@item.InterestOn80E_Actual" data-undersection80g="@item.UnderSection80G"
+                               data-undersection80tta="@item.UnderSection80TTA" data-undersection80tta_actual="@item.UnderSection80TTA_Actual" data-rebateundersection87a="@item.RebateUnderSection87A"
+                               data-undersection80c="@item.UnderSection80C" data-taxslabper="@item.TaxSlabPer" data-surchargeslabper="@item.SurchargeSlabPer" data-educationslabper="@item.EducationSlabPer"
+                               data-pensionundersection80ccd_1="@item.PensionUnderSection80CCD_1" data-pensionundersection80ccd_1_actual="@item.PensionUnderSection80CCD_1_Actual"
+                               data-formsixteenid="@item.FormSixteenID" data-isfiftyper="@item.IsFiftyPer">Send Email</a>
+                        </td>
+
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@*<script src="~/Scripts/jquery-1.10.2.js"></script>*@
+<script>
+    $("#btnsendemail").click(function () {
+        debugger;
+        $("#loader").show();
+        var data = new Object();
+        data.FromDate = $(this).attr("data-fromdate");
+        data.ToDate = $(this).attr("data-todate");
+        data.EmployeeCode = $(this).attr("data-employeecode");
+        data.StandardDeductions = $(this).attr("data-standarddeductions");
+        data.HousingLoanPrincipal = $(this).attr("data-housingloanprincipal");
+        data.ELSS = $(this).attr("data-elss");
+        data.PPF = $(this).attr("data-ppf");
+        data.LifeInsurance = $(this).attr("data-lifeinsurance");
+        data.Others = $(this).attr("data-others");
+        data.HealthInsurancePremiaUnderSection80D = $(this).attr("data-healthinsurancepremiaundersection80d");
+        data.HealthInsurancePremiaUnderSection80D_Actual = $(this).attr("data-healthinsurancepremiaundersection80d_actual");
+        data.InterestOn80E = $(this).attr("data-intereston80e");
+        data.InterestOn80E_Actual = $(this).attr("data-intereston80e_actual");
+        data.UnderSection80G = $(this).attr("data-undersection80g");
+        data.UnderSection80TTA = $(this).attr("data-undersection80tta");
+        data.UnderSection80TTA_Actual = $(this).attr("data-undersection80tta_actual");
+        data.RebateUnderSection87A = $(this).attr("data-rebateundersection87a");
+        data.UnderSection80C = $(this).attr("data-undersection80c");
+        data.FormSixteenID = $(this).attr("data-formsixteenid");
+        data.IsFiftyPer = $(this).attr("data-isfiftyper");
+        data.TaxSlabPer = $(this).attr("data-taxslabper");
+        data.SurchargeSlabPer = $(this).attr("data-surchargeslabper");
+        data.EducationSlabPer = $(this).attr("data-educationslabper");
+        data.PensionUnderSection80CCD_1 = $(this).attr("data-pensionundersection80ccd_1");
+        data.PensionUnderSection80CCD_1_Actual = $(this).attr("data-pensionundersection80ccd_1_actual");
+        $.ajax({
+            url: '@Url.Action("SendFormSixteenEmail", "Report")',
+            type: 'POST',
+            data: { 'data': data },
+            cache: false,
+        }).done(function (result) {
+            debugger;
+            if (result == "Send Email Sent succesfully..") {
+                alert("Send Email Sent succesfully..");
+                $("#loader").hide();
+            }
+            else {
+                alert("Sending Email fail");
+                $("#loader").hide();
+            }
+        });
+    });
+</script>

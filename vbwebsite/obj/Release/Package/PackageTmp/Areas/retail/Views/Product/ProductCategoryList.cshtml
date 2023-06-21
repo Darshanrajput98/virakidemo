@@ -1,0 +1,1672 @@
+﻿@*@model List<vb.data.retproductqtyviewmodel>*@
+@model List<vb.Data.RetProductQtyViewModel>
+
+@{
+    ViewBag.Title = "ProductCategoryList";
+    Layout = "~/Areas/retail/Views/Shared/_retaillayout.cshtml";
+}
+
+<div class="box">
+    <div class="box-header text-center">
+        <h3 class="box-title">Product List</h3>
+    </div>
+    <div class="box-footer ">
+        <div class="pull-right">
+            <button type="button" id="btnsavecase" class="btn btn-info">Save</button>
+        </div>
+    </div>
+    <div class="box-body table-scrollable1">
+        <table id="ListDataTable" class="table table-bordered table-bordered table-striped lst1">
+            <thead>
+                <tr>
+                    <th class="nosort">Name</th>
+                    <th class="nosort">Price</th>
+                    <th class="nosort">MRP</th>
+                    <th class="nosort">Barcode</th>
+                    <th class="nosort">Size</th>
+                    <th>Print Barcode</th>
+                    <th>Ingredients & Nutrition Value</th>
+                    <th>Print Blank Barcode</th>
+                    <th>Print Label</th>
+                    <th>Single Barcode</th>
+                    <th>External Barcode</th>
+                    <th>Wholesale Barcode</th>
+                    <th>Pouch Barcode</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td id="row">
+                            @item.ProductName
+                            <input class="ProductQtyID" type="hidden" value="@item.ProductQtyID">
+                        </td>
+                        <td>
+                            <input class="form-control ProductPrice" type="text" name="SGST" style="width:120px" value="@item.ProductPrice" />
+                        </td>
+                        <td>
+                            <input class="form-control ProductMRP" type="text" name="CGST" style="width:120px" value="@item.ProductMRP" />
+                        </td>
+                        <td>
+                            <input class="form-control ProductBarcode" type="text" disabled="disabled" name="IGST" style="width:120px" value="@item.ProductBarcode" />
+                        </td>
+                        <td>
+                            @item.PouchSize
+                        </td>
+                        <td>
+                            <a style="cursor:pointer;" id="lnkbarcode" class="btnbarcode" data-ppname="@item.ProductName" data-pmrp="@item.ProductMRP" data-pbarcode="@item.ProductBarcode" data-pid="@item.ProductID" data-nutritionvalue="@item.NutritionValue" data-contentvalue="@item.ContentValue" data-categoryid="@item.CategoryID" data-productqtyid="@item.ProductQtyID" data-gramperkg="@item.GramPerKG">Print Barcode</a>
+                        </td>
+                        <td>
+                            @if (item.NutritionValue == "" && item.ContentValue == "")
+                            {
+                                <input class="chkContent" type="checkbox" placeholder="Content" disabled="disabled" />
+                            }
+                            else
+                            {
+                                <input class="chkContent" type="checkbox" placeholder="Content" checked="checked" disabled="disabled" />
+                            }
+                        </td>
+                        <td>
+                            <a style="cursor:pointer;" id="lnkbarcode1" class="btnblankbarcode" data-ppname="@item.ProductName" data-pbarcode="@item.ProductBarcode" data-pid="@item.ProductID" data-nutritionvalue="@item.NutritionValue" data-contentvalue="@item.ContentValue" data-categoryid="@item.CategoryID" data-productqtyid="@item.ProductQtyID" data-gramperkg="@item.GramPerKG">Blank Barcode</a>
+                        </td>
+                        <td><a style="cursor:pointer;" id="lnklabel" class="btnlabel" data-lpname="@item.ProductName" data-pid="@item.ProductID">Print Label</a></td>
+                        <td>
+                            <a style="cursor:pointer;" class="btnsinglebarcode" data-ppname="@item.ProductName" data-pmrp="@item.ProductMRP" data-pbarcode="@item.ProductBarcode" data-pid="@item.ProductID" data-nutritionvalue="@item.NutritionValue" data-contentvalue="@item.ContentValue" data-categoryid="@item.CategoryID" data-productqtyid="@item.ProductQtyID" data-gramperkg="@item.GramPerKG">Single Barcode</a>
+                        </td>
+                        <td>
+                            <a style="cursor:pointer;" id="lnkbarcode1" class="btnexternalbarcode" data-productqtyid="@item.ProductQtyID" data-ppname="@item.ProductName" data-pbarcode="@item.ProductBarcode" data-pid="@item.ProductID" data-nutritionvalue="@item.NutritionValue" data-contentvalue="@item.ContentValue" data-categoryid="@item.CategoryID" data-placeoforigin="@item.PlaceOfOrigin" data-gramperkg="@item.GramPerKG">External Barcode</a>
+                        </td>
+                        <td>
+                            <a style="cursor:pointer;" id="lnkwholesalebarcode" class="btnwholesalebarcode" data-ppname="@item.ProductName" data-pbarcode="@item.ProductBarcode" data-pid="@item.ProductID" data-categoryid="@item.CategoryID" data-productmrp="@item.ProductMRP" data-productquantity="@item.ProductQuantity" data-unit="@item.UnitName" data-gramperkg="@item.GramPerKG">Wholesale Barcode</a>
+                        </td>
+                        <td>
+                            <a style="cursor:pointer;" id="lnkpouchbarcode" class="btnpouchbarcode" data-ppname="@item.ProductName" data-pbarcode="@item.ProductBarcode" data-pid="@item.ProductID" data-categoryid="@item.CategoryID" data-productmrp="@item.ProductMRP" data-productquantity="@item.ProductQuantity" data-unit="@item.UnitName" data-nutritionvalue="@item.NutritionValue" data-contentvalue="@item.ContentValue" data-productqtyid="@item.ProductQtyID" data-pouchsize="@item.PouchSize"
+                               data-protein="@item.Protein" data-fat="@item.Fat" data-carbohydrate="@item.Carbohydrate" data-totalenergy="@item.TotalEnergy" data-information="@item.Information" data-pouchname="@item.PouchName" data-gramperkg="@item.GramPerKG">Pouch Barcode</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <div id="responsive" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header" style="padding-bottom: 0px;">
+                        <h4 class="modal-title">Barcode Details</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <input name="ProductIdbarcode" id="ProductIdbarcode" class="hdnProductIdbarcode" type="hidden" value="" />
+                                    <input name="ProductNamebarcode" id="ProductNamebarcode" class="hdnProductNamebarcode" type="hidden" value="" />
+                                    <input name="ProductMrpbarcode" id="ProductMrpbarcode" class="hdnProductMrpbarcode" type="hidden" value="" />
+                                    <input name="ProductGramPerKGbarcode" id="ProductGramPerKGbarcode" class="hdnProductGramPerKGbarcode" type="hidden" value="" />
+                                    <input name="Productbarcode" id="Productbarcode" class="hdnProductbarcode" type="hidden" value="" />
+                                    <input name="NutritionValue" id="NutritionValue" class="hdnNutritionValue" type="hidden" value="" />
+                                    <input name="ContentValue" id="ContentValue" class="hdnContentValue" type="hidden" value="" />
+                                    <input name="CategoryID" id="CategoryID" class="hdnCategoryID" type="hidden" value="" />
+                                    <input name="ProductQtyIDbarcode" id="ProductQtyIDbarcode" class="hdnProductQtyIDbarcode" type="hidden" value="" />
+                                    <label for="PackageDate" class="col-sm-4 control-label">Date Of Packaging</label>
+                                    <div class="col-sm-8">
+                                        <div class="input-group date">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </div>
+                                            <input type="text" class="form-control pull-right datepicker" id="PackageDate" tabindex="1">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:10px;">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="BatchNo" class="col-sm-4 control-label">Batch No</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" name="BatchNo" maxlength="100" id="BatchNo" placeholder="Batch No" tabindex="2" autocomplete="off">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:10px;">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="NoOfBarcodes" class="col-sm-4 control-label">No Of Barcodes</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" name="NoOfBarcodes" maxlength="100" id="NoOfBarcodes" placeholder="No Of Barcodes" tabindex="3" autocomplete="off">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:10px;">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="Godown" class="col-sm-4 control-label">Godown</label>
+                                    <div class="col-sm-8">
+                                        @Html.DropDownList("GodownID", new SelectList(ViewBag.Godown, "GodownID", "GodownName"), "Select Godown", new { @class = "form-control select2", @style = "width:200px", tabindex = "5" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btnsavepopup btn btn-info">Print</button>
+                        <button type="button" class="btnclosepopup btn btn-info" data-dismiss="modal" aria-hidden="true">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="labelpopup" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header" style="padding-bottom: 0px;">
+                        <h4 class="modal-title">label Details</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row" style="margin-top:10px;">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <input name="ProductNamelabel" id="ProductNamelabel" class="hdnProductNamelabel" type="hidden" value="" />
+                                    <input name="ProductIDlabel" id="ProductIDlabel" class="hdnProductIDlabel" type="hidden" value="" />
+                                    <label for="NoofLabels" class="col-sm-4 control-label">No Of Label</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" name="NoofLabels" maxlength="100" id="NoofLabels" placeholder="No Of Labels" tabindex="1" required="required" autocomplete="off">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:10px;">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="Godown" class="col-sm-4 control-label">Language 1</label>
+                                    <div class="col-sm-8">
+                                        @Html.DropDownList("GuiID3", new SelectList(ViewBag.GuiLanguage, "GuiID", "LanguageName"), "Select Language", new { @class = "form-control select2", @style = "width:200px", tabindex = "2" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:10px;">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="Godown" class="col-sm-4 control-label">Language 2</label>
+                                    <div class="col-sm-8">
+                                        @Html.DropDownList("GuiID4", new SelectList(ViewBag.GuiLanguage, "GuiID", "LanguageName"), "Select Language", new { @class = "form-control select2", @style = "width:200px", tabindex = "3" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btnsavelabelpopup btn btn-info">Print</button>
+                        <button type="button" class="btncloselabelpopup btn btn-info" data-dismiss="modal" aria-hidden="true">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="blankbarcode" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header" style="padding-bottom: 0px;">
+                        <h4 class="modal-title">Barcode Details</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <input name="ProductIdbarcode1" id="ProductIdbarcode1" class="hdnProductIdbarcode" type="hidden" value="" />
+                                    <input name="ProductNamebarcode1" id="ProductNamebarcode1" class="hdnProductNamebarcode" type="hidden" value="" />
+                                    <input name="Productbarcode1" id="Productbarcode1" class="hdnProductbarcode" type="hidden" value="" />
+                                    <input name="NutritionValue" id="NutritionValue" class="hdnNutritionValue" type="hidden" value="" />
+                                    <input name="ContentValue" id="ContentValue" class="hdnContentValue" type="hidden" value="" />
+                                    <input name="CategoryID" id="CategoryID" class="hdnCategoryID" type="hidden" value="" />
+                                    <input name="ProductQtyIDbarcode1" id="ProductQtyIDbarcode1" class="hdnProductQtyIDbarcode1" type="hidden" value="" />
+                                    <input name="ProductGramPerKGblankbar" id="ProductGramPerKGblankbar" class="ProductGramPerKGblankbar" type="hidden" value="" />
+                                    <label for="PackageDate" class="col-sm-4 control-label">Date Of Packaging</label>
+                                    <div class="col-sm-8">
+                                        <div class="input-group date">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </div>
+                                            <input type="text" class="form-control pull-right datepicker" id="BlankBarcodePackageDate" tabindex="1" autocomplete="off">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:10px;">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="BestBeforeDate" class="col-sm-4 control-label">Best Before Date</label>
+                                    <div class="col-sm-8">
+                                        <div class="input-group date">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </div>
+                                            <input type="text" class="form-control pull-right datepicker" id="BestBeforeDate" tabindex="2" autocomplete="off">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:10px;">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="MRP" class="col-sm-4 control-label">MRP</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" name="MRP" maxlength="100" id="MRP" placeholder="MRP" tabindex="3" autocomplete="off">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:10px;">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="BlankBarcodeBatchNo" class="col-sm-4 control-label">Batch No</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" name="BlankBarcodeBatchNo" maxlength="100" id="BlankBarcodeBatchNo" placeholder="Batch No" tabindex="3" autocomplete="off">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:10px;">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="NoOfBarcodes" class="col-sm-4 control-label">No Of Barcodes</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" name="NoOfBlankBarcodes" maxlength="100" id="NoOfBlankBarcodes" placeholder="No Of Barcodes" tabindex="4" autocomplete="off">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:10px;">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="Godown" class="col-sm-4 control-label">Godown</label>
+                                    <div class="col-sm-8">
+                                        @Html.DropDownList("GodownID1", new SelectList(ViewBag.Godown, "GodownID", "GodownName"), "Select Godown", new { @class = "form-control select2", @style = "width:200px", tabindex = "5" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btnprintblankbarcode btn btn-info">Print</button>
+                        <button type="button" class="btnclosepopup2 btn btn-info" data-dismiss="modal" aria-hidden="true">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="popupsinglebarcode" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header" style="padding-bottom: 0px;">
+                        <h4 class="modal-title">Single Barcode</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <input name="SingleBarcodeProductID" id="SingleBarcodeProductID" class="hdnSingleBarcodeProductID" type="hidden" value="" />
+                                    <input name="SingleBarcodeProductName" id="SingleBarcodeProductName" class="hdnSingleBarcodeProductName" type="hidden" value="" />
+                                    <input name="SingleBarcodeProductMRP" id="SingleBarcodeProductMRP" class="hdnSingleBarcodeProductMRP" type="hidden" value="" />
+                                    <input name="SingleBarcodeBarcodeNo" id="SingleBarcodeBarcodeNo" class="hdnSingleBarcodeBarcodeNo" type="hidden" value="" />
+                                    <input name="SingleBarcodeNutritionValue" id="SingleBarcodeNutritionValue" class="hdnSingleBarcodeNutritionValue" type="hidden" value="" />
+                                    <input name="SingleBarcodeContentValue" id="SingleBarcodeContentValue" class="hdnSingleBarcodeContentValue" type="hidden" value="" />
+                                    <input name="SingleBarcodeCategoryID" id="SingleBarcodeCategoryID" class="hdnSingleBarcodeCategoryID" type="hidden" value="" />
+                                    <input name="SingleBarcodeProductQtyID" id="SingleBarcodeProductQtyID" class="hdnSingleBarcodeProductQtyID" type="hidden" value="" />
+                                    <input name="SingleBarcodeGramPerKG" id="SingleBarcodeGramPerKG" class="hdnSingleBarcodeGramPerKG" type="hidden" value="" />
+                                    <label for="PackageDate" class="col-sm-4 control-label">Date Of Packaging</label>
+                                    <div class="col-sm-8">
+                                        <div class="input-group date">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </div>
+                                            <input type="text" class="form-control pull-right datepicker" id="SingleBarcodePackageDate" tabindex="1">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:10px;">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="SingleBarcodeBatchNo" class="col-sm-4 control-label">Batch No</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" name="SingleBarcodeBatchNo" maxlength="100" id="SingleBarcodeBatchNo" placeholder="Batch No" tabindex="2">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:10px;">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="Godown" class="col-sm-4 control-label">Godown</label>
+                                    <div class="col-sm-8">
+                                        @Html.DropDownList("SingleBarcodeGodownID", new SelectList(ViewBag.Godown, "GodownID", "GodownName"), "Select Godown", new { @class = "form-control select2", @style = "width:200px", tabindex = "5" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btnprintsinglebarcode btn btn-info">Print</button>
+                        <button type="button" class="btnclosepopupsinglebarcode btn btn-info" data-dismiss="modal" aria-hidden="true">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- add chirag temporary external barcode popup-->
+        <div id="externalbarcode" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header" style="padding-bottom: 0px;">
+                        <h4 class="modal-title">Barcode Details</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <input name="ProductQtyId1" id="ProductQtyId1" class="hdnProductQtyId1" type="hidden" value="" />
+                                    <input name="ProductIdbarcode1" id="ProductIdbarcode1" class="hdnProductIdbarcode" type="hidden" value="" />
+                                    <input name="ProductNamebarcode1" id="ProductNamebarcode1" class="hdnProductNamebarcode" type="hidden" value="" />
+                                    <input name="Productbarcode1" id="Productbarcode1" class="hdnProductbarcode" type="hidden" value="" />
+                                    <input name="NutritionValue" id="NutritionValue" class="hdnNutritionValue" type="hidden" value="" />
+                                    <input name="ContentValue" id="ContentValue" class="hdnContentValue" type="hidden" value="" />
+                                    <input name="CategoryID" id="CategoryID" class="hdnCategoryID" type="hidden" value="" />
+                                    <input name="PlaceOfOrigin" id="PlaceOfOrigin" class="hdnPlaceOfOrigin" type="hidden" value="" />
+                                    <input name="ExternalGramPerKG" id="ExternalGramPerKG" class="hdnExternalGramPerKG" type="hidden" value="" />
+                                    <label for="PackageDate" class="col-sm-4 control-label">Date Of Packaging</label>
+                                    <div class="col-sm-8">
+                                        <div class="input-group date">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </div>
+                                            <input type="text" class="form-control pull-right datepicker" id="ExBlankBarcodePackageDate" tabindex="1" autocomplete="off">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:10px;">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="BestBeforeDate" class="col-sm-4 control-label">Best Before Date</label>
+                                    <div class="col-sm-8">
+                                        <div class="input-group date">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </div>
+                                            <input type="text" class="form-control pull-right datepicker" id="ExBestBeforeDate" tabindex="2" autocomplete="off">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:10px;">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="MRP" class="col-sm-4 control-label">MRP</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" name="ExMRP" maxlength="100" id="ExMRP" placeholder="ExMRP" tabindex="3" autocomplete="off">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:10px;">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="BlankBarcodeBatchNo" class="col-sm-4 control-label">Batch No</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" name="ExBlankBarcodeBatchNo" maxlength="100" id="ExBlankBarcodeBatchNo" placeholder="Batch No" tabindex="3" autocomplete="off">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:10px;">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="NoOfBarcodes" class="col-sm-4 control-label">No Of Barcodes</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" name="ExNoOfBlankBarcodes" maxlength="100" id="ExNoOfBlankBarcodes" placeholder="No Of Barcodes" tabindex="4" autocomplete="off">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:10px;">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="Godown" class="col-sm-4 control-label">Godown</label>
+                                    <div class="col-sm-8">
+                                        @Html.DropDownList("ExGodownID1", new SelectList(ViewBag.Godown, "GodownID", "GodownName"), "Select Godown", new { @class = "form-control select2", @style = "width:200px", tabindex = "5" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:10px;">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="Godown" class="col-sm-4 control-label">Language1</label>
+                                    <div class="col-sm-8">
+                                        @Html.DropDownList("GuiID1", new SelectList(ViewBag.GuiLanguage, "GuiID", "LanguageName"), "Select Language", new { @class = "form-control select2", @style = "width:200px", tabindex = "5" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:10px;">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="Godown" class="col-sm-4 control-label">Language2</label>
+                                    <div class="col-sm-8">
+                                        @Html.DropDownList("GuiID2", new SelectList(ViewBag.GuiLanguage, "GuiID", "LanguageName"), "Select Language", new { @class = "form-control select2", @style = "width:200px", tabindex = "5" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:10px;">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="PlaceOfOrigin" class="col-sm-4 control-label">Place Of Origin</label>
+                                    <div class="col-sm-8">
+                                        <input class="chkPlaceOfOrigin" type="checkbox" id="chkPlaceOfOrigin" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btnprintexternalbarcode btn btn-info">Print</button>
+                        <button type="button" class="btnExclosepopup2 btn btn-info" data-dismiss="modal" aria-hidden="true">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- wholesale barcode popup -->
+        <div id="wholesalebarcode" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header" style="padding-bottom: 0px;">
+                        <h4 class="modal-title">Wholesale Barcode</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <input name="ProductIDWholesalebarcode" id="ProductIDWholesalebarcode" class="hdnProductIDWholesalebarcode" type="hidden" value="" />
+                                    <input name="WholesaleProductName" id="WholesaleProductName" class="WholesaleProductName" type="hidden" value="" />
+                                    <input name="hdnProductMRP" id="hdnProductMRP" class="hdnProductMRP" type="hidden" value="" />
+                                    <input name="WholesaleProductBarcode" id="WholesaleProductBarcode" class="WholesaleProductBarcode" type="hidden" value="" />
+                                    <input name="WholesaleCategoryID" id="WholesaleCategoryID" class="WholesaleCategoryID" type="hidden" value="" />
+                                    <input name="ProductQuantity" id="ProductQuantity" class="ProductQuantity" type="hidden" value="" />
+                                    <input name="UnitName" id="UnitName" class="UnitName" type="hidden" value="" />
+                                    <input name="WholesaleGramPerKG" id="WholesaleGramPerKG" class="WholesaleGramPerKG" type="hidden" value="" />
+
+                                    <label for="PackageDate" class="col-sm-4 control-label">Date Of Packaging</label>
+                                    <div class="col-sm-8">
+                                        <div class="input-group date">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </div>
+                                            <input type="text" class="form-control pull-right datepicker" id="WholesaleBarcodePackageDate" tabindex="1" autocomplete="off">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:10px;">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="BestBeforeDate" class="col-sm-4 control-label">Best Before Date</label>
+                                    <div class="col-sm-8">
+                                        <div class="input-group date">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </div>
+                                            <input type="text" class="form-control pull-right datepicker" id="WholesaleBestBeforeDate" tabindex="2" autocomplete="off">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:10px;">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="WholesaleProductMRP" class="col-sm-4 control-label">MRP</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" name="WholesaleProductMRP" maxlength="100" id="WholesaleProductMRP" placeholder="MRP" tabindex="3" autocomplete="off">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:10px;">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="WholesaleBarcodeBatchNo" class="col-sm-4 control-label">Batch No</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" name="WholesaleBarcodeBatchNo" maxlength="100" id="WholesaleBarcodeBatchNo" placeholder="Batch No" tabindex="3" autocomplete="off">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:10px;">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="TotalPacket" class="col-sm-4 control-label">Total Packet</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" name="TotalPacket" maxlength="100" id="TotalPacket" placeholder="Total Packet" tabindex="4" autocomplete="off">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:10px;">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="Godown" class="col-sm-4 control-label">Godown</label>
+                                    <div class="col-sm-8">
+                                        @Html.DropDownList("WholesaleGodownID", new SelectList(ViewBag.Godown, "GodownID", "GodownName"), "Select Godown", new { @class = "form-control select2", @style = "width:200px", tabindex = "5" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:10px;">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="NoofWholesaleBarcodes" class="col-sm-4 control-label">No Of Barcodes</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" name="NoofWholesaleBarcodes" maxlength="100" id="NoofWholesaleBarcodes" placeholder="No Of Barcodes" value="0" tabindex="4" autocomplete="off">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btnprintwholesalebarcode btn btn-info">Print</button>
+                        <button type="button" class="btnclosepopupwholesale btn btn-info" data-dismiss="modal" aria-hidden="true">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- wholesale barcode popup -->
+        <!-- pouch barcode popup -->
+        <div id="pouchbarcode" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header" style="padding-bottom: 0px;">
+                        <h4 class="modal-title">Pouch Barcode</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <input name="ProductIDPouchbarcode" id="ProductIDPouchbarcode" class="hdnProductIDPouchbarcode" type="hidden" value="" />
+                                    <input name="PouchProductName" id="PouchProductName" class="PouchProductName" type="hidden" value="" />
+                                    <input name="hdnPouchProductMRP" id="hdnPouchProductMRP" class="hdnPouchProductMRP" type="hidden" value="" />
+                                    <input name="PouchProductBarcode" id="PouchProductBarcode" class="PouchProductBarcode" type="hidden" value="" />
+                                    <input name="PouchNutritionValue" id="PouchNutritionValue" class="PouchNutritionValue" type="hidden" value="" />
+                                    <input name="PouchContentValue" id="PouchContentValue" class="PouchContentValue" type="hidden" value="" />
+                                    <input name="PouchProductQtyID" id="PouchProductQtyID" class="PouchProductQtyID" type="hidden" value="" />
+                                    <input name="PouchCategoryID" id="PouchCategoryID" class="PouchCategoryID" type="hidden" value="" />
+
+                                    <input name="PouchProtein" id="PouchProtein" class="PouchProtein" type="hidden" value="" />
+                                    <input name="PouchFat" id="PouchFat" class="PouchFat" type="hidden" value="" />
+                                    <input name="PouchCarbohydrate" id="PouchCarbohydrate" class="PouchCarbohydrate" type="hidden" value="" />
+                                    <input name="PouchTotalEnergy" id="PouchTotalEnergy" class="PouchTotalEnergy" type="hidden" value="" />
+                                    <input name="PouchInformation" id="PouchInformation" class="PouchInformation" type="hidden" value="" />
+
+                                    <input name="PouchGramPerKG" id="PouchGramPerKG" class="PouchGramPerKG" type="hidden" value="" />
+
+                                    <label for="PouchBarcodePackageDate" class="col-sm-4 control-label">Date Of Packaging</label>
+                                    <div class="col-sm-8">
+                                        <div class="input-group date">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </div>
+                                            <input type="text" class="form-control pull-right datepicker" id="PouchBarcodePackageDate" tabindex="1" autocomplete="off">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:10px;">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="PouchBarcodeBatchNo" class="col-sm-4 control-label">Batch No</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" name="PouchBarcodeBatchNo" maxlength="100" id="PouchBarcodeBatchNo" placeholder="Batch No" tabindex="3" autocomplete="off">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:10px;">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="Godown" class="col-sm-4 control-label">Godown</label>
+                                    <div class="col-sm-8">
+                                        @Html.DropDownList("PouchGodownID", new SelectList(ViewBag.Godown, "GodownID", "GodownName"), "Select Godown", new { @class = "form-control select2", @style = "width:200px", tabindex = "5" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:10px;">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="NoofPouchBarcodes" class="col-sm-4 control-label">No Of Barcodes</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" name="NoofPouchBarcodes" maxlength="100" id="NoofPouchBarcodes" placeholder="No Of Barcodes" value="0" tabindex="4" autocomplete="off">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:10px;">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="PouchSize" class="col-sm-4 control-label">Pouch Size</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" name="PouchSize" maxlength="100" id="PouchSize" placeholder="Pouch Size" disabled="disabled" tabindex="5" autocomplete="off">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:10px;">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="PouchName" class="col-sm-4 control-label">Pouch Name</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" name="PouchName" maxlength="100" id="PouchName" placeholder="Pouch Name" disabled="disabled" tabindex="5" autocomplete="off">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btnexport btn btn-info" id="btnexport">Export To Excel</button>
+                        <button type="button" class="btnprintpouchbarcode btn btn-info">Print</button>
+                        <button type="button" class="btnclosepopuppouch btn btn-info" data-dismiss="modal" aria-hidden="true">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- pouch barcode popup -->
+
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/User/languageNumericConvert.js"></script>
+<script type="text/javascript">
+    $('.lst1').on('click', '.btnlabel', function () {
+        debugger;
+        var lpname = $(this).attr("data-lpname");
+        var ProductID = $(this).attr("data-pid");
+        clearcontentslabel(lpname, ProductID);
+        $("#labelpopup").removeClass("modal fade").addClass("modal fade modal-overflow in");
+        $("#labelpopup").css("display", "block");
+    });
+
+    function clearcontentslabel(lpname, ProductID) {
+        debugger;
+        var name = lpname;
+        if (name != "") {
+            name = name.split("(");
+            var mm1 = name[0]; // 004
+            name = mm1;
+        }
+        $('#ProductNamelabel').attr('value', name);
+        $('#ProductIDlabel').attr('value', ProductID);
+    }
+
+    $(".btncloselabelpopup").click(function () {
+        debugger;
+        $('#labelpopup').removeClass("modal fade modal-overflow in");
+        $('#labelpopup').removeAttr('style');
+        $('#labelpopup').addClass("modal fade");
+        $("#ProductNamelabel").val("");
+        $("#NoofLabels").val("");
+        $("#GuiID3").val("").trigger("change");
+        $("#GuiID4").val("").trigger("change");
+    });
+
+    $(".btnsavelabelpopup").click(function () {
+        debugger;
+        if ($("#NoofLabels").val() != "" && $("#NoofLabels").val() != 0) {
+            var name = $("#ProductNamelabel").val();
+            var labelno = $("#NoofLabels").val();
+            var ProductIDlabel = $("#ProductIDlabel").val();
+            var Language1 = 0;
+            var Language2 = 0;
+            if ($("#GuiID3").val() == "") {
+                Language1 = 0;
+            }
+            else {
+                Language1 = $("#GuiID3").val();
+            }
+            if ($("#GuiID4").val() == "") {
+                Language2 = 0;
+            }
+            else {
+                Language2 = $("#GuiID4").val();
+            }
+            $.ajax({
+                url: '@Url.Action("PrintLabel")',
+                type: 'POST',
+                data: { 'name': name, 'labelno': labelno, 'Language1': Language1, 'Language2': Language2, 'ProductIDlabel': ProductIDlabel },
+                cache: false,
+            }).done(function (result) {
+                debugger;
+                if (result != '') {
+                    window.open(result, "newPage");
+                }
+            });
+            $("#ProductNamelabel").val("");
+            $("#NoofLabels").val("");
+            $("#GuiID3").val("").trigger("change");
+            $("#GuiID4").val("").trigger("change");
+            $('#labelpopup').removeClass("modal fade modal-overflow in");
+            $('#labelpopup').removeAttr('style');
+            $('#labelpopup').addClass("modal fade");
+        }
+        else {
+            alert("please select no of labels");
+        }
+    });
+
+
+
+    $('.lst1').on('click', '.btnbarcode', function () {
+        var pid = $(this).attr("data-pid");
+        var ppname = $(this).attr("data-ppname");
+        var pmrp = $(this).attr("data-pmrp");
+        var pbarcode = $(this).attr("data-pbarcode");
+        var nutritionvalue = $(this).attr("data-nutritionvalue");
+        var contentvalue = $(this).attr("data-contentvalue");
+        var categoryid = $(this).attr("data-categoryid");
+        var productqtyid = $(this).attr("data-productqtyid");
+        var gramperkg = $(this).attr("data-gramperkg");
+        clearcontents(pid, ppname, pmrp, pbarcode, nutritionvalue, contentvalue, categoryid, productqtyid, gramperkg);
+        $("#responsive").removeClass("modal fade").addClass("modal fade modal-overflow in");
+        $("#responsive").css("display", "block");
+    });
+
+    function clearcontents(id, pname, mrp, barcode, nutritionvalue, contentvalue, categoryid, productqtyid, gramperkg) {
+        debugger;
+        $("#PackageDate").datepicker({ dateFormat: "dd/MM/yyyy" }).datepicker("setDate", "0");
+        var myParam = $("#PackageDate").val();
+        if (myParam != "") {
+            var parts = myParam.split("/");
+
+            // Added By Dhruvik 28-01-2023
+            var dd = parts[1];
+            // Added By Dhruvik 28-01-2023
+
+            var mm = parts[0]; // 004
+            var yy = parts[2].slice(-2); // 034556
+
+            // Changes By Dhruvik 28-01-2023
+            $("#BatchNo").val(dd + mm + yy);
+            // Changes By Dhruvik 28-01-2023
+        }
+        else {
+            $("#BatchNo").val("");
+        }
+        var name = pname;
+        if (name != "") {
+            name = name.split("(");
+            var mm1 = name[0]; // 004
+            name = mm1;
+        }
+        $('#ProductNamelabel').attr('value', name);
+        $('#ProductIdbarcode').attr('value', id);
+        $('#ProductNamebarcode').attr('value', pname);
+        $('#ProductMrpbarcode').attr('value', mrp);
+        $('#Productbarcode').attr('value', barcode);
+        $('#NutritionValue').attr('value', nutritionvalue);
+        $('#ContentValue').attr('value', contentvalue);
+        $('#CategoryID').attr('value', categoryid);
+        $('#ProductQtyIDbarcode').attr('value', productqtyid);
+        $("#NoofLabels").val("");
+        $("#NoOfBarcodes").val("");
+        $("#GodownID").val("").trigger("change");
+        $("#ProductGramPerKGbarcode").attr('value', gramperkg);
+    }
+
+    $(".btnclosepopup").click(function () {
+        debugger;
+        $('#responsive').removeClass("modal fade modal-overflow in");
+        $('#responsive').removeAttr('style');
+        $('#responsive').addClass("modal fade");
+    });
+
+    $(".btnsavepopup").click(function () {
+        if ($("#NoOfBarcodes").val() != "" && $("#GodownID").val() != "") {
+            debugger;
+            var date1 = $("#PackageDate").val();
+            var id = $("#ProductIdbarcode").val();
+            var name = $("#ProductNamebarcode").val();
+            var mrp = $("#ProductMrpbarcode").val();
+            var Batchno = $("#BatchNo").val();
+            var noofbarcodes = $("#NoOfBarcodes").val();
+            var godown = $("#GodownID").val();
+            var barcode = $("#Productbarcode").val();
+            var NutritionValue = $("#NutritionValue").val();
+            var ContentValue = $("#ContentValue").val();
+            var CategoryID = $("#CategoryID").val();
+            var ProductQtyID = $("#ProductQtyIDbarcode").val();
+            var gramperkg = parseFloat($("#ProductGramPerKGbarcode").val()).toFixed(2);
+
+            $.ajax({
+                url: '@Url.Action("PrintBarcode")',
+                type: 'POST',
+                data: { 'date1': date1, 'id': id, 'name': name, 'mrp': mrp, 'Batchno': Batchno, 'noofbarcodes': noofbarcodes, 'godown': godown, 'Productbarcode': barcode, 'NutritionValue': NutritionValue, 'ContentValue': ContentValue, 'CategoryID': CategoryID, 'ProductQtyID': ProductQtyID, 'gramperkg': gramperkg },
+                cache: false,
+            }).done(function (result) {
+                if (result != '') {
+                    window.open(result, "newPage");
+                }
+            });
+        }
+        else {
+            alert("Please enter godown name or no of barcode");
+        }
+        $('#responsive').removeClass("modal fade modal-overflow in");
+        $('#responsive').removeAttr('style');
+        $('#responsive').addClass("modal fade");
+    });
+
+    //Blank Barcode
+    $('.lst1').on('click', '.btnblankbarcode', function () {
+        debugger;
+        var pid = $(this).attr("data-pid");
+        var ppname = $(this).attr("data-ppname");
+        var pbarcode = $(this).attr("data-pbarcode");
+        var nutritionvalue = $(this).attr("data-nutritionvalue");
+        var contentvalue = $(this).attr("data-contentvalue");
+        var categoryid = $(this).attr("data-categoryid");
+        var productqtyid = $(this).attr("data-productqtyid");
+        var GramPerKG = $(this).attr("data-gramperkg");
+        clearcontents1(pid, ppname, pbarcode, nutritionvalue, contentvalue, categoryid, productqtyid, GramPerKG);
+        $("#blankbarcode").removeClass("modal fade").addClass("modal fade modal-overflow in");
+        $("#blankbarcode").css("display", "block");
+    });
+
+    function clearcontents1(id, pname, barcode, nutritionvalue, contentvalue, categoryid, productqtyid, GramPerKG) {
+        debugger;
+        $("#BlankBarcodePackageDate").datepicker({ dateFormat: "dd/MM/yyyy" }).datepicker("setDate", "0");
+        var myParam = $("#BlankBarcodePackageDate").val();
+        if (myParam != "") {
+            var parts = myParam.split("/");
+
+            // Added By Dhruvik 28-01-2023
+            var dd = parts[1];
+            // Added By Dhruvik 28-01-2023
+
+            var mm = parts[0]; // 004
+            var yy = parts[2].slice(-2); // 034556
+
+            // Changes By Dhruvik 28-01-2023
+            $("#BlankBarcodeBatchNo").val(dd + mm + yy);
+            // Changes By Dhruvik 28-01-2023
+        }
+        else {
+            $("#BlankBarcodeBatchNo").val("");
+        }
+        var name = pname;
+        if (name != "") {
+            name = name.split("(");
+            var mm1 = name[0]; // 004
+            name = mm1;
+        }
+        $('#ProductIdbarcode1').attr('value', id);
+        $('#ProductNamebarcode1').attr('value', pname);
+        $('#Productbarcode1').attr('value', barcode);
+        $("#NoofLabels").val("");
+        $("#BestBeforeDate").val("");
+        $("#MRP").val("");
+        $("#NoOfBlankBarcodes").val("");
+        $("#GodownID1").val("").trigger("change");
+        $('#NutritionValue').attr('value', nutritionvalue);
+        $('#ContentValue').attr('value', contentvalue);
+        $('#CategoryID').attr('value', categoryid);
+        $('#ProductQtyIDbarcode1').attr('value', productqtyid);
+        $('#ProductGramPerKGblankbar').attr('value', GramPerKG);
+    }
+
+    $(".btnclosepopup2").click(function () {
+        debugger;
+        $('#blankbarcode').removeClass("modal fade modal-overflow in");
+        $('#blankbarcode').removeAttr('style');
+        $('#blankbarcode').addClass("modal fade");
+    });
+
+    $(".btnprintblankbarcode").click(function () {
+        debugger;
+        if ($("#BestBeforeDate").val() != "" && $("#NoOfBlankBarcodes").val() != "" && $("#GodownID1").val() != "") {
+            var ProductID = $("#ProductIdbarcode1").val();
+            var ProductName = $("#ProductNamebarcode1").val();
+            var ProductBarcode = $("#Productbarcode1").val();
+            var BlankBarcodePackageDate = $("#BlankBarcodePackageDate").val();
+            var BestBeforeDate = $("#BestBeforeDate").val();
+            var MRP = $("#MRP").val();
+            var BlankBarcodeBatchNo = $("#BlankBarcodeBatchNo").val();
+            var NoOfBlankBarcodes = $("#NoOfBlankBarcodes").val();
+            var Godown = $("#GodownID1").val();
+            var NutritionValue = $("#NutritionValue").val();
+            var ContentValue = $("#ContentValue").val();
+            var CategoryID = $("#CategoryID").val();
+            var ProductQtyID = $("#ProductQtyIDbarcode1").val();
+            var GramPerKG = parseFloat($("#ProductGramPerKGblankbar").val()).toFixed(2);
+            $.ajax({
+                url: '@Url.Action("PrintBlankBarcode")',
+                type: 'POST',
+                data: { 'BlankBarcodePackageDate': BlankBarcodePackageDate, 'BestBeforeDate': BestBeforeDate, 'ProductID': ProductID, 'ProductName': ProductName, 'MRP': MRP, 'BlankBarcodeBatchNo': BlankBarcodeBatchNo, 'NoOfBlankBarcodes': NoOfBlankBarcodes, 'Godown': Godown, 'ProductBarcode': ProductBarcode, 'NutritionValue': NutritionValue, 'ContentValue': ContentValue, 'CategoryID': CategoryID, 'ProductQtyID': ProductQtyID, 'GramPerKG': GramPerKG },
+                cache: false,
+            }).done(function (result) {
+                if (result != '') {
+                    window.open(result, "newPage");
+                }
+            });
+        }
+        else {
+            alert("Please enter barcode details");
+        }
+        $('#blankbarcode').removeClass("modal fade modal-overflow in");
+        $('#blankbarcode').removeAttr('style');
+        $('#blankbarcode').addClass("modal fade");
+    });
+
+    function loadhtml() {
+        window.location.reload();
+    }
+    $(document).ready(function () {
+        $("#btnsavecase").click(function () {
+            var lstProductQty = [];
+            $('#ListDataTable').children('tbody').children('tr:visible').each(function (index, row) {
+                debugger;
+                var dataProQty = new Object();
+                dataProQty.ProductQtyID = $(row).find("input[type=hidden]")[0].value;
+                dataProQty.ProductPrice = $(row).find("input")[1].value;
+                dataProQty.ProductMRP = $(row).find("input")[2].value;
+                dataProQty.ProductBarcode = $(row).find("input")[3].value;
+                lstProductQty.push(dataProQty);
+            });
+            $.ajax({
+                url: '@Url.Action("UpdateProductDetails")',
+                type: 'POST',
+                data: { 'data': lstProductQty },
+                cache: false,
+            }).done(function (result) {
+                if (result == true) {
+                    $('div#sucessalert').html("Product updated successfully.");
+                    showhidealert();
+                    loadhtml();
+                }
+            });
+        });
+    });
+
+    $('.lst1').on('click', '.btnsinglebarcode', function () {
+        debugger;
+        var SingleBarcodeProductID = $(this).attr("data-pid");
+        var SingleBarcodeProductName = $(this).attr("data-ppname");
+        var SingleBarcodeProductMRP = $(this).attr("data-pmrp");
+        var SingleBarcodeBarcodeNo = $(this).attr("data-pbarcode");
+        var SingleBarcodeNutritionValue = $(this).attr("data-nutritionvalue");
+        var SingleBarcodeContentValue = $(this).attr("data-contentvalue");
+        var SingleBarcodeCategoryID = $(this).attr("data-categoryid");
+        var SingleBarcodeProductQtyID = $(this).attr("data-productqtyid");
+        var SingleBarcodeGramPerKG = $(this).attr("data-gramperkg");
+        funcsinglebarcode(SingleBarcodeProductID, SingleBarcodeProductName, SingleBarcodeProductMRP, SingleBarcodeBarcodeNo, SingleBarcodeNutritionValue, SingleBarcodeContentValue, SingleBarcodeCategoryID, SingleBarcodeProductQtyID, SingleBarcodeGramPerKG);
+        $("#popupsinglebarcode").removeClass("modal fade").addClass("modal fade modal-overflow in");
+        $("#popupsinglebarcode").css("display", "block");
+    });
+
+    function funcsinglebarcode(SingleBarcodeProductID, SingleBarcodeProductName, SingleBarcodeProductMRP, SingleBarcodeBarcodeNo, SingleBarcodeNutritionValue, SingleBarcodeContentValue, SingleBarcodeCategoryID, SingleBarcodeProductQtyID, SingleBarcodeGramPerKG) {
+        debugger;
+        $("#SingleBarcodePackageDate").datepicker({ dateFormat: "dd/MM/yyyy" }).datepicker("setDate", "0");
+        var myParam = $("#SingleBarcodePackageDate").val();
+        if (myParam != "") {
+            var parts = myParam.split("/");
+
+            // Added By Dhruvik 28-01-2023
+            var dd = parts[1];
+            // Added By Dhruvik 28-01-2023
+
+            var mm = parts[0]; // 004
+            var yy = parts[2].slice(-2); // 034556
+
+            // Changes By Dhruvik 28-01-2023
+            $("#SingleBarcodeBatchNo").val(dd + mm + yy);
+            // Changes By Dhruvik 28-01-2023
+
+        }
+        else {
+            $("#SingleBarcodeBatchNo").val("");
+        }
+        var name = SingleBarcodeProductName;
+        if (name != "") {
+            name = name.split("(");
+            var mm1 = name[0]; // 004
+            name = mm1;
+        }
+        $('#SingleBarcodeProductID').attr('value', SingleBarcodeProductID);
+        $('#SingleBarcodeProductName').attr('value', SingleBarcodeProductName);
+        $('#SingleBarcodeProductMRP').attr('value', SingleBarcodeProductMRP);
+        $('#SingleBarcodeBarcodeNo').attr('value', SingleBarcodeBarcodeNo);
+        $('#SingleBarcodeNutritionValue').attr('value', SingleBarcodeNutritionValue);
+        $('#SingleBarcodeContentValue').attr('value', SingleBarcodeContentValue);
+        $('#SingleBarcodeCategoryID').attr('value', SingleBarcodeCategoryID);
+        $('#SingleBarcodeProductQtyID').attr('value', SingleBarcodeProductQtyID);
+        $('#SingleBarcodeGramPerKG').attr('value', SingleBarcodeGramPerKG);
+        $("#SingleBarcodeGodownID").val("").trigger("change");
+    }
+
+    $(".btnclosepopupsinglebarcode").click(function () {
+        debugger;
+        $('#popupsinglebarcode').removeClass("modal fade modal-overflow in");
+        $('#popupsinglebarcode').removeAttr('style');
+        $('#popupsinglebarcode').addClass("modal fade");
+    });
+
+    $(".btnprintsinglebarcode").click(function () {
+        debugger;
+        if ($("#SingleBarcodeGodownID").val() != "") {
+            var SingleBarcodePackageDate = $("#SingleBarcodePackageDate").val();
+            var SingleBarcodeProductID = $("#SingleBarcodeProductID").val();
+            var SingleBarcodeProductName = $("#SingleBarcodeProductName").val();
+            var SingleBarcodeProductMRP = $("#SingleBarcodeProductMRP").val();
+            var SingleBarcodeBatchNo = $("#SingleBarcodeBatchNo").val();
+            var SingleBarcodes = 1;
+            var SingleBarcodeGodownID = $("#SingleBarcodeGodownID").val();
+            //var SingleBarcodeBarcodeNo = $("#SingleBarcodeBarcodeNo").val().trim();
+            var SingleBarcodeBarcodeNo = $("#SingleBarcodeBarcodeNo").val();
+            var SingleBarcodeNutritionValue = $("#SingleBarcodeNutritionValue").val();
+            var SingleBarcodeContentValue = $("#SingleBarcodeContentValue").val();
+            var SingleBarcodeCategoryID = $("#SingleBarcodeCategoryID").val();
+            var SingleBarcodeProductQtyID = $("#SingleBarcodeProductQtyID").val();
+            var SingleBarcodeGramPerKG = parseFloat($('#SingleBarcodeGramPerKG').val()).toFixed(2);
+            $.ajax({
+                url: '@Url.Action("PrintSingleBarcode")',
+                type: 'POST',
+                data: { 'SingleBarcodePackageDate': SingleBarcodePackageDate, 'SingleBarcodeProductID': SingleBarcodeProductID, 'SingleBarcodeProductName': SingleBarcodeProductName, 'SingleBarcodeProductMRP': SingleBarcodeProductMRP, 'SingleBarcodeBatchNo': SingleBarcodeBatchNo, 'SingleBarcodes': SingleBarcodes, 'SingleBarcodeGodownID': SingleBarcodeGodownID, 'SingleBarcodeBarcodeNo': SingleBarcodeBarcodeNo, 'SingleBarcodeNutritionValue': SingleBarcodeNutritionValue, 'SingleBarcodeContentValue': SingleBarcodeContentValue, 'SingleBarcodeCategoryID': SingleBarcodeCategoryID, 'SingleBarcodeProductQtyID': SingleBarcodeProductQtyID, 'SingleBarcodeGramPerKG': SingleBarcodeGramPerKG },
+                cache: false,
+            }).done(function (result) {
+                if (result != '') {
+                    window.open(result, "newPage");
+                }
+            });
+        }
+        else {
+            alert("Please select godown");
+        }
+        $('#popupsinglebarcode').removeClass("modal fade modal-overflow in");
+        $('#popupsinglebarcode').removeAttr('style');
+        $('#popupsinglebarcode').addClass("modal fade");
+    });
+
+    $('.lst1').on('click', '.btnexternalbarcode', function () {
+        debugger;
+        var pid = $(this).attr("data-pid");
+        var ppname = $(this).attr("data-ppname");
+        var pbarcode = $(this).attr("data-pbarcode");
+        var nutritionvalue = $(this).attr("data-nutritionvalue");
+        var contentvalue = $(this).attr("data-contentvalue");
+        var categoryid = $(this).attr("data-categoryid");
+        var prodQytId = $(this).attr("data-productqtyid");
+        var placeoforigin = $(this).attr("data-placeoforigin");
+        var externalgramperkg = $(this).attr("data-gramperkg");
+        clearExternalBarcodecontents1(pid, ppname, pbarcode, nutritionvalue, contentvalue, categoryid, prodQytId, placeoforigin, externalgramperkg);
+        $("#externalbarcode").removeClass("modal fade").addClass("modal fade modal-overflow in");
+        $("#externalbarcode").css("display", "block");
+    });
+
+    function clearExternalBarcodecontents1(id, pname, barcode, nutritionvalue, contentvalue, categoryid, prodQytId, placeoforigin, externalgramperkg) {
+        $("#ExBlankBarcodePackageDate").datepicker({ dateFormat: "dd/MM/yyyy" }).datepicker("setDate", "0");
+        var myParam = $("#ExBlankBarcodePackageDate").val();
+        if (myParam != "") {
+            var parts = myParam.split("/");
+
+            // Added By Dhruvik 28-01-2023
+            var dd = parts[1];
+            // Added By Dhruvik 28-01-2023
+
+            var mm = parts[0]; // 004
+            var yy = parts[2].slice(-2); // 034556
+
+            // Changes By Dhruvik 28-01-2023
+            $("#ExBlankBarcodeBatchNo").val(dd + mm + yy);
+            // Changes By Dhruvik 28-01-2023
+        }
+        else {
+            $("#ExBlankBarcodeBatchNo").val("");
+        }
+        var name = pname;
+        if (name != "") {
+            name = name.split("(");
+            var mm1 = name[0]; // 004
+            name = mm1;
+        }
+        $("#externalbarcode").find("#ProductQtyId1").attr('value', prodQytId);
+        $("#externalbarcode").find('#ProductIdbarcode1').attr('value', id);
+        $("#externalbarcode").find('#ProductNamebarcode1').attr('value', pname);
+        $("#externalbarcode").find('#Productbarcode1').attr('value', barcode);
+        $("#externalbarcode").find("#NoofLabels").val("");
+        $("#externalbarcode").find("#ExMRP").val("0");
+        $("#externalbarcode").find("#ExNoOfBlankBarcodes").val("");
+        $("#ExGodownID1").val("").trigger("change");
+        $("#externalbarcode").find('#NutritionValue').attr('value', nutritionvalue);
+        $("#externalbarcode").find('#ContentValue').attr('value', contentvalue);
+        $("#externalbarcode").find('#CategoryID').attr('value', categoryid);
+        $("#externalbarcode").find('#PlaceOfOrigin').attr('value', placeoforigin);
+        $("#externalbarcode").find('#GuiID1').val("").trigger("change");
+        $("#externalbarcode").find('#GuiID2').val("").trigger("change");
+        $("#externalbarcode").find("#ExBestBeforeDate").val("");
+        $("#externalbarcode").find("#ExBestBeforeDate").datepicker({ dateFormat: "dd/MM/yyyy" });
+        $('#externalbarcode').find("#ExBestBeforeDate").data('datepicker').setDate(null);
+        $("#externalbarcode").find('#ExternalGramPerKG').attr('value', externalgramperkg);
+    }
+
+    $(".btnExclosepopup2").click(function () {
+        debugger;
+        $('#externalbarcode').removeClass("modal fade modal-overflow in");
+        $('#externalbarcode').removeAttr('style');
+        $('#externalbarcode').addClass("modal fade");
+    });
+
+    $(document).ready(function () {
+        $(".btnprintexternalbarcode").click(function () {
+            debugger;
+            var aaa = $("#ExBestBeforeDate").val();
+            if ($("#ExBestBeforeDate").val() != "" && ($("#ExNoOfBlankBarcodes").val() != "") && ($("#ExGodownID1").val() != "") && ($("#GuiID1").val() != "") && ($("#GuiID2").val() != "")) {
+                var hdnPeoductQtyID = $("#ProductQtyId1").val();
+                var ProductID = $("#externalbarcode").find("#ProductIdbarcode1").val();
+                var ProductName = $("#externalbarcode").find("#ProductNamebarcode1").val();
+                var ProductBarcode = $("#externalbarcode").find("#Productbarcode1").val();
+                var PackageDate = $("#externalbarcode").find("#ExBlankBarcodePackageDate").val();
+                var BestBeforeDate = $("#externalbarcode").find("#ExBestBeforeDate").val();
+                // var MRP = "0.0"
+                var MRP = $("#externalbarcode").find("#ExMRP").val();
+                var GramPerKG = parseFloat($("#externalbarcode").find("#ExternalGramPerKG").val()).toFixed(2);
+                var BarcodeBatchNo = $("#externalbarcode").find("#ExBlankBarcodeBatchNo").val();
+                var NoOfBlankBarcodes = $("#externalbarcode").find("#ExNoOfBlankBarcodes").val();
+                var Godown = $("#externalbarcode").find("#ExGodownID1").val();
+                var NutritionValue = $("#externalbarcode").find("#NutritionValue").val();
+                var ContentValue = $("#externalbarcode").find("#ContentValue").val();
+                var CategoryID = $("#externalbarcode").find("#CategoryID").val();
+                var PlaceOfOrigin = $("#externalbarcode").find("#PlaceOfOrigin").val();
+                var GuiID1 = $("#GuiID1").val();
+                var GuiID2 = $("#GuiID2").val();
+                var Language1 = $("#GuiID1 option:selected").text();
+                var Language2 = $("#GuiID2 option:selected").text();
+                var BestBefore1 = "";
+                var BestBefore2 = "";
+                var DatePackaging1 = "";
+                var DatePackaging2 = "";
+                var BarcodeBatchNo1 = "";
+                var BarcodeBatchNo2 = "";
+                var chkPlaceOfOrigin = $("#externalbarcode").find("#chkPlaceOfOrigin").is(":checked");
+                debugger;
+                if (Language2 != undefined && Language2 != "") {
+                }
+                if (Language1.toLowerCase() == "select language" && Language2.toLowerCase() != "select language") {
+
+                    if (Language2.toLowerCase().indexOf("arabic") != -1) {
+                        DatePackaging1 = englishToOtherLanguageDate(PackageDate, "arabic");
+                        BestBefore1 = englishToOtherLanguageDate(BestBeforeDate, "arabic");
+                        BarcodeBatchNo1 = englishToNumeric(BarcodeBatchNo, "arabic");
+                    }
+                    else {
+                        DatePackaging1 = englishToOtherLanguageDate(PackageDate, "english");
+                        BestBefore1 = englishToOtherLanguageDate(BestBeforeDate, "english");
+                        BarcodeBatchNo1 = englishToNumeric(BarcodeBatchNo, "english");
+                    }
+                    if (GuiID1 != 0) {
+                        GuiID1 = GuiID1;
+                    }
+                    else {
+                        GuiID1 = GuiID2;
+                    }
+                    GuiID2 = 0;
+                }
+                else if (Language1.toLowerCase() != "select language" && Language2.toLowerCase() == "select language") {
+
+                    if (Language1.toLowerCase().indexOf("arabic") != -1) {
+                        DatePackaging1 = englishToOtherLanguageDate(PackageDate, "arabic");
+                        BestBefore1 = englishToOtherLanguageDate(BestBeforeDate, "arabic");
+                        BarcodeBatchNo1 = englishToNumeric(BarcodeBatchNo, "arabic");
+                    }
+                    else {
+                        DatePackaging1 = englishToOtherLanguageDate(PackageDate, "english");
+                        BestBefore1 = englishToOtherLanguageDate(BestBeforeDate, "english");
+                        BarcodeBatchNo1 = englishToNumeric(BarcodeBatchNo, "english");
+                    }
+                    if (GuiID1 != 0) {
+                        GuiID1 = GuiID1;
+                    }
+                    else {
+                        GuiID1 = GuiID2;
+                    }
+                    GuiID2 = 0;
+                }
+                else if (Language1.toLowerCase() != "select language" && Language2.toLowerCase() != "select language") {
+                    if (Language1.toLowerCase() != "select language") {
+                        if (Language1.toLowerCase().indexOf("arabic") != -1) {
+                            debugger;
+                            DatePackaging1 = englishToOtherLanguageDate(PackageDate, "arabic");
+                            BestBefore1 = englishToOtherLanguageDate(BestBeforeDate, "arabic");
+                            BarcodeBatchNo1 = englishToNumeric(BarcodeBatchNo, "arabic");
+                        }
+                        else {
+                            DatePackaging1 = englishToOtherLanguageDate(PackageDate, "english");
+                            BestBefore1 = englishToOtherLanguageDate(BestBeforeDate, "english");
+                            BarcodeBatchNo1 = englishToNumeric(BarcodeBatchNo, "english");
+                        }
+                    }
+                    if (Language2.toLowerCase() != "select language") {
+                        if (Language2.toLowerCase().indexOf("arabic") != -1) {
+                            DatePackaging2 = englishToOtherLanguageDate(PackageDate, "arabic");
+                            BestBefore2 = englishToOtherLanguageDate(BestBeforeDate, "arabic");
+                            BarcodeBatchNo2 = englishToNumeric(BarcodeBatchNo, "arabic");
+                        }
+                        else {
+                            DatePackaging2 = englishToOtherLanguageDate(PackageDate, "english");
+                            BestBefore2 = englishToOtherLanguageDate(BestBeforeDate, "english");
+                            BarcodeBatchNo2 = englishToNumeric(BarcodeBatchNo, "english");
+                        }
+                    }
+                }
+                debugger;
+                $.ajax({
+                    url: '@Url.Action("PrintExternalBarcode")',
+                    type: 'POST',
+                    data: {
+                        'BlankBarcodePackageDate': PackageDate,
+                        'BestBeforeDate': BestBeforeDate,
+                        'ProductID': ProductID,
+                        'ProductQtyID': hdnPeoductQtyID,
+                        'ProductName': ProductName,
+                        'MRP': MRP,
+                        'GramPerKG': GramPerKG,
+                        'BlankBarcodeBatchNo': BarcodeBatchNo,
+                        'NoOfBlankBarcodes': NoOfBlankBarcodes,
+                        'Godown': Godown,
+                        'ProductBarcode': ProductBarcode,
+                        'NutritionValue': NutritionValue,
+                        'ContentValue': ContentValue,
+                        'CategoryID': CategoryID,
+                        'GuiID1': GuiID1,
+                        'GuiID2': GuiID2,
+                        'DatePackaging1': DatePackaging1,
+                        'BestBefore1': BestBefore1,
+                        'BatchNo1': BarcodeBatchNo1,
+                        'DatePackaging2': DatePackaging2,
+                        'BestBefore2': BestBefore2,
+                        'BatchNo2': BarcodeBatchNo2,
+                        'chkPlaceOfOrigin': chkPlaceOfOrigin,
+                        'PlaceOfOrigin': PlaceOfOrigin
+                    },
+                    cache: false,
+                }).done(function (result) {
+                    if (result != '') {
+                        window.open(result, "newPage");
+                        $('#externalbarcode').find("#ExBestBeforeDate").data('datepicker').setDate(null);
+                        $('#externalbarcode').find("#chkPlaceOfOrigin").prop('checked', false);
+                    }
+                });
+            }
+            else {
+                alert("Please enter barcode details");
+            }
+            $("#externalbarcode").removeClass("modal fade modal-overflow in");
+            $("#externalbarcode").removeAttr('style');
+            $("#externalbarcode").addClass("modal fade");
+        });
+    });
+
+    // Wholesale Barcode
+    $('.lst1').on('click', '.btnwholesalebarcode', function () {
+        debugger;
+        var productid = $(this).attr("data-pid");
+        var productname = $(this).attr("data-ppname");
+        var productmrp = $(this).attr("data-productmrp");
+        var productbarcode = $(this).attr("data-pbarcode");
+        var categoryid = $(this).attr("data-categoryid");
+        var productquantity = $(this).attr("data-productquantity");
+        var unit = $(this).attr("data-unit");
+        var gramperkg = $(this).attr("data-gramperkg");
+        wholesalebarcode(productid, productname, productmrp, productbarcode, categoryid, productquantity, unit, gramperkg);
+        $("#wholesalebarcode").removeClass("modal fade").addClass("modal fade modal-overflow in");
+        $("#wholesalebarcode").css("display", "block");
+    });
+
+    function wholesalebarcode(productid, productname, productmrp, productbarcode, categoryid, productquantity, unit, gramperkg) {
+        debugger;
+        $('#ProductIDWholesalebarcode').attr('value', productid);
+        $('#WholesaleProductName').attr('value', productname);
+        $('#hdnProductMRP').attr('value', productmrp);
+        $('#WholesaleProductBarcode').attr('value', productbarcode);
+        $('#WholesaleCategoryID').attr('value', categoryid);
+        $('#ProductQuantity').attr('value', productquantity);
+        $('#UnitName').attr('value', unit);
+        $("#WholesaleGodownID").val("").trigger("change");
+        $('#WholesaleGramPerKG').attr('value', gramperkg);
+    }
+
+    $(document).ready(function () {
+        $('#WholesaleBarcodePackageDate').datepicker({
+            autoclose: true,
+        }).on('changeDate', function (ev) {
+            debugger;
+            var WholesaleBarcodePackageDate = $("#WholesaleBarcodePackageDate").val();
+            var ProductIDWholesalebarcode = $("#ProductIDWholesalebarcode").val();
+            var hdnProductMRP = $("#hdnProductMRP").val();
+            if ($("#WholesaleBarcodePackageDate").val() != "") {
+                $.ajax({
+                    type: 'Post',
+                    url: '@Url.Action("GetProductExpiryDate")',
+                    data: { 'WholesaleBarcodePackageDate': WholesaleBarcodePackageDate, 'ProductIDWholesalebarcode': ProductIDWholesalebarcode },
+                    success: function (result) {
+                        debugger;
+                        $('#WholesaleBestBeforeDate').val(result);
+                        $('#WholesaleProductMRP').val(hdnProductMRP);
+                        if (WholesaleBarcodePackageDate != "") {
+                            var parts = WholesaleBarcodePackageDate.split("/");
+
+                            // Added by Dhruvik 28-01-2023
+                            var dd = parts[1];
+                            // Added by Dhruvik 28-01-2023
+
+                            var mm = parts[0]; // 004
+                            var yy = parts[2].slice(-2); // 034556
+
+                            // Changes by Dhruvik 28-01-2023
+                            $("#WholesaleBarcodeBatchNo").val(dd + mm + yy);
+                            // Changes by Dhruvik 28-01-2023
+                        }
+                        else {
+                            $("#WholesaleBarcodeBatchNo").val("");
+                        }
+                    },
+                    error: function () { alert('Error'); }
+                });
+            }
+            else {
+                alert('select package date');
+            }
+        });
+    });
+
+    $(".btnprintwholesalebarcode").click(function () {
+        debugger;
+        if ($("#WholesaleBarcodePackageDate").val() != "" && $("#TotalPacket").val() != "" && $("#WholesaleGodownID").val() != "" && $("#NoofWholesaleBarcodes").val() != "") {
+            var WholesaleBarcodePackageDate = $("#WholesaleBarcodePackageDate").val();
+            var WholesaleBestBeforeDate = $("#WholesaleBestBeforeDate").val();
+            var ProductIDWholesalebarcode = $("#ProductIDWholesalebarcode").val();
+            var WholesaleProductName = $("#WholesaleProductName").val();
+            var WholesaleProductMRP = $("#WholesaleProductMRP").val();
+            var TotalPacket = $("#TotalPacket").val();
+            var ProductQuantity = $("#ProductQuantity").val();
+            var UnitName = $("#UnitName").val();
+            var WholesaleProductBarcode = $("#WholesaleProductBarcode").val();
+            var WholesaleCategoryID = $("#WholesaleCategoryID").val();
+            var WholesaleBarcodeBatchNo = $("#WholesaleBarcodeBatchNo").val();
+            var WholesaleGodownID = $("#WholesaleGodownID").val();
+            var NoofWholesaleBarcodes = $("#NoofWholesaleBarcodes").val();
+            var WholesaleGramPerKG = parseFloat($("#WholesaleGramPerKG").val()).toFixed(2);
+            $.ajax({
+                url: '@Url.Action("PrintWholesaleBarcode")',
+                type: 'POST',
+                data: {
+                    'WholesaleBarcodePackageDate': WholesaleBarcodePackageDate, 'WholesaleBestBeforeDate': WholesaleBestBeforeDate,
+                    'ProductIDWholesalebarcode': ProductIDWholesalebarcode, 'WholesaleProductName': WholesaleProductName,
+                    'WholesaleProductMRP': WholesaleProductMRP, 'TotalPacket': TotalPacket,
+                    'ProductQuantity': ProductQuantity, 'UnitName': UnitName,
+                    'WholesaleProductBarcode': WholesaleProductBarcode, 'WholesaleCategoryID': WholesaleCategoryID,
+                    'WholesaleBarcodeBatchNo': WholesaleBarcodeBatchNo, 'WholesaleGodownID': WholesaleGodownID,
+                    'NoofWholesaleBarcodes': NoofWholesaleBarcodes, 'WholesaleGramPerKG': WholesaleGramPerKG
+                },
+                cache: false,
+            }).done(function (result) {
+                if (result != '') {
+                    window.open(result, "newPage");
+                    $("#WholesaleBarcodePackageDate").val("");
+                    $("#WholesaleBestBeforeDate").val("");
+                    $("#WholesaleProductMRP").val("");
+                    $("#WholesaleBarcodeBatchNo").val("");
+                    $("#TotalPacket").val("");
+                    $("#WholesaleGramPerKG").val("");
+                }
+            });
+        }
+        else {
+            alert("Please enter barcode details");
+        }
+        $('#wholesalebarcode').removeClass("modal fade modal-overflow in");
+        $('#wholesalebarcode').removeAttr('style');
+        $('#wholesalebarcode').addClass("modal fade");
+    });
+
+    $(".btnclosepopupwholesale").click(function () {
+        debugger;
+        $('#wholesalebarcode').removeClass("modal fade modal-overflow in");
+        $('#wholesalebarcode').removeAttr('style');
+        $('#wholesalebarcode').addClass("modal fade");
+        $("#WholesaleBarcodePackageDate").val("");
+        $("#WholesaleBestBeforeDate").val("");
+        $("#WholesaleProductMRP").val("");
+        $("#WholesaleBarcodeBatchNo").val("");
+        $("#TotalPacket").val("");
+        $("#WholesaleGramPerKG").val("");
+    });
+
+    // Pouch Barcode
+    $('.lst1').on('click', '.btnpouchbarcode', function () {
+        debugger;
+        var productid = $(this).attr("data-pid");
+        var productname = $(this).attr("data-ppname");
+        var productmrp = $(this).attr("data-productmrp");
+        var productbarcode = $(this).attr("data-pbarcode");
+        var nutritionvalue = $(this).attr("data-nutritionvalue");
+        var contentvalue = $(this).attr("data-contentvalue");
+        var categoryid = $(this).attr("data-categoryid");
+        var productqtyid = $(this).attr("data-productqtyid");
+        var pouchsize = $(this).attr("data-pouchsize");
+
+        var protein = $(this).attr("data-protein");
+        var fat = $(this).attr("data-fat");
+        var carbohydrate = $(this).attr("data-carbohydrate");
+        var totalenergy = $(this).attr("data-totalenergy");
+        var information = $(this).attr("data-information");
+        var pouchname = $(this).attr("data-pouchname");
+        var gramperkg = $(this).attr("data-gramperkg");
+
+        pouchbarcode(productid, productname, productmrp, productbarcode, nutritionvalue, contentvalue, categoryid, productqtyid, pouchsize, protein, fat, carbohydrate, totalenergy, information, pouchname, gramperkg);
+        $("#pouchbarcode").removeClass("modal fade").addClass("modal fade modal-overflow in");
+        $("#pouchbarcode").css("display", "block");
+    });
+
+    function pouchbarcode(productid, productname, productmrp, productbarcode, nutritionvalue, contentvalue, categoryid, productqtyid, pouchsize, protein, fat, carbohydrate, totalenergy, information, pouchname, gramperkg) {
+        debugger;
+        $("#PouchBarcodePackageDate").datepicker({ dateFormat: "dd/MM/yyyy" }).datepicker("setDate", "0");
+        var myParam = $("#PouchBarcodePackageDate").val();
+        if (myParam != "") {
+            var parts = myParam.split("/");
+
+            // Added By Dhruvik 28-01-2023
+            var dd = parts[1];
+            // Added By Dhruvik 28-01-2023
+
+            var mm = parts[0]; // 004
+            var yy = parts[2].slice(-2); // 034556
+
+            // Changes By Dhruvik 28-01-2023
+            $("#PouchBarcodeBatchNo").val(dd + mm + yy);
+            // Changes By Dhruvik 28-01-2023
+        }
+        else {
+            $("#PouchBarcodeBatchNo").val("");
+        }
+        var name = productname;
+        if (name != "") {
+            name = name.split("(");
+            var mm1 = name[0]; // 004
+            name = mm1;
+        }
+        $('#ProductIDPouchbarcode').attr('value', productid);
+        $('#PouchProductName').attr('value', productname);
+        $('#hdnPouchProductMRP').attr('value', productmrp);
+        $('#PouchProductBarcode').attr('value', productbarcode);
+        $('#PouchNutritionValue').attr('value', nutritionvalue);
+        $('#PouchContentValue').attr('value', contentvalue);
+        $('#PouchCategoryID').attr('value', categoryid);
+        $('#PouchProductQtyID').attr('value', productqtyid);
+        $('#PouchSize').attr('value', pouchsize);
+
+        $('#PouchProtein').attr('value', protein);
+        $('#PouchFat').attr('value', fat);
+        $('#PouchCarbohydrate').attr('value', carbohydrate);
+        $('#PouchTotalEnergy').attr('value', totalenergy);
+        $('#PouchInformation').attr('value', information);
+        $('#PouchName').attr('value', pouchname);
+        $('#PouchGramPerKG').attr('value', gramperkg);
+        $("#PouchGodownID").val("").trigger("change");
+    }
+
+    $(".btnprintpouchbarcode").click(function () {
+        debugger;
+        if ($("#NoofPouchBarcodes").val() != 0 && $("#PouchGodownID").val() != "" && $("#PouchSize").val() != 0) {
+            var date1 = $("#PouchBarcodePackageDate").val();
+            var id = $("#ProductIDPouchbarcode").val();
+            var name = $("#PouchProductName").val();
+            var mrp = $("#hdnPouchProductMRP").val();
+            var Batchno = $("#PouchBarcodeBatchNo").val();
+            var noofbarcodes = $("#NoofPouchBarcodes").val();
+            var godown = $("#PouchGodownID").val();
+            var barcode = $("#PouchProductBarcode").val();
+            var NutritionValue = $("#PouchNutritionValue").val();
+            var ContentValue = $("#PouchContentValue").val();
+            var CategoryID = $("#PouchCategoryID").val();
+            var ProductQtyID = $("#PouchProductQtyID").val();
+            var PouchSize = $("#PouchSize").val();
+            var PouchGramPerKG = parseFloat($("#PouchGramPerKG").val()).toFixed(2);
+            $.ajax({
+                url: '@Url.Action("PrintPouchBarcode")',
+                type: 'POST',
+                data: { 'date1': date1, 'id': id, 'name': name, 'mrp': mrp, 'Batchno': Batchno, 'noofbarcodes': noofbarcodes, 'godown': godown, 'Productbarcode': barcode, 'NutritionValue': NutritionValue, 'ContentValue': ContentValue, 'CategoryID': CategoryID, 'ProductQtyID': ProductQtyID, 'PouchSize': PouchSize, 'PouchGramPerKG': PouchGramPerKG },
+                cache: false,
+            }).done(function (result) {
+                if (result != '') {
+                    debugger;
+                    window.open(result, "newPage");
+                    $("#ProductIDPouchbarcode").val("");
+                    $("#PouchProductName").val("");
+                    $("#hdnPouchProductMRP").val("");
+                    $("#NoofPouchBarcodes").val(0);
+                    $("#PouchProductBarcode").val("");
+                    $("#PouchNutritionValue").val("");
+                    $("#PouchContentValue").val("");
+                    $("#PouchCategoryID").val("");
+                    $("#PouchProductQtyID").val("");
+                    $("#PouchProtein").val("");
+                    $("#PouchFat").val("");
+                    $("#PouchCarbohydrate").val("");
+                    $("#PouchTotalEnergy").val("");
+                    $("#PouchInformation").val("");
+                    $("#PouchGramPerKG").val("");
+                }
+            });
+        }
+        else {
+            alert("Please enter barcode details");
+        }
+        $('#pouchbarcode').removeClass("modal fade modal-overflow in");
+        $('#pouchbarcode').removeAttr('style');
+        $('#pouchbarcode').addClass("modal fade");
+    });
+
+    $(".btnclosepopuppouch").click(function () {
+        debugger;
+        $('#pouchbarcode').removeClass("modal fade modal-overflow in");
+        $('#pouchbarcode').removeAttr('style');
+        $('#pouchbarcode').addClass("modal fade");
+        $("#ProductIDPouchbarcode").val("");
+        $("#PouchProductName").val("");
+        $("#NoofPouchBarcodes").val(0);
+        $("#hdnPouchProductMRP").val("");
+        $("#PouchProductBarcode").val("");
+        $("#PouchNutritionValue").val("");
+        $("#PouchContentValue").val("");
+        $("#PouchCategoryID").val("");
+        $("#PouchProductQtyID").val("");
+        $("#PouchGramPerKG").val("");
+        $("#PouchGodownID").val("").trigger("change");
+    });
+
+
+    // 04 Feb, 2022 Piyush Limbani
+    $(".btnexport").click(function () {
+        debugger;
+        var PackageDate = $("#PouchBarcodePackageDate").val();
+        var ProductID = $("#ProductIDPouchbarcode").val();
+        var ProductName = $("#PouchProductName").val();
+        var ProductMRP = $("#hdnPouchProductMRP").val();
+        var BatchNo = $("#PouchBarcodeBatchNo").val();
+        var NoofBarcodes = $("#NoofPouchBarcodes").val();
+        var GodownID = $("#PouchGodownID").val();
+        var Barcode = $("#PouchProductBarcode").val();
+        var Ingredients = $("#PouchContentValue").val();
+        var NutritionalFacts = $("#PouchNutritionValue").val();
+        var CategoryID = $("#PouchCategoryID").val();
+        var ProductQtyID = $("#PouchProductQtyID").val();
+        var PouchSize = $("#PouchSize").val();
+        var PouchName = $("#PouchName").val();
+        var Protein = $("#PouchProtein").val();
+        var Fat = $("#PouchFat").val();
+        var Carbohydrate = $("#PouchCarbohydrate").val();
+        var TotalEnergy = $("#PouchTotalEnergy").val();
+        var Information = $("#PouchInformation").val();
+        var GramPerKG = parseFloat($("#PouchGramPerKG").val()).toFixed(2);
+
+        if ($("#NoofPouchBarcodes").val() != 0 && $("#PouchGodownID").val() != "" && $("#PouchSize").val() != 0) {
+            var url = '@Url.Action("ExportExcelDataForBarcode", "Product", new { PackageDate = "__PackageDate__", ProductID = "__ProductID__",
+                  ProductName = "__ProductName__", ProductMRP = "__ProductMRP__", BatchNo = "__BatchNo__", NoofBarcodes = "__NoofBarcodes__",GodownID = "__GodownID__",Barcode = "__Barcode__",
+                  Ingredients = "__Ingredients__",NutritionalFacts = "__NutritionalFacts__",CategoryID = "__CategoryID__",ProductQtyID = "__ProductQtyID__",PouchSize = "__PouchSize__",PouchName = "__PouchName__",
+                                                                                 Protein = "__Protein__",
+                                                                                 Fat = "__Fat__",
+                                                                                 Carbohydrate = "__Carbohydrate__",
+                                                                                 TotalEnergy = "__TotalEnergy__",
+                                                                                 Information = "__Information__",
+                                                                                 GramPerKG = "__GramPerKG__"
+              })';
+            url = url.replace(/amp;/g, '');
+            window.location.href = url.replace('__PackageDate__', PackageDate).replace('__ProductID__', ProductID).replace('__ProductName__', ProductName).replace('__ProductMRP__', ProductMRP).replace('__BatchNo__', BatchNo).replace('__NoofBarcodes__', NoofBarcodes).replace('__GodownID__', GodownID).replace('__Barcode__', Barcode).replace('__Ingredients__', Ingredients).replace('__NutritionalFacts__', NutritionalFacts).replace('__CategoryID__', CategoryID).replace('__ProductQtyID__', ProductQtyID).replace('__PouchSize__', PouchSize).replace('__Protein__', Protein).replace('__Fat__', Fat).replace('__Carbohydrate__', Carbohydrate).replace('__TotalEnergy__', TotalEnergy).replace('__Information__', Information).replace('__PouchName__', PouchName).replace('__GramPerKG__', GramPerKG);
+            $('#pouchbarcode').removeClass("modal fade modal-overflow in");
+        }
+        else {
+            alert("Please enter barcode details");
+        }
+        $("#ProductIDPouchbarcode").val("");
+        $("#PouchProductName").val("");
+        $("#hdnPouchProductMRP").val("");
+        $("#NoofPouchBarcodes").val(0);
+        $("#PouchProductBarcode").val("");
+        $("#PouchNutritionValue").val("");
+        $("#PouchContentValue").val("");
+        $("#PouchCategoryID").val("");
+        $("#PouchProductQtyID").val("");
+        $("#PouchProtein").val("");
+        $("#PouchFat").val("");
+        $("#PouchCarbohydrate").val("");
+        $("#PouchTotalEnergy").val("");
+        $("#PouchInformation").val("");
+        $("#PouchGramPerKG").val("");
+        $('#pouchbarcode').removeAttr('style');
+        $('#pouchbarcode').addClass("modal fade");
+    });
+
+</script>

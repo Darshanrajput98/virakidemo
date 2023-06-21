@@ -1,0 +1,82 @@
+﻿@{
+    ViewBag.Title = "DayWiseExpense";
+    Layout = "~/Areas/expenses/Views/Shared/_expenseslayout.cshtml";
+}
+<div class="box box-default">
+    <div class="box-header with-border text-center">
+        <h3 class="box-title">Day Wise Expense</h3>
+    </div>
+    <form id="frmDayWiseExpense" class="form-horizontal">
+        <div class="box-body">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="ExpenseDate" class="col-sm-4 control-label">Expense Date </label>
+                    <div class="col-sm-8">
+                        <div class="input-group date">
+                            <div class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
+                            </div>
+                            <input type="text" class="form-control pull-right datepicker" id="ExpenseDate" tabindex="3">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="box-footer ">
+                    <div class="pull-right">
+                        <button type="button" id="btnclear" class="btn btn-default" tabindex="19">Cancel</button>
+                        <button type="button" id="btnsearch" class="btn btn-info" tabindex="18">Search</button>
+                        <button type="button" id="btnexport" class="btn btn-info" tabindex="20">Export To Excel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <div id="lstdaywiseexpense">
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script>
+    $(document).ready(function () {
+        if ($("#ExpenseDate").val() == "") {
+            var model = new Object();
+            var today = new Date();
+            var dd = today.getDate();
+            var mm = today.getMonth() + 1; //January is 0!
+            var yyyy = today.getFullYear();
+            $("#ExpenseDate").val(mm + "/" + dd + "/" + yyyy);
+            loadhtml();
+        }
+
+        $("#btnsearch").click(function () {
+            loadhtml();
+        });
+
+        function loadhtml() {
+            var model = new Object();
+            model.ExpenseDate = $("#ExpenseDate").val();
+            $.ajax({
+                url: '@Url.Action("DayWiseExpenseList")',
+                type: 'POST',
+                data: { 'model': model },
+                cache: false,
+            }).done(function (result) {
+                $('#lstdaywiseexpense').html(result);
+            });
+        }
+
+        $("#btnclear").click(function () {
+            $("#ExpenseDate").val("");
+            loadhtml();
+        });
+
+        $("#btnexport").click(function () {
+            var ExpenseDate = $("#ExpenseDate").val();
+            var url = '@Url.Action("ExportExcelDayWiseExpense", "Report", new { ExpenseDate = "__ExpenseDate__" })';
+            window.location.href = url.replace('__ExpenseDate__', ExpenseDate);
+        });
+    });
+</script>
+
+

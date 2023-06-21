@@ -1,0 +1,89 @@
+﻿@model List<vb.Data.AttandanceListResponse>
+@using vb.Data.ViewModel
+
+<div class="box">
+    <div class="box-header">
+        <h3 class="box-title">Attandance List</h3>
+    </div>
+    <div class="box-body">
+        <table id="ListDataTable" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Employee Name</th>
+                    <th>Day</th>
+                    <th>Time In</th>
+                    <th>Time Out</th>
+                    <th>Hours Worked</th>                 
+                    <th>OT</th>                
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.ADate.ToString("dd/MM/yyyy")</td>
+                        <td>@item.AEmployeeName</td>
+                        <td>@item.DayName</td>
+                        <td>@item.TimeIn</td>
+                        <td>@item.TimeOut</td>
+                        <td>@item.TotalHoursWorked</td>
+                        <td>@item.OT</td>
+                        <td>@item.Status</td>
+                    </tr>
+                }
+                @if (Model.Count > 0)
+                {
+                    <tr style="font-weight:bold">
+                        <td colspan="1">
+                            Total :
+                        </td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>@Model[0].sumTotalHoursWorked</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+
+    $('#ListDataTable').DataTable({
+        'paging': true,
+        'lengthChange': true,
+        'searching': true,
+        'ordering': false,
+        'info': true,
+        'autoWidth': false
+    });
+
+
+    //$("#ListDataTable").DataTable({
+    //    'aoColumnDefs': [{
+    //        'bSortable': false,
+    //        'aTargets': ['nosort'] /* 1st one, start by the right */
+    //    }]
+    //});
+
+    //$('#ListDataTable').on('click', '.btnedit', function () {
+    //    debugger;
+    //    $("#URoleID").val($(this).attr("data-roleid"));
+    //    $("#RoleName").val($(this).parent().parent().children()[0].innerHTML.trim());
+    //    var value = ($(this).attr("data-isactive"));
+    //    if (value == 'True') {
+    //        $("#IsDelete").prop('checked', true);
+    //    }
+    //    else {
+    //        $("#IsDelete").prop('checked', false);
+    //    }
+    //    $("html, body").animate({ scrollTop: 0 }, "slow");
+    //});
+</script>
+

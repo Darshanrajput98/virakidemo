@@ -1,0 +1,89 @@
+﻿@model List<vb.Data.TaxListResponse>
+@using vb.Data.ViewModel
+
+<div class="box">
+    <div class="box-header text-center">
+        <h3 class="box-title">Tax List</h3>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body">
+        <table id="ListDataTable" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th class="nosort">Code</th>
+                    <th class="nosort">Name</th>
+                    <th class="nosort">Description</th>
+                    @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.WETAX.ToString()))
+                    {
+                        <th class="nosort">Edit</th>
+                    }
+                    @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.WDTAX.ToString()))
+                    {
+                        <th class="nosort">Status</th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td id="row" @item.TaxID>
+                            @item.TaxCode
+                        </td>
+                        <td>
+                            @item.TaxName
+                        </td>
+                        <td>
+                            @item.TaxDescription
+                        </td>
+                        @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.WETAX.ToString()))
+                        {
+                            <td>
+                                <a style="cursor:pointer;" class="btnedit" data-pid="@item.TaxID">Edit</a>
+                            </td>
+                        }
+                        @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.WDTAX.ToString()))
+                        {
+                            if (item.IsDelete == true)
+                            {
+                                <td>
+                                    @Html.ActionLink("Active", "DeleteTax", "Admin",
+                                  new { TaxID = item.TaxID, IsDelete = false },
+                                    new { onclick = "return confirm('Are you sure you wish to delete this article?');" })
+                                </td>
+                            }
+                            else
+                            {
+                                <td>
+                                    @Html.ActionLink("DeActive", "DeleteTax", "Admin",
+                                  new { TaxID = item.TaxID, IsDelete = true },
+                                    new { onclick = "return confirm('Are you sure you wish to delete this article?');" })
+                                </td>
+                            }
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <!-- /.box-body -->
+</div>
+
+<script>
+    $("#ListDataTable").DataTable({
+        'aoColumnDefs': [{
+            'bSortable': false,
+            'aTargets': ['nosort'] /* 1st one, start by the right */
+        }]
+    });
+
+    $('#ListDataTable').on('click', '.btnedit', function () {
+        $("#UTaxID").val($(this).attr("data-pid"));
+        $("#TaxCode").val($(this).parent().parent().children()[0].innerHTML.trim());
+        $("#TaxName").val($(this).parent().parent().children()[1].innerHTML.trim());
+        $("#TaxDescription").val($(this).parent().parent().children()[2].innerHTML.trim());
+    });
+</script>
+
+
+

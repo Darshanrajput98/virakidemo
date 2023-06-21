@@ -1,0 +1,101 @@
+﻿@model List<vb.Data.CustomerGroupListResponse>
+@using vb.Data.ViewModel
+
+<div class="box">
+    <div class="box-header text-center">
+        <h3 class="box-title">Customer Group List</h3>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body">
+        <table id="ListDataTable" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th class="nosort">Group Name</th>
+                    <th class="nosort">Address1</th>
+                    <th class="nosort">Address2</th>
+                    <th class="nosort">Area</th>
+                    <th class="nosort">Description</th>
+                    @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.WECUSTOMERGROUP.ToString()))
+                    {
+                        <th class="nosort">Edit</th>
+                    }
+                    @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.WDCUSTOMERGROUP.ToString()))
+                    {
+                        <th class="nosort">Status</th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td id="row" @item.CustomerGroupID>
+                            @item.CustomerGroupName
+                        </td>
+                        <td>
+                            @item.CustomerGroupAddress1
+                        </td>
+                        <td>
+                            @item.CustomerGroupAddress2
+                        </td>
+                        <td>
+                            @item.AreaName
+                        </td>
+                        <td>
+                            @item.CustomerGroupDescription
+                        </td>
+                        @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.WECUSTOMERGROUP.ToString()))
+                        {
+                            <td>
+                                <a style="cursor:pointer;" class="btnedit" data-pid="@item.CustomerGroupID" data-areaid="@item.AreaID">Edit</a>
+                            </td>
+                        }
+                        @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.WDCUSTOMERGROUP.ToString()))
+                        {
+                            if (item.IsDelete == true)
+                            {
+                                <td>
+                                    @Html.ActionLink("Active", "DeleteCustomerGroup", "Customer",
+                                                  new { CustomerGroupID = item.CustomerGroupID, IsDelete = false },
+                                    new { onclick = "return confirm('Are you sure you wish to delete this article?');" })
+                                </td>
+                            }
+                            else
+                            {
+                                <td>
+                                    @Html.ActionLink("DeActive", "DeleteCustomerGroup", "Customer",
+                                                  new { CustomerGroupID = item.CustomerGroupID, IsDelete = true },
+                                    new { onclick = "return confirm('Are you sure you wish to delete this article?');" })
+                                </td>
+                            }
+                        }
+                    </tr>
+                }
+            </tbody>
+
+        </table>
+    </div>
+    <!-- /.box-body -->
+</div>
+
+<script>
+    $("#ListDataTable").DataTable({
+        'aoColumnDefs': [{
+            'bSortable': false,
+            'aTargets': ['nosort'] /* 1st one, start by the right */
+
+        }]
+    });
+
+
+    $('#ListDataTable').on('click', '.btnedit', function () {
+        $("#UCustomerGroupID").val($(this).attr("data-pid"));
+        $("#CustomerGroupName").val($(this).parent().parent().children()[0].innerHTML.trim());
+        $("#CustomerGroupAddress1").val($(this).parent().parent().children()[1].innerHTML.trim());
+        $("#CustomerGroupAddress2").val($(this).parent().parent().children()[2].innerHTML.trim());
+        $("#AreaID").val($(this).attr("data-areaid")).trigger("change");
+        $("#CustomerGroupDescription").val($(this).parent().parent().children()[4].innerHTML.trim());
+        $("html, body").animate({ scrollTop: 0 }, "slow");
+    });
+
+</script>

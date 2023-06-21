@@ -1,0 +1,176 @@
+﻿@{
+    ViewBag.Title = "ManageLicence";
+    Layout = "~/Areas/wholesale/Views/Shared/_wholesalelayout.cshtml";
+}
+@using vb.Data.ViewModel
+<div class="box box-default">
+    <div class="box-header with-border text-center">
+        <h3 class="box-title">Manage Licence</h3>
+    </div>
+    <form id="frmLicence" class="form-horizontal">
+        <div class="box-body">
+            <div class="col-md-6">
+
+                <div class="form-group">
+                    <input name="LicenceID" id="LicenceID" type="hidden" value="0" />
+                    <label for="WhereFrom" class="col-sm-4 control-label">Where From</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="WhereFrom" id="WhereFrom" placeholder="Where From" tabindex="3" required="required">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="FromDate" class="col-sm-4 control-label">From Date</label>
+                    <div class="col-sm-8">
+                        <div class="input-group date">
+                            <div class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
+                            </div>
+                            <input type="text" class="form-control datepicker" id="FromDate" placeholder="From Date" autocomplete="off" required="required">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="Remark" class="col-sm-4 control-label">Remark</label>
+                    <div class="col-sm-8">
+                        <textarea class="form-control" id="Remark" name="Remark" rows="2" cols="20" placeholder="Remark" tabindex="15"></textarea>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="col-md-6">
+
+                <div class="form-group">
+                    <label for="LicenceType" class="col-sm-4 control-label">Licence Type</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="LicenceType" maxlength="100" id="LicenceType" placeholder="Licence Type" tabindex="1" required="required">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="ToDate" class="col-sm-4 control-label">To Date</label>
+                    <div class="col-sm-8">
+                        <div class="input-group date">
+                            <div class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
+                            </div>
+                            <input type="text" class="form-control datepicker" id="ToDate" placeholder="To Date" autocomplete="off" required="required">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="Documents" class="col-sm-4 control-label">Document</label>
+                    <div class="col-sm-4">
+                        <input type="file" id="Documents" name="Documents">
+                    </div>
+                    <div class="col-sm-4">
+                        <label for="Documents" id="lblDocuments"></label>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <!-- /.box-body -->
+        <div class="box-footer ">
+            <div class="pull-right">
+                <button type="button" id="CancelDriver" class="btn btn-default" tabindex="6">Cancel</button>
+                @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.ALicence.ToString()))
+                {
+                    <button type="button" id="btnsavecase" class="btn btn-info" tabindex="5">Save</button>
+                }
+            </div>
+        </div>
+        <!-- /.box-footer -->
+    </form>
+    <div id="lstcase">
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script>
+    $(document).ready(function () {
+        loadhtml();
+    });
+
+    function loadhtml() {
+        $.ajax({
+            url: '@Url.Action("LicenceList")',
+            type: 'GET',
+            cache: false,
+        }).done(function (result) {
+            $('#lstcase').html(result);
+        });
+    }
+
+
+    $("#btnsavecase").click(function () {
+        debugger;
+        if (!($('#frmLicence').parsley().validate())) {
+            return;
+        }
+        var data = new FormData();
+        debugger;
+        data.append("LicenceID", $("#LicenceID").val());
+        data.append("LicenceType", $("#LicenceType").val());
+        data.append("WhereFrom", $("#WhereFrom").val());
+        data.append("FromDate", $("#FromDate").val());
+        data.append("ToDate", $("#ToDate").val());
+        data.append("Remark", $("#Remark").val());
+        var Documents = "";
+        if ($("#Documents").val().length > 0) {
+            Documents = $("#Documents").get(0).files;
+        }
+        if (Documents != "") {
+            data.append("Documents", Documents[0]);
+        }
+        else {
+            data.append("Documents", Documents);
+        }
+        $.ajax({
+            url: '@Url.Action("AddLicenceDetails")',
+            type: 'POST',
+            data: data,
+            processData: false,
+            contentType: false,
+            cache: false,
+        }).done(function (result) {
+            if (result == true) {
+                if ($("#LicenceID").val() == "") {
+                    $('div#sucessalert').html("Licence Detail Added successfully.");
+                }
+                else {
+                    $('div#sucessalert').html("Updated successfully.");
+                }
+                $("html, body").animate({ scrollTop: 0 }, "slow");
+                showhidealert();
+                loadhtml();
+                clearform();
+            }
+            else {
+                $('div#erroralert').html("Licence is already exist.");
+                debugger;
+                $("html, body").animate({ scrollTop: 0 }, "slow");
+                showhideerroralert();
+            }
+        });
+    });
+
+
+
+
+    $("#CancelDriver").click(function () {
+        clearform();
+    });
+
+    function clearform() {
+        $("#frmLicence").find("input").val("");
+        $("#frmLicence").find("textarea").val("");
+        $("#DriverID").val("").trigger("change");
+        $("#lblDocuments").text("");
+    }
+</script>
+

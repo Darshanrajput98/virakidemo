@@ -1,0 +1,1743 @@
+﻿@model vb.Data.AddInwardOutWard
+@using vb.Data.ViewModel
+@{
+    ViewBag.Title = "Inward";
+    Layout = "~/Areas/wholesale/Views/Shared/_wholesalelayout.cshtml";
+}
+
+<div class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-info">
+                <div class="box-header with-border text-center">
+                    <h3 class="box-title">Inward</h3>
+                </div>
+                <form id="frmInward" class="form-horizontal">
+                    <div class="box-body">
+                        <div class="col-md-12">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <input name="InwardID" id="InwardID" type="hidden" value="" />
+                                    <input type="hidden" id="CreatedBy" class="CreatedBy" value="" />
+                                    <input type="hidden" id="CreatedOn" class="CreatedOn" value="" />
+                                    <label for="GodownID" class="col-sm-4 control-label">Godown</label>
+                                    <div class="col-sm-8">
+                                        @Html.DropDownList("GodownID", new SelectList(ViewBag.Godown, "GodownID", "GodownName"), "Select Godown", new { @class = "form-control select2", required = "required" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                @if (ViewBag.RoleId == "5" || ViewBag.RoleId == "6")
+                                {
+                                    <div class="form-group">
+                                        <label for="Opening" class="col-sm-4 control-label">Opening</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" id="OpeningAmount" value="0">
+                                        </div>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="form-group">
+                                        <label for="Opening" class="col-sm-4 control-label">Opening</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" id="OpeningAmount" value="0" disabled>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="Chillar" class="col-sm-4 control-label">Chillar</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="ChillarInward" value="0" required="required" autocomplete="off">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="WholesaleAssignedDate" class="col-sm-4 control-label">Date</label>
+                                    <div class="col-sm-8">
+                                        <div class="input-group date">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </div>
+                                            <input type="text" class="form-control pull-right datepicker" id="WholesaleAssignedDate" tabindex="2" required="required" autocomplete="off">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="Wholesale" class="col-sm-4 control-label">Wholesale</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="WholesaleCash" value="0" disabled="disabled">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="TransferAmount" class="col-sm-4 control-label">Transfer Amount Inv</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="TransferAmountInward" value="0" autocomplete="off" disabled="disabled">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="lstwholesalesalesmanlist" class="col-md-4" style="padding-bottom:10px;">
+                        </div>
+                        <div class="col-md-12">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="RetailAssignedDate" class="col-sm-4 control-label">Date</label>
+                                    <div class="col-sm-8">
+                                        <div class="input-group date">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </div>
+                                            <input type="text" class="form-control pull-right datepicker" id="RetailAssignedDate" tabindex="2" required="required" autocomplete="off">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="Retail" class="col-sm-4 control-label">Retail</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="RetailCash" value="0" disabled="disabled">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="lstretailsalesmanlist" class="col-md-4" style="padding-bottom:10px;">
+                        </div>
+                        <div class="col-md-12">
+                            <div class="box-header with-border">
+                                <h3 class="box-title">Wholesale Tempo</h3>
+                            </div>
+                            <div class="col-md-12" style="margin-top: 15px;">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="WholesaleTempoDate1" class="col-sm-4 control-label">Tempo Date1</label>
+                                        <div class="col-sm-8">
+                                            <div class="input-group date">
+                                                <div class="input-group-addon">
+                                                    <i class="fa fa-calendar"></i>
+                                                </div>
+                                                <input type="text" class="form-control pull-right datepicker" id="WholesaleTempoDate1" tabindex="2" autocomplete="off">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="VehicleNo" class="col-sm-4 control-label">Vehicle No.</label>
+                                        <div class="col-sm-6">
+                                            @Html.DropDownList("WholesaleVehicleNo1", new SelectList(ViewBag.VehicleNo, "VehicleNo", "VehicleNo"), "Select VehicleNo", new { @multiple = "multiple", @class = "form-control select2", tabindex = "0" })
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <button type="button" id="btnSearch1" class="btn btn-info pull-right">Search</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="TempoAmount1" class="col-sm-4 control-label">Amount</label>
+                                        <div class="col-sm-6">
+                                            <input type="text" class="form-control" id="WholesaleTempoAmount1" value="0" disabled="disabled">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="WholesaleTempoDate2" class="col-sm-4 control-label">Tempo Date2</label>
+                                        <div class="col-sm-8">
+                                            <div class="input-group date">
+                                                <div class="input-group-addon">
+                                                    <i class="fa fa-calendar"></i>
+                                                </div>
+                                                <input type="text" class="form-control pull-right datepicker" id="WholesaleTempoDate2" tabindex="2" autocomplete="off">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="VehicleNo" class="col-sm-4 control-label">Vehicle No.</label>
+                                        <div class="col-sm-6">
+                                            @Html.DropDownList("WholesaleVehicleNo2", new SelectList(ViewBag.VehicleNo, "VehicleNo", "VehicleNo"), "Select VehicleNo", new { @multiple = "multiple", @class = "form-control select2", tabindex = "0" })
+                                        </div>
+
+                                        <div class="col-sm-2">
+                                            <button type="button" id="btnSearch2" class="btn btn-info pull-right">Search</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="TempoAmount2" class="col-sm-4 control-label">Amount</label>
+                                        <div class="col-sm-6">
+                                            <input type="text" class="form-control" id="WholesaleTempoAmount2" value="0" disabled="disabled">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="WholesaleTempoDate3" class="col-sm-4 control-label">Tempo Date3</label>
+                                        <div class="col-sm-8">
+                                            <div class="input-group date">
+                                                <div class="input-group-addon">
+                                                    <i class="fa fa-calendar"></i>
+                                                </div>
+                                                <input type="text" class="form-control pull-right datepicker" id="WholesaleTempoDate3" tabindex="2" autocomplete="off">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="VehicleNo" class="col-sm-4 control-label">Vehicle No.</label>
+                                        <div class="col-sm-6">
+                                            @Html.DropDownList("WholesaleVehicleNo3", new SelectList(ViewBag.VehicleNo, "VehicleNo", "VehicleNo"), "Select VehicleNo", new { @multiple = "multiple", @class = "form-control select2", tabindex = "0" })
+                                        </div>
+
+                                        <div class="col-sm-2">
+                                            <button type="button" id="btnSearch3" class="btn btn-info pull-right">Search</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="WholesaleTempoAmount3" class="col-sm-4 control-label">Amount</label>
+                                        <div class="col-sm-6">
+                                            <input type="text" class="form-control" id="WholesaleTempoAmount3" value="0" disabled="disabled">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="box-header with-border">
+                                <h3 class="box-title">Retail Tempo</h3>
+                            </div>
+                            <div class="col-md-12" style="margin-top: 15px;">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="RetailTempoDate1" class="col-sm-4 control-label">Tempo Date1</label>
+                                        <div class="col-sm-8">
+                                            <div class="input-group date">
+                                                <div class="input-group-addon">
+                                                    <i class="fa fa-calendar"></i>
+                                                </div>
+                                                <input type="text" class="form-control pull-right datepicker" id="RetailTempoDate1" tabindex="2" autocomplete="off">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="RetailVehicleNo1" class="col-sm-4 control-label">Vehicle No.</label>
+                                        <div class="col-sm-6">
+                                            @Html.DropDownList("RetailVehicleNo1", new SelectList(ViewBag.RetVehicleNo, "VehicleNo", "VehicleNo"), "Select VehicleNo", new { @multiple = "multiple", @class = "form-control select2", tabindex = "0" })
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <button type="button" id="btnSearch4" class="btn btn-info pull-right">Search</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="RetailTempoAmount1" class="col-sm-4 control-label">Amount</label>
+                                        <div class="col-sm-6">
+                                            <input type="text" class="form-control" id="RetailTempoAmount1" value="0" disabled="disabled">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="RetailTempoDate2" class="col-sm-4 control-label">Tempo Date2</label>
+                                        <div class="col-sm-8">
+                                            <div class="input-group date">
+                                                <div class="input-group-addon">
+                                                    <i class="fa fa-calendar"></i>
+                                                </div>
+                                                <input type="text" class="form-control pull-right datepicker" id="RetailTempoDate2" tabindex="2" autocomplete="off">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="RetailVehicleNo2" class="col-sm-4 control-label">Vehicle No.</label>
+                                        <div class="col-sm-6">
+                                            @Html.DropDownList("RetailVehicleNo2", new SelectList(ViewBag.RetVehicleNo, "VehicleNo", "VehicleNo"), "Select VehicleNo", new { @multiple = "multiple", @class = "form-control select2", tabindex = "0" })
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <button type="button" id="btnSearch5" class="btn btn-info pull-right">Search</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="RetailTempoAmount2" class="col-sm-4 control-label">Amount</label>
+                                        <div class="col-sm-6">
+                                            <input type="text" class="form-control" id="RetailTempoAmount2" value="0" disabled="disabled" autocomplete="off">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="RetailTempoDate3" class="col-sm-4 control-label">Tempo Date3</label>
+                                        <div class="col-sm-8">
+                                            <div class="input-group date">
+                                                <div class="input-group-addon">
+                                                    <i class="fa fa-calendar"></i>
+                                                </div>
+                                                <input type="text" class="form-control pull-right datepicker" id="RetailTempoDate3" tabindex="2">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="RetailVehicleNo3" class="col-sm-4 control-label">Vehicle No.</label>
+                                        <div class="col-sm-6">
+                                            @Html.DropDownList("RetailVehicleNo3", new SelectList(ViewBag.RetVehicleNo, "VehicleNo", "VehicleNo"), "Select VehicleNo", new { @multiple = "multiple", @class = "form-control select2", tabindex = "0" })
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <button type="button" id="btnSearch6" class="btn btn-info pull-right">Search</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="RetailTempoAmount3" class="col-sm-4 control-label">Amount</label>
+                                        <div class="col-sm-6">
+                                            <input type="text" class="form-control" id="RetailTempoAmount3" value="0" disabled="disabled">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        @*New ADD 01-05-2019*@
+                        <div class="col-md-6" style="margin-top: 15px; margin-left: 80px;">
+                            <div id="VehicleInwardList" class="form-horizontal">
+                                <table class="table table-bordered table-bordered" id="tblVehicleInward">
+                                    <thead>
+                                        <tr class="form-group">
+                                            <th class="nosort col-sm-3">Date</th>
+                                            <th class="nosort col-sm-4">Vehicle Expenses (Inward)</th>
+                                            <th class="nosort col-sm-3">Amount</th>
+                                            <th class="nosort col-sm-2">Add</th>
+                                        </tr>
+                                    </thead>
+                                    <tr class="form-group" id="VehicleInward">
+                                        <td id="row">
+                                            <div class="input-group date">
+                                                <div class="input-group-addon">
+                                                    <i class="fa fa-calendar"></i>
+                                                </div>
+                                                <input type="text" name="lstVehicleInwardCost[0].AssignedDate" class="form-control pull-right datepicker AssignedDate" id="AssignedDate" autocomplete="off">
+                                            </div>
+                                            <input name="VehicleInwardCostID" class="hdnVehicleInwardCostID" type="hidden" value="" />
+                                        </td>
+                                        <td>
+                                            @Html.DropDownListFor(m => m.lstVehicleInwardCost[0].VehicleDetailID, new SelectList(ViewBag.TempoNumber, "VehicleDetailID", "VehicleNumber"), "Select Vehicle", new { @class = "form-control select2 VehicleDetailID", tabindex = "1" })
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control Amount" name="lstVehicleInwardCost[0].Amount" placeholder="Amount" tabindex="16" autocomplete="off" disabled />
+                                        </td>
+                                        <td>
+                                            <button type="button" class="btn btn-default addButtonInward" style="width: 45px;">
+                                                <i class="fa fa-plus" tabindex="17"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr class="form-group hide" id="AddVehicleInward">
+                                        <td id="row">
+                                            <div class="input-group date">
+                                                <div class="input-group-addon">
+                                                    <i class="fa fa-calendar"></i>
+                                                </div>
+                                                <input type="text" name="AssignedDate" class="form-control pull-right datepicker AssignedDate" id="AssignedDate" autocomplete="off">
+                                            </div>
+                                            <input name="VehicleInwardCostIDNew" class="hdnVehicleInwardCostID" type="hidden" value="" />
+                                        </td>
+                                        <td>
+                                            @Html.DropDownListFor(m => m.lstVehicleInwardCost[1].VehicleDetailID, new SelectList(ViewBag.TempoNumber, "VehicleDetailID", "VehicleNumber"), "Select Vehicle", new { @class = "form-control select2 VehicleDetailID", tabindex = "6" })
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control  Amount" name="Amount" placeholder="Amount" autocomplete="off" disabled />
+                                        </td>
+                                        <td>
+                                            <button type="button" class="btn btn-default removeButtonInward" style="width: 45px;">
+                                                <i class="fa fa-minus"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="col-md-4" style="margin-left: 62px;">
+                                <div class="form-group">
+
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="TotalInward" value="0" disabled="disabled">
+                                    </div>
+                                    <button type="button" id="btnTotalInward" class="col-sm-4 btn btn-info" style="width: 95px;">
+                                        Total
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="box-header with-border text-center">
+                                <h3 class="box-title">Outward</h3>
+                            </div>
+                            <div class="col-md-12" style="margin-top: 15px;">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="ChillarOutward" class="col-sm-4 control-label">Chillar</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" id="ChillarOutward" value="0" required="required" autocomplete="off">
+                                        </div>
+                                    </div>
+                                    <div class="form-group" style="display:none">
+                                        <label for="TransferVB2" class="col-sm-4 control-label">Transfer VB2</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" id="TransferVB2" value="0" autocomplete="off">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="ExpensesDate" class="col-sm-4 control-label">Expenses Date</label>
+                                        <div class="col-sm-8">
+                                            <div class="input-group date">
+                                                <div class="input-group-addon">
+                                                    <i class="fa fa-calendar"></i>
+                                                </div>
+                                                <input type="text" class="form-control pull-right datepicker" id="ExpensesDate" tabindex="2" autocomplete="off">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group" style="display:none">
+                                        <label for="TransferVB3" class="col-sm-4 control-label">Transfer VB3</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" id="TransferVB3" value="0" autocomplete="off">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="TotalExpenses" class="col-sm-4 control-label">Expenses</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" id="TotalExpenses" value="0" disabled="disabled">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12" style="margin-top: 15px;">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="Bank" class="col-sm-4 control-label">Bank</label>
+                                        <div class="col-sm-8">
+                                            @Html.DropDownList("BankID1", new SelectList(ViewBag.BankName, "BankID", "BankName"), "Select Bank", new { @class = "form-control" })
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="Bank" class="col-sm-4 control-label">Bank</label>
+                                        <div class="col-sm-8">
+                                            @Html.DropDownList("BankID2", new SelectList(ViewBag.BankName, "BankID", "BankName"), "Select Bank", new { @class = "form-control" })
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="Bank" class="col-sm-4 control-label">Bank</label>
+                                        <div class="col-sm-8">
+                                            @Html.DropDownList("BankID3", new SelectList(ViewBag.BankName, "BankID", "BankName"), "Select Bank", new { @class = "form-control" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="BankDepositeAmount1" class="col-sm-4 control-label">Amount</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" id="BankDepositeAmount1" value="0" autocomplete="off">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="BankDepositeAmount2" class="col-sm-4 control-label">Amount</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" id="BankDepositeAmount2" value="0" autocomplete="off">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="BankDepositeAmount3" class="col-sm-4 control-label">Amount</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" id="BankDepositeAmount3" value="0" autocomplete="off">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="TransferAmount" class="col-sm-4 control-label">Transfer Amount</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" id="TransferAmount" value="0" autocomplete="off" disabled="disabled">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            @*New ADD 02-05-2019*@
+                            <div class="col-md-6" style="margin-top: 15px; margin-left: 80px;">
+                                <div id="VehicleOutwardList" class="form-horizontal">
+                                    <table class="table table-bordered table-bordered" id="tblVehicleOutward">
+                                        <thead>
+                                            <tr class="form-group">
+                                                <th class="nosort col-sm-3">Date</th>
+                                                <th class="nosort col-sm-4">Vehicle Expenses (Outward)</th>
+                                                <th class="nosort col-sm-3">Amount</th>
+                                                <th class="nosort col-sm-2">Add</th>
+                                            </tr>
+                                        </thead>
+                                        <tr class="form-group" id="VehicleOutward">
+                                            <td id="row">
+                                                <div class="input-group date">
+                                                    <div class="input-group-addon">
+                                                        <i class="fa fa-calendar"></i>
+                                                    </div>
+                                                    <input type="text" name="lstVehicleOutwardCost[0].AssignedDate" class="form-control pull-right datepicker AssignedDate" id="AssignedDate" autocomplete="off">
+                                                </div>
+                                                <input name="VehicleInwardCostID" class="hdnVehicleInwardCostID" type="hidden" value="" />
+                                            </td>
+                                            <td>
+                                                @Html.DropDownListFor(m => m.lstVehicleOutwardCost[0].VehicleDetailID, new SelectList(ViewBag.TempoNumber, "VehicleDetailID", "VehicleNumber"), "Select Vehicle", new { @class = "form-control select2", tabindex = "1" })
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control Amount" name="lstVehicleOutwardCost[0].Amount" placeholder="Amount" tabindex="16" autocomplete="off" />
+                                            </td>
+                                            <td>
+                                                <button type="button" class="btn btn-default addButtonOutward" style="width: 45px;">
+                                                    <i class="fa fa-plus" tabindex="17"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <tr class="form-group hide" id="AddVehicleOutward">
+                                            <td id="row">
+                                                <div class="input-group date">
+                                                    <div class="input-group-addon">
+                                                        <i class="fa fa-calendar"></i>
+                                                    </div>
+                                                    <input type="text" name="AssignedDate" class="form-control pull-right datepicker AssignedDate" id="AssignedDate" autocomplete="off">
+                                                </div>
+                                                <input name="VehicleInwardCostIDNew" class="hdnVehicleInwardCostID" type="hidden" value="" />
+                                            </td>
+                                            <td>
+                                                @Html.DropDownListFor(m => m.lstVehicleOutwardCost[1].VehicleDetailID, new SelectList(ViewBag.TempoNumber, "VehicleDetailID", "VehicleNumber"), "Select Vehicle", new { @class = "form-control select2", tabindex = "6" })
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control  Amount" name="Amount" placeholder="Amount" autocomplete="off" />
+                                            </td>
+                                            <td>
+                                                <button type="button" class="btn btn-default removeButtonOutward" style="width: 45px;">
+                                                    <i class="fa fa-minus"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="col-md-4" style="margin-left: 62px;">
+                                    <div class="form-group">
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" id="TotalOutward" value="0" disabled="disabled">
+                                        </div>
+                                        <button type="button" id="btnTotalOutward" class="col-sm-4 btn btn-info" style="width: 95px;">
+                                            Total
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="col-md-4" style="margin-left: 62px;">
+                                    <div class="form-group">
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" id="GrandTotal" value="0">
+                                        </div>
+                                        <button type="button" id="btnGrandTotal" class="col-sm-4 btn btn-info" style="width: 95px;">
+                                            Grand Total
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="box-header with-border text-center">
+                                <h3 class="box-title">Chillar</h3>
+                            </div>
+                            <div class="col-md-12" style="margin-top: 15px;">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="ChillarOutward" class="col-sm-4 control-label">Opening</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" id="OpeningChillar" value="0" autocomplete="off">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="TransferVB3" class="col-sm-4 control-label">Inward</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" id="InwardChillar" value="0" autocomplete="off">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="TotalExpenses" class="col-sm-4 control-label">Outward</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" id="OutwardChillar" value="0" autocomplete="off">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="TotalExpenses" class="col-sm-4 control-label">Closing</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" id="ClosingChillar" value="0" autocomplete="off">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="box-footer">
+                        <button type="button" id="btncancel" class="btn btn-default">Cancel</button>
+                        @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.AInward.ToString()))
+                        {
+                            <button type="button" id="btnsave" class="btn btn-info pull-right">Save</button>
+                        }
+                    </div>
+                </form>
+                <div id="lstcase">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var AmountValidators = {
+            row: '.col-xs-2',   // The title is placed inside a <div class="col-xs-4"> element
+            validators: {
+                notEmpty: {
+                    message: 'Amount is required'
+                }
+            }
+        },
+            bookIndex = 0;
+        $('#VehicleInwardList')
+            // Add button click handler
+            .on('click', '.addButtonInward', function () {
+                debugger;
+                bookIndex++;
+                var $template = $('#AddVehicleInward'),
+                    $clone = $template
+                                    .clone()
+                                    .removeClass('hide')
+                                    .removeAttr('id')
+                                    .attr('data-book-index', bookIndex)
+                                    .insertBefore($template);
+                // Update the name attributes
+                $clone
+                .find('[name="AssignedDate"]').attr('name', 'lstVehicleInwardCost[' + bookIndex + '].AssignedDate').end()
+                .find('[name="VehicleDetailID"]').attr('name', 'lstVehicleInwardCost[' + bookIndex + '].VehicleDetailID').end()
+                .find('[name="Amount"]').attr('name', 'lstVehicleInwardCost[' + bookIndex + '].Amount').end();
+                $('select').select2({ width: '100%' });
+                $tdvalue = $clone.find('td')[1];
+                $($tdvalue).find('span.select2.select2-container.select2-container--default')[1].remove();
+            })
+            // Remove button click handler
+            .on('click', '.removeButtonInward', function () {
+                debugger;
+                var $row = $(this).parents('.form-group'),
+                    index = $row.attr('data-book-index');
+
+                // 22 Oct 2020 Piyush Limbani For Delete Vehicle Cost  Uncommented on 01 Feb 2022
+                @*var VehicleInwardCostID = $(this).closest('tr').find(".hdnVehicleInwardCostID").val();
+                var AssignedDate = $(this).closest('tr').find(".AssignedDate").val();
+                var VehicleDetailID = $(this).closest('tr').find(".VehicleDetailID").val();
+                var Amount = $(this).closest('tr').find(".Amount").val();
+                $.ajax({
+                    type: 'Post',
+                    url: '@Url.Action("DeleteVehicleInwardCost")',
+                    data: { 'VehicleInwardCostID': VehicleInwardCostID, 'VehicleDetailID': VehicleDetailID, 'AssignedDate': AssignedDate },
+                    success: function (result) {
+                        debugger;
+                        if (result == true) {
+                            $('div#sucessalert').html("Vehicle Inward Cost Deleted.");
+                        }
+                    },
+                    error: function () { alert('Error'); }
+                });*@
+                // 22 Oct 2020 Piyush Limbani  Uncommented on 01 Feb 2022
+
+                // Remove fields
+                $row.remove();
+            });
+    });
+</script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        var AmountValidators = {
+            row: '.col-xs-2',   // The title is placed inside a <div class="col-xs-4"> element
+            validators: {
+                notEmpty: {
+                    message: 'Amount is required'
+                }
+            }
+        },
+            bookIndex = 0;
+        $('#VehicleOutwardList')
+            // Add button click handler
+            .on('click', '.addButtonOutward', function () {
+                debugger;
+                bookIndex++;
+                var $template = $('#AddVehicleOutward'),
+                    $clone = $template
+                                    .clone()
+                                    .removeClass('hide')
+                                    .removeAttr('id')
+                                    .attr('data-book-index', bookIndex)
+                                    .insertBefore($template);
+                // Update the name attributes
+                $clone
+                .find('[name="AssignedDate"]').attr('name', 'lstVehicleOutwardCost[' + bookIndex + '].AssignedDate').end()
+                .find('[name="VehicleDetailID"]').attr('name', 'lstVehicleOutwardCost[' + bookIndex + '].VehicleDetailID').end()
+                .find('[name="Amount"]').attr('name', 'lstVehicleOutwardCost[' + bookIndex + '].Amount').end();
+                $('select').select2({ width: '100%' });
+                $tdvalue = $clone.find('td')[1];
+                $($tdvalue).find('span.select2.select2-container.select2-container--default')[1].remove();
+            })
+            // Remove button click handler
+            .on('click', '.removeButtonOutward', function () {
+                var $row = $(this).parents('.form-group'),
+                    index = $row.attr('data-book-index');
+                // Remove fields
+                $row.remove();
+            });
+
+        $('body').on('focus', ".datepicker", function () {
+            $(this).datepicker({
+                autoclose: true
+            });
+
+        });
+    });
+</script>
+
+<script>
+    $(document).ready(function () {
+        //$(document).on('change', ".VehicleDetailID", function () {
+        //    var end = this;
+        //    debugger;
+        //    if (this.value != '') {
+        //    }
+        //});
+
+        // 29 Aug 2020 Piyush Limbani
+        $(document).on('change', ".VehicleDetailID", function () {
+            var VehicleDetailID = this.value;
+            var GodownID = $("#GodownID").val();
+            var AssignedDate = "";
+            var txtamount = "";
+            if ($("#GodownID").val() != "") {
+                $('#tblVehicleInward').children('tbody').children('tr:visible').each(function (index, row) {
+                    if ($(row).find('td').length == 0) {
+                        return;
+                    }
+                    debugger;
+                    //if (AssignedDate == "")
+                    //{
+                    AssignedDate = $(row).find(".AssignedDate").val();
+                    txtamount = $(row).find(".Amount");
+                    //}
+                });
+                debugger;
+                if (this.value != '') {
+                    $.ajax({
+                        type: 'Post',
+                        url: '@Url.Action("GetVehicleExpensesInwardDetail")',
+                        data: { 'VehicleDetailID': VehicleDetailID, 'AssignedDate': AssignedDate, 'GodownID': GodownID },
+                        success: function (result) {
+                            debugger;
+                            var aaa = result.Amount;
+                            txtamount.val(result.Amount);
+                        },
+                        error: function () { alert('Error'); }
+                    });
+                }
+            }
+            else {
+                alert('select godown');
+            }
+        });
+        // 27 Aug 2020 Piyush Limbani
+
+        loadhtml();
+
+        $("#ChillarInward").on('blur', function (e) {
+            debugger;
+            var ChillarInward = this.value;
+            $('#InwardChillar').val(ChillarInward);
+        });
+
+        $("#ChillarOutward").on('blur', function (e) {
+            debugger;
+            var ChillarOutward = this.value;
+            $('#OutwardChillar').val(ChillarOutward);
+            var OpeningChillar = $('#OpeningChillar').val();
+            var InwardChillar = $('#InwardChillar').val();
+            var ClosingChillar = parseFloat(OpeningChillar) - parseFloat(InwardChillar);
+            var ClosingChillarTotal = parseFloat(ClosingChillar) + parseFloat(ChillarOutward);
+            $('#ClosingChillar').val(ClosingChillarTotal);
+        });
+
+        $('#WholesaleAssignedDate').datepicker({
+            autoclose: true,
+        }).on('changeDate', function (ev) {
+            debugger;
+            var WholesaleAssignedDate = $("#WholesaleAssignedDate").val();
+            var GodownID = $("#GodownID").val();
+            if ($("#GodownID").val() != "") {
+                if (WholesaleAssignedDate != "") {
+                    $.ajax({
+                        type: 'Post',
+                        url: '@Url.Action("GetWholesaleAmountByCustID")',
+                        data: { 'WholesaleAssignedDate': WholesaleAssignedDate, 'GodownID': GodownID },
+                        success: function (result) {
+                            debugger;
+                            $('#WholesaleCash').val(result.CashTotal);
+                        },
+                        error: function () { alert('Error'); }
+                    });
+                    debugger;
+                    $.ajax({
+                        url: '@Url.Action("SalesManWiseCashList")',
+                        type: 'GET',
+                        data: { 'WholesaleAssignedDate': WholesaleAssignedDate, 'GodownID': GodownID },
+                        cache: false,
+                    }).done(function (result) {
+                        $('#lstwholesalesalesmanlist').html(result);
+                    });
+                }
+            }
+            else {
+                alert('select godown');
+            }
+        });
+
+        $('#RetailAssignedDate').datepicker({
+            autoclose: true,
+        }).on('changeDate', function (ev) {
+            debugger;
+            var RetailAssignedDate = $("#RetailAssignedDate").val();
+            var GodownID = $("#GodownID").val();
+            if ($("#GodownID").val() != "") {
+                if (RetailAssignedDate != "") {
+                    $.ajax({
+                        type: 'Post',
+                        url: '@Url.Action("GetRetailAmountTotalByAssignedDate")',
+                        data: { 'RetailAssignedDate': RetailAssignedDate, 'GodownID': GodownID },
+                        success: function (result) {
+                            debugger;
+                            $('#RetailCash').val(result.CashTotalRetail);
+                        },
+                        error: function () { alert('Error'); }
+                    });
+                    debugger;
+                    $.ajax({
+                        url: '@Url.Action("RetSalesManWiseCashList")',
+                        type: 'GET',
+                        data: { 'RetailAssignedDate': RetailAssignedDate, 'GodownID': GodownID },
+                        cache: false,
+                    }).done(function (result) {
+                        $('#lstretailsalesmanlist').html(result);
+                    });
+                }
+            }
+            else {
+                alert('select godown');
+            }
+        });
+
+        $('#ExpensesDate').datepicker({
+            autoclose: true,
+        }).on('changeDate', function (ev) {
+            debugger;
+            var ExpensesDate = $("#ExpensesDate").val();
+            var GodownID = $("#GodownID").val();
+            if ($("#GodownID").val() != "") {
+                if (ExpensesDate != "") {
+                    $.ajax({
+                        type: 'Post',
+                        url: '@Url.Action("GetTotalExpenseByGodownwise")',
+                        data: { 'ExpensesDate': ExpensesDate, 'GodownID': GodownID },
+                        success: function (result) {
+                            debugger;
+                            $('#TotalExpenses').val(result.TotalExpenses);
+                        },
+                        error: function () { alert('Error'); }
+                    });
+                }
+            }
+            else {
+                alert('select godown');
+            }
+        });
+
+        // Wholesale
+        $('#WholesaleTempoDate1').datepicker({
+            autoclose: true,
+        }).on('changeDate', function (ev) {
+            debugger;
+            var AssignedDate = $("#WholesaleTempoDate1").val();
+            if (AssignedDate != "") {
+                $.ajax({
+                    type: 'Post',
+                    url: '@Url.Action("GetAllVehicleNoForInwardByAssignedDate")',
+                    data: { AssignedDate: AssignedDate },
+                    success: function (result) {
+                        debugger;
+                        if (result.VehicleNo != "") {
+                            var VehicleNo = result.VehicleNo.split(',');
+                            $("#WholesaleVehicleNo1").val(VehicleNo);
+                            $('#WholesaleVehicleNo1').select2();
+                        }
+                        else {
+                            $("#WholesaleVehicleNo1").val("").trigger("change");
+                        }
+                    },
+                    error: function () { alert('Error'); }
+                });
+            }
+        });
+
+        $('#WholesaleTempoDate2').datepicker({
+            autoclose: true,
+        }).on('changeDate', function (ev) {
+            debugger;
+            var AssignedDate = $("#WholesaleTempoDate2").val();
+            if (AssignedDate != "") {
+                $.ajax({
+                    type: 'Post',
+                    url: '@Url.Action("GetAllVehicleNoForInwardByAssignedDate")',
+                    data: { AssignedDate: AssignedDate },
+                    success: function (result) {
+                        debugger;
+                        if (result.VehicleNo != "") {
+                            var VehicleNo = result.VehicleNo.split(',');
+                            $("#WholesaleVehicleNo2").val(VehicleNo);
+                            $('#WholesaleVehicleNo2').select2();
+                        }
+                        else {
+                            $("#WholesaleVehicleNo2").val("").trigger("change");
+                        }
+                    },
+                    error: function () { alert('Error'); }
+                });
+            }
+        });
+
+        $('#WholesaleTempoDate3').datepicker({
+            autoclose: true,
+        }).on('changeDate', function (ev) {
+            debugger;
+            var AssignedDate = $("#WholesaleTempoDate3").val();
+            if (AssignedDate != "") {
+                $.ajax({
+                    type: 'Post',
+                    url: '@Url.Action("GetAllVehicleNoForInwardByAssignedDate")',
+                    data: { AssignedDate: AssignedDate },
+                    success: function (result) {
+                        debugger;
+                        if (result.VehicleNo != "") {
+                            var VehicleNo = result.VehicleNo.split(',');
+                            $("#WholesaleVehicleNo3").val(VehicleNo);
+                            $('#WholesaleVehicleNo3').select2();
+                        }
+                        else {
+                            $("#WholesaleVehicleNo3").val("").trigger("change");
+                        }
+                    },
+                    error: function () { alert('Error'); }
+                });
+            }
+        });
+
+        // Retail
+        $('#RetailTempoDate1').datepicker({
+            autoclose: true,
+        }).on('changeDate', function (ev) {
+            debugger;
+            var AssignedDate = $("#RetailTempoDate1").val();
+            if (AssignedDate != "") {
+                $.ajax({
+                    type: 'Post',
+                    url: '@Url.Action("GetAllRetailVehicleNoForInwardByAssignedDate")',
+                    data: { AssignedDate: AssignedDate },
+                    success: function (result) {
+                        debugger;
+                        if (result.VehicleNo != "") {
+                            var VehicleNo = result.VehicleNo.split(',');
+                            $("#RetailVehicleNo1").val(VehicleNo);
+                            $('#RetailVehicleNo1').select2();
+                        }
+                        else {
+                            $("#RetailVehicleNo1").val("").trigger("change");
+                        }
+                    },
+                    error: function () { alert('Error'); }
+                });
+            }
+        });
+
+        $('#RetailTempoDate2').datepicker({
+            autoclose: true,
+        }).on('changeDate', function (ev) {
+            debugger;
+            var AssignedDate = $("#RetailTempoDate2").val();
+            if (AssignedDate != "") {
+                $.ajax({
+                    type: 'Post',
+                    url: '@Url.Action("GetAllRetailVehicleNoForInwardByAssignedDate")',
+                    data: { AssignedDate: AssignedDate },
+                    success: function (result) {
+                        debugger;
+                        if (result.VehicleNo != "") {
+                            var VehicleNo = result.VehicleNo.split(',');
+                            $("#RetailVehicleNo2").val(VehicleNo);
+                            $('#RetailVehicleNo2').select2();
+                        }
+                        else {
+                            $("#RetailVehicleNo2").val("").trigger("change");
+                        }
+                    },
+                    error: function () { alert('Error'); }
+                });
+            }
+        });
+
+        $('#RetailTempoDate3').datepicker({
+            autoclose: true,
+        }).on('changeDate', function (ev) {
+            debugger;
+            var AssignedDate = $("#RetailTempoDate3").val();
+            if (AssignedDate != "") {
+                $.ajax({
+                    type: 'Post',
+                    url: '@Url.Action("GetAllRetailVehicleNoForInwardByAssignedDate")',
+                    data: { AssignedDate: AssignedDate },
+                    success: function (result) {
+                        debugger;
+                        if (result.VehicleNo != "") {
+                            var VehicleNo = result.VehicleNo.split(',');
+                            $("#RetailVehicleNo3").val(VehicleNo);
+                            $('#RetailVehicleNo3').select2();
+                        }
+                        else {
+                            $("#RetailVehicleNo3").val("").trigger("change");
+                        }
+                    },
+                    error: function () { alert('Error'); }
+                });
+            }
+        });
+
+        $("#GodownID").on('change keypress', function (e) {
+            debugger;
+            var GodownID = this.value;
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("CheckTodaysGodownIsExists")',
+                data: { 'GodownID': GodownID },
+                success: function (result) {
+                    debugger;
+                    if (result.InwardID > 0) {
+                        $('#InwardID').val(result.InwardID);
+                        $('#GodownID').val(result.GodownID);
+                        $('#OpeningAmount').val(result.OpeningAmount);
+                        $('#ChillarInward').val(result.ChillarInward);
+                        $('#WholesaleAssignedDate').val(result.WholesaleAssignedDatestr);
+                        $('#WholesaleCash').val(result.WholesaleCash);
+                        $('#RetailAssignedDate').val(result.RetailAssignedDatestr);
+                        $('#RetailCash').val(result.RetailCash);
+                        $('#TransferAmountInward').val(result.TransferAmountInward);
+                        $('#WholesaleTempoDate1').val(result.WholesaleTempoDate1str);
+                        var wholesalevehicleno1 = result.WholesaleVehicleNo1.split(',');
+                        $("#WholesaleVehicleNo1").val(wholesalevehicleno1);
+                        $('#WholesaleVehicleNo1').select2();
+                        $('#WholesaleTempoAmount1').val(result.WholesaleTempoAmount1);
+                        $('#WholesaleTempoDate2').val(result.WholesaleTempoDate2str);
+                        var wholesalevehicleno2 = result.WholesaleVehicleNo2.split(',');
+                        $("#WholesaleVehicleNo2").val(wholesalevehicleno2);
+                        $('#WholesaleVehicleNo2').select2();
+                        $('#WholesaleTempoAmount2').val(result.WholesaleTempoAmount2);
+                        $('#WholesaleTempoDate3').val(result.WholesaleTempoDate3str);
+                        var wholesalevehicleno3 = result.WholesaleVehicleNo3.split(',');
+                        $("#WholesaleVehicleNo3").val(wholesalevehicleno3);
+                        $('#WholesaleVehicleNo3').select2();
+                        $('#WholesaleTempoAmount3').val(result.WholesaleTempoAmount3);
+                        $('#RetailTempoDate1').val(result.RetailTempoDate1str);
+                        var retailvehicleno1 = result.RetailVehicleNo1.split(',');
+                        $("#RetailVehicleNo1").val(retailvehicleno1);
+                        $('#RetailVehicleNo1').select2();
+                        $('#RetailTempoAmount1').val(result.RetailTempoAmount1);
+                        $('#RetailTempoDate2').val(result.RetailTempoDate2str);
+                        var retailvehicleno2 = result.RetailVehicleNo2.split(',');
+                        $("#RetailVehicleNo2").val(retailvehicleno2);
+                        $('#RetailVehicleNo2').select2();
+                        $('#RetailTempoAmount2').val(result.RetailTempoAmount2);
+                        $('#RetailTempoDate3').val(result.RetailTempoDate3str);
+                        var retailvehicleno3 = result.RetailVehicleNo3.split(',');
+                        $("#RetailVehicleNo3").val(retailvehicleno3);
+                        $('#RetailVehicleNo3').select2();
+                        $('#RetailTempoAmount3').val(result.RetailTempoAmount3);
+                        $('#TotalInward').val(result.TotalInward);
+                        $('#ChillarOutward').val(result.ChillarOutward);
+                        $('#ExpensesDate').val(result.ExpensesDatestr);
+                        $('#TotalExpenses').val(result.TotalExpenses);
+                        $('#BankID1').val(result.BankID1);
+                        $('#BankDepositeAmount1').val(result.BankDepositeAmount1);
+                        $('#BankID2').val(result.BankID2);
+                        $('#BankDepositeAmount2').val(result.BankDepositeAmount2);
+                        $('#BankID3').val(result.BankID3);
+                        $('#BankDepositeAmount3').val(result.BankDepositeAmount3);
+                        $('#TotalOutward').val(result.TotalOutward);
+                        $('#GrandTotal').val(result.GrandTotal);
+                        $('#OpeningChillar').val(result.OpeningChillar);
+                        $('#ClosingChillar').val(result.ClosingChillar);
+                        $('#InwardChillar').val(result.ChillarInward);
+                        $('#OutwardChillar').val(result.ChillarOutward);
+                        $('#TransferAmount').val(result.TransferAmount);
+                        $('#CreatedBy').val(result.CreatedBy);
+                        $('#CreatedOn').val(result.CreatedOnstr);
+                        // table 1 (Inward)
+                        $.ajax({
+                            type: 'Post',
+                            url: '@Url.Action("GetVehicleInwardCostList")',
+                            data: { InwardID: $('#InwardID').val() },
+                            success: function (result) {
+                                bookIndex = 0;
+                                if (result.length > 0) {
+                                    $(result).each(function (index, row) {
+                                        debugger;
+                                        if (row.ID == '1') {
+                                            bookIndex++;
+                                            if (bookIndex > 1) {
+                                                var $template = $('#AddVehicleInward'),
+                                                    $clone = $template
+                                                                    .clone()
+                                                                    .removeClass('hide')
+                                                                    .removeAttr('id')
+                                                                    .attr('data-book-index', bookIndex)
+                                                                    .insertBefore($template);
+                                                // Update the name attributes
+                                                $clone
+                                                .find('[name="AssignedDate"]').attr('name', 'lstVehicleInwardCost[' + bookIndex + '].AssignedDate').end()
+                                                .find('[name="VehicleDetailID"]').attr('name', 'lstVehicleInwardCost[' + bookIndex + '].VehicleDetailID').end()
+                                                .find('[name="Amount"]').attr('name', 'lstVehicleInwardCost[' + bookIndex + '].Amount').end();
+                                                debugger;
+                                                $clone.find("input[type=hidden]")[0].value = row.VehicleInwardCostID;
+                                                $clone.find("select")[0].value = row.VehicleDetailID;
+                                                $clone.find("input")[0].value = row.AssignedDatestr;
+                                                $clone.find("input")[2].value = row.Amount;
+                                                $('select').select2({ width: '100%' });
+                                                $tdvalue = $clone.find('td')[1];
+                                                $($tdvalue).find('span.select2.select2-container.select2-container--default')[1].remove();
+                                            }
+                                            else {
+                                                debugger;
+                                                if ($('#tblVehicleInward').find('tbody tr:visible').length > 1)
+                                                    $('#tblVehicleInward').find('tbody tr:visible').not(':first').empty();
+                                                var $template = $('#VehicleInward');
+                                                $clone = $template;
+                                                $clone.find("input[type=hidden]")[0].value = row.VehicleInwardCostID;
+                                                $clone.find("select")[0].value = row.VehicleDetailID;
+                                                $clone.find("input")[0].value = row.AssignedDatestr;
+                                                $clone.find("input")[2].value = row.Amount;
+                                                $('select').select2({ width: '100%' });
+                                            }
+                                        }
+                                    });
+                                }
+                                else {
+                                    if ($('#tblVehicleInward').find('tbody tr:visible').length > 1)
+                                        $('#tblVehicleInward').find('tbody tr:visible').not(':first').empty();
+                                    var $template = $('#VehicleInward');
+                                    $clone = $template;
+                                    $clone.find("input[type=hidden]")[0].value = "";
+                                    $clone.find("select")[0].value = "";
+                                    $clone.find("input")[0].value = "";
+                                    $('select').select2({ width: '100%' });
+                                    $clone.find("input")[2].value = "";
+                                }
+                            },
+                            error: function () { alert('Error'); }
+                        });
+                        // table 2 (Outward)
+                        $.ajax({
+                            type: 'Post',
+                            url: '@Url.Action("GetVehicleOutwardCostList")',
+                            data: { InwardID: $('#InwardID').val() },
+                            success: function (result) {
+                                bookIndex = 0;
+                                if (result.length > 0) {
+                                    $(result).each(function (index, row) {
+                                        debugger;
+                                        if (row.ID == '2') {
+                                            bookIndex++;
+                                            if (bookIndex > 1) {
+                                                var $template = $('#AddVehicleOutward'),
+                                                    $clone = $template
+                                                                    .clone()
+                                                                    .removeClass('hide')
+                                                                    .removeAttr('id')
+                                                                    .attr('data-book-index', bookIndex)
+                                                                    .insertBefore($template);
+                                                // Update the name attributes
+                                                $clone
+                                                .find('[name="AssignedDate"]').attr('name', 'lstVehicleOutwardCost[' + bookIndex + '].AssignedDate').end()
+                                                .find('[name="VehicleDetailID"]').attr('name', 'lstVehicleOutwardCost[' + bookIndex + '].VehicleDetailID').end()
+                                                .find('[name="Amount"]').attr('name', 'lstVehicleOutwardCost[' + bookIndex + '].Amount').end();
+                                                debugger;
+                                                $clone.find("input[type=hidden]")[0].value = row.VehicleInwardCostID;
+                                                $clone.find("select")[0].value = row.VehicleDetailID;
+                                                $clone.find("input")[0].value = row.AssignedDatestr;
+                                                $clone.find("input")[2].value = row.Amount;
+                                                $('select').select2({ width: '100%' });
+                                                $tdvalue = $clone.find('td')[1];
+                                                $($tdvalue).find('span.select2.select2-container.select2-container--default')[1].remove();
+                                            }
+                                            else {
+                                                debugger;
+                                                if ($('#tblVehicleOutward').find('tbody tr:visible').length > 1)
+                                                    $('#tblVehicleOutward').find('tbody tr:visible').not(':first').empty();
+                                                var $template = $('#VehicleOutward');
+                                                $clone = $template;
+                                                $clone.find("input[type=hidden]")[0].value = row.VehicleInwardCostID;
+                                                $clone.find("select")[0].value = row.VehicleDetailID;
+                                                $clone.find("input")[0].value = row.AssignedDatestr;
+                                                $clone.find("input")[2].value = row.Amount;
+                                            }
+                                            $('select').select2({ width: '100%' });
+                                        }
+                                    });
+                                }
+                                else {
+                                    debugger;
+                                    if ($('#tblVehicleOutward').find('tbody tr:visible').length > 1)
+                                        $('#tblVehicleOutward').find('tbody tr:visible').not(':first').empty();
+                                    var $template = $('#VehicleOutward');
+                                    $clone = $template;
+                                    $clone.find("input[type=hidden]")[0].value = "";
+                                    $clone.find("select")[0].value = "";
+                                    $clone.find("input")[0].value = "";
+                                    $('select').select2({ width: '100%' });
+                                    $clone.find("input")[2].value = "";
+                                }
+                            },
+                            error: function () { alert('Error'); }
+                        });
+                    }
+                    else {
+                        clearform();
+                        $.ajax({
+                            type: 'POST',
+                            url: '@Url.Action("GetOpeningAmountByGodownID")',
+                            data: { 'GodownID': GodownID },
+                            success: function (result) {
+                                debugger;
+                                $('#OpeningAmount').val(result.OpeningAmount);
+
+                                // 27 Aug 2020 Piyush Limbani
+                                if ($('#tblVehicleOutward').find('tbody tr:visible').length > 1)
+                                    $('#tblVehicleOutward').find('tbody tr:visible').not(':first').empty();
+                                var $template = $('#VehicleOutward');
+                                $clone = $template;
+                                $clone.find("input[type=hidden]")[0].value = "";
+                                $clone.find("select")[0].value = "";
+                                $clone.find("input")[0].value = "";
+                                $('select').select2({ width: '100%' });
+                                $clone.find("input")[2].value = "";
+                                if ($('#tblVehicleInward').find('tbody tr:visible').length > 1)
+                                    $('#tblVehicleInward').find('tbody tr:visible').not(':first').empty();
+                                var $template = $('#VehicleInward');
+                                $clone = $template;
+                                $clone.find("input[type=hidden]")[0].value = "";
+                                $clone.find("select")[0].value = "";
+                                $clone.find("input")[0].value = "";
+                                $('select').select2({ width: '100%' });
+                                $clone.find("input")[2].value = "";
+                                // 27 Aug 2020 Piyush Limbani
+                            },
+                            error: function () { alert('Error'); }
+                        });
+                        $.ajax({
+                            type: 'POST',
+                            url: '@Url.Action("GetOpeningChillarByGodownID")',
+                            data: { 'GodownID': GodownID },
+                            success: function (result) {
+                                debugger;
+                                $('#OpeningChillar').val(result.OpeningChillar);
+                            },
+                            error: function () { alert('Error'); }
+                        });
+                    }
+                },
+                error: function () { alert('Error'); }
+            });
+        });
+    });
+
+    function loadhtml() {
+        $.ajax({
+            url: '@Url.Action("InwardList")',
+            type: 'GET',
+            cache: false,
+        }).done(function (result) {
+            $('#lstcase').html(result);
+        });
+    }
+
+    $("#btnSearch1").click(function () {
+        debugger;
+        var model = new Object();
+        model.VehicleNo = new Array();
+        model.TempoDateWholesale = $("#WholesaleTempoDate1").val();
+        model.VehicleNo = $("#WholesaleVehicleNo1").val();
+        model.GodownID = $("#GodownID").val();
+        $('#WholesaleVehicleNo1 :selected').each(function (i, sel) {
+            VehicleNo = $(sel).val();
+        });
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("GetTempoCashAmount")',
+            data: { 'model': model },
+            success: function (result) {
+                debugger;
+                $('#WholesaleTempoAmount1').val(result);
+            },
+            error: function () { alert('Error'); }
+        });
+    });
+
+    $("#btnSearch2").click(function () {
+        debugger;
+        var model = new Object();
+        model.VehicleNo = new Array();
+        model.TempoDateWholesale = $("#WholesaleTempoDate2").val();
+        model.VehicleNo = $("#WholesaleVehicleNo2").val();
+        model.GodownID = $("#GodownID").val();
+        $('#WholesaleVehicleNo2 :selected').each(function (i, sel) {
+            VehicleNo = $(sel).val();
+        });
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("GetTempoCashAmount")',
+            data: { 'model': model },
+            success: function (result) {
+                debugger;
+                $('#WholesaleTempoAmount2').val(result);
+            },
+            error: function () { alert('Error'); }
+        });
+    });
+
+    $("#btnSearch3").click(function () {
+        debugger;
+        var model = new Object();
+        model.VehicleNo = new Array();
+        model.TempoDateWholesale = $("#WholesaleTempoDate3").val();
+        model.VehicleNo = $("#WholesaleVehicleNo3").val();
+        model.GodownID = $("#GodownID").val();
+        $('#WholesaleVehicleNo3 :selected').each(function (i, sel) {
+            VehicleNo = $(sel).val();
+        });
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("GetTempoCashAmount")',
+            data: { 'model': model },
+            success: function (result) {
+                debugger;
+                $('#WholesaleTempoAmount3').val(result);
+            },
+            error: function () { alert('Error'); }
+        });
+    });
+
+    $("#btnSearch4").click(function () {
+        debugger;
+        var model = new Object();
+        model.VehicleNo = new Array();
+        model.TempoDateRetail = $("#RetailTempoDate1").val();
+        model.VehicleNo = $("#RetailVehicleNo1").val();
+        model.GodownID = $("#GodownID").val();
+        $('#RetailVehicleNo1 :selected').each(function (i, sel) {
+            VehicleNo = $(sel).val();
+        });
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("GetTempoCashAmountTotalRetail")',
+            data: { 'model': model },
+            success: function (result) {
+                debugger;
+                $('#RetailTempoAmount1').val(result);
+            },
+            error: function () { alert('Error'); }
+        });
+    });
+
+    $("#btnSearch5").click(function () {
+        debugger;
+        var model = new Object();
+        model.VehicleNo = new Array();
+        model.TempoDateRetail = $("#RetailTempoDate2").val();
+        model.VehicleNo = $("#RetailVehicleNo2").val();
+        model.GodownID = $("#GodownID").val();
+        $('#RetailVehicleNo2 :selected').each(function (i, sel) {
+            VehicleNo = $(sel).val();
+        });
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("GetTempoCashAmountTotalRetail")',
+            data: { 'model': model },
+            success: function (result) {
+                debugger;
+                $('#RetailTempoAmount2').val(result);
+            },
+            error: function () { alert('Error'); }
+        });
+    });
+
+    $("#btnSearch6").click(function () {
+        debugger;
+        var model = new Object();
+        model.VehicleNo = new Array();
+        model.TempoDateRetail = $("#RetailTempoDate3").val();
+        model.VehicleNo = $("#RetailVehicleNo3").val();
+        model.GodownID = $("#GodownID").val();
+        $('#RetailVehicleNo3 :selected').each(function (i, sel) {
+            VehicleNo = $(sel).val();
+        });
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("GetTempoCashAmountTotalRetail")',
+            data: { 'model': model },
+            success: function (result) {
+                debugger;
+                $('#RetailTempoAmount3').val(result);
+            },
+            error: function () { alert('Error'); }
+        });
+    });
+
+    $("#btnTotalInward").click(function () {
+        debugger;
+        var OpeningAmount = $("#OpeningAmount").val();
+        var ChillarInward = $("#ChillarInward").val();
+        var WholesaleCash = $("#WholesaleCash").val();
+        var RetailCash = $("#RetailCash").val();
+        var WholesaleTempoAmount1 = $("#WholesaleTempoAmount1").val();
+        var WholesaleTempoAmount2 = $("#WholesaleTempoAmount2").val();
+        var WholesaleTempoAmount3 = $("#WholesaleTempoAmount3").val();
+        var RetailTempoAmount1 = $("#RetailTempoAmount1").val();
+        var RetailTempoAmount2 = $("#RetailTempoAmount2").val();
+        var RetailTempoAmount3 = $("#RetailTempoAmount3").val();
+        var TransferAmountInward = $("#TransferAmountInward").val();
+        var TotalInwradVehicleCost = 0;
+        $('#tblVehicleInward').children('tbody').children('tr:visible').each(function (index, row) {
+            if ($(row).find('td').length == 0) {
+                return;
+            }
+            if ($(row).find("input")[2].value == "") {
+
+                TotalInwradVehicleCost = 0;
+            }
+            else {
+                TotalInwradVehicleCost = parseFloat(TotalInwradVehicleCost) + parseFloat($(row).find("input")[2].value);
+            }
+        });
+
+        var TotalInward = parseFloat(OpeningAmount) + parseFloat(ChillarInward) + parseFloat(WholesaleCash) + parseFloat(RetailCash) + parseFloat(WholesaleTempoAmount1) + parseFloat(WholesaleTempoAmount2) + parseFloat(WholesaleTempoAmount3) + parseFloat(RetailTempoAmount1) + parseFloat(RetailTempoAmount2) + parseFloat(RetailTempoAmount3) + parseFloat(TransferAmountInward) + parseFloat(TotalInwradVehicleCost);
+        $('#TotalInward').val(TotalInward);
+    });
+
+    $("#btnTotalOutward").click(function () {
+        debugger;
+        var ChillarOutward = $("#ChillarOutward").val();
+        var TotalExpenses = $("#TotalExpenses").val();
+        var TransferVB2 = $("#TransferVB2").val();
+        var TransferVB3 = $("#TransferVB3").val();
+        var BankDepositeAmount1 = $("#BankDepositeAmount1").val();
+        var BankDepositeAmount2 = $("#BankDepositeAmount2").val();
+        var BankDepositeAmount3 = $("#BankDepositeAmount3").val();
+        var TransferAmount = $("#TransferAmount").val();
+        var TotalOutwardVehicleCost = 0;
+        $('#tblVehicleOutward').children('tbody').children('tr:visible').each(function (index, row) {
+            if ($(row).find('td').length == 0) {
+                return;
+            }
+            if ($(row).find("input")[2].value == "") {
+
+                TotalOutwardVehicleCost = 0;
+            }
+            else {
+                TotalOutwardVehicleCost = parseFloat(TotalOutwardVehicleCost) + parseFloat($(row).find("input")[2].value);
+            }
+        });
+
+        var TotalOutward = parseFloat(ChillarOutward) + parseFloat(TotalExpenses) + parseFloat(TransferVB2) + parseFloat(TransferVB3) + parseFloat(BankDepositeAmount1) + parseFloat(BankDepositeAmount2) + parseFloat(BankDepositeAmount3) + parseFloat(TransferAmount) + parseFloat(TotalOutwardVehicleCost);
+        $('#TotalOutward').val(TotalOutward);
+    });
+
+    $("#btnGrandTotal").click(function () {
+        debugger;
+        if ($("#TotalInward").val() != 0) {
+            var TotalInward = $("#TotalInward").val();
+            var TotalOutward = $("#TotalOutward").val();
+            var GrandTotal = parseFloat(TotalInward) - parseFloat(TotalOutward);
+            $('#GrandTotal').val(GrandTotal);
+        }
+        else {
+            alert('Inward Amount is zero')
+        }
+    });
+
+    $("#btnsave").click(function () {
+        debugger;
+        if (!($('#frmInward').parsley().validate())) {
+            return;
+        }
+        var lstVehicleInwardCost = [];
+        $('#tblVehicleInward').children('tbody').children('tr:visible').each(function (index, row) {
+            if ($(row).find('td').length == 0) {
+                return;
+            }
+            debugger;
+            var dataVehicleInwardCost = new Object();
+            dataVehicleInwardCost.VehicleInwardCostID = $(row).find(".hdnVehicleInwardCostID").val();
+            dataVehicleInwardCost.ID = '1';
+            dataVehicleInwardCost.AssignedDate = $(row).find(".AssignedDate").val();
+            // 27 Aug 2020 Piyush Limbani
+            //dataVehicleInwardCost.VehicleNumber = $(row).find("select option:selected").text();
+            // 27 Aug 2020 Piyush Limbani
+            dataVehicleInwardCost.VehicleDetailID = $(row).find("select")[0].value;
+            dataVehicleInwardCost.Amount = $(row).find(".Amount").val();
+            if ((dataVehicleInwardCost.VehicleDetailID != '') && (dataVehicleInwardCost.Amount != '')) {
+                lstVehicleInwardCost.push(dataVehicleInwardCost);
+            }
+        });
+
+        $('#tblVehicleOutward').children('tbody').children('tr:visible').each(function (index, row) {
+            if ($(row).find('td').length == 0) {
+                return;
+            }
+            debugger;
+            var dataVehicleOutwardCost = new Object();
+            dataVehicleOutwardCost.VehicleInwardCostID = $(row).find(".hdnVehicleInwardCostID").val();
+            dataVehicleOutwardCost.ID = '2';
+            dataVehicleOutwardCost.AssignedDate = $(row).find(".AssignedDate").val();
+            dataVehicleOutwardCost.VehicleDetailID = $(row).find("select")[0].value;
+            dataVehicleOutwardCost.Amount = $(row).find(".Amount").val();
+            if ((dataVehicleOutwardCost.VehicleDetailID != '') && (dataVehicleOutwardCost.Amount != '')) {
+                lstVehicleInwardCost.push(dataVehicleOutwardCost);
+            }
+        });
+
+        var datareq = new Object();
+        datareq.InwardID = $("#InwardID").val();
+        datareq.GodownID = $("#GodownID").val();
+        datareq.OpeningAmount = $("#OpeningAmount").val();
+        datareq.ChillarInward = $("#ChillarInward").val();
+        datareq.WholesaleAssignedDate = $("#WholesaleAssignedDate").val();
+        datareq.WholesaleCash = $("#WholesaleCash").val();
+        datareq.RetailAssignedDate = $("#RetailAssignedDate").val();
+        datareq.RetailCash = $("#RetailCash").val();
+        datareq.WholesaleTempoDate1 = $("#WholesaleTempoDate1").val();
+        var WholesaleVehicleNo1 = null;
+        $('#WholesaleVehicleNo1 :selected').each(function (i, name) {
+            if (i == 0) {
+                WholesaleVehicleNo1 = $(name).val();
+            }
+            else {
+                WholesaleVehicleNo1 += "," + $(name).val();
+            }
+        });
+        datareq.WholesaleVehicleNo1 = WholesaleVehicleNo1;
+        datareq.WholesaleTempoAmount1 = $("#WholesaleTempoAmount1").val();
+        datareq.WholesaleTempoDate2 = $("#WholesaleTempoDate2").val();
+        var WholesaleVehicleNo2 = null;
+        $('#WholesaleVehicleNo2 :selected').each(function (i, name) {
+            if (i == 0) {
+                WholesaleVehicleNo2 = $(name).val();
+            }
+            else {
+                WholesaleVehicleNo2 += "," + $(name).val();
+            }
+        });
+        datareq.WholesaleVehicleNo2 = WholesaleVehicleNo2;
+        datareq.WholesaleTempoAmount2 = $("#WholesaleTempoAmount2").val();
+        datareq.WholesaleTempoDate3 = $("#WholesaleTempoDate3").val();
+        var WholesaleVehicleNo3 = null;
+        $('#WholesaleVehicleNo3 :selected').each(function (i, name) {
+            if (i == 0) {
+                WholesaleVehicleNo3 = $(name).val();
+            }
+            else {
+                WholesaleVehicleNo3 += "," + $(name).val();
+            }
+        });
+        datareq.WholesaleVehicleNo3 = WholesaleVehicleNo3;
+        datareq.WholesaleTempoAmount3 = $("#WholesaleTempoAmount3").val();
+        datareq.RetailTempoDate1 = $("#RetailTempoDate1").val();
+        var RetailVehicleNo1 = null;
+        $('#RetailVehicleNo1 :selected').each(function (i, name) {
+            if (i == 0) {
+                RetailVehicleNo1 = $(name).val();
+            }
+            else {
+                RetailVehicleNo1 += "," + $(name).val();
+            }
+        });
+        datareq.RetailVehicleNo1 = RetailVehicleNo1;
+        datareq.RetailTempoAmount1 = $("#RetailTempoAmount1").val();
+        datareq.RetailTempoDate2 = $("#RetailTempoDate2").val();
+        var RetailVehicleNo2 = null;
+        $('#RetailVehicleNo2 :selected').each(function (i, name) {
+            if (i == 0) {
+                RetailVehicleNo2 = $(name).val();
+            }
+            else {
+                RetailVehicleNo2 += "," + $(name).val();
+            }
+        });
+        datareq.RetailVehicleNo2 = RetailVehicleNo2;
+        datareq.RetailTempoAmount2 = $("#RetailTempoAmount2").val();
+        datareq.RetailTempoDate3 = $("#RetailTempoDate3").val();
+        var RetailVehicleNo3 = null;
+        $('#RetailVehicleNo3 :selected').each(function (i, name) {
+            if (i == 0) {
+                RetailVehicleNo3 = $(name).val();
+            }
+            else {
+                RetailVehicleNo3 += "," + $(name).val();
+            }
+        });
+        datareq.RetailVehicleNo3 = RetailVehicleNo3;
+        datareq.RetailTempoAmount3 = $("#RetailTempoAmount3").val();
+        datareq.TotalInward = $("#TotalInward").val();
+        datareq.ChillarOutward = $("#ChillarOutward").val();
+        datareq.ExpensesDate = $("#ExpensesDate").val();
+        datareq.TotalExpenses = $("#TotalExpenses").val();
+        datareq.TransferVB2 = $("#TransferVB2").val();
+        datareq.TransferVB3 = $("#TransferVB3").val();
+        datareq.BankID1 = $("#BankID1").val();
+        datareq.BankDepositeAmount1 = $("#BankDepositeAmount1").val();
+        datareq.BankID2 = $("#BankID2").val();
+        datareq.BankDepositeAmount2 = $("#BankDepositeAmount2").val();
+        datareq.BankID3 = $("#BankID3").val();
+        datareq.BankDepositeAmount3 = $("#BankDepositeAmount3").val();
+        datareq.TotalOutward = $("#TotalOutward").val();
+        datareq.GrandTotal = $("#GrandTotal").val();
+        datareq.OpeningChillar = $("#OpeningChillar").val();
+        datareq.ClosingChillar = $("#ClosingChillar").val();
+        datareq.CreatedBy = $("#CreatedBy").val();
+        datareq.CreatedOn = $("#CreatedOn").val();
+        datareq.lstVehicleInwardCost = lstVehicleInwardCost;
+        $.ajax({
+            url: '@Url.Action("AddInwardOutWard")',
+            type: 'POST',
+            data: { 'data': datareq },
+            cache: false,
+        }).done(function (result) {
+            if (result > 0) {
+                if ($("#InwardID").val() == "") {
+                    $('div#sucessalert').html("Inward Add successfully.");
+                }
+                else {
+                    $('div#sucessalert').html("Inward updated successfully.");
+                }
+                showhidealert();
+                clearform();
+                location.reload();
+            }
+        });
+    });
+
+    $("#btncancel").click(function () {
+        location.reload();
+    });
+
+    function clearform() {
+        $("#WholesaleVehicleNo1").val("").trigger("change");
+        $("#WholesaleVehicleNo2").val("").trigger("change");
+        $("#WholesaleVehicleNo3").val("").trigger("change");
+        $("#RetailVehicleNo1").val("").trigger("change");
+        $("#RetailVehicleNo2").val("").trigger("change");
+        $("#RetailVehicleNo3").val("").trigger("change");
+        $("#BankID1").val("").trigger("change");
+        $("#BankID2").val("").trigger("change");
+        $("#BankID3").val("").trigger("change");
+        $("#GodownID").prop("disabled", false);
+        $("#ChillarInward").val("0");
+        $("#WholesaleCash").val("0");
+        $("#TransferAmountInward").val("0");
+        $("#WholesaleAssignedDate").val("");
+        $("#RetailCash").val("0");
+        $("#RetailAssignedDate").val("");
+        $("#RetailCash").val("0");
+        $("#WholesaleTempoDate1").val("");
+        $("#WholesaleTempoAmount1").val("0");
+        $("#WholesaleTempoDate2").val("");
+        $("#WholesaleTempoAmount2").val("0");
+        $("#WholesaleTempoDate3").val("");
+        $("#WholesaleTempoAmount3").val("0");
+        $("#RetailTempoDate1").val("");
+        $("#RetailTempoAmount1").val("0");
+        $("#RetailTempoDate2").val("");
+        $("#RetailTempoAmount2").val("0");
+        $("#RetailTempoDate3").val("");
+        $("#RetailTempoAmount3").val("0");
+        $("#TotalInward").val("0");
+        $("#ChillarOutward").val("0");
+        $("#ExpensesDate").val("");
+        $("#TotalExpenses").val("0");
+        $("#BankDepositeAmount1").val("0");
+        $("#BankDepositeAmount2").val("0");
+        $("#BankDepositeAmount3").val("0");
+        $("#TransferAmount").val("0");
+        $("#TotalOutward").val("0");
+        $("#GrandTotal").val("0");
+        $("#InwardChillar").val("0");
+        $("#OutwardChillar").val("0");
+        $("#ClosingChillar").val("0");
+        $("#InwardID").val("");
+        $("#CreatedBy").val("");
+        $("#CreatedOn").val("");
+    }
+</script>

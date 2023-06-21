@@ -1,0 +1,99 @@
+﻿@model List<vb.Data.ExpenseDebitAccountTypeListResponse>
+@using vb.Data.ViewModel
+
+<div class="box">
+    <div class="box-header text-center">
+        <h3 class="box-title">Debit Account Type List</h3>
+    </div>
+    <div class="box-body table-scrollable1">
+        <table id="ListDataTable" class="table table-bordered table-bordered">
+            <thead>
+                <tr>
+                    <th>Expense Type</th>
+                    <th>SGST</th>
+                    <th>CGST</th>
+                    <th>IGST</th>
+                    <th>H-For</th>
+                    @*@if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.EPurchaseDebitAccountType.ToString()))
+                        {*@
+                    <th>Edit</th>
+                    @*}
+                        @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.DPurchaseDebitAccountType.ToString()))
+                        {*@
+                    <th>Status</th>
+                    @*}*@
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @item.ExpenseDebitAccountType
+                        </td>
+                        <td>
+                            @item.SGST
+                        </td>
+                        <td>
+                            @item.CGST
+                        </td>
+                        <td>
+                            @item.IGST
+                        </td>
+                        <td>
+                            @item.HFor
+                        </td>
+                        @*@if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.EPurchaseDebitAccountType.ToString()))
+                            {*@
+                        <td>
+                            <a style="cursor:pointer;" class="btnedit" data-expensedebitaccounttypeid="@item.ExpenseDebitAccountTypeID" data-createdby="@item.CreatedBy" data-createdon="@item.CreatedOn" data-expensedebitaccounttype="@item.ExpenseDebitAccountType" data-sgst="@item.SGST" data-cgst="@item.CGST" data-igst="@item.IGST" data-hfor="@item.HFor">Edit</a>
+                        </td>
+                        @*}
+                            @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.DPurchaseDebitAccountType.ToString()))
+                            {*@
+                        @if (item.IsDelete == true)
+                        {
+                            <td>
+                                @Html.ActionLink("Active", "DeleteExpenseDebitAccountType", "Admin",
+                                          new { ExpenseDebitAccountTypeID = item.ExpenseDebitAccountTypeID, IsDelete = false },
+                                        new { onclick = "return confirm('Are you sure you wish to delete this article?');" })
+                            </td>
+                        }
+                        else
+                        {
+                            <td>
+                                @Html.ActionLink("DeActive", "DeleteExpenseDebitAccountType", "Admin",
+                                            new { ExpenseDebitAccountTypeID = item.ExpenseDebitAccountTypeID, IsDelete = true },
+                                        new { onclick = "return confirm('Are you sure you wish to delete this article?');" })
+                            </td>
+                        }
+                        @*}*@
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <!-- /.box-body -->
+</div>
+
+<script>
+    $("#ListDataTable").DataTable({
+        'aoColumnDefs': [{
+            'bSortable': false,
+            //"aTargets": [0],
+            'aTargets': ['nosort'] /* 1st one, start by the right */
+        }]
+    });
+
+    $('#ListDataTable').on('click', '.btnedit', function () {
+        $("#ExpenseDebitAccountTypeID").val($(this).attr("data-expensedebitaccounttypeid"));
+        $("#ExpenseDebitAccountType").val($(this).attr("data-expensedebitaccounttype"));
+        $("#SGST").val($(this).attr("data-sgst"));
+        $("#CGST").val($(this).attr("data-cgst"));
+        $("#IGST").val($(this).attr("data-igst"));
+        $("#HFor").val($(this).attr("data-hfor"));
+        $("#CreatedBy").val($(this).attr("data-createdby"));
+        $("#CreatedOn").val($(this).attr("data-createdon"));
+        $("html, body").animate({ scrollTop: 0 }, "slow");
+    });
+</script>

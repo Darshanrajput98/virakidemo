@@ -1,0 +1,100 @@
+﻿@model List<vb.Data.RetPackSummary>
+<div class="box">
+    @*<div class="box-header text-center">
+            <h3 class="box-title">Pack Detail List</h3>
+        </div>*@
+    <!-- /.box-header -->
+    <div class="box-body">
+        <table id="tblListDataTablewithourpaging" class="table table-bordered table-striped lst1">
+            <thead>
+                <tr>
+                    <th class="nosort">Product</th>
+                    <th class="nosort">Quantity</th>
+                    <th class="nosort">Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+
+                        <td>
+                            <input type="hidden" class="hdnPackSummaryID" value="@item.PackSummaryID" />
+                            <input type="hidden" class="hdnPackSummaryQtyID" value="@item.PackSummaryQtyID" />
+                            <input type="hidden" class="hdnOrderQtyID" value="@item.OrderQtyID" />
+                            <input type="hidden" class="hdnQuantity" value="@item.Quantity" />
+                            <input type="hidden" class="hdnUnit" value="@item.Unit" />
+                            <input type="text" value="@item.ProductName" />
+                        </td>
+                        <td>
+                            <input type="text" value="@item.Quantity" class="hdnUpdateQuantity" />
+                        </td>
+                        <td>
+                            <input id="chkSelect" class="chkSelect" type="checkbox" />
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+
+        <div class="modal-footer">
+            <button type="button" class="btnupdate btn btn-info">Update</button>
+            <button type="button" class="btnclose btn btn-info" data-dismiss="modal" aria-hidden="true">Close</button>
+        </div>
+    </div>
+</div>
+
+
+@*<script src="~/Scripts/jquery-1.10.2.min.js"></script>*@
+<script>
+    $(".btnupdate").click(function () {
+        debugger;
+        var data = [];
+        var SumTotalKG = 0;
+        $('#tblListDataTablewithourpaging tbody tr').each(function (index, row) {
+            debugger;
+            if ($(row).find(".chkSelect").is(':checked')) {
+                var datadel = new Object();
+                datadel.PackSummaryID = $(row).find(".hdnPackSummaryID").val();
+                datadel.PackSummaryQtyID = $(row).find(".hdnPackSummaryQtyID").val();               
+                datadel.OrderQtyID = $(row).find(".hdnOrderQtyID").val();
+                datadel.Quantity = $(row).find(".hdnUpdateQuantity").val();
+                // datadel.IsDelete = true;
+                var gmstr = "";
+                gmstr = $(row).closest("tr").find(".hdnUnit").val();
+                var array = gmstr.split(" ");
+                var weight = array[0];
+                var unit = array[1];
+                var TotalKgProductWise = 0;
+                if (unit = "g") {
+                    TotalKgProductWise = (weight * $(row).closest("tr").find(".hdnUpdateQuantity").val()) / 1000;
+
+                }
+                else {
+
+                    TotalKgProductWise = weight * $(row).closest("tr").find(".hdnUpdateQuantity").val();
+                }
+                if (TotalKgProductWise != 0) {
+                    datadel.SumTotalKG = +SumTotalKG + +(TotalKgProductWise);
+                }
+                data.push(datadel);
+            }
+        });             
+        $.ajax({
+            url: '@Url.Action("UpdateProductPackList", "Order")',
+            type: 'POST',
+            data: { 'data': data },
+            cache: false,
+        }).done(function (result) {
+            if (result == true) {               
+                alert("Delete product successfully.");
+                $('#responsive').removeClass("modal fade modal-overflow in");
+                $('#responsive').removeAttr('style');
+                $('#responsive').addClass("modal fade");
+                location.reload();
+            }
+        });
+
+    });
+</script>

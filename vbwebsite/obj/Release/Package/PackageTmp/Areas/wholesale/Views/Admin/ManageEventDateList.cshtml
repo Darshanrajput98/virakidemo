@@ -1,0 +1,83 @@
+﻿@model List<vb.Data.EventDateListResponse>
+@using vb.Data.ViewModel
+
+<div class="box">
+    <div class="box-header text-center">
+        <h3 class="box-title">Event Date List</h3>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body table-scrollable1">
+        <table id="ListDataTable" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th class="nosort">Name</th>
+                    <th class="nosort">Date</th>
+                    @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.WEEVENTDATE.ToString()))
+                    {
+                        <th>Edit</th>
+                    }
+                    @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.WDEVENTDATE.ToString()))
+                    {
+                        <th>Status</th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td id="row" @item.EventDateID>
+                            @item.EventName
+                        </td>
+                        <td>
+                            @item.EventDate.ToString("MM/dd/yyyy")
+                        </td>
+                        @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.WEEVENTDATE.ToString()))
+                        {
+                            <td>
+                                <a style="cursor:pointer;" class="btnedit" data-pid="@item.EventDateID" data-eid="@item.EventID">Edit</a>
+                            </td>
+                        }
+                        @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.WDEVENTDATE.ToString()))
+                        {
+                            if (item.IsDelete == true)
+                            {
+                                <td>
+                                    @Html.ActionLink("Active", "DeleteEventDate", "Admin",
+                                 new { EventDateID = item.EventDateID, IsDelete = false },
+                                     new { onclick = "return confirm('Are you sure you wish to delete Event?');" })
+                                </td>
+                            }
+                            else
+                            {
+                                <td>
+                                    @Html.ActionLink("DeActive", "DeleteEventDate", "Admin",
+                                  new { EventDateID = item.EventDateID, IsDelete = true },
+                                     new { onclick = "return confirm('Are you sure you wish to delete Event?');" })
+                                </td>
+                            }
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <!-- /.box-body -->
+</div>
+
+<script>
+    $("#ListDataTable").DataTable({
+        'aoColumnDefs': [{
+            'bSortable': false,
+            'aTargets': ['nosort'] /* 1st one, start by the right */
+        }]
+    });
+
+    $('#ListDataTable').on('click', '.btnedit', function () {
+        $("#UEventDateID").val($(this).attr("data-pid"));
+        $("#EventID").val($(this).attr("data-eid")).trigger("change");
+        $("#EventDate").val($(this).parent().parent().children()[1].innerHTML.trim());
+        $("html, body").animate({ scrollTop: 0 }, "slow");
+    });
+</script>
+

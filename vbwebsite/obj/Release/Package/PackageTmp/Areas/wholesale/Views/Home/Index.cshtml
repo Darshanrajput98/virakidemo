@@ -1,0 +1,129 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+    Layout = "~/Areas/wholesale/Views/Shared/_wholesalelayout.cshtml";
+}
+@using vb.Data.ViewModel
+
+<h1> <center>Welcome To Viraki Brothers Wholesale</center>   </h1>
+
+<div class="box-body">
+    <div class="col-md-12">
+        @if (ViewBag.RoleId == "5" || ViewBag.RoleId == "6" || ViewBag.RoleId == "3" || ViewBag.RoleId == "11")
+        {
+            <div id="lstVehicleExp" class="col-md-12" style="padding-bottom:10px;">
+            </div>
+        }
+    </div>
+
+    <div class="col-md-12">
+        @if (ViewBag.RoleId == "5" || ViewBag.RoleId == "6" || ViewBag.RoleId == "3" || ViewBag.RoleId == "11")
+        {
+            <div id="lstcase" style="padding-bottom:10px;">
+            </div>
+        }
+    </div>
+
+    <div class="col-md-12">
+        @if (ViewBag.RoleId == "2")
+        {
+            <div class="col-md-12">
+                <div id="lstwholesalecustfssai">
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div id="lstretailcustfssai">
+                </div>
+            </div>
+        }
+    </div>
+
+    <div class="col-md-12">
+        <div class="col-md-6">
+            @if (ViewBag.RoleId == "5" || ViewBag.RoleId == "6" || ViewBag.RoleId == "3" || ViewBag.RoleId == "11")
+            {
+                <div id="lstMinPouchQuantity" style="padding-bottom:10px;">
+                </div>
+            }
+        </div>
+        <div class="col-md-6">
+            @if (ViewBag.RoleId == "5" || ViewBag.RoleId == "6" || ViewBag.RoleId == "3" || ViewBag.RoleId == "11")
+            {
+                <div id="lstMinUtilityQuantity" style="padding-bottom:10px;">
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script>
+    $(document).ready(function () {
+        loadhtml();
+        loadhtml2();
+        loadhtml3();
+        loadhtml4();
+        loadhtml5();
+        loadhtml6();
+    });
+
+    function loadhtml() {
+        $.ajax({
+            url: '@Url.Action("VehicleDocExpireList")',
+            type: 'GET',
+            cache: false,
+        }).done(function (result) {
+            $('#lstVehicleExp').html(result);
+        });
+    }
+
+    function loadhtml2() {
+        $.ajax({
+            url: '@Url.Action("LicenceExpireList")',
+            type: 'GET',
+            cache: false,
+        }).done(function (result) {
+            $('#lstcase').html(result);
+        });
+    }
+
+    function loadhtml3() {
+        $.ajax({
+            url: '@Url.Action("WholesaleFSSAIExpireList")',
+            type: 'GET',
+            cache: false,
+        }).done(function (result) {
+            $('#lstwholesalecustfssai').html(result);
+        });
+    }
+
+    function loadhtml4() {
+        $.ajax({
+            url: '@Url.Action("RetailFSSAIExpireList")',
+            type: 'GET',
+            cache: false,
+        }).done(function (result) {
+            $('#lstretailcustfssai').html(result);
+        });
+    }
+
+    function loadhtml5() {
+        $.ajax({
+            url: '@Url.Action("MinPouchQuantityList")',
+            type: 'GET',
+            cache: false,
+        }).done(function (result) {
+            $('#lstMinPouchQuantity').html(result);
+        });
+    }
+
+    function loadhtml6() {
+        $.ajax({
+            url: '@Url.Action("MinUtilityQuantityList")',
+            type: 'GET',
+            cache: false,
+        }).done(function (result) {
+            $('#lstMinUtilityQuantity').html(result);
+        });
+    }
+</script>

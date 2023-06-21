@@ -1,0 +1,244 @@
+﻿@model List<vb.Data.GroundStockInwardListResponse>
+
+@{
+    ViewBag.Title = "Inward";
+    Layout = "~/Areas/groundstock/Views/Shared/_groundstocklayout.cshtml";
+}
+
+@using vb.Data.ViewModel
+
+
+<style>
+    .clsDiv {
+        font-size: 24px;
+        padding: 0px;
+        margin: 0px;
+    }
+</style>
+
+<div class="box">
+    <div class="box-header text-center">
+        <h3 class="box-title">Inward List</h3>
+    </div>
+    <div class="box-body table-scrollable1">
+        <table id="ListDataTable" class="table table-bordered table-bordered">
+            <thead>
+                <tr>
+                    <th>ProductName</th>
+                    <th>Net Weight</th>
+                    <th>No. of Bags</th>
+                    <th>Inward</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.ProductName</td>
+                        <td>@item.NetWeight</td>
+                        <td>@item.NoofBags</td>
+                        <td>
+                            <button class="btnInward btn btn-info" type="button" data-purchaseqtyid="@item.PurchaseQtyID" data-purchaseid="@item.PurchaseID" data-productid="@item.ProductID" data-productname="@item.ProductName" data-openingqty="@item.OpeningQty" data-netweight="@item.NetWeight" data-billdate="@item.BillDate" data-noofbags="@item.NoofBags">Inward</button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div id="responsive" class="modal fade responsive">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" style="padding-bottom: 5px;">
+                    <h4 class="modal-title">Inward Details</h4>
+                </div>
+
+                <form class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <input name="PurchaseQtyID" id="PurchaseQtyID" type="hidden" value="" />
+                                <input name="PurchaseID" id="PurchaseID" type="hidden" value="" />
+                                <input name="ProductID" id="ProductID" type="hidden" value="" />
+                                <input name="BillDate" id="BillDate" type="hidden" value="" />
+                            </div>
+
+                            <div class="form-group">
+                                <label for="ProductName" class="col-sm-4 control-label">Product</label>
+                                <div class="col-sm-8" style="padding-bottom:5px;">
+                                    <input type="text" class="form-control" name="ProductName" id="ProductName" placeholder="ProductName" tabindex="2" value="" autocomplete="off" disabled="disabled">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="OpeningQty" class="col-sm-4 control-label">Open Stock</label>
+                                <div class="col-sm-8" style="padding-bottom:5px;">
+                                    <input type="text" class="form-control" name="OpeningQty" placeholder="Open Stock" value="" id="OpeningQty" autocomplete="off" disabled="disabled">
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label for="NetWeight" class="col-sm-4 control-label clslblNetWeight">Net Weight</label>
+                                <div class="col-sm-7" style="padding-bottom:5px;">
+                                    <input type="text" class="form-control" name="NetWeight" id="NetWeight" placeholder="Quantity" tabindex="2" value="" autocomplete="off">
+                                </div>
+                                <div class="col-sm-1 clsDiv">
+                                    <input type="checkbox" id="NetWeightckbox" />
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label for="NoofBags" class="col-sm-4 control-label clslblNoofBags">No. of Bags</label>
+                                <div class="col-sm-7" style="padding-bottom:5px;">
+                                    <input type="text" class="form-control" name="NoofBags" id="NoofBags" placeholder="NoofBags" tabindex="2" value="" autocomplete="off">
+                                </div>
+                                <div class="col-sm-1 clsDiv">
+                                    <input type="checkbox" id="NoofBagsckbox" />
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </form>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-info OutwardStyle" id="btnsaveInward">Add Inward</button>
+                    <button type="button" class="btnclosepopup btn btn-info OutwardStyle" data-dismiss="modal" aria-hidden="true">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="lstcase">
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+
+<script>
+
+    //checkbox is checked and  NoofBags And NetWeight value Set
+
+    $(function chkbox() {
+        NetWeightcheckbox();
+        NoofBagscheckbox();
+        $("#NetWeightckbox").click(NetWeightcheckbox);
+        $("#NoofBagsckbox").click(NoofBagscheckbox);
+    });
+
+    var WeightOrBagsQty = 0;
+
+    function NetWeightcheckbox() {
+        if (this.checked) {
+            WeightOrBagsQty = $("#NetWeight").val();
+            //console.log(WeightOrBagsQty);
+            $("#NoofBagsckbox").hide();
+        } else {
+            $("#NoofBagsckbox").show();
+        }
+    }
+
+    function NoofBagscheckbox() {
+        if (this.checked) {
+            WeightOrBagsQty = $('#NoofBags').val();
+            //console.log(WeightOrBagsQty);
+            $("#NetWeightckbox").hide();
+        } else {
+            $("#NetWeightckbox").show();
+        }
+    }
+
+    $("#btnsaveInward").click(function () {
+        debugger;
+        var ischk = $(".clsDiv").find("input[type=checkbox]")[0];
+        var ischkbox = $(".clsDiv").find("input[type=checkbox]")[1];
+
+        if ($(ischk).is(':checked') || $(ischkbox).is(':checked')) {
+
+            debugger;
+            var datareq = new Object();
+            datareq.PurchaseQtyID = $("#PurchaseQtyID").val();
+            datareq.PurchaseID = $("#PurchaseID").val();
+            datareq.ProductID = $('#ProductID').val();
+            datareq.BillDate = $('#BillDate').val();
+            datareq.NoofBags = $('#NoofBags').val();
+            datareq.OpeningQty = $("#OpeningQty").val();
+            datareq.NetWeight = WeightOrBagsQty;
+
+            $.ajax({
+                url: '@Url.Action("AddInwardBill", "Stock")',
+                type: 'POST',
+                data: { 'data': datareq },
+                cache: false,
+            }).done(function (result) {
+                if (result != '') {
+                    if (result > 0) {
+
+                        if ($("#InwardID").val() == "") {
+                            $('div#sucessalert').html("Inward Add successfully.");
+                            showhidealert();
+                        }
+                        else if ($("#InwardID").val() != "") {
+                            $('div#sucessalert').html("Inward updated successfully.");
+                            showhidealert();
+                        }
+                        else {
+                            alert("something went wrong")
+                        }
+                        showhidealert();
+                        clearform();
+
+                    }
+                }
+            });
+
+            $('#responsive').removeClass("modal fade modal-overflow in");
+            $('#responsive').removeAttr('style');
+            $('#responsive').addClass("modal fade");
+
+        }
+        else {
+            alert("Please Select Checkbox");
+        }
+    });
+
+    $(".btnclosepopup").click(function () {
+        //debugger;
+        $('#responsive').removeClass("modal fade modal-overflow in");
+        $('#responsive').removeAttr('style');
+        $('#responsive').addClass("modal fade");
+    });
+
+    $(".btnInward").click(function () {
+        //debugger;
+        var PurchaseQtyID = $(this).attr("data-purchaseqtyid");
+        var PurchaseID = $(this).attr("data-purchaseid");
+        var ProductID = $(this).attr("data-productid");
+        var ProductName = $(this).attr("data-productname");
+        var OpeningQty = $(this).attr("data-openingqty");
+        var NetWeight = $(this).attr("data-netweight");
+        var BillDate = $(this).attr("data-billdate");
+        var NoofBags = $(this).attr("data-noofbags");
+        clearcontents(PurchaseQtyID, PurchaseID, ProductID, ProductName, OpeningQty, NetWeight, BillDate, NoofBags);
+        $("#responsive").removeClass("modal fade").addClass("modal fade modal-overflow in");
+        $("#responsive").css("display", "block");
+    });
+
+    function clearcontents(PurchaseQtyID, PurchaseID, ProductID, ProductName, OpeningQty, NetWeight, BillDate, NoofBags) {
+        //debugger;
+        $('#ProductName').attr('value', ProductName);
+        $('#NetWeight').attr('value', NetWeight);
+        $('#OpeningQty').attr('value', OpeningQty);
+        $('#PurchaseQtyID').attr('value', PurchaseQtyID);
+        $('#PurchaseID').attr('value', PurchaseID);
+        $('#ProductID').attr('value', ProductID);
+        $('#BillDate').attr('value', BillDate);
+        $('#NoofBags').attr('value', NoofBags);
+    }
+
+    function clearform() {
+        location.reload();
+    }
+
+</script>

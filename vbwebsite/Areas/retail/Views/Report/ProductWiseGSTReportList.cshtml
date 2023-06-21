@@ -1,0 +1,118 @@
+﻿@model System.Data.DataTable
+@using System.Data
+<style type="text/css">
+    .table-scrollable {
+        width: 100%;
+        overflow-x: auto;
+        overflow-y: hidden;
+        border: 1px solid #dddddd;
+        margin: 10px 0 !important;
+    }
+</style>
+
+<div class="box-body table-scrollable">
+    @if (ViewBag.Tax == "SGST")
+    {
+        <table id="ListDataTableNoPaging" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    @foreach (DataColumn col in Model.Columns)
+                    {
+                        if (@col.ColumnName != "ProductID")
+                        {
+                            <th class="nosort">
+                                @if (col.ColumnName != "Sr.No" && col.ColumnName != "ProductName" && col.ColumnName != "HSNNumber" && col.ColumnName != "Total" && col.ColumnName != "TaxableAmount" && col.ColumnName != "CGSTPer" && col.ColumnName != "CGSTAmt" && col.ColumnName != "SGSTPer" && col.ColumnName != "SGSTAmt" && col.ColumnName != "Amount")
+                                {
+                                    @col.ColumnName
+                                    @*<a style="cursor:pointer;" class="btnDayWiseData" data-did="@(col.ColumnName)">@col.ColumnName</a>*@
+                                }
+                                else
+                                { @col.ColumnName}
+                            </th>
+                        }
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (DataRow row in Model.Rows)
+                {
+                    <tr>
+                        @foreach (DataColumn col in Model.Columns)
+                        {
+                            if (col.ColumnName == "ProductID")
+                            {
+                                <td style="display:none;">
+                                    @row[col.ColumnName]
+                                </td>
+                            }
+                            else
+                            {
+                                <td>
+                                    @if (col.ColumnName != "Sr.No" && col.ColumnName != "ProductName" && col.ColumnName != "HSNNumber" && col.ColumnName != "Total" && col.ColumnName != "TaxableAmount" && col.ColumnName != "CGSTPer" && col.ColumnName != "CGSTAmt" && col.ColumnName != "SGSTPer" && col.ColumnName != "SGSTAmt" && col.ColumnName != "Amount" && row.ItemArray[1] != "")
+                                    {
+                                        @row[col.ColumnName]
+                                        @*<a style="cursor:pointer;" class="btnProductWiseData" data-pid="@row.ItemArray[1]" data-did="@(col.ColumnName)">@row[col.ColumnName]</a>*@
+                                    }
+                                    else
+                                    {@row[col.ColumnName]}
+                                </td>
+                            }
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <table id="ListDataTableNoPaging" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    @foreach (DataColumn col in Model.Columns)
+                    {
+                        if (@col.ColumnName != "ProductID")
+                        {
+                            <th class="nosort">
+                                @if (col.ColumnName != "Sr.No" && col.ColumnName != "ProductName" && col.ColumnName != "HSNNumber" && col.ColumnName != "Total" && col.ColumnName != "TaxableAmount" && col.ColumnName != "IGSTPer" && col.ColumnName != "IGSTAmt" && col.ColumnName != "Amount")
+                                {
+                                    @col.ColumnName
+                                    @*<a style="cursor:pointer;" class="btnDayWiseData" data-did="@(col.ColumnName)">@col.ColumnName</a>*@
+                                }
+                                else
+                                { @col.ColumnName}
+                            </th>
+                        }
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (DataRow row in Model.Rows)
+                {
+                    <tr>
+                        @foreach (DataColumn col in Model.Columns)
+                        {
+                            if (col.ColumnName == "ProductID")
+                            {
+                                <td style="display:none;">
+                                    @row[col.ColumnName]
+                                </td>
+                            }
+                            else
+                            {
+                                <td>
+                                    @if (col.ColumnName != "Sr.No" && col.ColumnName != "ProductName" && col.ColumnName != "HSNNumber" && col.ColumnName != "Total" && col.ColumnName != "TaxableAmount" && col.ColumnName != "IGSTPer" && col.ColumnName != "IGSTAmt" && col.ColumnName != "Amount" && row.ItemArray[1] != "")
+                                    {
+                                        @row[col.ColumnName]
+                                        @*<a style="cursor:pointer;" class="btnProductWiseData" data-pid="@row.ItemArray[1]" data-did="@(col.ColumnName)">@row[col.ColumnName]</a>*@
+                                    }
+                                    else
+                                    {@row[col.ColumnName]}
+                                </td>
+                            }
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>

@@ -1,0 +1,507 @@
+﻿@model List<vb.Data.ReturnOrderListResponse>
+
+<div class="box">
+    <div class="box-header text-center">
+        <h3 class="box-title">Order List</h3>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body">
+        <div class="row">
+            <table id="ListDataTable" class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th class="nosort">Invoice No</th>
+                        <th class="nosort">Order Date</th>
+                        <th class="nosort">Customer Name</th>
+                        <th class="nosort">Area</th>
+                        <th class="nosort">Total Item</th>
+                        <th class="nosort">Total Bill</th>
+                        <th class="nosort">Sales Person</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td id="row" @item.OrderID>
+                                <a style="cursor:pointer;" class="btnedit" data-pid="@item.InvoiceNumber" data-oid="@item.OrderID">@item.InvoiceNumber</a>
+                            </td>
+                            <td>
+                                @item.CreatedOn.ToString("MM-dd-yyyy")
+                            </td>
+                            <td>
+                                @item.CustomerName
+                            </td>
+                            <td>
+                                @item.AreaName
+                            </td>
+                            <td>
+                                @item.GrandQuantity
+                            </td>
+                            <td>
+                                @item.GrandFinalTotal.ToString("0.00")
+                            </td>
+                            <td>
+                                @item.UserName
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td colspan="6">
+                                <table id="ListDataTableNo" class="table table-bordered table-striped lsttblmain">
+                                    <thead>
+                                        <tr>
+                                            <th class="nosort">Sr No</th>
+                                            <th class="nosort">Item Name</th>
+                                            <th class="nosort">Quantity</th>
+                                            <th class="nosort">Unit</th>
+                                            <th class="nosort">Base Rate</th>
+                                            <th class="nosort">Disc. Rate</th>
+                                            <th class="nosort">Sale Rate</th>
+                                            <th class="nosort">Bill Discount</th>
+                                            <th class="nosort">Total</th>
+                                            <th class="nosort">Tax</th>
+                                            <th class="nosort">Tax amt</th>
+                                            <th class="nosort">Final Total</th>
+                                            <td>Select</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @{int i = 1;}
+                                        @foreach (var itm in item.lstOrderQty)
+                                        {
+                                            <tr>
+                                                <td id="row">
+                                                    <input type="hidden" value="@itm.ProductID" />
+                                                    <input type="hidden" value="@itm.OrderQtyID" />
+                                                    <input type="hidden" value="@itm.OrderID" />
+                                                    <input type="hidden" value="@itm.CategoryTypeID" />
+                                                    <input type="hidden" value="@itm.ReturnedQuantity" />
+                                                    <input type="hidden" value="@item.InvoiceNumber" />
+                                                    <input type="hidden" value="@itm.SerialNumber" />
+                                                    <input type="hidden" value="@itm.CustomerID" />
+
+                                                    <input type="hidden" value="@itm.CreatedOn.ToString("MM-dd-yyyy")" />
+
+                                                    @(i++)
+                                                </td>
+                                                <td>
+                                                    @itm.ProductName
+                                                </td>
+                                                <td>
+                                                    @itm.Quantity
+                                                </td>
+                                                <td>
+                                                    @itm.UnitName
+                                                </td>
+                                                <td>
+                                                    @itm.ProductPrice
+                                                </td>
+                                                <td>
+                                                    @itm.LessAmount
+                                                </td>
+                                                <td>
+                                                    @itm.SaleRate
+                                                </td>
+                                                <td>
+                                                    @itm.BillDiscount
+                                                </td>
+                                                <td>
+                                                    @itm.Total
+                                                </td>
+                                                <td>
+                                                    @itm.Tax
+                                                </td>
+                                                <td>
+                                                    @itm.TaxAmt
+                                                </td>
+                                                <td>
+                                                    @itm.FinalTotal
+                                                </td>
+                                                <td><input type="checkbox" class="chkSelect checkbox"></td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="row" style="margin-top:50px;">
+            <table id="ListDataTableNo2" class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <td colspan="12" align="center" style="font-size:20px;">Credit Memo</td>
+                    </tr>
+                    <tr>
+                        <th class="nosort">Sr No</th>
+                        <th class="nosort">Item Name</th>
+                        <th class="nosort">Quantity</th>
+                        <th class="nosort">Unit</th>
+                        <th class="nosort">Sell Rate</th>
+                        <th class="nosort">Bill Discount %</th>
+                        <th class="nosort">Sell Amount</th>
+                        <th class="nosort">Tax %</th>
+                        <th class="nosort">Quantity Returned</th>
+                        <th class="nosort">Amount</th>
+                        <th class="nosort">Tax Reversed</th>
+                        <th class="nosort">Credit Amount</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr class="form-group hide" id="AddMoreProduct">
+                        <td id="row"></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>
+                            <input type="text" class="Quantity" />
+                        </td>
+                        <td>
+                            <input type="text" class="Amount" />
+                        </td>
+                        <td></td>
+                        <td></td>
+                        <td style="display:none;"></td>
+                        <td style="display:none;"></td>
+                        <td style="display:none;"></td>
+                        <td style="display:none;"></td>
+                        <td style="display:none;"></td>
+                        <td style="display:none;"></td>
+                        <td style="display:none;"></td>
+                        <td style="display:none;"></td>
+                        <td style="display:none;"></td>
+
+                        <td style="display:none;"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!-- /.box-body -->
+    <div class="box-footer ">
+        <div class="pull-right">
+            <label id="btntotalitems" style="text-align: right; vertical-align: middle; margin-bottom: 0; " />
+            <!--08 April 2021 Piyush Limbani-->
+            <input type="checkbox" id="chkTCS" class="chkTCS checkbox" style="display: inline-block; margin: 0 10px; vertical-align: middle;">
+            <!--08 April 2021 Piyush Limbani-->
+            <button type="button" id="btncalculate" class="btn btn-default">Calculate</button>
+            <button type="button" id="btncreatememo" class="btn btn-default" tabindex="43">Create Memo</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        debugger;
+        $('#ListDataTable').on('click', '.btnedit', function () {
+            debugger;
+            var id = $(this).attr("data-oid");
+            var invnum = $(this).attr("data-pid");
+            $.ajax({
+                url: '@Url.Action("PrintInvoice", "Orders")',
+                type: 'POST',
+                data: { 'InvoiceID': id, 'InvoiceNumber': invnum },
+                cache: false,
+            }).done(function (result) {
+                if (result != '') {
+                    window.open(result, "newPage");
+                }
+            });
+        });
+
+
+        //$("#btncalculate").click(function () {
+        //    var sum = 0;
+        //    $('#ListDataTableNo2').children('tbody').children('tr:visible').each(function (index, row) {
+        //        debugger;
+        //        if ($(row).find("td")[11].innerText != '') {
+        //            sum = (parseFloat(sum) + parseFloat($(row).find("td")[11].innerText)).toFixed(2);
+        //        }
+        //    });
+        //    $("#btntotalitems").text(sum);
+        //});
+
+
+        $("#btncalculate").click(function () {
+            var sum = 0;
+            var tcstaxamt = 0;
+            debugger;
+            var chkTCS = $('#chkTCS').is(":checked");
+            if (chkTCS == false) {
+                $('#ListDataTableNo2').children('tbody').children('tr:visible').each(function (index, row) {
+                    debugger;
+                    if ($(row).find("td")[11].innerText != '') {
+                        sum = (parseFloat(sum) + parseFloat($(row).find("td")[11].innerText)).toFixed(2);
+                    }
+                });
+            }
+            else {
+                $('#ListDataTableNo2').children('tbody').children('tr:visible').each(function (index, row) {
+                    debugger;
+                    if ($(row).find("td")[11].innerText != '') {
+                        sum = (parseFloat(sum) + parseFloat($(row).find("td")[11].innerText)).toFixed(2);
+                    }
+                });
+                var tcstaxamt1 = ((parseFloat(sum) * parseFloat(0.100)) / 100);
+                tcstaxamt = tcstaxamt1.toFixed(2)
+            }
+            $("#btntotalitems").text((parseFloat(sum) + parseFloat(tcstaxamt)).toFixed(2));
+        });
+
+
+        $("#btncreatememo").click(function () {
+            debugger;
+            var lstcreditmemo = [];
+            $('#ListDataTableNo2').children('tbody').children('tr:visible').each(function (index, row) {
+                debugger;
+                if ($(row).find("td")[11].innerText !== '' && $(row).find("input")[0].value != '' && $(row).find("input")[1].value != '') {
+                    var obj = new Object();
+                    obj.OrderQtyID = $(row).find("td")[13].innerText;
+                    obj.OrderID = $(row).find("td")[14].innerText;
+                    obj.CategoryTypeID = $(row).find("td")[16].innerText;
+                    obj.ProductID = $(row).find("td")[12].innerText;
+                    obj.ReturnedQuantity = $(row).find("input")[0].value;
+                    obj.ReturnedSaleRate = $(row).find("input")[1].value;
+                    obj.BillDiscount = $(row).find("td")[5].innerText;
+                    obj.Tax = $(row).find("td")[10].innerText;
+                    obj.Total = $(row).find("td")[6].innerText;
+                    obj.FinalTotal = $(row).find("td")[15].innerText;
+                    obj.Quantity = $(row).find("td")[2].innerText;
+                    obj.CreditedFinalTotal = $(row).find("td")[11].innerText;
+                    obj.InvoiceNumber = $(row).find("td")[18].innerText;
+                    obj.CustomerID = $(row).find("td")[20].innerText;
+                    obj.ReferenceNumber = $("#ReferenceNumber").val();
+                    obj.CreatedOn = $(row).find("td")[21].innerText;
+
+                    // 08 April 2021 Piyush Limbani
+                    obj.IsTCSApplicable = $('#chkTCS').is(":checked");
+                    // 08 April 2021 Piyush Limbani
+
+                    lstcreditmemo.push(obj);
+                }
+            });
+            $.ajax({
+                url: '@Url.Action("CreateMemo")',
+                type: 'POST',
+                data: { 'data': lstcreditmemo },
+                cache: false,
+            }).done(function (result) {
+                if (result != "") {
+                    $.ajax({
+                        url: '@Url.Action("PrintCreditMemo", "Orders")',
+                        type: 'POST',
+                        data: { 'CreditMemoNumber': result, 'isNewCreditMemo': true },
+                        cache: false,
+                    }).done(function (result) {
+                        if (result != '') {
+                            var win = window.open(result, '_blank');
+                            //win.focus();
+                        }
+                    });
+                }
+                else {
+                    $('div#sucessalert').html("something is wrong.");
+                }
+                window.location.reload();
+            });
+        });
+        function loadhtml() {
+            debugger;
+            var model = new Object();
+
+            model.UserID = $("#UserID").val();
+            model.CustomerID = $("#CustomerID").val();
+            model.From = $("#txtFrom").val();
+            model.To = $("#txtTo").val();
+            $.ajax({
+                url: '@Url.Action("ViewBillWiseOrderList")',
+                type: 'POST',
+                data: { 'model': model },
+                cache: false,
+            }).done(function (result) {
+                $('#lstcase').html(result);
+            });
+        }
+        var bookIndex = 0;
+        $(".Quantity").on('input propertychange paste', function () {
+            debugger;
+            var end = this;
+            if (this.value != '') {
+                var Quantity = this.value;
+                var lastChar = Quantity.slice(-1);
+                if (lastChar != '.') {
+                    debugger;
+                    if (Quantity > 0) {
+                        var retqty = ($(end).closest('tr').find('td')[17].innerText);
+                        if (retqty != '' && retqty != '0') {
+                            if ((parseFloat(Quantity) + parseFloat(retqty)) > parseFloat($(end).closest('tr').find('td')[2].innerText)) {
+                                alert("Already deducted " + retqty + " qty. Returned quantity should not greater than actual quantity.");
+                                var textbox = $(this).closest('tr').find('input')[1];
+                                textbox.value = '';
+                                $(end).closest('tr').find('.Amount').attr('disabled', true);
+                                $(end).closest('tr').find('td')[11].innerText = "";
+                                return false;
+                            }
+                        }
+                        else {
+                            if (parseFloat(Quantity) > parseFloat($(end).closest('tr').find('td')[2].innerText)) {
+                                alert("Returned quantity should not greater than actual quantity.");
+                                var textbox = $(this).closest('tr').find('input')[1];
+                                textbox.value = '';
+                                $(end).closest('tr').find('.Amount').attr('disabled', true);
+                                $(end).closest('tr').find('td')[11].innerText = "";
+                                return false;
+                            }
+                        }
+                        if (($(end).closest('tr').find('td')[4].innerText) > 0 && ($(end).closest('tr').find('td')[4].innerText) != '') {
+                            $(end).closest('tr').find('.Amount').attr('disabled', false);
+                            //debugger;
+                            var totalprice = ($(end).closest('tr').find('td')[4].innerText) * Quantity;
+                            var billdiscount = ((totalprice * ($(end).closest('tr').find('td')[5].innerText)) / 100);
+                            totalprice = totalprice - billdiscount;
+                            var taxvale = ((totalprice * ($(end).closest('tr').find('td')[10].innerText)) / 100);
+                            var finalprice = totalprice + taxvale;
+                            $(end).closest('tr').find('td')[11].innerText = parseFloat(finalprice).toFixed(2);//finalprice;//
+                            $(end).closest('tr').find('input')[1].value = parseFloat(totalprice).toFixed(2);//totalprice;//
+                        }
+                        else {
+                            alert("Please enter proper details.");
+                        }
+                    }
+                    else {
+                        alert("Returned quantity should greater than 0.");
+                        var textbox = $(this).closest('tr').find('input')[1];
+                        textbox.value = '';
+                        $(end).closest('tr').find('.Amount').attr('disabled', true);
+                        $(end).closest('tr').find('td')[11].innerText = "";
+                    }
+                }
+            }
+            else {
+                var textbox = $(this).closest('tr').find('input')[1];
+                textbox.value = '';
+                $(end).closest('tr').find('td')[11].innerText = "";
+            }
+        });
+        $('.lsttblmain').on('change', '.chkSelect', function () {
+            debugger;
+            bookIndex++;
+            var rowc = $(this).closest("tr");
+            if (rowc.find(".chkSelect").is(':checked')) {
+                debugger;
+                var $template = $("#AddMoreProduct"),
+                        $clone = $template
+                                        .clone()
+                                        .removeClass('hide')
+                                        .removeAttr('id')
+                                        .attr('data-book-index', bookIndex)
+                                        .insertBefore($template);
+                // Update the name attributes
+                $clone.find("td")[1].innerText = rowc.find("td")[1].innerText;
+                $clone.find("td")[2].innerText = rowc.find("td")[2].innerText;
+                $clone.find("td")[3].innerText = rowc.find("td")[3].innerText;
+                $clone.find("td")[4].innerText = rowc.find("td")[6].innerText;
+                $clone.find("td")[5].innerText = rowc.find("td")[7].innerText;
+                $clone.find("td")[6].innerText = rowc.find("td")[8].innerText;
+                $clone.find("td")[7].innerText = rowc.find("td")[9].innerText;
+                $clone.find("td")[10].innerText = rowc.find("td")[9].innerText;
+                $clone.find("td")[12].innerText = rowc.find("input[type=hidden]")[0].value;
+                $clone.find("td")[13].innerText = rowc.find("input[type=hidden]")[1].value;
+                $clone.find("td")[14].innerText = rowc.find("input[type=hidden]")[2].value;
+                $clone.find("td")[16].innerText = rowc.find("input[type=hidden]")[3].value;
+                $clone.find("td")[17].innerText = rowc.find("input[type=hidden]")[4].value;
+                $clone.find("td")[18].innerText = rowc.find("input[type=hidden]")[5].value;
+                $clone.find("td")[19].innerText = rowc.find("input[type=hidden]")[6].value;
+                $clone.find("td")[20].innerText = rowc.find("input[type=hidden]")[7].value;
+                $clone.find("td")[15].innerText = rowc.find("td")[11].innerText;
+
+
+                $clone.find("td")[21].innerText = rowc.find("input[type=hidden]")[8].value;
+
+
+                $(".Quantity").on('input propertychange paste', function () {
+                    debugger;
+                    var end = this;
+                    if (this.value != '') {
+                        var Quantity = this.value;
+                        var lastChar = Quantity.slice(-1);
+                        if (lastChar != '.') {
+                            debugger;
+                            if (Quantity > 0) {
+                                var retqty = ($(end).closest('tr').find('td')[17].innerText);
+                                if (retqty != '' && retqty != '0') {
+                                    if ((parseFloat(Quantity) + parseFloat(retqty)) > parseFloat($(end).closest('tr').find('td')[2].innerText)) {
+                                        alert("Already deducted " + retqty + " qty. Returned quantity should not greater than actual quantity.");
+                                        var textbox = $(this).closest('tr').find('input')[1];
+                                        textbox.value = '';
+                                        $(end).closest('tr').find('.Amount').attr('disabled', true);
+                                        $(end).closest('tr').find('td')[11].innerText = "";
+                                        return false;
+                                    }
+                                }
+                                else {
+                                    if (parseFloat(Quantity) > parseFloat($(end).closest('tr').find('td')[2].innerText)) {
+                                        alert("Returned quantity should not greater than actual quantity.");
+                                        var textbox = $(this).closest('tr').find('input')[1];
+                                        textbox.value = '';
+                                        $(end).closest('tr').find('.Amount').attr('disabled', true);
+                                        $(end).closest('tr').find('td')[11].innerText = "";
+                                        return false;
+                                    }
+                                }
+                                if (($(end).closest('tr').find('td')[4].innerText) > 0 && ($(end).closest('tr').find('td')[4].innerText) != '') {
+                                    $(end).closest('tr').find('.Amount').attr('disabled', false);
+                                    //debugger;
+                                    var totalprice = ($(end).closest('tr').find('td')[4].innerText) * Quantity;
+                                    var billdiscount = ((totalprice * ($(end).closest('tr').find('td')[5].innerText)) / 100);
+                                    totalprice = totalprice - billdiscount;
+                                    var taxvale = ((totalprice * ($(end).closest('tr').find('td')[10].innerText)) / 100);
+                                    var finalprice = totalprice + taxvale;
+                                    $(end).closest('tr').find('td')[11].innerText = parseFloat(finalprice).toFixed(2);//finalprice;//
+                                    $(end).closest('tr').find('input')[1].value = parseFloat(totalprice).toFixed(2);//totalprice;//
+                                }
+                                else {
+                                    alert("Please enter proper details.");
+                                }
+                            }
+                            else {
+                                alert("Returned quantity should greater than 0.");
+                                var textbox = $(this).closest('tr').find('input')[1];
+                                textbox.value = '';
+                                $(end).closest('tr').find('.Amount').attr('disabled', true);
+                                $(end).closest('tr').find('td')[11].innerText = "";
+                            }
+                        }
+                    }
+                    else {
+                        var textbox = $(this).closest('tr').find('input')[1];
+                        textbox.value = '';
+                        $(end).closest('tr').find('td')[11].innerText = "";
+                    }
+                });
+            }
+            else {
+                $('#ListDataTableNo2').children('tbody').children('tr:visible').each(function (index, row) {
+                    debugger;
+                    if (rowc.find("input[type=hidden]")[6].value == $(row).find("td")[19].innerText && rowc.find(".chkSelect").is(':checked') == false) {
+                        $(row).remove();
+                        return false
+                    }
+                });
+            }
+            var i = 1;
+            $('#ListDataTableNo2').children('tbody').children('tr:visible').each(function (index, row) {
+                debugger;
+                $(row).find("td")[0].innerText = i++;
+            });
+        })
+    });
+</script>

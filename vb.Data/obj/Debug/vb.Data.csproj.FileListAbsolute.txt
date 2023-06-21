@@ -1,0 +1,85 @@
+E:\VirakiBrothers\Source\vb.Data\bin\Debug\vb.Data.dll.config
+E:\VirakiBrothers\Source\vb.Data\bin\Debug\vb.Data.dll
+E:\VirakiBrothers\Source\vb.Data\bin\Debug\vb.Data.pdb
+E:\VirakiBrothers\Source\vb.Data\bin\Debug\EntityFramework.dll
+E:\VirakiBrothers\Source\vb.Data\bin\Debug\EntityFramework.SqlServer.dll
+E:\VirakiBrothers\Source\vb.Data\bin\Debug\EntityFramework.xml
+E:\VirakiBrothers\Source\vb.Data\bin\Debug\EntityFramework.SqlServer.xml
+E:\VirakiBrothers\Source\vb.Data\obj\Debug\vb.Data.csprojResolveAssemblyReference.cache
+E:\VirakiBrothers\Source\vb.Data\obj\Debug\vb.Data.dll
+E:\VirakiBrothers\Source\vb.Data\obj\Debug\vb.Data.pdb
+E:\Piyush_Laptop\VirakiBrothers\Source\vb.Data\bin\Debug\vb.Data.dll.config
+E:\Piyush_Laptop\VirakiBrothers\Source\vb.Data\bin\Debug\vb.Data.dll
+E:\Piyush_Laptop\VirakiBrothers\Source\vb.Data\bin\Debug\vb.Data.pdb
+E:\Piyush_Laptop\VirakiBrothers\Source\vb.Data\bin\Debug\EntityFramework.dll
+E:\Piyush_Laptop\VirakiBrothers\Source\vb.Data\bin\Debug\EntityFramework.SqlServer.dll
+E:\Piyush_Laptop\VirakiBrothers\Source\vb.Data\bin\Debug\EntityFramework.xml
+E:\Piyush_Laptop\VirakiBrothers\Source\vb.Data\bin\Debug\EntityFramework.SqlServer.xml
+E:\Piyush_Laptop\VirakiBrothers\Source\vb.Data\obj\Debug\vb.Data.dll
+E:\Piyush_Laptop\VirakiBrothers\Source\vb.Data\obj\Debug\vb.Data.pdb
+F:\VirakiBrothers\Source\vb.Data\bin\Debug\vb.Data.dll.config
+F:\VirakiBrothers\Source\vb.Data\bin\Debug\vb.Data.dll
+F:\VirakiBrothers\Source\vb.Data\bin\Debug\vb.Data.pdb
+F:\VirakiBrothers\Source\vb.Data\bin\Debug\EntityFramework.dll
+F:\VirakiBrothers\Source\vb.Data\bin\Debug\EntityFramework.SqlServer.dll
+F:\VirakiBrothers\Source\vb.Data\bin\Debug\EntityFramework.xml
+F:\VirakiBrothers\Source\vb.Data\bin\Debug\EntityFramework.SqlServer.xml
+F:\VirakiBrothers\Source\vb.Data\obj\Debug\vb.Data.dll
+F:\VirakiBrothers\Source\vb.Data\obj\Debug\vb.Data.pdb
+F:\VirakiBrothers\VirakiBrothers\Source\vb.Data\bin\Debug\vb.Data.dll.config
+F:\VirakiBrothers\VirakiBrothers\Source\vb.Data\bin\Debug\vb.Data.dll
+F:\VirakiBrothers\VirakiBrothers\Source\vb.Data\bin\Debug\vb.Data.pdb
+F:\VirakiBrothers\VirakiBrothers\Source\vb.Data\bin\Debug\EntityFramework.dll
+F:\VirakiBrothers\VirakiBrothers\Source\vb.Data\bin\Debug\EntityFramework.SqlServer.dll
+F:\VirakiBrothers\VirakiBrothers\Source\vb.Data\bin\Debug\EntityFramework.xml
+F:\VirakiBrothers\VirakiBrothers\Source\vb.Data\bin\Debug\EntityFramework.SqlServer.xml
+F:\VirakiBrothers\VirakiBrothers\Source\vb.Data\obj\Debug\vb.Data.dll
+F:\VirakiBrothers\VirakiBrothers\Source\vb.Data\obj\Debug\vb.Data.pdb
+E:\VirakiBrothers (2)\VirakiBrothers\Source\vb.Data\bin\Debug\vb.Data.dll.config
+E:\VirakiBrothers (2)\VirakiBrothers\Source\vb.Data\bin\Debug\vb.Data.dll
+E:\VirakiBrothers (2)\VirakiBrothers\Source\vb.Data\bin\Debug\vb.Data.pdb
+E:\VirakiBrothers (2)\VirakiBrothers\Source\vb.Data\bin\Debug\EntityFramework.dll
+E:\VirakiBrothers (2)\VirakiBrothers\Source\vb.Data\bin\Debug\EntityFramework.SqlServer.dll
+E:\VirakiBrothers (2)\VirakiBrothers\Source\vb.Data\bin\Debug\EntityFramework.xml
+E:\VirakiBrothers (2)\VirakiBrothers\Source\vb.Data\bin\Debug\EntityFramework.SqlServer.xml
+E:\VirakiBrothers (2)\VirakiBrothers\Source\vb.Data\obj\Debug\vb.Data.dll
+E:\VirakiBrothers (2)\VirakiBrothers\Source\vb.Data\obj\Debug\vb.Data.pdb
+E:\VirakiBrothers_Live_01_04_2021\VirakiBrothers\Source\vb.Data\bin\Debug\vb.Data.dll.config
+E:\VirakiBrothers_Live_01_04_2021\VirakiBrothers\Source\vb.Data\bin\Debug\vb.Data.dll
+E:\VirakiBrothers_Live_01_04_2021\VirakiBrothers\Source\vb.Data\bin\Debug\vb.Data.pdb
+E:\VirakiBrothers_Live_01_04_2021\VirakiBrothers\Source\vb.Data\bin\Debug\EntityFramework.dll
+E:\VirakiBrothers_Live_01_04_2021\VirakiBrothers\Source\vb.Data\bin\Debug\EntityFramework.SqlServer.dll
+E:\VirakiBrothers_Live_01_04_2021\VirakiBrothers\Source\vb.Data\bin\Debug\EntityFramework.xml
+E:\VirakiBrothers_Live_01_04_2021\VirakiBrothers\Source\vb.Data\bin\Debug\EntityFramework.SqlServer.xml
+E:\VirakiBrothers_Live_01_04_2021\VirakiBrothers\Source\vb.Data\obj\Debug\vb.Data.csprojResolveAssemblyReference.cache
+E:\VirakiBrothers_Live_01_04_2021\VirakiBrothers\Source\vb.Data\obj\Debug\vb.Data.dll
+E:\VirakiBrothers_Live_01_04_2021\VirakiBrothers\Source\vb.Data\obj\Debug\vb.Data.pdb
+E:\VirakiBrothers_Live_01_04_2021\VirakiBrothers_New\Source\vb.Data\bin\Debug\vb.Data.dll.config
+E:\VirakiBrothers_Live_01_04_2021\VirakiBrothers_New\Source\vb.Data\bin\Debug\vb.Data.dll
+E:\VirakiBrothers_Live_01_04_2021\VirakiBrothers_New\Source\vb.Data\bin\Debug\vb.Data.pdb
+E:\VirakiBrothers_Live_01_04_2021\VirakiBrothers_New\Source\vb.Data\bin\Debug\EntityFramework.dll
+E:\VirakiBrothers_Live_01_04_2021\VirakiBrothers_New\Source\vb.Data\bin\Debug\EntityFramework.SqlServer.dll
+E:\VirakiBrothers_Live_01_04_2021\VirakiBrothers_New\Source\vb.Data\bin\Debug\EntityFramework.xml
+E:\VirakiBrothers_Live_01_04_2021\VirakiBrothers_New\Source\vb.Data\bin\Debug\EntityFramework.SqlServer.xml
+E:\VirakiBrothers_Live_01_04_2021\VirakiBrothers_New\Source\vb.Data\obj\Debug\vb.Data.dll
+E:\VirakiBrothers_Live_01_04_2021\VirakiBrothers_New\Source\vb.Data\obj\Debug\vb.Data.pdb
+F:\Viraki\Viraki_live\VirakiBrothers_Live_01_04_2021\VirakiBrothers_Live_01_04_2021\VirakiBrothers_New\Source\vb.Data\bin\Debug\vb.Data.dll.config
+F:\Viraki\Viraki_live\VirakiBrothers_Live_01_04_2021\VirakiBrothers_Live_01_04_2021\VirakiBrothers_New\Source\vb.Data\bin\Debug\vb.Data.dll
+F:\Viraki\Viraki_live\VirakiBrothers_Live_01_04_2021\VirakiBrothers_Live_01_04_2021\VirakiBrothers_New\Source\vb.Data\bin\Debug\vb.Data.pdb
+F:\Viraki\Viraki_live\VirakiBrothers_Live_01_04_2021\VirakiBrothers_Live_01_04_2021\VirakiBrothers_New\Source\vb.Data\bin\Debug\EntityFramework.dll
+F:\Viraki\Viraki_live\VirakiBrothers_Live_01_04_2021\VirakiBrothers_Live_01_04_2021\VirakiBrothers_New\Source\vb.Data\bin\Debug\EntityFramework.SqlServer.dll
+F:\Viraki\Viraki_live\VirakiBrothers_Live_01_04_2021\VirakiBrothers_Live_01_04_2021\VirakiBrothers_New\Source\vb.Data\bin\Debug\EntityFramework.xml
+F:\Viraki\Viraki_live\VirakiBrothers_Live_01_04_2021\VirakiBrothers_Live_01_04_2021\VirakiBrothers_New\Source\vb.Data\bin\Debug\EntityFramework.SqlServer.xml
+F:\Viraki\Viraki_live\VirakiBrothers_Live_01_04_2021\VirakiBrothers_Live_01_04_2021\VirakiBrothers_New\Source\vb.Data\obj\Debug\vb.Data.csprojResolveAssemblyReference.cache
+F:\Viraki\Viraki_live\VirakiBrothers_Live_01_04_2021\VirakiBrothers_Live_01_04_2021\VirakiBrothers_New\Source\vb.Data\obj\Debug\vb.Data.dll
+F:\Viraki\Viraki_live\VirakiBrothers_Live_01_04_2021\VirakiBrothers_Live_01_04_2021\VirakiBrothers_New\Source\vb.Data\obj\Debug\vb.Data.pdb
+G:\VirakiBrothers_Live_06_05_2022\Source\vb.Data\bin\Debug\vb.Data.dll.config
+G:\VirakiBrothers_Live_06_05_2022\Source\vb.Data\bin\Debug\vb.Data.dll
+G:\VirakiBrothers_Live_06_05_2022\Source\vb.Data\bin\Debug\vb.Data.pdb
+G:\VirakiBrothers_Live_06_05_2022\Source\vb.Data\bin\Debug\EntityFramework.dll
+G:\VirakiBrothers_Live_06_05_2022\Source\vb.Data\bin\Debug\EntityFramework.SqlServer.dll
+G:\VirakiBrothers_Live_06_05_2022\Source\vb.Data\bin\Debug\EntityFramework.xml
+G:\VirakiBrothers_Live_06_05_2022\Source\vb.Data\bin\Debug\EntityFramework.SqlServer.xml
+G:\VirakiBrothers_Live_06_05_2022\Source\vb.Data\obj\Debug\vb.Data.dll
+G:\VirakiBrothers_Live_06_05_2022\Source\vb.Data\obj\Debug\vb.Data.pdb
+G:\VirakiBrothers_Live_06_05_2022\Source\vb.Data\obj\Debug\vb.Data.csprojResolveAssemblyReference.cache

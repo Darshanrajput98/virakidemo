@@ -1,0 +1,108 @@
+﻿@{
+    ViewBag.Title = "AddFestival";
+    Layout = "~/Areas/attendance/Views/Shared/_attendancelayout.cshtml";
+}
+@using vb.Data.ViewModel
+<div class="box box-default">
+    <div class="box-header with-border text-center">
+        <h3 class="box-title">Add Festival</h3>
+    </div>
+    <form id="frmFestival" class="form-horizontal">
+        <div class="box-body">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <input name="FestivalID" id="FestivalID" type="hidden" value="" />
+                    <input type="hidden" id="CreatedBy" class="CreatedBy" value="" />
+                    <input type="hidden" id="CreatedOn" class="CreatedOn" value="" />
+                    <label for="Event" class="col-sm-4 control-label">Event</label>
+                    <div class="col-sm-8">
+                        @Html.DropDownList("EventID", new SelectList(ViewBag.Event, "EventID", "EventName"), "Select Event", new { @class = "form-control select2", tabindex = "1", required = "required" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="FestivalDate" class="col-sm-4 control-label">Festival Date</label>
+                    <div class="col-sm-8">
+                        <div class="input-group date">
+                            <div class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
+                            </div>
+                            <input type="text" class="form-control pull-right datepicker" id="FestivalDate" tabindex="2">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="box-footer ">
+            <div class="pull-right">
+                <button type="button" id="btncancel" class="btn btn-default" tabindex="3">Cancel</button>
+                @*@if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.APurchaseType.ToString()))
+                    {*@
+                <button type="button" id="btnsave" class="btn btn-info" tabindex="2">Save</button>
+                @*}*@
+            </div>
+        </div>
+    </form>
+    <div id="lstcase">
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script>
+
+    $(document).ready(function () {
+        loadhtml();
+    });
+
+    function loadhtml() {
+        $.ajax({
+            url: '@Url.Action("FestivalList")',
+            type: 'GET',
+            cache: false,
+        }).done(function (result) {
+            $('#lstcase').html(result);
+        });
+    }
+
+    $("#btnsave").click(function () {
+        if (!($('#frmFestival').parsley().validate())) {
+            return;
+        }
+        var datareq = new Object();
+        datareq.FestivalID = $("#FestivalID").val();
+        datareq.EventID = $("#EventID").val();
+        datareq.FestivalDate = $("#FestivalDate").val();
+        datareq.CreatedBy = $("#CreatedBy").val();
+        datareq.CreatedOn = $("#CreatedOn").val();
+        $.ajax({
+            url: '@Url.Action("AddFestival")',
+            type: 'POST',
+            data: { 'data': datareq },
+            cache: false,
+        }).done(function (result) {
+            if (result > 0) {
+                if ($("#FestivalID").val() == "") {
+                    $('div#sucessalert').html("Festival Add successfully.");
+                }
+                else {
+                    $('div#sucessalert').html("Festival updated successfully.");
+                }
+                showhidealert();
+                loadhtml();
+                clearform();
+            }
+        });
+    });
+
+    $("#btncancel").click(function () {
+        clearform();
+    });
+
+    function clearform() {
+        $("#frmFestival").find("input").val("");
+        $("#EventID").val("").trigger("change");
+    }
+</script>
+
+

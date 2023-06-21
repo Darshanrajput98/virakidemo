@@ -1,0 +1,189 @@
+﻿@model vb.Data.GuiLabelViewModel
+
+@{
+    ViewBag.Title = "ManageGuiLabel";
+    Layout = "~/Areas/retail/Views/Shared/_retaillayout.cshtml";
+}
+
+
+
+
+<div class="box box-default">
+    <div class="box-header with-border text-center">
+        <h3 class="box-title">Add Language Label</h3>
+    </div>
+    <form id="frmLabel" class="form-horizontal">
+        <div class="box-body">
+            <input type="hidden" id="hdnGuiLabelID" />
+            <input type="hidden" id="hdnCreatedBy" />
+            <input type="hidden" id="hdnCreatedOn" />
+
+            <div class="col-md-6">
+
+                <div class="form-group">
+                    <label for="ProductName" class="col-sm-4 control-label">Language</label>
+                    <div class="col-sm-8">
+                        @Html.DropDownList("GuiID", new SelectList(ViewBag.GuiLanguage, "GuiID", "LanguageName"), "Select Language", new { @id = "GuiID", @class = "form-control select2", tabindex = "1" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="LabelCode" class="col-sm-4 control-label">Label Code (English)</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="LabelCode" id="LabelCode" placeholder="Label Code" tabindex="2" onkeyup="checkKeyVal(event)">
+                    </div>
+                </div>
+
+                @*<div class="form-group">
+                        <label for="ProductName" class="col-sm-4 control-label">Label (English)</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" name="LabelText" id="LabelText" placeholder="Label In English Language" tabindex="2">
+                        </div>
+                    </div>*@
+
+                <div class="form-group">
+                    <label for="ProductName" class="col-sm-4 control-label">Label (Other)</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="LabelValue" id="LabelValue" placeholder="Label In Other Language" tabindex="3">
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="box-footer ">
+            <div class="pull-right">
+                <button type="button" id="CancelLabel" class="btn btn-default" tabindex="17">Cancel</button>
+                <button type="button" id="btnsavelabel" class="btn btn-info" tabindex="16">Save</button>
+            </div>
+        </div>
+    </form>
+
+    <div id="lstcase">
+    </div>
+
+</div>
+
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script>
+
+    $(document).ready(function () {
+
+        $(document).ready(function () {
+            loadhtml();
+
+        });
+
+        function loadhtml() {
+            $.ajax({
+                url: '@Url.Action("GetAllLabelList")',
+                type: 'GET',
+                cache: false,
+            }).done(function (result) {
+                $('#lstcase').html(result);
+            });
+        }
+
+        $("#CancelLabel").click(function () {
+            clearform();
+        });
+
+        $("#btnsavelabel").click(function () {
+            var dataObj = new Object();
+            dataObj.GuiLabelID = $("#hdnGuiLabelID").val();
+            dataObj.GuiID = $("#GuiID").val();
+            dataObj.CreatedBy = $("#hdnCreatedBy").val();
+            dataObj.CreatedOn = $("#hdnCreatedOn").val();
+            dataObj.LabelCode = $("#LabelCode").val();
+            dataObj.LabelValue = $("#LabelValue").val();
+
+            var Language = $("#GuiID option:selected").text();
+            debugger;
+            $.ajax({
+                url: '@Url.Action("AddLabel")',
+                type: 'POST',
+                data: { 'data': dataObj },
+                cache: false,
+            }).done(function (result) {
+                if (result == true) {
+                    loadhtml();
+                    clearform();
+                }
+                else {
+                    alert(dataObj.LabelCode + " LabelCode is already exist with " + Language + " language.");
+                }
+            });
+        });
+
+
+
+    });
+
+    function clearform() {
+
+        $("#hdnGuiLabelID").val("0");
+        $("#GuiID").val("").trigger('change');
+        $("#hdnCreatedBy").val("");
+        $("#hdnCreatedOn").val("");
+        $("#LabelValue").val("");
+        $("#LabelCode").val("");
+    }
+    function checkKeyVal(event) {
+        
+        if (event.keyCode >= 48 && event.keyCode <= 57) {
+            return true;
+        }
+        else if (event.keyCode >= 65 && event.keyCode <= 90) {
+            return true;
+        }
+        else if (event.keyCode >= 96 && event.keyCode <= 105) {
+            return true;            // a to z with underscore accept
+        }
+        else if (event.keyCode == 8 || event.keyCode == 9 || event.keyCode == 16 || event.keyCode == 20 || event.keyCode == 46 || event.keyCode == 13 || event.keyCode == 189) {
+            // backspace = 8, tab 9,  enter 13 , delete 46, underscore 189, shift 16 , CAPSLOCK =20)
+            return true;
+        }
+        else { 
+            alert("please enter only alphabet or numeric text.");
+            var LabelCodeValue = $("#LabelCode").val().slice(0, -1);
+            $("#LabelCode").val(LabelCodeValue);
+            $("#LabelCode").focus();
+            return false;
+        }
+
+
+
+        //if (e.keyCode == 32) {
+        //    alert("Can not enter space in LabelCode");
+        //    $("#LabelCode").val($("#LabelCode").val().length -1 );
+        //}
+        debugger;
+    }
+
+    function editLabel(GuiLabelID) {
+        debugger;
+        $.ajax({
+            url: '@Url.Action("EditLabel")',
+            type: 'POST',
+            data: { 'GuiLabelID': GuiLabelID },
+            cache: false,
+        }).done(function (result) {
+            $("#hdnCreatedBy").val(result.CreatedBy);
+            $("#hdnGuiLabelID").val(result.GuiLabelID);
+            $("#GuiID").val(result.GuiID).trigger('change');
+            $("#LabelValue").val(result.LabelValue);
+            if (result.CreatedOn != "" && result.CreatedOn != undefined) {
+                var date = new Date(parseInt(result.CreatedOn.substr(6)));
+                $("#hdnCreatedOn").val(date.toISOString());
+            }
+            $("#LabelCode").val(result.LabelCode);
+            $("#LabelCode").attr('disabled', 'disabled');
+            $("html, body").animate({ scrollTop: 0 }, "slow");
+        });
+
+    }
+
+</script>
+
+

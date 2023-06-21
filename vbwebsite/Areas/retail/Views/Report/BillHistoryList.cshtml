@@ -1,0 +1,150 @@
+﻿@model List<vb.Data.RetBillHistoryListResponse>
+
+<div class="box">
+    <div class="box-header text-center">
+        <h3 class="box-title">Bill Detail</h3>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body table-scrollable1">
+        <table id="ListDataTable" class="table table-bordered table-striped lstsales">
+            <thead>
+                <tr>
+                    <th class="nosort" style="text-align:center">Customer Name</th>
+                    <th class="nosort" style="text-align:center">Area</th>
+                    <th class="nosort" style="text-align:center">Invoice Date</th>
+                    <th class="nosort" style="text-align:center">Invoice No</th>
+                    <th class="nosort" style="text-align:center">Payment Date</th>
+                    <th class="nosort" style="text-align:center">Cash</th>
+                    <th class="nosort" style="text-align:center">Cheque</th>
+                    <th class="nosort" style="text-align:center">Card</th>
+                    <th class="nosort" style="text-align:center">Online</th>
+                    <th class="nosort" style="text-align:center">Adjust Amt</th>
+                    <th class="nosort" style="text-align:center">Credit Memo Date</th>
+                    <th class="nosort" style="text-align:center">Credit Memo No</th>
+                    <th class="nosort" style="text-align:center">Credit Memo Amount</th>
+                    <th class="nosort" style="text-align:center">Delivery Date</th>
+                    <th class="nosort" style="text-align:center">Delivery Person1</th>
+                    <th class="nosort" style="text-align:center">Delivery Person2</th>
+                    <th class="nosort" style="text-align:center">Delivery Person3</th>
+                    <th class="nosort" style="text-align:center">Delivery Person4</th>
+                    <th class="nosort" style="text-align:center">Vehicle No</th>
+                    <th class="nosort" style="text-align:center">Tempo No</th>
+                    <th class="nosort" style="text-align:center">Delivery Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+
+                    <tr>
+                        <td id="row">
+                            @item.Customer
+                        </td>
+                        <td>
+                            @item.AreaName
+                        </td>
+                        <td>
+                            @item.InvoiceDate.ToString("dd/MM/yyyy")
+                        </td>
+                        <td>
+                            <a style="cursor:pointer;" class="btnedit" data-invoicenumber="@item.InvoiceNumber" data-orderid="@item.OrderID">@item.FullInvoiceNumber</a>
+                        </td>
+
+
+                        <td>
+                            @item.PaymentDatestr
+                        </td>
+                        <td>
+                            @item.Cash.ToString("0.00")
+                        </td>
+                        <td>
+                            @item.Cheque.ToString("0.00")
+                        </td>
+                        <td>
+                            @item.Card.ToString("0.00")
+                        </td>
+                        <td>
+                            @item.Online.ToString("0.00")
+                        </td>
+                        <td>
+                            @item.AdjustAmount.ToString("0.00")
+                        </td>
+                        <td>
+                            @item.CreditMemoDatestr
+                        </td>
+                        <td>
+                            <a style="cursor:pointer;" class="btnprintcreditmemo" data-creditmemonumber="@item.CreditMemoNumber">@item.CreditMemoNumber</a>
+                        </td>
+                        <td>
+                            @item.CreditMemoAmount.ToString("0.00")
+                        </td>
+
+
+                        <td>
+                            @item.DeliveryDatestr
+                        </td>
+                        <td>
+                            @item.DeliveryPerson1
+                        </td>
+                        <td>
+                            @item.DeliveryPerson2
+                        </td>
+                        <td>
+                            @item.DeliveryPerson3
+                        </td>
+                        <td>
+                            @item.DeliveryPerson4
+                        </td>
+                        <td>
+                            @item.VehicleNo
+                        </td>
+                        <td>
+                            @item.TempoNo
+                        </td>
+
+                        <td>
+                            @item.DeliveryStatus
+                        </td>
+
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <!-- /.box-body -->
+</div>
+
+
+<script>
+    $('.lstsales').on('click', '.btnedit', function () {
+        debugger;
+        var orderid = $(this).attr("data-orderid");
+        var invoicenumber = $(this).attr("data-invoicenumber");
+        $.ajax({
+            url: '@Url.Action("PrintInvoice", "Order")',
+            type: 'POST',
+            data: { 'InvoiceID': orderid, 'InvoiceNumber': invoicenumber },
+            cache: false,
+        }).done(function (result) {
+            if (result != '') {
+                window.open(result, "newPage");
+            }
+        });
+    });
+
+    $('.lstsales').on('click', '.btnprintcreditmemo', function () {
+        debugger;
+        var creditmemonumber = $(this).attr("data-creditmemonumber");
+        $.ajax({
+            url: '@Url.Action("PrintCreditMemo", "Order")',
+            type: 'POST',
+            data: { 'CreditMemoNumber': creditmemonumber },
+            cache: false,
+        }).done(function (result) {
+            if (result != '') {
+                window.open(result, "newPage");
+            }
+        });
+    });
+
+</script>

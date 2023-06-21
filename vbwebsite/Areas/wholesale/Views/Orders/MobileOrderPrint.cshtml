@@ -1,0 +1,307 @@
+﻿@model List<vb.Data.OrderListResponse>
+@{
+    ViewBag.Title = "MobileOrderPrint";
+    Layout = "~/Areas/wholesale/Views/Shared/_wholesalelayout.cshtml";
+}
+
+
+<div class="box">
+    <div class="box-header text-center">
+        <h3 class="box-title">Mobile Order Print</h3>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body">
+        <table id="ListDataTable" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <td colspan="8" align="right">
+                        <button type="button" id="btnprintinvoice" onclick="printinvoice()" class="btn btn-info">Print Mobile Order</button>
+
+                        <button type="button" id="btnprintgstinvoice" onclick="printGSTinvoice()" class="btn btn-info">SGST/CGST</button>
+                        <button type="button" id="btnprintigstinvoice" onclick="printIGSTinvoice()" class="btn btn-info">IGST</button>
+                        <button type="button" id="btnprintigsteinvoice" onclick="printIGSTEinvoice()" class="btn btn-info">IGST E-invoice</button>
+                    </td>
+                </tr>
+                <tr>
+                    <th class="nosort">Order NO</th>
+                    <th class="nosort">Order Date</th>
+                    <th class="nosort">Customer Name</th>
+                    <th class="nosort">Total Item</th>
+                    <th class="nosort">Total Bill</th>
+                    <th class="nosort">Area</th>
+                    <th class="nosort">Sales Person</th>
+
+                    <th class="nosort">Tax Name</th>
+
+                    <th class="nosort">Select</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td id="row">
+                            <input type="hidden" id="hdnOrderID" class="hdnOrderID" value="@item.OrderID" />
+                            @item.InvoiceNumber
+                        </td>
+                        <td>
+                            @item.CreatedOn.ToString("MM-dd-yyyy")
+                        </td>
+                        <td>
+                            @item.CustomerName
+                        </td>
+                        <td>
+                            @item.Quantity
+                        </td>
+                        <td>
+                            @item.FinalTotal
+                        </td>
+                        <td>
+                            @item.AreaName
+                        </td>
+                        <td>
+                            @item.UserName
+                        </td>
+
+                        @if (item.TaxNo != "")
+                        {
+                            <td>
+                                @item.TaxName
+                            </td>
+                        }
+                        else
+                        {
+                            <td></td>
+                        }
+
+                        <td>
+                            <input class="chkSelect" type="checkbox" checked="checked" />
+                        </td>
+                    </tr>
+                }
+            </tbody>
+
+        </table>
+    </div>
+
+    <!-- /.box-body -->
+</div>
+
+
+<script>
+
+    @*function printinvoice() {
+        debugger;
+        //$('#btnprintinvoice').attr('disabled', true);
+        var data = [];
+        $('#ListDataTable').children('tbody').children('tr:visible').each(function (index, row) {
+            debugger;
+            var ischk = $(row).find("input[type=checkbox]")[0];
+            if ($(ischk).is(':checked')) {
+                var datadel = new Object();
+                datadel.OrderID = $(row).find(".hdnOrderID").val();
+                data.push(datadel);
+            }
+        });
+        if (data.length > 0) {
+            $.ajax({
+                url: '@Url.Action("PrintMobileInvoice")',
+                type: 'POST',
+                data: { 'data': data },
+                cache: false,
+            }).done(function (result) {
+                if (result != '') {
+                    window.open(result, "newPage");
+                }
+            });
+        }
+        else {
+            $('#btnprintinvoice').attr('disabled', false);
+        }
+    }*@
+
+
+
+    function printinvoice() {
+        debugger;
+        //$('#btnprintinvoice').attr('disabled', true);
+        var data = [];
+        var orderids = "";
+        $('#ListDataTable').children('tbody').children('tr:visible').each(function (index, row) {
+            var ischk = $(row).find("input[type=checkbox]")[0];
+            if ($(ischk).is(':checked')) {
+
+                // 06 Jan,2022 Piyush Limbani
+                if (orderids == "") {
+                    orderids = $(row).closest("tr").find(".hdnOrderID").val();
+                }
+                else {
+                    orderids = orderids + "," + $(row).closest("tr").find(".hdnOrderID").val();
+                }
+                // 06 Jan,2022 Piyush Limbani
+
+                var datadel = new Object();
+                datadel.OrderID = $(row).find(".hdnOrderID").val();
+                datadel.TaxNo = $(row).find(".hdnTaxNo").val();
+                data.push(datadel);
+            }
+        });
+        if (data.length > 0) {
+            $.ajax({
+                url: '@Url.Action("PrintMobileInvoice")',
+                type: 'POST',
+                data: { 'data': data, 'orderids': orderids },
+                cache: false,
+            }).done(function (result) {
+                if (result != '') {
+                    window.open(result, "newPage");
+                }
+            });
+
+            loadhtml();
+
+        }
+        else {
+            $('#btnprintinvoice').attr('disabled', false);
+        }
+    }
+
+
+
+    function printGSTinvoice() {
+        debugger;
+        //$('#btnprintinvoice').attr('disabled', true);
+        var data = [];
+        var orderids = "";
+        $('#ListDataTable').children('tbody').children('tr:visible').each(function (index, row) {
+            var ischk = $(row).find("input[type=checkbox]")[0];
+            if ($(ischk).is(':checked')) {
+
+                // 06 Jan,2022 Piyush Limbani
+                if (orderids == "") {
+                    orderids = $(row).closest("tr").find(".hdnOrderID").val();
+                }
+                else {
+                    orderids = orderids + "," + $(row).closest("tr").find(".hdnOrderID").val();
+                }
+                // 06 Jan,2022 Piyush Limbani
+
+                var datadel = new Object();
+                datadel.OrderID = $(row).find(".hdnOrderID").val();
+                datadel.TaxNo = $(row).find(".hdnTaxNo").val();
+                data.push(datadel);
+            }
+        });
+        if (data.length > 0) {
+            $.ajax({
+                url: '@Url.Action("PrintMobileGSTInvoice")',
+                type: 'POST',
+                data: { 'data': data, 'orderids': orderids },
+                cache: false,
+            }).done(function (result) {
+                if (result != '') {
+                    window.open(result, "newPage");
+                }
+            });
+
+            loadhtml();
+        }
+        else {
+            $('#btnprintgstinvoice').attr('disabled', false);
+        }
+    }
+
+
+    function printIGSTinvoice() {
+        debugger;
+        //$('#btnprintinvoice').attr('disabled', true);
+        var data = [];
+        var orderids = "";
+        $('#ListDataTable').children('tbody').children('tr:visible').each(function (index, row) {
+
+            var ischk = $(row).find("input[type=checkbox]")[0];
+            if ($(ischk).is(':checked')) {
+
+                // 06 Jan,2022 Piyush Limbani
+                if (orderids == "") {
+                    orderids = $(row).closest("tr").find(".hdnOrderID").val();
+                }
+                else {
+                    orderids = orderids + "," + $(row).closest("tr").find(".hdnOrderID").val();
+                }
+                // 06 Jan,2022 Piyush Limbani
+
+                var datadel = new Object();
+                datadel.OrderID = $(row).find(".hdnOrderID").val();
+                datadel.TaxNo = $(row).find(".hdnTaxNo").val();
+                data.push(datadel);
+            }
+        });
+        if (data.length > 0) {
+            $.ajax({
+                url: '@Url.Action("PrintMobileIGSTInvoice")',
+                type: 'POST',
+                data: { 'data': data, 'orderids': orderids },
+                cache: false,
+            }).done(function (result) {
+                if (result != '') {
+                    window.open(result, "newPage");
+                }
+            });
+
+            loadhtml();
+        }
+        else {
+            $('#btnprintigstinvoice').attr('disabled', false);
+        }
+    }
+
+
+    function printIGSTEinvoice() {
+        debugger;
+        //$('#btnprintinvoice').attr('disabled', true);
+        var data = [];
+        var orderids = "";
+        $('#ListDataTable').children('tbody').children('tr:visible').each(function (index, row) {
+
+            var ischk = $(row).find("input[type=checkbox]")[0];
+            if ($(ischk).is(':checked')) {
+
+                // 06 Jan,2022 Piyush Limbani
+                if (orderids == "") {
+                    orderids = $(row).closest("tr").find(".hdnOrderID").val();
+                }
+                else {
+                    orderids = orderids + "," + $(row).closest("tr").find(".hdnOrderID").val();
+                }
+                // 06 Jan,2022 Piyush Limbani
+
+                var datadel = new Object();
+                datadel.OrderID = $(row).find(".hdnOrderID").val();
+                datadel.TaxNo = $(row).find(".hdnTaxNo").val();
+                data.push(datadel);
+            }
+        });
+        if (data.length > 0) {
+            $.ajax({
+                url: '@Url.Action("PrintMobileIGSTEInvoice")',
+                type: 'POST',
+                data: { 'data': data, 'orderids': orderids },
+                cache: false,
+            }).done(function (result) {
+                if (result != '') {
+                    window.open(result, "newPage");
+                }
+            });
+
+            loadhtml();
+        }
+        else {
+            $('#btnprintigsteinvoice').attr('disabled', false);
+        }
+    }
+
+    function loadhtml() {
+        location.reload();
+    }
+</script>

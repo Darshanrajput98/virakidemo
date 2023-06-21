@@ -1,0 +1,72 @@
+﻿@model List<vb.Data.LicenceListResponse>
+@using vb.Data.ViewModel
+
+<div class="box">
+    <div class="box-header text-center">
+        <h3 class="box-title">Expired Licence List</h3>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body table-scrollable1">
+        <table id="ListDataTable" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th class="nosort">Licence Type</th>
+                    <th class="nosort">Where From</th>
+                    <th class="nosort">Expired Date</th>
+                    <th class="nosort">Days Remaining</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    if (item.DaysRemaining > 0)
+                    {
+                        <tr>
+                            <td id="row">
+                                @item.LicenceType
+                            </td>
+                            <td>
+                                @item.WhereFrom
+                            </td>
+                            <td>
+                                @item.ToDate.ToString("dd/MM/yyyy")
+                            </td>
+                            <td>
+                                @item.DaysRemaining
+                            </td>
+                        </tr>
+                    }
+                    else
+                    {
+                        <tr style="color: red; font-weight: bold;">
+                            <td>
+                                @item.LicenceType
+                            </td>
+                            <td>
+                                @item.WhereFrom
+                            </td>
+                            <td>
+                                @item.ToDate.ToString("dd/MM/yyyy")
+                            </td>
+                            <td>
+                                @item.DaysRemaining
+                            </td>
+                        </tr>
+                    }
+                }
+
+            </tbody>
+        </table>
+    </div>
+    <!-- /.box-body -->
+</div>
+
+@*<script>
+    $("#ListDataTable").DataTable({
+        'aoColumnDefs': [{
+            'bSortable': false,
+            'aTargets': ['nosort'] /* 1st one, start by the right */
+
+        }]
+    });
+</script>*@

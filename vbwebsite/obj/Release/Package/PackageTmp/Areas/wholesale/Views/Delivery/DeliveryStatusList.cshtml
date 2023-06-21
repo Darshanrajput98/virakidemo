@@ -1,0 +1,1315 @@
+﻿@model vb.Data.DeliverAllocation
+
+<div class="box">
+    <div class="box-header text-center">
+        <h3 class="box-title">Delivery Sheet Results</h3>
+    </div>
+    <div class="box-body table-scrollable1">
+        <input type="hidden" id="hdnVehicleNo" value=@Model.VehicleNo />
+        <input type="hidden" id="hdnTempoNo" value=@Model.TempoNo />
+        <input type="hidden" id="hdnDeliveryPerson1" value=@Model.DeliveryPerson1 />
+        <input type="hidden" id="hdnDeliveryPerson2" value=@Model.DeliveryPerson2 />
+        <input type="hidden" id="hdnDeliveryPerson3" value=@Model.DeliveryPerson3 />
+        <input type="hidden" id="hdnDeliveryPerson4" value=@Model.DeliveryPerson4 />
+        <input type="hidden" id="hdnAreaID" value="@(Model.AreaID == null? "" : Model.AreaID.ToString())" />
+        <input type="hidden" id="hdnDeliveryAllocationID" value=@Model.DeliveryAllocationID />
+        <div class="modal-footer">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="Area" class="col-sm-2 control-label">Cash Option :</label>
+                    <div class="col-sm-3">
+                        @Html.DropDownList("GodownID", new SelectList(ViewBag.CashOption, "GodownID", "CashOption", 1), new { @class = "form-control" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <label>Grand Total : </label>
+                <label id="lblgrandtotal" style="padding-right:20px;"></label>
+                <button type="button" id="btnupdatedelivered" onclick="myFunction()" class="btn btn-info">Save</button>
+                <button type="button" id="btnprint" onclick="print()" class="btn btn-info">Print</button>
+            </div>
+        </div>
+        <table id="ListDataTable" class="table table-bordered table-striped lstprintinvoice">
+            <thead>
+                <tr>
+                    <th class="nosort">Invoice No</th>
+                    <th class="nosort">Customer</th>
+                    <th class="nosort">Area</th>
+                    <th class="nosort">Container</th>
+                    <th class="nosort">Inv Amount</th>
+                    <th class="nosort" colspan="3">Payment Mode</th>
+                    <th class="nosort">Sign</th>
+                    <th class="nosort" colspan="2">Card</th>
+                    <th class="nosort" colspan="2">Online</th>
+                    <th class="nosort" colspan="2">Packed By</th>
+                    <th class="nosort">Delivered?</th>
+                    <th class="nosort">Adjust Amt</th>
+                    <th class="nosort">Remarks</th>
+                    <th class="nosort">Select</th>
+                    <th class="nosort">Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.lstDelAllocation)
+                {
+                    <tr>
+                        <td id="row" @item.OrderID>
+                            <input type="hidden" id="hdnPaymentID" class="hdnPaymentID" value="@item.PaymentID" />
+                            <input type="hidden" id="hdnOrderID" class="hdnOrderID" value="@item.OrderID" />
+                            <input type="hidden" id="hdnInvoiceNumber" class="hdnInvoiceNumber" value="@item.InvoiceNumber" />
+                            @*@item.InvoiceNumber*@
+                            <a style="cursor:pointer;" class="btnprintinvoice" data-invnumber="@item.InvoiceNumber" data-orderid="@item.OrderID">@item.InvoiceNumber</a>
+                        </td>
+                        <td>
+                            <input type="hidden" id="hdnCustomerID" class="hdnCustomerID" value="@item.CustomerID" />
+                            @item.Customer
+                        </td>
+                        <td>
+                            @item.Area
+                        </td>
+
+                        <td>
+                            @item.Container
+                        </td>
+                        <td>
+                            @item.PaymentAmount
+                            <input type="hidden" id="hdnPaymentAmount" class="hdnPaymentAmount" value="@item.PaymentAmount" />
+                            <input type="hidden" id="hdnBankName" class="hdnBankName" value="@item.BankName" />
+                            <input type="hidden" id="hdnBankBranch" class="hdnBankBranch" value="@item.BankBranch" />
+                            <input type="hidden" id="hdnChequeNo" class="hdnChequeNo" value="@item.ChequeNo" />
+                            <input type="hidden" id="hdnAssignedDate" class="hdnAssignedDate" value="@item.AssignedDate" />
+                            <input type="hidden" id="hdnCreatedBy" class="hdnCreatedBy" value="@item.CreatedBy" />
+                            <input type="hidden" id="hdnCreatedOn" class="hdnCreatedOn" value="@item.CreatedOn" />
+                            <input class="chkPaymentAmount" type="checkbox" tabindex="1" @{ if (item.DisableRow == 1) {  @: disabled="disabled"
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         } } />
+                        </td>
+                        <td>
+                            <input type="text" class="form-control timepicker ByCash" name="ByCash" id="ByCash" placeholder="Cash Amount" tabindex="2" value="@item.ByCash" @{ if (item.DisableRow == 1) {  @: disabled="disabled"
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     } } />
+                        </td>
+                        <td>
+                            <span>Cheque</span>
+                            <input class="chkByCheque" type="checkbox" placeholder="Cheque" checked="@item.ByCheque" tabindex="3" data-bankname="@item.CustBankName" data-branch="@item.CustBranch" data-ifccode="@item.CustIFCCode" @{ if (item.DisableRow == 1) {  @: disabled="disabled"
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     } } />
+                        </td>
+                        <td>
+                            @if (item.ByCheque == true)
+                            {
+                                <input type="button" style="cursor:pointer;" class="btnpopup btn btn-info" value="View" @{ if (item.DisableRow == 1) {  @: disabled="disabled"
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          } } />
+                            }
+                            else
+                            {
+                                <input type="button" style="cursor:pointer;display:none;" class="btnpopup btn btn-info" value="View" />
+                            }
+                        </td>
+                        <td>
+                            <input class="chkBySign" type="checkbox" checked="@item.BySign" tabindex="4" @{ if (item.DisableRow == 1) {  @: disabled="disabled"
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  } } />
+                        </td>
+                        <td>
+                            <input class="chkByCard" type="checkbox" checked="@item.ByCard" tabindex="5" @{ if (item.DisableRow == 1) {  @: disabled="disabled"
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  } } />
+                        </td>
+                        <td>
+                            @if (item.ByCard == true)
+                            {
+                                <input type="button" style="cursor:pointer;" class="btnpopupcard btn btn-info" value="View" @{ if (item.DisableRow == 1) {  @: disabled="disabled"
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            } } />
+                            }
+                            else
+                            {
+                                <input type="button" style="cursor:pointer;display:none;" class="btnpopupcard btn btn-info" value="View" />
+                            }
+                        </td>
+                        <td>
+                            <input class="chkByOnline" type="checkbox" checked="@item.ByOnline" tabindex="5" @{ if (item.DisableRow == 1) {  @: disabled="disabled"
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  } } />
+                        </td>
+                        <td>
+                            @if (item.ByOnline == true)
+                            {
+                                <input type="button" style="cursor:pointer;" class="btnpopuponline btn btn-info" value="View" @{ if (item.DisableRow == 1) {  @: disabled="disabled"
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       } } />
+                            }
+                            else
+                            {
+                                <input type="button" style="cursor:pointer;display:none;" class="btnpopuponline btn btn-info" value="View" />
+                            }
+                        </td>
+                        @*Packed By*@
+                        <td>
+                            <input class="chkPackedBy" type="checkbox" checked="@item.PackedBy" data-packedbyid="@item.PackedByID" tabindex="5" @{ if (item.PackedBy == true) {  @: disabled="disabled"
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  } } />
+                        </td>
+                        <td>
+                            @if (item.PackedBy == true)
+                            {
+                                <input type="button" style="cursor: pointer; " class="btnpopuppackedby btn btn-info" value="View" data-packedbyid="@item.PackedByID" data-tray="@item.Tray" data-jabla="@item.Jabla" data-bag="@item.Bag" data-packbag="@item.PackBag" />
+                            }
+                            else
+                            {
+                                <input type="button" style="cursor: pointer; display: none; " class="btnpopuppackedby btn btn-info" value="View">
+                            }
+                        </td>
+                        @*Packed By*@
+                        <td>
+                            <input id="chkIsDelivered" type="checkbox" checked="@item.IsDelivered" tabindex="6" />
+                            <input type="hidden" id="hdnDeliveryID" class="hdnDeliveryID" value="@item.DeliveryID" />
+                        </td>
+                        <td>
+                            <input type="text" class="form-control timepicker" name="AdjustAmt" id="AdjustAmt" placeholder="Adjust Amt" tabindex="7" value="@item.AdjustAmount" @{ if (item.DisableRow == 1) {  @: disabled="disabled"
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  } } />
+                        </td>
+                        <td>
+                            <input type="text" class="form-control timepicker" name="Remarks" id="Remarks" placeholder="Remarks" tabindex="8" value="@item.Remark" @{ if (item.DisableRow == 1) {  @: disabled="disabled"
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  } } />
+                        </td>
+                        <td>
+                            @if (item.ByCash != 0)
+                            {
+                                <input id="chkSelect" type="checkbox" tabindex="9" checked @{ if (item.DisableRow == 1) {  @: disabled="disabled"
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               } } />
+                            }
+                            else
+                            {
+                                <input id="chkSelect" type="checkbox" tabindex="9" />
+                            }
+                        </td>
+                        <td>
+                            @if (item.DisableRow == 1)
+                            {
+                                <button type="button" id="btndelete" class="btn btn-info btndelete" disabled data-invoicenumber="@item.InvoiceNumber">Delete</button>
+                            }
+                            else
+                            {
+                                <button type="button" id="btndelete" class="btn btn-info btndelete" data-invoicenumber="@item.InvoiceNumber">Delete</button>
+                            }
+                        </td>
+                    </tr>
+                }
+                <tr class="form-group hide" id="AddMoreProduct">
+                    <td id="row"></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>
+                        <label class="lblamt"></label>
+                        <input class="chkPaymentAmount" disabled="disabled" type="checkbox" tabindex="1" />
+                    </td>
+                    <td>
+                        <input type="text" class="form-control timepicker ByCash" disabled="disabled" name="ByCash" id="ByCash2" placeholder="Cash Amount" tabindex="2">
+                    </td>
+                    <td>
+                        <span>Cheque</span>
+                        <input class="chkByCheque" type="checkbox" disabled="disabled" placeholder="Cheque" tabindex="3" />
+                    </td>
+                    <td></td>
+                    <td><input class="chkBySign" disabled="disabled" type="checkbox" tabindex="4" /></td>
+                    <td><input class="chkByCard" type="checkbox" disabled="disabled" tabindex="3" /></td>
+                    <td><input class="chkByOnline" type="checkbox" disabled="disabled" tabindex="3" /></td>
+                    <td><input id="chkIsDelivered2" disabled="disabled" type="checkbox" tabindex="5" /></td>
+                    <td>
+                        <input type="text" disabled="disabled" class="form-control timepicker" name="AdjustAmt" id="AdjustAmt" placeholder="Adjust Amt" tabindex="7">
+                    </td>
+                    <td><input type="text" disabled="disabled" class="form-control timepicker" name="Remarks" id="Remarks2" placeholder="Remarks" tabindex="6"></td>
+                    <td><input id="chkSelect2" type="checkbox" tabindex="5" /></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    @*By Check Popup*@
+    <div id="responsive" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" style="padding-bottom: 0px;">
+                    <button type="button" class="btnclosepopup1 close" data-dismiss="modal" aria-hidden="true"></button>
+                    <h4 class="modal-title">Cheque Details</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <input name="PaymentID" id="PaymentID" class="hdnPaymentID" type="hidden" value="" />
+                                <label for="Name" class="col-sm-4 control-label">Bank Name</label>
+                                <div class="col-sm-8">
+                                    <input type="hidden" id="hdnOrderIDForCheque" />
+                                    <input type="text" class="form-control" name="BankName" maxlength="100" id="BankName" placeholder="Bank Name" tabindex="1">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top:10px;">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="Branch" class="col-sm-4 control-label">Bank Branch</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" name="BankBranch" maxlength="100" id="BankBranch" placeholder="Bank Branch" tabindex="1">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top:10px;">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="ChequeNo" class="col-sm-4 control-label">Cheque No</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" name="ChequeNo" maxlength="100" id="ChequeNo" placeholder="Cheque No" tabindex="1">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top:10px;">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="ChequeDate" class="col-sm-4 control-label">Cheque Date</label>
+                                <div class="col-sm-8">
+                                    <div class="input-group date">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
+                                        <input type="text" class="form-control pull-right datepicker" id="ChequeDate" tabindex="3">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top:10px;">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="ChequeNo" class="col-sm-4 control-label">IFC Code</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" name="IFCCode" maxlength="100" id="IFCCode" placeholder="IFC Code" tabindex="1">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btnsavepopup btn btn-info">Save</button>
+                    <button type="button" class="btnclosepopup btn btn-info" data-dismiss="modal" aria-hidden="true">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @*Invoice Popup*@
+    <div id="responsive2" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" style="padding-bottom: 0px;">
+                    <button type="button" class="btnclosepopup2 close" data-dismiss="modal" aria-hidden="true"></button>
+                    <h4 class="modal-title">Invoice Details</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="frm" method="post" class="form-horizontal">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <input name="PaymentID" id="PaymentID" class="hdnPaymentID" type="hidden" value="" />
+                                    <label for="Name" class="col-sm-2 control-label">Customer</label>
+                                    <div class="col-sm-10">
+                                        @Html.DropDownList("CustomerID", new SelectList(ViewBag.Customer, "CustomerID", "CustomerName"), new { @class = "form-control select22 CustomerID", tabindex = "1" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="modal-footer">
+                        <button type="button" class="btnsearch btn btn-info">Search</button>
+                    </div>
+                    <div class="row" style="margin-top:10px;">
+                        <table class="table table-bordered table-bordered" id="tbl">
+                            <tbody>
+                                <tr id="row">
+                                    <th>Invoice Number</th>
+                                    <th>Select</th>
+                                </tr>
+                                @*<tr>
+                                        <td></td>
+                                        <td>
+                                            <input type="checkbox" class="checkbox chkselect" />
+                                        </td>
+                                    </tr>*@
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btnsavepopup2 btn btn-info">Save</button>
+                    <button type="button" class="btnclosepopup2 btn btn-info" data-dismiss="modal" aria-hidden="true">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @*By Card Popup*@
+    <div id="responsive3" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" style="padding-bottom: 0px;">
+                    <button type="button" class="btnclosepopup1 close" data-dismiss="modal" aria-hidden="true"></button>
+                    <h4 class="modal-title">Card Details</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <input name="PaymentID" id="PaymentID" class="hdnPaymentID" type="hidden" value="" />
+                                <label for="Name" class="col-sm-4 control-label">Bank Name</label>
+                                <div class="col-sm-8">
+                                    <input type="hidden" id="hdnOrderIDForCheque" />
+                                    <input type="text" class="form-control" name="BankNameForCard" maxlength="100" id="BankNameForCard" placeholder="Bank Name" tabindex="1">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top:10px;">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="TypeOfCard" class="col-sm-4 control-label">Type Of Card</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" name="TypeOfCard" maxlength="100" id="TypeOfCard" placeholder="Type Of Card" tabindex="1">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btnsavepopup3 btn btn-info">Save</button>
+                    <button type="button" class="btnclosepopup3 btn btn-info" data-dismiss="modal" aria-hidden="true">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @*By Online Popup*@
+    <div id="responsive4" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="btnclosepopup1 close" data-dismiss="modal" aria-hidden="true"></button>
+                    <h4 class="modal-title">Bank Details</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12" style="padding-bottom: 8px;">
+                            <div class="form-group">
+                                <input name="PaymentID" id="PaymentID" class="hdnPaymentID" type="hidden" value="" />
+                                <label for="Name" class="col-sm-4 control-label">Bank Name</label>
+                                <div class="col-sm-8">
+                                    <input type="hidden" id="hdnOrderIDForOnline" />
+                                    <input type="text" class="form-control" name="BankNameForOnline" maxlength="100" id="BankNameForOnline" placeholder="Bank Name" tabindex="1">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12" style="padding-bottom: 8px;">
+                            <div class="form-group">
+                                <label for="Branch" class="col-sm-4 control-label">UTR Number</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" name="UTRNumber" maxlength="100" id="UTRNumber" placeholder="UTR Number" tabindex="2">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12" style="padding-bottom: 8px;">
+                            <div class="form-group">
+                                <label for="OnlineDate" class="col-sm-4 control-label">Date</label>
+                                <div class="col-sm-8">
+                                    <div class="input-group date">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
+                                        <input type="text" class="form-control pull-right datepicker" id="OnlinePaymentDate" tabindex="3">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btnsavepopup4 btn btn-info">Save</button>
+                    <button type="button" class="btnclosepopup4 btn btn-info" data-dismiss="modal" aria-hidden="true">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @*Packed By Popup*@
+    <div id="responsive5" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" style="padding-bottom: 0px;">
+                    <button type="button" class="btnclosepopup5 close" data-dismiss="modal" aria-hidden="true"></button>
+                    <h4 class="modal-title">Packed Details</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <input name="InvoiceNo" id="hdnInvoiceNo" type="hidden" value="" />
+                                <input name="OrderIDPackedBy" id="hdnOrderIDPackedBy" type="hidden" value="" />
+                                <input name="PackedByID" id="hdnPackedByID" type="hidden" value="" />
+                                <label for="Tray" class="col-sm-4 control-label">Tray</label>
+                                <div class="col-sm-8">
+                                    <input type="hidden" id="hdnOrderIDForPacked" />
+                                    <input type="text" class="form-control" name="Tray" maxlength="100" id="Tray" placeholder="Tray" tabindex="1">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top:10px;">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="Bag" class="col-sm-4 control-label">Bag</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" name="Bag" maxlength="100" id="Bag" placeholder="Bag" tabindex="2">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top:10px;">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="Jabla" class="col-sm-4 control-label">Zabla</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" name="Jabla" maxlength="100" id="Jabla" placeholder="Zabla" tabindex="3">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top:10px;">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="ChequeNo" class="col-sm-4 control-label">Pack Bag</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" name="PackBag" maxlength="100" id="PackBag" placeholder="Pack Bag" tabindex="4">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top:10px;">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="ChequeNo" class="col-sm-4 control-label">Customer Name</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" name="CustomerName" maxlength="100" id="CustomerName" placeholder="Customer Name" disabled="disabled" tabindex="5">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-info" id="btnprintcustomername">Print Customer Name</button>
+                    <button type="button" class="btn btn-info" id="btnprintpackdetail">Print</button>
+                    <button type="button" class="btnsavepopuppackeddetail btn btn-info" id="btnsavepopuppackeddetail">Save</button>
+                    <button type="button" class="btnclosepopup5 btn btn-info" data-dismiss="modal" aria-hidden="true">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="deletepopup" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" style="padding-bottom: 0px;">
+                    <h4 class="modal-title">Confirmation</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row" style="margin-top:10px;">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <input name="InvoiceNumberfordelete" id="InvoiceNumberfordelete" class="hdnInvoiceNumberfordelete" type="hidden" value="" />
+                                <input name="IsDelete" id="IsDelete" class="hdnIsDelete" type="hidden" value="" />
+                                <label class="col-sm-12 control-label">  Are you sure want to delete this invoice????</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btnyesdeletepopup btn btn-info">Yes</button>
+                    <button type="button" class="btnnodeletepopup btn btn-info" data-dismiss="modal" aria-hidden="true">No</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    var databank = [];
+    var databank2 = [];
+    var databank3 = [];
+    var databank4 = [];
+    var databank5 = [];
+    $('.datepicker').datepicker({
+        autoclose: true
+    });
+
+    $(document).ready(function () {
+        debugger;
+        $(".btnsavepopuppackeddetail").click(function () {
+            debugger;
+            var bankdet = new Object();
+            bankdet.PackedByID = $("#hdnPackedByID").val();
+            bankdet.Tray = $("#Tray").val();
+            bankdet.Bag = $("#Bag").val();
+            bankdet.Jabla = $("#Jabla").val();
+            bankdet.PackBag = $("#PackBag").val();
+            bankdet.OrderID = $("#hdnOrderIDPackedBy").val();
+            bankdet.InvoiceNumber = $("#hdnInvoiceNo").val();
+            //Newline
+            databank5.push(bankdet);
+            //Newline
+            $.ajax({
+                url: '@Url.Action("SavePackedBy")',
+                type: 'POST',
+                data: { 'data': bankdet },
+                cache: false,
+            }).done(function (result) {
+                if (result == true) {
+                    clearcontents();
+                    $('#responsive5').removeClass("modal fade modal-overflow in");
+                    $('#responsive5').removeAttr('style');
+                    $('#responsive5').addClass("modal fade");
+                }
+                else {
+                    alert("semtiong when wrong");
+                }
+            });
+        });
+
+        $("#btnprintpackdetail").click(function () {
+            debugger;
+            var Tray = $("#Tray").val();
+            var Bag = $("#Bag").val();
+            var Jabla = $("#Jabla").val();
+            var PackBag = $("#PackBag").val();
+            $.ajax({
+                url: '@Url.Action("PrintPackDetail")',
+                type: 'POST',
+                data: { 'Tray': Tray, 'Bag': Bag, 'Jabla': Jabla, 'PackBag': PackBag },
+                cache: false,
+            }).done(function (result) {
+                if (result != '') {
+                    window.open(result, "newPage");
+                }
+            });
+            $('#responsive5').removeClass("modal fade modal-overflow in");
+            $('#responsive5').removeAttr('style');
+            $('#responsive5').addClass("modal fade");
+        });
+
+        //Print Customer Name
+        $("#btnprintcustomername").click(function () {
+            debugger;
+            var CustomerName = $("#CustomerName").val();
+            $.ajax({
+                url: '@Url.Action("PrintCustomerName")',
+                type: 'POST',
+                data: { 'CustomerName': CustomerName },
+                cache: false,
+            }).done(function (result) {
+                if (result != '') {
+                    window.open(result, "newPage");
+                }
+            });
+            $('#responsive5').removeClass("modal fade modal-overflow in");
+            $('#responsive5').removeAttr('style');
+            $('#responsive5').addClass("modal fade");
+        });
+
+        $(".btndelete").click(function () {
+            debugger;
+            var model = new Object
+            model.InvoiceNumber = $(this).attr("data-invoicenumber");
+            model.IsDelete = true;
+            $('#InvoiceNumberfordelete').attr('value', model.InvoiceNumber);
+            $('#IsDelete').attr('value', model.IsDelete);
+            $("#deletepopup").removeClass("modal fade").addClass("modal fade modal-overflow in");
+            $("#deletepopup").css("display", "block");
+        });
+
+        $(".btnyesdeletepopup").click(function () {
+            debugger;
+            var InvoiceNumber = $("#InvoiceNumberfordelete").val();
+            var IsDelete = $("#IsDelete").val();
+            $.ajax({
+                url: '@Url.Action("DeleteOrderQty", "Delivery")',
+                type: 'POST',
+                data: { 'InvoiceNumber': InvoiceNumber, 'IsDelete': IsDelete },
+                cache: false,
+            }).done(function (result) {
+                if (result == true) {
+                    $('div#sucessalert').html("Deleted successfully.");
+                    showhidealert();
+                }
+                loadhtml();
+            });
+            $('#deletepopup').removeClass("modal fade modal-overflow in");
+            $('#deletepopup').removeAttr('style');
+            $('#deletepopup').addClass("modal fade");
+        });
+
+        $(".btnnodeletepopup").click(function () {
+            debugger;
+            $('#deletepopup').removeClass("modal fade modal-overflow in");
+            $('#deletepopup').removeAttr('style');
+            $('#deletepopup').addClass("modal fade");
+        });
+
+        $(".btnsearch").click(function () {
+            debugger;
+            var model = new Object
+            model.CustomerID = $("#CustomerID").val();
+            $.ajax({
+                url: '@Url.Action("InvoiceList")',
+                type: 'POST',
+                data: { 'CustomerID': model.CustomerID },
+                cache: false,
+            }).done(function (result) {
+                var tr;
+                var table = document.getElementById("tbl");
+                $("#tbl").find("tr:gt(0)").remove();
+                for (var i = 0; i < result.length; i++) {
+                    debugger;
+                    // Create an empty <tr> element and add it to the 1st position of the table:
+                    var row = table.insertRow(i + 1);
+                    // Insert new cells (<td> elements) at the 1st and 2nd position of the "new" <tr> element:
+                    var cell1 = row.insertCell(0);
+                    var cell2 = row.insertCell(1);
+                    // Add some text to the new cells:
+                    cell1.innerHTML = (result)[i].InvoiceNumber;
+                    cell2.innerHTML = "<input type='checkbox' class='checkbox chkselect' /><input type='hidden' value='" + result[i].Customer + "' /><input type='hidden' value='" + result[i].Area + "' /><input type='hidden' value='" + result[i].Container + "' /><input type='hidden' value='" + result[i].PaymentAmount + "' /><input type='hidden' value='" + result[i].ByCash + "' /><input type='hidden' value='" + result[i].ByCheque + "' /><input type='hidden' value='" + result[i].BySign + "' /><input type='hidden' value='" + result[i].IsDelivered + "' /><input type='hidden' value='" + result[i].AdjustAmount + "' /><input type='hidden' value='" + result[i].Remark + "' />";
+                }
+            });
+        });
+
+        $(".btnsavepopup2").click(function () {
+            var bookIndex = 0;
+            debugger;
+            $('#tbl').children('tbody').children('tr:visible').each(function (index, row) {
+                var ischk = $(row).find("input[type=checkbox]")[0];
+                if ($(ischk).is(':checked')) {
+                    debugger;
+                    bookIndex++;
+                    var $template = $("#AddMoreProduct"),
+                        $clone = $template
+                                        .clone()
+                                        .removeClass('hide')
+                                        .removeAttr('id')
+                                        .attr('data-book-index', bookIndex)
+                                        .insertBefore($template);
+                    // Update the name attributes
+                    $clone.find("td")[0].innerText = $(row).find("td")[0].innerText;
+                    $clone.find("td")[1].innerText = $(row).find("input[type=hidden]")[0].value;
+                    $clone.find("td")[2].innerText = $(row).find("input[type=hidden]")[1].value;
+                    $clone.find("td")[3].innerText = $(row).find("input[type=hidden]")[2].value;
+                    $clone.find(".lblamt").text($(row).find("input[type=hidden]")[3].value);
+                    $clone.find("input[type=text]")[0].value = $(row).find("input[type=hidden]")[4].value;
+                    $clone.find("input[type=checkbox]")[1].checked = $(row).find("input[type=hidden]")[5].value;
+                    $clone.find("input[type=checkbox]")[2].checked = $(row).find("input[type=hidden]")[6].value;
+                    $clone.find("input[type=checkbox]")[4].checked = $(row).find("input[type=hidden]")[7].value;
+                    $clone.find("input[type=text]")[1].value = $(row).find("input[type=hidden]")[8].value;
+                    $clone.find("input[type=text]")[2].value = $(row).find("input[type=hidden]")[9].value;
+                }
+            });
+            clearcontents2();
+            $('#responsive2').removeClass("modal fade modal-overflow in");
+            $('#responsive2').removeAttr('style');
+            $('#responsive2').addClass("modal fade");
+        });
+
+        $(".btnsavepopup").click(function () {
+            debugger;
+            var bankdet = new Object();
+            bankdet.BankName = $("#BankName").val();
+            bankdet.BankBranch = $("#BankBranch").val();
+            bankdet.ChequeNo = $("#ChequeNo").val();
+            bankdet.ChequeDate = $("#ChequeDate").val();
+            bankdet.IFCCode = $("#IFCCode").val();
+            bankdet.OrderID = $("#hdnOrderIDForCheque").val();
+            databank.push(bankdet);
+            clearcontents();
+            $('#responsive').removeClass("modal fade modal-overflow in");
+            $('#responsive').removeAttr('style');
+            $('#responsive').addClass("modal fade");
+        });
+
+        $(".btnclosepopup").click(function () {
+            debugger;
+            $('#responsive').removeClass("modal fade modal-overflow in");
+            $('#responsive').removeAttr('style');
+            $('#responsive').addClass("modal fade");
+        });
+
+        $(".btnclosepopup2").click(function () {
+            debugger;
+            $('#responsive2').removeClass("modal fade modal-overflow in");
+            $('#responsive2').removeAttr('style');
+            $('#responsive2').addClass("modal fade");
+        });
+
+        $('.chkPaymentAmount').change(function (e) {
+            debugger;
+            if (this.checked) {
+                e.preventDefault();
+                var payment = $($(this).closest('tr').find(".hdnPaymentAmount")).val()
+                $(this).closest('tr').find('#ByCash').val(payment);
+                //$(this).closest('tr').find('#chkIsDelivered').prop('checked', false);
+                $(this).closest('tr').find('#chkIsDelivered').prop('checked', true);
+                $(this).closest('tr').find('#chkSelect').prop('checked', true);
+                $(this).closest('tr').find('.chkBySign').prop('checked', false);
+                $(this).closest('tr').find('.chkByCard').prop('checked', false);
+                $(this).closest('tr').find('.chkByCheque').prop('checked', false);
+                $(this).closest('tr').find('.chkByOnline').prop('checked', false);
+                $($(this).closest('tr').find("input[type=button]")[0]).hide();
+                $($(this).closest('tr').find("input[type=button]")[1]).hide();
+                $($(this).closest('tr').find("input[type=button]")[2]).hide();
+            }
+            else {
+                $(this).closest('tr').find('#ByCash').val("");
+                $(this).closest('tr').find('#chkIsDelivered').prop('checked', false);
+                $(this).closest('tr').find('#chkSelect').prop('checked', false);
+            }
+            var sum = 0;
+            $('#ListDataTable').children('tbody').children('tr:visible').each(function (index, row) {
+                if ($(row).find('.chkPaymentAmount').is(':disabled') == false) {
+                    var ischk = $(row).find("input[type=checkbox]")[0];
+                    var ischk2 = $(row).find("input[type=checkbox]")[1];
+                    var ischk3 = $(row).find("input[type=checkbox]")[2];
+                    var ischk4 = $(row).find("input[type=checkbox]")[3];
+                    var ischk5 = $(row).find("input[type=checkbox]")[4];
+                    if ($(ischk).is(':checked') || $(ischk2).is(':checked') || $(ischk3).is(':checked') || $(ischk4).is(':checked') || $(ischk5).is(':checked')) {
+                        sum = +sum + +($(row).find("td")[4].innerText);
+                    }
+                }
+            });
+            $("#lblgrandtotal").text(sum);
+        });
+
+        $(".chkByCheque").change(function () {
+            debugger;
+            clearcontents();
+            if (this.checked) {
+                var BankName = $(this).attr('data-bankname');
+                var Branch = $(this).attr('data-branch');
+                var Ifccode = $(this).attr('data-ifccode');
+                $("#BankName").val(BankName);
+                $("#BankBranch").val(Branch);
+                $("#IFCCode").val(Ifccode);
+                $("#responsive").removeClass("modal fade").addClass("modal fade modal-overflow in");
+                $("#responsive").css("display", "block");
+                $($(this).closest('tr').find("input[type=hidden]")[1]).val();
+                $("#hdnOrderIDForCheque").val($(this).closest('tr').find(".hdnInvoiceNumber").val());
+                $($(this).closest('tr').find("input[type=button]")[0]).show();
+                $($(this).closest('tr').find("input[type=button]")[1]).hide();
+                $($(this).closest('tr').find("input[type=button]")[2]).hide();
+            }
+            else {
+                $($(this).closest('tr').find("input[type=button]")[0]).hide();
+            }
+            if (this.checked) {
+                var payment = $($(this).closest('tr').find(".hdnPaymentAmount")).val()
+                $(this).closest('tr').find('#ByCash').val(payment);
+                //$(this).closest('tr').find('#chkIsDelivered').prop('checked', false);
+                $(this).closest('tr').find('#chkIsDelivered').prop('checked', true);
+                $(this).closest('tr').find('#chkSelect').prop('checked', true);
+                $(this).closest('tr').find('.chkPaymentAmount').prop('checked', false);
+                $(this).closest('tr').find('.chkByCard').prop('checked', false);
+                $(this).closest('tr').find('.chkBySign').prop('checked', false);
+                $(this).closest('tr').find('.chkByOnline').prop('checked', false);
+            }
+            else {
+                $(this).closest('tr').find('#ByCash').val("");
+                $(this).closest('tr').find('#chkIsDelivered').prop('checked', false);
+                $(this).closest('tr').find('#chkSelect').prop('checked', false);
+                $($(this).closest('tr').find("input[type=button]")[0]).hide();
+            }
+            var sum = 0;
+            $('#ListDataTable').children('tbody').children('tr:visible').each(function (index, row) {
+                if ($(row).find('.chkPaymentAmount').is(':disabled') == false) {
+                    var ischk = $(row).find("input[type=checkbox]")[0];
+                    var ischk2 = $(row).find("input[type=checkbox]")[1];
+                    var ischk3 = $(row).find("input[type=checkbox]")[2];
+                    var ischk4 = $(row).find("input[type=checkbox]")[3];
+                    var ischk5 = $(row).find("input[type=checkbox]")[4];
+                    if ($(ischk).is(':checked') || $(ischk2).is(':checked') || $(ischk3).is(':checked') || $(ischk4).is(':checked') || $(ischk5).is(':checked')) {
+                        sum = +sum + +($(row).find("td")[4].innerText);
+                    }
+                }
+            });
+            $("#lblgrandtotal").text(sum);
+        });
+
+        $('.chkByCard').change(function (e) {
+            debugger;
+            clearcontents3();
+            if (this.checked) {
+                $("#responsive3").removeClass("modal fade").addClass("modal fade modal-overflow in");
+                $("#responsive3").css("display", "block");
+                $($(this).closest('tr').find("input[type=hidden]")[1]).val();
+                $("#hdnOrderIDForCheque").val($(this).closest('tr').find(".hdnInvoiceNumber").val());
+                $($(this).closest('tr').find("input[type=button]")[1]).show();
+            }
+            else {
+                $($(this).closest('tr').find("input[type=button]")[1]).hide();
+            }
+            // debugger;
+            if (this.checked) {
+                e.preventDefault();
+                var payment = $($(this).closest('tr').find(".hdnPaymentAmount")).val()
+                $(this).closest('tr').find('#ByCash').val(payment);
+                //$(this).closest('tr').find('#chkIsDelivered').prop('checked', false);
+                $(this).closest('tr').find('#chkIsDelivered').prop('checked', true);
+                $(this).closest('tr').find('#chkSelect').prop('checked', true);
+                $(this).closest('tr').find('.chkPaymentAmount').prop('checked', false);
+                $(this).closest('tr').find('.chkBySign').prop('checked', false);
+                $(this).closest('tr').find('.chkByCheque').prop('checked', false);
+                $(this).closest('tr').find('.chkByOnline').prop('checked', false);
+                $($(this).closest('tr').find("input[type=button]")[0]).hide();
+                $($(this).closest('tr').find("input[type=button]")[2]).hide();
+            }
+            else {
+                $(this).closest('tr').find('#ByCash').val("");
+                $(this).closest('tr').find('#chkIsDelivered').prop('checked', false);
+                $(this).closest('tr').find('#chkSelect').prop('checked', false);
+            }
+            var sum = 0;
+            $('#ListDataTable').children('tbody').children('tr:visible').each(function (index, row) {
+                debugger;
+                if ($(row).find('.chkPaymentAmount').is(':disabled') == false) {
+                    var ischk = $(row).find("input[type=checkbox]")[0];
+                    var ischk2 = $(row).find("input[type=checkbox]")[1];
+                    var ischk3 = $(row).find("input[type=checkbox]")[2];
+                    var ischk4 = $(row).find("input[type=checkbox]")[3];
+                    var ischk5 = $(row).find("input[type=checkbox]")[4];
+                    if ($(ischk).is(':checked') || $(ischk2).is(':checked') || $(ischk3).is(':checked') || $(ischk4).is(':checked') || $(ischk5).is(':checked')) {
+                        sum = +sum + +($(row).find("td")[4].innerText);
+                    }
+                }
+            });
+            $("#lblgrandtotal").text(sum);
+        });
+
+        $(".btnclosepopup3").click(function () {
+            debugger;
+            $('#responsive3').removeClass("modal fade modal-overflow in");
+            $('#responsive3').removeAttr('style');
+            $('#responsive3').addClass("modal fade");
+        });
+
+        $(".btnpopupcard").click(function (e) {
+            debugger;
+            e.preventDefault();
+            var OrderID = $(this).closest('tr').find("td")[0].innerText;
+            for (var i = 0; i < databank3.length; i++) {
+                if (databank3[i]["OrderID"] == OrderID) {
+                    $("#BankNameForCard").val(databank3[i]["BankNameForCard"]);
+                    $("#TypeOfCard").val(databank3[i]["TypeOfCard"]);
+                }
+            }
+            $("#responsive3").removeClass("modal fade").addClass("modal fade modal-overflow in");
+            $("#responsive3").css("display", "block");
+        });
+
+        $(".btnsavepopup3").click(function () {
+            debugger;
+            var bankcard = new Object();
+            bankcard.BankNameForCard = $("#BankNameForCard").val();
+            bankcard.TypeOfCard = $("#TypeOfCard").val();
+            bankcard.OrderID = $("#hdnOrderIDForCheque").val();
+            databank3.push(bankcard);
+            clearcontents3();
+            $('#responsive3').removeClass("modal fade modal-overflow in");
+            $('#responsive3').removeAttr('style');
+            $('#responsive3').addClass("modal fade");
+        });
+
+        function clearcontents3() {
+            $("#hdnOrderIDForCheque").val("");
+            $("#BankNameForCard").val("");
+            $("#TypeOfCard").val("");
+        }
+
+        //Online
+        $('.chkByOnline').change(function (e) {
+            debugger;
+            clearcontents4();
+            if (this.checked) {
+                $("#responsive4").removeClass("modal fade").addClass("modal fade modal-overflow in");
+                $("#responsive4").css("display", "block");
+                $($(this).closest('tr').find("input[type=hidden]")[1]).val();
+                $("#hdnOrderIDForOnline").val($(this).closest('tr').find(".hdnInvoiceNumber").val());
+                $($(this).closest('tr').find("input[type=button]")[2]).show();
+            }
+            else {
+                $($(this).closest('tr').find("input[type=button]")[2]).hide();
+            }
+            // debugger;
+            if (this.checked) {
+                e.preventDefault();
+                var payment = $($(this).closest('tr').find(".hdnPaymentAmount")).val()
+                $(this).closest('tr').find('#ByCash').val(payment);
+                //$(this).closest('tr').find('#chkIsDelivered').prop('checked', false);
+                $(this).closest('tr').find('#chkIsDelivered').prop('checked', true);
+                $(this).closest('tr').find('#chkSelect').prop('checked', true);
+                $(this).closest('tr').find('.chkPaymentAmount').prop('checked', false);
+                $(this).closest('tr').find('.chkBySign').prop('checked', false);
+                $(this).closest('tr').find('.chkByCheque').prop('checked', false);
+                $(this).closest('tr').find('.chkByCard').prop('checked', false);
+                $($(this).closest('tr').find("input[type=button]")[0]).hide();
+                $($(this).closest('tr').find("input[type=button]")[1]).hide();
+            }
+            else {
+                $(this).closest('tr').find('#ByCash').val("");
+                $(this).closest('tr').find('#chkIsDelivered').prop('checked', false);
+                $(this).closest('tr').find('.chkByCard').prop('checked', false);
+                $(this).closest('tr').find('#chkSelect').prop('checked', false);
+            }
+            var sum = 0;
+            $('#ListDataTable').children('tbody').children('tr:visible').each(function (index, row) {
+                if ($(row).find('.chkPaymentAmount').is(':disabled') == false) {
+                    var ischk = $(row).find("input[type=checkbox]")[0];
+                    var ischk2 = $(row).find("input[type=checkbox]")[1];
+                    var ischk3 = $(row).find("input[type=checkbox]")[2];
+                    var ischk4 = $(row).find("input[type=checkbox]")[3];
+                    var ischk5 = $(row).find("input[type=checkbox]")[4];
+                    if ($(ischk).is(':checked') || $(ischk2).is(':checked') || $(ischk3).is(':checked') || $(ischk4).is(':checked') || $(ischk5).is(':checked')) {
+                        sum = +sum + +($(row).find("td")[4].innerText);
+                    }
+                }
+            });
+            $("#lblgrandtotal").text(sum);
+        });
+
+        $(".btnclosepopup4").click(function () {
+            debugger;
+            $('#responsive4').removeClass("modal fade modal-overflow in");
+            $('#responsive4').removeAttr('style');
+            $('#responsive4').addClass("modal fade");
+        });
+
+        $(".btnpopuponline").click(function (e) {
+            debugger;
+            e.preventDefault();
+            var OrderID = ($(this).closest('tr').find(".hdnInvoiceNumber").val());
+            for (var i = 0; i < databank4.length; i++) {
+                if (databank4[i]["OrderID"] == OrderID) {
+                    $("#BankNameForOnline").val(databank4[i]["BankNameForOnline"]);
+                    $("#UTRNumber").val(databank4[i]["UTRNumber"]);
+                    $("#OnlinePaymentDate").val(databank4[i]["OnlinePaymentDate"]);
+                }
+            }
+            $("#responsive4").removeClass("modal fade").addClass("modal fade modal-overflow in");
+            $("#responsive4").css("display", "block");
+        });
+
+        $(".btnsavepopup4").click(function () {
+            debugger;
+            var bankonline = new Object();
+            bankonline.BankNameForOnline = $("#BankNameForOnline").val();
+            bankonline.UTRNumber = $("#UTRNumber").val();
+            bankonline.OnlinePaymentDate = $("#OnlinePaymentDate").val();
+            bankonline.OrderID = $("#hdnOrderIDForOnline").val();
+            databank4.push(bankonline);
+            clearcontents4();
+            $('#responsive4').removeClass("modal fade modal-overflow in");
+            $('#responsive4').removeAttr('style');
+            $('#responsive4').addClass("modal fade");
+        });
+
+        function clearcontents4() {
+            $("#hdnOrderIDForOnline").val("");
+            $("#BankNameForOnline").val("");
+            $("#UTRNumber").val("");
+            $("#OnlinePaymentDate").val("");
+        }
+
+        $('.chkBySign').change(function (e) {
+            debugger;
+            if (this.checked) {
+                e.preventDefault();
+                var payment = 0;
+                $(this).closest('tr').find('#ByCash').val(payment);
+                //$(this).closest('tr').find('#chkIsDelivered').prop('checked', false);
+                $(this).closest('tr').find('#chkIsDelivered').prop('checked', true);
+                $(this).closest('tr').find('#chkSelect').prop('checked', true);
+                $(this).closest('tr').find('.chkPaymentAmount').prop('checked', false);
+                $(this).closest('tr').find('.chkByCard').prop('checked', false);
+                $(this).closest('tr').find('.chkByCheque').prop('checked', false);
+                $(this).closest('tr').find('.chkByOnline').prop('checked', false);
+                $($(this).closest('tr').find("input[type=button]")[0]).hide();
+                $($(this).closest('tr').find("input[type=button]")[1]).hide();
+                $($(this).closest('tr').find("input[type=button]")[2]).hide();
+            }
+            else {
+                $(this).closest('tr').find('#ByCash').val("");
+                $(this).closest('tr').find('#chkIsDelivered').prop('checked', false);
+                $(this).closest('tr').find('#chkSelect').prop('checked', false);
+            }
+            var sum = 0;
+            $('#ListDataTable').children('tbody').children('tr:visible').each(function (index, row) {
+                if ($(row).find('.chkPaymentAmount').is(':disabled') == false) {
+                    var ischk = $(row).find("input[type=checkbox]")[0];
+                    var ischk2 = $(row).find("input[type=checkbox]")[1];
+                    var ischk3 = $(row).find("input[type=checkbox]")[2];
+                    var ischk4 = $(row).find("input[type=checkbox]")[3];
+                    var ischk5 = $(row).find("input[type=checkbox]")[4];
+                    if ($(ischk).is(':checked') || $(ischk2).is(':checked') || $(ischk3).is(':checked') || $(ischk4).is(':checked') || $(ischk5).is(':checked')) {
+                        sum = +sum + +($(row).find("td")[4].innerText);
+                    }
+                }
+            });
+            $("#lblgrandtotal").text(sum);
+        });
+
+        $(".btnpopup").click(function (e) {
+            debugger;
+            e.preventDefault();
+            var OrderID = ($(this).closest('tr').find(".hdnInvoiceNumber").val());
+            for (var i = 0; i < databank.length; i++) {
+                if (databank[i]["OrderID"] == OrderID) {
+                    $("#BankName").val(databank[i]["BankName"]);
+                    $("#BankBranch").val(databank[i]["BankBranch"]);
+                    $("#ChequeNo").val(databank[i]["ChequeNo"]);
+                    $("#hdnOrderIDForCheque").val(databank[i]["OrderID"]);
+                    $("#ChequeDate").val(databank[i]["ChequeDate"]);
+                    $("#IFCCode").val(databank[i]["IFCCode"]);
+                }
+            }
+            $("#responsive").removeClass("modal fade").addClass("modal fade modal-overflow in");
+            $("#responsive").css("display", "block");
+        });
+
+        // Packed By
+        $('.chkPackedBy').change(function (e) {
+            debugger;
+            clearcontents4();
+            if (this.checked) {
+                $("#responsive5").removeClass("modal fade").addClass("modal fade modal-overflow in");
+                $("#responsive5").css("display", "block");
+                $($(this).closest('tr').find("input[type=hidden]")[1]).val();
+                $("#hdnInvoiceNo").val($(this).closest('tr').find(".hdnInvoiceNumber").val());
+                $("#hdnOrderIDPackedBy").val($($(this).closest('tr').find("input[type=hidden]")[1]).val());
+                $("#hdnPackedByID").val($(this).attr('data-packedbyid'));
+                $("#CustomerName").val($(this).closest('tr').find("td")[1].innerText + ' , ' + $(this).closest('tr').find("td")[2].innerText);
+                $("#Tray").val($(this).attr('data-tray'));
+                $("#Bag").val($(this).attr('data-bag'));
+                $("#Jabla").val($(this).attr('data-jabla'));
+                $("#PackBag").val($(this).attr('data-packbag'));
+                $($(this).closest('tr').find("input[type=button]")[3]).show();
+            }
+            else {
+                $($(this).closest('tr').find("input[type=button]")[3]).hide();
+            }
+        });
+
+        $(".btnclosepopup5").click(function () {
+            debugger;
+            $('#responsive5').removeClass("modal fade modal-overflow in");
+            $('#responsive5').removeAttr('style');
+            $('#responsive5').addClass("modal fade");
+        });
+
+        $(".btnpopuppackedby").click(function (e) {
+            debugger;
+            e.preventDefault();
+            $("#hdnInvoiceNo").val($(this).closest('tr').find("td")[0].innerText);
+            $("#hdnOrderIDPackedBy").val($($(this).closest('tr').find("input[type=hidden]")[1]).val());
+            $("#hdnPackedByID").val($(this).attr('data-packedbyid'));
+            $("#Tray").val($(this).attr('data-tray'));
+            $("#Bag").val($(this).attr('data-bag'));
+            $("#Jabla").val($(this).attr('data-jabla'));
+            $("#PackBag").val($(this).attr('data-packbag'));
+            $("#CustomerName").val($(this).closest('tr').find("td")[1].innerText + ' , ' + $(this).closest('tr').find("td")[2].innerText);
+            //NewCode
+            var OrderID = $(this).closest('tr').find("td")[0].innerText;
+            for (var i = 0; i < databank5.length; i++) {
+                if (databank5[i]["InvoiceNumber"] == OrderID) {
+                    $("#Tray").val(databank5[i]["Tray"]);
+                    $("#Bag").val(databank5[i]["Bag"]);
+                    $("#Jabla").val(databank5[i]["Jabla"]);
+                    $("#PackBag").val(databank5[i]["PackBag"]);
+                }
+            }
+            //NewCode
+            $("#responsive5").removeClass("modal fade").addClass("modal fade modal-overflow in");
+            $("#responsive5").css("display", "block");
+        });
+    });
+
+    function clearcontents() {
+        $("#hdnOrderIDForCheque").val("");
+        $("#BankName").val("");
+        $("#BankBranch").val("");
+        $("#ChequeNo").val("");
+        $("#ChequeDate").val("");
+        $("#IFCCode").val("");
+    }
+
+    function clearcontents2() {
+        $("#CustomerID").val("").trigger("change");
+        $("#tbl").find("tr:gt(0)").remove();
+    }
+
+    function AddPendingInvoice() {
+        debugger;
+        $("#responsive2").removeClass("modal fade").addClass("modal fade modal-overflow in");
+        $("#responsive2").css("display", "block");
+    }
+
+    function myFunction() {
+        $('#btnupdatedelivered').attr('disabled', true);
+        var data = [];
+        $('#ListDataTable').children('tbody').children('tr:visible').each(function (index, row) {
+            debugger;
+            var ischk = $(row).find("input[type=checkbox]")[7];
+            if ($(ischk).is(':checked')) {
+                var datadel = new Object();
+                datadel.ByCash = $(row).find("input[type=text]")[0].value;
+                datadel.OrderID = $(row).find(".hdnOrderID").val();
+                datadel.InvoiceNumber = $(row).find(".hdnInvoiceNumber").val();
+                datadel.PaymentID = $(row).find(".hdnPaymentID").val();
+                datadel.ByCheque = $($(row).find("input[type=checkbox]")[1]).is(':checked');
+                if (datadel.ByCheque == true) {
+                    for (var i = 0, len = databank.length; i < len; i++) {
+                        if (databank[i]["OrderID"] === datadel.InvoiceNumber) {
+                            datadel.BankName = databank[i]["BankName"];
+                            datadel.BankBranch = databank[i]["BankBranch"];
+                            datadel.ChequeNo = databank[i]["ChequeNo"];
+                            datadel.ChequeDate = databank[i]["ChequeDate"];
+                            datadel.IFCCode = databank[i]["IFCCode"];
+                        }
+                    }
+                }
+                datadel.BySign = $($(row).find("input[type=checkbox]")[2]).is(':checked');
+                datadel.ByCard = $($(row).find("input[type=checkbox]")[3]).is(':checked');
+                if (datadel.ByCard == true) {
+                    for (var i = 0, len = databank3.length; i < len; i++) {
+                        if (databank3[i]["OrderID"] === datadel.InvoiceNumber) {
+                            datadel.BankNameForCard = databank3[i]["BankNameForCard"];
+                            datadel.TypeOfCard = databank3[i]["TypeOfCard"];
+                        }
+                    }
+                }
+                datadel.ByOnline = $($(row).find("input[type=checkbox]")[4]).is(':checked');
+                if (datadel.ByOnline == true) {
+                    for (var i = 0, len = databank4.length; i < len; i++) {
+                        if (databank4[i]["OrderID"] === datadel.InvoiceNumber) {
+                            datadel.BankNameForOnline = databank4[i]["BankNameForOnline"];
+                            datadel.UTRNumber = databank4[i]["UTRNumber"];
+                            datadel.OnlinePaymentDate = databank4[i]["OnlinePaymentDate"];
+                        }
+                    }
+                }
+                datadel.IsDelivered = $($(row).find("input[type=checkbox]")[6]).is(':checked');
+                datadel.chkInvAmt = $($(row).find("input[type=checkbox]")[0]).is(':checked');
+                datadel.AdjustAmount = $(row).find("input[type=text]")[1].value;
+                datadel.Remark = $(row).find("input[type=text]")[2].value;
+                datadel.CustomerID = $(row).find(".hdnCustomerID").val();
+                datadel.PaymentAmount = $(row).find(".hdnPaymentAmount").val();
+                if (datadel.PaymentID != "0") {
+                    datadel.AssignedDate = $(row).find(".hdnAssignedDate").val();
+                    datadel.CreatedBy = $(row).find(".hdnCreatedBy").val();
+                    datadel.CreatedOn = $(row).find(".hdnCreatedOn").val();
+                }
+                datadel.DeliveryID = $(row).find(".hdnDeliveryID").val();
+                datadel.VehicleNo = 0;
+                datadel.DeliveryType = 0;
+                datadel.GodownID = $("#GodownID").val();
+                data.push(datadel);
+            }
+        });
+        $.ajax({
+            url: '@Url.Action("UpdatePayment")',
+            type: 'POST',
+            data: { 'data': data },
+            cache: false,
+        }).done(function (result) {
+            if (result == true) {
+                if ($("#PaymentID").val() == "") {
+                    $('div#sucessalert').html("Payment added successfully.");
+                }
+                else {
+                    $('div#sucessalert').html("Payment updated successfully.");
+                }
+                showhidealert();
+                loadhtml();
+            }
+            $('#btnupdatedelivered').attr('disabled', false);
+        });
+    }
+
+    function loadhtml() {
+        var model = new Object();
+        model.CreatedOn = $("#PackageDate").val();
+        $.ajax({
+            url: '@Url.Action("DeliveryStatusList")',
+            type: 'POST',
+            data: { 'model': model },
+            cache: false,
+        }).done(function (result) {
+            $('#lstcase').html(result);
+        });
+    }
+
+    function print() {
+        var data = [];
+        var count = 0;
+        $('#ListDataTable').children('tbody').children('tr:visible').each(function (index, row) {
+            debugger;
+            var ischk = $(row).find("input[type=checkbox]")[7];
+            if ($(ischk).is(':checked')) {
+                var obj = new Object();
+                obj.InvoiceNumber = $(row).find("td")[0].innerText;
+                obj.Customer = $(row).find("td")[1].innerText;
+                obj.Area = $(row).find("td")[2].innerText;
+                obj.Container = $(row).find("td")[3].innerText;
+                obj.PaymentAmount = $(row).find("td")[4].innerText;
+                data.push(obj);
+                count = 1;
+            }
+        });
+        var objdata = new Object();
+        objdata.VehicleNo = $("#VehicleNo option:selected").text();
+        objdata.TempoNo = $("#TempoNumber").val();
+        objdata.DeliveryPerson1 = $("#DeliveryPerson1 option:selected").text();
+        objdata.DeliveryPerson2 = $("#DeliveryPerson2 option:selected").text();
+        objdata.DeliveryPerson3 = $("#DeliveryPerson3 option:selected").text();
+        objdata.DeliveryPerson4 = $("#DeliveryPerson4 option:selected").text();
+        objdata.AreaID = $("#AreaID").val();
+        objdata.lstDelAllocation = data;
+        $.ajax({
+            url: '@Url.Action("PrintTempoSheet")',
+            type: 'POST',
+            data: { 'data': objdata },
+            cache: false,
+        }).done(function (result) {
+            if (result != '') {
+                window.open(result, "newPage");
+            }
+        });
+        if (count == 0) {
+            alert("Select at least one result to print delivery sheet");
+        }
+    }
+
+    $('.lstprintinvoice').on('click', '.btnprintinvoice', function () {
+        debugger;
+        var id = $(this).attr("data-orderid");
+        var invnum = $(this).attr("data-invnumber");
+        //    debugger;
+        $.ajax({
+            url: '@Url.Action("PrintInvoice", "Orders")',
+            type: 'POST',
+            data: { 'InvoiceID': id, 'InvoiceNumber': invnum },
+            cache: false,
+        }).done(function (result) {
+            if (result != '') {
+                window.open(result, "newPage");
+            }
+        });
+    });
+
+</script>

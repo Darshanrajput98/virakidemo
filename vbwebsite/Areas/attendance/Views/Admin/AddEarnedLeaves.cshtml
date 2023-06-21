@@ -1,0 +1,118 @@
+﻿@{
+    ViewBag.Title = "AddEarnedLeaves";
+    Layout = "~/Areas/attendance/Views/Shared/_attendancelayout.cshtml";
+}
+@using vb.Data.ViewModel
+
+<div class="box box-default">
+    <div class="box-header with-border text-center">
+        <h3 class="box-title">Add Earned Leaves</h3>
+    </div>
+    <form id="frmEarnedLeaves" class="form-horizontal">
+        <div class="box-body">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <input name="EarnedLeavesID" id="EarnedLeavesID" type="hidden" value="" />
+                    <input type="hidden" id="CreatedBy" class="CreatedBy" value="" />
+                    <input type="hidden" id="CreatedOn" class="CreatedOn" value="" />
+                    <label for="Month" class="col-sm-4 control-label">Month</label>
+                    <div class="col-sm-6">
+                        <select name="Month" id="MonthID" class="form-control" tabindex="14" required>
+                            <option value="" selected>Select</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                            <option value="10">10</option>
+                            <option value="11">11</option>
+                            <option value="12">12</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="NoOfEarnedLeaves" class="col-sm-4 control-label">Present</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" id="NoOfEarnedLeaves" required>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="box-footer ">
+            <div class="pull-right">
+                <button type="button" id="btncancel" class="btn btn-default" tabindex="3">Cancel</button>
+                @*@if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.APurchaseType.ToString()))
+                    {*@
+                <button type="button" id="btnsave" class="btn btn-info" tabindex="2">Save</button>
+                @*}*@
+            </div>
+        </div>
+    </form>
+    <div id="lstcase">
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script>
+
+    $(document).ready(function () {
+        loadhtml();
+    });
+
+    function loadhtml() {
+        $.ajax({
+            url: '@Url.Action("EarnedLeavesList")',
+            type: 'GET',
+            cache: false,
+        }).done(function (result) {
+            $('#lstcase').html(result);
+        });
+    }
+
+    $("#btnsave").click(function () {
+        if (!($('#frmEarnedLeaves').parsley().validate())) {
+            return;
+        }
+        var datareq = new Object();
+        datareq.EarnedLeavesID = $("#EarnedLeavesID").val();
+        datareq.MonthID = $("#MonthID").val();
+        datareq.NoOfEarnedLeaves = $("#NoOfEarnedLeaves").val();
+        datareq.CreatedBy = $("#CreatedBy").val();
+        datareq.CreatedOn = $("#CreatedOn").val();
+        $.ajax({
+            url: '@Url.Action("AddEarnedLeaves")',
+            type: 'POST',
+            data: { 'data': datareq },
+            cache: false,
+        }).done(function (result) {
+            if (result > 0) {
+                if ($("#EarnedLeavesID").val() == "") {
+                    $('div#sucessalert').html("Earned Leaves Add successfully.");
+                }
+                else {
+                    $('div#sucessalert').html("Earned Leaves updated successfully.");
+                }
+                showhidealert();
+                loadhtml();
+                clearform();
+            }
+        });
+    });
+
+    $("#btncancel").click(function () {
+        clearform();
+    });
+
+    function clearform() {
+        $("#frmEarnedLeaves").find("input").val("");
+        $("#MonthID").val("").trigger("change");
+    }
+</script>
+
+

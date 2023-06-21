@@ -1,0 +1,123 @@
+﻿@model vb.Data.CustomerListResponse
+@{
+    ViewBag.Title = "SearchCustomerCallList";
+    Layout = "~/Areas/wholesale/Views/Shared/_wholesalelayout.cshtml";
+}
+
+<div class="box box-default">
+    <div class="box-header with-border text-center">
+        <h3 class="box-title">Search Customer Call List</h3>
+    </div>
+    <form id="frmCustomerGroup" class="form-horizontal">
+        <div class="box-body">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="Area" class="col-sm-4 control-label">Area</label>
+                    <div class="col-sm-8">
+                        @Html.DropDownListFor(m => m.AreaID, new SelectList(ViewBag.Area, "AreaID", "AreaName"), "Select Area", new { @class = "form-control select2", tabindex = "1" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="day" class="col-sm-4 control-label">Days Of Week</label>
+                    <div class="col-sm-8">
+                        <select name="Day" id="DaysofWeek" class="form-control select2" tabindex="6">
+                            <option value="" selected>Select</option>
+                            <option value="1">Monday</option>
+                            <option value="2">Tuesday</option>
+                            <option value="3">Wednesday</option>
+                            <option value="4">Thursday</option>
+                            <option value="5">Friday</option>
+                            <option value="6">Saturday</option>
+                            <option value="7">Sunday</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="SalesPerson" class="col-sm-4 control-label">Sales Person</label>
+                    <div class="col-sm-8">
+                        @Html.DropDownListFor(m => m.UserID, new SelectList(ViewBag.SalesPerson, "UserID", "UserFullName"), "Select Sales Person", new { @class = "form-control select2", tabindex = "2" })
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <label for="Area" class="col-sm-4 control-label">Call Weeks</label>
+                    <div class="col-sm-2">
+                        <input id="CallWeek1" type="checkbox" tabindex="5" />Week 1
+                    </div>
+                    <div class="col-sm-2">
+                        <input id="CallWeek2" type="checkbox" tabindex="6" />Week 2
+                    </div>
+                    <div class="col-sm-2">
+                        <input id="CallWeek3" type="checkbox" tabindex="7" />Week 3
+                    </div>
+                    <div class="col-sm-2">
+                        <input id="CallWeek4" type="checkbox" tabindex="7" />Week 4
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.box-body -->
+        <div class="box-footer ">
+            <div class="pull-right">
+                <button type="button" id="btnsearch" class="btn btn-info" tabindex="6">Search</button>
+                <button type="button" id="btnexport" class="btn btn-info" tabindex="20">Export To Excel</button>
+            </div>
+        </div>
+        <!-- /.box-footer -->
+    </form>
+    <div id="lstcase">
+    </div>
+</div>
+
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script>
+
+    $(document).ready(function () {
+    });
+
+    function loadhtml() {
+        debugger;
+        var model = new Object();
+        model.AreaID = $("#AreaID").val();
+        model.UserID = $("#UserID").val();
+        model.DaysofWeek = $("#DaysofWeek").val();
+        model.CallWeek1 = $('#CallWeek1').is(":checked");
+        model.CallWeek2 = $('#CallWeek2').is(":checked");
+        model.CallWeek3 = $('#CallWeek3').is(":checked");
+        model.CallWeek4 = $('#CallWeek4').is(":checked");
+        $.ajax({
+            url: '@Url.Action("ViewCustomerCallList")',
+            type: 'POST',
+            data: { 'model': model },
+            cache: false,
+        }).done(function (result) {
+            $('#lstcase').html(result);
+        });
+    }
+
+    $("#btnsearch").click(function () {
+        loadhtml();
+    });
+
+    $("#btnexport").click(function () {
+        debugger;
+        //if ($("#AreaID").val() != "") {
+        var AreaID = $("#AreaID").val();
+        var UserID = $("#UserID").val();
+        var DaysofWeek = $("#DaysofWeek").val();
+        var CallWeek1 = $('#CallWeek1').is(":checked");
+        var CallWeek2 = $('#CallWeek2').is(":checked");
+        var CallWeek3 = $('#CallWeek3').is(":checked");
+        var CallWeek4 = $('#CallWeek4').is(":checked");
+        var url = '@Url.Action("ExportExcelCustomerCallList", "Customer", new { AreaID = "__AreaID__", UserID = "__UserID__", DaysofWeek = "__DaysofWeek__", CallWeek1 = "__CallWeek1__", CallWeek2 = "__CallWeek2__", CallWeek3 = "__CallWeek3__", CallWeek4 = "__CallWeek4__" })';
+        url = url.replace(/amp;/g, '');
+        window.location.href = url.replace('__AreaID__', AreaID).replace('__UserID__', UserID).replace('__DaysofWeek__', DaysofWeek).replace('__CallWeek1__', CallWeek1).replace('__CallWeek2__', CallWeek1).replace('__CallWeek3__', CallWeek3).replace('__CallWeek4__', CallWeek4);
+        // }
+        //else {
+        //    alert("Please Select Area Name");
+        //}
+    });
+
+</script>

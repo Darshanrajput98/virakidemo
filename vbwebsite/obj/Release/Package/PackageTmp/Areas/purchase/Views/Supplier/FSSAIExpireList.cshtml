@@ -1,0 +1,222 @@
+﻿@model List<vb.Data.SupplierListResponse>
+@{
+    ViewBag.Title = "FSSAIExpireList";
+    Layout = "~/Areas/purchase/Views/Shared/_purchaselayout.cshtml";
+}
+@using vb.Data.ViewModel
+<div class="box">
+    <div class="box-header text-center">
+        <h3 class="box-title">FSSAI Number Expire List</h3>
+    </div>
+    <div class="box-body table-scrollable1">
+        <table id="ListDataTablewithourpaging" class="table table-bordered table-striped lsttable">
+            <thead>
+                @*<tr>
+                        <td colspan="6" align="right">
+                            <button type="button" id="btnexport" class="btn btn-info">Export To Excel</button>
+                        </td>
+                    </tr>*@
+                <tr>
+                    <th class="nosort">Customer Name</th>
+                    <th class="nosort">Area One</th>
+                    <th class="nosort">Area Two</th>
+                    <th class="nosort">FSSAI Number</th>
+                    <th class="nosort">FSSAI Valid UpTo</th>
+                    <th class="nosort">Phone Number</th>
+                    <th class="nosort">Mobile Number</th>
+                    <th class="nosort">Email</th>
+                    <th class="nosort">Days Remaining</th>
+                    @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.ESupplierFSSAIValidity.ToString()))
+                    {
+                        <th class="nosort">Update FSSAI Number</th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    if (item.DaysRemaining > 0)
+                    {
+                        <tr>
+                            <td>
+                                @item.SupplierName
+                            </td>
+                            <td>
+                                @item.AreaOne
+                            </td>
+                            <td>
+                                @item.AreaTwo
+                            </td>
+                            <td>
+                                @item.FSSAI
+                            </td>
+                            <td>
+                                @item.FSSAIValidUpTostr
+                            </td>
+                            <td>
+                                @item.ContactPhoneNo
+                            </td>
+                            <td>
+                                @item.ContactMobileNo
+                            </td>
+                            <td>
+                                @item.ContactEmail
+                            </td>
+                            <td>
+                                @item.DaysRemaining
+                            </td>
+                            @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.ESupplierFSSAIValidity.ToString()))
+                            {
+                                <td>
+                                    <a style="cursor:pointer;" class="btneditfssaidate" data-supplierid="@item.SupplierID" data-fssaivalidupto="@item.FSSAIValidUpTostr">Update FSSAI Number</a>
+                                </td>
+                            }
+                        </tr>
+                    }
+                    else
+                    {
+                        <tr style="color: red; font-weight: bold;">
+                            <td>
+                                @item.SupplierName
+                            </td>
+                            <td>
+                                @item.AreaOne
+                            </td>
+                            <td>
+                                @item.AreaTwo
+                            </td>
+                            <td>
+                                @item.FSSAI
+                            </td>
+                            <td>
+                                @item.FSSAIValidUpTostr
+                            </td>
+                            <td>
+                                @item.ContactPhoneNo
+                            </td>
+                            <td>
+                                @item.ContactMobileNo
+                            </td>
+                            <td>
+                                @item.ContactEmail
+                            </td>
+                            <td>
+                                @item.DaysRemaining
+                            </td>
+                            @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.ESupplierFSSAIValidity.ToString()))
+                            {
+                                <td>
+                                    <a style="cursor:pointer;" class="btneditfssaidate" data-supplierid="@item.SupplierID" data-fssaivalidupto="@item.FSSAIValidUpTostr">Update FSSAI Number</a>
+                                </td>
+                            }
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div id="responsive" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" style="padding-bottom: 0px;">
+                    <button type="button" class="btnclosepopup1 close" data-dismiss="modal" aria-hidden="true"></button>
+                    <h4 class="modal-title">Update FSSAI Number</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row" style="margin-top:10px;">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <input name="SupplierID" id="SupplierID" class="hdnSupplierID" type="hidden" value="" />
+                                <label for="ChequeDate" class="col-sm-4 control-label">FSSAI Expire Date</label>
+                                <div class="col-sm-8">
+                                    <div class="input-group date">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
+                                        <input type="text" class="form-control pull-right datepicker" id="FSSAIValidUpTo" tabindex="3">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btnupdatefssaidate btn btn-info">Save</button>
+                    <button type="button" class="btnclosepopup btn btn-info" data-dismiss="modal" aria-hidden="true">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script>
+        @*$("#btnexport").click(function () {
+            debugger;
+            var url = '@Url.Action("ExportExcelCustomerFSSAIExpireList", "Customer")';
+            window.location.href = url.replace();
+        });*@
+
+    $('.lsttable').on('click', '.btneditfssaidate', function () {
+        var supplierid = $(this).attr("data-supplierid");
+        var fssaivalidupto = $(this).attr("data-fssaivalidupto");
+        var newdate = "";
+        if (fssaivalidupto != "") {
+            var d = new Date(fssaivalidupto.split("/").reverse().join("-"));
+            var dd = d.getDate();
+            var mm = d.getMonth() + 1;
+            var yy = d.getFullYear();
+            newdate = mm + "/" + dd + "/" + yy;
+        }
+        contents(supplierid, newdate);
+        $("#responsive").removeClass("modal fade").addClass("modal fade modal-overflow in");
+        $("#responsive").css("display", "block");
+    });
+
+    function contents(supplierid, newdate) {
+        $('#SupplierID').val(supplierid);
+        $('#FSSAIValidUpTo').val(newdate);
+    }
+
+    $(".btnclosepopup").click(function () {
+        $('#responsive').removeClass("modal fade modal-overflow in");
+        $('#responsive').removeAttr('style');
+        $('#responsive').addClass("modal fade");
+    });
+
+    $(".btnupdatefssaidate").click(function () {
+        if ($("#FSSAIValidUpTo").val() != null && $("#FSSAIValidUpTo").val() != "") {
+            var SupplierID = $("#SupplierID").val();
+            var FSSAIValidUpTo = $("#FSSAIValidUpTo").val();
+            $.ajax({
+                url: '@Url.Action("UpdateSupplierFSSAIDate")',
+                type: 'POST',
+                data: { 'SupplierID': SupplierID, 'FSSAIValidUpTo': FSSAIValidUpTo },
+                cache: false,
+            }).done(function (result) {
+                if (result == true) {
+                    //if ($("#SupplierID").val() == "") {
+                    //    debugger;
+                    //    $('div#sucessalert').html("FSSAI Date Add successfully.");
+                    //}
+                    //else {
+                    //    $('div#sucessalert').html("FSSAI Date Updated Successfully.");
+                    //}
+                    clearform();
+                    location.reload();
+                }
+            });
+        }
+        else {
+            alert("Please Enter FSSAI Date");
+        }
+    });
+
+    function clearform() {
+        $('#responsive').removeClass("modal fade modal-overflow in");
+        $('#responsive').removeAttr('style');
+        $('#responsive').addClass("modal fade");
+        $('#FSSAIValidUpTo').val('');
+    }
+</script>

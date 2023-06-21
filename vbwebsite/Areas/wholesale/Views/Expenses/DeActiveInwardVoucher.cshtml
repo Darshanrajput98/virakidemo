@@ -1,0 +1,102 @@
+﻿@{
+    ViewBag.Title = "DeActiveInwardVoucher";
+    Layout = "~/Areas/wholesale/Views/Shared/_wholesalelayout.cshtml";
+}
+
+@using vb.Data.ViewModel
+
+<div class="box box-default">
+    <div class="box-header with-border text-center">
+        <h3 class="box-title">De-Active Inward & Voucher</h3>
+    </div>
+    <form id="frmDeactive" class="form-horizontal">
+        <div class="box-body">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="FromDate" class="col-sm-4 control-label">From</label>
+                    <div class="col-sm-8">
+                        <div class="input-group date">
+                            <div class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
+                            </div>
+                            <input type="text" class="form-control pull-right datepicker" id="FromDate" tabindex="2" autocomplete="off" required="required">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="FromDate" class="col-sm-4 control-label">Is DeActive</label>
+                    <div class="col-sm-8">
+                        <input id="IsDeActive" type="checkbox" tabindex="5" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="ToDate" class="col-sm-4 control-label">To</label>
+                    <div class="col-sm-8">
+                        <div class="input-group date">
+                            <div class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
+                            </div>
+                            <input type="text" class="form-control pull-right datepicker" id="ToDate" tabindex="2" autocomplete="off" required="required">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="box-footer ">
+            <div class="pull-right">
+                <button type="button" id="btnDeActive" class="btn btn-info" tabindex="10">De-Active</button>
+            </div>
+        </div>
+    </form>
+    <div id="lstcase">
+    </div>
+</div>
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script>
+    $(document).ready(function () {
+        loadhtml();
+    });
+
+    function loadhtml() {
+        $.ajax({
+            url: '@Url.Action("DeActiveInwardVoucherList")',
+            type: 'GET',
+            cache: false,
+        }).done(function (result) {
+            $('#lstcase').html(result);
+        });
+    }
+
+    $("#btnDeActive").click(function () {
+        debugger;
+        if (!($('#frmDeactive').parsley().validate())) {
+            return;
+        }
+        var FromDate = $("#FromDate").val();
+        var ToDate = $("#ToDate").val();
+        var IsDactive = $("#IsDeActive").is(':checked');
+        $.ajax({
+            url: '@Url.Action("DeActiveInwardANDVoucherByDate", "Expenses")',
+            type: 'POST',
+            data: { 'FromDate': FromDate, 'ToDate': ToDate, 'IsDactive': IsDactive },
+            cache: false,
+        }).done(function (result) {
+            if (result == true) {
+                $('div#sucessalert').html("Inward and Expense Voucher Deactive successfully.");
+                showhidealert();
+                loadhtml();
+                clearform();
+            }
+            else {
+            }
+        });
+    });
+
+    function clearform() {
+        $("#frmDeactive").find("input").val("");
+        $("#IsDeActive").prop('checked', false);
+    }
+
+</script>

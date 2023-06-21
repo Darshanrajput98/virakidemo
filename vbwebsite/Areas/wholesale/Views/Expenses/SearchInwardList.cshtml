@@ -1,0 +1,224 @@
+﻿@model List<vb.Data.InwardOutWardListResponse>
+@using vb.Data.ViewModel
+
+<div class="box">
+    <div class="box-header text-center">
+        <h3 class="box-title">Inward List</h3>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body table-scrollable1">
+        <table id="ListDataTable" class="table table-bordered table-striped lst1">
+            <thead>
+                <tr>
+                    <th class="nosort">Godown</th>
+                    <th class="nosort">Opening Amt</th>
+                    <th class="nosort">Chillar Inv.</th>
+                    <th class="nosort">Wholesale</th>
+                    <th class="nosort">Retail</th>
+                    <th class="nosort">Tempo Amount(W)</th>
+                    <th class="nosort">Tempo Amount(R)</th>
+                    <th class="nosort">Trans Inward Amt.</th>
+                    <th class="nosort">Vehicle Expenses Inward</th>
+                    <th class="nosort">Total Inward</th>
+                    <th class="nosort">Chillar Out</th>
+                    <th class="nosort">Expenses</th>
+                    <th class="nosort">Transfer Amt</th>
+                    <th class="nosort">Bank</th>
+                    <th class="nosort">Vehicle Expenses Outward</th>
+                    <th class="nosort">Total Outward</th>
+                    <th class="nosort">Grand Total</th>
+                    <th>Print</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td id="row">
+                            @item.GodownName
+                        </td>
+                        <td>
+                            @item.OpeningAmount.ToString("0.00")
+                        </td>
+                        <td>
+                            @item.ChillarInward.ToString("0.00")
+                        </td>
+                        <td>
+                            @item.WholesaleCash.ToString("0.00")
+                        </td>
+                        <td>
+                            @item.RetailCash.ToString("0.00")
+                        </td>
+                        <td>
+                            @item.WholesaleTempoAmount.ToString("0.00")
+                        </td>
+                        <td>
+                            @item.RetailTempoAmount.ToString("0.00")
+                        </td>
+                        <td>
+                            @item.TransferAmountInward.ToString("0.00")
+                        </td>
+
+                        <td>
+                            <a style="cursor:pointer;" class="btnInwardVehicleExpenses" data-inwardid="@item.InwardID">@item.TotalInwardVehicleExpenses.ToString("0.00")</a>
+                        </td>
+
+                        @*<td>
+                            @item.FinalTotalInward.ToString("0.00")
+                        </td>*@
+                        <td>
+                            @item.TotalInward.ToString("0.00")
+                        </td>
+                        <td>
+                            @item.ChillarOutward.ToString("0.00")
+                        </td>
+                        <td>
+                            @item.TotalExpenses.ToString("0.00")
+                        </td>
+                        <td>
+                            <a style="cursor:pointer;" class="btnOpenPopup" data-godownid="@item.GodownID" data-createdon="@item.CreatedOn">@item.TransferAmount.ToString("0.00")</a>
+                        </td>
+                        <td>
+                            @item.BankDepositeAmount.ToString("0.00")
+                        </td>
+
+                        <td>
+                            <a style="cursor:pointer;" class="btnOutwardVehicleExpenses" data-inwardid="@item.InwardID">@item.TotalOutwardVehicleExpenses.ToString("0.00")</a>
+                        </td>
+                        <td>
+                            @item.TotalOutward.ToString("0.00")
+                        </td>
+                        @*<td>
+                            @item.FinalTotalOutward.ToString("0.00")
+                        </td>*@
+                        <td>
+                            @item.GrandTotal.ToString("0.00")
+                        </td>
+                        <td>
+                            <a style="cursor:pointer;" class="btnprint" data-inwardid="@item.InwardID" data-godownid="@item.GodownID" data-expensesdate="@item.ExpensesDate">Print</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <!-- /.box-body -->
+
+    <div id="responsive" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" style="padding-bottom: 0px;">
+                    <h4 class="modal-title">Transfer Amount</h4>
+                </div>
+                <div class="modal-body">
+                    <div id="dvlsttransamt"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="PopupInwardVehicleExpenses" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" style="padding-bottom: 0px;">
+                    <h4 class="modal-title">Vehicle Expenses (Inward)</h4>
+                </div>
+                <div class="modal-body">
+                    <div id="dvlstinwardvehicle_exp"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="PopupOutwardVehicleExpenses" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" style="padding-bottom: 0px;">
+                    <h4 class="modal-title">Vehicle Expenses (Outward)</h4>
+                </div>
+                <div class="modal-body">
+                    <div id="dvlstoutwardvehicle_exp"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    $("#ListDataTable").DataTable({
+        'aoColumnDefs': [{
+            'bSortable': false,
+            'aTargets': ['nosort'] /* 1st one, start by the right */
+
+        }]
+    });
+
+    $('#ListDataTable').on('click', '.btnprint', function () {
+        debugger;
+        var InwardID = $(this).attr("data-inwardid");
+        var ExpensesDate = $(this).attr("data-expensesdate");
+        var GodownID = $(this).attr("data-godownid");
+        $.ajax({
+            url: '@Url.Action("PrintInward", "Expenses")',
+            type: 'POST',
+            data: { 'InwardID': InwardID, 'ExpensesDate': ExpensesDate, 'GodownID': GodownID },
+            cache: false,
+        }).done(function (result) {
+            if (result != '') {
+                window.open(result, "newPage");
+            }
+        });
+    });
+
+
+    $('.lst1').on('click', '.btnOpenPopup', function () {
+        debugger;
+        var GodownID = $(this).attr("data-godownid");
+        var CreatedOn = $(this).attr("data-createdon");
+        debugger;
+        $.ajax({
+            url: '@Url.Action("PopupTransferAmount")',
+            type: 'GET',
+            data: { 'GodownID': GodownID, 'CreatedOn': CreatedOn },
+            cache: false,
+        }).done(function (result) {
+            $('#dvlsttransamt').html(result);
+        });
+        $("#responsive").modal("show");
+    });
+
+
+    $('.lst1').on('click', '.btnInwardVehicleExpenses', function () {
+        debugger;
+        var InwardID = $(this).attr("data-inwardid");
+        debugger;
+        $.ajax({
+            url: '@Url.Action("PopupInwardVehicleExpenses")',
+            type: 'GET',
+            data: { 'InwardID': InwardID },
+            cache: false,
+        }).done(function (result) {
+            $('#dvlstinwardvehicle_exp').html(result);
+        });
+        $("#PopupInwardVehicleExpenses").modal("show");
+    });
+
+
+    $('.lst1').on('click', '.btnOutwardVehicleExpenses', function () {
+        debugger;
+        var InwardID = $(this).attr("data-inwardid");
+        debugger;
+        $.ajax({
+            url: '@Url.Action("PopupOutwardVehicleExpenses")',
+            type: 'GET',
+            data: { 'InwardID': InwardID },
+            cache: false,
+        }).done(function (result) {
+            $('#dvlstoutwardvehicle_exp').html(result);
+        });
+        $("#PopupOutwardVehicleExpenses").modal("show");
+    });
+
+
+</script>

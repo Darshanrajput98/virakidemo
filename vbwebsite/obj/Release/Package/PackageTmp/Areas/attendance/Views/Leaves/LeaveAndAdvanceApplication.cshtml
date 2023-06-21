@@ -1,0 +1,255 @@
+﻿@{
+    ViewBag.Title = "LeaveAndAdvanceApplication";
+    Layout = "~/Areas/attendance/Views/Shared/_attendancelayout.cshtml";
+}
+
+<div class="box box-default">
+    <div class="box-header with-border text-center">
+        <h3 class="box-title">Leave & Advance Application</h3>
+    </div>
+    <form id="frmLeaveAndAdvanceApplication" class="form-horizontal">
+        <div class="box-body">
+
+            <div class="col-md-12">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <input name="LeaveApplicationID" id="LeaveApplicationID" type="hidden" value="" />
+                        <label for="inputPassword3" class="col-sm-4 control-label">Employee Name</label>
+                        <div class="col-sm-8">
+                            @Html.DropDownList("EmployeeCode", new SelectList(ViewBag.Employee, "EmployeeCode", "FullName"), "Select Employee", new { @class = "form-control select2 EmployeeCode", required = "required" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="ClosingLeaves" class="col-sm-4 control-label">Closing Leaves</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="ClosingLeaves" value="0">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="ApplicationDate" class="col-sm-4 control-label">Application Date</label>
+                        <div class="col-sm-8">
+                            <div class="input-group date">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </div>
+                                <input type="text" class="form-control pull-right datepicker" name="ApplicationDate" id="ApplicationDate" tabindex="3" autocomplete="off" required>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="GodownName" class="col-sm-4 control-label">Godown Name</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="GodownName" value="0" disabled>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="ClosingAdvance" class="col-sm-4 control-label">Closing Advance</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="ClosingAdvance" value="0">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="IsActive" class="col-sm-4 control-label">For Advance Amt.</label>
+                        <div class="col-sm-8">
+                            <input id="IsAdvanceAmount" type="checkbox" tabindex="2" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <div class="box box-info">
+                    <div class="with-border text-center">
+                        <h3 class="box-title">Leave Application</h3>
+                    </div>
+                    <div class="box-body">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="FromDate" class="col-sm-4 control-label">From Date</label>
+                                <div class="col-sm-8">
+                                    <div class="input-group date">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
+                                        <input type="text" class="form-control pull-right datepicker" name="FromDate" id="FromDate" tabindex="3" autocomplete="off">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="GoingTo" class="col-sm-4 control-label">Going To</label>
+                                <div class="col-sm-8">
+                                    <textarea class="form-control" id="GoingTo" name="GoingTo" rows="2" cols="20" placeholder="GoingTo" tabindex="3"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="ToDate" class="col-sm-4 control-label">To Date</label>
+                                <div class="col-sm-8">
+                                    <div class="input-group date">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
+                                        <input type="text" class="form-control pull-right datepicker" name="ToDate" id="ToDate" tabindex="3" autocomplete="off">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="Reason" class="col-sm-4 control-label">Reason</label>
+                                <div class="col-sm-8">
+                                    <textarea class="form-control" id="Reason" name="Reason" rows="2" cols="20" placeholder="Reason" tabindex="3"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <div class="box box-info">
+                    <div class="with-border text-center">
+                        <h3 class="box-title">Advance</h3>
+                    </div>
+                    <div class="box-body">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="AdvanceAmount" class="col-sm-4 control-label">Advance Amount</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" id="AdvanceAmount" value="0">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="AdvanceReason" class="col-sm-4 control-label">Advance Reason</label>
+                                <div class="col-sm-8">
+                                    <textarea class="form-control" id="AdvanceReason" name="AdvanceReason" rows="2" cols="20" placeholder="Advance Reason" tabindex="3"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="DeductionPerMonthAmount" class="col-sm-4 control-label">Deduction/Month</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" id="DeductionPerMonthAmount" value="0">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="box-footer">
+            <button type="button" id="btncancel" class="btn btn-default">Cancel</button>
+            <button type="button" id="btnsave" class="btn btn-info pull-right">Save</button>
+        </div>
+    </form>
+    <div id="lsthouserent">
+    </div>
+</div>
+
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script>
+    $(document).ready(function () {
+        // loadhtml();
+
+        $(".EmployeeCode").on('change keypress', function (e) {
+            debugger;
+            var EmployeeCode = this.value;
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("GetClosingLeavesandClosingAdvance")',
+                data: { EmployeeCode: EmployeeCode },
+                success: function (result) {
+                    //debugger;
+                    $('#GodownName').val(result.GodownName);
+                    $('#ClosingLeaves').val(result.ClosingLeaves);
+                    $('#ClosingAdvance').val(result.ClosingAdvance);
+                },
+                error: function () { alert('Error'); }
+            });
+        });
+    });
+
+    @*function loadhtml() {
+        $.ajax({
+            url: '@Url.Action("ExpensesVoucherList")',
+            type: 'GET',
+            cache: false,
+        }).done(function (result) {
+            $('#lstcase').html(result);
+        });
+    }*@
+
+    $("#btnsave").click(function () {
+        debugger;
+        if (!($('#frmLeaveAndAdvanceApplication').parsley().validate())) {
+            return;
+        }
+        var datareq = new Object();
+        datareq.LeaveApplicationID = $("#LeaveApplicationID").val();
+        datareq.EmployeeCode = $("#EmployeeCode").val();
+        datareq.ClosingLeaves = $("#ClosingLeaves").val();
+        datareq.ClosingAdvance = $("#ClosingAdvance").val();
+        datareq.ApplicationDate = $("#ApplicationDate").val();
+        datareq.FromDate = $("#FromDate").val();
+        datareq.ToDate = $("#ToDate").val();
+        datareq.Reason = $("#Reason").val();
+        datareq.GoingTo = $("#GoingTo").val();
+        datareq.AdvanceAmount = $("#AdvanceAmount").val();
+        datareq.AdvanceReason = $("#AdvanceReason").val();
+        datareq.DeductionPerMonthAmount = $("#DeductionPerMonthAmount").val();
+        datareq.IsAdvanceAmount = $('#IsAdvanceAmount').is(":checked");
+        $.ajax({
+            url: '@Url.Action("AddLeaveAndAdvanceApplication")',
+            type: 'POST',
+            data: { 'data': datareq },
+            cache: false,
+        }).done(function (result) {
+            if (result > 0) {
+                var LeaveApplicationID = result;
+                debugger;
+                if ($("#LeaveApplicationID").val() == "") {
+                    $('div#sucessalert').html("Leave Application Add successfully.");
+                }
+                else {
+                    $('div#sucessalert').html("Leave Application updated successfully.");
+                }
+                showhidealert();
+                if (confirm('Are you sure to print Leave Application?')) {
+                    $.ajax({
+                        url: '@Url.Action("PrintLeaveApplication", "Leaves")',
+                        type: 'POST',
+                        data: { 'LeaveApplicationID': LeaveApplicationID },
+                        cache: false,
+                    }).done(function (result) {
+                        debugger;
+                        if (result != '') {
+                            debugger;
+                            window.open(result, "newPage");
+                        }
+                    });
+                }
+                //loadhtml();
+                location.reload();
+                //clearform();
+            }
+        });
+    });
+
+    $("#btncancel").click(function () {
+        location.reload();
+    });
+
+    function clearform() {
+        $("#frmLeaveAndAdvanceApplication").find("input").val("");
+        $("#frmLeaveAndAdvanceApplication").find("textarea").val("");
+    }
+
+</script>

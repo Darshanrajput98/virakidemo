@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="2c2b33337742458486242c32c84f0d55" Name="Diagram1" ZoomLevel="41">
+        <EntityTypeShape EntityType="VirakiModel.BestBeforeMonth" Width="1.5" PointX="0.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="VirakiModel.Category_Mst" Width="1.5" PointX="2.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="VirakiModel.Challan_Mst" Width="1.5" PointX="7.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="VirakiModel.CustomerGroup_Mst" Width="1.5" PointX="9.75" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="VirakiModel.DeliveryAllocation_Mst" Width="1.5" PointX="0.75" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="VirakiModel.Driver_Mst" Width="1.5" PointX="11.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="VirakiModel.Event_Mst" Width="1.5" PointX="6.75" PointY="11.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="VirakiModel.EventDate_Mst" Width="1.5" PointX="11.75" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="VirakiModel.Login_Mst" Width="1.5" PointX="13.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="VirakiModel.PackageStation_Mst" Width="1.5" PointX="13.75" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="VirakiModel.PackedBy_Mst" Width="1.5" PointX="13.75" PointY="13.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="VirakiModel.ProductQty_Mst" Width="1.5" PointX="15.75" PointY="15.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="VirakiModel.RetAreaMst" Width="1.5" PointX="17.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="VirakiModel.RetChallanMst" Width="1.5" PointX="2.75" PointY="17.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="VirakiModel.RetDeliveryAllocationMst" Width="1.5" PointX="17.75" PointY="18.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="VirakiModel.RetProductCategoryMst" Width="1.5" PointX="6.75" PointY="20.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="VirakiModel.RetTaxMst" Width="1.5" PointX="21.75" PointY="20.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="VirakiModel.ReturnOrderQty_Mst" Width="1.75" PointX="23.75" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="VirakiModel.ReturnRetailOrderQtyMst" Width="1.5" PointX="23.75" PointY="15.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="VirakiModel.Role_Mst" Width="1.5" PointX="16.75" PointY="23.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="VirakiModel.Tax_Mst" Width="1.5" PointX="23.75" PointY="20.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="VirakiModel.TimeZoneMaster" Width="1.5" PointX="4.75" PointY="24.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="VirakiModel.Unit_Mst" Width="1.5" PointX="18.75" PointY="24.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="VirakiModel.webpages_Membership" Width="1.5" PointX="22.75" PointY="24.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="VirakiModel.webpages_OAuthMembership" Width="1.5" PointX="24.75" PointY="24.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="VirakiModel.RetProductArticleCodeMst" Width="1.5" PointX="26.375" PointY="0.75" />
+        <EntityTypeShape EntityType="VirakiModel.DynamicMenuMaster" Width="1.5" PointX="26.375" PointY="4.75" />
+        <EntityTypeShape EntityType="VirakiModel.MachineRawPunch" Width="1.5" PointX="26.375" PointY="9.75" />
+        <EntityTypeShape EntityType="VirakiModel.RetPackSummaryQty_Mst" Width="1.5" PointX="26.375" PointY="14.75" />
+        <EntityTypeShape EntityType="VirakiModel.User_Mst" Width="1.5" PointX="0.75" PointY="27.75" />
+        <EntityTypeShape EntityType="VirakiModel.Document_Master" Width="1.5" PointX="15.375" PointY="27.75" />
+        <EntityTypeShape EntityType="VirakiModel.AuthorizeMaster" Width="1.5" PointX="26.375" PointY="18.75" />
+        <EntityTypeShape EntityType="VirakiModel.RetGodownMst" Width="1.5" PointX="27.375" PointY="27.75" />
+        <EntityTypeShape EntityType="VirakiModel.RetTransportMst" Width="1.5" PointX="11.375" PointY="28.75" />
+        <EntityTypeShape EntityType="VirakiModel.Transport_Mst" Width="1.5" PointX="28.375" PointY="17.75" />
+        <EntityTypeShape EntityType="VirakiModel.ChallanQty_Mst" Width="1.5" PointX="17.375" PointY="28.75" />
+        <EntityTypeShape EntityType="VirakiModel.RetChallanQtyMst" Width="1.5" PointX="19.375" PointY="28.75" />
+        <EntityTypeShape EntityType="VirakiModel.RetPackSummary_Mst" Width="1.5" PointX="11.375" PointY="22.75" />
+        <EntityTypeShape EntityType="VirakiModel.AllowanceDetail_Master" Width="1.5" PointX="21.375" PointY="28.75" />
+        <EntityTypeShape EntityType="VirakiModel.DailyAttendance_Mst" Width="1.5" PointX="29.375" PointY="21.75" />
+        <EntityTypeShape EntityType="VirakiModel.GuiLabel" Width="1.5" PointX="31.375" PointY="20.75" />
+        <EntityTypeShape EntityType="VirakiModel.GuiLanguage" Width="1.5" PointX="31.375" PointY="24.75" />
+        <EntityTypeShape EntityType="VirakiModel.RetProdGui" Width="1.5" PointX="31.375" PointY="28.75" />
+        <EntityTypeShape EntityType="VirakiModel.RetProdQtyGui" Width="1.5" PointX="32.375" PointY="0.75" />
+        <EntityTypeShape EntityType="VirakiModel.RetUnitMst" Width="1.5" PointX="32.375" PointY="4.75" />
+        <EntityTypeShape EntityType="VirakiModel.Licence_Mst" Width="1.5" PointX="9.375" PointY="32.75" />
+        <EntityTypeShape EntityType="VirakiModel.VehicleDetail_Mst" Width="1.5" PointX="32.375" PointY="8.75" />
+        <EntityTypeShape EntityType="VirakiModel.DebitAccountType_Mst" Width="1.5" PointX="11.375" PointY="32.75" />
+        <EntityTypeShape EntityType="VirakiModel.Godown_Mst" Width="1.5" PointX="33.375" PointY="16.75" />
+        <EntityTypeShape EntityType="VirakiModel.TransferAmount_Mst" Width="1.5" PointX="33.375" PointY="33.75" />
+        <EntityTypeShape EntityType="VirakiModel.RetCustomerGroupMst" Width="1.375" PointX="34.375" PointY="0.75" />
+        <EntityTypeShape EntityType="VirakiModel.VehicleCosting_Mst" Width="1.5" PointX="17.375" PointY="34.75" />
+        <EntityTypeShape EntityType="VirakiModel.SupplierContact_Master" Width="1.5" PointX="21.375" PointY="34.75" />
+        <EntityTypeShape EntityType="VirakiModel.PurchaseType_Mst" Width="1.5" PointX="35.375" PointY="31.75" />
+        <EntityTypeShape EntityType="VirakiModel.Broker_Mst" Width="1.5" PointX="35.375" PointY="35.75" />
+        <EntityTypeShape EntityType="VirakiModel.PurchaseDebitAccountType_Mst" Width="1.5" PointX="36.375" PointY="0.75" />
+        <EntityTypeShape EntityType="VirakiModel.PurchaseProduct_Mst" Width="1.5" PointX="9.375" PointY="37.75" />
+        <EntityTypeShape EntityType="VirakiModel.PurcahsePayment_Mst" Width="1.5" PointX="23.375" PointY="36.75" />
+        <EntityTypeShape EntityType="VirakiModel.Country_Mst" Width="1.5" PointX="5.375" PointY="5.75" />
+        <EntityTypeShape EntityType="VirakiModel.CountryWiseProductName_Mst" Width="1.5" PointX="22.375" PointY="0.75" />
+        <EntityTypeShape EntityType="VirakiModel.ExportOrderQty_Mst" Width="1.5" PointX="7.375" PointY="24.75" />
+        <EntityTypeShape EntityType="VirakiModel.CustomerAddress" Width="1.5" PointX="3.375" PointY="10.75" />
+        <EntityTypeShape EntityType="VirakiModel.RetCustomerAddress" Width="1.5" PointX="5.375" PointY="15.75" />
+        <EntityTypeShape EntityType="VirakiModel.ExportOrder_Mst" Width="1.5" PointX="37.375" PointY="32.75" />
+        <EntityTypeShape EntityType="VirakiModel.Bank_Mst" Width="1.5" PointX="16.375" PointY="5.75" />
+        <EntityTypeShape EntityType="VirakiModel.InwardOutward_Mst" Width="1.5" PointX="31.375" PointY="37.75" />
+        <EntityTypeShape EntityType="VirakiModel.DeActiveHistory_Mst" Width="1.5" PointX="13.375" PointY="22.75" />
+        <EntityTypeShape EntityType="VirakiModel.ExpenseType_Mst" Width="1.5" PointX="36.375" PointY="10.75" />
+        <EntityTypeShape EntityType="VirakiModel.ExpenseDebitAccountType_Mst" Width="1.5" PointX="5.375" PointY="38.75" />
+        <EntityTypeShape EntityType="VirakiModel.ExpenseProduct_Mst" Width="1.5" PointX="38.375" PointY="10.75" />
+        <EntityTypeShape EntityType="VirakiModel.ExpenseSupplierContact_Master" Width="2.125" PointX="13.375" PointY="39.75" />
+        <EntityTypeShape EntityType="VirakiModel.ExpensePayment_Mst" Width="1.5" PointX="19.375" PointY="39.75" />
+        <EntityTypeShape EntityType="VirakiModel.PouchCost_Mst" Width="1.5" PointX="39.375" PointY="26.75" />
+        <EntityTypeShape EntityType="VirakiModel.UtilityCost_Mst" Width="1.5" PointX="40.375" PointY="0.75" />
+        <EntityTypeShape EntityType="VirakiModel.BarcodeCount_Mst" Width="1.5" PointX="41.375" PointY="14.75" />
+        <EntityTypeShape EntityType="VirakiModel.Festival_Mst" Width="1.5" PointX="41.375" PointY="34.75" />
+        <EntityTypeShape EntityType="VirakiModel.AllowanceStatus_Mst" Width="1.5" PointX="41.375" PointY="38.75" />
+        <EntityTypeShape EntityType="VirakiModel.EarnedLeaves_Mst" Width="1.5" PointX="41.375" PointY="19.75" />
+        <EntityTypeShape EntityType="VirakiModel.ESIC_Mst" Width="1.5" PointX="28.375" PointY="9.75" />
+        <EntityTypeShape EntityType="VirakiModel.MLWF_Mst" Width="1.5" PointX="28.375" PointY="13.75" />
+        <EntityTypeShape EntityType="VirakiModel.PF_Mst" Width="1.5" PointX="5.375" PointY="30.75" />
+        <EntityTypeShape EntityType="VirakiModel.PT_Mst" Width="1.5" PointX="41.375" PointY="23.75" />
+        <EntityTypeShape EntityType="VirakiModel.Gratuity_Mst" Width="1.5" PointX="30.375" PointY="16.75" />
+        <EntityTypeShape EntityType="VirakiModel.LeaveEncashment_Mst" Width="1.5" PointX="5.375" PointY="34.75" />
+        <EntityTypeShape EntityType="VirakiModel.NewDailyAttendance_Mst" Width="1.5" PointX="41.375" PointY="28.75" />
+        <EntityTypeShape EntityType="VirakiModel.TDSCategory_Mst" Width="1.5" PointX="7.375" PointY="42.75" />
+        <EntityTypeShape EntityType="VirakiModel.Expense_Mst" Width="1.5" PointX="37.375" PointY="14.75" />
+        <EntityTypeShape EntityType="VirakiModel.Allowance_Master" Width="1.5" PointX="42.375" PointY="0.75" />
+        <EntityTypeShape EntityType="VirakiModel.SalaryPayment_Mst" Width="1.5" PointX="43.375" PointY="13.75" />
+        <EntityTypeShape EntityType="VirakiModel.Delivery_Mst" Width="1.5" PointX="43.375" PointY="19.75" />
+        <EntityTypeShape EntityType="VirakiModel.RetDeliveryMst" Width="1.5" PointX="13.375" PointY="34.75" />
+        <EntityTypeShape EntityType="VirakiModel.webpages_Roles" Width="1.5" PointX="0.75" PointY="44.25" />
+        <EntityTypeShape EntityType="VirakiModel.VehicleInwardCost_Mst" Width="1.5" PointX="18.375" PointY="5.75" />
+        <EntityTypeShape EntityType="VirakiModel.ExpensesVoucher_Mst" Width="1.5" PointX="37.375" PointY="20.75" />
+        <EntityTypeShape EntityType="VirakiModel.WholesaleExpenseVoucherPayment_Mst" Width="1.5" PointX="44.375" PointY="0.75" />
+        <EntityTypeShape EntityType="VirakiModel.RetailExpenseVoucherPayment_Mst" Width="1.5" PointX="13.375" PointY="44.75" />
+        <EntityTypeShape EntityType="VirakiModel.TCS_Mst" Width="1.5" PointX="33.375" PointY="27.75" />
+        <EntityTypeShape EntityType="VirakiModel.RetOrderMst" Width="1.5" PointX="45.375" PointY="15.75" />
+        <EntityTypeShape EntityType="VirakiModel.ExpenseQty_Mst" Width="1.5" PointX="27.375" PointY="36.75" />
+        <EntityTypeShape EntityType="VirakiModel.Utility_Mst" Width="1.5" PointX="12.375" PointY="4.75" />
+        <EntityTypeShape EntityType="VirakiModel.UtilityTransfer_Mst" Width="1.5" PointX="38.375" PointY="4.75" />
+        <EntityTypeShape EntityType="VirakiModel.UtilityInwardOutward_Mst" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="VirakiModel.UtilityName_Mst" Width="1.5" PointX="9.375" PointY="18.75" />
+        <EntityTypeShape EntityType="VirakiModel.Pouch_Mst" Width="1.5" PointX="22.375" PointY="4.75" />
+        <EntityTypeShape EntityType="VirakiModel.PouchInwardOutward_Mst" Width="1.5" PointX="25.375" PointY="44.75" />
+        <EntityTypeShape EntityType="VirakiModel.PouchTransfer_Mst" Width="1.5" PointX="33.375" PointY="39.75" />
+        <EntityTypeShape EntityType="VirakiModel.LeaveApplication_Mst" Width="1.5" PointX="3.375" PointY="44.75" />
+        <EntityTypeShape EntityType="VirakiModel.User" Width="1.5" PointX="3" PointY="27.75" />
+        <AssociationConnector Association="VirakiModel.webpages_UsersInRoles" />
+        <EntityTypeShape EntityType="VirakiModel.Resignation_Mst" Width="1.5" PointX="45.375" PointY="22.75" />
+        <EntityTypeShape EntityType="VirakiModel.Gratuity_Hisab_Mst" Width="1.5" PointX="19.375" PointY="45.75" />
+        <EntityTypeShape EntityType="VirakiModel.EInvoice_Mst" Width="1.5" PointX="45.375" PointY="27.75" />
+        <EntityTypeShape EntityType="VirakiModel.RetEInvoice_Mst" Width="1.5" PointX="45.375" PointY="32.75" />
+        <EntityTypeShape EntityType="VirakiModel.AuthToken_Mst" Width="1.5" PointX="5.375" PointY="8.75" />
+        <EntityTypeShape EntityType="VirakiModel.EInvoiceCreditMemo_Mst" Width="1.5" PointX="33.375" PointY="45.75" />
+        <EntityTypeShape EntityType="VirakiModel.RetEInvoiceCreditMemo_Mst" Width="1.5" PointX="45.375" PointY="37.75" />
+        <EntityTypeShape EntityType="VirakiModel.ReturnOrder_Mst" Width="1.5" PointX="0.75" PointY="22.75" />
+        <EntityTypeShape EntityType="VirakiModel.ReturnOrderQnty_Mst" Width="1.5" PointX="45.375" PointY="42.75" />
+        <EntityTypeShape EntityType="VirakiModel.RetReturnOrderMst" Width="1.5" PointX="20.375" PointY="11.75" />
+        <EntityTypeShape EntityType="VirakiModel.RetReturnOrderQntyMst" Width="1.5" PointX="46.375" PointY="0.75" />
+        <EntityTypeShape EntityType="VirakiModel.EInvoiceErrorDetails_Mst" Width="1.5" PointX="20.375" PointY="16.75" />
+        <EntityTypeShape EntityType="VirakiModel.RetEInvoiceErrorDetails_Mst" Width="1.5" PointX="33.375" PointY="22.75" />
+        <EntityTypeShape EntityType="VirakiModel.EWayBill_Mst" Width="1.5" PointX="5.375" PointY="46.75" />
+        <EntityTypeShape EntityType="VirakiModel.RetEWayBill_Mst" Width="1.5" PointX="7.375" PointY="46.75" />
+        <EntityTypeShape EntityType="VirakiModel.EWayBillChallan_Mst" Width="1.5" PointX="0.75" PointY="47.75" />
+        <EntityTypeShape EntityType="VirakiModel.RetEWayBillChallan_Mst" Width="1.5" PointX="47.375" PointY="6.75" />
+        <EntityTypeShape EntityType="VirakiModel.Currency_Mst" Width="1.5" PointX="47.375" PointY="10.75" />
+        <EntityTypeShape EntityType="VirakiModel.OnlineProductQty_Mst" Width="1.5" PointX="47.375" PointY="14.75" />
+        <EntityTypeShape EntityType="VirakiModel.Area_Mst" Width="1.5" PointX="3.375" PointY="0.75" />
+        <EntityTypeShape EntityType="VirakiModel.OnlineOrderQty_Mst" Width="1.5" PointX="47.375" PointY="19.75" />
+        <EntityTypeShape EntityType="VirakiModel.PurchaseTDSCategory_Mst" Width="1.5" PointX="47.375" PointY="24.75" />
+        <EntityTypeShape EntityType="VirakiModel.Purchase_Mst" Width="1.5" PointX="47.375" PointY="28.75" />
+        <EntityTypeShape EntityType="VirakiModel.PurchaseQty_Mst" Width="1.5" PointX="47.375" PointY="34.75" />
+        <EntityTypeShape EntityType="VirakiModel.AreaPincode_SubMst" Width="1.5" PointX="34.375" PointY="5.75" />
+        <EntityTypeShape EntityType="VirakiModel.Order_Mst" Width="1.5" PointX="9.375" PointY="12.75" />
+        <EntityTypeShape EntityType="VirakiModel.OnlineOrder_Mst" Width="1.5" PointX="15.375" PointY="47.75" />
+        <EntityTypeShape EntityType="VirakiModel.Customer_Mst" Width="1.5" PointX="35.375" PointY="40.75" />
+        <EntityTypeShape EntityType="VirakiModel.RetCustomerMst" Width="1.5" PointX="37.375" PointY="40.75" />
+        <EntityTypeShape EntityType="VirakiModel.ExpenseSupplier_Master" Width="1.5" PointX="23.375" PointY="28.75" />
+        <EntityTypeShape EntityType="VirakiModel.Supplier_Master" Width="1.5" PointX="9.375" PointY="42.75" />
+        <EntityTypeShape EntityType="VirakiModel.OrderQty_Mst" Width="1.5" PointX="47.375" PointY="45.75" />
+        <EntityTypeShape EntityType="VirakiModel.PouchName_Mst" Width="1.5" PointX="35.375" PointY="26.75" />
+        <EntityTypeShape EntityType="VirakiModel.RetProductMst" Width="1.5" PointX="43.375" PointY="48.75" />
+        <EntityTypeShape EntityType="VirakiModel.EducationSlab_Mst" Width="1.5" PointX="44.375" PointY="7.75" />
+        <EntityTypeShape EntityType="VirakiModel.SurchargeSlab_Mst" Width="1.5" PointX="49.375" PointY="11.75" />
+        <EntityTypeShape EntityType="VirakiModel.TaxSlab_Mst" Width="1.5" PointX="49.375" PointY="15.75" />
+        <EntityTypeShape EntityType="VirakiModel.FormSixteenDetail_Mst" Width="1.5" PointX="49.375" PointY="19.75" />
+        <EntityTypeShape EntityType="VirakiModel.FormSixteenTexableIncome" Width="1.875" PointX="49.375" PointY="49.75" />
+        <EntityTypeShape EntityType="VirakiModel.ColdStorage_InwardQty_Mst" Width="1.5" PointX="5.375" PointY="50.75" />
+        <EntityTypeShape EntityType="VirakiModel.GroundStock_Mst" Width="1.5" PointX="49.375" PointY="35.75" />
+        <EntityTypeShape EntityType="VirakiModel.GroundStock_Inward_Mst" Width="1.5" PointX="49.375" PointY="44.75" />
+        <EntityTypeShape EntityType="VirakiModel.ColdStorage_Mst" Width="1.5" PointX="49.375" PointY="29.75" />
+        <EntityTypeShape EntityType="VirakiModel.GroundStockTransfer_Mst" Width="1.5" PointX="7.375" PointY="50.75" />
+        <EntityTypeShape EntityType="VirakiModel.Product_Mst" Width="1.5" PointX="25.375" PointY="50.75" />
+        <EntityTypeShape EntityType="VirakiModel.GroundStockTransfer_Inward_Mst" Width="1.5" PointX="9.375" PointY="50.75" />
+        <EntityTypeShape EntityType="VirakiModel.GroundStock_Outward_Mst" Width="1.5" PointX="27.375" PointY="44.75" />
+        <EntityTypeShape EntityType="VirakiModel.RetProductQtyMst" Width="1.5" PointX="31.375" PointY="50.75" />
+        <EntityTypeShape EntityType="VirakiModel.ColdStorage_Inward_Mst" Width="1.5" PointX="49.375" PointY="24.75" />
+        <EntityTypeShape EntityType="VirakiModel.ColdStorage_Outward_Mst" Width="1.5" PointX="49.375" PointY="39.75" />
+        <EntityTypeShape EntityType="VirakiModel.WholeMaterial_Mst" Width="1.5" PointX="51.375" PointY="0.75" />
+        <EntityTypeShape EntityType="VirakiModel.PowderSpices_Mst" Width="1.5" PointX="0.75" PointY="51.75" />
+        <EntityTypeShape EntityType="VirakiModel.PreMix_Mst" Width="1.5" PointX="51.375" PointY="9.75" />
+        <EntityTypeShape EntityType="VirakiModel.PreMixQty_Mst" Width="1.5" PointX="11.375" PointY="51.75" />
+        <EntityTypeShape EntityType="VirakiModel.RetCustomerProductDiscountMst" Width="1.5" PointX="11.375" PointY="18.75" />
+        <EntityTypeShape EntityType="VirakiModel.RetCustomerCategoryDiscountMst" Width="1.5" PointX="16.375" PointY="10.75" />
+        <EntityTypeShape EntityType="VirakiModel.RetOrderQtyMst" Width="1.5" PointX="27.375" PointY="48.75" />
+        <EntityTypeShape EntityType="VirakiModel.CheckReturn_Mst" Width="1.5" PointX="21.375" PointY="42.75" />
+        <EntityTypeShape EntityType="VirakiModel.RetCheckReturn_Mst" Width="1.5" PointX="51.375" PointY="15.75" />
+        <EntityTypeShape EntityType="VirakiModel.RetPaymentMst" Width="1.5" PointX="28.375" PointY="0.75" />
+        <EntityTypeShape EntityType="VirakiModel.Payment_Mst" Width="1.5" PointX="21.375" PointY="48.75" />
+        <EntityTypeShape EntityType="VirakiModel.FormSixteen_Mst" Width="1.5" PointX="51.375" PointY="21.75" />
+        <EntityTypeShape EntityType="VirakiModel.SalarySheet_Master" Width="1.5" PointX="39.375" PointY="42.75" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

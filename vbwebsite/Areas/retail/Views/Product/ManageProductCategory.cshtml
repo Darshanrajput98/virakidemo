@@ -1,0 +1,115 @@
+﻿@{
+    ViewBag.Title = "ManageProductCategory";
+    Layout = "~/Areas/retail/Views/Shared/_retaillayout.cshtml";
+}
+@using vb.Data.ViewModel
+
+<div class="box box-default">
+    <div class="box-header with-border text-center">
+        <h3 class="box-title">Add Product Category</h3>
+    </div>
+    <form id="frmCategory" class="form-horizontal">
+        <div class="box-body">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="CategoryCode" class="col-sm-4 control-label">Category Code</label>
+                    <div class="col-sm-8">
+                        <input name="CategoryID" id="UCategoryID" type="hidden" value="" />
+                        <input type="text" class="form-control" name="CategoryCode" id="CategoryCode" placeholder="Category Code" tabindex="1">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="CategoryName" class="col-sm-4 control-label">Category Name</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="CategoryName" id="CategoryName" placeholder="Category Name" tabindex="3">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="Godown" class="col-sm-4 control-label">Category Type</label>
+                    <div class="col-sm-8">
+                        <select name="CategoryType" id="CategoryTypeID" class="form-control" tabindex="2">
+                            <option value="" selected>Select</option>
+                            <option value="1">Food</option>
+                            <option value="2">Noon Food</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="CategoryDescription" class="col-sm-4 control-label">Description</label>
+                    <div class="col-sm-8">
+                        <textarea class="form-control" id="CategoryDescription" name="CategoryDescription" rows="2" cols="20" placeholder="Category Description" tabindex="4"> </textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.box-body -->
+        <div class="box-footer ">
+            <div class="pull-right">
+                <button type="button" id="CancelCategory" class="btn btn-default" tabindex="6">Cancel</button>
+                @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.RACATEGORY.ToString()))
+                {
+                    <button type="button" id="btnsavecase" class="btn btn-info" tabindex="5">Save</button>
+                }
+            </div>
+        </div>
+        <!-- /.box-footer -->
+    </form>
+    <div id="lstcase">
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script>
+    $(document).ready(function () {
+        loadhtml();
+    });
+    function loadhtml() {
+        $.ajax({
+            url: '@Url.Action("ManageProductCategoryList")',
+            type: 'GET',
+            cache: false,
+        }).done(function (result) {
+            $('#lstcase').html(result);
+        });
+    }
+    $("#btnsavecase").click(function () {
+        var datareq = new Object();
+        datareq.CategoryID = $("#UCategoryID").val();
+        datareq.CategoryCode = $("#CategoryCode").val();
+        datareq.CategoryTypeID = $("#CategoryTypeID").val();
+        datareq.CategoryName = $("#CategoryName").val();
+        datareq.CategoryDescription = $("#CategoryDescription").val();
+        $.ajax({
+            url: '@Url.Action("ManageProductCategory")',
+            type: 'POST',
+            data: { 'data': datareq },
+            cache: false,
+        }).done(function (result) {
+            if (result == true) {
+                if ($("#CategoryID").val() == "") {
+                    $('div#sucessalert').html("Category Add successfully.");
+                }
+                else {
+                    $('div#sucessalert').html("Category updated successfully.");
+                }
+                showhidealert();
+                loadhtml();
+                clearform();
+            }
+        });
+    });
+
+    $("#CancelCategory").click(function () {
+        clearform();
+    });
+
+    function clearform() {
+        $("#frmCategory").find("input").val("");
+        $("#frmCategory").find("textarea").val("");
+        $("#CategoryID").val("").trigger("change");
+        $("#CategoryTypeID").val("").trigger("change");
+    }
+</script>
+

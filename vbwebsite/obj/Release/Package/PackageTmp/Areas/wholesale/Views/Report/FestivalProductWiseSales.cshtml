@@ -1,0 +1,378 @@
+﻿@model vb.Data.FestivalProductWiseSalesList
+
+@{
+    ViewBag.Title = "FestivalProductWiseSales";
+    Layout = "~/Areas/wholesale/Views/Shared/_wholesalelayout.cshtml";
+}
+
+<div class="box box-default">
+    <div class="box-header with-border text-center">
+        <h3 class="box-title">Festival Product Wise Report</h3>
+    </div>
+    <form id="frmCustomerGroup" class="form-horizontal">
+        <div class="box-body">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="Event" class="col-sm-4 control-label">Event</label>
+                    <div class="col-sm-8">
+                        @Html.DropDownListFor(m => m.EventID, new SelectList(ViewBag.Event, "EventID", "EventName"), "Select Event", new { @class = "form-control select2", tabindex = "3" })
+                        <input type="hidden" class="form-control" name="EventDate" id="EventDate">
+                        <input type="hidden" class="form-control" name="txtFrom" id="txtFrom">
+                        <input type="hidden" class="form-control" name="txtTo" id="txtTo">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="StartYear" class="col-sm-4 control-label">From Year</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="StartYear" id="StartYear" placeholder="Year" tabindex="2" autocomplete="off">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="day" class="col-sm-4 control-label">Customer</label>
+                    <div class="col-sm-8">
+                        @Html.DropDownListFor(m => m.CustomerID, new SelectList(ViewBag.Customer, "CustomerID", "CustomerName"), "Select Customer", new { @class = "form-control select2", tabindex = "3" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="day" class="col-sm-4 control-label">Category</label>
+                    <div class="col-sm-8">
+                        @Html.DropDownListFor(m => m.ProductCategoryID, new SelectList(ViewBag.ProductCategoryList, "CategoryID", "CategoryName"), "Select Category", new { @class = "form-control select2", tabindex = "5" })
+
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="day" class="col-sm-4 control-label">Sales Person</label>
+                    <div class="col-sm-8">
+                        @Html.DropDownListFor(m => m.UserID, new SelectList(ViewBag.SalesPersonList, "UserID", "UserFullName"), "Select Sales Person", new { @class = "form-control select2", tabindex = "7" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="BeforeDays" class="col-sm-5 control-label">Before</label>
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control" name="BeforeDays" id="BeforeDays" placeholder="Day" tabindex="2" autocomplete="off">
+                    </div>
+                    <label for="AfterDays" class="col-sm-3 control-label">After</label>
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control" name="AfterDays" id="AfterDays" placeholder="Day" tabindex="2" autocomplete="off">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="EndYear" class="col-sm-4 control-label">To Year</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="EndYear" id="EndYear" placeholder="Year" tabindex="2" autocomplete="off">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="ProductName" class="col-sm-4 control-label">Area</label>
+                    <div class="col-sm-8">
+                        @Html.DropDownListFor(m => m.AreaID, new SelectList(ViewBag.AreaList, "AreaID", "AreaName"), "Select Area", new { @class = "form-control select2", tabindex = "4" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="day" class="col-sm-4 control-label">Product</label>
+                    <div class="col-sm-8">
+                        @Html.DropDownListFor(m => m.ProductID, new SelectList(ViewBag.Product, "ProductID", "ProductName"), "Select Item", new { @class = "form-control select2", tabindex = "6" })
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.box-body -->
+        <div class="box-footer ">
+            <div class="pull-right">
+                <button type="button" id="btnsearch" class="btn btn-info" tabindex="8" data-txtfrom="" data-txtto="" data-beforedays="" data-afterdays="">Search</button>
+                <button type="button" id="btnclear" class="btn btn-info" tabindex="9">Clear</button>
+                <button type="button" id="btnexport" class="btn btn-info" tabindex="10">Export To Excel</button>
+            </div>
+        </div>
+        <!-- /.box-footer -->
+    </form>
+    <div id="lstcase">
+    </div>
+</div>
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#btnexport").click(function () {
+            debugger;
+            var model = new Object();
+            model.BeforeDays = $("#BeforeDays").val();
+            model.AfterDays = $("#AfterDays").val();
+            model.StartDate = $("#txtFrom").val();
+            model.EndDate = $("#txtTo").val();
+            model.CustomerID = $("#CustomerID").val();
+            model.AreaID = $("#AreaID").val();
+            model.ProductCategoryID = $("#ProductCategoryID").val();
+            model.ProductID = $("#ProductID").val();
+            model.UserID = $("#UserID").val();
+            var url = '@Url.Action("ExportExcelFestivalProductWiseSales", "Report", new { StartDate = "__StartDate__", EndDate = "__EndDate__", CustomerID = "__CustomerID__", AreaID = "__AreaID__", ProductCategoryID = "__ProductCategoryID__", ProductID = "__ProductID__", UserID = "__UserID__", BeforeDays = "__BeforeDays__", AfterDays = "__AfterDays__" })';
+            url = url.replace(/amp;/g, '');
+            window.location.href = url.replace('__StartDate__', model.StartDate).replace('__EndDate__', model.EndDate).replace('__CustomerID__', model.CustomerID).replace('__AreaID__', model.AreaID).replace('__ProductCategoryID__', model.ProductCategoryID).replace('__ProductID__', model.ProductID).replace('__UserID__', model.UserID).replace('__BeforeDays__', model.BeforeDays).replace('__AfterDays__', model.AfterDays);
+        });
+
+        $("#EventID").change(function () {
+            debugger;
+            var EventID = this.value;
+            var StartYear = $("#StartYear").val();
+            var EndYear = $("#EndYear").val();
+            if (StartYear != '' && EndYear != '') {
+                if (StartYear == EndYear) {
+                    if (EventID != '') {
+                        $.ajax({
+                            type: 'Post',
+                            url: '@Url.Action("GetEventDateForSameYear")',
+                            data: { EventID: EventID, StartYear: StartYear },
+                            success: function (result) {
+                                //  debugger;
+                                var from = parseInt(result.StartDate.substr(6));
+                                var to = parseInt(result.EndDate.substr(6));
+                                var txtfromval = new Date(from);
+                                var txtfromval2 = new Date(to);
+                                var txtfrom = txtfromval.getMonth() + 1 + "/" + txtfromval.getDate() + "/" + txtfromval.getFullYear();
+                                var txtto = txtfromval2.getMonth() + 1 + "/" + txtfromval2.getDate() + "/" + txtfromval2.getFullYear();
+                                $('#txtFrom').val(txtfrom);
+                                $('#txtTo').val(txtto);
+                            },
+                            error: function () { alert('Error'); }
+                        });
+                    }
+                    else {
+                        $('#txtFrom').val('');
+                        $('#txtTo').val('');
+                    }
+                }
+                else {
+                    if (EventID != '') {
+                        $.ajax({
+                            type: 'Post',
+                            url: '@Url.Action("GetEventDateForDiffYear")',
+                            data: { EventID: EventID, StartYear: StartYear, EndYear: EndYear },
+                            success: function (result) {
+                                //  debugger;
+                                var from = parseInt(result.StartDate.substr(6));
+                                var to = parseInt(result.EndDate.substr(6));
+                                var txtfromval = new Date(from);
+                                var txtfromval2 = new Date(to);
+                                var txtfrom = txtfromval.getMonth() + 1 + "/" + txtfromval.getDate() + "/" + txtfromval.getFullYear();
+                                var txtto = txtfromval2.getMonth() + 1 + "/" + txtfromval2.getDate() + "/" + txtfromval2.getFullYear();
+                                $('#txtFrom').val(txtfrom);
+                                $('#txtTo').val(txtto);
+                            },
+                            error: function () { alert('Error'); }
+                        });
+                    }
+                    else {
+                        $('#txtFrom').val('');
+                        $('#txtTo').val('');
+                    }
+                }
+            }
+            else {
+                $('#txtFrom').val('');
+                $('#txtTo').val('');
+            }
+        });
+
+        $("#StartYear").change(function () {
+            debugger;
+            var EventID = $("#EventID").val();
+            var StartYear = $("#StartYear").val();
+            var EndYear = $("#EndYear").val();
+            if (StartYear != '' && EndYear != '') {
+                if (StartYear == EndYear) {
+                    if (EventID != '') {
+                        $.ajax({
+                            type: 'Post',
+                            url: '@Url.Action("GetEventDateForSameYear")',
+                            data: { EventID: EventID, StartYear: StartYear },
+                            success: function (result) {
+                                //  debugger;
+                                var from = parseInt(result.StartDate.substr(6));
+                                var to = parseInt(result.EndDate.substr(6));
+                                var txtfromval = new Date(from);
+                                var txtfromval2 = new Date(to);
+                                var txtfrom = txtfromval.getMonth() + 1 + "/" + txtfromval.getDate() + "/" + txtfromval.getFullYear();
+                                var txtto = txtfromval2.getMonth() + 1 + "/" + txtfromval2.getDate() + "/" + txtfromval2.getFullYear();
+                                $('#txtFrom').val(txtfrom);
+                                $('#txtTo').val(txtto);
+                            },
+                            error: function () { alert('Error'); }
+                        });
+                    }
+                    else {
+                        $('#txtFrom').val('');
+                        $('#txtTo').val('');
+                    }
+                }
+                else {
+                    if (EventID != '') {
+                        $.ajax({
+                            type: 'Post',
+                            url: '@Url.Action("GetEventDateForDiffYear")',
+                            data: { EventID: EventID, StartYear: StartYear, EndYear: EndYear },
+                            success: function (result) {
+                                //  debugger;
+                                var from = parseInt(result.StartDate.substr(6));
+                                var to = parseInt(result.EndDate.substr(6));
+                                var txtfromval = new Date(from);
+                                var txtfromval2 = new Date(to);
+                                var txtfrom = txtfromval.getMonth() + 1 + "/" + txtfromval.getDate() + "/" + txtfromval.getFullYear();
+                                var txtto = txtfromval2.getMonth() + 1 + "/" + txtfromval2.getDate() + "/" + txtfromval2.getFullYear();
+                                $('#txtFrom').val(txtfrom);
+                                $('#txtTo').val(txtto);
+                            },
+                            error: function () { alert('Error'); }
+                        });
+                    }
+                    else {
+                        $('#txtFrom').val('');
+                        $('#txtTo').val('');
+                    }
+                }
+            }
+            else {
+                $('#txtFrom').val('');
+                $('#txtTo').val('');
+            }
+        });
+
+        $("#EndYear").change(function () {
+            debugger;
+            var EventID = $("#EventID").val();
+            var StartYear = $("#StartYear").val();
+            var EndYear = $("#EndYear").val();
+            if (StartYear != '' && EndYear != '') {
+                if (StartYear == EndYear) {
+                    if (EventID != '') {
+                        $.ajax({
+                            type: 'Post',
+                            url: '@Url.Action("GetEventDateForSameYear")',
+                            data: { EventID: EventID, StartYear: StartYear },
+                            success: function (result) {
+                                //  debugger;
+                                var from = parseInt(result.StartDate.substr(6));
+                                var to = parseInt(result.EndDate.substr(6));
+                                var txtfromval = new Date(from);
+                                var txtfromval2 = new Date(to);
+                                var txtfrom = txtfromval.getMonth() + 1 + "/" + txtfromval.getDate() + "/" + txtfromval.getFullYear();
+                                var txtto = txtfromval2.getMonth() + 1 + "/" + txtfromval2.getDate() + "/" + txtfromval2.getFullYear();
+                                $('#txtFrom').val(txtfrom);
+                                $('#txtTo').val(txtto);
+                            },
+                            error: function () { alert('Error'); }
+                        });
+                    }
+                    else {
+                        $('#txtFrom').val('');
+                        $('#txtTo').val('');
+                    }
+                }
+                else {
+                    if (EventID != '') {
+                        $.ajax({
+                            type: 'Post',
+                            url: '@Url.Action("GetEventDateForDiffYear")',
+                            data: { EventID: EventID, StartYear: StartYear, EndYear: EndYear },
+                            success: function (result) {
+                                //  debugger;
+                                var from = parseInt(result.StartDate.substr(6));
+                                var to = parseInt(result.EndDate.substr(6));
+                                var txtfromval = new Date(from);
+                                var txtfromval2 = new Date(to);
+                                var txtfrom = txtfromval.getMonth() + 1 + "/" + txtfromval.getDate() + "/" + txtfromval.getFullYear();
+                                var txtto = txtfromval2.getMonth() + 1 + "/" + txtfromval2.getDate() + "/" + txtfromval2.getFullYear();
+                                $('#txtFrom').val(txtfrom);
+                                $('#txtTo').val(txtto);
+                            },
+                            error: function () { alert('Error'); }
+                        });
+                    }
+                    else {
+                        $('#txtFrom').val('');
+                        $('#txtTo').val('');
+                    }
+                }
+            }
+            else {
+                $('#txtFrom').val('');
+                $('#txtTo').val('');
+            }
+        });
+
+        $("#btnsearch").click(function () {
+            debugger;
+            document.getElementById('btnsearch').disabled = true;
+            if ($("#txtFrom").val() == '' || $("#txtTo").val() == '') {
+                alert("Please enter Start and End years");
+                document.getElementById('btnsearch').disabled = false;
+            }
+            else {
+                loadhtml();
+            }
+        });
+
+        function loadhtml() {
+            var model = new Object();
+            model.BeforeDays = $("#BeforeDays").val();
+            model.AfterDays = $("#AfterDays").val();
+            model.StartDate = $("#txtFrom").val();
+            model.EndDate = $("#txtTo").val();
+            model.CustomerID = $("#CustomerID").val();
+            model.AreaID = $("#AreaID").val();
+            model.ProductCategoryID = $("#ProductCategoryID").val();
+            model.ProductID = $("#ProductID").val();
+            model.UserID = $("#UserID").val();
+            $.ajax({
+                url: '@Url.Action("FestivalProductWiseSalesList")',
+                type: 'POST',
+                data: { 'model': model },
+                cache: false,
+            }).done(function (result) {
+
+                $('#lstcase').html(result);
+                document.getElementById('btnsearch').disabled = false;
+            });
+        }
+
+        $("#btnclear").click(function () {
+            debugger;
+            location.reload();
+        });
+
+        var custid = '@Session["prcustid"]';
+        var txtfrom = '@Session["prtxtfrom"]';
+        var txtto = '@Session["prtxtto"]';
+        var uid = '@Session["pruid"]';
+        var productid = '@Session["prproductid"]';
+        var categoryid = '@Session["prcategoryid"]';
+        var areaid = '@Session["prareaid"]';
+        debugger;
+        if (custid != "" || txtfrom != "" || txtto != "" || uid != "" || productid != "" || categoryid != "" || areaid != "") {
+            $("#CustomerID").val(custid);
+            $("#txtFrom").val(txtfrom);
+            $("#txtTo").val(txtto);
+            $("#UserID").val(uid);
+            $("#ProductID").val(productid);
+            $("#ProductCategoryID").val(categoryid);
+            $("#AreaID").val(areaid);
+            var model = new Object();
+            model.From = $("#txtFrom").val();
+            model.To = $("#txtTo").val();
+            model.CustomerID = $("#CustomerID").val();
+            model.ProductID = $("#ProductID").val();
+            model.UserID = $("#UserID").val();
+            model.AreaID = $("#AreaID").val();
+            model.ProductCategoryID = $("#ProductCategoryID").val();
+            $.ajax({
+                url: '@Url.Action("ViewBillWiseOrderListForProductWiseSalesReport", "Report")',
+                type: 'POST',
+                data: { 'model': model },
+                cache: false,
+            }).done(function (result) {
+                $('#lstcase').html(result);
+            });
+        }
+    });
+</script>

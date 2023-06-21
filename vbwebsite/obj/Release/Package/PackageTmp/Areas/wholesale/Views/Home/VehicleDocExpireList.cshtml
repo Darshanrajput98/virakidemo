@@ -1,0 +1,202 @@
+﻿@model List<vb.Data.VehicleListResponse>
+@using vb.Data.ViewModel
+
+<div class="box">
+    <div class="box-header text-center">
+        <h3 class="box-title">Vehicle Doc Validity List</h3>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body table-scrollable1">
+        <table id="ListDataTable" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th class="nosort">Vehicle No</th>
+                    <th class="nosort">RC Date</th>
+                    <th class="nosort">Fitness</th>
+                    <th class="nosort">Days Rem.</th>
+                    <th class="nosort">Permit</th>
+                    <th class="nosort">Days Rem.</th>
+                    <th class="nosort">PUC</th>
+                    <th class="nosort">Days Rem.</th>
+                    <th class="nosort">Insurance</th>
+                    <th class="nosort">Days Rem.</th>
+                    <th class="nosort">Advertisement</th>
+                    <th class="nosort">Days Rem.</th>
+                    <th class="nosort">Speed Gov</th>
+                    <th class="nosort">Days Rem.</th>
+                    <th class="nosort">FSSAI</th>
+                    <th class="nosort">Days Rem.</th>
+
+                    <th class="nosort">Green Tax</th>
+                    <th class="nosort">Days Rem.</th>
+
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td id="row">
+                            @item.VehicleNumber
+                        </td>
+
+                        <td>
+                            @item.RCNoValiditystr
+                        </td>
+
+                        @*@if (item.RCNumberRemaining > 0)
+                            {
+                                <td>
+                                    @item.RCNoValiditystr
+                                </td>
+                                <td>
+                                    @item.RCNumberRemaining
+                                </td>
+                            }
+                            else
+                            {
+                                <td style="color: red; font-weight: bold;">@item.RCNoValiditystr</td>
+                                <td style="color: red; font-weight: bold;">@item.RCNumberRemaining</td>
+                            }*@
+
+                        @if (item.FitnessRemaining > 0)
+                        {
+                            <td>
+                                @item.FitnessValiditystr
+                            </td>
+                            <td>
+                                @item.FitnessRemaining
+                            </td>
+                        }
+                        else
+                        {
+                            <td style="color: red; font-weight: bold;">@item.FitnessValiditystr</td>
+                            <td style="color: red; font-weight: bold;">@item.FitnessRemaining</td>
+                        }
+
+                        @if (item.PermitRemaining > 0)
+                        {
+                            <td>
+                                @item.PermitValiditystr
+                            </td>
+                            <td>
+                                @item.PermitRemaining
+                            </td>
+                        }
+                        else
+                        {
+                            <td style="color: red; font-weight: bold;">@item.PermitValiditystr</td>
+                            <td style="color: red; font-weight: bold;">@item.PermitRemaining</td>
+                        }
+
+                        @if (item.PUCRemaining > 0)
+                        {
+                            <td>
+                                @item.PUCValiditystr
+                            </td>
+                            <td>
+                                @item.PUCRemaining
+                            </td>
+                        }
+                        else
+                        {
+                            <td style="color: red; font-weight: bold;">@item.PUCValiditystr</td>
+                            <td style="color: red; font-weight: bold;">@item.PUCRemaining</td>
+                        }
+
+                        @if (item.InsuranceRemaining > 0)
+                        {
+                            <td>
+                                @item.InsuranceValiditystr
+                            </td>
+                            <td>
+                                @item.InsuranceRemaining
+                            </td>
+                        }
+                        else
+                        {
+                            <td style="color: red; font-weight: bold;">@item.InsuranceValiditystr</td>
+                            <td style="color: red; font-weight: bold;">@item.InsuranceRemaining</td>
+                        }
+
+                        @if (item.AdvertisementRemaining > 0)
+                        {
+                            <td>
+                                @item.AdvertisementValiditystr
+                            </td>
+                            <td>
+                                @item.AdvertisementRemaining
+                            </td>
+                        }
+                        else
+                        {
+                            <td style="color: red; font-weight: bold;">@item.AdvertisementValiditystr</td>
+                            <td style="color: red; font-weight: bold;">@item.AdvertisementRemaining</td>
+                        }
+
+                        @if (item.SpeedGovernorCertiRemaining > 0)
+                        {
+                            <td>
+                                @item.SpeedGovernorCertificateValiditystr
+                            </td>
+                            <td>
+                                @item.SpeedGovernorCertiRemaining
+                            </td>
+                        }
+                        else
+                        {
+                            <td style="color: red; font-weight: bold;">@item.SpeedGovernorCertificateValiditystr</td>
+                            <td style="color: red; font-weight: bold;">@item.SpeedGovernorCertiRemaining</td>
+                        }
+
+                        @if (item.FSSAICertiRemaining > 0)
+                        {
+                            <td>
+                                @item.FSSAICertificateValiditystr
+                            </td>
+                            <td>
+                                @item.FSSAICertiRemaining
+                            </td>
+                        }
+                        else
+                        {
+                            <td style="color: red; font-weight: bold;">@item.FSSAICertificateValiditystr</td>
+                            <td style="color: red; font-weight: bold;">@item.FSSAICertiRemaining</td>
+                        }
+
+
+                        @if (item.GreenTaxCertiRemaining > 0)
+                        {
+                            <td>
+                                @item.GreenTaxCertificateValiditystr
+                            </td>
+                            <td>
+                                @item.GreenTaxCertiRemaining
+                            </td>
+                        }
+                        else
+                        {
+                            <td style="color: red; font-weight: bold;">@item.GreenTaxCertificateValiditystr</td>
+                            <td style="color: red; font-weight: bold;">@item.GreenTaxCertiRemaining</td>
+                        }
+
+
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+    <!-- /.box-body -->
+</div>
+
+@*<script>
+        $("#ListDataTable").DataTable({
+            'aoColumnDefs': [{
+                'bSortable': false,
+                'aTargets': ['nosort'] /* 1st one, start by the right */
+
+            }]
+        });
+    </script>*@

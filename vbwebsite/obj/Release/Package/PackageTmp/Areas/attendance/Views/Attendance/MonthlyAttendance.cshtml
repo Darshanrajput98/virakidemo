@@ -1,0 +1,122 @@
+﻿
+@{
+    ViewBag.Title = "MonthlyAttendance";
+    Layout = "~/Areas/expenses/Views/Shared/_expenseslayout.cshtml";
+}
+
+<div class="box box-default">
+    <div class="box-header with-border text-center">
+        <h3 class="box-title">Monthly Attendance</h3>
+    </div>
+    <form id="frmMonthlyAttendance" class="form-horizontal">
+        <div class="box-body">
+            <div class="col-md-12">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="Month" class="col-sm-4 control-label">Month</label>
+                        <div class="col-sm-8">
+                            <select name="Month" id="MonthID" class="form-control" tabindex="1" required>
+                                <option value="0" selected>Select</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="Year" class="col-sm-4 control-label">Year</label>
+                        <div class="col-sm-8">
+                            <select name="Year" id="YearID" class="form-control YearID" tabindex="2" required>
+                                <option value="0" selected>Select</option>
+                                <option value="2018">2018</option>
+                                <option value="2019">2019</option>
+                                <option value="2020">2020</option>
+                                <option value="2021">2021</option>
+                                <option value="2022">2022</option>
+                                <option value="2023">2023</option>
+                                <option value="2024">2024</option>
+                                <option value="2025">2025</option>
+                                <option value="2026">2026</option>
+                                <option value="2027">2027</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="GodownID" class="col-sm-4 control-label">Godown</label>
+                        <div class="col-sm-8">
+                            @Html.DropDownList("GodownID", new SelectList(ViewBag.Godown, "GodownID", "GodownName"), "Select Godown", new { @class = "form-control select2", tabindex = "3", required = "required" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="EmployeeCode" class="col-sm-4 control-label">Employee</label>
+                        <div class="col-sm-8">
+                            @Html.DropDownList("EmployeeCode", new SelectList(ViewBag.Employee, "EmployeeCode", "FullName"), "Select Employee", new { @class = "form-control select2", tabindex = "4" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="box-footer ">
+            <div class="pull-right">
+                <button type="button" id="btnsearch" class="btn btn-info" tabindex="1">Search</button>
+                <button type="button" id="btnexport" class="btn btn-info" tabindex="2">Export To Excel</button>
+            </div>
+        </div>
+    </form>
+    <div id="lstcase">
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#btnsearch").click(function () {
+            loadhtml();
+        });
+       
+        function loadhtml() {
+            if (!($('#frmMonthlyAttendance').parsley().validate())) {
+                return;
+            }
+            var MonthID = $("#MonthID").val();
+            var YearID = $("#YearID").val();
+            var GodownID = $("#GodownID").val();
+            var EmployeeCode = $("#EmployeeCode").val();          
+            debugger;
+            $.ajax({
+                url: '@Url.Action("MonthlyAttendanceList")',
+                type: 'POST',
+                data: { 'MonthID': MonthID, 'YearID': YearID, 'GodownID': GodownID, 'EmployeeCode': EmployeeCode },
+                cache: false,
+            }).done(function (result) {
+                $('#lstcase').html(result);
+            });
+        }
+    });
+
+    $("#btnexport").click(function () {
+        var MonthID = $("#MonthID").val();
+        var YearID = $("#YearID").val();
+        var GodownID = $("#GodownID").val();
+        var EmployeeCode = $("#EmployeeCode").val();
+           var url = '@Url.Action("ExportExcelMonthlyAttendance", "Attendance", new { MonthID = "__MonthID__", YearID = "__YearID__", GodownID = "__GodownID__", EmployeeCode = "__EmployeeCode__" })';
+           url = url.replace(/amp;/g, '');
+           window.location.href = url.replace('__MonthID__', MonthID).replace('__YearID__', YearID).replace('__GodownID__', GodownID).replace('__EmployeeCode__', EmployeeCode);
+       });
+</script>
+

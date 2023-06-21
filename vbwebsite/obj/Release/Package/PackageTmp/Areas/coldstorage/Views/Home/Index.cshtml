@@ -1,0 +1,32 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/coldstorage/Views/Shared/_coldstoragelayout.cshtml";
+}
+
+<h1><center>Cold Storage</center></h1>
+
+<div class="col-md-12">
+
+    <div id="lstExpiryDateWiseStockReportList" style="padding-bottom:10px;">
+    </div>
+
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script>
+    $(document).ready(function () {
+        debugger;
+        loadhtml();
+    });
+
+    function loadhtml() {
+        $.ajax({
+            url: '@Url.Action("ExpiryDateWiseStockReportList","Home")',
+            type: 'GET',
+            cache: false,
+        }).done(function (result) {
+            $('#lstExpiryDateWiseStockReportList').html(result);
+        });
+    }
+
+</script>

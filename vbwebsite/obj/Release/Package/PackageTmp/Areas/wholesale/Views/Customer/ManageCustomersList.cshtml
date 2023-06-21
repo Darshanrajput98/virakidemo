@@ -1,0 +1,393 @@
+﻿@using vb.Data.ViewModel
+
+<div class="box">
+    <div class="box-header text-center">
+        <h3 class="box-title">Customer List</h3>
+    </div>
+    <!-- /.box-header -->
+    @*<div class="box-body">*@
+
+    <div class="box-body table-scrollable1">
+        <table id="ListDataTable" class="table table-bordered table-bordered">
+            <thead>
+                <tr>
+                    <th class="nosort">Name</th>
+                    <th class="nosort">Customer Number</th>
+                    <th class="nosort">Group</th>
+                    <th class="nosort">Area</th>
+                    <th class="nosort">GST No</th>
+                    <th class="nosort">Sales Per.</th>
+                    @*<th class="nosort">Opening Time</th>
+                        <th class="nosort">Closing Time</th>*@
+                    <th class="nosort">Tax Type</th>
+                    @*<th class="nosort">Invoice No</th>*@
+                    <th class="nosort">FSSAI</th>
+                    <th class="nosort">Valid Up To</th>
+                    <th class="nosort"> Contact Person</th>
+                    <th class="nosort">Contact No</th>
+                    <th class="nosort">Week 1</th>
+                    <th class="nosort">Week 2</th>
+                    <th class="nosort">Week 3</th>
+                    <th class="nosort">Week 4</th>
+                    <th class="nosort">Do Not Disturb</th>
+                    <th class="nosort">Note</th>
+                    <th class="nosort">FSSAI Certi.</th>
+                    @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.WECUSTOMER.ToString()))
+                    {
+                        <th class="nosort">Edit</th>
+                    }
+                    @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.WDCUSTOMER.ToString()))
+                    {
+                        <th class="nosort">Status</th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td id="row">
+                            @item.CustomerName
+                        </td>
+                        <td>
+                            @item.CustomerNumber
+                        </td>
+                        <td>
+                            @item.CustomerGroupName
+                        </td>
+                        <td>
+                            @item.AreaName
+                        </td>
+                        <td>
+                            @item.TaxNo
+                        </td>
+                        <td>
+                            @item.UserFullName
+                        </td>
+                        @*<td>
+                                @item.OpeningTime.ToString("hh:mm tt")
+                            </td>
+                            <td>
+                                @item.ClosingTime.ToString("hh:mm tt")
+                            </td>*@
+                        <td>
+                            @item.TaxName
+                        </td>
+                        @*<td>
+                                @item.NoofInvoice
+                            </td>*@
+                        <td>
+                            @item.FSSAI
+                        </td>
+                        <td>
+                            @item.FSSAIValidUpTostr
+                        </td>
+                        <td>
+                            @item.ContactPerson
+                        </td>
+                        <td>
+                            @item.ContactNumber
+                        </td>
+                        <td>
+                            @item.CallWeek1
+                        </td>
+                        <td>
+                            @item.CallWeek2
+                        </td>
+                        <td>
+                            @item.CallWeek3
+                        </td>
+                        <td>
+                            @item.CallWeek4
+                        </td>
+                        <td>
+                            @item.DoNotDisturb
+                        </td>
+                        <td>
+                            @item.CustomerNote
+                        </td>
+                        @if (@item.FSSAICertificatepath != "" && @item.FSSAICertificatepath != null)
+                        {
+                            <td>
+                                <a id="" href="@item.FSSAICertificatepath" target="_blank"><i class="fa fa-download" style="font-size: 23px;" aria-hidden="true"></i></a>
+                            </td>
+                        }
+                        else
+                        {
+                            <td></td>
+                        }
+
+                        @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.WECUSTOMER.ToString()))
+                        {
+                            <td>
+                                <a style="cursor:pointer;" class="btnedit" data-pid="@item.CustomerID" data-groupid="@item.CustomerGroupID" data-areaid="@item.AreaID" data-userid="@item.UserID" data-taxid="@item.TaxID" data-custtypeid="@item.CustomerTypeID" data-deliveryareaid="@item.DeliveryAreaID" data-billingareaid="@item.BillingAreaID" data-deladd1="@item.DeliveryAddressLine1" data-deladd2="@item.DeliveryAddressLine2" data-billadd1="@item.BillingAddressLine1" data-billadd2="@item.BillingAddressLine2" data-customernumber="@item.CustomerNumber" data-bankname="@item.BankName" data-branch="@item.Branch" data-ifccode="@item.IFCCode" data-deliveryaddresspincode="@item.DeliveryAddressPincode" data-deliveryaddressdistance="@item.DeliveryAddressDistance" data-fssaivalidupto="@item.FSSAIValidUpTo" data-openingtime="@item.OpeningTime.ToString("hh:mm tt")" data-closingtime="@item.ClosingTime.ToString("hh:mm tt")" data-noofinvoice="@item.NoofInvoice" data-lbtno="@item.LBTNo" data-fssaicertificate="@item.FSSAICertificate" data-isvirakiemployee="@item.IsVirakiEmployee" data-isreflectinvoucher="@item.IsReflectInVoucher" data-cellno1="@item.CellNo1" data-cellno2="@item.CellNo2" data-telno1="@item.TelNo1" data-telno2="@item.TelNo2" data-email1="@item.Email1" data-email2="@item.Email2" data-istcsapplicable="@item.IsTCSApplicable" data-createdby="@item.CreatedBy" data-createdon="@item.CreatedOn" data-pancard="@item.PanCard">Edit</a>
+                            </td>
+                        }
+                        @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.WDCUSTOMER.ToString()))
+                        {
+                            if (item.IsDelete == true)
+                            {
+                                <td>
+                                    @Html.ActionLink("Active", "DeleteCustomer", "Customer",
+                                                new { CustomerID = item.CustomerID, IsDelete = false },
+                                    new { onclick = "return confirm('Are you sure you wish to delete this article?');" })
+                                </td>
+                            }
+                            else
+                            {
+                                <td>
+                                    @Html.ActionLink("DeActive", "DeleteCustomer", "Customer",
+                                                new { CustomerID = item.CustomerID, IsDelete = true },
+                                    new { onclick = "return confirm('Are you sure you wish to delete this article?');" })
+                                </td>
+                            }
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <!-- /.box-body -->
+</div>
+
+<script>
+
+    //$("#ListDataTable").DataTable({
+    //    'aoColumnDefs': [{
+    //        'bSortable': false,
+    //        'aTargets': ['nosort'] /* 1st one, start by the right */
+    //    }]
+    //});
+
+    $('#ListDataTable').DataTable({
+        'paging': true,
+        'lengthChange': true,
+        'searching': true,
+        'ordering': false,
+        'info': true,
+        'autoWidth': false
+    });
+
+    $('#ListDataTable').on('click', '.btnedit', function () {
+        debugger;
+        $("#UCustomerID").val($(this).attr("data-pid"));
+        $("#CustomerName").val($(this).parent().parent().children()[0].innerText.trim());
+        $("#CustomerGroupID").val($(this).attr("data-groupid")).trigger("change");
+        $("#AreaID").val($(this).attr("data-areaid")).trigger("change");
+        $("#TaxNo").val($(this).parent().parent().children()[4].innerHTML.trim());
+        $("#UserID").val($(this).attr("data-userid")).trigger("change");
+        //$("#OpeningTime").val($(this).parent().parent().children()[6].innerHTML.trim());
+        //$("#ClosingTime").val($(this).parent().parent().children()[7].innerHTML.trim());
+        $("#TaxID").val($(this).attr("data-taxid")).trigger("change");
+        //$("#NoofInvoice").val($(this).parent().parent().children()[9].innerHTML.trim());
+        $("#FSSAI").val($(this).parent().parent().children()[7].innerHTML.trim());
+        $("#FSSAIValidUpTo").val($(this).parent().parent().children()[8].innerHTML.trim());
+        $("#CustomerTypeID").val($(this).attr("data-custtypeid")).trigger("change");
+        //$("#LBTNo").val($(this).parent().parent().children()[12].innerHTML.trim());
+        var value1 = $(this).parent().parent().children()[11].innerHTML.trim();
+        if (value1 == 'True') {
+            $("#CallWeek1").prop('checked', true);
+        }
+        else {
+            $("#CallWeek1").prop('checked', false);
+        }
+        var value2 = $(this).parent().parent().children()[12].innerHTML.trim();
+        if (value2 == 'True') {
+            $("#CallWeek2").prop('checked', true);
+        }
+        else {
+            $("#CallWeek2").prop('checked', false);
+        }
+        var value3 = $(this).parent().parent().children()[13].innerHTML.trim();
+
+        if (value3 == 'True') {
+            $("#CallWeek3").prop('checked', true);
+        }
+        else {
+            $("#CallWeek3").prop('checked', false);
+        }
+        var value4 = $(this).parent().parent().children()[14].innerHTML.trim();
+
+        if (value4 == 'True') {
+            $("#CallWeek4").prop('checked', true);
+        }
+        else {
+            $("#CallWeek4").prop('checked', false);
+        }
+        var value5 = $(this).parent().parent().children()[15].innerHTML.trim();
+
+        if (value5 == 'True') {
+            $("#DoNotDisturb").prop('checked', true);
+        }
+        else {
+            $("#DoNotDisturb").prop('checked', false);
+        }
+        $("#CustomerNote").val($(this).parent().parent().children()[16].innerHTML.trim());
+        $("#BankName").val($(this).attr("data-bankname"));
+        $("#Branch").val($(this).attr("data-branch"));
+        $("#IFCCode").val($(this).attr("data-ifccode"));
+        $("#CustomerNumber").val($(this).attr("data-customernumber"));
+        $("#DeliveryAreaID").val($(this).attr("data-deliveryareaid")).trigger("change");
+        $("#DeliveryAddressLine1").val($(this).attr("data-deladd1"));
+        $("#DeliveryAddressLine2").val($(this).attr("data-deladd2"));
+        $("#DeliveryAddressPincode").val($(this).attr("data-deliveryaddresspincode"));
+        $("#DeliveryAddressDistance").val($(this).attr("data-deliveryaddressdistance"));
+        $("#BillingAreaID").val($(this).attr("data-billingareaid")).trigger("change");
+        $("#BillingAddressLine1").val($(this).attr("data-billadd1"));
+        $("#BillingAddressLine2").val($(this).attr("data-billadd2"));
+        //$("#FSSAIValidUpTo").val($(this).attr("data-fssaivalidupto"));
+        $("#OpeningTime").val($(this).attr("data-openingtime"));
+        $("#ClosingTime").val($(this).attr("data-closingtime"));
+        $("#NoofInvoice").val($(this).attr("data-noofinvoice"));
+        $("#LBTNo").val($(this).attr("data-lbtno"));
+        $("#lblFSSAICertificate").text($(this).attr("data-fssaicertificate"));
+
+        var isvirakiemployee = $(this).attr("data-isvirakiemployee")
+        if (isvirakiemployee == 'True') {
+            $("#IsVirakiEmployee").prop('checked', true);
+        }
+        else {
+            $("#IsVirakiEmployee").prop('checked', false);
+        }
+        var isreflectinvoucher = $(this).attr("data-isreflectinvoucher")
+        if (isreflectinvoucher == 'True') {
+            $("#IsReflectInVoucher").prop('checked', true);
+        }
+        else {
+            $("#IsReflectInVoucher").prop('checked', false);
+        }
+
+        $("#CellNo1").val($(this).attr("data-cellno1"));
+        $("#CellNo2").val($(this).attr("data-cellno2"));
+        $("#TelNo1").val($(this).attr("data-telno1"));
+        $("#TelNo2").val($(this).attr("data-telno2"));
+        $("#Email1").val($(this).attr("data-email1"));
+        $("#Email2").val($(this).attr("data-email2"));
+        $("#PanCard").val($(this).attr("data-pancard"));
+        var istcsapplicable = $(this).attr("data-istcsapplicable")
+        if (istcsapplicable == 'True') {
+            $("#IsTCSApplicable").prop('checked', true);
+        }
+        else {
+            $("#IsTCSApplicable").prop('checked', false);
+        }
+
+        $("#CreatedBy").val($(this).attr("data-createdby"));
+        $("#CreatedOn").val($(this).attr("data-createdon"));
+
+        $.ajax({
+            type: 'Post',
+            url: '@Url.Action("GetCustomerAddressList")',
+            data: { CustomerID: $(this).attr("data-pid") },
+            success: function (result) {
+                bookIndex = 0;
+                $(result).each(function (index, row) {
+                    //debugger;
+                    if (row.AddressID == '1') {
+                        bookIndex++;
+                        if (bookIndex > 1) {
+                            var $template = $('#AddMoreDeliveryAddress'),
+                                $clone = $template
+                                                .clone()
+                                                .removeClass('hide')
+                                                .removeAttr('id')
+                                                .attr('data-book-index', bookIndex)
+                                                .insertBefore($template);
+                            // Update the name attributes
+                            $clone
+                        .find('[name="DName"]').attr('name', 'lstDeliveryAddress[' + bookIndex + '].DName').end()
+                        .find('[name="DRole"]').attr('name', 'lstDeliveryAddress[' + bookIndex + '].DRole').end()
+                        .find('[name="DCellNo"]').attr('name', 'lstDeliveryAddress[' + bookIndex + '].DCellNo').end()
+                        .find('[name="DTelNo"]').attr('name', 'lstDeliveryAddress[' + bookIndex + '].DTelNo').end()
+                        .find('[name="DEmail"]').attr('name', 'lstDeliveryAddress[' + bookIndex + '].DEmail').end()
+                        .find('[name="DNote"]').attr('name', 'lstDeliveryAddress[' + bookIndex + '].DNote').end();
+                            //debugger;
+                            $clone.find("input[type=hidden]")[0].value = row.CustomerAddressID;
+                            $clone.find("input")[0].value = row.Name;
+                            $clone.find("input")[2].value = row.RoleDescription;
+                            $clone.find("input")[3].value = row.CellNo;
+                            $clone.find("input")[4].value = row.TelNo;
+                            $clone.find("input")[5].value = row.Email;
+                            $clone.find("input")[6].value = row.Note;
+                        }
+                        else {
+                            //debugger;
+                            if ($('#DeliveryContacts').find('tbody tr:visible').length > 1)
+                                $('#DeliveryContacts').find('tbody tr:visible').not(':first').empty();
+                            var $template = $('#AddDeliveryContacts');
+                            $clone = $template;
+                            $clone.find("input[type=hidden]")[0].value = row.CustomerAddressID;
+                            $clone.find("input")[0].value = row.Name;
+                            $clone.find("input")[2].value = row.RoleDescription;
+                            $clone.find("input")[3].value = row.CellNo;
+                            $clone.find("input")[4].value = row.TelNo;
+                            $clone.find("input")[5].value = row.Email;
+                            $clone.find("input")[6].value = row.Note;
+                        }
+                    }
+                });
+            },
+            error: function () { alert('Error'); }
+        });
+        $.ajax({
+            type: 'Post',
+            url: '@Url.Action("GetCustomerBillingAddressList")',
+            data: { CustomerID: $(this).attr("data-pid") },
+            success: function (result) {
+                bookIndex = 0;
+                $(result).each(function (index, row) {
+                    //  debugger;
+                    if (row.AddressID == '2') {
+                        bookIndex++;
+                        if (bookIndex > 1) {
+                            var $template = $('#AddMoreBillingAddress'),
+                                $clone = $template
+                                                .clone()
+                                                .removeClass('hide')
+                                                .removeAttr('id')
+                                                .attr('data-book-index', bookIndex)
+                                                .insertBefore($template);
+                            // Update the name attributes
+                            $clone
+                         .find('[name="BName"]').attr('name', 'lstBillingAddress[' + bookIndex + '].BName').end()
+                     .find('[name="BRole"]').attr('name', 'lstBillingAddress[' + bookIndex + '].BRole').end()
+                     .find('[name="BCellNo"]').attr('name', 'lstBillingAddress[' + bookIndex + '].BCellNo').end()
+                     .find('[name="BTelNo"]').attr('name', 'lstBillingAddress[' + bookIndex + '].BTelNo').end()
+                     .find('[name="BEmail"]').attr('name', 'lstBillingAddress[' + bookIndex + '].BEmail').end()
+                     .find('[name="BNote"]').attr('name', 'lstBillingAddress[' + bookIndex + '].BNote').end();
+                            $clone.find("input[type=hidden]")[0].value = row.CustomerAddressID;
+                            $clone.find("input")[0].value = row.Name;
+                            $clone.find("input")[2].value = row.RoleDescription;
+                            $clone.find("input")[3].value = row.CellNo;
+                            $clone.find("input")[4].value = row.TelNo;
+                            $clone.find("input")[5].value = row.Email;
+                            $clone.find("input")[6].value = row.Note;
+                        }
+                        else {
+                            // debugger;
+                            if ($('#BillingContacts').find('tbody tr:visible').length > 1)
+                                $('#BillingContacts').find('tbody tr:visible').not(':first').empty();
+
+                            var $template = $('#AddBillingAddress');
+                            $clone = $template;
+                            $clone.find("input[type=hidden]")[0].value = row.CustomerAddressID;
+                            $clone.find("input")[0].value = row.Name;
+                            $clone.find("input")[2].value = row.RoleDescription;
+                            $clone.find("input")[3].value = row.CellNo;
+                            $clone.find("input")[4].value = row.TelNo;
+                            $clone.find("input")[5].value = row.Email;
+                            $clone.find("input")[6].value = row.Note;
+                        }
+                    }
+                });
+
+            },
+            error: function () { alert('Error'); }
+        });
+        $("html, body").animate({ scrollTop: 0 }, "slow");
+    });
+
+</script>
+
+

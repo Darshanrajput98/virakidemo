@@ -1,0 +1,2128 @@
+﻿@model vb.Data.AddExpenseDetail
+@{
+    ViewBag.Title = "AddExpense";
+    Layout = "~/Areas/expenses/Views/Shared/_expenseslayout.cshtml";
+}
+<style>
+    .dropset ul {
+        z-index: 1030 !important;
+        height: 200px !important;
+        overflow-x: hidden !important;
+        overflow-y: auto !important;
+    }
+</style>
+
+<style>
+    .round-button {
+        display: block;
+        width: 40px;
+        height: 40px;
+        line-height: 20px;
+        border: 2px solid #f5f5f5;
+        border-radius: 50%;
+        /* color: #f5f5f5; */
+        text-align: center;
+        text-decoration: none;
+        background: #3c8dbc;
+        box-shadow: 0 0 3px grey;
+        font-size: 10px;
+        font-weight: bold;
+    }
+
+        .round-button:hover {
+            background: red;
+        }
+</style>
+
+<style>
+    .table_wrapper {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+
+    .td_fixedwidth {
+        width: 150px;
+    }
+
+    .td_fixedwidthdropdown {
+        width: 300px;
+    }
+
+    .td_fixedwidthlabel {
+        width: 50px;
+    }
+
+    .td_fixedwidthlabel2 {
+        width: 100px;
+    }
+</style>
+
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+
+<div class="box box-default">
+    <div class="box-header with-border text-center">
+        <h3 class="box-title">Add Expense Bill</h3>
+    </div>
+    <form id="frmExpense" method="post" class="form-horizontal">
+        <div class="box-body">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <input name="ExpenseID" id="ExpenseID" type="hidden" value="@Model.ExpenseID" />
+                    <input name="SupplierID" id="SupplierID" type="hidden" class="hdnSupplierID" value="@Model.SupplierID" />
+                    <input type="hidden" id="CreatedBy" class="CreatedBy" value="@Model.CreatedBy" />
+                    <input type="hidden" id="CreatedOn" class="CreatedOn" value="@Model.CreatedOn" />
+                    <input type="hidden" id="TDSPercentage" class="TDSPercentage" value="@Model.TDSPercentage" />
+                    <input type="hidden" id="TDSCategoryID" class="TDSCategoryID" value="@Model.TDSCategoryID" />
+                    @*<input type="hidden" id="TDSCategory" class="TDSCategory" value="@Model.TDSCategory" />*@
+                    <label for="SupplierName" class="col-sm-4 control-label">Party</label>
+                    <div class="col-sm-8 dropset">
+                        <input type="text" id="txtSupplierName" class="form-control" tabindex="1" value="@Model.SupplierName" maxlength="100" placeholder="Party Name" autocomplete="off" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="BillNumber" class="col-sm-4 control-label">Bill No.</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control BillNumber" name="BillNumber" id="BillNumber" placeholder="Bill Number" tabindex="4" value="@Model.BillNumber" autocomplete="off" required="required">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="DeliveryChallanNumber" class="col-sm-4 control-label">Delivery Challan No.</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="DeliveryChallanNumber" id="DeliveryChallanNumber" placeholder="Challan Number" tabindex="7" value="@Model.DeliveryChallanNumber" autocomplete="off">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="EWayNumber" class="col-sm-4 control-label">E Way Number</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="EWayNumber" id="EWayNumber" placeholder="E Way Number" tabindex="4" value="@Model.EWayNumber" autocomplete="off">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="ShipTo" class="col-sm-4 control-label">Ship To</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="ShipTo" id="ShipTo" placeholder="Ship To" tabindex="2" value="@Model.ShipTo" autocomplete="off">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="BillDate" class="col-sm-4 control-label">Bill Date </label>
+                    <div class="col-sm-8">
+                        <div class="input-group date">
+                            <div class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
+                            </div>
+                            <input type="text" class="form-control pull-right datepicker" id="BillDate" tabindex="5" value="@Model.BillDateStr" autocomplete="off" required="required">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="DeliveryChallanDate" class="col-sm-4 control-label">Delivery Challan Date </label>
+                    <div class="col-sm-8">
+                        <div class="input-group date">
+                            <div class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
+                            </div>
+                            <input type="text" class="form-control pull-right datepicker" id="DeliveryChallanDate" tabindex="8" value="@Model.DeliveryChallanDateStr" autocomplete="off">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="Tax" class="col-sm-4 control-label">TDS Category </label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="TDSCategory" id="TDSCategory" placeholder="TDS Category" tabindex="11" value="@Model.TDSCategory" disabled>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="Tax" class="col-sm-4 control-label">Tax </label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="Tax" id="Tax" placeholder="Tax" tabindex="3" value="@Model.Tax" autocomplete="off" disabled="disabled">
+                        <input id="TaxID" type="hidden" value="" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="ExpenseTypeID" class="col-sm-4 control-label">Expense Type</label>
+                    <div class="col-sm-8">
+                        @Html.DropDownList("ExpenseTypeID", new SelectList(ViewBag.ExpenseType, "ExpenseTypeID", "ExpenseType"), "Select", new { @class = "form-control select2", tabindex = "6" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="GodownID" class="col-sm-4 control-label">Godown</label>
+                    <div class="col-sm-8">
+                        @Html.DropDownList("GodownID", new SelectList(ViewBag.Godown, "GodownID", "GodownName"), "Select", new { @class = "form-control select2", required = "required", tabindex = "9" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <div id="ExpenseList" class="form-horizontal tblresponsive table_wrapper">
+                    <table class="table table-bordered table-bordered" id="ExpenseQty">
+                        <thead>
+                            <tr class="form-group">
+                                <th class="nosort">Sr. No.</th>
+                                <th class="nosort">Item Name</th>
+                                <th class="nosort">HSN Number</th>
+                                <th class="nosort">Debit Account Type</th>
+                                <th class="nosort">Qty</th>
+                                <th class="nosort">Rate</th>
+                                <th class="nosort">Total Taxable Amount</th>
+                                <th class="nosort">Tax(%)</th>
+                                <th class="nosort">CGST Tax(%)</th>
+                                <th class="nosort">CGST Tax Amt</th>
+                                <th class="nosort">SGST Tax(%)</th>
+                                <th class="nosort">SGST Tax Amt</th>
+                                <th class="nosort">IGST Tax(%)</th>
+                                <th class="nosort">IGST Tax Amt</th>
+                                <th class="nosort">Total Tax</th>
+
+                                <th class="nosort">TCS Amt.</th>
+
+                                <th class="nosort">Round Off</th>
+                                <th class="nosort">Total Amount</th>
+                                <th class="nosort">TDS Tax(%)</th>
+                                <th class="nosort">TDS Tax Amt</th>
+                                <th class="nosort">Grand Total Amt.</th>
+                                <th class="nosort">Add</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{int cnt = 0;}
+                            @if (@Model.lstExpenseQty.Count <= 10)
+                            {
+                                cnt = 10;
+                            }
+                            else
+                            { cnt = @Model.lstExpenseQty.Count; }
+                            @for (int i = 0; i < 10; i++)
+                            {
+                                <tr class="form-group" id="trclear">
+                                    <td id="row">
+                                        @(i + 1)
+                                    </td>
+                                    <td>
+                                        @Html.DropDownList("ProductID" + i.ToString(), new SelectList(ViewBag.Product, "ProductID", "ProductName", @Model.lstExpenseQty.Count > i ? @Model.lstExpenseQty[i].ProductID : 0), new { @class = "form-control td_fixedwidthdropdown select22 ProductID", tabindex = (3 * i) + 6, multiple = true })
+                                        @*@Html.DropDownList("ProductID" + i.ToString(), new SelectList(ViewBag.Product, "ProductID", "ProductName"), @Model.lstExpenseQty.Count > i ? @Model.lstExpenseQty[i].ProductID : 0), new { @class = "form-control td_fixedwidthdropdown select22 ProductID", tabindex = (3 * i) + 6, multiple = true })*@
+                                    </td>
+                                    <td>
+                                        <label for="srno" class="control-label td_fixedwidthlabel">@(Model.lstExpenseQty.Count > i ? @Model.lstExpenseQty[i].HSNNumber.ToString() : "")</label>
+                                    </td>
+                                    <td>
+                                        @Html.DropDownList("ExpenseDebitAccountTypeID", new SelectList(ViewBag.DebitAccountType, "ExpenseDebitAccountTypeID", "ExpenseDebitAccountType", @Model.lstExpenseQty.Count > i ? @Model.lstExpenseQty[i].ExpenseDebitAccountTypeID : 0), new { @class = "form-control td_fixedwidthdropdown select23 ExpenseDebitAccountTypeID", multiple = true })
+                                    </td>
+
+                                    <td>
+                                        <input type="text" class="form-control td_fixedwidth Quantity" placeholder="Quantity" value="@(Model.lstExpenseQty.Count > i ? @Model.lstExpenseQty[i].Quantity.ToString("") : "")" id="Quantity" autocomplete="off">
+                                    </td>
+
+                                    <td>
+                                        <input type="text" class="@(i == 9 ? "form-control  Rate td_fixedwidth" : "form-control Rate td_fixedwidth")" placeholder="Rate" value="@(Model.lstExpenseQty.Count > i ? @Model.lstExpenseQty[i].Rate.ToString("0.00") : "")" id="Rate" autocomplete="off">
+                                        <input type="hidden" class="form-control" name="lstExpenseQty[0].ExpenseQtyID" value="@(Model.lstExpenseQty.Count > i ? @Model.lstExpenseQty[i].ExpenseQtyID.ToString() : "")">
+                                    </td>
+                                    <td>
+                                        <label for="srno" class="control-label td_fixedwidthlabel">@(Model.lstExpenseQty.Count > i ? @Model.lstExpenseQty[i].TotalTaxableAmount.ToString("0.00") : "")</label>
+                                    </td>
+                                    <td>
+                                        <label for="srno" class="control-label td_fixedwidthlabel">@(Model.lstExpenseQty.Count > i ? @Model.lstExpenseQty[i].TotalTax.ToString("0.00") : "")</label>
+                                    </td>
+                                    <td>
+                                        <label for="srno" class="control-label td_fixedwidthlabel">@(Model.lstExpenseQty.Count > i ? @Model.lstExpenseQty[i].CGSTTax.ToString("0.00") : "")</label>
+                                    </td>
+
+                                    <td>
+                                        <label for="srno" class="control-label td_fixedwidthlabel">@(Model.lstExpenseQty.Count > i ? @Model.lstExpenseQty[i].CGSTTaxAmount.ToString("0.00") : "")</label>
+                                    </td>
+                                    <td>
+                                        <label for="srno" class="control-label td_fixedwidthlabel">@(Model.lstExpenseQty.Count > i ? @Model.lstExpenseQty[i].SGSTTax.ToString("0.00") : "")</label>
+                                    </td>
+                                    <td>
+                                        <label for="srno" class="control-label td_fixedwidthlabel">@(Model.lstExpenseQty.Count > i ? @Model.lstExpenseQty[i].SGSTTaxAmount.ToString("0.00") : "")</label>
+                                    </td>
+                                    <td>
+                                        <label for="srno" class="control-label td_fixedwidthlabel">@(Model.lstExpenseQty.Count > i ? @Model.lstExpenseQty[i].IGSTTax.ToString("0.00") : "")</label>
+                                    </td>
+                                    <td>
+                                        <label for="srno" class="control-label td_fixedwidthlabel">@(Model.lstExpenseQty.Count > i ? @Model.lstExpenseQty[i].IGSTTaxAmount.ToString("0.00") : "")</label>
+                                    </td>
+
+                                    <td>
+                                        <label for="srno" class="control-label td_fixedwidthlabel">@(Model.lstExpenseQty.Count > i ? @Model.lstExpenseQty[i].TotalTaxAmount.ToString("0.00") : "")</label>
+                                    </td>
+
+
+                                    <td>
+                                        <input type="text" class="form-control td_fixedwidth TCSAmount" placeholder="TCS Amount" name="lstExpenseQty[0].TCSAmount" value="@(Model.lstExpenseQty.Count > i ? @Model.lstExpenseQty[i].TCSAmount.ToString("0.00") : "")" id="TCSAmount" autocomplete="off">
+                                    </td>
+
+
+                                    <td>
+                                        <input type="text" class="form-control td_fixedwidth RoundOff" placeholder="Round Off" name="lstExpenseQty[0].RoundOff" value="@(Model.lstExpenseQty.Count > i ? @Model.lstExpenseQty[i].RoundOff.ToString("0.00") : "")" id="RoundOff" autocomplete="off">
+                                    </td>
+                                    <td>
+                                        <label for="srno" class="control-label td_fixedwidthlabel">@(Model.lstExpenseQty.Count > i ? @Model.lstExpenseQty[i].TotalAmount.ToString("0.00") : "")</label>
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control td_fixedwidth TDSTax addenter" placeholder="TDS Tax" name="lstExpenseQty[0].TDSTax" value="@(Model.lstExpenseQty.Count > i ? @Model.lstExpenseQty[i].TDSTax.ToString("0.00") : "")" id="TDSTax" autocomplete="off">
+                                    </td>
+                                    <td><label for="srno" class="control-label td_fixedwidthlabel">@(Model.lstExpenseQty.Count > i ? @Model.lstExpenseQty[i].TDSTaxAmount.ToString("0.00") : "")</label></td>
+                                    <td><label for="srno" class="control-label td_fixedwidthlabel">@(Model.lstExpenseQty.Count > i ? @Model.lstExpenseQty[i].GrandTotalAmount.ToString("0.00") : "")</label></td>
+                                    <td>
+                                        <button type="button" class="btn btn-default removeButton tab-content" style="width: 35px;"><i class="fa fa-times-circle"></i></button>
+                                    </td>
+                                    <td style="display:none;"></td>
+                                </tr>
+                            }
+                            <tr class="form-group hide" id="AddExpense">
+                                <td class="row"></td>
+                                <td>
+                                    @Html.DropDownList("ProductID", new SelectList(ViewBag.Product, "ProductID", "ProductName"), new { @class = "form-control select22 ProductID td_fixedwidthdropdown", tabindex = "36", multiple = true })
+                                </td>
+                                <td>
+                                    <label for="srno" class="control-label td_fixedwidthlabel"> </label>
+                                </td>
+                                <td>
+                                    @Html.DropDownList("ExpenseDebitAccountTypeID", new SelectList(ViewBag.DebitAccountType, "ExpenseDebitAccountTypeID", "ExpenseDebitAccountType"), new { @class = "form-control select23 ExpenseDebitAccountTypeID td_fixedwidthdropdown", multiple = true })
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control td_fixedwidth Quantity" name="Quantity" placeholder="Quantity">
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control td_fixedwidth Rate" name="Rate" placeholder="Rate">
+                                    <input type="hidden" class="form-control" name="ExpenseQtyID">
+                                </td>
+                                <td>
+                                    <label for="srno" class="control-label td_fixedwidthlabel"></label>
+                                </td>
+                                <td>
+                                    <label for="srno" class="control-label td_fixedwidthlabel"></label>
+                                </td>
+                                <td>
+                                    <label for="srno" class="control-label td_fixedwidthlabel"></label>
+                                </td>
+                                <td>
+                                    <label for="srno" class="control-label td_fixedwidthlabel"></label>
+                                </td>
+                                <td>
+                                    <label for="srno" class="control-label td_fixedwidthlabel"></label>
+                                </td>
+                                <td>
+                                    <label for="srno" class="control-label td_fixedwidthlabel"></label>
+                                </td>
+                                <td>
+                                    <label for="srno" class="control-label td_fixedwidthlabel"></label>
+                                </td>
+                                <td>
+                                    <label for="srno" class="control-label td_fixedwidthlabel"></label>
+                                </td>
+                                <td>
+                                    <label for="srno" class="control-label td_fixedwidthlabel"></label>
+                                </td>
+
+
+                                <td>
+                                    <input type="text" class="form-control td_fixedwidth TCSAmount" name="TCSAmount" placeholder="TCS Amount">
+                                </td>
+
+
+                                <td>
+                                    <input type="text" class="form-control td_fixedwidth RoundOff" name="RoundOff" placeholder="Round Off">
+                                </td>
+                                <td>
+                                    <label for="srno" class="control-label td_fixedwidthlabel"></label>
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control td_fixedwidth TDSTax addenter" placeholder="TDS Tax">
+                                </td>
+                                <td>
+                                    <label for="srno" class="control-label td_fixedwidthlabel"></label>
+                                </td>
+                                <td>
+                                    <label for="srno" class="control-label td_fixedwidthlabel"></label>
+                                </td>
+                                <td>
+                                    <button type="button" class="btn btn-default removeButton tab-content" style="width: 35px;"><i class="fa fa-times-circle"></i></button>
+                                </td>
+                                <td style="display:none;"></td>
+                            </tr>
+                            <tr class="form-group">
+                                <td id="row"></td>
+                                <td>
+                                    <label for="srno" class="control-label"></label>
+                                </td>
+                                <td>
+                                    <label for="srno" class="control-label"> </label>
+                                </td>
+                                <td>
+                                    <label for="srno" class="control-label"> </label>
+                                </td>
+                                <td>
+                                    <label for="srno" class="control-label"> </label>
+                                </td>
+                                <td>
+                                    <label for="srno" class="control-label"> </label>
+                                </td>
+                                <td>
+                                    <label for="srno" class="control-label"> </label>
+                                </td>
+                                <td>
+                                    <label for="srno" class="control-label"> </label>
+                                </td>
+                                <td>
+                                    <label for="srno" class="control-label"> </label>
+                                </td>
+                                <td>
+                                    <label for="srno" class="control-label"> </label>
+                                </td>
+                                <td>
+                                    <label for="srno" class="control-label"> </label>
+                                </td>
+                                <td>
+                                    <label for="srno" class="control-label"> </label>
+                                </td>
+                                <td>
+                                    <label for="srno" class="control-label"> </label>
+                                </td>
+                                <td>
+                                    <label for="srno" class="control-label"> </label>
+                                </td>
+                                <td>
+                                    <label for="srno" class="control-label"> </label>
+                                </td>
+                                <td>
+                                    <label for="srno" class="control-label"> </label>
+                                </td>
+                                <td>
+                                    <label for="srno" class="control-label"> </label>
+                                </td>
+                                <td>
+                                    <label for="srno" class="control-label"> </label>
+                                </td>
+                                <td>
+                                    <button type="button" id="btncalculate" class="btn btn-info" tabindex="100001">Calculate</button>
+                                </td>
+                                <td>
+                                    <label for="srno" class="control-label"> Total</label>
+                                </td>
+                                <td>
+                                    <label for="srno" class="control-label" id="GrandTotal"></label>
+                                </td>
+                                <td>
+                                    <label for="srno" class="control-label"> </label>
+                                </td>
+                                <td style="display:none;"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- /.box-body -->
+        <div class="box-footer ">
+            <div class="pull-right">
+                <button type="button" id="btncancel" class="btn btn-default" tabindex="100003">Cancel</button>
+                <button type="button" id="btnsave" class="btn btn-info" tabindex="100002">Add Expense</button>
+            </div>
+        </div>
+        <!-- /.box-footer -->
+    </form>
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $("#ExpenseTypeID").val(1).trigger("change");
+
+
+
+        // 25 Aug 2020 Piyush Limbani
+        $('#BillDate').datepicker({
+            autoclose: true,
+        }).on('changeDate', function (ev) {
+            debugger;
+            var SupplierID = $("#SupplierID").val();
+            var BillNumber = $("#BillNumber").val();
+            var BillDate = $("#BillDate").val();
+            //if ($("#BillNumber").val() != "") {
+            if (BillNumber != "" && BillDate != "") {
+                $.ajax({
+                    type: 'Post',
+                    url: '@Url.Action("CheckExpenseSupplierCurrentYearBillNumber")',
+                    data: { 'BillNumber': BillNumber, 'SupplierID': SupplierID, 'BillDate': BillDate },
+                    success: function (result) {
+                        debugger;
+                        if (result == "") {
+                            $('#BillNumber').val(BillNumber);
+                        }
+                        else {
+                            alert("bill number already exist for supplier");
+                            $('#BillNumber').val("");
+                            $('#BillDate').val("");
+                        }
+                    },
+                    error: function () { alert('Error'); }
+                });
+            }
+            else {
+                alert("please fill bill number");
+            }
+
+            //}
+            //else {
+            //    alert('select godown');
+            //}
+        });
+        // 25 Aug 2020 Piyush Limbani
+
+
+        $("#txtSupplierName").autocomplete({
+            source: function (request, response) {
+                debugger;
+                $.ajax({
+                    url: '@Url.Action("txtSupplierName_TextChanged")',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: { 'obj': request.term },
+                    success: function (data) {
+                        //debugger;
+                        response($.map(data, function (item) {
+                            //debugger;
+                            $('#ui-id-1').appendTo('.dropset');
+                            $("#loader").hide();
+                            return { label: item.SupplierName, value: item.SupplierName };
+                        }))
+                        $("#loader").hide();
+                    }
+                })
+            },
+            messages: {
+                noResults: "", results: ""
+            }
+        });
+
+        $(document).on('keyup focusin mousedown  keypress blur change', "#txtSupplierName", function () {
+            var set = $("#txtSupplierName").val();
+            debugger;
+            if (set != "") {
+                var check = set.split(',').length;
+                if (check >= 2) {
+                    $.ajax({
+                        type: 'Post',
+                        url: '@Url.Action("txtSupplierName_AfterSupplierSelect")',
+                        data: { obj: set },
+                        success: function (result) {
+                            debugger;
+                            $('#SupplierID').val(result.SupplierID);
+                            $('#txtSupplierName').val(result.SupplierName);
+                            $('#TaxID').val(result.TaxID);
+                            $('#Tax').val(result.TaxName);
+                            $('#ShipTo').val(result.ShipTo);
+                            $('#TDSPercentage').val(result.TDSPercentage);
+                            $('#TDSCategoryID').val(result.TDSCategoryID);
+                            $('#TDSCategory').val(result.TDSCategory);
+                        },
+                        error: function () { alert('Error'); }
+                    });
+                }
+            }
+        });
+
+        $(".ProductID").on('change keypress', function (e) {
+            debugger;
+            var end = this;
+            var TDSPercentage = $("#TDSPercentage").val();
+            if (this.value != '') {
+                var SupplierID = $("#SupplierID").val();
+                if (SupplierID != "" && SupplierID != 0) {
+                    $.ajax({
+                        type: 'Post',
+                        url: '@Url.Action("GetHSNNumber")',
+                        data: { ProductID: this.value },
+                        success: function (result) {
+                            var newdata = end;
+                            $(newdata).closest('tr').find('td').each(function (index, td) {
+                                if (index == 2) {
+                                    td.innerText = result[0].HSNNumber
+                                }
+                                if (index == 18) {
+                                    var textbox = $(newdata).closest('tr').find('input')[7];
+                                    textbox.value = TDSPercentage;
+                                }
+                                if (index == 3) {
+                                    $(td).find('input').focus();
+                                }
+                            });
+                        },
+                        error: function () { alert('Error'); }
+                    });
+                }
+                else {
+                    alert("Please Select Party");
+                }
+
+                // get last product Rate 06-10-2020
+                $.ajax({
+                    type: 'Post',
+                    url: '@Url.Action("GetLastExpenseProductRate")',
+                    data: { ProductID: this.value },
+                    success: function (result) {
+                        debugger;
+                        var newdata = end;
+                        $(newdata).closest('tr').find('td').each(function (index, td) {
+                            if (index == 5) {
+                                var textbox = $(newdata).closest('tr').find('input')[3];
+                                textbox.value = result[0].Rate;
+                            }
+                        });
+                    },
+                    error: function () { alert('Error'); }
+                });
+            }
+            else {
+                var newdata = end;
+                $(newdata).closest('tr').find('td').each(function (index, td) {
+                    if (index == 2) {
+                        td.innerText = "";
+                        $('#btnsave').attr('disabled', false);
+                    }
+                    else if (index == 4) {
+                        var textbox = $(newdata).closest('tr').find('input')[2];
+                        textbox.value = "";
+                    }
+                    else if (index == 5) {
+                        var textbox = $(newdata).closest('tr').find('input')[3];
+                        textbox.value = "";
+                    }
+                    else if (index == 6) {
+                        td.innerText = "";
+                    }
+                    else if (index == 7) {
+                        td.innerText = "";
+                    }
+                    else if (index == 8) {
+                        td.innerText = "";
+                    }
+                    else if (index == 9) {
+                        td.innerText = "";
+                    }
+                    else if (index == 10) {
+                        td.innerText = "";
+                    }
+                    else if (index == 11) {
+                        td.innerText = "";
+                    }
+                    else if (index == 12) {
+                        td.innerText = "";
+                    }
+                    else if (index == 13) {
+                        td.innerText = "";
+                    }
+                    else if (index == 14) {
+                        td.innerText = "";
+                    }
+
+                    else if (index == 15) {
+                        var textbox = $(newdata).closest('tr').find('input')[5];
+                        textbox.value = "";
+                    }
+
+                    else if (index == 16) {
+                        var textbox = $(newdata).closest('tr').find('input')[6];
+                        textbox.value = "";
+                    }
+                    else if (index == 17) {
+                        td.innerText = "";
+                    }
+                    else if (index == 18) {
+                        var textbox = $(newdata).closest('tr').find('input')[7];
+                        textbox.value = "";
+                    }
+                    else if (index == 19) {
+                        td.innerText = "";
+                    }
+                    else if (index == 20) {
+                        td.innerText = "";
+                    }
+                });
+            }
+        });
+
+        // Get tex from expense debit type
+        $(".ExpenseDebitAccountTypeID").on('change keypress', function (e) {
+            debugger;
+            var end = this;
+            var TDSPercentage = $("#TDSPercentage").val();
+            if (this.value != '') {
+                var SupplierID = $("#SupplierID").val();
+                var ProductID = $("#ProductID").val();
+                var Tax = $("#Tax").val();
+                if (SupplierID != "" && SupplierID != 0 && ProductID != "" && ProductID != 0) {
+                    $.ajax({
+                        type: 'Post',
+                        url: '@Url.Action("GetTexByExpenseDebitAccountTypeID")',
+                        data: { ExpenseDebitAccountTypeID: this.value, Tax: Tax },
+                        success: function (result) {
+                            var newdata = end;
+                            $(newdata).closest('tr').find('td').each(function (index, td) {
+                                if (index == 7) {
+                                    td.innerText = result[0].Tax
+                                }
+                                if (index == 8) {
+                                    td.innerText = result[0].CGST
+                                }
+                                if (index == 9) {
+                                    td.innerText = result[0].TaxAmtCGST
+                                }
+                                if (index == 10) {
+                                    td.innerText = result[0].SGST
+                                }
+                                if (index == 11) {
+                                    td.innerText = result[0].TaxAmtSGST
+                                }
+                                if (index == 12) {
+                                    td.innerText = result[0].IGST
+                                }
+                                if (index == 13) {
+                                    td.innerText = result[0].TaxAmtIGST
+                                }
+                                if (index == 19) {
+                                    var textbox = $(newdata).closest('tr').find('input')[7];
+                                    textbox.value = TDSPercentage;
+                                }
+                                if (index == 4) {
+                                    $(td).find('input').focus();
+                                }
+                            });
+                        },
+                        error: function () { alert('Error'); }
+                    });
+                }
+                else {
+                    alert("Please Select Party");
+                }
+            }
+            else {
+                var newdata = end;
+                $(newdata).closest('tr').find('td').each(function (index, td) {
+                    if (index == 4) {
+                        $('#btnsave').attr('disabled', false);
+                        var textbox = $(newdata).closest('tr').find('input')[2];
+                        textbox.value = "";
+                    }
+                    else if (index == 5) {
+                        var textbox = $(newdata).closest('tr').find('input')[3];
+                        textbox.value = "";
+                    }
+                    else if (index == 6) {
+                        td.innerText = "";
+                    }
+                    else if (index == 7) {
+                        td.innerText = "";
+                    }
+                    else if (index == 8) {
+                        td.innerText = "";
+                    }
+                    else if (index == 9) {
+                        td.innerText = "";
+                    }
+                    else if (index == 10) {
+                        td.innerText = "";
+                    }
+                    else if (index == 11) {
+                        td.innerText = "";
+                    }
+                    else if (index == 12) {
+                        td.innerText = "";
+                    }
+                    else if (index == 13) {
+                        td.innerText = "";
+                    }
+                    else if (index == 14) {
+                        td.innerText = "";
+                    }
+                    else if (index == 15) {
+                        var textbox = $(newdata).closest('tr').find('input')[5];
+                        textbox.value = "";
+                    }
+
+                    else if (index == 16) {
+                        var textbox = $(newdata).closest('tr').find('input')[6];
+                        textbox.value = "";
+                    }
+
+                    else if (index == 17) {
+                        td.innerText = "";
+                    }
+                    else if (index == 18) {
+                        var textbox = $(newdata).closest('tr').find('input')[7];
+                        textbox.value = "";
+                    }
+                    else if (index == 19) {
+                        td.innerText = "";
+                    }
+                    else if (index == 20) {
+                        td.innerText = "";
+                    }
+                });
+            }
+        });
+
+        var ProductNameValidators = {
+            row: '.col-xs-3',   // The title is placed inside a <div class="col-xs-4"> element
+            validators: {
+                notEmpty: {
+                    message: 'The Product Name is required'
+                }
+            }
+        },
+         QuantityValidators = {
+             row: '.col-xs-1',
+             validators: {
+                 notEmpty: {
+                     message: 'The Quantity is required'
+                 },
+                 Quantity: {
+                     message: 'The Quantity is not valid'
+                 }
+             }
+         },
+
+         SellRateValidators = {
+             row: '.col-xs-1',
+             validators: {
+                 notEmpty: {
+                     message: 'Sell Rate is required'
+                 },
+                 SellRate: {
+                     message: 'Sell Rate is not valid'
+                 }
+             }
+         },
+
+         bookIndex = 10;
+        $('#ExpenseList').on('keydown', '.addenter', function (e) {
+            if (e.keyCode == 13) {
+                bookIndex++;
+                var $template = $('#AddExpense'),
+                    $clone = $template
+                                    .clone()
+                                    .removeClass('hide')
+                                    .removeAttr('id')
+                                    .attr('data-book-index', bookIndex)
+                                    .insertBefore($template);
+                debugger;
+                // Update the name attributes
+                $clone
+                    .find('[name="ProductID"]').attr('tabindex', (bookIndex * 3) + 6).attr('name', 'lstExpenseQty[' + bookIndex + '].ProductID').end()
+                    .find('[name="ExpenseDebitAccountTypeID"]').attr('name', 'lstExpenseQty[' + bookIndex + '].ExpenseDebitAccountTypeID').end()
+                    .find('[name="Quantity"]').attr('name', 'lstExpenseQty[' + bookIndex + '].Quantity').end()
+                    .find('[name="Rate"]').attr('name', 'lstExpenseQty[' + bookIndex + '].Rate').end()
+                    .find('[name="TCSAmount"]').attr('name', 'lstExpenseQty[' + bookIndex + '].TCSAmount').end()
+                    .find('[name="RoundOff"]').attr('name', 'lstExpenseQty[' + bookIndex + '].RoundOff').end()
+                    .find('[name="TDSTax"]').attr('name', 'lstExpenseQty[' + bookIndex + '].TDSTax').end();
+
+                $($clone).find('select').select2({ width: '100%' });
+                $tdvalue = $clone.find('td')[1];
+                $($tdvalue).find('span.select2.select2-container.select2-container--default')[1].remove();
+                $($clone).find(".select22").select2({
+                    maximumSelectionLength: 1
+                });
+
+                $($clone).find('select').select2({ width: '100%' });
+                $tdvalue = $clone.find('td')[3];
+                $($tdvalue).find('span.select2.select2-container.select2-container--default').remove();
+                $($clone).find(".select23").select2({
+                    maximumSelectionLength: 1
+                });
+
+                var i = 1;
+                $('#ExpenseQty').children('tbody').children('tr:visible').each(function (index, row) {
+                    if (index != ($('#ExpenseQty').children('tbody').children('tr:visible').length - 1)) {
+                        $(row).find("td")[0].innerText = i++;
+                    }
+                });
+
+                $(document).on('change', ".select22", function () {
+                    var end = this;
+                    var TDSPercentage = $("#TDSPercentage").val();
+                    debugger;
+                    if (this.value != '') {
+                        var SupplierID = $("#SupplierID").val();
+                        if (SupplierID != "" && SupplierID != 0) {
+                            $.ajax({
+                                type: 'Post',
+                                url: '@Url.Action("GetHSNNumber")',
+                                data: { ProductID: this.value },
+                                success: function (result) {
+                                    var newdata = end;
+                                    $(newdata).closest('tr').find('td').each(function (index, td) {
+                                        if (index == 2) {
+                                            td.innerText = result[0].HSNNumber
+                                        }
+                                        if (index == 18) {
+                                            var textbox = $(newdata).closest('tr').find('input')[7];
+                                            textbox.value = TDSPercentage;
+                                        }
+                                        if (index == 3) {
+                                            $(td).find('input').focus();
+                                        }
+                                    });
+                                },
+                                error: function () { alert('Error'); }
+                            });
+                        }
+                        else {
+                            alert("Please Select Party");
+                        }
+
+                        // get last product Rate 06-10-2020
+                        $.ajax({
+                            type: 'Post',
+                            url: '@Url.Action("GetLastExpenseProductRate")',
+                            data: { ProductID: this.value },
+                            success: function (result) {
+                                debugger;
+                                var newdata = end;
+                                $(newdata).closest('tr').find('td').each(function (index, td) {
+                                    if (index == 5) {
+                                        var textbox = $(newdata).closest('tr').find('input')[3];
+                                        textbox.value = result[0].Rate;
+                                    }
+                                });
+                            },
+                            error: function () { alert('Error'); }
+                        });
+                    }
+                    else {
+                        var newdata = end;
+                        $(newdata).closest('tr').find('td').each(function (index, td) {
+                            if (index == 2) {
+                                td.innerText = "";
+                                $('#btnsave').attr('disabled', false);
+                            }
+                            else if (index == 4) {
+                                var textbox = $(newdata).closest('tr').find('input')[2];
+                                textbox.value = "";
+                            }
+                            else if (index == 5) {
+                                var textbox = $(newdata).closest('tr').find('input')[3];
+                                textbox.value = "";
+                            }
+                            else if (index == 6) {
+                                td.innerText = "";
+                            }
+                            else if (index == 7) {
+                                td.innerText = "";
+                            }
+                            else if (index == 8) {
+                                td.innerText = "";
+                            }
+                            else if (index == 9) {
+                                td.innerText = "";
+                            }
+                            else if (index == 10) {
+                                td.innerText = "";
+                            }
+                            else if (index == 11) {
+                                td.innerText = "";
+                            }
+                            else if (index == 12) {
+                                td.innerText = "";
+                            }
+                            else if (index == 13) {
+                                td.innerText = "";
+                            }
+                            else if (index == 14) {
+                                td.innerText = "";
+                            }
+                            else if (index == 15) {
+                                var textbox = $(newdata).closest('tr').find('input')[5];
+                                textbox.value = "";
+                            }
+
+                            else if (index == 16) {
+                                var textbox = $(newdata).closest('tr').find('input')[6];
+                                textbox.value = "";
+                            }
+
+                            else if (index == 17) {
+                                td.innerText = "";
+                            }
+                            else if (index == 18) {
+                                var textbox = $(newdata).closest('tr').find('input')[7];
+                                textbox.value = "";
+                            }
+                            else if (index == 19) {
+                                td.innerText = "";
+                            }
+                            else if (index == 20) {
+                                td.innerText = "";
+                            }
+                        });
+                    }
+                });
+
+                $(document).on('change', ".select23", function () {
+                    debugger;
+                    var end = this;
+                    var TDSPercentage = $("#TDSPercentage").val();
+                    if (this.value != '') {
+                        var SupplierID = $("#SupplierID").val();
+                        var ProductID = $("#ProductID").val();
+                        var Tax = $("#Tax").val();
+                        if (SupplierID != "" && SupplierID != 0 && ProductID != "" && ProductID != 0) {
+                            $.ajax({
+                                type: 'Post',
+                                url: '@Url.Action("GetTexByExpenseDebitAccountTypeID")',
+                                data: { ExpenseDebitAccountTypeID: this.value, Tax: Tax },
+                                success: function (result) {
+                                    var newdata = end;
+                                    $(newdata).closest('tr').find('td').each(function (index, td) {
+                                        if (index == 7) {
+                                            td.innerText = result[0].Tax
+                                        }
+                                        if (index == 8) {
+                                            td.innerText = result[0].CGST
+                                        }
+                                        if (index == 9) {
+                                            td.innerText = result[0].TaxAmtCGST
+                                        }
+                                        if (index == 10) {
+                                            td.innerText = result[0].SGST
+                                        }
+                                        if (index == 11) {
+                                            td.innerText = result[0].TaxAmtSGST
+                                        }
+                                        if (index == 12) {
+                                            td.innerText = result[0].IGST
+                                        }
+                                        if (index == 13) {
+                                            td.innerText = result[0].TaxAmtIGST
+                                        }
+                                        if (index == 19) {
+                                            var textbox = $(newdata).closest('tr').find('input')[7];
+                                            textbox.value = TDSPercentage;
+                                        }
+                                        if (index == 4) {
+                                            $(td).find('input').focus();
+                                        }
+                                    });
+                                },
+                                error: function () { alert('Error'); }
+                            });
+                        }
+                        else {
+                            alert("Please Select Party");
+                        }
+                    }
+                    else {
+                        var newdata = end;
+                        $(newdata).closest('tr').find('td').each(function (index, td) {
+                            if (index == 4) {
+                                $('#btnsave').attr('disabled', false);
+                                var textbox = $(newdata).closest('tr').find('input')[2];
+                                textbox.value = "";
+                            }
+                            else if (index == 5) {
+                                var textbox = $(newdata).closest('tr').find('input')[3];
+                                textbox.value = "";
+                            }
+                            else if (index == 6) {
+                                td.innerText = "";
+                            }
+                            else if (index == 7) {
+                                td.innerText = "";
+                            }
+                            else if (index == 8) {
+                                td.innerText = "";
+                            }
+                            else if (index == 9) {
+                                td.innerText = "";
+                            }
+                            else if (index == 10) {
+                                td.innerText = "";
+                            }
+                            else if (index == 11) {
+                                td.innerText = "";
+                            }
+                            else if (index == 12) {
+                                td.innerText = "";
+                            }
+                            else if (index == 13) {
+                                td.innerText = "";
+                            }
+                            else if (index == 14) {
+                                td.innerText = "";
+                            }
+                            else if (index == 15) {
+                                var textbox = $(newdata).closest('tr').find('input')[5];
+                                textbox.value = "";
+                            }
+
+                            else if (index == 16) {
+                                var textbox = $(newdata).closest('tr').find('input')[6];
+                                textbox.value = "";
+                            }
+
+                            else if (index == 17) {
+                                td.innerText = "";
+                            }
+                            else if (index == 18) {
+                                var textbox = $(newdata).closest('tr').find('input')[7];
+                                textbox.value = "";
+                            }
+                            else if (index == 19) {
+                                td.innerText = "";
+                            }
+                            else if (index == 20) {
+                                td.innerText = "";
+                            }
+                        });
+                    }
+                });
+
+                // Dynamic Table Value Expense
+                $(".Quantity").on('input propertychange paste keypress', function (e) {
+                    var end = this;
+                    debugger;
+                    if (this.value != '') {
+                        var Quantity = this.value;
+                        var row = $(this).closest('tr');
+                        var Rate = $(row).find('input')[3].value;
+                        var TDSTaxTextBox = $(row).find('input')[7].value;
+                        var lblTax = $(row).find('td')[7];
+                        var lblCGSTTax = $(row).find('td')[8];
+                        var lblSGSTTax = $(row).find('td')[10];
+                        var lblIGSTTax = $(row).find('td')[12];
+                        var lastChar = Rate.slice(-1);
+                        if (lastChar != '.') {
+                            {
+                                if (Rate >= 0) {
+                                    debugger;
+                                    var Tax = lblTax.innerText;
+                                    var CGSTTax = lblCGSTTax.innerText;
+                                    var SGSTTax = lblSGSTTax.innerText;
+                                    var IGSTTax = lblIGSTTax.innerText;
+                                    var TotalTaxableAmount = Quantity * Rate;
+                                    var TDSTax = 0;
+                                    if (TDSTaxTextBox != "") {
+                                        TDSTax = TDSTaxTextBox;
+                                    }
+                                    $(end).closest('tr').find('td').each(function (index, td) {
+                                        if (index == 6) {
+                                            td.innerText = parseFloat(TotalTaxableAmount).toFixed(2);
+                                        }
+                                        else if (index == 9) {
+                                            if (CGSTTax != 0) {
+                                                var TotalTaxAmt = (((parseFloat(TotalTaxableAmount)) * Tax) / 100).toFixed(2);
+                                                td.innerText = (TotalTaxAmt / 2).toFixed(2);
+                                            }
+                                            else {
+                                                td.innerText = 0;
+                                            }
+                                        }
+                                        else if (index == 11) {
+                                            if (SGSTTax != 0) {
+                                                var TotalTaxAmt = (((parseFloat(TotalTaxableAmount)) * Tax) / 100).toFixed(2);
+                                                td.innerText = (TotalTaxAmt / 2).toFixed(2);
+                                            }
+                                            else {
+                                                td.innerText = 0;
+                                            }
+                                        }
+                                        else if (index == 13) {
+                                            if (IGSTTax != 0) {
+                                                var TotalTaxAmt = (((parseFloat(TotalTaxableAmount)) * Tax) / 100).toFixed(2);
+                                                td.innerText = (TotalTaxAmt);
+                                                //td.innerText = (TotalTaxAmt).toFixed(2);
+                                            }
+                                            else {
+                                                td.innerText = 0;
+                                            }
+                                        }
+                                        else if (index == 14) {
+                                            if (TotalTaxableAmount != 0) {
+                                                td.innerText = (((parseFloat(TotalTaxableAmount)) * Tax) / 100).toFixed(2);
+                                            }
+                                            else {
+                                                td.innerText = 0;
+                                            }
+                                        }
+
+                                        else if (index == 15) {
+                                            var textbox = $(end).closest('tr').find('input')[5];
+                                            textbox.value = "0";
+                                        }
+
+                                        else if (index == 16) {
+                                            var textbox = $(end).closest('tr').find('input')[6];
+                                            textbox.value = "0";
+                                        }
+                                        else if (index == 17) {
+                                            if (TotalTaxableAmount != 0) {
+                                                var TotalTaxAmt = (((parseFloat(TotalTaxableAmount)) * Tax) / 100).toFixed(2);
+                                                td.innerText = (parseFloat(TotalTaxableAmount) + parseFloat(TotalTaxAmt)).toFixed(2);
+                                            }
+                                            else {
+                                                td.innerText = 0;
+                                            }
+                                        }
+                                        else if (index == 18) {
+                                            $(this).closest('tr').find("input")[7].value = TDSTax;
+                                        }
+                                        else if (index == 19) {
+                                            if (TotalTaxableAmount != 0) {
+                                                var TDSTaxAmt = (((parseFloat(TotalTaxableAmount)) * TDSTax) / 100).toFixed(2);
+                                                td.innerText = (parseFloat(Math.round(TDSTaxAmt))).toFixed(2);
+                                            }
+                                            else {
+                                                td.innerText = 0;
+                                            }
+                                        }
+                                        else if (index == 20) {
+                                            if (TotalTaxableAmount != 0) {
+                                                var TDSTaxAmt = (((parseFloat(TotalTaxableAmount)) * TDSTax) / 100).toFixed(2);
+                                                var TotalTaxAmt = (((parseFloat(TotalTaxableAmount)) * Tax) / 100).toFixed(2);
+                                                td.innerText = ((parseFloat(TotalTaxableAmount) + parseFloat(TotalTaxAmt)) - parseFloat(Math.round(TDSTaxAmt))).toFixed(2);
+                                            }
+                                            else {
+                                                td.innerText = 0;
+                                            }
+                                        }
+                                    });
+                                }
+                            }
+                        }
+                    }
+                });
+
+                $(".Rate").on('input propertychange paste keypress', function (e) {
+                    var end = this;
+                    debugger;
+                    if (this.value != '') {
+                        var Rate = this.value;
+                        var row = $(this).closest('tr');
+                        var Quantity = $(row).find('input')[2].value;
+                        var TDSTaxTextBox = $(row).find('input')[7].value;
+                        var lblTax = $(row).find('td')[7];
+                        var lblCGSTTax = $(row).find('td')[8];
+                        var lblSGSTTax = $(row).find('td')[10];
+                        var lblIGSTTax = $(row).find('td')[12];
+                        var lastChar = Rate.slice(-1);
+                        if (lastChar != '.') {
+                            {
+                                if (Rate >= 0) {
+                                    debugger;
+                                    var Tax = lblTax.innerText;
+                                    var CGSTTax = lblCGSTTax.innerText;
+                                    var SGSTTax = lblSGSTTax.innerText;
+                                    var IGSTTax = lblIGSTTax.innerText;
+                                    var TotalTaxableAmount = Quantity * Rate;
+                                    var TDSTax = 0;
+                                    if (TDSTaxTextBox != "") {
+                                        TDSTax = TDSTaxTextBox;
+                                    }
+                                    $(end).closest('tr').find('td').each(function (index, td) {
+                                        if (index == 6) {
+                                            td.innerText = parseFloat(TotalTaxableAmount).toFixed(2);
+                                        }
+                                        else if (index == 9) {
+                                            if (CGSTTax != 0) {
+                                                var TotalTaxAmt = (((parseFloat(TotalTaxableAmount)) * Tax) / 100).toFixed(2);
+                                                td.innerText = (TotalTaxAmt / 2).toFixed(2);
+                                            }
+                                            else {
+                                                td.innerText = 0;
+                                            }
+                                        }
+                                        else if (index == 11) {
+                                            if (SGSTTax != 0) {
+                                                var TotalTaxAmt = (((parseFloat(TotalTaxableAmount)) * Tax) / 100).toFixed(2);
+                                                td.innerText = (TotalTaxAmt / 2).toFixed(2);
+                                            }
+                                            else {
+                                                td.innerText = 0;
+                                            }
+                                        }
+                                        else if (index == 13) {
+                                            if (IGSTTax != 0) {
+                                                var TotalTaxAmt = (((parseFloat(TotalTaxableAmount)) * Tax) / 100).toFixed(2);
+                                                td.innerText = (TotalTaxAmt);
+                                                //td.innerText = (TotalTaxAmt).toFixed(2);
+                                            }
+                                            else {
+                                                td.innerText = 0;
+                                            }
+                                        }
+                                        else if (index == 14) {
+                                            if (TotalTaxableAmount != 0) {
+                                                td.innerText = (((parseFloat(TotalTaxableAmount)) * Tax) / 100).toFixed(2);
+                                            }
+                                            else {
+                                                td.innerText = 0;
+                                            }
+                                        }
+
+                                        else if (index == 15) {
+                                            var textbox = $(end).closest('tr').find('input')[5];
+                                            textbox.value = "0";
+                                        }
+
+                                        else if (index == 16) {
+                                            var textbox = $(end).closest('tr').find('input')[6];
+                                            textbox.value = "0";
+                                        }
+                                        else if (index == 17) {
+                                            if (TotalTaxableAmount != 0) {
+                                                var TotalTaxAmt = (((parseFloat(TotalTaxableAmount)) * Tax) / 100).toFixed(2);
+                                                td.innerText = (parseFloat(TotalTaxableAmount) + parseFloat(TotalTaxAmt)).toFixed(2);
+                                            }
+                                            else {
+                                                td.innerText = 0;
+                                            }
+                                        }
+                                        else if (index == 18) {
+                                            $(this).closest('tr').find("input")[6].value = TDSTax;
+                                        }
+                                        else if (index == 19) {
+                                            if (TotalTaxableAmount != 0) {
+                                                var TDSTaxAmt = (((parseFloat(TotalTaxableAmount)) * TDSTax) / 100).toFixed(2);
+                                                td.innerText = (parseFloat(Math.round(TDSTaxAmt))).toFixed(2);
+                                            }
+                                            else {
+                                                td.innerText = 0;
+                                            }
+                                        }
+                                        else if (index == 20) {
+                                            if (TotalTaxableAmount != 0) {
+                                                var TDSTaxAmt = (((parseFloat(TotalTaxableAmount)) * TDSTax) / 100).toFixed(2);
+                                                var TotalTaxAmt = (((parseFloat(TotalTaxableAmount)) * Tax) / 100).toFixed(2);
+                                                td.innerText = ((parseFloat(TotalTaxableAmount) + parseFloat(TotalTaxAmt)) - parseFloat(Math.round(TDSTaxAmt))).toFixed(2);
+                                            }
+                                            else {
+                                                td.innerText = 0;
+                                            }
+                                        }
+                                    });
+                                }
+                            }
+                        }
+                    }
+                    else {
+                        $(end).closest('tr').find('td').each(function (index, td) {
+                            if (index == 6) {
+                                td.innerText = 0;
+                            }
+                            else if (index == 9) {
+                                td.innerText = 0;
+                            }
+                            else if (index == 11) {
+                                td.innerText = 0;
+                            }
+                            else if (index == 13) {
+                                td.innerText = 0;
+                            }
+                            else if (index == 14) {
+                                td.innerText = 0;
+                            }
+                            else if (index == 17) {
+                                td.innerText = 0;
+                            }
+                            else if (index == 20) {
+                                td.innerText = 0;
+                            }
+                        });
+                    }
+                });
+
+                $(".TCSAmount").on('input propertychange paste keypress', function (e) {
+                    var end = this;
+                    debugger;
+                    if (this.value != '') {
+                        var TCSAmount = this.value;
+                        var row = $(this).closest('tr');
+                        var lblTotalTaxableAmount = $(row).find('td')[6];
+                        var lblTotalTaxAmt = $(row).find('td')[14];
+                        var lblTDSTaxAmt = $(row).find('td')[19];
+                        var lastChar = TCSAmount.slice(-1);
+                        if (lastChar != '.') {
+                            {
+                                if (TCSAmount != '') {
+                                    debugger;
+                                    var TotalTaxableAmount = lblTotalTaxableAmount.innerText;
+                                    var TotalTaxAmt = lblTotalTaxAmt.innerText;
+                                    var TDSTaxAmt = lblTDSTaxAmt.innerText;
+                                    var TotalAmount = (parseFloat(TotalTaxableAmount)).toFixed(2);
+                                    $(end).closest('tr').find('td').each(function (index, td) {
+                                        if (TCSAmount != 0) {
+
+                                            if (index == 16) {
+                                                var textbox = $(end).closest('tr').find('input')[6];
+                                                textbox.value = "0";
+                                            }
+
+                                            if (index == 17) {
+                                                if (TotalAmount >= 0 && TotalAmount != "") {
+                                                    td.innerText = (parseFloat(TotalAmount) + parseFloat(TotalTaxAmt) + parseFloat(TCSAmount)).toFixed(2);
+                                                }
+                                                else {
+                                                    //var textbox = $(end).closest('tr').find('input')[16];
+                                                    //textbox.value = "0";
+                                                }
+                                            }
+                                            if (index == 20) {
+                                                if (TotalAmount >= 0 && TotalAmount != "") {
+                                                    var TotalAmountRound = (parseFloat(TotalAmount) + parseFloat(TotalTaxAmt) + parseFloat(TCSAmount)).toFixed(2);
+                                                    td.innerText = (parseFloat(TotalAmountRound) - parseFloat(TDSTaxAmt)).toFixed(2);
+                                                }
+                                                else {
+                                                    //var textbox = $(end).closest('tr').find('input')[16];
+                                                    //textbox.value = "0";
+                                                }
+                                            }
+                                        }
+                                        else {
+
+                                            if (index == 16) {
+                                                var textbox = $(end).closest('tr').find('input')[6];
+                                                textbox.value = "0";
+                                            }
+
+                                            if (index == 17) {
+                                                if (TotalAmount >= 0 && TotalAmount != "") {
+                                                    td.innerText = (parseFloat(TotalAmount) + parseFloat(TotalTaxAmt) + parseFloat(TCSAmount)).toFixed(2);
+                                                }
+                                                else {
+                                                    //var textbox = $(end).closest('tr').find('input')[16];
+                                                    //textbox.value = "0";
+                                                }
+                                            }
+                                            if (index == 20) {
+                                                if (TotalAmount >= 0 && TotalAmount != "") {
+                                                    var TotalAmountRound = (parseFloat(TotalAmount) + parseFloat(TotalTaxAmt) + parseFloat(TCSAmount)).toFixed(2);
+                                                    td.innerText = (parseFloat(TotalAmountRound) - parseFloat(TDSTaxAmt)).toFixed(2);
+                                                }
+                                                else {
+                                                    //var textbox = $(end).closest('tr').find('input')[16];
+                                                    //textbox.value = "0";
+                                                }
+                                            }
+                                        }
+                                    });
+                                }
+                            }
+                        }
+                    }
+                });
+
+                $(".RoundOff").on('input propertychange paste keypress', function (e) {
+                    var end = this;
+                    debugger;
+                    if (this.value != '') {
+                        var RoundOff = this.value;
+                        var row = $(this).closest('tr');
+                        var lblTotalTaxableAmount = $(row).find('td')[6];
+                        var lblTotalTaxAmt = $(row).find('td')[14];
+                        var lblTDSTaxAmt = $(row).find('td')[19];
+                        var TCSAmount = $(row).find('input')[5].value;
+                        var lastChar = RoundOff.slice(-1);
+                        if (lastChar != '.') {
+                            {
+                                if (RoundOff != '') {
+                                    debugger;
+                                    var TotalTaxableAmount = lblTotalTaxableAmount.innerText;
+                                    var TotalTaxAmt = lblTotalTaxAmt.innerText;
+                                    var TDSTaxAmt = lblTDSTaxAmt.innerText;
+                                    var TotalAmount = (parseFloat(TotalTaxableAmount) + parseFloat(TotalTaxAmt)).toFixed(2);
+                                    $(end).closest('tr').find('td').each(function (index, td) {
+                                        if (RoundOff != 0) {
+                                            if (index == 17) {
+                                                if (TotalAmount >= 0 && TotalAmount != "") {
+                                                    td.innerText = (parseFloat(TotalAmount) + parseFloat(RoundOff) + parseFloat(TCSAmount)).toFixed(2);
+                                                }
+                                                else {
+                                                    //var textbox = $(end).closest('tr').find('input')[16];
+                                                    //textbox.value = "0";
+                                                }
+                                            }
+                                            if (index == 20) {
+                                                if (TotalAmount >= 0 && TotalAmount != "") {
+                                                    var TotalAmountRound = (parseFloat(TotalAmount) + parseFloat(RoundOff) + parseFloat(TCSAmount)).toFixed(2);
+                                                    td.innerText = (parseFloat(TotalAmountRound) - parseFloat(TDSTaxAmt)).toFixed(2);
+                                                }
+                                                else {
+                                                    //var textbox = $(end).closest('tr').find('input')[16];
+                                                    //textbox.value = "0";
+                                                }
+                                            }
+                                        }
+                                        else {
+                                            if (index == 17) {
+                                                if (TotalAmount >= 0 && TotalAmount != "") {
+                                                    td.innerText = (parseFloat(TotalAmount) + parseFloat(TCSAmount)).toFixed(2);
+                                                }
+                                                else {
+                                                    //var textbox = $(end).closest('tr').find('input')[16];
+                                                    //textbox.value = "0";
+                                                }
+                                            }
+                                            if (index == 20) {
+                                                if (TotalAmount >= 0 && TotalAmount != "") {
+                                                    var TotalAmountRound = (parseFloat(TotalAmount) + parseFloat(RoundOff) + parseFloat(TCSAmount)).toFixed(2);
+                                                    td.innerText = (parseFloat(TotalAmountRound) - parseFloat(TDSTaxAmt)).toFixed(2);
+                                                }
+                                                else {
+                                                    //var textbox = $(end).closest('tr').find('input')[16];
+                                                    //textbox.value = "0";
+                                                }
+                                            }
+                                        }
+                                    });
+                                }
+                            }
+                        }
+                    }
+                });
+                // Dynamic Table Value
+
+            }
+        })
+
+        .on('click', '.removeButton', function () {
+            var $row = $(this).parents('.form-group'),
+                index = $row.attr('data-book-index');
+            $row.remove();
+            var i = 1;
+            $('#ExpenseQty').children('tbody').children('tr:visible').each(function (index, row) {
+                if (index != ($('#ExpenseQty').children('tbody').children('tr:visible').length - 1)) {
+                    $(row).find("td")[0].innerText = i++;
+                }
+            });
+        });
+
+        $(".Quantity").on('input propertychange paste keypress', function (e) {
+            var end = this;
+            debugger;
+            if (this.value != '') {
+                var Quantity = this.value;
+                var row = $(this).closest('tr');
+                var Rate = $(row).find('input')[3].value;
+                var TDSTaxTextBox = $(row).find('input')[7].value;
+                var lblTax = $(row).find('td')[7];
+                var lblCGSTTax = $(row).find('td')[8];
+                var lblSGSTTax = $(row).find('td')[10];
+                var lblIGSTTax = $(row).find('td')[12];
+                var lastChar = Rate.slice(-1);
+                if (lastChar != '.') {
+                    {
+                        if (Rate >= 0) {
+                            debugger;
+                            var Tax = lblTax.innerText;
+                            var CGSTTax = lblCGSTTax.innerText;
+                            var SGSTTax = lblSGSTTax.innerText;
+                            var IGSTTax = lblIGSTTax.innerText;
+                            var TotalTaxableAmount = Quantity * Rate;
+                            var TDSTax = 0;
+                            if (TDSTaxTextBox != "") {
+                                TDSTax = TDSTaxTextBox;
+                            }
+                            $(end).closest('tr').find('td').each(function (index, td) {
+                                if (index == 6) {
+                                    td.innerText = parseFloat(TotalTaxableAmount).toFixed(2);
+                                }
+                                else if (index == 9) {
+                                    if (CGSTTax != 0) {
+                                        var TotalTaxAmt = (((parseFloat(TotalTaxableAmount)) * Tax) / 100).toFixed(2);
+                                        td.innerText = (TotalTaxAmt / 2).toFixed(2);
+                                    }
+                                    else {
+                                        td.innerText = 0;
+                                    }
+                                }
+                                else if (index == 11) {
+                                    if (SGSTTax != 0) {
+                                        var TotalTaxAmt = (((parseFloat(TotalTaxableAmount)) * Tax) / 100).toFixed(2);
+                                        td.innerText = (TotalTaxAmt / 2).toFixed(2);
+                                    }
+                                    else {
+                                        td.innerText = 0;
+                                    }
+                                }
+                                else if (index == 13) {
+                                    if (IGSTTax != 0) {
+                                        var TotalTaxAmt = (((parseFloat(TotalTaxableAmount)) * Tax) / 100).toFixed(2);
+                                        td.innerText = (TotalTaxAmt);
+                                        //td.innerText = (TotalTaxAmt).toFixed(2);
+                                    }
+                                    else {
+                                        td.innerText = 0;
+                                    }
+                                }
+                                else if (index == 14) {
+                                    if (TotalTaxableAmount != 0) {
+                                        td.innerText = (((parseFloat(TotalTaxableAmount)) * Tax) / 100).toFixed(2);
+                                    }
+                                    else {
+                                        td.innerText = 0;
+                                    }
+                                }
+
+                                else if (index == 15) {
+                                    var textbox = $(end).closest('tr').find('input')[5];
+                                    textbox.value = "0";
+                                }
+
+                                else if (index == 16) {
+                                    var textbox = $(end).closest('tr').find('input')[6];
+                                    textbox.value = "0";
+                                }
+                                else if (index == 17) {
+                                    if (TotalTaxableAmount != 0) {
+                                        var TotalTaxAmt = (((parseFloat(TotalTaxableAmount)) * Tax) / 100).toFixed(2);
+                                        td.innerText = (parseFloat(TotalTaxableAmount) + parseFloat(TotalTaxAmt)).toFixed(2);
+                                    }
+                                    else {
+                                        td.innerText = 0;
+                                    }
+                                }
+                                else if (index == 18) {
+                                    $(this).closest('tr').find("input")[7].value = TDSTax;
+                                }
+                                else if (index == 19) {
+                                    if (TotalTaxableAmount != 0) {
+                                        var TDSTaxAmt = (((parseFloat(TotalTaxableAmount)) * TDSTax) / 100).toFixed(2);
+                                        td.innerText = (parseFloat(Math.round(TDSTaxAmt))).toFixed(2);
+                                    }
+                                    else {
+                                        td.innerText = 0;
+                                    }
+                                }
+                                else if (index == 20) {
+                                    if (TotalTaxableAmount != 0) {
+                                        var TDSTaxAmt = (((parseFloat(TotalTaxableAmount)) * TDSTax) / 100).toFixed(2);
+                                        var TotalTaxAmt = (((parseFloat(TotalTaxableAmount)) * Tax) / 100).toFixed(2);
+                                        td.innerText = ((parseFloat(TotalTaxableAmount) + parseFloat(TotalTaxAmt)) - parseFloat(Math.round(TDSTaxAmt))).toFixed(2);
+                                    }
+                                    else {
+                                        td.innerText = 0;
+                                    }
+                                }
+                            });
+                        }
+                    }
+                }
+            }
+        });
+
+        $(".Rate").on('input propertychange paste keypress', function (e) {
+            var end = this;
+            debugger;
+            if (this.value != '') {
+                var Rate = this.value;
+                var row = $(this).closest('tr');
+                var Quantity = $(row).find('input')[2].value;
+                var TDSTaxTextBox = $(row).find('input')[7].value;
+                var lblTax = $(row).find('td')[7];
+                var lblCGSTTax = $(row).find('td')[8];
+                var lblSGSTTax = $(row).find('td')[10];
+                var lblIGSTTax = $(row).find('td')[12];
+                var lastChar = Rate.slice(-1);
+                if (lastChar != '.') {
+                    {
+                        if (Rate >= 0) {
+                            debugger;
+                            var Tax = lblTax.innerText;
+                            var CGSTTax = lblCGSTTax.innerText;
+                            var SGSTTax = lblSGSTTax.innerText;
+                            var IGSTTax = lblIGSTTax.innerText;
+                            var TotalTaxableAmount = Quantity * Rate;
+                            var TDSTax = 0;
+                            if (TDSTaxTextBox != "") {
+                                TDSTax = TDSTaxTextBox;
+                            }
+                            $(end).closest('tr').find('td').each(function (index, td) {
+                                if (index == 6) {
+                                    td.innerText = parseFloat(TotalTaxableAmount).toFixed(2);
+                                }
+                                else if (index == 9) {
+                                    if (CGSTTax != 0) {
+                                        var TotalTaxAmt = (((parseFloat(TotalTaxableAmount)) * Tax) / 100).toFixed(2);
+                                        td.innerText = (TotalTaxAmt / 2).toFixed(2);
+                                    }
+                                    else {
+                                        td.innerText = 0;
+                                    }
+                                }
+                                else if (index == 11) {
+                                    if (SGSTTax != 0) {
+                                        var TotalTaxAmt = (((parseFloat(TotalTaxableAmount)) * Tax) / 100).toFixed(2);
+                                        td.innerText = (TotalTaxAmt / 2).toFixed(2);
+                                    }
+                                    else {
+                                        td.innerText = 0;
+                                    }
+                                }
+                                else if (index == 13) {
+                                    if (IGSTTax != 0) {
+                                        var TotalTaxAmt = (((parseFloat(TotalTaxableAmount)) * Tax) / 100).toFixed(2);
+                                        td.innerText = (TotalTaxAmt);
+                                        //td.innerText = (TotalTaxAmt).toFixed(2);
+                                    }
+                                    else {
+                                        td.innerText = 0;
+                                    }
+                                }
+                                else if (index == 14) {
+                                    if (TotalTaxableAmount != 0) {
+                                        td.innerText = (((parseFloat(TotalTaxableAmount)) * Tax) / 100).toFixed(2);
+                                    }
+                                    else {
+                                        td.innerText = 0;
+                                    }
+                                }
+
+                                else if (index == 15) {
+                                    var textbox = $(end).closest('tr').find('input')[5];
+                                    textbox.value = "0";
+                                }
+
+                                else if (index == 16) {
+                                    var textbox = $(end).closest('tr').find('input')[6];
+                                    textbox.value = "0";
+                                }
+                                else if (index == 17) {
+                                    if (TotalTaxableAmount != 0) {
+                                        var TotalTaxAmt = (((parseFloat(TotalTaxableAmount)) * Tax) / 100).toFixed(2);
+                                        td.innerText = (parseFloat(TotalTaxableAmount) + parseFloat(TotalTaxAmt)).toFixed(2);
+                                    }
+                                    else {
+                                        td.innerText = 0;
+                                    }
+                                }
+                                else if (index == 18) {
+                                    $(this).closest('tr').find("input")[6].value = TDSTax;
+                                }
+                                else if (index == 19) {
+                                    if (TotalTaxableAmount != 0) {
+                                        var TDSTaxAmt = (((parseFloat(TotalTaxableAmount)) * TDSTax) / 100).toFixed(2);
+                                        td.innerText = (parseFloat(Math.round(TDSTaxAmt))).toFixed(2);
+                                    }
+                                    else {
+                                        td.innerText = 0;
+                                    }
+                                }
+                                else if (index == 20) {
+                                    if (TotalTaxableAmount != 0) {
+                                        var TDSTaxAmt = (((parseFloat(TotalTaxableAmount)) * TDSTax) / 100).toFixed(2);
+                                        var TotalTaxAmt = (((parseFloat(TotalTaxableAmount)) * Tax) / 100).toFixed(2);
+                                        td.innerText = ((parseFloat(TotalTaxableAmount) + parseFloat(TotalTaxAmt)) - parseFloat(Math.round(TDSTaxAmt))).toFixed(2);
+                                    }
+                                    else {
+                                        td.innerText = 0;
+                                    }
+                                }
+                            });
+                        }
+                    }
+                }
+            }
+            else {
+                $(end).closest('tr').find('td').each(function (index, td) {
+                    if (index == 6) {
+                        td.innerText = 0;
+                    }
+                    else if (index == 9) {
+                        td.innerText = 0;
+                    }
+                    else if (index == 11) {
+                        td.innerText = 0;
+                    }
+                    else if (index == 13) {
+                        td.innerText = 0;
+                    }
+                    else if (index == 14) {
+                        td.innerText = 0;
+                    }
+                    else if (index == 17) {
+                        td.innerText = 0;
+                    }
+                    else if (index == 20) {
+                        td.innerText = 0;
+                    }
+                });
+            }
+        });
+
+        $(".TDSTax").on('input propertychange paste keypress', function (e) {
+            var end = this;
+            debugger;
+            if (this.value != '') {
+                var TDSTax = this.value;
+                var row = $(this).closest('tr');
+                var lblTotalTaxableAmount = $(row).find('td')[6];
+                var lblTotalAmount = $(row).find('td')[17];
+                //var TCSAmount = $(row).find('input')[5].value;
+                var lastChar = TDSTax.slice(-1);
+                if (lastChar != '.') {
+                    {
+                        if (TDSTax >= 0) {
+                            debugger;
+                            var TotalTaxableAmount = lblTotalTaxableAmount.innerText;
+                            var TotalAmount = lblTotalAmount.innerText;
+                            $(end).closest('tr').find('td').each(function (index, td) {
+                                if (index == 19) {
+                                    if (TDSTax != 0) {
+                                        var TDSTaxAmt = (((parseFloat(TotalTaxableAmount)) * TDSTax) / 100).toFixed(2);
+                                        td.innerText = parseFloat(Math.round(TDSTaxAmt));
+                                    }
+                                    else {
+                                        td.innerText = 0;
+                                    }
+                                }
+                                else if (index == 20) {
+                                    if (TDSTax != 0) {
+                                        var TDSTaxAmt = (((parseFloat(TotalTaxableAmount)) * TDSTax) / 100).toFixed(2);
+                                        td.innerText = ((parseFloat(TotalAmount)) - parseFloat(Math.round(TDSTaxAmt))).toFixed(2);
+                                    }
+                                    else {
+                                        td.innerText = ((parseFloat(TotalAmount))).toFixed(2);
+                                    }
+                                }
+                            });
+                        }
+                    }
+                }
+            }
+        });
+
+        $(".TCSAmount").on('input propertychange paste keypress', function (e) {
+            var end = this;
+            debugger;
+            if (this.value != '') {
+                var TCSAmount = this.value;
+                var row = $(this).closest('tr');
+                var lblTotalTaxableAmount = $(row).find('td')[6];
+                var lblTotalTaxAmt = $(row).find('td')[14];
+                var lblTDSTaxAmt = $(row).find('td')[19];
+                var lastChar = TCSAmount.slice(-1);
+                if (lastChar != '.') {
+                    {
+                        if (TCSAmount != '') {
+                            debugger;
+                            var TotalTaxableAmount = lblTotalTaxableAmount.innerText;
+                            var TotalTaxAmt = lblTotalTaxAmt.innerText;
+                            var TDSTaxAmt = lblTDSTaxAmt.innerText;
+                            var TotalAmount = (parseFloat(TotalTaxableAmount)).toFixed(2);
+                            $(end).closest('tr').find('td').each(function (index, td) {
+                                if (TCSAmount != 0) {
+
+                                    if (index == 16) {
+                                        var textbox = $(end).closest('tr').find('input')[6];
+                                        textbox.value = "0";
+                                    }
+
+                                    if (index == 17) {
+                                        if (TotalAmount >= 0 && TotalAmount != "") {
+                                            td.innerText = (parseFloat(TotalAmount) + parseFloat(TotalTaxAmt) + parseFloat(TCSAmount)).toFixed(2);
+                                        }
+                                        else {
+                                            //var textbox = $(end).closest('tr').find('input')[16];
+                                            //textbox.value = "0";
+                                        }
+                                    }
+                                    if (index == 20) {
+                                        if (TotalAmount >= 0 && TotalAmount != "") {
+                                            var TotalAmountRound = (parseFloat(TotalAmount) + parseFloat(TotalTaxAmt) + parseFloat(TCSAmount)).toFixed(2);
+                                            td.innerText = (parseFloat(TotalAmountRound) - parseFloat(TDSTaxAmt)).toFixed(2);
+                                        }
+                                        else {
+                                            //var textbox = $(end).closest('tr').find('input')[16];
+                                            //textbox.value = "0";
+                                        }
+                                    }
+                                }
+                                else {
+
+                                    if (index == 16) {
+                                        var textbox = $(end).closest('tr').find('input')[6];
+                                        textbox.value = "0";
+                                    }
+
+                                    if (index == 17) {
+                                        if (TotalAmount >= 0 && TotalAmount != "") {
+                                            td.innerText = (parseFloat(TotalAmount) + parseFloat(TotalTaxAmt) + parseFloat(TCSAmount)).toFixed(2);
+                                        }
+                                        else {
+                                            //var textbox = $(end).closest('tr').find('input')[16];
+                                            //textbox.value = "0";
+                                        }
+                                    }
+                                    if (index == 20) {
+                                        if (TotalAmount >= 0 && TotalAmount != "") {
+                                            var TotalAmountRound = (parseFloat(TotalAmount) + parseFloat(TotalTaxAmt) + parseFloat(TCSAmount)).toFixed(2);
+                                            td.innerText = (parseFloat(TotalAmountRound) - parseFloat(TDSTaxAmt)).toFixed(2);
+                                        }
+                                        else {
+                                            //var textbox = $(end).closest('tr').find('input')[16];
+                                            //textbox.value = "0";
+                                        }
+                                    }
+                                }
+                            });
+                        }
+                    }
+                }
+            }
+        });
+
+        $(".RoundOff").on('input propertychange paste keypress', function (e) {
+            var end = this;
+            debugger;
+            if (this.value != '') {
+                var RoundOff = this.value;
+                var row = $(this).closest('tr');
+                var lblTotalTaxableAmount = $(row).find('td')[6];
+                var lblTotalTaxAmt = $(row).find('td')[14];
+                var lblTDSTaxAmt = $(row).find('td')[19];
+                var TCSAmount = $(row).find('input')[5].value;
+                var lastChar = RoundOff.slice(-1);
+                if (lastChar != '.') {
+                    {
+                        if (RoundOff != '') {
+                            debugger;
+                            var TotalTaxableAmount = lblTotalTaxableAmount.innerText;
+                            var TotalTaxAmt = lblTotalTaxAmt.innerText;
+                            var TDSTaxAmt = lblTDSTaxAmt.innerText;
+                            var TotalAmount = (parseFloat(TotalTaxableAmount) + parseFloat(TotalTaxAmt)).toFixed(2);
+                            $(end).closest('tr').find('td').each(function (index, td) {
+                                if (RoundOff != 0) {
+                                    if (index == 17) {
+                                        if (TotalAmount >= 0 && TotalAmount != "") {
+                                            td.innerText = (parseFloat(TotalAmount) + parseFloat(RoundOff) + parseFloat(TCSAmount)).toFixed(2);
+                                        }
+                                        else {
+                                            //var textbox = $(end).closest('tr').find('input')[16];
+                                            //textbox.value = "0";
+                                        }
+                                    }
+                                    if (index == 20) {
+                                        if (TotalAmount >= 0 && TotalAmount != "") {
+                                            var TotalAmountRound = (parseFloat(TotalAmount) + parseFloat(RoundOff) + parseFloat(TCSAmount)).toFixed(2);
+                                            td.innerText = (parseFloat(TotalAmountRound) - parseFloat(TDSTaxAmt)).toFixed(2);
+                                        }
+                                        else {
+                                            //var textbox = $(end).closest('tr').find('input')[16];
+                                            //textbox.value = "0";
+                                        }
+                                    }
+                                }
+                                else {
+                                    if (index == 17) {
+                                        if (TotalAmount >= 0 && TotalAmount != "") {
+                                            td.innerText = (parseFloat(TotalAmount) + parseFloat(TCSAmount)).toFixed(2);
+                                        }
+                                        else {
+                                            //var textbox = $(end).closest('tr').find('input')[16];
+                                            //textbox.value = "0";
+                                        }
+                                    }
+                                    if (index == 20) {
+                                        if (TotalAmount >= 0 && TotalAmount != "") {
+                                            var TotalAmountRound = (parseFloat(TotalAmount) + parseFloat(RoundOff) + parseFloat(TCSAmount)).toFixed(2);
+                                            td.innerText = (parseFloat(TotalAmountRound) - parseFloat(TDSTaxAmt)).toFixed(2);
+                                        }
+                                        else {
+                                            //var textbox = $(end).closest('tr').find('input')[16];
+                                            //textbox.value = "0";
+                                        }
+                                    }
+                                }
+                            });
+                        }
+                    }
+                }
+            }
+        });
+
+        //New
+        $("#btncalculate").click(function () {
+            debugger;
+            FinalTotal();
+        });
+
+        function FinalTotal() {
+            var GrandTotal = 0;
+            $('#ExpenseQty').find('tr:visible').not(':last').each(function (index, tr) {
+                $(tr).find('td').each(function (index, td) {
+                    if (index == 20) {
+                        if (td.innerText.trim() != '') {
+                            GrandTotal = GrandTotal + parseFloat(td.innerText);
+                            $('#GrandTotal').text(parseFloat(GrandTotal).toFixed(2));
+                        }
+                    }
+                });
+            });
+        }
+        //New
+
+    });
+</script>
+
+<script>
+
+    var GrandTotal = 0;
+
+    $("#btnsave").click(function () {
+        if (!($('#frmExpense').parsley().validate())) {
+            return;
+        }
+        $("#loader").show();
+        var lstExpenseQty = [];
+        debugger;
+        $('#ExpenseQty').children('tbody').children('tr:visible').each(function (index, row) {
+            if ($(row).find("select").val() != undefined && $(row).find("select").val() != '') {
+                var dataExpenseQty = new Object();
+                dataExpenseQty.ProductID = $(row).find("td").find(".ProductID").val();
+                dataExpenseQty.ProductName = $(row).find("td").find(".ProductID option:selected").text();
+                dataExpenseQty.ExpenseDebitAccountTypeID = $(row).find("td").find(".ExpenseDebitAccountTypeID").val();
+                dataExpenseQty.ExpenseDebitAccountType = $(row).find("td").find(".ExpenseDebitAccountTypeID option:selected").text();
+                dataExpenseQty.Quantity = $(row).find("input")[2].value;
+                dataExpenseQty.Rate = $(row).find("input")[3].value;
+                dataExpenseQty.ExpenseQtyID = $(row).find("input")[4].value;
+                dataExpenseQty.TCSAmount = $(row).find("input")[5].value;
+                dataExpenseQty.RoundOff = $(row).find("input")[6].value;
+                dataExpenseQty.TDSTax = $(row).find("input")[7].value;
+                dataExpenseQty.HSNNumber = $(row).find('td')[2].innerText;
+                dataExpenseQty.TotalTaxableAmount = $(row).find('td')[6].innerText;
+                dataExpenseQty.TotalTax = $(row).find('td')[7].innerText;
+                dataExpenseQty.CGSTTax = $(row).find('td')[8].innerText;
+                dataExpenseQty.CGSTTaxAmount = $(row).find('td')[9].innerText;
+                dataExpenseQty.SGSTTax = $(row).find('td')[10].innerText;
+                dataExpenseQty.SGSTTaxAmount = $(row).find('td')[11].innerText;
+                dataExpenseQty.IGSTTax = $(row).find('td')[12].innerText;
+                dataExpenseQty.IGSTTaxAmount = $(row).find('td')[13].innerText;
+                dataExpenseQty.TotalTaxAmount = $(row).find('td')[14].innerText;
+                dataExpenseQty.TotalAmount = $(row).find('td')[17].innerText;
+                dataExpenseQty.TDSTaxAmount = $(row).find('td')[19].innerText;
+                dataExpenseQty.GrandTotalAmount = $(row).find('td')[20].innerText;
+                GrandTotal = parseFloat(GrandTotal) + parseFloat(dataExpenseQty.GrandTotalAmount);
+                lstExpenseQty.push(dataExpenseQty);
+            }
+        });
+        if (GrandTotal < 100000) {
+            var datareq = new Object();
+            datareq.ExpenseID = $("#ExpenseID").val();
+            datareq.SupplierID = $("#SupplierID").val();
+            datareq.ShipTo = $("#ShipTo").val();
+            datareq.Tax = $("#Tax").val();
+            datareq.BillNumber = $("#BillNumber").val();
+            datareq.BillDate = $("#BillDate").val();
+            datareq.ExpenseTypeID = $("#ExpenseTypeID").val();
+            datareq.DeliveryChallanNumber = $("#DeliveryChallanNumber").val();
+            datareq.DeliveryChallanDate = $("#DeliveryChallanDate").val();
+            datareq.GodownID = $("#GodownID").val();
+            datareq.TDSCategoryID = $("#TDSCategoryID").val();
+            datareq.EWayNumber = $("#EWayNumber").val();
+            datareq.CreatedBy = $("#CreatedBy").val();
+            datareq.CreatedOn = $("#CreatedOn").val();
+            datareq.lstExpenseQty = lstExpenseQty;
+            $.ajax({
+                url: '@Url.Action("AddExpenseBill")',
+                type: 'POST',
+                data: { 'data': datareq },
+                cache: false,
+            }).done(function (result) {
+                if (result > 0) {
+                    $("#loader").show();
+                    showhidealert();
+                    clearform();
+                }
+                else {
+                    $('div#sucessalert').html("something is wrong.");
+                }
+            });
+
+        }
+        else if (GrandTotal > 100000 && $("#EWayNumber").val() != "") {
+            var datareq = new Object();
+            datareq.ExpenseID = $("#ExpenseID").val();
+            datareq.SupplierID = $("#SupplierID").val();
+            datareq.ShipTo = $("#ShipTo").val();
+            datareq.Tax = $("#Tax").val();
+            datareq.BillNumber = $("#BillNumber").val();
+            datareq.BillDate = $("#BillDate").val();
+            datareq.ExpenseTypeID = $("#ExpenseTypeID").val();
+            datareq.DeliveryChallanNumber = $("#DeliveryChallanNumber").val();
+            datareq.DeliveryChallanDate = $("#DeliveryChallanDate").val();
+            datareq.GodownID = $("#GodownID").val();
+            datareq.TDSCategoryID = $("#TDSCategoryID").val();
+            datareq.EWayNumber = $("#EWayNumber").val();
+            datareq.CreatedBy = $("#CreatedBy").val();
+            datareq.CreatedOn = $("#CreatedOn").val();
+            datareq.lstExpenseQty = lstExpenseQty;
+            $.ajax({
+                url: '@Url.Action("AddExpenseBill")',
+                type: 'POST',
+                data: { 'data': datareq },
+                cache: false,
+            }).done(function (result) {
+                if (result > 0) {
+                    $("#loader").show();
+                    showhidealert();
+                    clearform();
+                }
+                else {
+                    $('div#sucessalert').html("something is wrong.");
+                }
+            });
+        }
+        else {
+            if (confirm('are you sure bill saving with out E-Way Number')) {
+                debugger;
+                var datareq = new Object();
+                datareq.ExpenseID = $("#ExpenseID").val();
+                datareq.SupplierID = $("#SupplierID").val();
+                datareq.ShipTo = $("#ShipTo").val();
+                datareq.Tax = $("#Tax").val();
+                datareq.BillNumber = $("#BillNumber").val();
+                datareq.BillDate = $("#BillDate").val();
+                datareq.ExpenseTypeID = $("#ExpenseTypeID").val();
+                datareq.DeliveryChallanNumber = $("#DeliveryChallanNumber").val();
+                datareq.DeliveryChallanDate = $("#DeliveryChallanDate").val();
+                datareq.GodownID = $("#GodownID").val();
+                datareq.TDSCategoryID = $("#TDSCategoryID").val();
+                datareq.EWayNumber = $("#EWayNumber").val();
+                datareq.CreatedBy = $("#CreatedBy").val();
+                datareq.CreatedOn = $("#CreatedOn").val();
+                datareq.lstExpenseQty = lstExpenseQty;
+                $.ajax({
+                    url: '@Url.Action("AddExpenseBill")',
+                    type: 'POST',
+                    data: { 'data': datareq },
+                    cache: false,
+                }).done(function (result) {
+                    if (result > 0) {
+                        $("#loader").show();
+                        showhidealert();
+                        clearform();
+                    }
+                    else {
+                        $('div#sucessalert').html("something is wrong.");
+                    }
+                });
+            }
+        }
+        $("#loader").hide();
+    });
+
+    $("#btncancel").click(function () {
+        clearform();
+    });
+
+    function clearform() {
+        location.reload();
+    }
+</script>

@@ -1,0 +1,95 @@
+﻿@model List<vb.Data.RetProductCategoryListResponse>
+@using vb.Data.ViewModel
+
+<div class="box">
+    <div class="box-header text-center">
+        <h3 class="box-title">Category List</h3>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body table-scrollable1">
+        <table id="ListDataTable" class="table table-bordered table-bordered">
+            <thead>
+                <tr>
+                    <th class="nosort">Code</th>
+                    <th class="nosort">Type</th>
+                    <th class="nosort">Name</th>
+                    <th class="nosort">Description</th>
+                    @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.RECATEGORY.ToString()))
+                    {
+                        <th class="nosort">Edit</th>
+                    }
+                    @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.RDCATEGORY.ToString()))
+                    {
+                        <th class="nosort">Status</th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td id="row" @item.CategoryID>
+                            @item.CategoryCode
+                        </td>
+                        <td>
+                            @item.CategoryTypestr
+                        </td>
+                        <td>
+                            @item.CategoryName
+                        </td>
+                        <td>
+                            @item.CategoryDescription
+                        </td>
+                        @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.RECATEGORY.ToString()))
+                        {
+                            <td>
+                                <a style="cursor:pointer;" class="btnedit" data-pid="@item.CategoryID" data-catid="@item.CategoryTypeID">Edit</a>
+                            </td>
+                        }
+                        @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.RDCATEGORY.ToString()))
+                        {
+                            if (item.IsDelete == true)
+                            {
+                                <td>
+                                    @Html.ActionLink("Active", "DeleteProductCategory", "Product",
+                                              new { CategoryID = item.CategoryID, IsDelete = false },
+                                    new { onclick = "return confirm('Are you sure you wish to delete this article?');" })
+                                </td>
+                            }
+                            else
+                            {
+                                <td>
+                                    @Html.ActionLink("DeActive", "DeleteProductCategory", "Product",
+                                              new { CategoryID = item.CategoryID, IsDelete = true },
+                                    new { onclick = "return confirm('Are you sure you wish to delete this article?');" })
+                                </td>
+                            }
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <!-- /.box-body -->
+</div>
+
+<script>
+    $("#ListDataTable").DataTable({
+        'aoColumnDefs': [{
+            'bSortable': false,
+            'aTargets': ['nosort'] /* 1st one, start by the right */
+        }]
+    });
+
+    $('#ListDataTable').on('click', '.btnedit', function () {
+        $("#UCategoryID").val($(this).attr("data-pid"));
+        $("#CategoryCode").val($(this).parent().parent().children()[0].innerHTML.trim());
+        $("#CategoryName").val($(this).parent().parent().children()[2].innerHTML.trim());
+        $("#CategoryDescription").val($(this).parent().parent().children()[3].innerHTML.trim());
+        $("#CategoryTypeID").val($(this).attr("data-catid")).trigger("change");
+        $("html, body").animate({ scrollTop: 0 }, "slow");
+    });
+</script>
+
+
+

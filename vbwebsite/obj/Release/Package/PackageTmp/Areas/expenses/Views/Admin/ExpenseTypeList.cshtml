@@ -1,0 +1,79 @@
+﻿@model List<vb.Data.ExpenseTypeListResponse>
+@using vb.Data.ViewModel
+
+<div class="box">
+    <div class="box-header text-center">
+        <h3 class="box-title">Expense Type List</h3>
+    </div>
+    <div class="box-body table-scrollable1">
+        <table id="ListDataTable" class="table table-bordered table-bordered">
+            <thead>
+                <tr>
+                    <th>Expense Type</th>
+                    @*@if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.EPurchaseType.ToString()))
+                    {*@
+                        <th>Edit</th>
+                    @*}
+                    @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.DPurchaseType.ToString()))
+                    {*@
+                        <th>Status</th>
+                    @*}*@
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @item.ExpenseType
+                        </td>
+                        @*@if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.EPurchaseType.ToString()))
+                        {*@
+                            <td>
+                                <a style="cursor:pointer;" class="btnedit" data-expensetypeid="@item.ExpenseTypeID" data-createdby="@item.CreatedBy" data-createdon="@item.CreatedOn" data-expensetype="@item.ExpenseType">Edit</a>
+                            </td>
+                        @*}
+                        @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.DPurchaseType.ToString()))
+                        {*@
+                            @if (item.IsDelete == true)
+                            {
+                                <td>
+                                    @Html.ActionLink("Active", "DeleteExpenseType", "Admin",
+                 new { ExpenseTypeID = item.ExpenseTypeID, IsDelete = false },
+                                        new { onclick = "return confirm('Are you sure you wish to delete this article?');" })
+                                </td>
+                            }
+                            else
+                            {
+                                <td>
+                                    @Html.ActionLink("DeActive", "DeleteExpenseType", "Admin",
+                  new { ExpenseTypeID = item.ExpenseTypeID, IsDelete = true },
+                                        new { onclick = "return confirm('Are you sure you wish to delete this article?');" })
+                                </td>
+                            }
+                        @*}*@
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    $("#ListDataTable").DataTable({
+        'aoColumnDefs': [{
+            'bSortable': false,
+            //"aTargets": [0],
+            'aTargets': ['nosort'] /* 1st one, start by the right */
+        }]
+    });
+
+    $('#ListDataTable').on('click', '.btnedit', function () {
+        $("#ExpenseTypeID").val($(this).attr("data-expensetypeid"));
+        $("#ExpenseType").val($(this).attr("data-expensetype"));
+        $("#CreatedBy").val($(this).attr("data-createdby"));
+        $("#CreatedOn").val($(this).attr("data-createdon"));
+        $("html, body").animate({ scrollTop: 0 }, "slow");
+    });
+</script>
+

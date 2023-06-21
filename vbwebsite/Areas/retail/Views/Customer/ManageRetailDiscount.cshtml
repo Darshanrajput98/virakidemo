@@ -1,0 +1,283 @@
+﻿@model vb.Data.RetCustomerDiscountListResponse
+@{
+    ViewBag.Title = "ManageRetailDiscount";
+    Layout = "~/Areas/retail/Views/Shared/_retaillayout.cshtml";
+}
+<div class="box box-default">
+    <form id="frmdisc" method="post" class="form-horizontal">
+        <div class="box-body">
+            <div>
+                <h3 style="text-align:center;">Retail Customer Discounts</h3>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="CustomerName" class="col-sm-4 control-label">Customer </label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" name="CustomerName" id="CustomerName" value="@Model.CustomerName" disabled="disabled" tabindex="5">
+                                <input type="hidden" value="@Model.CustomerID" id="CustomerID" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="IsDelete" class="col-sm-4 control-label">Status </label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" name="IsDelete" id="IsDelete" value="@(Model.IsDelete ?"DeActive" : "Active")" disabled="disabled" tabindex="5">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <h3 style="text-align:center;">Discount Details</h3>
+                <div class="row">
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="Contract" class="col-sm-4 control-label">Contract</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" name="Contract" id="Contract" value="@Model.Contract" tabindex="5">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="ValidFrom" class="col-sm-4 control-label">Valid From </label>
+                            <div class="col-sm-8">
+                                <div class="input-group date">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </div>
+                                    <input type="text" class="form-control pull-right datepicker" id="ValidFrom" value="@Model.ValidFrom.ToString("MM/dd/yyyy")" tabindex="3">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="ValidTo" class="col-sm-4 control-label">Valid To </label>
+                            <div class="col-sm-8">
+                                <div class="input-group date">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </div>
+                                    <input type="text" class="form-control pull-right datepicker" id="ValidTo" value="@Model.ValidTo.ToString("MM/dd/yyyy")" tabindex="3">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <h3 style="text-align:center;">Product Category Discounts</h3>
+                <table id="ListDataTableNo" class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th class="nosort">Sr NO</th>
+                            <th class="nosort">Category</th>
+                            <th class="nosort">Discount %</th>
+                            <th class="nosort">Margin %</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.lstCategoryDiscount)
+                        {
+                            <tr>
+                                <td id="row" class="category">
+                                    @item.CategoryID
+                                    <input type="hidden" value="@item.CategoryDiscountID" />
+                                </td>
+                                <td>
+                                    @item.CategoryName
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control billdiscount" value="@(item.Discount == 0 ?  "" : @item.Discount.ToString())" tabindex="3">
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control billMargin" value="@(item.Margin == 0 ?  "" : @item.Margin.ToString())" tabindex="4">
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+
+                </table>
+            </div>
+            <div class="col-md-12">
+                <h3 style="text-align:center;">SKU Discounts</h3>
+                <div id="OrderList" class="form-horizontal">
+                    <table class="table table-bordered table-bordered" id="SKUDiscount">
+                        <thead>
+                            <tr class="form-group">
+                                <th class="nosort col-sm-1">Sr No</th>
+                                <th class="nosort col-sm-4">SKU</th>
+                                <th class="nosort col-sm-3">Discount %</th>
+                                <th class="nosort col-sm-3">Margin</th>
+                                <th class="nosort col-sm-2">Un-Select To Delete</th>
+                                <th class="nosort col-sm-2">Add</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{int cnt = 0;}
+                            @if (@Model.lstProductDiscount.Count <= 20)
+                            {
+                                cnt = 20;
+                            }
+                            else
+                            { cnt = @Model.lstProductDiscount.Count; }
+                            @for (int i = 0; i < cnt; i++)
+                            {
+                                <tr class="form-group" id="trclear">
+                                    <td id="row">
+                                        <label for="srno" class="control-label">@(i + 1) </label>
+                                        <input type="hidden" class="form-control" value="@(Model.lstProductDiscount.Count > i ? @Model.lstProductDiscount[i].ProductDiscountID : 0)">
+                                    </td>
+                                    <td>
+                                        @Html.DropDownList("ProductID" + i.ToString(), new SelectList(ViewBag.Product, "ProductQtyID", "ProductName", @Model.lstProductDiscount.Count > i ? @Model.lstProductDiscount[i].ProductQtyID : 0), new { @class = "form-control select22 ProductID", tabindex = "6", multiple = true })
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control Discount" value="@(Model.lstProductDiscount.Count > i ? @Model.lstProductDiscount[i].Discount.ToString() : "")" placeholder="Discount" tabindex="7">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control Margin" value="@(Model.lstProductDiscount.Count > i ? @Model.lstProductDiscount[i].Margin.ToString() : "")" placeholder="Margin" tabindex="8">
+                                    </td>
+                                    <td>
+                                        <input type="checkbox" class="IsDelete" value="@(Model.lstProductDiscount.Count > i ? @Model.lstProductDiscount[i].IsDelete : false)" tabindex="2" />
+                                    </td>
+                                    <td>
+                                        @if (i == cnt - 1)
+                                        {
+                                            <button type="button" class="btn btn-default addButton" tabindex="35" style="width: 35px;"><i class="fa fa-plus"></i></button>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                            <tr class="form-group hide" id="AddRow">
+                                <td id="row">
+                                    <label for="srno" class="control-label"> </label>
+                                    <input type="hidden" class="form-control" name="ProductDiscountID">
+                                </td>
+                                <td>
+                                    @Html.DropDownList("ProductID", new SelectList(ViewBag.Product, "ProductQtyID", "ProductName"), new { @class = "form-control select22 ProductID", tabindex = "36", multiple = true })
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control Discount" placeholder="Discount" tabindex="37">
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control Margin" placeholder="Margin" tabindex="38">
+                                </td>
+                                <td>
+                                    <input type="checkbox" class="IsDelete" tabindex="2" />
+                                </td>
+                                <td>
+                                    <button type="button" class="btn btn-default removeButton tab-content" tabindex="39" style="width: 35px;"><i class="fa fa-minus"></i></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="box-footer ">
+            <div class="pull-right">
+                <button type="button" id="CancelOrder" class="btn btn-default" tabindex="43">Cancel</button>
+                <button type="button" id="btnsavecase" class="btn btn-info" tabindex="42">Save</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script type="text/javascript">
+    bookIndex = 20;
+    $('#OrderList').on('click', '.addButton', function () {
+        debugger;
+        bookIndex++;
+        var $template = $('#AddRow'),
+            $clone = $template
+                            .clone()
+                            .removeClass('hide')
+                            .removeAttr('id')
+                            .attr('data-book-index', bookIndex)
+                            .insertBefore($template);
+        //debugger;
+        // Update the name attributes
+        $clone
+            .find('[name="ProductID"]').attr('name', 'lstProductDiscount[' + bookIndex + '].ProductID').end()
+            .find('[name="Discount"]').attr('name', 'lstProductDiscount[' + bookIndex + '].Quantity').end()
+            .find('[name="Margin"]').attr('name', 'lstProductDiscount[' + bookIndex + '].Margin').end()
+            .find('[name="IsDelete"]').attr('name', 'lstProductDiscount[' + bookIndex + '].SellRate').end();
+        $('select').select2({ width: '100%' });
+        $tdvalue = $clone.find('td')[1];
+        $($tdvalue).find('span.select2.select2-container.select2-container--default')[1].remove();
+        $(".select22").select2({
+            maximumSelectionLength: 1
+        });
+    })
+     .on('click', '.removeButton', function () {
+         var $row = $(this).parents('.form-group'),
+             index = $row.attr('data-book-index');
+         // Remove fields
+         // Remove element containing the fields
+         $row.remove();
+     });
+
+    $("#CancelOrder").click(function () {
+        debugger;
+        window.location.href = '@Url.Action("ManageCustomers", "Customer")';
+    });
+
+    $("#btnsavecase").click(function () {
+        var lstProductDiscount = [];
+        var lstCategoryDiscount = [];
+        debugger;
+        $('#SKUDiscount').children('tbody').children('tr:visible').each(function (index, row) {
+            if ($(row).find("select").val() != undefined && $(row).find("select").val() != '') {
+                debugger;
+                var dataOrderQty = new Object();
+                dataOrderQty.ProductDiscountID = $(row).find("input")[0].value;
+                dataOrderQty.ProductQtyID = $(row).find("select").val();
+                dataOrderQty.Discount = $(row).find("input")[2].value;
+                dataOrderQty.Margin = $(row).find("input")[3].value;
+                dataOrderQty.IsDelete = $(row).find(".IsDelete").is(":checked");
+                dataOrderQty.Contract = $("#Contract").val();
+                dataOrderQty.ValidFrom = $("#ValidFrom").val();
+                dataOrderQty.ValidTo = $("#ValidTo").val();
+
+                lstProductDiscount.push(dataOrderQty);
+            }
+        });
+        debugger;
+        $('#ListDataTableNo').children('tbody').children('tr:visible').each(function (index, row) {
+            if (($(row).find("input")[2].value != '') && ($(row).find("input")[2].value != '')) {
+                debugger;
+                var dataOrderQty = new Object();
+                dataOrderQty.CategoryDiscountID = $(row).find("input")[0].value;
+                dataOrderQty.CategoryID = $(row).find(".category").text();
+                dataOrderQty.Discount = parseFloat($(row).find("input")[1].value).toFixed(2);
+                dataOrderQty.Margin = parseFloat($(row).find("input")[2].value).toFixed(2);
+                dataOrderQty.IsDelete = false;
+                dataOrderQty.Contract = $("#Contract").val();
+                dataOrderQty.ValidFrom = $("#ValidFrom").val();
+                dataOrderQty.ValidTo = $("#ValidTo").val();
+                lstCategoryDiscount.push(dataOrderQty);
+            }
+        });
+
+        var datareq = new Object();
+        datareq.CustomerID = $("#CustomerID").val();
+        datareq.lstProductDiscount = lstProductDiscount;
+        datareq.lstCategoryDiscount = lstCategoryDiscount;
+        $.ajax({
+            url: '@Url.Action("AddCustomerDiscount")',
+            type: 'POST',
+            data: { 'data': datareq },
+            cache: false,
+        }).done(function (result) {
+            if (result == true) {
+                var url = '@Url.Action("ManageCustomers", "Customer")';
+                window.location.href = url;
+            }
+        });
+    });
+
+</script>

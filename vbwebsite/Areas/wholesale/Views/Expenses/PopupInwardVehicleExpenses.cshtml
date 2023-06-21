@@ -1,0 +1,32 @@
+﻿@model List<vb.Data.VehicleExpensesList>
+<div class="box">
+    <!-- /.box-header -->
+    <div class="box-body">
+        <table id="tblListDataTablewithourpaging" class="table table-bordered table-striped lst1">
+            <thead>
+                <tr>
+                    <th class="nosort">Vehicle Number</th>                
+                    <th class="nosort">Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @*<input type="hidden" class="hdnTransferID" value="@item.TransferID" />*@
+                            @item.VehicleNumber
+                        </td>
+                        <td>
+                            @item.Amount.ToString("0.00")
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+        <div class="modal-footer">
+            <button type="button" class="btnclose btn btn-info" data-dismiss="modal" aria-hidden="true">Close</button>
+        </div>
+    </div>
+</div>

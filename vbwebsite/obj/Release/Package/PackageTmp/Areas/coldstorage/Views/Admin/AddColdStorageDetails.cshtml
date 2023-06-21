@@ -1,0 +1,224 @@
+﻿@{
+    ViewBag.Title = "AddColdStorageDetails";
+    Layout = "~/Areas/coldstorage/Views/Shared/_coldstoragelayout.cshtml";
+}
+
+<style>
+    button#btncancel,#btnsave {
+        outline: none;
+    }
+</style>
+
+@using vb.Data.ViewModel
+
+
+<div class="box box-default">
+    <div class="box-header with-border text-center">
+        <h3 class="box-title">Add ColdStorage</h3>
+    </div>
+    <form id="frmColdStorage" class="form-horizontal">
+        <div class="box-body">
+            <div class="col-md-6">
+
+                <div class="form-group">
+                    <input name="ColdStorageID" id="ColdStorageID" type="hidden" value="" />
+                    <input type="hidden" id="CreatedBy" class="CreatedBy" value="" />
+                    <input type="hidden" id="CreatedOn" class="CreatedOn" value="" />
+                    <label for="Name" class="col-sm-4 control-label">Name</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" name="Name" maxlength="100" id="Name" placeholder="Name" tabindex="1" autocomplete="off" required="required">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="Address" class="col-sm-4 control-label">Address</label>
+                    <div class="col-sm-6">
+                        <textarea class="form-control" id="Address" name="Address" rows="2" cols="20" placeholder="Address" tabindex="3" required="required"></textarea>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="GSTNo" class="col-sm-4 control-label">GST NO.</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" name="GSTNo" id="GSTNo" placeholder="GST NO" tabindex="5" autocomplete="off" required="required">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="FssaiLicenseNo" class="col-sm-4 control-label">FSSAI License NO.</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" name="FssaiLicenseNo" id="FssaiLicenseNo" placeholder="FSSAI License NO." autocomplete="off" tabindex="7" required="required">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="ContactPersonName" class="col-sm-4 control-label">Contact Person Name1</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" name="ContactPersonName" id="ContactPersonName" placeholder="Contact Person Name1" autocomplete="off" tabindex="9" required="required">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="ContactPersonName1" class="col-sm-4 control-label">Contact Person Name2</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" name="ContactPersonName1" id="ContactPersonName1" placeholder="Contact Person Name2" autocomplete="off" tabindex="11">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="ContactPersonName2" class="col-sm-4 control-label">Contact Person Name3</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" name="ContactPersonName2" id="ContactPersonName2" placeholder="Contact Person Name3" autocomplete="off" tabindex="13">
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="ShortName" class="col-sm-4 control-label">Short Name</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" name="ShortName" maxlength="100" id="ShortName" placeholder="Short Name" autocomplete="off" tabindex="2" required="required">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="Email" class="col-sm-4 control-label">Email ID</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" name="Email" id="Email" placeholder="Email ID" autocomplete="off" tabindex="4" required="required">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="PANNo" class="col-sm-4 control-label">PAN NO.</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" name="PANNo" id="PANNo" placeholder="PAN NO" tabindex="6" autocomplete="off" required="required">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="ExpiryDate" class="col-sm-4 control-label">Expiry Date</label>
+                    <div class="col-sm-6">
+                        <div class="input-group date">
+                            <div class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
+                            </div>
+                            <input type="text" class="form-control pull-right datepicker" name="ExpiryDate" id="ExpiryDate" tabindex="8" autocomplete="off">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="ContactNumber" class="col-sm-4 control-label">Contact Number1</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" name="ContactNumber" id="ContactNumber" onkeypress="return onlyNumberKey(event)" maxlength="10" placeholder="Contact Number1" autocomplete="off" tabindex="10" required="required">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="ContactNumber1" class="col-sm-4 control-label">Contact Number2</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" name="ContactNumber1" id="ContactNumber1" onkeypress="return onlyNumberKey(event)" maxlength="10" placeholder="Contact Number2" autocomplete="off" tabindex="12">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="ContactNumber2" class="col-sm-4 control-label">Contact Number3</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" name="ContactNumber2" id="ContactNumber2" onkeypress="return onlyNumberKey(event)" maxlength="10" placeholder="Contact Number3" autocomplete="off" tabindex="14">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- /.box-body -->
+        <div class="box-footer ">
+            <div class="pull-right">
+                <button type="button" id="btncancel" class="btn btn-default" tabindex="16">Cancel</button>
+                @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.WAAREA.ToString()))
+                {
+                    <button type="button" id="btnsave" class="btn btn-info" tabindex="15">Save</button>
+                }
+            </div>
+        </div>
+        <!-- /.box-footer -->
+    </form>
+    <div id="lstcase">
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script>
+
+    $(document).ready(function () {
+        loadhtml();
+    });
+
+    function loadhtml() {
+        $.ajax({
+            url: '@Url.Action("ColdStorageList")',
+            type: 'GET',
+            cache: false,
+        }).done(function (result) {
+            $('#lstcase').html(result);
+        });
+    }
+
+    $("#btnsave").click(function () {
+        if (!($('#frmColdStorage').parsley().validate())) {
+            return;
+        }
+        var datareq = new Object();
+        datareq.ColdStorageID = $("#ColdStorageID").val();
+        datareq.Name = $("#Name").val();
+        datareq.ShortName = $("#ShortName").val();
+        datareq.Address = $("#Address").val();
+        datareq.Email = $("#Email").val();
+        datareq.GSTNo = $("#GSTNo").val();
+        datareq.PANNo = $("#PANNo").val();
+        datareq.FssaiLicenseNo = $("#FssaiLicenseNo").val();
+        datareq.ExpiryDate = $("#ExpiryDate").val();
+        datareq.ContactPersonName = $("#ContactPersonName").val();
+        datareq.ContactPersonName1 = $("#ContactPersonName1").val();
+        datareq.ContactPersonName2 = $("#ContactPersonName2").val();
+        datareq.ContactNumber = $("#ContactNumber").val();
+        datareq.ContactNumber1 = $("#ContactNumber1").val();
+        datareq.ContactNumber2 = $("#ContactNumber2").val();
+        datareq.CreatedBy = $("#CreatedBy").val();
+        datareq.CreatedOn = $("#CreatedOn").val();
+
+        $.ajax({
+            url: '@Url.Action("AddColdStorageDetails")',
+            type: 'POST',
+            data: { 'data': datareq },
+            cache: false,
+        }).done(function (result) {
+            if (result > 0) {
+                if ($("#ColdStorageID").val() == "") {
+                    $('div#sucessalert').html("ColdStorage Add successfully.");
+                }
+                else {
+                    $('div#sucessalert').html("ColdStorage updated successfully.");
+                }
+                showhidealert();
+                loadhtml();
+                clearform();
+            }
+        });
+    });
+
+    $("#btncancel").click(function () {
+        clearform();
+    });
+
+    function clearform() {
+        $("#frmColdStorage").find("input").val("");
+        $("#frmColdStorage").find("textarea").val("");
+    }
+
+    function onlyNumberKey(evt) {
+        var ASCIICode = (evt.which) ? evt.which : evt.keyCode
+        if (ASCIICode > 31 && (ASCIICode < 48 || ASCIICode > 57))
+            return false;
+        return true;
+    }
+</script>

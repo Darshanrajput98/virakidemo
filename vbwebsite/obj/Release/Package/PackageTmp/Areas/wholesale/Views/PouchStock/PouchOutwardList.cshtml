@@ -1,0 +1,94 @@
+﻿@model List<vb.Data.PouchOutwardListResponse>
+@using vb.Data.ViewModel
+
+<div class="box">
+    <div class="box-header text-center">
+        <h3 class="box-title">Pouch Outward List</h3>
+    </div>
+    <div class="box-body table-scrollable1">
+        <table id="ListDataTable" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th class="nosort">Godown</th>
+                    <th class="nosort">Pouch</th>
+                    <th class="nosort">HSN Number</th>
+                    <th class="nosort">Opening</th>
+                    <th class="nosort">No of Pcs</th>
+                    <th class="nosort">Total Pouch</th>
+                    <th class="nosort">Purchase Date</th>
+                    <th class="nosort">Prepared By</th>
+                    <th>Edit</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td id="row">
+                            @item.GodownName
+                        </td>
+                        <td>
+                            @item.PouchName
+                        </td>
+                        <td>
+                            @item.HSNNumber
+                        </td>
+                        <td>
+                            @item.OpeningPouch
+                        </td>
+                        <td>
+                            @item.NoofPcs
+                        </td>
+                        <td>
+                            @item.TotalPouch
+                        </td>
+                        <td>
+                            @item.PurchaseDatestr
+                        </td>
+
+                        <td>
+                            @item.FullName
+                        </td>
+                        <td>
+                            <a style="cursor:pointer;" class="btnedit" data-pouchinwardid="@item.PouchInwardID" data-godownid="@item.GodownID" data-pouchid="@item.PouchID" data-pouchnameid="@item.PouchNameID" data-openingpouch="@item.OpeningPouch" data-noofpcs="@item.NoofPcs" data-totalpouch="@item.TotalPouch" data-purchasedate="@item.PurchaseDate"
+                               data-createdby="@item.CreatedBy" data-createdon="@item.CreatedOn">Edit</a>
+                            <input type="hidden" id="hdnPouchNameID" class="hdnPouchNameID" />
+                            <input type="hidden" id="hdnEdit" class="hdnEdit" value="Edit" />
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    $('#ListDataTable').DataTable({
+        'paging': true,
+        'lengthChange': true,
+        'searching': true,
+        'ordering': false,
+        'info': true,
+        'autoWidth': false
+    });
+
+    $('#ListDataTable').on('click', '.btnedit', function () {
+        debugger;
+        $("#PouchInwardID").val($(this).attr("data-pouchinwardid"));
+        $("#GodownID").val($(this).attr("data-godownid")).trigger("change");
+        $("#hdnPouchNameID").val($(this).attr("data-pouchnameid"));
+        $("#hdnEdit").val("Edit");
+        $("#OpeningPouch").val($(this).attr("data-openingpouch"));
+        $("#NoofPcs").val($(this).attr("data-noofpcs"));
+        $("#TotalPouch").val($(this).attr("data-totalpouch"));
+        $("#PurchaseDate").val($(this).attr("data-purchasedate"));
+        $("#CreatedBy").val($(this).attr("data-createdby"));
+        $("#CreatedOn").val($(this).attr("data-createdon"));
+        $("html, body").animate({ scrollTop: 0 }, "slow");
+    });
+
+</script>
+
+
+

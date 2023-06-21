@@ -1,0 +1,275 @@
+﻿@model List<vb.Data.DayWisePurchaseList>
+
+<div class="box">
+    <div class="box-header text-center">
+        <h3 class="box-title">Day Wise Purchase</h3>
+    </div>
+    <div class="box-body table-scrollable1" style="overflow-x: auto;">
+        <table id="ListDataTable" class="table table-bordered table-striped lstsales">
+            <thead>
+                <tr>
+                    <th class="nosort" style="text-align:center">Aavak Date</th>
+                    <th class="nosort" style="text-align:center">Aavak No</th>
+                    <th class="nosort" style="text-align:center">Godown</th>
+                    <th class="nosort" style="text-align:center">Bill Number</th>
+                    <th class="nosort" style="text-align:center">Bill Date</th>
+                    <th class="nosort" style="text-align:center">Party Name</th>
+                    <th class="nosort" style="text-align:center">Area Name</th>
+                    <th class="nosort" style="text-align:center">Amount</th>
+                    <th class="nosort" style="text-align:center">Packing Charge</th>
+                    <th class="nosort" style="text-align:center">Hamali</th>
+                    <th class="nosort" colspan="2" style="text-align:center">Discount</th>
+                    <th class="nosort" colspan="2" style="text-align:center">APMC</th>
+                    <th class="nosort" colspan="2" style="text-align:center">CGST</th>
+                    <th class="nosort" colspan="2" style="text-align:center">SGST</th>
+                    <th class="nosort" colspan="2" style="text-align:center">IGST</th>
+                    <th class="nosort" style="text-align:center">Total Tax Amt</th>
+                    <th class="nosort" style="text-align:center">Total Amt</th>
+                    <th class="nosort" style="text-align:center">Insurance</th>
+                    <th class="nosort" style="text-align:center">Transport Inward</th>
+
+                    <th class="nosort" style="text-align:center">TCS Amt</th>
+
+                    <th class="nosort" style="text-align:center">Grand Total Amt</th>
+                    <th class="nosort" style="text-align:center">Round Off</th>
+                    <th class="nosort" style="text-align:center">Net Amt</th>
+
+                    <th class="nosort" style="text-align:center">TDS Tax</th>
+                    <th class="nosort" style="text-align:center">TDS Tax Amt</th>
+                    <th class="nosort" style="text-align:center">Amt After TDS</th>
+                </tr>
+                <tr>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th style="text-align:center">Discount %</th>
+                    <th style="text-align:center">Discount Amt</th>
+                    <th style="text-align:center">APMC %</th>
+                    <th style="text-align:center">APMC Amt</th>
+                    <th style="text-align:center">Tax %</th>
+                    <th style="text-align:center">Tax Amt</th>
+                    <th style="text-align:center">Tax %</th>
+                    <th style="text-align:center">Tax Amt</th>
+                    <th style="text-align:center">Tax %</th>
+                    <th style="text-align:center">Tax Amt</th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td id="row">
+                            @*<a style="cursor:pointer;" class="btnedit" data-pid="@item.BillNumber" data-oid="@item.PurchaseID">@item.BillNumber</a>*@
+                            @item.CreatedOn.ToString("dd-MM-yyyy")
+                        </td>
+                        <td>
+                            @item.AvakNumber
+                        </td>
+                        <td>
+                            @item.GodownName
+                        </td>
+                        <td>
+                            <a style="cursor:pointer;" class="btneditpurchase" data-purchaseid="@item.PurchaseID">@item.BillNumber</a>
+                        </td>
+                        @*<td>
+                                @item.BillNumber
+                            </td>*@
+                        <td>
+                            @item.BillDatestr
+                        </td>
+                        <td>
+                            @item.Party
+                        </td>
+
+                        <td>
+                            @item.Area
+                        </td>
+                        <td>
+                            @item.Amount
+                        </td>
+                        <td>
+                            @item.TotalPackingCharge
+                        </td>
+                        <td>
+                            @item.Hamali
+                        </td>
+
+                        <td>
+                            @item.DiscountPer
+                        </td>
+                        <td>
+                            @item.DiscountAmount
+                        </td>
+
+                        <td>
+                            @item.APMCPer
+                        </td>
+                        <td>
+                            @item.APMCAmount
+                        </td>
+
+                        <td>
+                            @item.CGSTTax
+                        </td>
+                        <td>
+                            @item.CGSTTaxAmount
+                        </td>
+                        <td>
+                            @item.SGSTTax
+                        </td>
+                        <td>
+                            @item.SGSTTaxAmount
+                        </td>
+                        <td>
+                            @item.IGSTTax
+                        </td>
+                        <td>
+                            @item.IGSTTaxAmount
+                        </td>
+                        <td>
+                            @item.TotalTaxAmount
+                        </td>
+                        <td>
+                            @item.TotalAmount
+                        </td>
+                        <td>
+                            @item.Insurance
+                        </td>
+                        <td>
+                            @item.TransportInward
+                        </td>
+
+                        <td>
+                            @item.TCSAmount
+                        </td>
+
+                        <td>
+                            @item.GrandTotalAmount
+                        </td>
+                        <td>
+                            @item.RoundOff
+                        </td>
+                        <td>
+                            @item.NetAmount
+                        </td>
+
+                        <td>
+                            @item.TDSTax
+                        </td>
+                        <td>
+                            @item.TDSTaxAmount
+                        </td>
+                        <td>
+                            @item.AmountAfterTDS
+                        </td>
+                    </tr>
+                }
+                @if (Model.Count > 0)
+                {
+                    <tr style="font-weight:bold">
+                        <td colspan="7" style="text-align:right">
+                            Total :
+                        </td>
+                        <td>@Model[0].SumAmount</td>
+                        <td>@Model[0].SumTotalPackingCharge</td>
+                        <td>@Model[0].SumHamali</td>
+                        <td colspan="2" style="text-align:right">
+                            @Model[0].SumDiscountAmount
+                        </td>
+                        <td colspan="2" style="text-align:right">
+                            @Model[0].SumAPMCAmount
+                        </td>
+
+                        <td colspan="2" style="text-align:right">
+                            @Model[0].SumCGSTTaxAmount
+                        </td>
+                        <td colspan="2" style="text-align:right">
+                            @Model[0].SumSGSTTaxAmount
+                        </td>
+                        <td colspan="2" style="text-align:right">
+                            @Model[0].SumIGSTTaxAmount
+                        </td>
+                        <td>
+                            @Model[0].SumTotalTaxAmount
+                        </td>
+                        <td>
+                            @Model[0].SumTotalAmount
+                        </td>
+                        <td>
+                            @Model[0].SumInsurance
+                        </td>
+                        <td>
+                            @Model[0].SumTransportInward
+                        </td>
+
+                        <td>
+                            @Model[0].SumTCSAmount
+                        </td>
+
+                        <td>
+                            @Model[0].SumGrandTotalAmount
+                        </td>
+                        <td>
+                            @Model[0].GrandRoundOff
+                        </td>
+                        <td>
+                            @Model[0].GrandNetAmount
+                        </td>
+                        <td></td>
+                        <td>@Model[0].SumTDSTaxAmount</td>
+                        <td>@Model[0].SumAmountAfterTDS</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<script>
+    $('#ListDataTable').on('click', '.btneditpurchase', function () {
+        var url = '@Url.Action("AddPurchase", "Purchase", new { purchaseid = "__purchaseid__" })';
+        url = url.replace(/amp;/g, '');
+        window.location.href = url.replace('__purchaseid__', $(this).attr("data-purchaseid"));
+    });
+</script>
+
+@*<script>
+        $('.lstsales').on('click', '.btnedit', function () {
+            debugger;
+            var id = $(this).attr("data-oid");
+            var invnum = $(this).attr("data-pid");
+            //    debugger;
+            $.ajax({
+                url: '@Url.Action("PrintInvoice", "Orders")',
+                type: 'POST',
+                data: { 'InvoiceID': id, 'InvoiceNumber': invnum },
+                cache: false,
+            }).done(function (result) {
+                if (result != '') {
+                    window.open(result, "newPage");
+                }
+            });
+        });
+    </script>*@
+
+

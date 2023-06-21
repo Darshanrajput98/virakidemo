@@ -1,0 +1,222 @@
+﻿@model List<vb.Data.PaidPaymentList>
+
+<div class="box">
+    <div class="box-header text-center">
+        <h3 class="box-title">Payment Paid List</h3>
+    </div>
+    <div class="box-body">
+        <table id="ListDataTable" class="table table-bordered table-striped lstpayment">
+            <thead>
+                <tr>
+                    <th class="nosort">Employee Name</th>
+                    <th class="nosort">Payment Date</th>
+                    <th class="nosort">Amount</th>
+                    <th class="nosort">Bank Name</th>
+                    <th class="nosort">Payment Type</th>
+                    <th class="nosort">Account Number</th>
+                    <th class="nosort">IFSC Code</th>
+                    <th class="nosort">Mobile Number</th>
+                    <th class="nosort">Email</th>
+                    <th class="nosort">Net Amount</th>
+                    <th class="nosort">Edit</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td id="row">
+                            <input type="hidden" id="hdnPaymentID" class="hdnPaymentID" value="@item.PaymentID" />
+                            @item.Beneficiary_Name
+                        </td>
+                        <td>
+                            @item.Payment_Date
+                        </td>
+
+                        <td>
+                            @item.Amount.ToString("0.00")
+                        </td>
+                        <td>
+                            @item.Beneficiary_Bank
+                        </td>
+                        <td>
+                            @item.Payment_Type
+                        </td>
+                        <td>
+                            @item.Beneficiary_Acc_No
+                        </td>
+                        <td>
+                            @item.Beneficiary_Branch_IFSC_Code
+                        </td>
+                        <td>
+                            @item.Beneficiary_Mobile
+                        </td>
+                        <td>
+                            @item.Beneficiary_Email
+                        </td>
+
+                        <td>
+                            @item.Amount.ToString("0.00")
+                        </td>
+                        <td>
+                            <a style="cursor:pointer;" class="btneditpayment" data-paymentid="@item.PaymentID" data-bankid="@item.BankID" data-paymentdate="@item.PaymentDate.ToString("MM/dd/yyyy")">edit</a>
+                        </td>
+                    </tr>
+                }
+                @if (Model.Count > 0)
+                {
+                    <tr style="font-weight:bold">
+                        <td></td>
+                        <td></td>
+                        <td>
+                            @Model[0].sumAmount.ToString("0.00")
+                        </td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>
+                            @Model[0].sumNetAmount.ToString("0.00")
+                        </td>
+                        <td></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <div id="responsive" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header" style="padding-bottom: 0px;">
+                        <h4 class="modal-title">Update Payment</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <input name="PaymentID" id="PaymentID" class="hdnPaymentID" type="hidden" value="" />
+                                    <label for="Bank" class="col-sm-4 control-label">Bank :</label>
+                                    <div class="col-sm-8">
+                                        @Html.DropDownList("BankID", new SelectList(ViewBag.BankName, "BankID", "BankName"), "Select Bank", new { @class = "form-control select2" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:10px;">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="SalaryPaymentDate" class="col-sm-4 control-label">Date :</label>
+                                    <div class="col-sm-8">
+                                        <div class="input-group date">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </div>
+                                            <input type="text" class="form-control pull-right datepicker" id="SalaryPaymentDate" tabindex="3" autocomplete="off">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="btnsavepopup" class="btnsavepopup btn btn-info">Save</button>
+                        <button type="button" class="btnclosepopup btn btn-info" data-dismiss="modal" aria-hidden="true">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    $('.datepicker').datepicker({
+        autoclose: true
+    });
+
+    //EditPayment
+    $('.lstpayment').on('click', '.btneditpayment', function () {
+        debugger;
+        var PaymentID = $(this).attr("data-paymentid");
+        var BankID = $(this).attr("data-bankid");
+        var PaymentDate = $(this).attr("data-paymentdate");
+        clearcontents(PaymentID, BankID, PaymentDate);
+        $("#responsive").removeClass("modal fade").addClass("modal fade modal-overflow in");
+        $("#responsive").css("display", "block");
+    });
+
+    function clearcontents(PaymentID, BankID, PaymentDate) {
+        debugger;
+        $('#PaymentID').val(PaymentID);
+        $("#responsive").find("#BankID").val(BankID).trigger("change");
+        $('#SalaryPaymentDate').val(PaymentDate);
+
+    }
+
+    $(".btnclosepopup").click(function () {
+        debugger;
+        $('#responsive').removeClass("modal fade modal-overflow in");
+        $('#responsive').removeAttr('style');
+        $('#responsive').addClass("modal fade");
+        $('#PaymentID').val('');
+        $('#SalaryPaymentDate').val('');
+        $("#BankID").val("").trigger("change");
+    });
+
+    $("#btnsavepopup").click(function () {
+        debugger;
+        if ($("#SalaryPaymentDate").val() != null && $("#responsive").find("#BankID").val() != 0) {
+            var datareq = new Object();
+            datareq.PaymentID = $("#PaymentID").val();
+            datareq.PaymentDate = $("#PaymentDate").val();
+            datareq.BankID = $("#responsive").find("#BankID").val();
+            $.ajax({
+                url: '@Url.Action("UpdateSalaryPayment")',
+                type: 'POST',
+                data: { 'data': datareq },
+                cache: false,
+            }).done(function (result) {
+                if (result == true) {
+                    if ($("#PaymentID").val() == "") {
+                        $('div#sucessalert').html("Payment Add successfully.");
+                    }
+                    else {
+                        $('div#sucessalert').html("Payment updated successfully.");
+                    }
+                    showhidealert();
+                    clearform();
+                    // loadhtml();
+                }
+            });
+        }
+        else {
+            alert("Please check at least one payment method");
+        }
+    });
+
+    @*function loadhtml() {
+        var model = new Object();
+        model.AssignedDate = $("#AssignedDate").val();
+        model.GodownID = $("#GodownID").val();
+        model.IsCheckBySign = $('#IsCheckBySign').is(":checked");
+        $.ajax({
+            url: '@Url.Action("CashCounterReportList")',
+            type: 'POST',
+            data: { 'model': model },
+            cache: false,
+        }).done(function (result) {
+            $('#lstcase').html(result);
+        });
+    }*@
+
+    function clearform() {
+        $('#responsive').removeClass("modal fade modal-overflow in");
+        $('#responsive').removeAttr('style');
+        $('#responsive').addClass("modal fade");
+        $('#PaymentID').val('');
+        $('#SalaryPaymentDate').val('');
+        $("#BankID").val("").trigger("change");
+    }
+
+</script>

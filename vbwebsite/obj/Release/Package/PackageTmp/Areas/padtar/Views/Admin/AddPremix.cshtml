@@ -1,0 +1,742 @@
+﻿@model vb.Data.PremixRequest
+
+@{
+    ViewBag.Title = "AddPremix";
+    Layout = "~/Areas/padtar/Views/Shared/padtarlayout.cshtml";
+}
+@using vb.Data.ViewModel
+
+<style>
+    label#AmountGrandTotal,
+    #QuantityGrandTotal {
+        margin-left: 10px;
+    }
+
+    button#btncalculate,
+    #btnSavePremix,
+    #CancelPremix {
+        outline: none;
+    }
+</style>
+
+<div class="box box-default">
+    <div class="box-header with-border text-center">
+        <h3 class="box-title">Padtar Premix</h3>
+    </div>
+    <form id="frmPremix" class="form-horizontal">
+        <div class="box-body">
+
+            <div class="col-md-12">
+                <div id="PremixList" class="form-horizontal tblresponsive">
+                    <table class="table table-bordered" id="PremixQty">
+                        <thead>
+                            <tr class="form-group">
+                                <th class="nosort">Item Name</th>
+                                <th class="nosort">Current Rate</th>
+                                <th class="nosort">Quantity</th>
+                                <th class="nosort">Amount</th>
+                                <th class="nosort">Add</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="form-group" id="AddPremix">
+                                <td id="row">
+                                    <input name="PremixQtyID" class="hdnPremixQtyID" type="hidden" value="" />
+                                    @Html.DropDownListFor(m => m.lstPremix[0].ProductID, new SelectList(ViewBag.Product, "ProductID", "ProductName"), "Select Product", new { required = "required", @class = "form-control select2 ProductID", tabindex = "1" })
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control CurrentRate" name="lstPremix[0].CurrentRate" onkeypress="return isNumberKey(event)" placeholder="Current Rate" autocomplete="off" tabindex="2" value="">
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control Quantity" name="lstPremix[0].Quantity" onkeypress="return isNumberKey(event)" placeholder="Quantity" required autocomplete="off" tabindex="3">
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control Amount" name="lstPremix[0].Amount" onkeypress="return isNumberKey(event)" placeholder="Amount" required autocomplete="off" tabindex="4">
+                                </td>
+                                <td>
+                                    <button type="button" class="btn btn-default addButton" tabindex="5"><i class="fa fa-plus"></i></button>
+                                </td>
+                            </tr>
+                            <tr class="form-group hide" id="AddMorePremix">
+                                <td id="row">
+                                    @Html.DropDownListFor(m => m.lstPremix[0].ProductID, new SelectList(ViewBag.Product, "ProductID", "ProductName"), "Select Product", new { @class = "form-control select2 ProductID", tabindex = "1" })
+                                    <input name="PremixQtyIDnew" class="hdnPremixQtyID" type="hidden" value="" />
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control CurrentRate" name="CurrentRate" placeholder="Current Rate">
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control Quantity" name="Quantity" placeholder="Quantity" tabindex="37" autocomplete="off">
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control Amount" name="Amount" placeholder="Amount" tabindex="38" autocomplete="off">
+                                </td>
+                                <td>
+                                    <button type="button" class="btn btn-default removeButton"><i class="fa fa-minus"></i></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr class="form-group">
+                                <td>
+                                    <label for="srno" class="control-label">Total :</label>
+                                </td>
+                                <td>
+                                    <button type="button" id="btncalculate" class="btn btn-info" tabindex="100001">Calculate</button>
+                                    <label for="srno" class="control-label"> </label>
+                                </td>
+                                <td>
+                                    <label for="srno" class="control-label" id="QuantityGrandTotal"> </label>
+                                </td>
+                                <td>
+                                    <label for="srno" class="control-label" id="AmountGrandTotal"> </label>
+                                </td>
+                                <td>
+                                    <label for="srno" class="control-label"> </label>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="form-group">
+                    <input name="PremixID" id="PremixID" type="hidden" value="" />
+                    <input name="CreatedBy" id="CreatedBy" type="hidden" value="" />
+                    <input name="CreatedOn" id="CreatedOn" type="hidden" value="" />
+                    <input name="UpdatedBy" id="UpdatedBy" type="hidden" value="" />
+                    <input name="UpdatedOn" id="UpdatedOn" type="hidden" value="" />
+
+                    <label for="RatePerKG" class="col-sm-4 control-label">Rate Per KG</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="RatePerKG" id="RatePerKG" placeholder="Rate Per KG" autocomplete="off" disabled required tabindex="6">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="Notes1" class="col-sm-4 control-label">Notes 1</label>
+                    <div class="col-sm-8">
+                        <textarea class="form-control" id="Notes1" name="Notes1" rows="2" cols="20" placeholder="Description" tabindex="7"></textarea>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="Gasara" class="col-sm-4 control-label">Gasara %</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control ClsNumberAndDecimal" name="Gasara" id="Gasara" onkeypress="return isNumberKey(event)" placeholder="Gasara %" autocomplete="off" required tabindex="9">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="DiscountAmount" class="col-sm-4 control-label">Grinding Charge</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="GrindingCharge" id="GrindingCharge" onkeypress="return isNumberKey(event)" placeholder="Grinding Charge" autocomplete="off" required tabindex="11">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="MakingCharge" class="col-sm-4 control-label">Making Charge</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="MakingCharge" id="MakingCharge" onkeypress="return isNumberKey(event)" placeholder="Making Charge" autocomplete="off" required tabindex="13">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="SellRateWholesale" class="col-sm-4 control-label" style="color:red;">Selling Rate Wholesale</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control ClsNumberAndDecimal" name="SellRateWholesale" id="SellRateWholesale" onkeypress="return isNumberKey(event)" placeholder="Selling Rate Wholesale" autocomplete="off" required tabindex="15">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="SellRateRetail" class="col-sm-4 control-label" style="color:red;">Selling Rate Retail</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control ClsNumberAndDecimal" name="SellRateRetail" id="SellRateRetail" onkeypress="return isNumberKey(event)" placeholder="Selling Rate Retail" autocomplete="off" required tabindex="17">
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6" style="margin-top: 48px;">
+                <div class="form-group">
+                    <label for="Notes2" class="col-sm-4 control-label">Notes 2</label>
+                    <div class="col-sm-8">
+                        <textarea class="form-control" id="Notes2" name="Notes2" rows="2" cols="20" placeholder="Description" tabindex="8"></textarea>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="GasaraAmount" class="col-sm-4 control-label">Gasara Amount</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="GasaraAmount" id="GasaraAmount" placeholder="Gasara Amount" disabled autocomplete="off" tabindex="10">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="PackingCharge" class="col-sm-4 control-label">Packing Charge</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="PackingCharge" id="PackingCharge" onkeypress="return isNumberKey(event)" placeholder="Packing Charge" autocomplete="off" required tabindex="12">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="Padtar" class="col-sm-4 control-label">Padtar</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="Padtar" id="Padtar" placeholder="Padtar" disabled autocomplete="off" tabindex="14">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="MarginWholesale" class="col-sm-4 control-label" style="color:red;">Margin Wholesale %</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="MarginWholesale" id="MarginWholesale" placeholder="Margin Wholesale %" disabled autocomplete="off" tabindex="16">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="MarginRetail" class="col-sm-4 control-label" style="color:red;">Margin Retail %</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="MarginRetail" id="MarginRetail" placeholder="Margin Retail %" disabled autocomplete="off" tabindex="18">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- /.box-body -->
+        <div class="box-footer ">
+            <div class="pull-right">
+                <button type="button" id="CancelPremix" class="btn btn-default" tabindex="19">Cancel</button>
+                <button type="button" id="btnSavePremix" class="btn btn-info" tabindex="20">Save</button>
+            </div>
+        </div>
+        <!-- /.box-footer -->
+    </form>
+    <div id="lstcase">
+    </div>
+</div>
+
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script type="text/javascript">
+
+    var DeleteItem = '';
+
+    $(document).ready(function () {
+
+        
+        loadhtml();
+
+        $("#btncalculate").click(function () {
+            CalculateGrandTotal();
+        });
+
+        //debugger;
+        bookIndex = 0;
+        $('#PremixList')
+            // Add button click handler
+            .on('click', '.addButton', function () {
+                //debugger;
+                bookIndex++;
+                var $template = $('#AddMorePremix'),
+                    $clone = $template
+                                    .clone()
+                                    .removeClass('hide')
+                                    .removeAttr('id')
+                                    .attr('data-book-index', bookIndex)
+                                    .insertBefore($template);
+                // Update the name attributes
+                $clone
+                     .find('[name="ProductID"]').attr('name', 'lstPremix[' + bookIndex + '].ProductID').end()
+                     .find('[name="Quantity"]').attr('name', 'lstPremix[' + bookIndex + '].Quantity').end()
+                     .find('[name="CurrentRate"]').attr('name', 'lstPremix[' + bookIndex + '].CurrentRate').end()
+                     .find('[name="Amount"]').attr('name', 'lstPremix[' + bookIndex + '].Amount').end();
+
+                $('select').select2({ width: '100%' });
+                $tdvalue = $clone.find('td')[0];
+                $($tdvalue).find('span.select2.select2-container.select2-container--default')[1].remove();
+            })
+            // Remove button click handler
+            .on('click', '.removeButton', function () {
+                //debugger;
+                if ($(this).closest('tr').find("input[type=hidden]")[0].value != '') {
+                    if (DeleteItem == "") {
+                        //debugger;
+                        DeleteItem = $(this).closest('tr').find("input[type=hidden]")[0].value;
+                    }
+                    else {
+                        DeleteItem = DeleteItem + ',' + $(this).closest('tr').find("input[type=hidden]")[0].value;
+                    }
+                }
+
+                var $row = $(this).parents('.form-group'),
+                    index = $row.attr('data-book-index');
+                $row.remove();
+            });
+
+    });
+
+    function isNumberKey(evt) {
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        if (charCode != 46 && charCode > 31
+          && (charCode < 48 || charCode > 57))
+            return false;
+
+        return true;
+    }
+
+    //Get List For PreMix
+    function loadhtml() {
+        //debugger
+        $.ajax({
+            url: '@Url.Action("PremixList")',
+            type: 'GET',
+            cache: false,
+        }).done(function (result) {
+            $("#lstcase").html(result);
+        });
+    }
+
+</script>
+
+<script>
+
+    //Save And Update Premix 
+    $("#btnSavePremix").click(function () {
+        if (!($('#frmPremix').parsley().validate())) {
+            return;
+        }
+        if (!($('#AddPremix').parsley().validate())) {
+            return;
+        }
+
+        var lstPremix = [];
+        //debugger;
+
+        $('#PremixQty').children('tbody').children('tr:visible').each(function (index, row) {
+            if ($(row).find("select").val() != undefined && $(row).find("select").val() != '') {
+                //debugger;
+                var dataPremixQty = new Object();
+                dataPremixQty.PremixQtyID = $(row).find("input")[0].value;
+                dataPremixQty.ProductID = $(row).find("select").val();
+                dataPremixQty.ProductName = $(row).find("select option:selected").text();
+                dataPremixQty.CurrentRate = $(row).find("input")[1].value;
+                dataPremixQty.Quantity = $(row).find("input")[2].value;
+                dataPremixQty.Amount = $(row).find("input")[3].value;
+                lstPremix.push(dataPremixQty);
+            }
+        });
+
+        var datareq = new Object();
+        datareq.DeleteItems = DeleteItem;
+        datareq.PremixID = $("#PremixID").val();
+        datareq.RatePerKG = $("#RatePerKG").val();
+        datareq.Notes1 = $("#Notes1").val();
+        datareq.Notes2 = $("#Notes2").val();
+        datareq.Gasara = $("#Gasara").val();
+        datareq.GasaraAmount = $("#GasaraAmount").val();
+        datareq.GrindingCharge = $("#GrindingCharge").val();
+        datareq.PackingCharge = $('#PackingCharge').val();
+        datareq.MakingCharge = $("#MakingCharge").val();
+        datareq.Padtar = $("#Padtar").val();
+        datareq.SellRateWholesale = $("#SellRateWholesale").val();
+        datareq.MarginWholesale = $("#MarginWholesale").val();
+        datareq.SellRateRetail = $("#SellRateRetail").val();
+        datareq.MarginRetail = $("#MarginRetail").val();
+        datareq.CreatedBy = $("#CreatedBy").val();
+        datareq.CreatedOn = $("#CreatedOn").val();
+        datareq.lstPremix = lstPremix;
+
+        $.ajax({
+            url: '@Url.Action("AddPremix")',
+            type: 'POST',
+            data: { 'data': datareq },
+            cache: false,
+        }).done(function (result) {
+            DeleteItem = "";
+            if (result == "Insert Sucessfully") {
+                //debugger;
+                $("#loader").show();
+                $('div#sucessalert').html("Insert Sucessfully.");
+                showhidealert();
+                clearform();
+                location.reload();
+            }
+            else if (result == "Premix Already Exist") {
+                $('div#sucessalert').html("Premix Already Exist.");
+                showhidealert();
+                $("#loader").hide();
+            }
+            else if (result == "Updated Sucessfully") {
+                //debugger;
+                $('div#sucessalert').html("Updated Sucessfully.");
+                showhidealert();
+                clearform();
+                location.reload();
+            }
+            else {
+                $('div#sucessalert').html("something is wrong.");
+            }
+
+        });
+        $("#btnSavePremix").attr("disabled", true);
+        $("#loader").hide();
+
+    });
+
+    $("#CancelPremix").click(function () {
+        clearform();
+    });
+
+    //Clear Form
+    function clearform() {
+        location.reload();
+    }
+
+    //Grand Total
+    function CalculateGrandTotal() {
+        //debugger
+        var QuantityGrandTotal = 0;
+        var AmountGrandTotal = 0;
+        $('#PremixQty').find('tr:visible').not(':last').each(function (index, tr) {
+            //debugger
+            $(tr).find('td').each(function (index, td) {
+                if (index == 3) {
+                    //debugger
+                    if ($(tr).find("input")[2].value != '') {
+                        //debugger
+                        QuantityGrandTotal = QuantityGrandTotal + parseFloat($(tr).find("input")[2].value);
+                        $('#QuantityGrandTotal').html(parseFloat(QuantityGrandTotal).toFixed(2));
+                    }
+                }
+                else if (index == 4) {
+                    if ($(tr).find("input")[3].value != '') {
+                        //debugger
+                        AmountGrandTotal = AmountGrandTotal + parseFloat($(tr).find("input")[3].value);
+                        $('#AmountGrandTotal').html(parseFloat(AmountGrandTotal).toFixed(2));
+                    }
+                }
+            });
+        });
+
+        //debugger;
+        var Quantity = $("#QuantityGrandTotal").html();
+        var Amount = $("#AmountGrandTotal").html();
+        if (Quantity != " " && Amount != " ") {
+            var RatePerKG = (parseFloat(Amount) / parseFloat(Quantity)).toFixed(2);
+            $("#RatePerKG").val(RatePerKG);
+        }
+
+    }
+
+</script>
+
+<script>
+
+    //Gasara Wise All Calculation
+    $("#Gasara").on('input propertychange paste keypress', function (e) {
+        //debugger;
+        var end = this;
+        if (this.value != '') {
+
+            var Gasara = parseFloat(this.value);
+            var RatePerKG = $("#RatePerKG").val();
+            var GrindingCharge = $("#GrindingCharge").val();
+            var PackingCharge = $("#PackingCharge").val();
+            var MakingCharge = $("#MakingCharge").val();
+            var SellRateWholesale = $("#SellRateWholesale").val();
+            var SellRateRetail = $("#SellRateRetail").val();
+
+            //debugger;
+            if (Gasara != "" && Gasara != "NaN" && RatePerKG != "") {
+
+                //debugger;
+                var GasaraAmount = (parseFloat(RatePerKG) * (parseFloat(Gasara) / 100)).toFixed(2);
+                $("#GasaraAmount").val(GasaraAmount);
+
+                if (GasaraAmount != undefined && GrindingCharge != "" && PackingCharge != "" && MakingCharge != "") {
+
+                    var PadtarAmount = (parseFloat(RatePerKG) + parseFloat(GasaraAmount) + parseFloat(GrindingCharge) + parseFloat(PackingCharge) + parseFloat(MakingCharge)).toFixed(2);
+                    $("#Padtar").val(PadtarAmount);
+
+                }
+
+            }
+
+            if (SellRateWholesale != "" && PadtarAmount != "" && PadtarAmount != undefined && PadtarAmount != "NaN") {
+
+                var MarginWholesale = ((parseFloat(SellRateWholesale) - parseFloat(PadtarAmount)) * 100 / (parseFloat(PadtarAmount))).toFixed(2);
+                $("#MarginWholesale").val(MarginWholesale);
+
+            }
+
+            if (SellRateRetail != "" && PadtarAmount != "" && PadtarAmount != undefined && PadtarAmount != "NaN") {
+
+                var MarginRetail = ((parseFloat(SellRateRetail) - parseFloat(PadtarAmount)) * 100 / (parseFloat(PadtarAmount))).toFixed(2);
+                $("#MarginRetail").val(MarginRetail);
+
+            }
+
+        }
+
+    });
+
+    //GrindingCharge Wise All Calculation
+    $("#GrindingCharge").on('input propertychange paste keypress', function (e) {
+        //debugger;
+        var end = this;
+        if (this.value != '') {
+
+            var GrindingCharge = parseFloat(this.value);
+            var Gasara = $("#Gasara").val();
+            var RatePerKG = $("#RatePerKG").val();
+            var PackingCharge = $("#PackingCharge").val();
+            var MakingCharge = $("#MakingCharge").val();
+            var SellRateWholesale = $("#SellRateWholesale").val();
+            var SellRateRetail = $("#SellRateRetail").val();
+
+            //debugger;
+            if (Gasara != "" && Gasara != "NaN" && RatePerKG != "") {
+
+                //debugger;
+                var GasaraAmount = (parseFloat(RatePerKG) * (parseFloat(Gasara) / 100)).toFixed(2);
+                $("#GasaraAmount").val(GasaraAmount);
+
+                if (GasaraAmount != undefined && GrindingCharge != "" && PackingCharge != "" && MakingCharge != "") {
+
+                    var PadtarAmount = (parseFloat(RatePerKG) + parseFloat(GasaraAmount) + parseFloat(GrindingCharge) + parseFloat(PackingCharge) + parseFloat(MakingCharge)).toFixed(2);
+                    $("#Padtar").val(PadtarAmount);
+
+                }
+
+            }
+
+            if (SellRateWholesale != "" && PadtarAmount != "" && PadtarAmount != undefined && PadtarAmount != "NaN") {
+
+                var MarginWholesale = ((parseFloat(SellRateWholesale) - parseFloat(PadtarAmount)) * 100 / (parseFloat(PadtarAmount))).toFixed(2);
+                $("#MarginWholesale").val(MarginWholesale);
+
+            }
+
+            if (SellRateRetail != "" && PadtarAmount != "" && PadtarAmount != undefined && PadtarAmount != "NaN") {
+
+                var MarginRetail = ((parseFloat(SellRateRetail) - parseFloat(PadtarAmount)) * 100 / (parseFloat(PadtarAmount))).toFixed(2);
+                $("#MarginRetail").val(MarginRetail);
+
+            }
+
+        }
+
+    });
+
+    //PackingCharge Wise All Calculation
+    $("#PackingCharge").on('input propertychange paste keypress', function (e) {
+        //debugger;
+        var end = this;
+        if (this.value != '') {
+
+            var PackingCharge = parseFloat(this.value);
+            var Gasara = $("#Gasara").val();
+            var RatePerKG = $("#RatePerKG").val();
+            var GrindingCharge = $("#GrindingCharge").val();
+            var MakingCharge = $("#MakingCharge").val();
+            var SellRateWholesale = $("#SellRateWholesale").val();
+            var SellRateRetail = $("#SellRateRetail").val();
+
+            //debugger;
+            if (Gasara != "" && Gasara != "NaN" && RatePerKG != "") {
+
+                //debugger;
+                var GasaraAmount = (parseFloat(RatePerKG) * (parseFloat(Gasara) / 100)).toFixed(2);
+                $("#GasaraAmount").val(GasaraAmount);
+
+                if (GasaraAmount != undefined && GrindingCharge != "" && PackingCharge != "" && MakingCharge != "") {
+
+                    var PadtarAmount = (parseFloat(RatePerKG) + parseFloat(GasaraAmount) + parseFloat(GrindingCharge) + parseFloat(PackingCharge) + parseFloat(MakingCharge)).toFixed(2);
+                    $("#Padtar").val(PadtarAmount);
+
+                }
+
+            }
+
+            if (SellRateWholesale != "" && PadtarAmount != "" && PadtarAmount != undefined && PadtarAmount != "NaN") {
+
+                var MarginWholesale = ((parseFloat(SellRateWholesale) - parseFloat(PadtarAmount)) * 100 / (parseFloat(PadtarAmount))).toFixed(2);
+                $("#MarginWholesale").val(MarginWholesale);
+
+            }
+
+            if (SellRateRetail != "" && PadtarAmount != "" && PadtarAmount != undefined && PadtarAmount != "NaN") {
+
+                var MarginRetail = ((parseFloat(SellRateRetail) - parseFloat(PadtarAmount)) * 100 / (parseFloat(PadtarAmount))).toFixed(2);
+                $("#MarginRetail").val(MarginRetail);
+
+            }
+
+        }
+
+    });
+
+    //MakingCharge Wise All Calculation
+    $("#MakingCharge").on('input propertychange paste keypress', function (e) {
+        //debugger;
+        var end = this;
+        if (this.value != '') {
+
+            var MakingCharge = parseFloat(this.value);
+            var Gasara = $("#Gasara").val();
+            var RatePerKG = $("#RatePerKG").val();
+            var GrindingCharge = $("#GrindingCharge").val();
+            var PackingCharge = $("#PackingCharge").val();
+            var SellRateWholesale = $("#SellRateWholesale").val();
+            var SellRateRetail = $("#SellRateRetail").val();
+
+            //debugger;
+            if (Gasara != "" && Gasara != "NaN" && RatePerKG != "") {
+
+                //debugger;
+                var GasaraAmount = (parseFloat(RatePerKG) * (parseFloat(Gasara) / 100)).toFixed(2);
+                $("#GasaraAmount").val(GasaraAmount);
+
+                if (GasaraAmount != undefined && GrindingCharge != "" && PackingCharge != "" && MakingCharge != "") {
+
+                    var PadtarAmount = (parseFloat(RatePerKG) + parseFloat(GasaraAmount) + parseFloat(GrindingCharge) + parseFloat(PackingCharge) + parseFloat(MakingCharge)).toFixed(2);
+                    $("#Padtar").val(PadtarAmount);
+
+                }
+
+            }
+
+            if (SellRateWholesale != "" && PadtarAmount != "" && PadtarAmount != undefined && PadtarAmount != "NaN") {
+
+                var MarginWholesale = ((parseFloat(SellRateWholesale) - parseFloat(PadtarAmount)) * 100 / (parseFloat(PadtarAmount))).toFixed(2);
+                $("#MarginWholesale").val(MarginWholesale);
+
+            }
+
+            if (SellRateRetail != "" && PadtarAmount != "" && PadtarAmount != undefined && PadtarAmount != "NaN") {
+
+                var MarginRetail = ((parseFloat(SellRateRetail) - parseFloat(PadtarAmount)) * 100 / (parseFloat(PadtarAmount))).toFixed(2);
+                $("#MarginRetail").val(MarginRetail);
+
+            }
+
+        }
+
+    });
+
+    //SellRateWholesale Wise All Calculation
+    $("#SellRateWholesale").on('input propertychange paste keypress', function (e) {
+        //debugger;
+        var end = this;
+        if (this.value != '') {
+
+            var SellRateWholesale = parseFloat(this.value);
+            var Gasara = $("#Gasara").val();
+            var RatePerKG = $("#RatePerKG").val();
+            var GrindingCharge = $("#GrindingCharge").val();
+            var PackingCharge = $("#PackingCharge").val();
+            var MakingCharge = $("#MakingCharge").val();
+            var SellRateRetail = $("#SellRateRetail").val();
+
+            //debugger;
+            if (Gasara != "" && Gasara != "NaN" && RatePerKG != "") {
+
+                //debugger;
+                var GasaraAmount = (parseFloat(RatePerKG) * (parseFloat(Gasara) / 100)).toFixed(2);
+                $("#GasaraAmount").val(GasaraAmount);
+
+                if (GasaraAmount != undefined && GrindingCharge != "" && PackingCharge != "" && MakingCharge != "") {
+
+                    var PadtarAmount = (parseFloat(RatePerKG) + parseFloat(GasaraAmount) + parseFloat(GrindingCharge) + parseFloat(PackingCharge) + parseFloat(MakingCharge)).toFixed(2);
+                    $("#Padtar").val(PadtarAmount);
+
+                }
+
+            }
+
+            if (SellRateWholesale != "" && PadtarAmount != "" && PadtarAmount != undefined && PadtarAmount != "NaN") {
+
+                var MarginWholesale = ((parseFloat(SellRateWholesale) - parseFloat(PadtarAmount)) * 100 / (parseFloat(PadtarAmount))).toFixed(2);
+                $("#MarginWholesale").val(MarginWholesale);
+
+            }
+
+            if (SellRateRetail != "" && PadtarAmount != "" && PadtarAmount != undefined && PadtarAmount != "NaN") {
+
+                var MarginRetail = ((parseFloat(SellRateRetail) - parseFloat(PadtarAmount)) * 100 / (parseFloat(PadtarAmount))).toFixed(2);
+                $("#MarginRetail").val(MarginRetail);
+
+            }
+
+        }
+
+    });
+
+    //SellRateRetail Wise All Calculation
+    $("#SellRateRetail").on('input propertychange paste keypress', function (e) {
+        //debugger;
+        var end = this;
+        if (this.value != '') {
+
+            var SellRateRetail = parseFloat(this.value);
+            var Gasara = $("#Gasara").val();
+            var RatePerKG = $("#RatePerKG").val();
+            var GrindingCharge = $("#GrindingCharge").val();
+            var PackingCharge = $("#PackingCharge").val();
+            var MakingCharge = $("#MakingCharge").val();
+            var SellRateWholesale = $("#SellRateWholesale").val();
+
+            //debugger;
+            if (Gasara != "" && Gasara != "NaN" && RatePerKG != "") {
+
+                //debugger;
+                var GasaraAmount = (parseFloat(RatePerKG) * (parseFloat(Gasara) / 100)).toFixed(2);
+                $("#GasaraAmount").val(GasaraAmount);
+
+                if (GasaraAmount != undefined && GrindingCharge != "" && PackingCharge != "" && MakingCharge != "") {
+
+                    var PadtarAmount = (parseFloat(RatePerKG) + parseFloat(GasaraAmount) + parseFloat(GrindingCharge) + parseFloat(PackingCharge) + parseFloat(MakingCharge)).toFixed(2);
+                    $("#Padtar").val(PadtarAmount);
+
+                }
+
+            }
+
+            if (SellRateWholesale != "" && PadtarAmount != "" && PadtarAmount != undefined && PadtarAmount != "NaN") {
+
+                var MarginWholesale = ((parseFloat(SellRateWholesale) - parseFloat(PadtarAmount)) * 100 / (parseFloat(PadtarAmount))).toFixed(2);
+                $("#MarginWholesale").val(MarginWholesale);
+
+            }
+
+            if (SellRateRetail != "" && PadtarAmount != "" && PadtarAmount != undefined && PadtarAmount != "NaN") {
+
+                var MarginRetail = ((parseFloat(SellRateRetail) - parseFloat(PadtarAmount)) * 100 / (parseFloat(PadtarAmount))).toFixed(2);
+                $("#MarginRetail").val(MarginRetail);
+
+            }
+
+        }
+
+    });
+
+    //Quantity Wise All Calculation
+    $(document).on('input propertychange paste keypress', ".Quantity", function () {
+        var end = this;
+        //debugger;
+        if (this.value != '') {
+
+            var row = $(this).closest('tr');
+            var QuantityTextBox = this.value;
+            var CurrentRateTextBox = $(row).find('input')[1].value;
+
+            if (QuantityTextBox != 0) {
+                //debugger;
+                var AmountTextBox = parseFloat(QuantityTextBox) * parseFloat(CurrentRateTextBox);
+                $(end).closest('tr').find('td').each(function (index, td) {
+                    //debugger;
+                    if (index == 2) {
+                        //debugger;
+                        var textbox = $(this).closest('tr').find('input')[3];
+                        textbox.value = AmountTextBox;
+                    }
+                });
+            }
+            else {
+                var textbox = $(this).closest('tr').find('input')[3];
+                textbox.value = '';
+            }
+
+        }
+    });
+
+</script>

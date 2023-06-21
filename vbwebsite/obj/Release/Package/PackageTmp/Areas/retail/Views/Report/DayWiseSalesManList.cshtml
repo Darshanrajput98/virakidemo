@@ -1,0 +1,70 @@
+﻿@model List<vb.Data.RetDayWiseSalesManList>
+
+<div class="box">
+    <div class="box-header text-center">
+        <h3 class="box-title">Sales Man Wise Summary</h3>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body table-scrollable1">
+        <table id="ListDataTable" class="table table-bordered table-striped lstsales1">
+            <thead>
+                <tr>
+                    <th class="nosort" style="text-align:center">Sale Person</th>
+                    <th class="nosort" style="text-align:center">Gross Amt Total</th>
+                    <th class="nosort" style="text-align:center">Tax Amt Total</th>
+                    <th class="nosort" style="text-align:center">Round Off Total</th>
+                    <th class="nosort" style="text-align:center">Net Amt Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td id="row" @item.SalesPerson>
+                            <a style="cursor:pointer;" class="btnedit" data-userid="@item.UserID">@item.SalesPerson</a>
+                        </td>
+                        <td>
+                            @item.GrossAmtTotal
+                        </td>
+                        <td>
+                            @item.TaxAmtTotal
+                        </td>
+                        <td>
+                            @item.RoundOffTotal
+                        </td>
+                        <td>
+                            @item.NetAmtTotal
+                        </td>
+                    </tr>
+                }
+                @if (Model.Count > 0)
+                {
+                    <tr style="font-weight:bold">
+                        <td>
+                            Total :
+                        </td>
+                        <td>@Model[0].GrandGrossAmtTotal</td>
+                        <td>@Model[0].GrandTaxAmtTotal</td>
+                        <td>@Model[0].GrandRoundOffTotal</td>
+                        <td>@Model[0].GrandNetAmtTotal</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <!-- /.box-body -->
+</div>
+
+<script>
+    $('.lstsales1').on('click', '.btnedit', function () {
+        debugger;
+        var date1 = $("#PackageDate").val();
+        var sid = $(this).attr("data-userid");
+        var url = "/retail/SalesmanSummary/Index?CustomerID=" + sid + "&strDate=" + date1;
+        window.open(url, '_blank');
+    });
+</script>
+
+
+
+

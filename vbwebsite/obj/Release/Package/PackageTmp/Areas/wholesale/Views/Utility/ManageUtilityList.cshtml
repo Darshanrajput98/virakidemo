@@ -1,0 +1,93 @@
+﻿@model List<vb.Data.UtilityListResponse>
+@using vb.Data.ViewModel
+
+<div class="box">
+    <div class="box-header text-center">
+        <h3 class="box-title">Utility List</h3>
+    </div>
+    <div class="box-body table-scrollable1">
+        <table id="ListDataTable" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th class="nosort">Name</th>
+                    <th class="nosort">HSN Number</th>
+                    <th class="nosort">Description</th>
+                    <th class="nosort">Quantity</th>
+                    <th class="nosort">Godown</th>
+                    <th class="nosort">Min Quantity</th>
+                    <th>Edit</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td id="row">
+                            @item.UtilityName
+                        </td>
+                        <td>
+                            @item.HSNNumber
+                        </td>
+                        <td>
+                            @item.UtilityDescription
+                        </td>
+                        <td>
+                            @item.UtilityQuantity
+                        </td>
+                        <td>
+                            @item.GodownName
+                        </td>
+                        <td>
+                            @item.MinUtilityQuantity
+                        </td>
+                        <td>
+                            <a style="cursor:pointer;" class="btnedit" data-uid="@item.UtilityID" data-createdby="@item.CreatedBy" data-createdon="@item.CreatedOn" data-godownid="@item.GodownID" data-minutilityquantity="@item.MinUtilityQuantity" data-utilitynameid="@item.UtilityNameID">Edit</a>
+                        </td>
+                        @if (item.IsDelete == true)
+                        {
+                            <td>
+                                @Html.ActionLink("Active", "DeleteUtility", "Utility",
+                         new { UtilityID = item.UtilityID, IsDelete = false },
+                                    new { onclick = "return confirm('Are you sure you wish to delete this article?');" })
+                            </td>
+                        }
+                        else
+                        {
+                            <td>
+                                @Html.ActionLink("DeActive", "DeleteUtility", "Utility",
+                         new { UtilityID = item.UtilityID, IsDelete = true },
+                                    new { onclick = "return confirm('Are you sure you wish to delete this article?');" })
+                            </td>
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+
+    $('#ListDataTable').DataTable({
+        'paging': true,
+        'lengthChange': true,
+        'searching': true,
+        'ordering': false,
+        'info': true,
+        'autoWidth': false
+    });
+
+    $('#ListDataTable').on('click', '.btnedit', function () {
+        debugger;
+        $("#UtilityID").val($(this).attr("data-uid"));
+        $("#UtilityNameID").val($(this).attr("data-utilitynameid")).trigger("change");
+        $("#UtilityDescription").val($(this).parent().parent().children()[1].innerHTML.trim());
+        $("#UtilityQuantity").val($(this).parent().parent().children()[2].innerHTML.trim());
+        $("#CreatedBy").val($(this).attr("data-createdby"));
+        $("#CreatedOn").val($(this).attr("data-createdon"));
+        $("#GodownID").val($(this).attr("data-godownid"));
+        $("#MinUtilityQuantity").val($(this).attr("data-minutilityquantity"));
+        $("html, body").animate({ scrollTop: 0 }, "slow");
+    });
+</script>

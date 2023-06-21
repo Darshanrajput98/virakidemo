@@ -1,0 +1,138 @@
+﻿@{
+    ViewBag.Title = "ManageArea";
+    Layout = "~/Areas/retail/Views/Shared/_retaillayout.cshtml";
+}
+@using vb.Data.ViewModel
+
+<div class="box box-default">
+    <div class="box-header with-border text-center">
+        <h3 class="box-title">Manage Area</h3>
+    </div>
+    <form id="frmArea" class="form-horizontal">
+        <div class="box-body">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <input name="AreaID" id="UAreaID" type="hidden" value="" />
+                    <label for="Name" class="col-sm-4 control-label">Name</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="Name" maxlength="100" id="AreaName" placeholder="Name" tabindex="1" required="required">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="State" class="col-sm-4 control-label">State</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="State" id="State" placeholder="State" tabindex="3">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="PinCode" class="col-sm-4 control-label">Pin Code</label>
+                    <div class="col-sm-8">
+                        <input type="number" class="form-control" name="PinCode" id="PinCode" placeholder="Pin Code" tabindex="5">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="City" class="col-sm-4 control-label">City </label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="City" id="City" placeholder="City" tabindex="2">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="Country" class="col-sm-4 control-label">Country</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="Country" id="Country" placeholder="Country" tabindex="4">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="day" class="col-sm-4 control-label">Days Of Week</label>
+                    <div class="col-sm-8">
+                        <select name="Day" id="DaysofWeek" class="form-control" tabindex="6">
+                            <option value="" selected>Select</option>
+                            <option value="1">Monday</option>
+                            <option value="2">Tuesday</option>
+                            <option value="3">Wednesday</option>
+                            <option value="4">Thursday</option>
+                            <option value="5">Friday</option>
+                            <option value="6">Saturday</option>
+                            <option value="7">Sunday</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.box-body -->
+        <div class="box-footer ">
+            <div class="pull-right">
+                <button type="button" id="CancelArea" class="btn btn-default" tabindex="8">Cancel</button>
+                @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.RAAREA.ToString()))
+                {
+                    <button type="button" id="btnsavecase" class="btn btn-info" tabindex="7">Save</button>
+                }
+            </div>
+        </div>
+        <!-- /.box-footer -->
+    </form>
+    <div id="lstcase">
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script>
+    $(document).ready(function () {
+        loadhtml();
+    });
+
+    function loadhtml() {
+        $.ajax({
+            url: '@Url.Action("ManageAreaList")',
+            type: 'GET',
+            cache: false,
+        }).done(function (result) {
+            $('#lstcase').html(result);
+        });
+    }
+
+    $("#btnsavecase").click(function () {
+        if (!($('#frmArea').parsley().validate())) {
+            return;
+        }
+        var datareq = new Object();
+        datareq.AreaID = $("#UAreaID").val();
+        datareq.AreaName = $("#AreaName").val();
+        datareq.City = $("#City").val();
+        datareq.State = $("#State").val();
+        datareq.Country = $("#Country").val();
+        datareq.PinCode = $("#PinCode").val();
+        datareq.DaysofWeek = $("#DaysofWeek").val();
+        $.ajax({
+            url: '@Url.Action("ManageArea")',
+            type: 'POST',
+            data: { 'data': datareq },
+            cache: false,
+        }).done(function (result) {
+            if (result == true) {
+                if ($("#AreaID").val() == "") {
+                    $('div#sucessalert').html("Area Add successfully.");
+                }
+                else {
+                    $('div#sucessalert').html("Area updated successfully.");
+                }
+                showhidealert();
+                loadhtml();
+                clearform();
+            }
+        });
+    });
+
+    $("#CancelArea").click(function () {
+        clearform();
+    });
+
+    function clearform() {
+        $("#frmArea").find("input").val("");
+        $("#AreaID").val("").trigger("change");
+        $("#DaysofWeek").val("").trigger("change");
+    }
+</script>
+

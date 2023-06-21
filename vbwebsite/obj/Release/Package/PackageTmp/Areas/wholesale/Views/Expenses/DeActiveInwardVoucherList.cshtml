@@ -1,0 +1,58 @@
+﻿@model List<vb.Data.DeActiveInwardVoucherListResponse>
+@using vb.Data.ViewModel
+
+<div class="box">
+    <div class="box-header text-center">
+        <h3 class="box-title">De-Active Inward/Voucher List</h3>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body table-scrollable1">
+        <table id="ListDataTable" class="table table-bordered table-bordered">
+            <thead>
+                <tr>
+                    <th>From Date</th>
+                    <th>To Date</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @item.FromDate.ToString("dd/MM/yyyy")
+                        </td>
+                        <td>
+                            @item.ToDate.ToString("dd/MM/yyyy")
+                        </td>
+                        <td>
+                            @item.StatusStr
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <!-- /.box-body -->
+</div>
+
+<script>
+    $("#ListDataTable").DataTable({
+        'aoColumnDefs': [{
+            'bSortable': false,
+            //"aTargets": [0],
+            'aTargets': ['nosort'] /* 1st one, start by the right */
+        }]
+    });
+
+    //$('#ListDataTable').on('click', '.btnedit', function () {
+    //    debugger;
+    //    $("#UDebitAccountTypeID").val($(this).attr("data-debitaccounttypeid"));
+    //    $("#DebitAccountType").val($(this).parent().parent().children()[0].innerHTML.trim());
+    //    $("#DebitAccountType").val($(this).attr("data-debitaccounttype"));
+    //    $("#CreatedBy").val($(this).attr("data-createdby"));
+    //    $("#CreatedOn").val($(this).attr("data-createdon"));
+    //    $("html, body").animate({ scrollTop: 0 }, "slow");
+    //});
+
+</script>

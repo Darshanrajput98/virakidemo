@@ -1,0 +1,246 @@
+﻿@{
+    ViewBag.Title = "UtilityStockTransfer";
+    Layout = "~/Areas/wholesale/Views/Shared/_wholesalelayout.cshtml";
+}
+@using vb.Data.ViewModel
+
+<div class="box box-default">
+    <div class="box-header with-border text-center">
+        <h3 class="box-title">Transfer</h3>
+    </div>
+    <form id="frmTransfer" class="form-horizontal">
+        <div class="box-body">
+            <div class="col-md-12">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <input type="hidden" id="UtilityTransferID" value="" />
+                        <label for="FromGodownID" class="col-sm-4 control-label">From</label>
+                        <div class="col-sm-8">
+                            @Html.DropDownList("FromGodownID", new SelectList(ViewBag.Godown, "GodownID", "GodownName"), "Select Godown", new { @class = "form-control", required = "required", @onchange = "GetGodwnTo(this.value)" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="UtilityNameID" class="col-sm-4 control-label">Utility</label>
+                        <div class="col-sm-8">
+                            <select id="UtilityNameID" class="form-control UtilityNameID"></select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="Opening" class="col-sm-4 control-label">Opening</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="OpeningUtility" value="0">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="TransferNoofPcs" class="col-sm-4 control-label">Transfer No of Pcs</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="TransferNoofPcs" value="0">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="TotalUtility" class="col-sm-4 control-label">Total Utility</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="TotalUtility" value="0" autocomplete="off" disabled="disabled">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="TransferDate" class="col-sm-4 control-label">Date</label>
+                        <div class="col-sm-8">
+                            <div class="input-group date">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </div>
+                                <input type="text" class="form-control pull-right datepicker" id="TransferDate" tabindex="2" autocomplete="off">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="ToGodownID" class="col-sm-4 control-label">To</label>
+                        <div class="col-sm-8">
+                            <select id="ToGodownID" class="form-control"></select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="box-footer ">
+            <div class="pull-right">
+                <button type="button" id="btnCancel" class="btn btn-default" tabindex="12">Cancel</button>
+                <button type="button" id="btnsave" class="btn btn-info" tabindex="11">Save</button>
+                <button type="button" id="btnexport" class="btn btn-info">Export To Excel</button>
+            </div>
+        </div>
+    </form>
+    <div id="lstcase">
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script>
+    $(document).ready(function () {
+        loadhtml();
+        $("#TransferNoofPcs").on('blur', function (e) {
+            debugger;
+            var TransferNoofPcs = this.value;
+            var OpeningUtility = $("#OpeningUtility").val();
+            var TotalUtility = (parseInt(OpeningUtility) - parseInt(TransferNoofPcs));
+            $('#TotalUtility').val(TotalUtility);
+        });
+
+        $("#UtilityNameID").change(function () {
+            debugger;
+            var FromGodownID = $("#FromGodownID").val();
+            var UtilityNameID = this.value;
+            if ($("#FromGodownID").val() != "" && UtilityNameID != "") {
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("GetOpeningUtilityByUtilityID")',
+                    data: { 'GodownID': FromGodownID, 'UtilityNameID': UtilityNameID },
+                    success: function (result) {
+                        debugger;
+                        $('#OpeningUtility').val(result.OpeningUtility);
+                        $("#UtilityNameID").val(UtilityNameID);
+                    },
+                    error: function () { alert('Error'); }
+                });
+            }
+            else {
+                alert('select godown and utility');
+            }
+        });
+
+    });
+
+    function loadhtml() {
+        $.ajax({
+            url: '@Url.Action("UtilityStockTransferList")',
+            type: 'GET',
+            cache: false,
+        }).done(function (result) {
+            $('#lstcase').html(result);
+        });
+    }
+
+    function GetGodwnTo(GodownID) {
+        debugger;
+        var lstGodown = "<option value=0> Select Godown</option>";
+        $.ajax({
+            url: '@Url.Action("GetGodownForToGodown")',
+            type: 'GET',
+            data: { 'FromGodownID': GodownID },
+            dataType: 'json',
+            success: function (result) {
+                if (result != undefined) {
+                    if (result.length > 0) {
+                        debugger;
+                        for (var i = 0; i < result.length; i++) {
+                            lstGodown += "<option value=" + result[i].GodownID + ">" + result[i].GodownName + "</option>"
+                        }
+                    }
+                }
+                if ($("#ToGodownID")[0].length > 0) {
+                    $('#ToGodownID').find('option').remove().end()
+                }
+                $("#ToGodownID").append(lstGodown);
+                $("#ToGodownID").select2();
+                $("#ToGodownID").select2({ width: "100%" });
+            }
+        });
+
+        // Bind Utility
+        var lstUtility = "<option value=0> Select Utility</option>";
+        $.ajax({
+            url: '@Url.Action("GetUtilityByGodownID")',
+            type: 'GET',
+            data: { 'GodownID': GodownID },
+            dataType: 'json',
+            success: function (result) {
+                debugger;
+                if (result != undefined) {
+                    if (result.length > 0) {
+                        debugger;
+                        for (var i = 0; i < result.length; i++) {
+                            lstUtility += "<option value=" + result[i].UtilityNameID + ">" + result[i].UtilityName + "</option>"
+                        }
+                    }
+                }
+                if ($("#UtilityNameID")[0].length > 0) {
+                    $('#UtilityNameID').find('option').remove().end()
+                }
+                debugger;
+                $("#UtilityNameID").append(lstUtility);
+                $("#UtilityNameID").select2();
+                $("#UtilityNameID").select2({ width: "100%" });
+            }
+        });
+    }
+
+    $("#btnsave").click(function () {
+        debugger;
+        if (!($('#frmTransfer').parsley().validate())) {
+            return;
+        }
+        var datareq = new Object();
+        datareq.UtilityTransferID = $("#UtilityTransferID").val();
+        datareq.FromGodownID = $("#FromGodownID").val();
+        datareq.UtilityNameID = $("#UtilityNameID").val();
+        datareq.OpeningUtility = $("#OpeningUtility").val();
+        datareq.TransferNoofPcs = $("#TransferNoofPcs").val();
+        datareq.TotalUtility = $("#TotalUtility").val();
+        datareq.TransferDate = $("#TransferDate").val();
+        datareq.ToGodownID = $("#ToGodownID").val();
+        $.ajax({
+            url: '@Url.Action("AddNoOfUtilityTransfer")',
+            type: 'POST',
+            data: { 'data': datareq },
+            cache: false,
+        }).done(function (result) {
+            if (result > 0) {
+                var UtilityTransferID = result;
+                debugger;
+                if ($("#UtilityTransferID").val() == "") {
+                    $('div#sucessalert').html("Transfer successfully.");
+                }
+                else {
+                    $('div#sucessalert').html("Transfer updated successfully.");
+                }
+                showhidealert();
+                location.reload();
+                clearform();
+            }
+        });
+    });
+
+    $("#btnexport").click(function () {
+        debugger;
+        var url = '@Url.Action("ExportExcelUtilityStockTransfer", "Utility")';
+        window.location.href = url.replace();
+    });
+
+    $("#btnCancel").click(function () {
+        clearform();
+    });
+
+    function clearform() {
+        $("#frmTransfer").find("input").val("");
+        $("#UtilityID").val("").trigger("change");
+        $("#FromGodownID").val("").trigger("change");
+        $("#ToGodownID").val("").trigger("change");
+    }
+</script>

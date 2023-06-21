@@ -1,0 +1,131 @@
+﻿@model List<vb.Data.RetOrderListResponse>
+
+<div class="box">
+    <div class="box-header text-center">
+        <h3 class="box-title">Order List</h3>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body">
+        <table id="ListDataTable" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Sr. No.</th>
+                    <th class="nosort">Credit Memo No.</th>
+                    <th class="nosort">Credit Memo Date</th>
+                    <th class="nosort">Customer Name</th>
+                    <th class="nosort">Area Name</th>
+                    <th class="nosort">Print Credit Memo</th>
+                    <th class="nosort">Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{int i = 1;}
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td id="row" @item.ReturnOrderID>@(i++)</td>
+                        <td>
+                            @item.CreditMemoNumber
+                        </td>
+                        <td>
+                            @item.CreatedOn.ToString("MM-dd-yyyy")
+                        </td>
+                        <td>
+                            @item.CustomerName
+                        </td>
+                        <td>
+                            @item.AreaName
+                        </td>
+                        <td>
+                            <input id="btnViewCreditMemo" type="button" value="Print Credit Memo" onclick="GetPrint('@item.CreditMemoNumber')" data-orderid="@item.ReturnOrderID" />
+                        </td>
+                        <td>
+                            <button type="button" id="btndelete" class="btn btn-info btndelete" data-creditmemonumber="@item.CreditMemoNumber">Delete</button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div id="deletepopup" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" style="padding-bottom: 0px;">
+                    <h4 class="modal-title">Confirmation</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row" style="margin-top:10px;">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <input name="CreditMemoNumberfordelete" id="CreditMemoNumberfordelete" class="hdnCreditMemoNumberfordelete" type="hidden" value="" />
+                                <input name="IsDelete" id="IsDelete" class="hdnIsDelete" type="hidden" value="" />
+                                <label class="col-sm-12 control-label">  Are you sure want to delete this invoice????</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btnyesdeletepopup btn btn-info">Yes</button>
+                    <button type="button" class="btnnodeletepopup btn btn-info" data-dismiss="modal" aria-hidden="true">No</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.box-body -->
+</div>
+
+<script>
+    function GetPrint(id) {
+        debugger;
+        $.ajax({
+            url: '@Url.Action("PrintCreditMemo", "Order")',
+            type: 'POST',
+            data: { 'CreditMemoNumber': id },
+            cache: false,
+        }).done(function (result) {
+            if (result != '') {
+                window.open(result, "newPage");
+            }
+        });
+    };
+
+    $(".btndelete").click(function () {
+        debugger;
+        var model = new Object
+        model.CreditMemoNumber = $(this).attr("data-creditmemonumber");
+        model.IsDelete = true;
+        $('#CreditMemoNumberfordelete').attr('value', model.CreditMemoNumber);
+        $('#IsDelete').attr('value', model.IsDelete);
+        $("#deletepopup").removeClass("modal fade").addClass("modal fade modal-overflow in");
+        $("#deletepopup").css("display", "block");
+    });
+    $(".btnyesdeletepopup").click(function () {
+        debugger;
+        var CreditMemoNumber = $("#CreditMemoNumberfordelete").val();
+        var IsDelete = $("#IsDelete").val();
+        $.ajax({
+            url: '@Url.Action("DeleteCreditMemo", "Order")',
+            type: 'POST',
+            data: { 'CreditMemoNumber': CreditMemoNumber, 'IsDelete': IsDelete },
+            cache: false,
+        }).done(function (result) {
+            if (result == true) {
+                $('div#sucessalert').html("Deleted successfully.");
+                showhidealert();
+            }
+            loadhtml();
+        });
+        $('#deletepopup').removeClass("modal fade modal-overflow in");
+        $('#deletepopup').removeAttr('style');
+        $('#deletepopup').addClass("modal fade");
+    });
+
+    $(".btnnodeletepopup").click(function () {
+        debugger;
+        $('#deletepopup').removeClass("modal fade modal-overflow in");
+        $('#deletepopup').removeAttr('style');
+        $('#deletepopup').addClass("modal fade");
+    });
+</script>

@@ -1,0 +1,82 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+    Layout = "~/Areas/export/Views/Shared/_exportlayout.cshtml";
+}
+@using vb.Data.ViewModel
+
+<h1> <center>Welcome To Viraki Brothers Export Module</center>   </h1>
+
+
+@*@if (ViewBag.RoleId == "5" || ViewBag.RoleId == "6" || ViewBag.RoleId == "3")
+{
+    <div id="lstVehicleExp" class="col-md-12" style="padding-bottom:10px;">
+    </div>
+}
+
+@if (ViewBag.RoleId == "5" || ViewBag.RoleId == "6" || ViewBag.RoleId == "3")
+{
+    <div id="lstcase" class="col-md-6" style="padding-bottom:10px;">
+    </div>
+}
+
+<div class="col-md-12 box">
+    @if (ViewBag.RoleId == "2")
+    {
+        <div id="lstwholesalecustfssai">
+        </div>
+        <div id="lstretailcustfssai">
+        </div>      
+    }
+ 
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+
+<script>
+    $(document).ready(function () {
+        loadhtml();
+        loadhtml2();
+        loadhtml3();
+        loadhtml4();
+    });
+
+    function loadhtml() {
+        $.ajax({
+            url: '@Url.Action("VehicleDocExpireList")',
+            type: 'GET',
+            cache: false,
+        }).done(function (result) {
+            $('#lstVehicleExp').html(result);
+        });
+    }
+
+    function loadhtml2() {
+        $.ajax({
+            url: '@Url.Action("LicenceExpireList")',
+            type: 'GET',
+            cache: false,
+        }).done(function (result) {
+            $('#lstcase').html(result);
+        });
+    }
+
+    function loadhtml3() {
+        $.ajax({
+            url: '@Url.Action("WholesaleFSSAIExpireList")',
+            type: 'GET',
+            cache: false,
+        }).done(function (result) {
+            $('#lstwholesalecustfssai').html(result);
+        });
+    }
+
+    function loadhtml4() {
+        $.ajax({
+            url: '@Url.Action("RetailFSSAIExpireList")',
+            type: 'GET',
+            cache: false,
+        }).done(function (result) {
+            $('#lstretailcustfssai').html(result);
+        });
+    }
+</script>*@

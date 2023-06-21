@@ -1,0 +1,124 @@
+﻿@{
+    ViewBag.Title = "VehicleAllowance";
+    Layout = "~/Areas/attendance/Views/Shared/_attendancelayout.cshtml";
+}
+
+<div class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Vehicle Allowance Report</h3>
+                </div>
+                <form id="frmVehicleAllowance" class="form-horizontal">
+                    <div class="box-body">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="Month" class="col-sm-4 control-label">Month</label>
+                                <div class="col-sm-6">
+                                    <select name="Month" id="MonthID" class="form-control" tabindex="14" required>
+                                        <option value="" selected>Select</option>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                        <option value="6">6</option>
+                                        <option value="7">7</option>
+                                        <option value="8">8</option>
+                                        <option value="9">9</option>
+                                        <option value="10">10</option>
+                                        <option value="11">11</option>
+                                        <option value="12">12</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="Year" class="col-sm-4 control-label">Year</label>
+                                <div class="col-sm-6">
+                                    <select name="Year" id="YearID" class="form-control YearID" tabindex="14" required>
+                                        <option value="" selected>Select</option>
+                                        <option value="2017">2017</option>
+                                        <option value="2018">2018</option>
+                                        <option value="2019">2019</option>
+                                        <option value="2020">2020</option>
+                                        <option value="2021">2021</option>
+                                        <option value="2022">2022</option>
+                                        <option value="2023">2023</option>
+                                        <option value="2024">2024</option>
+                                        <option value="2025">2025</option>
+                                        <option value="2026">2026</option>
+                                        <option value="2027">2027</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="inputPassword3" class="col-sm-4 control-label">Employee</label>
+                                <div class="col-sm-8">
+                                    @Html.DropDownList("EmployeeCode", new SelectList(ViewBag.Employee, "EmployeeCode", "FullName"), "Select Employee", new { @class = "form-control select2", tabindex = "5" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="box-footer">
+                        <div class="pull-right">
+                            <button type="button" id="btnsearch" class="btn btn-info">Search</button>
+                            <button type="button" id="btncancel" class="btn btn-default">Cancel</button>
+                            <button type="button" id="btnexport" class="btn btn-info">Export To Excel</button>
+                        </div>
+                    </div>
+                </form>
+                <div id="lstvehicleallowance">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#btnsearch").click(function () {
+            loadhtml();
+        });
+        function loadhtml() {
+
+            if (!($('#frmVehicleAllowance').parsley().validate())) {
+                return;
+            }
+            var model = new Object();
+            model.MonthID = $("#MonthID").val();
+            model.YearID = $("#YearID").val();
+            model.EmployeeCode = $("#EmployeeCode").val();
+            $.ajax({
+                url: '@Url.Action("VehicleAllowanceList")',
+                type: 'POST',
+                data: { 'model': model },
+                cache: false,
+            }).done(function (result) {
+                $('#lstvehicleallowance').html(result);
+            });
+        }
+    });
+
+    $("#btnexport").click(function () {
+        debugger;
+        var model = new Object();
+        model.MonthID = $("#MonthID").val();
+        model.YearID = $("#YearID").val();      
+        model.EmployeeCode = $("#EmployeeCode").val();
+        var url = '@Url.Action("ExportExcelVehicleAllowanceList", "Report", new { MonthID = "__MonthID__", YearID = "__YearID__", EmployeeCode = "__EmployeeCode__" })';
+        url = url.replace(/amp;/g, '');
+        window.location.href = url.replace('__MonthID__', model.MonthID).replace('__YearID__', model.YearID).replace('__EmployeeCode__', model.EmployeeCode);
+    });
+
+
+    $("#btncancel").click(function () {
+        location.reload();
+    });
+</script>
+

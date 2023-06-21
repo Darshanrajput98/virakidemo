@@ -1,0 +1,62 @@
+﻿@model List<vb.Data.OrderListResponse>
+
+<div class="box">
+    <div class="box-header text-center">
+        <h3 class="box-title">Order List</h3>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body">
+        <table id="ListDataTable" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th class="nosort">Customer Name</th>
+                    <th class="nosort">Invoice No.</th>
+                    <th class="nosort">Invoice Date</th>
+                    <th class="nosort">Invoice Amount</th>
+                    <th class="nosort">Tax Amount</th>
+                    <th class="nosort">Print Invoice</th>
+                    <th class="nosort">Create Credit Memo</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td id="row" @item.OrderID>
+                            @item.CustomerName
+                        </td>
+                        <td>
+                            @item.InvoiceNumber
+                        </td>
+                        <td>
+                            @item.CreatedOn.ToString("MM-dd-yyyy")
+                        </td>
+                        <td>
+                            @item.InvoiceAmount.ToString("0.00")
+                        </td>
+                        <td>
+                            @item.TaxAmount.ToString("0.00")
+                        </td>
+                        <td>
+                            <input id="btnPrintInvoice" type="button" value="Print Invoice" />
+                        </td>
+                        <td>
+                            <input class="btnViewCreditMemo" type="button" value="Credit Memo" />
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <!-- /.box-body -->
+</div>
+
+<script>
+    $("#ListDataTable").DataTable({
+        'aoColumnDefs': [{
+            'bSortable': false,
+            'aTargets': ['nosort'] /* 1st one, start by the right */
+        }]
+    });
+</script>
+

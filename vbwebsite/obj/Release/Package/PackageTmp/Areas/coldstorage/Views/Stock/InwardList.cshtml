@@ -1,0 +1,626 @@
+﻿@model List<vb.Data.InwardListResponse>
+
+
+<style>
+    button.btn.btn-info.OutwardStyle {
+        outline: none;
+    }
+
+    button.btnOutward.hdnInwardID.btn.btn-info {
+        outline: none;
+        padding: 5px 5px 5px 5px;
+        width: 100%;
+    }
+
+    option {
+        font-size: 15px;
+    }
+
+    input.form-control.OutQuantity {
+        width: 100%;
+    }
+
+    #ListDataTableInwardList > tbody tr:nth-child(even) {
+        background-color: #EAFAF1;
+    }
+</style>
+
+@using vb.Data.ViewModel
+
+<div class="box">
+    <div class="box-header text-center">
+        <h3 class="box-title">Inward List</h3>
+        <div class="pull-right">
+            <button class="btnOutward btn btn-info">Save</button>
+        </div>
+    </div>
+    <div class="box-body table-scrollable1">
+        <table id="ListDataTableInwardList" class="table table-bordered table-bordered ListDataTable">
+            <thead>
+                <tr>
+                    <th>C.S.N</th>
+                    <th>Delivery Challan Date</th>
+                    <th>L.N</th>
+                    <th>I.N</th>
+                    <th>Notes</th>
+                    <th>@*N.O.B*@ Balance</th>
+                    <th>Quantity</th>
+                    @*<th>U.N.O.B</th>*@
+                    @*<th>Balance</th>*@
+                    <th>Weight Per Bags</th>
+                    <th>Total Weight</th>
+                    <th>Rate Per KG</th>
+                    <th>Total Amount</th>
+                    <th>Rent Per Bags</th>
+                    @*<th>Delivery ChallanNumber</th>
+                        <th>Delivery ChallanDate</th>*@
+                    <th class="btnedit">Edit</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+
+                    <tr>
+
+                        @if (@item.lblTotal == "SubTotal")
+                        {
+                            <td>Total:</td>
+                        }
+                        else
+                        {
+                            <td>@item.Name</td>
+                        }
+
+                        <td>@item.DeliveryChallanDate</td>
+                        <td>@item.LotNo</td>
+                        <td>@item.ProductName</td>
+                        <td>@item.Notes</td>
+
+
+                        @if (@item.lblTotal == "SubTotal")
+                        {
+                            <td class="total">@item.RemQty</td>
+                        }
+                        else
+                        {
+                            <td>
+                                @item.RemQty
+                                @*@item.NoofBags*@
+                                <input type="checkbox" class="chboxOutward" />
+                                <button class="btnOutward hdnInwardID btn btn-info" style="display:none;" type="button" value="@item.InwardID" data-inwardid="@item.InwardID" data-deliverychallannumber="@item.DeliveryChallanNumber" data-lotno="@item.LotNo" data-date="@item.Date" data-itemname="@item.ProductName" data-totalquantity="@item.RemQty" data-quantity="@item.Quantity" data-coldstorageid1="@item.ColdStorageID" data-godownidto="@item.GodownIDTo">Outward</button>
+                            </td>
+
+                        }
+
+                        @if (@item.lblTotal == "SubTotal")
+                        {
+                            <td></td>
+                        }
+                        else
+                        {
+                            <td><input type="text" class="form-control OutQuantity" style="width:100px" value="" /></td>
+                        }
+
+                        @*@if (@item.lblTotal == "SubTotal")
+                            {
+                                <td></td>
+                            }
+                            else
+                            {
+                                <td>@item.UsedQty</td>
+                            }*@
+
+                        @*<td>@item.RemQty</td>*@
+
+                        @if (@item.lblTotal == "SubTotal")
+                        {
+                            <td></td>
+                        }
+                        else
+                        {
+                            <td>@item.WeightPerBag</td>
+                        }
+
+                        <td class="total">@item.TotalWeight</td>
+
+                        @if (@item.lblTotal == "SubTotal")
+                        {
+                            <td></td>
+                        }
+                        else
+                        {
+                            <td>@item.RatePerKG</td>
+                        }
+
+
+
+                        <td class="total">@item.TotalAmount</td>
+
+                        @if (@item.lblTotal == "SubTotal")
+                        {
+                            <td></td>
+                        }
+                        else
+                        {
+                            <td>@item.RentPerBags</td>
+                        }
+
+                        @*<td>@item.DeliveryChallanNumber</td>
+                            <td>@item.DeliveryChallanDate</td>*@
+
+                        @if (@item.lblTotal == "SubTotal")
+                        {
+                            <td></td>
+                        }
+                        else
+                        {
+                            <td>
+                                <a style="cursor:pointer;" class="btnedit" data-inwardid="@item.InwardID" data-createdby="@item.CreatedBy" data-createdon="@item.CreatedOn" data-coldstorageid="@item.ColdStorageName" data-name="@item.Name" data-date="@item.Date" data-expirydate="@item.ExpiryDate" data-lotno="@item.LotNo" data-deliverychallannumber="@item.DeliveryChallanNumber" data-supplierid="@item.SupplierID" data-deliverychallandate="@item.DeliveryChallanDate">Edit</a>
+                            </td>
+                        }
+                    </tr>
+
+                }
+
+                <tr class="form-group" style="background-color: #EBF5FB; ">
+                    <td id="row">
+                        <label for="srno" class="control-label">Grand Total :</label>
+                    </td>
+                    <td>
+                        <label for="srno" class="control-label"> </label>
+                    </td>
+                    <td>
+                        <label for="srno" class="control-label"> </label>
+                    </td>
+                    <td>
+                        <label for="srno" class="control-label"> </label>
+                    </td>
+                    <td>
+                        <label for="srno" class="control-label"> </label>
+                    </td>
+                    <td>
+                        <label for="srno" class="control-label" id="lblBalanceGrandTotal"> </label>
+                    </td>
+                    <td>
+                        <label for="srno" class="control-label"> </label>
+                    </td>
+                    <td>
+                        <label for="srno" class="control-label"> </label>
+                    </td>
+                    <td>
+                        <label for="srno" class="control-label" id="lblTotalWeightGrandTotal"> </label>
+                    </td>
+                    <td>
+                        <label for="srno" class="control-label"> </label>
+                    </td>
+                    <td>
+                        <label for="srno" class="control-label" id="lblTotalAmountGrandTotal"> </label>
+                    </td>
+                    <td>
+                        <label for="srno" class="control-label"> </label>
+                    </td>
+                    <td>
+                        <label for="srno" class="control-label"> </label>
+                    </td>
+                </tr>
+            </tbody>
+
+        </table>
+    </div>
+
+
+    <div id="responsive" class="modal fade responsive">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" style="padding-bottom: 5px;">
+                    <h4 class="modal-title">Outward Details</h4>
+                </div>
+
+                <form class="modal-body" id="InwardForm">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <input name="OutwardID" id="OutwardID" type="hidden" value="" />
+                                <input type="hidden" id="CreatedBy" class="CreatedBy" value="" />
+                                <input type="hidden" id="CreatedOn" class="CreatedOn" value="" />
+                                <input type="hidden" class="form-control ColdStorageID" name="ColdStorageID" value="" id="ColdStorageID1">
+
+                                <input type="hidden" class="DeliveryChallanNumber" name="DeliveryChallanNumber" id="DeliveryChallanNumber" tabindex="2" value="">
+                                <input type="hidden" class="LotNo" name="LotNo" id="LotNo" tabindex="5" value="">
+                                <input type="hidden" class="Date" name="Date" id="Date" tabindex="3" value="">
+                                <input type="hidden" class="ProductName" name="ProductName" tabindex="5" value="">
+                                <input type="hidden" class="NoofBags" name="Bags" value="" id="NoofBags">
+                                <input type="hidden" class="Quantity" name="Quantity" value="" id="Quantity">
+                            </div>
+
+                            @*<div class="form-group">
+                                    <label for="DeliveryChallanNumber" class="col-sm-4 control-label">Delivery Challan No.</label>
+                                    <div class="col-sm-8" style="padding-bottom:5px;">
+                                        <input type="text" class="form-control DeliveryChallanNumber" name="DeliveryChallanNumber" id="DeliveryChallanNumber" placeholder="Delivery Challan Number" tabindex="2" value="" autocomplete="off" disabled="disabled">
+                                    </div>
+                                </div>*@
+
+                            @*<div class="form-group">
+                                    <label for="LotNo" class="col-sm-4 control-label">LOT No.</label>
+                                    <div class="col-sm-8" style="padding-bottom:5px;">
+                                        <input type="text" class="form-control LotNo" name="LotNo" id="LotNo" placeholder="LOT NO" tabindex="5" value="" autocomplete="off" disabled="disabled">
+                                    </div>
+                                </div>*@
+
+                            @*<div class="form-group">
+                                    <label for="Date" class="col-sm-4 control-label">Date</label>
+                                    <div class="col-sm-8" style="padding-bottom:5px;">
+                                        <div class="input-group date">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </div>
+                                            <input type="text" class="form-control pull-right datepicker Date" name="Date" id="Date" tabindex="3" value="" autocomplete="off" disabled="disabled">
+                                        </div>
+                                    </div>
+                                </div>*@
+
+                            @*<div class="form-group">
+                                    <label for="LotNo" class="col-sm-4 control-label">Item Name</label>
+                                    <div class="col-sm-8" style="padding-bottom:5px;">
+                                        <input type="text" class="form-control ProductName" name="ProductName" placeholder="Item Name" tabindex="5" value="" autocomplete="off" disabled="disabled">
+                                    </div>
+                                </div>*@
+
+                            @*<div class="form-group">
+                                    <label for="LotNo" class="col-sm-4 control-label">Remain No of Bags</label>
+                                    <div class="col-sm-8" style="padding-bottom:5px;">
+                                        <input type="text" class="form-control NoofBags" name="Bags" placeholder="Bags" value="" id="NoofBags" autocomplete="off" disabled="disabled">
+                                    </div>
+                                </div>*@
+
+                            @*<div class="form-group">
+                                    <label for="LotNo" class="col-sm-4 control-label">Quantity/Bags</label>
+                                    <div class="col-sm-8" style="padding-bottom:5px;">
+                                        <input type="text" class="form-control Quantity" name="Quantity" placeholder="Quantity/Bags" value="" id="Quantity" autocomplete="off" required>
+                                    </div>
+                                </div>*@
+
+                            <div class="form-group">
+                                <label for="Date" class="col-sm-4 control-label">Outward Date</label>
+                                <div class="col-sm-8" style="padding-bottom:5px;">
+                                    <div class="input-group date">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
+                                        <input type="text" class="form-control pull-right datepicker Outward_date" name="Outward_date" id="Outward_date" tabindex="3" value="" autocomplete="off" required>
+                                    </div>
+                                </div>
+                            </div>
+
+                            @*<div class="form-group">
+                                    <label for="Name" class="col-sm-4 control-label">ColdStorage</label>
+                                    <div class="col-sm-8" style="padding-bottom:5px;">
+                                        <input type="hidden" class="form-control ColdStorageID" name="ColdStorageID" value="" id="ColdStorageID" autocomplete="off" disabled="disabled">
+                                        <input type="text" class="form-control Name" name="Name" value="" id="Name" autocomplete="off" disabled="disabled">
+                                    </div>
+                                </div>*@
+
+
+                            <div class="form-group">
+                                <label for="GodownName" class="col-sm-4 control-label">Godown</label>
+                                <div class="col-sm-8" style="padding-bottom:5px;">
+                                    @Html.DropDownList("GodownIDTo", new SelectList(ViewBag.Godown, "GodownID", "GodownName", 2), new { @class = "form-control select2 GodownID2", @required = true })
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </form>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-info OutwardStyle" id="btnsaveOutward">Add Outward</button>
+                    <button type="button" class="btnclosepopup btn btn-info OutwardStyle" data-dismiss="modal" aria-hidden="true">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<div id="lstcase">
+</div>
+
+
+<script>
+
+    $('.datepicker').datepicker({
+        autoclose: true
+    });
+
+    $(document).ready(function () {
+
+        //Outward in set Current date
+        var today = new Date();
+        var dd = today.getDate();
+        var mm = today.getMonth() + 1; //January is 0!
+        var yyyy = today.getFullYear();
+        var date = $(".Outward_date").val(dd + "/" + mm + "/" + yyyy);
+        //console.log(0 + "" + mm + "/" + 0 + "" + dd + "/" + yyyy);
+
+        $(".select2 ,.select2-container ,.select2-container--default ,.select2-container--focus").css({ 'width': '100%' });
+
+        function loadhtml() {
+            $.ajax({
+                url: '@Url.Action("InwardList")',
+                type: 'GET',
+                cache: false,
+            }).done(function (result) {
+                $('#lstcase').html(result);
+            });
+        }
+
+
+        CalculateGrandTotal();
+        //$('#ListDataTableInwardList').DataTable();
+    });
+
+    $('#ListDataTableInwardList').children('tbody').children('tr:visible').not(':last').each(function (index, row) {
+        if (!$(row).find("input[type=checkbox]")[0]) {
+            $(row).css("background-color", "#FBEEE6");
+            $(row).css("font-weight", "600");
+        }
+    });
+</script>
+
+<script>
+
+    $("#btnsaveOutward").click(function () {
+        var data = [];
+
+        if (!($('#responsive').parsley().validate())) {
+            return;
+        }
+
+        $('#ListDataTableInwardList').children('tbody').children('tr:visible').each(function (index, row) {
+
+            var ischk = $(row).find("input[type=checkbox]")[0];
+            if ($(ischk).is(':checked')) {
+
+                var Quantity = $(row).find(".OutQuantity").val();
+
+                if (Quantity != '' && Quantity != 0) {
+
+                    var datareq = new Object();
+                    datareq.OutwardID = $("#OutwardID").val();
+                    datareq.InwardID = $(row).find(".hdnInwardID").attr("data-inwardid"); //$(row).find(".hdnInwardID").val();
+                    datareq.TotalQuantity = $(row).find(".hdnInwardID").attr("data-totalquantity");
+                    datareq.Quantity = $(row).find(".OutQuantity").val();
+                    datareq.Outward_date = $(".Outward_date").val();
+                    datareq.ColdStorageID = $(row).find(".hdnInwardID").attr("data-coldstorageid1");
+
+                    datareq.GodownIDTo = $("#GodownIDTo").val();
+                    datareq.CreatedBy = $("#CreatedBy").val();
+                    datareq.CreatedOn = $("#CreatedOn").val();
+                    data.push(datareq);
+
+                }
+                else {
+                    alert("Please enter the quantity");
+                }
+            }
+        });
+
+        $.ajax({
+            url: '@Url.Action("AddOutwardBill","Stock")',
+            type: 'POST',
+            data: { 'data': data },
+            cache: false,
+        }).done(function (result) {
+            console.log(result);
+            if (result == 0) {
+                if ($("#OutwardID").val() == "") {
+                    $('div#sucessalert').html("Outward Add successfully.");
+                    showhidealert();
+                }
+                else {
+                    alert("something went wrong")
+                }
+                showhidealert();
+                clearform();
+            }
+        });
+
+        $('#responsive').removeClass("modal fade modal-overflow in");
+        $('#responsive').removeAttr('style');
+        $('#responsive').addClass("modal fade");
+
+        //else if ($("#OutwardID").val() != "") {
+        //    $('div#sucessalert').html("Outward updated successfully.");
+        //    showhidealert();
+        //    window.location = "/coldstorage/Stock/Inward";
+        //}
+
+        //debugger;
+        @*var Quantity = $(".Quantity").val();
+        if (Quantity != '' && Quantity != 0) {
+            var datareq = new Object();
+            datareq.OutwardID = $("#OutwardID").val();
+            datareq.InwardID = $(".hdnInwardID").val();
+            datareq.TotalQuantity = $("#NoofBags").val();
+            datareq.Quantity = $(".OutQuantity").val();
+            datareq.Outward_date = $(".Outward_date").val();
+            datareq.ColdStorageID = $("#ColdStorageID1").val();
+
+            datareq.GodownIDTo = $("#GodownIDTo").val();
+            datareq.CreatedBy = $("#CreatedBy").val();
+            datareq.CreatedOn = $("#CreatedOn").val();
+
+            $.ajax({
+                url: '@Url.Action("AddOutwardBill","Stock")',
+                type: 'POST',
+                data: { 'data': datareq },
+                cache: false,
+            }).done(function (result) {
+                if (result > 0) {
+                    if ($("#OutwardID").val() == "") {
+                        $('div#sucessalert').html("Outward Add successfully.");
+                        showhidealert();
+                        $('#btnsearch').click();
+                        window.location = "/coldstorage/Stock/Inward";
+                    }
+                    else if ($("#OutwardID").val() != "") {
+                        $('div#sucessalert').html("Outward updated successfully.");
+                        showhidealert();
+                        window.location = "/coldstorage/Stock/Inward";
+                    }
+                    else {
+                        alert("something went wrong")
+                    }
+                    showhidealert();
+                    loadhtml();
+                    clearform();
+                }
+            });
+            $('#responsive').removeClass("modal fade modal-overflow in");
+            $('#responsive').removeAttr('style');
+            $('#responsive').addClass("modal fade");
+        }
+        else {
+            alert("Please enter the quantity");
+        }*@
+    });
+
+    $(".btnclosepopup").click(function () {
+        $('#responsive').removeClass("modal fade modal-overflow in");
+        $('#responsive').removeAttr('style');
+        $('#responsive').addClass("modal fade");
+        $(".Quantity").val('');
+        clearform();
+    });
+
+    $(".Quantity").on('input propertychange paste keypress', function (e) {
+        //var end = this;
+        var NoofBags = parseInt($('.NoofBags').val());
+        var Quantity = parseInt($(".Quantity").val());
+
+        if (Quantity != '') {
+            if (NoofBags >= Quantity && Quantity != 0) {
+            }
+            else {
+                $(".Quantity").val('');
+            }
+        }
+    });
+
+    $(".btnOutward").click(function () {
+
+        $('#ListDataTableInwardList').children('tbody').children('tr:visible').each(function (index, row) {
+
+            var ischk = $(row).find("input[type=checkbox]")[0];
+            if ($(ischk).is(':checked')) {
+
+                var InwardID = $(row).find(".hdnInwardID").attr("data-inwardid");
+                var DeliveryChallanNumber = $(row).find(".hdnInwardID").attr("data-deliverychallannumber");
+                var LotNo = $(row).find(".hdnInwardID").attr("data-lotno");
+                var Date = $(row).find(".hdnInwardID").attr("data-date");
+                var ItemName = $(row).find(".hdnInwardID").attr("data-itemname");
+                var TotalQuantity = $(row).find(".hdnInwardID").attr("data-totalquantity");
+                var ColdStorageID1 = $(row).find(".hdnInwardID").attr("data-coldstorageid1");
+                var GodownIDTo = $("#GodownIDTo").val('2');
+
+                clearcontents(InwardID, DeliveryChallanNumber, LotNo, Date, ItemName, TotalQuantity, ColdStorageID1, GodownIDTo);
+                $("#responsive").removeClass("modal fade").addClass("modal fade modal-overflow in");
+                $("#responsive").css("display", "block");
+            }
+        });
+
+    });
+
+
+    function clearcontents(InwardID, DeliveryChallanNumber, LotNo, Date, ItemName, TotalQuantity, ColdStorageID1, GodownIDTo) {
+        $('.hdnInwardID').attr('value', InwardID);
+        $('.DeliveryChallanNumber').attr('value', DeliveryChallanNumber);
+        $('.LotNo').attr('value', LotNo);
+        $('.Date').attr('value', Date);
+        $('.ProductName').attr('value', ItemName);
+        $('.NoofBags').attr('value', TotalQuantity);
+        $('#ColdStorageID1').attr('value', ColdStorageID1);
+        $('#GodownIDTo').attr('value', GodownIDTo);
+    }
+
+
+    $('.ListDataTable').on('click', '.btnedit', function () {
+        debugger
+        var url = '@Url.Action("AddInwardDetails", "Stock", new { InwardID = "__InwardID__" })';
+        url = url.replace(/amp;/g, '');
+        window.location.href = url.replace('__InwardID__', $(this).attr("data-inwardid"));
+    });
+
+    function clearform() {
+        location.reload();
+    }
+
+
+    $('.chboxOutward').change(function (e) {
+        //debugger
+        var end = this;
+
+        if (this.checked) {
+
+            $('#ListDataTableInwardList').children('tbody').children('tr:visible').each(function (index, row) {
+                //debugger
+                $(end).closest('tr').find('td').each(function (index, td) {
+                    //debugger
+                    if (index == 1) {
+                        //debugger
+                        var textbox = $(this).closest('tr').find('input')[1];
+                        textbox.value = "";
+                        textbox.focus();
+                    }
+                });
+
+            });
+
+        } else {
+
+            $('#ListDataTableInwardList').children('tbody').children('tr:visible').each(function (index, row) {
+
+                $(end).closest('tr').find('td').each(function (index, td) {
+                    if (index == 1) {
+                        var textbox = $(this).closest('tr').find('input')[1];
+                        textbox.value = "";
+                    }
+                });
+
+            });
+
+        }
+
+    });
+
+    $(".OutQuantity").on('input propertychange paste keypress', function (e) {
+        //debugger;
+        var end = this;
+
+        if (this.value != '') {
+
+            var newdata = end;
+            $(newdata).closest('tr').find('td').each(function (index, td) {
+                //debugger;
+
+                var Quantity = $(newdata).closest('tr').find('input')[1].value;
+                var Balance = $(newdata).closest('tr').find('td')[5].innerText.trim();
+
+                if (parseFloat(Balance) >= parseFloat(Quantity)) {
+
+                    var Textbox = $(newdata).closest('tr').find('input')[1];
+                    Textbox.value = Quantity;
+
+                } else {
+
+                    var Textbox = $(newdata).closest('tr').find('input')[1];
+                    Textbox.value = "";
+
+                }
+            });
+
+        }
+
+    });
+
+</script>

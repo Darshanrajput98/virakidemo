@@ -1,0 +1,68 @@
+﻿@model List<vb.Data.LeaveEncashmentListResponse>
+@using vb.Data.ViewModel
+
+<div class="box">
+    <div class="box-header">
+        <h3 class="box-title">Leave Encashment List</h3>
+    </div>
+    <div class="box-body">
+        <table id="ListDataTable" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Sr.No</th>
+                    <th>Employee Name</th>
+                    <th>Total</th>
+                    <th>Closing Leaves</th>
+                    <th>Leave Encashment</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.RowNumber</td>
+                        <td>@item.FullName</td>
+                        <td>@item.TotalLeaveEnhancement</td>
+                        <td>@item.ClosingLeaves</td>
+                        <td>@item.LeaveEncashment</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+
+    $('#ListDataTable').DataTable({
+        'paging': true,
+        'lengthChange': true,
+        'searching': true,
+        'ordering': false,
+        'info': true,
+        'autoWidth': false
+    });
+
+
+    //$("#ListDataTable").DataTable({
+    //    'aoColumnDefs': [{
+    //        'bSortable': false,
+    //        'aTargets': ['nosort'] /* 1st one, start by the right */
+    //    }]
+    //});
+
+    //$('#ListDataTable').on('click', '.btnedit', function () {
+    //    debugger;
+    //    $("#URoleID").val($(this).attr("data-roleid"));
+    //    $("#RoleName").val($(this).parent().parent().children()[0].innerHTML.trim());
+    //    var value = ($(this).attr("data-isactive"));
+    //    if (value == 'True') {
+    //        $("#IsDelete").prop('checked', true);
+    //    }
+    //    else {
+    //        $("#IsDelete").prop('checked', false);
+    //    }
+    //    $("html, body").animate({ scrollTop: 0 }, "slow");
+    //});
+</script>
+

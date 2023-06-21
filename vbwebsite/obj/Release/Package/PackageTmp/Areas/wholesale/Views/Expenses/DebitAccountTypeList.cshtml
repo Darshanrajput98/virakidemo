@@ -1,0 +1,85 @@
+﻿@model List<vb.Data.DebitAccountTypeListResponse>
+@using vb.Data.ViewModel
+
+<div class="box">
+    <div class="box-header text-center">
+        <h3 class="box-title">Debit Account Type List</h3>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body table-scrollable1">
+        <table id="ListDataTable" class="table table-bordered table-bordered">
+            <thead>
+                <tr>
+                    <th>Debit Account Type</th>
+                    @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.EDebitAccountType.ToString()))
+                    {
+                        <th>Edit</th>
+                    }
+                    @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.DDebitAccountType.ToString()))
+                    {
+                        <th>Status</th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @item.DebitAccountType
+                        </td>
+                        @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.EDebitAccountType.ToString()))
+                        {
+                            <td>
+                                <a style="cursor:pointer;" class="btnedit" data-debitaccounttypeid="@item.DebitAccountTypeID" data-createdby="@item.CreatedBy" data-createdon="@item.CreatedOn" data-debitaccounttype="@item.DebitAccountType">Edit</a>
+                            </td>
+                        }
+                        @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.DDebitAccountType.ToString()))
+                        {
+                            if (item.IsDelete == true)
+                            {
+                                <td>
+                                    @Html.ActionLink("Active", "DeleteDebitAccountType", "Admin",
+                                     new { DebitAccountTypeID = item.DebitAccountTypeID, IsDelete = false },
+                                        new { onclick = "return confirm('Are you sure you wish to delete this article?');" })
+                                </td>
+                            }
+                            else
+                            {
+                                <td>
+                                    @Html.ActionLink("DeActive", "DeleteDebitAccountType", "Admin",
+                                      new { DebitAccountTypeID = item.DebitAccountTypeID, IsDelete = true },
+                                        new { onclick = "return confirm('Are you sure you wish to delete this article?');" })
+                                </td>
+                            }
+                        }
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+    <!-- /.box-body -->
+</div>
+
+<script>
+    $("#ListDataTable").DataTable({
+        'aoColumnDefs': [{
+            'bSortable': false,
+            //"aTargets": [0],
+            'aTargets': ['nosort'] /* 1st one, start by the right */
+        }]
+    });
+
+    $('#ListDataTable').on('click', '.btnedit', function () {
+        debugger;
+        $("#UDebitAccountTypeID").val($(this).attr("data-debitaccounttypeid"));
+        $("#DebitAccountType").val($(this).parent().parent().children()[0].innerHTML.trim());
+        $("#DebitAccountType").val($(this).attr("data-debitaccounttype"));
+        $("#CreatedBy").val($(this).attr("data-createdby"));
+        $("#CreatedOn").val($(this).attr("data-createdon"));
+        $("html, body").animate({ scrollTop: 0 }, "slow");
+    });
+
+</script>
+

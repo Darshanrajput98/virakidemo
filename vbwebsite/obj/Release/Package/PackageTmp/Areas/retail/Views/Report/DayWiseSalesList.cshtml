@@ -1,0 +1,153 @@
+﻿@model List<vb.Data.RetDayWiseSalesList>
+
+<div class="box">
+    <div class="box-header text-center">
+        <h3 class="box-title">Day Wise Sales</h3>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body table-scrollable1">
+        <table id="ListDataTable" class="table table-bordered table-striped lstsales">
+            <thead>
+                <tr>
+                    <th class="nosort" style="text-align:center">Inv Number</th>
+                    <th class="nosort" style="text-align:center">Party Name</th>
+                    <th class="nosort" style="text-align:center">Area Name</th>
+                    <th class="nosort" style="text-align:center">Gross Amt</th>
+                    <th class="nosort" colspan="2" style="text-align:center">CGST</th>
+                    <th class="nosort" colspan="2" style="text-align:center">SGST</th>
+                    <th class="nosort" colspan="2" style="text-align:center">IGST</th>
+
+                    <th class="nosort" style="text-align:center">TCS</th>
+
+                    <th class="nosort" style="text-align:center">Round Off</th>
+                    <th class="nosort" style="text-align:center">Net Amt</th>
+                    <th class="nosort" style="text-align:center">Sales Person</th>
+                </tr>
+                <tr>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th style="text-align:center">Tax %</th>
+                    <th style="text-align:center">Tax Amt</th>
+                    <th style="text-align:center">Tax %</th>
+                    <th style="text-align:center">Tax Amt</th>
+                    <th style="text-align:center">Tax %</th>
+                    <th style="text-align:center">Tax Amt</th>
+
+                    <th></th>
+
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td id="row" @item.OrderID>
+                            <a style="cursor:pointer;" class="btnedit" data-pid="@item.InvCode" data-oid="@item.OrderID">@item.InvoiceNumber</a>
+                        </td>
+                        <td>
+                            @item.Party
+                        </td>
+
+                        <td>
+                            @item.Area
+                        </td>
+                        <td>
+                            @item.GrossAmt
+                        </td>
+                        <td>
+                            @item.CGST
+                        </td>
+                        <td>
+                            @item.TaxAmtCGST
+                        </td>
+                        <td>
+                            @item.SGST
+                        </td>
+                        <td>
+                            @item.TaxAmtSGST
+                        </td>
+                        <td>
+                            @item.IGST
+                        </td>
+                        <td>
+                            @item.TaxAmtIGST
+                        </td>
+
+                        <td>
+                            @item.TCSTaxAmount
+                        </td>
+
+                        <td>
+                            @item.RoundOff
+                        </td>
+                        <td>
+                            @item.NetAmount
+                        </td>
+                        <td>
+                            @item.UserFullName
+                        </td>
+                    </tr>
+                }
+                @if (Model.Count > 0)
+                {
+                    <tr style="font-weight:bold">
+                        <td colspan="3" style="text-align:right">
+                            Total :
+                        </td>
+                        <td>@Model[0].GrandGrossAmt</td>
+                        <td colspan="2" style="text-align:right">
+                            @Model[0].GrandCGSTAmt
+                        </td>
+                        <td colspan="2" style="text-align:right">
+                            @Model[0].GrandSGSTAmt
+                        </td>
+                        <td colspan="2" style="text-align:right">
+                            @Model[0].GrandIGSTAmt
+                        </td>
+
+                        <td>
+                            @Model[0].GrandTCSAmt
+                        </td>
+
+                        <td>
+                            @Model[0].GrandRoundOff
+                        </td>
+                        <td>
+                            @Model[0].GrandNetAmount
+                        </td>
+                        <td></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <!-- /.box-body -->
+</div>
+
+<script>
+    $('.lstsales').on('click', '.btnedit', function () {
+        debugger;
+        var id = $(this).attr("data-oid");
+        var invnum = $(this).attr("data-pid");
+        //    debugger;
+        $.ajax({
+            url: '@Url.Action("PrintInvoice", "Order")',
+            type: 'POST',
+            data: { 'InvoiceID': id, 'InvoiceNumber': invnum },
+            cache: false,
+        }).done(function (result) {
+            if (result != '') {
+                window.open(result, "newPage");
+            }
+        });
+    });
+</script>
+
+
+
+

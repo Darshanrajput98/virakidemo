@@ -1,0 +1,522 @@
+﻿@model List<vb.Data.InwardOutWardListResponse>
+@using vb.Data.ViewModel
+
+<div class="box">
+    <div class="box-header text-center">
+        <h3 class="box-title">Inward List</h3>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body table-scrollable1">
+        <table id="ListDataTable" class="table table-bordered table-striped lst1">
+            <thead>
+                <tr>
+                    <th class="nosort">Date</th>
+                    <th class="nosort">Godown</th>
+                    <th class="nosort">Opening Amt</th>
+                    <th class="nosort">Chillar Inv.</th>
+                    <th class="nosort">Wholesale</th>
+                    <th class="nosort">Retail</th>
+                    <th class="nosort">Tempo Amount(W)</th>
+                    <th class="nosort">Tempo Amount(R)</th>
+                    <th class="nosort">Trans Inward Amt.</th>
+                    <th class="nosort">Vehicle Expenses Inward</th>
+                    <th class="nosort">Total Inward</th>
+                    <th class="nosort">Chillar Out</th>
+                    <th class="nosort">Expenses</th>
+                    <th class="nosort">Transfer Amt</th>
+                    <th class="nosort">Bank</th>
+                    <th class="nosort">Vehicle Expenses Outward</th>
+                    <th class="nosort">Total Outward</th>
+                    <th class="nosort">Grand Total</th>
+                    @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.EInward.ToString()))
+                    {
+                        <th>Edit</th>
+                    }
+                    <th>Print</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td id="row">
+                            @item.CreatedOn.ToString("dd/MM/yyyy")
+                        </td>
+                        <td>
+                            @item.GodownName
+                        </td>
+                        <td>
+                            @item.OpeningAmount.ToString("0.00")
+                        </td>
+                        <td>
+                            @item.ChillarInward.ToString("0.00")
+                        </td>
+                        <td>
+                            @item.WholesaleCash.ToString("0.00")
+                        </td>
+                        <td>
+                            @item.RetailCash.ToString("0.00")
+                        </td>
+                        <td>
+                            @item.WholesaleTempoAmount.ToString("0.00")
+                        </td>
+                        <td>
+                            @item.RetailTempoAmount.ToString("0.00")
+                        </td>
+                        <td>
+                            @item.TransferAmountInward.ToString("0.00")
+                        </td>
+
+
+
+                        <td>
+                            @if (item.TotalInwardVehicleExpenses > 0)
+                            {
+                                <a style="cursor:pointer;" class="btnInwardVehicleExpenses" data-inwardid="@item.InwardID">@item.TotalInwardVehicleExpenses.ToString("0.00")</a>
+                            }
+                            else
+                            {
+                                <a style="cursor:pointer;">@item.TotalInwardVehicleExpenses.ToString("0.00")</a>
+                            }
+                        </td>
+
+
+
+                        <td>
+                            @item.TotalInward.ToString("0.00")
+                        </td>
+                        <td>
+                            @item.ChillarOutward.ToString("0.00")
+                        </td>
+                        <td>
+                            @item.TotalExpenses.ToString("0.00")
+                        </td>
+                        <td>
+                            @*<a style="cursor:pointer;" class="btnOpenPopup" data-godownid="@item.GodownID" data-createdon="@item.CreatedOn">@item.TransferAmount.ToString("0.00")</a>*@
+                            @if (item.TransferAmount > 0)
+                            {
+                                <a style="cursor:pointer;" class="btnOpenPopup" data-godownid="@item.GodownID" data-createdon="@item.CreatedOn">@item.TransferAmount.ToString("0.00")</a>
+                            }
+                            else
+                            {
+                                <a style="cursor:pointer;">@item.TransferAmount.ToString("0.00")</a>
+                            }
+                        </td>
+                        <td>
+                            @item.BankDepositeAmount.ToString("0.00")
+                        </td>
+
+
+                        <td>
+                            @if (item.TotalOutwardVehicleExpenses > 0)
+                            {
+                                <a style="cursor:pointer;" class="btnOutwardVehicleExpenses" data-inwardid="@item.InwardID">@item.TotalOutwardVehicleExpenses.ToString("0.00")</a>
+                            }
+                            else
+                            {
+                                <a style="cursor:pointer;">@item.TotalOutwardVehicleExpenses.ToString("0.00")</a>
+                            }
+                        </td>
+
+
+                        @*<td>
+                                @item.TotalOutwardVehicleExpenses.ToString("0.00")
+                            </td>*@
+
+
+
+                        <td>
+                            @item.TotalOutward.ToString("0.00")
+                        </td>
+                        <td>
+                            @item.GrandTotal.ToString("0.00")
+                        </td>
+                        @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.EInward.ToString()))
+                        {
+                            <td>
+                                <a style="cursor:pointer;" class="btnedit" data-inwardid="@item.InwardID" data-godownid="@item.GodownID" data-openingamount="@item.OpeningAmount" data-chillarinward="@item.ChillarInward"
+                                   data-wholesaleassigneddatestr="@item.WholesaleAssignedDatestr" data-wholesalecash="@item.WholesaleCash" data-retailassigneddatestr="@item.RetailAssignedDatestr" data-retailcash="@item.RetailCash"
+                                   data-wholesaletempodate1str="@item.WholesaleTempoDate1str" data-wholesalevehicleno1="@item.WholesaleVehicleNo1" data-wholesaletempoamount1="@item.WholesaleTempoAmount1"
+                                   data-wholesaletempodate2str="@item.WholesaleTempoDate2str" data-wholesalevehicleno2="@item.WholesaleVehicleNo2" data-wholesaletempoamount2="@item.WholesaleTempoAmount2"
+                                   data-wholesaletempodate3str="@item.WholesaleTempoDate3str" data-wholesalevehicleno3="@item.WholesaleVehicleNo3" data-wholesaletempoamount3="@item.WholesaleTempoAmount3"
+                                   data-retailtempodate1str="@item.RetailTempoDate1str" data-retailvehicleno1="@item.RetailVehicleNo1" data-retailtempoamount1="@item.RetailTempoAmount1"
+                                   data-retailtempodate2str="@item.RetailTempoDate2str" data-retailvehicleno2="@item.RetailVehicleNo2" data-retailtempoamount2="@item.RetailTempoAmount2"
+                                   data-retailtempodate3str="@item.RetailTempoDate3str" data-retailvehicleno3="@item.RetailVehicleNo3" data-retailtempoamount3="@item.RetailTempoAmount3"
+                                   data-totalinward="@item.TotalInward" data-chillaroutward="@item.ChillarOutward" data-expensesdatestr="@item.ExpensesDatestr" data-totalexpenses=@item.TotalExpenses
+                                   data-transfervb2="@item.TransferVB2" data-transfervb3="@item.TransferVB3"
+                                   data-bankid1="@item.BankID1" data-bankdepositeamount1="@item.BankDepositeAmount1" data-bankid2="@item.BankID2" data-bankdepositeamount2="@item.BankDepositeAmount2"
+                                   data-bankid3="@item.BankID3" data-bankdepositeamount3="@item.BankDepositeAmount3" data-totaloutward="@item.TotalOutward" data-grandtotal="@item.GrandTotal"
+                                   data-openingchillar="@item.OpeningChillar" data-closingchillar="@item.ClosingChillar"
+                                   data-createdby="@item.CreatedBy" data-createdon="@item.CreatedOn" data-transferamount="@item.TransferAmount" data-finaltotaloutward="@item.FinalTotalOutward"
+                                   data-transferamountinward="@item.TransferAmountInward" data-finaltotalinward="@item.FinalTotalInward" data-godownname="@item.GodownName">Edit</a>
+                            </td>
+                        }
+                        <td>
+                            @*<input type="button" value="Print" onclick="GetPrintInward(@item.InwardID,@item.ExpensesDatestr,@item.GodownID)" />*@
+                            <a style="cursor:pointer;" class="btnprint" data-inwardid="@item.InwardID" data-godownid="@item.GodownID" data-expensesdate="@item.ExpensesDate">Print</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <!-- /.box-body -->
+
+    <div id="responsive" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" style="padding-bottom: 0px;">
+                    <h4 class="modal-title">Transfer Amount</h4>
+                </div>
+                <div class="modal-body">
+                    <div id="dvlsttransamt"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="PopupInwardVehicleExpenses" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" style="padding-bottom: 0px;">
+                    <h4 class="modal-title">Vehicle Expenses (Inward)</h4>
+                </div>
+                <div class="modal-body">
+                    <div id="dvlstinwardvehicle_exp"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="PopupOutwardVehicleExpenses" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" style="padding-bottom: 0px;">
+                    <h4 class="modal-title">Vehicle Expenses (Outward)</h4>
+                </div>
+                <div class="modal-body">
+                    <div id="dvlstoutwardvehicle_exp"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+<script>
+    //$("#ListDataTable").DataTable({
+    //    'aoColumnDefs': [{
+    //        'bSortable': false,
+    //        "ordering": false,
+    //        'aTargets': ['nosort'] /* 1st one, start by the right */
+
+    //    }]
+    //});
+
+    $('#ListDataTable').DataTable({
+        'paging': true,
+        'lengthChange': true,
+        'searching': true,
+        'ordering': false,
+        'info': true,
+        'autoWidth': false
+    });
+
+
+    $('#ListDataTable').on('click', '.btnedit', function () {
+        debugger;
+        $("#InwardID").val($(this).attr("data-inwardid"));
+
+        //$("#GodownID").val($(this).attr("data-godownid")).trigger("change");
+        //var godownname = $(this).attr("data-godownname");
+        //$("#GodownID option:contains(" + godownname + ")").attr('selected', 'selected');
+      
+        $("#GodownID").val($(this).attr("data-godownid"));     
+        $("#GodownID").prop("disabled", true);
+        $("#OpeningAmount").val($(this).attr("data-openingamount"));
+        $("#ChillarInward").val($(this).attr("data-chillarinward"));
+        $("#WholesaleAssignedDate").val($(this).attr("data-WholesaleAssignedDatestr"));
+        $("#WholesaleCash").val($(this).attr("data-wholesalecash"));
+        $("#RetailAssignedDate").val($(this).attr("data-RetailAssignedDatestr"));
+        $("#RetailCash").val($(this).attr("data-retailcash"));
+        $("#TransferAmountInward").val($(this).attr("data-transferamountinward"));
+        $("#WholesaleTempoDate1").val($(this).attr("data-WholesaleTempoDate1str"));
+        var wholesalevehicleno1 = $(this).attr("data-wholesalevehicleno1").split(',');
+        $("#WholesaleVehicleNo1").val(wholesalevehicleno1);
+        $('#WholesaleVehicleNo1').select2();
+        $("#WholesaleTempoAmount1").val($(this).attr("data-wholesaletempoamount1"));
+        $("#WholesaleTempoDate2").val($(this).attr("data-WholesaleTempoDate2str"));
+        var wholesalevehicleno2 = $(this).attr("data-wholesalevehicleno2").split(',');
+        $("#WholesaleVehicleNo2").val(wholesalevehicleno2);
+        $('#WholesaleVehicleNo2').select2();
+        $("#WholesaleTempoAmount2").val($(this).attr("data-wholesaletempoamount2"));
+        $("#WholesaleTempoDate3").val($(this).attr("data-WholesaleTempoDate3str"));
+        var wholesalevehicleno3 = $(this).attr("data-wholesalevehicleno3").split(',');
+        $("#WholesaleVehicleNo3").val(wholesalevehicleno3);
+        $('#WholesaleVehicleNo3').select2();
+        $("#WholesaleTempoAmount3").val($(this).attr("data-wholesaletempoamount3"));
+        $("#RetailTempoDate1").val($(this).attr("data-RetailTempoDate1str"));
+        var retailvehicleno1 = $(this).attr("data-retailvehicleno1").split(',');
+        $("#RetailVehicleNo1").val(retailvehicleno1);
+        $('#RetailVehicleNo1').select2();
+        $("#RetailTempoAmount1").val($(this).attr("data-retailtempoamount1"));
+        $("#RetailTempoDate2").val($(this).attr("data-RetailTempoDate2str"));
+        var retailvehicleno2 = $(this).attr("data-retailvehicleno2").split(',');
+        $("#RetailVehicleNo2").val(retailvehicleno2);
+        $('#RetailVehicleNo2').select2();
+        $("#RetailTempoAmount2").val($(this).attr("data-retailtempoamount2"));
+        $("#RetailTempoDate3").val($(this).attr("data-RetailTempoDate3str"));
+        var retailvehicleno3 = $(this).attr("data-retailvehicleno3").split(',');
+        $("#RetailVehicleNo3").val(retailvehicleno3);
+        $('#RetailVehicleNo3').select2();
+        $("#RetailTempoAmount3").val($(this).attr("data-retailtempoamount3"));
+        $("#TotalInward").val($(this).attr("data-totalinward"));
+        // $("#TotalInward").val($(this).attr("data-finaltotalinward"));
+        $("#ChillarOutward").val($(this).attr("data-chillaroutward"));
+        $("#ExpensesDate").val($(this).attr("data-ExpensesDatestr"));
+        $("#TotalExpenses").val($(this).attr("data-totalexpenses"));
+        $("#TransferVB2").val($(this).attr("data-transfervb2"));
+        $("#TransferVB3").val($(this).attr("data-transfervb3"));
+        $("#BankID1").val($(this).attr("data-bankid1")).trigger("change");
+        $("#BankDepositeAmount1").val($(this).attr("data-bankdepositeamount1"));
+        $("#BankID2").val($(this).attr("data-bankid2")).trigger("change");
+        $("#BankDepositeAmount2").val($(this).attr("data-bankdepositeamount2"));
+        $("#BankID3").val($(this).attr("data-bankid3")).trigger("change");
+        $("#BankDepositeAmount3").val($(this).attr("data-bankdepositeamount3"));
+        $("#TotalOutward").val($(this).attr("data-totaloutward"));
+        //  $("#TotalOutward").val($(this).attr("data-finaltotaloutward"));
+        $("#GrandTotal").val($(this).attr("data-grandtotal"));
+        $("#OpeningChillar").val($(this).attr("data-openingchillar"));
+        $("#ClosingChillar").val($(this).attr("data-closingchillar"));
+        $("#InwardChillar").val($(this).attr("data-chillarinward"));
+        $("#OutwardChillar").val($(this).attr("data-chillaroutward"));
+        $("#TransferAmount").val($(this).attr("data-transferamount"));
+        $("#CreatedBy").val($(this).attr("data-createdby"));
+        $("#CreatedOn").val($(this).attr("data-createdon"));
+
+        // table 1 (Inward)
+        $.ajax({
+            type: 'Post',
+            url: '@Url.Action("GetVehicleInwardCostList")',
+            data: { InwardID: $(this).attr("data-inwardid") },
+            success: function (result) {
+                bookIndex = 0;
+                if (result.length > 0) {
+                    $(result).each(function (index, row) {
+                        debugger;
+                        if (row.ID == '1') {
+                            bookIndex++;
+                            if (bookIndex > 1) {
+                                var $template = $('#AddVehicleInward'),
+                                    $clone = $template
+                                                    .clone()
+                                                    .removeClass('hide')
+                                                    .removeAttr('id')
+                                                    .attr('data-book-index', bookIndex)
+                                                    .insertBefore($template);
+                                // Update the name attributes
+                                $clone
+                                .find('[name="AssignedDate"]').attr('name', 'lstVehicleInwardCost[' + bookIndex + '].AssignedDate').end()
+                                .find('[name="VehicleDetailID"]').attr('name', 'lstVehicleInwardCost[' + bookIndex + '].VehicleDetailID').end()
+                                .find('[name="Amount"]').attr('name', 'lstVehicleInwardCost[' + bookIndex + '].Amount').end();
+                                debugger;
+                                $clone.find("input[type=hidden]")[0].value = row.VehicleInwardCostID;
+                                $clone.find("select")[0].value = row.VehicleDetailID;
+                                $clone.find("input")[0].value = row.AssignedDatestr;
+                                $clone.find("input")[2].value = row.Amount;
+                                $('select').select2({ width: '100%' });
+                                $tdvalue = $clone.find('td')[1];
+                                $($tdvalue).find('span.select2.select2-container.select2-container--default')[1].remove();
+                            }
+                            else {
+                                debugger;
+                                if ($('#tblVehicleInward').find('tbody tr:visible').length > 1)
+                                    $('#tblVehicleInward').find('tbody tr:visible').not(':first').empty();
+                                var $template = $('#VehicleInward');
+                                $clone = $template;
+                                $clone.find("input[type=hidden]")[0].value = row.VehicleInwardCostID;
+                                $clone.find("select")[0].value = row.VehicleDetailID;
+                                $clone.find("input")[0].value = row.AssignedDatestr;
+                                $clone.find("input")[2].value = row.Amount;
+                            }
+                            $('select').select2({ width: '100%' });
+                        }
+                    });
+                }
+                else {
+                    debugger;
+                    if ($('#tblVehicleInward').find('tbody tr:visible').length > 1)
+                        $('#tblVehicleInward').find('tbody tr:visible').not(':first').empty();
+                    var $template = $('#VehicleInward');
+                    $clone = $template;
+                    $clone.find("input[type=hidden]")[0].value = "";
+                    $clone.find("select")[0].value = "";
+                    $clone.find("input")[0].value = "";
+                    $('select').select2({ width: '100%' });
+                    $clone.find("input")[2].value = "";
+                }
+            },
+            error: function () { alert('Error'); }
+        });
+
+        // table 2 (Outward)
+        $.ajax({
+            type: 'Post',
+            url: '@Url.Action("GetVehicleOutwardCostList")',
+            data: { InwardID: $(this).attr("data-inwardid") },
+            success: function (result) {
+                bookIndex = 0;
+                if (result.length > 0) {
+                    $(result).each(function (index, row) {
+                        debugger;
+                        if (row.ID == '2') {
+                            bookIndex++;
+                            if (bookIndex > 1) {
+                                var $template = $('#AddVehicleOutward'),
+                                    $clone = $template
+                                                    .clone()
+                                                    .removeClass('hide')
+                                                    .removeAttr('id')
+                                                    .attr('data-book-index', bookIndex)
+                                                    .insertBefore($template);
+                                // Update the name attributes
+                                $clone
+                                .find('[name="AssignedDate"]').attr('name', 'lstVehicleOutwardCost[' + bookIndex + '].AssignedDate').end()
+                                .find('[name="VehicleDetailID"]').attr('name', 'lstVehicleOutwardCost[' + bookIndex + '].VehicleDetailID').end()
+                                .find('[name="Amount"]').attr('name', 'lstVehicleOutwardCost[' + bookIndex + '].Amount').end();
+                                debugger;
+                                $clone.find("input[type=hidden]")[0].value = row.VehicleInwardCostID;
+                                $clone.find("select")[0].value = row.VehicleDetailID;
+                                $clone.find("input")[0].value = row.AssignedDatestr;
+                                $clone.find("input")[2].value = row.Amount;
+                                $('select').select2({ width: '100%' });
+                                $tdvalue = $clone.find('td')[1];
+                                $($tdvalue).find('span.select2.select2-container.select2-container--default')[1].remove();
+                            }
+                            else {
+                                debugger;
+                                if ($('#tblVehicleOutward').find('tbody tr:visible').length > 1)
+                                    $('#tblVehicleOutward').find('tbody tr:visible').not(':first').empty();
+                                var $template = $('#VehicleOutward');
+                                $clone = $template;
+                                $clone.find("input[type=hidden]")[0].value = row.VehicleInwardCostID;
+                                $clone.find("select")[0].value = row.VehicleDetailID;
+                                $clone.find("input")[0].value = row.AssignedDatestr;                               
+                                $clone.find("input")[2].value = row.Amount;
+                            }
+                            $('select').select2({ width: '100%' });                          
+                        }
+                    });
+                }
+                else {
+                    debugger;
+                    if ($('#tblVehicleOutward').find('tbody tr:visible').length > 1)
+                        $('#tblVehicleOutward').find('tbody tr:visible').not(':first').empty();
+                    var $template = $('#VehicleOutward');
+                    $clone = $template;
+                    $clone.find("input[type=hidden]")[0].value = "";
+                    $clone.find("select")[0].value = "";
+                    $clone.find("input")[0].value = "";
+                    $('select').select2({ width: '100%' });
+                    $clone.find("input")[2].value = "";
+                }
+            },
+            error: function () { alert('Error'); }
+        });
+
+
+
+
+
+
+
+
+        $("html, body").animate({ scrollTop: 0 }, "slow");
+    });
+
+    $('#ListDataTable').on('click', '.btnprint', function () {
+        debugger;
+        var InwardID = $(this).attr("data-inwardid");
+        var ExpensesDate = $(this).attr("data-expensesdate");
+        var GodownID = $(this).attr("data-godownid");
+        $.ajax({
+            url: '@Url.Action("PrintInward", "Expenses")',
+            type: 'POST',
+            data: { 'InwardID': InwardID, 'ExpensesDate': ExpensesDate, 'GodownID': GodownID },
+            cache: false,
+        }).done(function (result) {
+            if (result != '') {
+                window.open(result, "newPage");
+            }
+        });
+    });
+
+    $('.lst1').on('click', '.btnOpenPopup', function () {
+        debugger;
+        var GodownID = $(this).attr("data-godownid");
+        var CreatedOn = $(this).attr("data-createdon");
+        debugger;
+        $.ajax({
+            url: '@Url.Action("PopupTransferAmount")',
+            type: 'GET',
+            data: { 'GodownID': GodownID, 'CreatedOn': CreatedOn },
+            cache: false,
+        }).done(function (result) {
+            $('#dvlsttransamt').html(result);
+        });
+        $("#responsive").modal("show");
+    });
+
+
+    $('.lst1').on('click', '.btnInwardVehicleExpenses', function () {
+        debugger;
+        var InwardID = $(this).attr("data-inwardid");
+        debugger;
+        $.ajax({
+            url: '@Url.Action("PopupInwardVehicleExpenses")',
+            type: 'GET',
+            data: { 'InwardID': InwardID },
+            cache: false,
+        }).done(function (result) {
+            $('#dvlstinwardvehicle_exp').html(result);
+        });
+        $("#PopupInwardVehicleExpenses").modal("show");
+    });
+
+
+    $('.lst1').on('click', '.btnOutwardVehicleExpenses', function () {
+        debugger;
+        var InwardID = $(this).attr("data-inwardid");
+        debugger;
+        $.ajax({
+            url: '@Url.Action("PopupOutwardVehicleExpenses")',
+            type: 'GET',
+            data: { 'InwardID': InwardID },
+            cache: false,
+        }).done(function (result) {
+            $('#dvlstoutwardvehicle_exp').html(result);
+        });
+        $("#PopupOutwardVehicleExpenses").modal("show");
+    });
+
+
+    @*function GetPrintInward(InwardID, ExpensesDatestr, GodownID) {
+        debugger;
+        $.ajax({
+            url: '@Url.Action("PrintInward", "Expenses")',
+            type: 'POST',
+            data: { 'InwardID': InwardID, 'ExpensesDate': ExpensesDatestr, 'GodownID': GodownID },
+            cache: false,
+        }).done(function (result) {
+            if (result != '') {
+                window.open(result, "newPage");
+            }
+        });
+    };*@
+
+</script>
+
+

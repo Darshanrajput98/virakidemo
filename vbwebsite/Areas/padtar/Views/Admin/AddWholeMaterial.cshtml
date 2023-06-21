@@ -1,0 +1,1969 @@
+﻿@{
+    ViewBag.Title = "AddWholeMaterial";
+    Layout = "~/Areas/padtar/Views/Shared/padtarlayout.cshtml";
+}
+
+
+<div class="box box-default">
+    <div class="box-header with-border text-center">
+        <h3 class="box-title">Padtar Whole Material</h3>
+    </div>
+    <form id="frmMaterial" class="form-horizontal">
+        <div class="box-body">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <input name="MaterialID" id="MaterialID" type="hidden" value="" />
+                    <input name="CategoryID" id="CategoryID" type="hidden" value="" />
+                    <input name="CreatedBy" id="CreatedBy" type="hidden" value="" />
+                    <input name="CreatedOn" id="CreatedOn" type="hidden" value="" />
+                    <input name="UpdatedBy" id="UpdatedBy" type="hidden" value="" />
+                    <input name="UpdatedOn" id="UpdatedOn" type="hidden" value="" />
+
+                    <label for="ProductName" class="col-sm-4 control-label">Item Name</label>
+                    <div class="col-sm-8">
+                        @Html.DropDownList("ProductID", new SelectList(ViewBag.Product, "ProductID", "ProductName"), "Select Product", new { @class = "form-control select2 ProductID", required = "required", tabindex = "1" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="CurrentRate" class="col-sm-4 control-label">Current Rate</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control ClsNumberAndDecimal" name="CurrentRate" id="CurrentRate" onkeypress="return isNumberKey(event)" placeholder="Current Rate" autocomplete="off" required tabindex="3">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="Discount" class="col-sm-4 control-label">Discount</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control ClsNumberAndDecimal" name="Discount" id="Discount" onkeypress="return isNumberKey(event)" placeholder="Discount" autocomplete="off" value="0.00" required tabindex="5">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="NetAmount" class="col-sm-4 control-label">Net Amount</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="NetAmount" id="NetAmount" placeholder="Net Amount" disabled autocomplete="off" tabindex="7">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="Notes1" class="col-sm-4 control-label">Notes 1</label>
+                    <div class="col-sm-8">
+                        <textarea class="form-control" id="Notes1" name="Notes1" rows="2" cols="20" placeholder="Description" tabindex="9"></textarea>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="APMC" class="col-sm-4 control-label">APMC %</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control ClsNumberAndDecimal" name="APMC" id="APMC" onkeypress="return isNumberKey(event)" placeholder="APMC %" autocomplete="off" value="0.00" required tabindex="11">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="MarketFinal" class="col-sm-4 control-label">Market Final</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="MarketFinal" id="MarketFinal" placeholder="Market Final" disabled autocomplete="off" tabindex="13">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="Commision_P_KG" class="col-sm-4 control-label">Commision P KG</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control ClsNumberAndDecimal" name="Commision_P_KG" id="Commision_P_KG" onkeypress="return isNumberKey(event)" placeholder="Commision P KG" autocomplete="off" value="0.00" required tabindex="15">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="KG_P_Hour" class="col-sm-4 control-label">Labour Charges/KG P Hour</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control ClsNumberAndDecimal" name="KG_P_Hour" id="KG_P_Hour" onkeypress="return isNumberKey(event)" placeholder="Labour Charges/KG P Hour" autocomplete="off" value="0.00" required tabindex="17">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="GrossRate" class="col-sm-4 control-label">Gross Rate</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="GrossRate" id="GrossRate" placeholder="Gross Rate" autocomplete="off" disabled tabindex="19">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="GasaraAmount" class="col-sm-4 control-label">Gasara Amount</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="GasaraAmount" id="GasaraAmount" placeholder="Gasara Amount" disabled autocomplete="off" tabindex="21">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="SellRateWholesale" class="col-sm-4 control-label" style="color:red;">Selling Rate Wholesale</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control ClsNumberAndDecimal" name="SellRateWholesale" id="SellRateWholesale" onkeypress="return isNumberKey(event)" placeholder="Selling Rate Wholesale" autocomplete="off" value="0.00" required tabindex="23">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="SellRateRetail" class="col-sm-4 control-label" style="color:red;">Selling Rate Retail</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control ClsNumberAndDecimal" name="SellRateRetail" id="SellRateRetail" onkeypress="return isNumberKey(event)" placeholder="Selling Rate Retail" autocomplete="off" value="0.00" required tabindex="25">
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="Category" class="col-sm-4 control-label">Category</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="Category" id="Category" placeholder="Category" autocomplete="off" disabled tabindex="2">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="GST" class="col-sm-4 control-label">GST %</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control ClsNumberAndDecimal" name="GST" id="GST" placeholder="GST %" autocomplete="off" required tabindex="4">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="DiscountAmount" class="col-sm-4 control-label">Discount Amount</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="DiscountAmount" id="DiscountAmount" placeholder="Discount Amount" disabled autocomplete="off" tabindex="6">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="PackingCharge" class="col-sm-4 control-label">Packing Charge</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control ClsNumberAndDecimal" name="PackingCharge" id="PackingCharge" onkeypress="return isNumberKey(event)" placeholder="Packing Charge" autocomplete="off" required tabindex="8">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="Notes2" class="col-sm-4 control-label">Notes 2</label>
+                    <div class="col-sm-8">
+                        <textarea class="form-control" id="Notes2" name="Notes2" rows="2" cols="20" placeholder="Description" tabindex="10"></textarea>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="APMCAmount" class="col-sm-4 control-label">APMC Amount</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="APMCAmount" id="APMCAmount" placeholder="APMC Amount" disabled autocomplete="off" tabindex="12">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="Freight_P_KG" class="col-sm-4 control-label">Freight P KG</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control ClsNumberAndDecimal" name="Freight_P_KG" id="Freight_P_KG" onkeypress="return isNumberKey(event)" placeholder="Freight P KG" autocomplete="off" value="0.00" required tabindex="14">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="Labour_P_Hour" class="col-sm-4 control-label">Labour Charges/Labour P Hour</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control ClsNumberAndDecimal" name="Labour_P_Hour" id="Labour_P_Hour" onkeypress="return isNumberKey(event)" placeholder="Labour Charges/Labour P Hour" autocomplete="off" value="0.00" required tabindex="16">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="LabourAmount_P_KG" class="col-sm-4 control-label">Labour Amount P KG</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="LabourAmount_P_KG" id="LabourAmount_P_KG" placeholder="Labour Amount P KG" disabled autocomplete="off" tabindex="18">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="Gasara" class="col-sm-4 control-label">Gasara %</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control ClsNumberAndDecimal" name="Gasara" id="Gasara" onkeypress="return isNumberKey(event)" placeholder="Gasara %" autocomplete="off" value="0.00" required tabindex="20">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="Padtar" class="col-sm-4 control-label">Padtar</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="Padtar" id="Padtar" placeholder="Padtar" disabled autocomplete="off" tabindex="22">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="MarginWholesale" class="col-sm-4 control-label" style="color:red;">Margin Wholesale %</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="MarginWholesale" id="MarginWholesale" placeholder="Margin Wholesale %" disabled autocomplete="off" tabindex="24">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="MarginRetail" class="col-sm-4 control-label" style="color:red;">Margin Retail %</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="MarginRetail" id="MarginRetail" placeholder="Margin Retail %" disabled autocomplete="off" tabindex="26">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- /.box-body -->
+        <div class="box-footer ">
+            <div class="pull-right">
+                <button type="button" id="CancelMaterial" class="btn btn-default" tabindex="27">Cancel</button>
+                <button type="button" id="btnsavecase" class="btn btn-info" tabindex="28">Save</button>
+            </div>
+        </div>
+        <!-- /.box-footer -->
+    </form>
+    <div id="lstcase">
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script>
+
+    $(document).ready(function () {
+        //debugger;
+        loadhtml();
+
+        //Product Wise Get GST
+        $("#ProductID").on('change keypress', function (e) {
+            //debugger;
+            var end = this;
+            if (this.value != '') {
+                $.ajax({
+                    type: 'Post',
+                    url: '@Url.Action("GetGST")',
+                    data: { ProductID: this.value },
+                    success: function (result) {
+                        //debugger;
+                        if (result != null) {
+                            //debugger;
+                            if ($("#MaterialID").val() == "") {
+                                $("#GST").val(result[0].GST);
+                            } else {
+                                //debugger
+                                $('#ListDataTable').on('click', '.btnedit', function () {
+                                    //debugger
+                                    $("#GST").val($(this).attr("data-gst"));
+                                });
+                            }
+
+                            $("#CategoryID").val(result[0].CategoryID);
+                            $("#Category").val(result[0].CategoryName);
+                        }
+                    },
+                    error: function () { alert('Error'); }
+                });
+            }
+        });
+
+        // DiscountAmount And NetAmount And Discount % total count For use this function
+        $("#Discount").on('input propertychange paste keypress', function (e) {
+            //debugger;
+            var end = this;
+            if (this.value != '') {
+
+                //debugger;
+                var Discount = parseFloat(this.value);
+                var CurrentRate = $("#CurrentRate").val();
+                var GST = $("#GST").val();
+                var APMC = $("#APMC").val();
+                var PackingCharge = $("#PackingCharge").val();
+                var Labour_P_Hour = $("#Labour_P_Hour").val();
+                var KG_P_Hour = $("#KG_P_Hour").val();
+                var Freight_P_KG = $("#Freight_P_KG").val();
+                var Commision_P_KG = $("#Commision_P_KG").val();
+                var Gasara = $("#Gasara").val();
+                var SellRateWholesale = $("#SellRateWholesale").val();
+                var SellRateRetail = $("#SellRateRetail").val();
+
+
+                if (CurrentRate == "") {
+
+                    $("#DiscountAmount").val("0.00");
+                    $("#NetAmount").val("0.00");
+
+                }
+                else {
+                    //debugger;
+                    if (CurrentRate != "" && Discount != "") {
+                        //debugger;
+
+                        //var CurrentRateAmount = (CurrentRate * (parseFloat(GST) / 100)).toFixed(2);
+                        //var CurrentRateWithGST = (parseFloat(CurrentRateAmount) + parseFloat(CurrentRate));
+
+                        var DiscountAmount = (parseFloat(CurrentRate) * (Discount / 100)).toFixed(2);
+                        $("#DiscountAmount").val(DiscountAmount);
+
+                        if (DiscountAmount != undefined && DiscountAmount != "NaN") {
+
+                            var NetAmount = (parseFloat(CurrentRate) - parseFloat(DiscountAmount)).toFixed(2);
+                            $("#NetAmount").val(NetAmount);
+
+                        }
+
+                    }
+
+                    if (NetAmount != "" && NetAmount != "NaN" && APMC != "" && PackingCharge != "") {
+
+                        var APMCAmount = ((parseFloat(NetAmount) + parseFloat(PackingCharge)) * (parseFloat(APMC) / 100)).toFixed(2);
+
+                        if (APMCAmount != undefined && APMCAmount != "NaN") {
+
+                            $("#APMCAmount").val(APMCAmount);
+
+                            var MarketFinal = (parseFloat(NetAmount) + parseFloat(PackingCharge) + parseFloat(APMCAmount)).toFixed(2);
+                            $("#MarketFinal").val(MarketFinal);
+
+                        }
+
+                    }
+
+
+                    if (Labour_P_Hour != "" && KG_P_Hour != "") {
+
+                        var LabourAmount_P_KG = (parseFloat(Labour_P_Hour) / parseFloat(KG_P_Hour)).toFixed(2);
+
+                        if (Labour_P_Hour != "0.00" && KG_P_Hour != "0.00" && LabourAmount_P_KG != "NaN" && LabourAmount_P_KG != "Infinity") {
+
+                            LabourAmount_P_KG = (parseFloat(Labour_P_Hour) / parseFloat(KG_P_Hour)).toFixed(2);
+                            $("#LabourAmount_P_KG").val(LabourAmount_P_KG);
+
+                        } else if (Labour_P_Hour != "0.00" && KG_P_Hour == "0.00") {
+
+                            LabourAmount_P_KG = "0.00";
+                            $("#LabourAmount_P_KG").val(LabourAmount_P_KG);
+
+                        } else if (Labour_P_Hour == "0.00" && KG_P_Hour != "0.00") {
+
+                            LabourAmount_P_KG = "0.00";
+                            $("#LabourAmount_P_KG").val(LabourAmount_P_KG);
+
+                        } else {
+
+                            LabourAmount_P_KG = "0.00";
+                            $("#LabourAmount_P_KG").val(LabourAmount_P_KG);
+
+                        }
+
+                    } else {
+
+                        LabourAmount_P_KG = "0.00";
+                        $("#LabourAmount_P_KG").val(LabourAmount_P_KG);
+
+                    }
+
+                    if (MarketFinal != "" && MarketFinal != "NaN" && MarketFinal != undefined && Freight_P_KG != "" && Commision_P_KG != "" && LabourAmount_P_KG != "" && LabourAmount_P_KG != "NaN" && LabourAmount_P_KG != undefined) {
+
+                        var GrossRate = (parseFloat(MarketFinal) + parseFloat(Freight_P_KG) + parseFloat(Commision_P_KG) + parseFloat(LabourAmount_P_KG)).toFixed(2);
+                        $("#GrossRate").val(GrossRate);
+
+                    }
+
+                    if (GrossRate != "" && GrossRate != "NaN" && GrossRate != undefined && Gasara != "") {
+
+                        var GasaraAmount = (parseFloat(GrossRate) * parseFloat(Gasara) / 100).toFixed(2);
+                        $("#GasaraAmount").val(GasaraAmount);
+
+                        if (GasaraAmount != undefined) {
+
+                            var PadtarAmount = (parseFloat(GrossRate) + parseFloat(GasaraAmount)).toFixed(2);
+                            $("#Padtar").val(PadtarAmount);
+
+                        }
+
+                    }
+
+                    if (SellRateWholesale != "" && PadtarAmount != "" && PadtarAmount != undefined && PadtarAmount != "NaN") {
+
+                        var MarginWholesale = ((parseFloat(SellRateWholesale) - parseFloat(PadtarAmount)) * 100 / (parseFloat(PadtarAmount))).toFixed(2);
+                        $("#MarginWholesale").val(MarginWholesale);
+                    }
+
+                    if (SellRateRetail != "" && PadtarAmount != "" && PadtarAmount != undefined && PadtarAmount != "NaN") {
+
+                        var MarginRetail = ((parseFloat(SellRateRetail) - parseFloat(PadtarAmount)) * 100 / (parseFloat(PadtarAmount))).toFixed(2);
+                        $("#MarginRetail").val(MarginRetail);
+
+                    }
+
+                }
+
+            } else {
+
+                $("#DiscountAmount").val("0.00");
+                $("#NetAmount").val("0.00");
+
+            }
+        });
+
+        // DiscountAmount And NetAmount And Discount % total count For use this function
+        $("#CurrentRate").on('input propertychange paste keypress', function (e) {
+            debugger;
+            var end = this;
+            if (this.value != '') {
+
+                var CurrentRate = parseFloat(this.value);
+                var GST = $("#GST").val();
+                var Discount = $("#Discount").val();
+
+                var APMC = $("#APMC").val();
+                var PackingCharge = $("#PackingCharge").val();
+                var Labour_P_Hour = $("#Labour_P_Hour").val();
+                var KG_P_Hour = $("#KG_P_Hour").val();
+                var Freight_P_KG = $("#Freight_P_KG").val();
+                var Commision_P_KG = $("#Commision_P_KG").val();
+                var Gasara = $("#Gasara").val();
+                var SellRateWholesale = $("#SellRateWholesale").val();
+                var SellRateRetail = $("#SellRateRetail").val();
+
+
+                if (Discount == "") {
+
+                    $("#DiscountAmount").val("0.00");
+                    $("#NetAmount").val("0.00");
+
+                } else {
+
+                    debugger;
+                    if (CurrentRate != "" && Discount != "") {
+                        //debugger;
+
+                        //var CurrentRateAmount = (CurrentRate * (parseFloat(GST) / 100)).toFixed(2);
+                        //var CurrentRateWithGST = (parseFloat(CurrentRateAmount) + CurrentRate);
+
+                        var DiscountAmount = (CurrentRate * (parseFloat(Discount) / 100)).toFixed(2);
+                        if (DiscountAmount != "NaN") {
+
+                            $("#DiscountAmount").val(DiscountAmount);
+
+                        }
+                        if (DiscountAmount != undefined && DiscountAmount != "NaN") {
+
+                            var NetAmount = (CurrentRate - DiscountAmount).toFixed(2);
+                            $("#NetAmount").val(NetAmount);
+
+                        }
+
+                    }
+
+                    if (NetAmount != "" && NetAmount != "NaN" && APMC != "" && PackingCharge != "") {
+
+                        var APMCAmount = ((parseFloat(NetAmount) + parseFloat(PackingCharge)) * (parseFloat(APMC) / 100)).toFixed(2);
+
+                        if (APMCAmount != undefined && APMCAmount != "NaN") {
+
+                            $("#APMCAmount").val(APMCAmount);
+
+                            var MarketFinal = (parseFloat(NetAmount) + parseFloat(PackingCharge) + parseFloat(APMCAmount)).toFixed(2);
+                            $("#MarketFinal").val(MarketFinal);
+
+                        }
+
+                    }
+
+
+                    if (Labour_P_Hour != "" && KG_P_Hour != "") {
+
+                        var LabourAmount_P_KG = (parseFloat(Labour_P_Hour) / parseFloat(KG_P_Hour)).toFixed(2);
+
+                        if (Labour_P_Hour != "0.00" && KG_P_Hour != "0.00" && LabourAmount_P_KG != "NaN" && LabourAmount_P_KG != "Infinity") {
+
+                            LabourAmount_P_KG = (parseFloat(Labour_P_Hour) / parseFloat(KG_P_Hour)).toFixed(2);
+                            $("#LabourAmount_P_KG").val(LabourAmount_P_KG);
+
+                        } else if (Labour_P_Hour != "0.00" && KG_P_Hour == "0.00") {
+
+                            LabourAmount_P_KG = "0.00";
+                            $("#LabourAmount_P_KG").val(LabourAmount_P_KG);
+
+                        } else if (Labour_P_Hour == "0.00" && KG_P_Hour != "0.00") {
+
+                            LabourAmount_P_KG = "0.00";
+                            $("#LabourAmount_P_KG").val(LabourAmount_P_KG);
+
+                        } else {
+
+                            LabourAmount_P_KG = "0.00";
+                            $("#LabourAmount_P_KG").val(LabourAmount_P_KG);
+
+                        }
+
+                    } else {
+
+                        LabourAmount_P_KG = "0.00";
+                        $("#LabourAmount_P_KG").val(LabourAmount_P_KG);
+
+                    }
+
+                    if (MarketFinal != "" && MarketFinal != "NaN" && MarketFinal != undefined && Freight_P_KG != "" && Commision_P_KG != "" && LabourAmount_P_KG != "" && LabourAmount_P_KG != "NaN" && LabourAmount_P_KG != undefined) {
+
+                        var GrossRate = (parseFloat(MarketFinal) + parseFloat(Freight_P_KG) + parseFloat(Commision_P_KG) + parseFloat(LabourAmount_P_KG)).toFixed(2);
+                        $("#GrossRate").val(GrossRate);
+
+                    }
+
+                    if (GrossRate != "" && GrossRate != "NaN" && GrossRate != undefined && Gasara != "") {
+
+                        var GasaraAmount = (parseFloat(GrossRate) * parseFloat(Gasara) / 100).toFixed(2);
+                        $("#GasaraAmount").val(GasaraAmount);
+
+                        if (GasaraAmount != undefined) {
+
+                            var PadtarAmount = (parseFloat(GrossRate) + parseFloat(GasaraAmount)).toFixed(2);
+                            $("#Padtar").val(PadtarAmount);
+
+                        }
+
+                    }
+
+                    if (SellRateWholesale != "" && PadtarAmount != "" && PadtarAmount != undefined && PadtarAmount != "NaN") {
+
+                        var MarginWholesale = ((parseFloat(SellRateWholesale) - parseFloat(PadtarAmount)) * 100 / (parseFloat(PadtarAmount))).toFixed(2);
+                        $("#MarginWholesale").val(MarginWholesale);
+
+                    }
+
+                    if (SellRateRetail != "" && PadtarAmount != "" && PadtarAmount != undefined && PadtarAmount != "NaN") {
+
+                        var MarginRetail = ((parseFloat(SellRateRetail) - parseFloat(PadtarAmount)) * 100 / (parseFloat(PadtarAmount))).toFixed(2);
+                        $("#MarginRetail").val(MarginRetail);
+
+                    }
+
+                }
+
+            } else {
+
+                $("#DiscountAmount").val("0.00");
+                $("#NetAmount").val("0.00");
+
+            }
+
+        });
+
+        // GST Wise Get All Calculation For Use this Function
+        $("#GST").on('input propertychange paste keypress', function (e) {
+            //debugger;
+            var end = this;
+            if (this.value != '') {
+
+                var GST = parseFloat(this.value);
+                var CurrentRate = $("#CurrentRate").val();
+                var Discount = $("#Discount").val();
+
+                var APMC = $("#APMC").val();
+                var PackingCharge = $("#PackingCharge").val();
+                var Labour_P_Hour = $("#Labour_P_Hour").val();
+                var KG_P_Hour = $("#KG_P_Hour").val();
+                var Freight_P_KG = $("#Freight_P_KG").val();
+                var Commision_P_KG = $("#Commision_P_KG").val();
+                var Gasara = $("#Gasara").val();
+                var SellRateWholesale = $("#SellRateWholesale").val();
+                var SellRateRetail = $("#SellRateRetail").val();
+
+
+                if (Discount == "") {
+
+                    $("#DiscountAmount").val("0.00");
+                    $("#NetAmount").val("0.00");
+
+                } else {
+
+                    //debugger;
+                    if (CurrentRate != "" && Discount != "") {
+                        //debugger;
+                        //var CurrentRateAmount = (CurrentRate * (parseFloat(GST) / 100)).toFixed(2);
+                        //var CurrentRateWithGST = (parseFloat(CurrentRateAmount) + parseFloat(CurrentRate));
+
+                        var DiscountAmount = (CurrentRate * (parseFloat(Discount) / 100)).toFixed(2);
+                        $("#DiscountAmount").val(DiscountAmount);
+
+                        if (DiscountAmount != undefined && DiscountAmount != "NaN") {
+
+                            var NetAmount = (CurrentRate - parseFloat(DiscountAmount)).toFixed(2);
+                            $("#NetAmount").val(NetAmount);
+
+                        }
+
+                    }
+
+                    if (NetAmount != "" && NetAmount != "NaN" && APMC != "" && PackingCharge != "") {
+
+                        var APMCAmount = ((parseFloat(NetAmount) + parseFloat(PackingCharge)) * (parseFloat(APMC) / 100)).toFixed(2);
+
+                        if (APMCAmount != undefined && APMCAmount != "NaN") {
+
+                            $("#APMCAmount").val(APMCAmount);
+
+                            var MarketFinal = (parseFloat(NetAmount) + parseFloat(PackingCharge) + parseFloat(APMCAmount)).toFixed(2);
+                            $("#MarketFinal").val(MarketFinal);
+
+                        }
+
+                    }
+
+
+                    if (Labour_P_Hour != "" && KG_P_Hour != "") {
+
+                        var LabourAmount_P_KG = (parseFloat(Labour_P_Hour) / parseFloat(KG_P_Hour)).toFixed(2);
+
+                        if (Labour_P_Hour != "0.00" && KG_P_Hour != "0.00" && LabourAmount_P_KG != "NaN" && LabourAmount_P_KG != "Infinity") {
+
+                            LabourAmount_P_KG = (parseFloat(Labour_P_Hour) / parseFloat(KG_P_Hour)).toFixed(2);
+                            $("#LabourAmount_P_KG").val(LabourAmount_P_KG);
+
+                        } else if (Labour_P_Hour != "0.00" && KG_P_Hour == "0.00") {
+
+                            LabourAmount_P_KG = "0.00";
+                            $("#LabourAmount_P_KG").val(LabourAmount_P_KG);
+
+                        } else if (Labour_P_Hour == "0.00" && KG_P_Hour != "0.00") {
+
+                            LabourAmount_P_KG = "0.00";
+                            $("#LabourAmount_P_KG").val(LabourAmount_P_KG);
+
+                        } else {
+
+                            LabourAmount_P_KG = "0.00";
+                            $("#LabourAmount_P_KG").val(LabourAmount_P_KG);
+
+                        }
+
+                    } else {
+
+                        LabourAmount_P_KG = "0.00";
+                        $("#LabourAmount_P_KG").val(LabourAmount_P_KG);
+
+                    }
+
+                    if (MarketFinal != "" && MarketFinal != "NaN" && MarketFinal != undefined && Freight_P_KG != "" && Commision_P_KG != "" && LabourAmount_P_KG != "" && LabourAmount_P_KG != "NaN" && LabourAmount_P_KG != undefined) {
+
+                        var GrossRate = (parseFloat(MarketFinal) + parseFloat(Freight_P_KG) + parseFloat(Commision_P_KG) + parseFloat(LabourAmount_P_KG)).toFixed(2);
+                        $("#GrossRate").val(GrossRate);
+
+                    }
+
+                    if (GrossRate != "" && GrossRate != "NaN" && GrossRate != undefined && Gasara != "") {
+
+                        var GasaraAmount = (parseFloat(GrossRate) * parseFloat(Gasara) / 100).toFixed(2);
+                        $("#GasaraAmount").val(GasaraAmount);
+
+                        if (GasaraAmount != undefined) {
+
+                            var PadtarAmount = (parseFloat(GrossRate) + parseFloat(GasaraAmount)).toFixed(2);
+                            $("#Padtar").val(PadtarAmount);
+
+                        }
+
+                    }
+
+                    if (SellRateWholesale != "" && PadtarAmount != "" && PadtarAmount != undefined && PadtarAmount != "NaN") {
+
+                        var MarginWholesale = ((parseFloat(SellRateWholesale) - parseFloat(PadtarAmount)) * 100 / (parseFloat(PadtarAmount))).toFixed(2);
+                        $("#MarginWholesale").val(MarginWholesale);
+
+                    }
+
+                    if (SellRateRetail != "" && PadtarAmount != "" && PadtarAmount != undefined && PadtarAmount != "NaN") {
+
+                        var MarginRetail = ((parseFloat(SellRateRetail) - parseFloat(PadtarAmount)) * 100 / (parseFloat(PadtarAmount))).toFixed(2);
+                        $("#MarginRetail").val(MarginRetail);
+
+                    }
+
+                }
+
+            } else {
+
+                $("#DiscountAmount").val("0.00");
+                $("#NetAmount").val("0.00");
+
+            }
+
+        });
+
+        // APMC % And APMC Amount And Market Final total count For use this function
+        $("#APMC").on('input propertychange paste keypress', function (e) {
+            //debugger;
+            var end = this;
+            if (this.value != '') {
+
+                //debugger;
+                var APMC = this.value;
+                var CurrentRate = $("#CurrentRate").val();
+                var GST = $("#GST").val();
+                var Discount = $("#Discount").val();
+                var PackingCharge = $("#PackingCharge").val();
+                var Labour_P_Hour = $("#Labour_P_Hour").val();
+                var KG_P_Hour = $("#KG_P_Hour").val();
+                var Freight_P_KG = $("#Freight_P_KG").val();
+                var Commision_P_KG = $("#Commision_P_KG").val();
+                var Gasara = $("#Gasara").val();
+                var SellRateWholesale = $("#SellRateWholesale").val();
+                var SellRateRetail = $("#SellRateRetail").val();
+
+                if (PackingCharge == "") {
+
+                    $("#APMCAmount").val("0.00");
+
+                } else {
+                    //debugger
+                    if (CurrentRate != "" && Discount != "") {
+                        //debugger;
+
+                        //var CurrentRateAmount = (CurrentRate * (parseFloat(GST) / 100)).toFixed(2);
+                        //var CurrentRateWithGST = (parseFloat(CurrentRateAmount) + parseFloat(CurrentRate));
+
+                        var DiscountAmount = (parseFloat(CurrentRate) * (parseFloat(Discount) / 100)).toFixed(2);
+                        $("#DiscountAmount").val(DiscountAmount);
+
+                        if (DiscountAmount != undefined && DiscountAmount != "NaN") {
+
+                            var NetAmount = (parseFloat(CurrentRate) - parseFloat(DiscountAmount)).toFixed(2);
+                            $("#NetAmount").val(NetAmount);
+
+                        }
+
+                    }
+
+                    if (NetAmount != "" && NetAmount != "NaN" && APMC != "" && PackingCharge != "") {
+
+                        var APMCAmount = ((parseFloat(NetAmount) + parseFloat(PackingCharge)) * (parseFloat(APMC) / 100)).toFixed(2);
+
+                        if (APMCAmount != undefined && APMCAmount != "NaN") {
+
+                            $("#APMCAmount").val(APMCAmount);
+
+                            var MarketFinal = (parseFloat(NetAmount) + parseFloat(PackingCharge) + parseFloat(APMCAmount)).toFixed(2);
+                            $("#MarketFinal").val(MarketFinal);
+
+                        }
+
+                    }
+
+
+                    if (Labour_P_Hour != "" && KG_P_Hour != "") {
+
+                        var LabourAmount_P_KG = (parseFloat(Labour_P_Hour) / parseFloat(KG_P_Hour)).toFixed(2);
+
+                        if (Labour_P_Hour != "0.00" && KG_P_Hour != "0.00" && LabourAmount_P_KG != "NaN" && LabourAmount_P_KG != "Infinity") {
+
+                            LabourAmount_P_KG = (parseFloat(Labour_P_Hour) / parseFloat(KG_P_Hour)).toFixed(2);
+                            $("#LabourAmount_P_KG").val(LabourAmount_P_KG);
+
+                        } else if (Labour_P_Hour != "0.00" && KG_P_Hour == "0.00") {
+
+                            LabourAmount_P_KG = "0.00";
+                            $("#LabourAmount_P_KG").val(LabourAmount_P_KG);
+
+                        } else if (Labour_P_Hour == "0.00" && KG_P_Hour != "0.00") {
+
+                            LabourAmount_P_KG = "0.00";
+                            $("#LabourAmount_P_KG").val(LabourAmount_P_KG);
+
+                        } else {
+
+                            LabourAmount_P_KG = "0.00";
+                            $("#LabourAmount_P_KG").val(LabourAmount_P_KG);
+
+                        }
+
+                    } else {
+
+                        LabourAmount_P_KG = "0.00";
+                        $("#LabourAmount_P_KG").val(LabourAmount_P_KG);
+
+                    }
+
+                    if (MarketFinal != "" && MarketFinal != "NaN" && MarketFinal != undefined && Freight_P_KG != "" && Commision_P_KG != "" && LabourAmount_P_KG != "" && LabourAmount_P_KG != "NaN" && LabourAmount_P_KG != undefined) {
+
+                        var GrossRate = (parseFloat(MarketFinal) + parseFloat(Freight_P_KG) + parseFloat(Commision_P_KG) + parseFloat(LabourAmount_P_KG)).toFixed(2);
+                        $("#GrossRate").val(GrossRate);
+
+                    }
+
+                    if (GrossRate != "" && GrossRate != "NaN" && GrossRate != undefined && Gasara != "") {
+
+                        var GasaraAmount = (parseFloat(GrossRate) * parseFloat(Gasara) / 100).toFixed(2);
+                        $("#GasaraAmount").val(GasaraAmount);
+
+                        if (GasaraAmount != undefined) {
+
+                            var PadtarAmount = (parseFloat(GrossRate) + parseFloat(GasaraAmount)).toFixed(2);
+                            $("#Padtar").val(PadtarAmount);
+
+                        }
+
+                    }
+
+                    if (SellRateWholesale != "" && PadtarAmount != "" && PadtarAmount != undefined && PadtarAmount != "NaN") {
+
+                        var MarginWholesale = ((parseFloat(SellRateWholesale) - parseFloat(PadtarAmount)) * 100 / (parseFloat(PadtarAmount))).toFixed(2);
+                        $("#MarginWholesale").val(MarginWholesale);
+
+                    }
+
+                    if (SellRateRetail != "" && PadtarAmount != "" && PadtarAmount != undefined && PadtarAmount != "NaN") {
+
+                        var MarginRetail = ((parseFloat(SellRateRetail) - parseFloat(PadtarAmount)) * 100 / (parseFloat(PadtarAmount))).toFixed(2);
+                        $("#MarginRetail").val(MarginRetail);
+
+                    }
+
+                }
+
+            } else {
+
+                $("#APMCAmount").val("0.00");
+
+            }
+
+        });
+
+        // APMC % And APMC Amount And Market Final total count For use this function
+        $("#PackingCharge").on('input propertychange paste keypress', function (e) {
+            //debugger;
+            var end = this;
+            if (this.value != '') {
+
+                //debugger;
+                var PackingCharge = this.value;
+                var CurrentRate = $("#CurrentRate").val();
+                var GST = $("#GST").val();
+                var Discount = $("#Discount").val();
+                var APMC = $("#APMC").val();
+                var Labour_P_Hour = $("#Labour_P_Hour").val();
+                var KG_P_Hour = $("#KG_P_Hour").val();
+                var Freight_P_KG = $("#Freight_P_KG").val();
+                var Commision_P_KG = $("#Commision_P_KG").val();
+                var Gasara = $("#Gasara").val();
+                var SellRateWholesale = $("#SellRateWholesale").val();
+                var SellRateRetail = $("#SellRateRetail").val();
+
+                if (APMC == "") {
+
+                    $("#APMCAmount").val("0.00");
+
+                } else {
+                    //debugger;
+
+                    if (CurrentRate != "" && Discount != "") {
+                        //debugger;
+
+                        //var CurrentRateAmount = (CurrentRate * (parseFloat(GST) / 100)).toFixed(2);
+                        //var CurrentRateWithGST = (parseFloat(CurrentRateAmount) + parseFloat(CurrentRate));
+
+                        var DiscountAmount = (parseFloat(CurrentRate) * (parseFloat(Discount) / 100)).toFixed(2);
+                        $("#DiscountAmount").val(DiscountAmount);
+
+                        if (DiscountAmount != undefined && DiscountAmount != "NaN") {
+
+                            var NetAmount = (parseFloat(CurrentRate) - parseFloat(DiscountAmount)).toFixed(2);
+                            $("#NetAmount").val(NetAmount);
+
+                        }
+                    }
+
+                    if (NetAmount != "" && NetAmount != "NaN" && PackingCharge != "" && APMC != "") {
+
+                        var APMCAmount = ((parseFloat(NetAmount) + parseFloat(PackingCharge)) * (parseFloat(APMC) / 100)).toFixed(2);
+
+                        if (APMCAmount != undefined && APMCAmount != "NaN") {
+
+                            $("#APMCAmount").val(APMCAmount);
+
+                            var MarketFinal = (parseFloat(NetAmount) + parseFloat(PackingCharge) + parseFloat(APMCAmount)).toFixed(2);
+                            $("#MarketFinal").val(MarketFinal);
+
+                        }
+
+                    }
+
+
+                    if (Labour_P_Hour != "" && KG_P_Hour != "") {
+
+                        var LabourAmount_P_KG = (parseFloat(Labour_P_Hour) / parseFloat(KG_P_Hour)).toFixed(2);
+
+                        if (Labour_P_Hour != "0.00" && KG_P_Hour != "0.00" && LabourAmount_P_KG != "NaN" && LabourAmount_P_KG != "Infinity") {
+
+                            LabourAmount_P_KG = (parseFloat(Labour_P_Hour) / parseFloat(KG_P_Hour)).toFixed(2);
+                            $("#LabourAmount_P_KG").val(LabourAmount_P_KG);
+
+                        } else if (Labour_P_Hour != "0.00" && KG_P_Hour == "0.00") {
+
+                            LabourAmount_P_KG = "0.00";
+                            $("#LabourAmount_P_KG").val(LabourAmount_P_KG);
+
+                        } else if (Labour_P_Hour == "0.00" && KG_P_Hour != "0.00") {
+
+                            LabourAmount_P_KG = "0.00";
+                            $("#LabourAmount_P_KG").val(LabourAmount_P_KG);
+
+                        } else {
+
+                            LabourAmount_P_KG = "0.00";
+                            $("#LabourAmount_P_KG").val(LabourAmount_P_KG);
+
+                        }
+
+                    } else {
+
+                        LabourAmount_P_KG = "0.00";
+                        $("#LabourAmount_P_KG").val(LabourAmount_P_KG);
+
+                    }
+
+                    if (MarketFinal != "" && MarketFinal != "NaN" && MarketFinal != undefined && Freight_P_KG != "" && Commision_P_KG != "" && LabourAmount_P_KG != "" && LabourAmount_P_KG != "NaN" && LabourAmount_P_KG != undefined) {
+
+                        var GrossRate = (parseFloat(MarketFinal) + parseFloat(Freight_P_KG) + parseFloat(Commision_P_KG) + parseFloat(LabourAmount_P_KG)).toFixed(2);
+                        $("#GrossRate").val(GrossRate);
+
+                    }
+
+
+                    if (GrossRate != "" && GrossRate != "NaN" && GrossRate != undefined && Gasara != "") {
+
+                        var GasaraAmount = (parseFloat(GrossRate) * parseFloat(Gasara) / 100).toFixed(2);
+                        $("#GasaraAmount").val(GasaraAmount);
+
+                        if (GasaraAmount != undefined) {
+
+                            var PadtarAmount = (parseFloat(GrossRate) + parseFloat(GasaraAmount)).toFixed(2);
+                            $("#Padtar").val(PadtarAmount);
+
+                        }
+
+                    }
+
+                    if (SellRateWholesale != "" && PadtarAmount != "" && PadtarAmount != undefined && PadtarAmount != "NaN") {
+
+                        var MarginWholesale = ((parseFloat(SellRateWholesale) - parseFloat(PadtarAmount)) * 100 / (parseFloat(PadtarAmount))).toFixed(2);
+                        $("#MarginWholesale").val(MarginWholesale);
+
+                    }
+
+                    if (SellRateRetail != "" && PadtarAmount != "" && PadtarAmount != undefined && PadtarAmount != "NaN") {
+
+                        var MarginRetail = ((parseFloat(SellRateRetail) - parseFloat(PadtarAmount)) * 100 / (parseFloat(PadtarAmount))).toFixed(2);
+                        $("#MarginRetail").val(MarginRetail);
+
+                    }
+
+                }
+
+            } else {
+
+                $("#APMCAmount").val("0.00");
+
+            }
+
+        });
+
+        // GrossRate total count For use this function
+        $("#Freight_P_KG").on('input propertychange paste keypress', function (e) {
+
+            //debugger;
+            var end = this;
+            if (this.value != '') {
+
+                //debugger;
+                var Freight_P_KG = this.value;
+                var Commision_P_KG = $("#Commision_P_KG").val();
+                var KG_P_Hour = $("#KG_P_Hour").val();
+                var Labour_P_Hour = $("#Labour_P_Hour").val();
+                var CurrentRate = $("#CurrentRate").val();
+                var GST = $("#GST").val();
+                var Discount = $("#Discount").val();
+                var PackingCharge = $("#PackingCharge").val();
+                var APMC = $("#APMC").val();
+                var Gasara = $("#Gasara").val();
+                var SellRateWholesale = $("#SellRateWholesale").val();
+                var SellRateRetail = $("#SellRateRetail").val();
+
+                if (Commision_P_KG == "" || KG_P_Hour == "" || Labour_P_Hour == "") {
+
+                    $("#GrossRate").val("0.00");
+
+                } else {
+                    //debugger;
+                    if (CurrentRate != "" && Discount != "") {
+
+                        //var CurrentRateAmount = (CurrentRate * (parseFloat(GST) / 100)).toFixed(2);
+                        //var CurrentRateWithGST = (parseFloat(CurrentRateAmount) + parseFloat(CurrentRate));
+
+                        var DiscountAmount = (parseFloat(CurrentRate) * (parseFloat(Discount) / 100)).toFixed(2);
+                        $("#DiscountAmount").val(DiscountAmount);
+
+                        if (DiscountAmount != undefined && DiscountAmount != "NaN") {
+
+                            var NetAmount = (parseFloat(CurrentRate) - parseFloat(DiscountAmount)).toFixed(2);
+                            $("#NetAmount").val(NetAmount);
+
+                        }
+
+                    }
+
+                    if (NetAmount != "" && NetAmount != "NaN" && PackingCharge != "" && APMC != "") {
+
+                        var APMCAmount = ((parseFloat(NetAmount) + parseFloat(PackingCharge)) * (parseFloat(APMC) / 100)).toFixed(2);
+
+                        if (APMCAmount != undefined && APMCAmount != "NaN") {
+
+                            $("#APMCAmount").val(APMCAmount);
+
+                            var MarketFinal = (parseFloat(NetAmount) + parseFloat(PackingCharge) + parseFloat(APMCAmount)).toFixed(2);
+                            $("#MarketFinal").val(MarketFinal);
+
+                        }
+
+                    }
+
+
+                    if (Labour_P_Hour != "" && KG_P_Hour != "") {
+
+                        var LabourAmount_P_KG = (parseFloat(Labour_P_Hour) / parseFloat(KG_P_Hour)).toFixed(2);
+
+                        if (Labour_P_Hour != "0.00" && KG_P_Hour != "0.00" && LabourAmount_P_KG != "NaN" && LabourAmount_P_KG != "Infinity") {
+
+                            LabourAmount_P_KG = (parseFloat(Labour_P_Hour) / parseFloat(KG_P_Hour)).toFixed(2);
+                            $("#LabourAmount_P_KG").val(LabourAmount_P_KG);
+
+                        } else if (Labour_P_Hour != "0.00" && KG_P_Hour == "0.00") {
+
+                            LabourAmount_P_KG = "0.00";
+                            $("#LabourAmount_P_KG").val(LabourAmount_P_KG);
+
+                        } else if (Labour_P_Hour == "0.00" && KG_P_Hour != "0.00") {
+
+                            LabourAmount_P_KG = "0.00";
+                            $("#LabourAmount_P_KG").val(LabourAmount_P_KG);
+
+                        } else {
+
+                            LabourAmount_P_KG = "0.00";
+                            $("#LabourAmount_P_KG").val(LabourAmount_P_KG);
+
+                        }
+
+                    } else {
+
+                        LabourAmount_P_KG = "0.00";
+                        $("#LabourAmount_P_KG").val(LabourAmount_P_KG);
+
+                    }
+
+                    if (MarketFinal != "" && MarketFinal != "NaN" && MarketFinal != undefined && Freight_P_KG != "" && Commision_P_KG != "" && LabourAmount_P_KG != "" && LabourAmount_P_KG != "NaN" && LabourAmount_P_KG != undefined) {
+
+                        var GrossRate = (parseFloat(MarketFinal) + parseFloat(Freight_P_KG) + parseFloat(Commision_P_KG) + parseFloat(LabourAmount_P_KG)).toFixed(2);
+                        $("#GrossRate").val(GrossRate);
+                    }
+
+                    if (Gasara != "" && GrossRate != "NaN" && GrossRate != undefined && GrossRate != "") {
+
+                        var GasaraAmount = (parseFloat(GrossRate) * parseFloat(Gasara) / 100).toFixed(2);
+                        $("#GasaraAmount").val(GasaraAmount);
+
+                        if (GasaraAmount != undefined) {
+
+                            var PadtarAmount = (parseFloat(GrossRate) + parseFloat(GasaraAmount)).toFixed(2);
+                            $("#Padtar").val(PadtarAmount);
+
+                        }
+
+                    }
+                    if (SellRateWholesale != "" && PadtarAmount != "" && PadtarAmount != undefined && PadtarAmount != "NaN") {
+
+                        var MarginWholesale = ((parseFloat(SellRateWholesale) - parseFloat(PadtarAmount)) * 100 / (parseFloat(PadtarAmount))).toFixed(2);
+                        $("#MarginWholesale").val(MarginWholesale);
+
+                    }
+                    if (SellRateRetail != "" && PadtarAmount != "" && PadtarAmount != undefined && PadtarAmount != "NaN") {
+
+                        var MarginRetail = ((parseFloat(SellRateRetail) - parseFloat(PadtarAmount)) * 100 / (parseFloat(PadtarAmount))).toFixed(2);
+                        $("#MarginRetail").val(MarginRetail);
+
+                    }
+                }
+
+            } else {
+                $("#GrossRate").val("0.00");
+            }
+
+        });
+
+        // GrossRate total count For use this function
+        $("#Commision_P_KG").on('input propertychange paste keypress', function (e) {
+
+            //debugger;
+            var end = this;
+            if (this.value != '') {
+
+                //debugger;
+                var Commision_P_KG = this.value;
+                var Freight_P_KG = $("#Freight_P_KG").val();
+                var KG_P_Hour = $("#KG_P_Hour").val();
+                var Labour_P_Hour = $("#Labour_P_Hour").val();
+                var CurrentRate = $("#CurrentRate").val();
+                var GST = $("#GST").val();
+                var Discount = $("#Discount").val();
+                var PackingCharge = $("#PackingCharge").val();
+                var APMC = $("#APMC").val();
+                var Gasara = $("#Gasara").val();
+                var SellRateWholesale = $("#SellRateWholesale").val();
+                var SellRateRetail = $("#SellRateRetail").val();
+
+                if (Freight_P_KG == "" || KG_P_Hour == "" || Labour_P_Hour == "") {
+
+                    $("#GrossRate").val("0");
+
+                } else {
+                    //debugger;
+                    if (CurrentRate != "" && Discount != "") {
+
+                        //var CurrentRateAmount = (parseFloat(CurrentRate) * (parseFloat(GST) / 100)).toFixed(2);
+                        //var CurrentRateWithGST = (parseFloat(CurrentRateAmount) + parseFloat(CurrentRate));
+
+                        var DiscountAmount = (parseFloat(CurrentRate) * (parseFloat(Discount) / 100)).toFixed(2);
+                        $("#DiscountAmount").val(DiscountAmount);
+
+                        if (DiscountAmount != undefined && DiscountAmount != "NaN") {
+
+                            var NetAmount = (parseFloat(CurrentRate) - parseFloat(DiscountAmount)).toFixed(2);
+                            $("#NetAmount").val(NetAmount);
+
+                        }
+                    }
+
+                    if (NetAmount != "" && NetAmount != "NaN" && PackingCharge != "" && APMC != "") {
+
+                        var APMCAmount = ((parseFloat(NetAmount) + parseFloat(PackingCharge)) * (parseFloat(APMC) / 100)).toFixed(2);
+
+                        if (APMCAmount != undefined && APMCAmount != "NaN") {
+
+                            $("#APMCAmount").val(APMCAmount);
+
+                            var MarketFinal = (parseFloat(NetAmount) + parseFloat(PackingCharge) + parseFloat(APMCAmount)).toFixed(2);
+                            $("#MarketFinal").val(MarketFinal);
+
+                        }
+                    }
+
+
+                    if (Labour_P_Hour != "" && KG_P_Hour != "") {
+
+                        var LabourAmount_P_KG = (parseFloat(Labour_P_Hour) / parseFloat(KG_P_Hour)).toFixed(2);
+
+                        if (Labour_P_Hour != "0.00" && KG_P_Hour != "0.00" && LabourAmount_P_KG != "NaN" && LabourAmount_P_KG != "Infinity") {
+
+                            LabourAmount_P_KG = (parseFloat(Labour_P_Hour) / parseFloat(KG_P_Hour)).toFixed(2);
+                            $("#LabourAmount_P_KG").val(LabourAmount_P_KG);
+
+                        } else if (Labour_P_Hour != "0.00" && KG_P_Hour == "0.00") {
+
+                            LabourAmount_P_KG = "0.00";
+                            $("#LabourAmount_P_KG").val(LabourAmount_P_KG);
+
+                        } else if (Labour_P_Hour == "0.00" && KG_P_Hour != "0.00") {
+
+                            LabourAmount_P_KG = "0.00";
+                            $("#LabourAmount_P_KG").val(LabourAmount_P_KG);
+
+                        } else {
+
+                            LabourAmount_P_KG = "0.00";
+                            $("#LabourAmount_P_KG").val(LabourAmount_P_KG);
+
+                        }
+
+                    } else {
+
+                        LabourAmount_P_KG = "0.00";
+                        $("#LabourAmount_P_KG").val(LabourAmount_P_KG);
+
+                    }
+
+                    if (MarketFinal != "" && MarketFinal != "NaN" && MarketFinal != undefined && Freight_P_KG != "" && Commision_P_KG != "" && LabourAmount_P_KG != "" && LabourAmount_P_KG != "NaN" && LabourAmount_P_KG != undefined) {
+
+                        var GrossRate = (parseFloat(MarketFinal) + parseFloat(Freight_P_KG) + parseFloat(Commision_P_KG) + parseFloat(LabourAmount_P_KG)).toFixed(2);
+                        $("#GrossRate").val(GrossRate);
+
+                    }
+
+                    if (Gasara != "" && GrossRate != "NaN" && GrossRate != undefined && GrossRate != "") {
+
+                        var GasaraAmount = (parseFloat(GrossRate) * parseFloat(Gasara) / 100).toFixed(2);
+                        $("#GasaraAmount").val(GasaraAmount);
+
+                        if (GasaraAmount != undefined) {
+
+                            var PadtarAmount = (parseFloat(GrossRate) + parseFloat(GasaraAmount)).toFixed(2);
+                            $("#Padtar").val(PadtarAmount);
+
+                        }
+
+                    }
+                    if (SellRateWholesale != "" && PadtarAmount != "" && PadtarAmount != undefined && PadtarAmount != "NaN") {
+
+                        var MarginWholesale = ((parseFloat(SellRateWholesale) - parseFloat(PadtarAmount)) * 100 / (parseFloat(PadtarAmount))).toFixed(2);
+                        $("#MarginWholesale").val(MarginWholesale);
+
+                    }
+                    if (SellRateRetail != "" && PadtarAmount != "" && PadtarAmount != undefined && PadtarAmount != "NaN") {
+
+                        var MarginRetail = ((parseFloat(SellRateRetail) - parseFloat(PadtarAmount)) * 100 / (parseFloat(PadtarAmount))).toFixed(2);
+                        $("#MarginRetail").val(MarginRetail);
+
+                    }
+
+                }
+
+            } else {
+                $("#GrossRate").val("0");
+            }
+
+        });
+
+        // GrossRate total count For use this function
+        $("#KG_P_Hour").on('input propertychange paste keypress', function (e) {
+
+            //debugger;
+            var end = this;
+            if (this.value != '') {
+
+                //debugger;
+                var KG_P_Hour = this.value;
+                var Commision_P_KG = $("#Commision_P_KG").val();
+                var Freight_P_KG = $("#Freight_P_KG").val();
+                var Labour_P_Hour = $("#Labour_P_Hour").val();
+                var CurrentRate = $("#CurrentRate").val();
+                var GST = $("#GST").val();
+                var Discount = $("#Discount").val();
+                var PackingCharge = $("#PackingCharge").val();
+                var APMC = $("#APMC").val();
+                var Gasara = $("#Gasara").val();
+                var SellRateWholesale = $("#SellRateWholesale").val();
+                var SellRateRetail = $("#SellRateRetail").val();
+
+
+                if (Freight_P_KG == "" || Commision_P_KG == "" || Labour_P_Hour == "") {
+
+                    $("#GrossRate").val("0.00");
+
+                } else {
+                    //debugger;
+
+                    if (CurrentRate != "" && Discount != "") {
+
+                        //var CurrentRateAmount = (parseFloat(CurrentRate) * (parseFloat(GST) / 100)).toFixed(2);
+                        //var CurrentRateWithGST = (parseFloat(CurrentRateAmount) + parseFloat(CurrentRate));
+
+                        var DiscountAmount = (parseFloat(CurrentRate) * (Discount / 100)).toFixed(2);
+                        $("#DiscountAmount").val(DiscountAmount);
+
+                        if (DiscountAmount != undefined && DiscountAmount != "NaN") {
+
+                            var NetAmount = (parseFloat(CurrentRate) - DiscountAmount).toFixed(2);
+                            $("#NetAmount").val(NetAmount);
+
+                        }
+
+                    }
+
+                    if (NetAmount != "" && NetAmount != "NaN" && PackingCharge != "" && APMC != "") {
+
+                        var APMCAmount = ((parseFloat(NetAmount) + parseFloat(PackingCharge)) * (parseFloat(APMC) / 100)).toFixed(2);
+
+                        if (APMCAmount != undefined) {
+
+                            $("#APMCAmount").val(APMCAmount);
+
+                            var MarketFinal = (parseFloat(NetAmount) + parseFloat(PackingCharge) + parseFloat(APMCAmount)).toFixed(2);
+                            $("#MarketFinal").val(MarketFinal);
+
+                        }
+
+                    }
+
+
+                    if (Labour_P_Hour != "" && KG_P_Hour != "") {
+
+                        var LabourAmount_P_KG = (parseFloat(Labour_P_Hour) / parseFloat(KG_P_Hour)).toFixed(2);
+
+                        if (Labour_P_Hour != "0.00" && KG_P_Hour != "0.00" && LabourAmount_P_KG != "NaN" && LabourAmount_P_KG != "Infinity") {
+
+                            LabourAmount_P_KG = (parseFloat(Labour_P_Hour) / parseFloat(KG_P_Hour)).toFixed(2);
+                            $("#LabourAmount_P_KG").val(LabourAmount_P_KG);
+
+                        } else if (Labour_P_Hour != "0.00" && KG_P_Hour == "0.00") {
+
+                            LabourAmount_P_KG = "0.00";
+                            $("#LabourAmount_P_KG").val(LabourAmount_P_KG);
+
+                        } else if (Labour_P_Hour == "0.00" && KG_P_Hour != "0.00") {
+
+                            LabourAmount_P_KG = "0.00";
+                            $("#LabourAmount_P_KG").val(LabourAmount_P_KG);
+
+                        } else {
+
+                            LabourAmount_P_KG = "0.00";
+                            $("#LabourAmount_P_KG").val(LabourAmount_P_KG);
+
+                        }
+
+                    } else {
+
+                        LabourAmount_P_KG = "0.00";
+                        $("#LabourAmount_P_KG").val(LabourAmount_P_KG);
+
+                    }
+
+                    if (MarketFinal != "" && MarketFinal != "NaN" && MarketFinal != undefined && Freight_P_KG != "" && Commision_P_KG != "" && LabourAmount_P_KG != "" && LabourAmount_P_KG != "NaN" && LabourAmount_P_KG != undefined) {
+
+                        var GrossRate = (parseFloat(MarketFinal) + parseFloat(Freight_P_KG) + parseFloat(Commision_P_KG) + parseFloat(LabourAmount_P_KG)).toFixed(2);
+                        $("#GrossRate").val(GrossRate);
+
+                    }
+
+                    if (Gasara != "" && GrossRate != "NaN" && GrossRate != undefined && GrossRate != "") {
+
+                        var GasaraAmount = (parseFloat(GrossRate) * parseFloat(Gasara) / 100).toFixed(2);
+                        $("#GasaraAmount").val(GasaraAmount);
+
+                        if (GasaraAmount != undefined) {
+
+                            var PadtarAmount = (parseFloat(GrossRate) + parseFloat(GasaraAmount)).toFixed(2);
+                            $("#Padtar").val(PadtarAmount);
+
+                        }
+
+                    }
+
+                    if (SellRateWholesale != "" && PadtarAmount != "" && PadtarAmount != undefined && PadtarAmount != "NaN") {
+
+                        var MarginWholesale = ((parseFloat(SellRateWholesale) - parseFloat(PadtarAmount)) * 100 / (parseFloat(PadtarAmount))).toFixed(2);
+                        $("#MarginWholesale").val(MarginWholesale);
+
+                    }
+
+                    if (SellRateRetail != "" && PadtarAmount != "" && PadtarAmount != undefined && PadtarAmount != "NaN") {
+
+                        var MarginRetail = ((parseFloat(SellRateRetail) - parseFloat(PadtarAmount)) * 100 / (parseFloat(PadtarAmount))).toFixed(2);
+                        $("#MarginRetail").val(MarginRetail);
+
+                    }
+                }
+
+            } else {
+                $("#GrossRate").val("0.00");
+            }
+
+        });
+
+        // GrossRate total count For use this function
+        $("#Labour_P_Hour").on('input propertychange paste keypress', function (e) {
+
+            //debugger;
+            var end = this;
+            if (this.value != '') {
+
+                //debugger;
+                var Labour_P_Hour = this.value;
+                var KG_P_Hour = $("#KG_P_Hour").val();
+                var Commision_P_KG = $("#Commision_P_KG").val();
+                var Freight_P_KG = $("#Freight_P_KG").val();
+                var CurrentRate = $("#CurrentRate").val();
+                var GST = $("#GST").val();
+                var Discount = $("#Discount").val();
+                var PackingCharge = $("#PackingCharge").val();
+                var APMC = $("#APMC").val();
+                var Gasara = $("#Gasara").val();
+                var SellRateWholesale = $("#SellRateWholesale").val();
+                var SellRateRetail = $("#SellRateRetail").val();
+
+                if (Freight_P_KG == "" || Commision_P_KG == "" || KG_P_Hour == "") {
+
+                    $("#GrossRate").val("0.00");
+
+                } else {
+
+                    //debugger;
+                    if (CurrentRate != "" && Discount != "") {
+
+                        //var CurrentRateAmount = (parseFloat(CurrentRate) * (parseFloat(GST) / 100)).toFixed(2);
+                        //var CurrentRateWithGST = (parseFloat(CurrentRateAmount) + parseFloat(CurrentRate));
+
+                        var DiscountAmount = (parseFloat(CurrentRate) * (parseFloat(Discount) / 100)).toFixed(2);
+                        $("#DiscountAmount").val(DiscountAmount);
+
+                        if (DiscountAmount != undefined && DiscountAmount != "NaN") {
+
+                            var NetAmount = (parseFloat(CurrentRate) - parseFloat(DiscountAmount)).toFixed(2);
+                            $("#NetAmount").val(NetAmount);
+
+                        }
+
+                    }
+
+                    if (NetAmount != "" && NetAmount != "NaN" && PackingCharge != "" && APMC != "") {
+
+                        var APMCAmount = ((parseFloat(NetAmount) + parseFloat(PackingCharge)) * (parseFloat(APMC) / 100)).toFixed(2);
+
+                        if (APMCAmount != undefined && APMCAmount != "NaN") {
+
+                            $("#APMCAmount").val(APMCAmount);
+
+                            var MarketFinal = (parseFloat(NetAmount) + parseFloat(PackingCharge) + parseFloat(APMCAmount)).toFixed(2);
+                            $("#MarketFinal").val(MarketFinal);
+
+                        }
+
+                    }
+
+
+                    if (Labour_P_Hour != "" && KG_P_Hour != "") {
+
+                        var LabourAmount_P_KG = (parseFloat(Labour_P_Hour) / parseFloat(KG_P_Hour)).toFixed(2);
+
+                        if (Labour_P_Hour != "0.00" && KG_P_Hour != "0.00" && LabourAmount_P_KG != "NaN" && LabourAmount_P_KG != "Infinity") {
+
+                            LabourAmount_P_KG = (parseFloat(Labour_P_Hour) / parseFloat(KG_P_Hour)).toFixed(2);
+                            $("#LabourAmount_P_KG").val(LabourAmount_P_KG);
+
+                        } else if (Labour_P_Hour != "0.00" && KG_P_Hour == "0.00") {
+
+                            LabourAmount_P_KG = "0.00";
+                            $("#LabourAmount_P_KG").val(LabourAmount_P_KG);
+
+                        } else if (Labour_P_Hour == "0.00" && KG_P_Hour != "0.00") {
+
+                            LabourAmount_P_KG = "0.00";
+                            $("#LabourAmount_P_KG").val(LabourAmount_P_KG);
+
+                        } else {
+
+                            LabourAmount_P_KG = "0.00";
+                            $("#LabourAmount_P_KG").val(LabourAmount_P_KG);
+
+                        }
+
+                    } else {
+
+                        LabourAmount_P_KG = "0.00";
+                        $("#LabourAmount_P_KG").val(LabourAmount_P_KG);
+
+                    }
+
+                    if (MarketFinal != "" && MarketFinal != "NaN" && MarketFinal != undefined && Freight_P_KG != "" && Commision_P_KG != "" && LabourAmount_P_KG != "" && LabourAmount_P_KG != "NaN" && LabourAmount_P_KG != undefined) {
+
+                        var GrossRate = (parseFloat(MarketFinal) + parseFloat(Freight_P_KG) + parseFloat(Commision_P_KG) + parseFloat(LabourAmount_P_KG)).toFixed(2);
+                        $("#GrossRate").val(GrossRate);
+                    }
+
+
+                    if (Gasara != "" && GrossRate != "NaN" && GrossRate != undefined && GrossRate != "") {
+
+                        var GasaraAmount = (parseFloat(GrossRate) * parseFloat(Gasara) / 100).toFixed(2);
+                        $("#GasaraAmount").val(GasaraAmount);
+
+                        if (GasaraAmount != undefined) {
+
+                            var PadtarAmount = (parseFloat(GrossRate) + parseFloat(GasaraAmount)).toFixed(2);
+                            $("#Padtar").val(PadtarAmount);
+
+                        }
+
+                    }
+                    if (SellRateWholesale != "" && PadtarAmount != "" && PadtarAmount != undefined && PadtarAmount != "NaN") {
+
+                        var MarginWholesale = ((parseFloat(SellRateWholesale) - parseFloat(PadtarAmount)) * 100 / (parseFloat(PadtarAmount))).toFixed(2);
+                        $("#MarginWholesale").val(MarginWholesale);
+
+                    }
+                    if (SellRateRetail != "" && PadtarAmount != "" && PadtarAmount != undefined && PadtarAmount != "NaN") {
+
+                        var MarginRetail = ((parseFloat(SellRateRetail) - parseFloat(PadtarAmount)) * 100 / (parseFloat(PadtarAmount))).toFixed(2);
+                        $("#MarginRetail").val(MarginRetail);
+
+                    }
+
+
+                }
+
+            } else {
+                $("#GrossRate").val("0");
+            }
+
+        });
+
+        // Gasara % total count For use this function
+        $("#Gasara").on('input propertychange paste keypress', function (e) {
+
+            //debugger;
+            var end = this;
+            if (this.value != '') {
+
+                //debugger;
+                var Gasara = this.value;
+                var CurrentRate = $("#CurrentRate").val();
+                var GST = $("#GST").val();
+                var Discount = $("#Discount").val();
+                var PackingCharge = $("#PackingCharge").val();
+                var Labour_P_Hour = $("#Labour_P_Hour").val();
+                var KG_P_Hour = $("#KG_P_Hour").val();
+                var Commision_P_KG = $("#Commision_P_KG").val();
+                var Freight_P_KG = $("#Freight_P_KG").val();
+                var APMC = $("#APMC").val();
+                var SellRateWholesale = $("#SellRateWholesale").val();
+                var SellRateRetail = $("#SellRateRetail").val();
+
+                //debugger
+                if (CurrentRate != "" && Discount != "") {
+
+                    //var CurrentRateAmount = (parseFloat(CurrentRate) * (parseFloat(GST) / 100)).toFixed(2);
+                    //var CurrentRateWithGST = (parseFloat(CurrentRateAmount) + parseFloat(CurrentRate));
+
+                    var DiscountAmount = (parseFloat(CurrentRate) * (parseFloat(Discount) / 100)).toFixed(2);
+                    $("#DiscountAmount").val(DiscountAmount);
+
+                    if (DiscountAmount != undefined && DiscountAmount != "NaN") {
+
+                        var NetAmount = (parseFloat(CurrentRate) - parseFloat(DiscountAmount)).toFixed(2);
+                        $("#NetAmount").val(NetAmount);
+
+                    }
+
+                }
+
+                if (NetAmount != "" && NetAmount != "NaN" && PackingCharge != "" && APMC != "") {
+
+                    var APMCAmount = ((parseFloat(NetAmount) + parseFloat(PackingCharge)) * (parseFloat(APMC) / 100)).toFixed(2);
+
+                    if (APMCAmount != undefined && APMCAmount != "NaN") {
+
+                        $("#APMCAmount").val(APMCAmount);
+
+                        var MarketFinal = (parseFloat(NetAmount) + parseFloat(PackingCharge) + parseFloat(APMCAmount)).toFixed(2);
+                        $("#MarketFinal").val(MarketFinal);
+
+                    }
+
+                }
+
+
+                if (Labour_P_Hour != "" && KG_P_Hour != "") {
+
+                    var LabourAmount_P_KG = (parseFloat(Labour_P_Hour) / parseFloat(KG_P_Hour)).toFixed(2);
+
+                    if (Labour_P_Hour != "0.00" && KG_P_Hour != "0.00" && LabourAmount_P_KG != "NaN" && LabourAmount_P_KG != "Infinity") {
+
+                        LabourAmount_P_KG = (parseFloat(Labour_P_Hour) / parseFloat(KG_P_Hour)).toFixed(2);
+                        $("#LabourAmount_P_KG").val(LabourAmount_P_KG);
+
+                    } else if (Labour_P_Hour != "0.00" && KG_P_Hour == "0.00") {
+
+                        LabourAmount_P_KG = "0.00";
+                        $("#LabourAmount_P_KG").val(LabourAmount_P_KG);
+
+                    } else if (Labour_P_Hour == "0.00" && KG_P_Hour != "0.00") {
+
+                        LabourAmount_P_KG = "0.00";
+                        $("#LabourAmount_P_KG").val(LabourAmount_P_KG);
+
+                    } else {
+
+                        LabourAmount_P_KG = "0.00";
+                        $("#LabourAmount_P_KG").val(LabourAmount_P_KG);
+
+                    }
+
+                } else {
+
+                    LabourAmount_P_KG = "0.00";
+                    $("#LabourAmount_P_KG").val(LabourAmount_P_KG);
+
+                }
+
+                if (MarketFinal != "" && MarketFinal != "NaN" && MarketFinal != undefined && Freight_P_KG != "" && Commision_P_KG != "" && LabourAmount_P_KG != "" && LabourAmount_P_KG != "NaN" && LabourAmount_P_KG != undefined) {
+
+                    var GrossRate = (parseFloat(MarketFinal) + parseFloat(Freight_P_KG) + parseFloat(Commision_P_KG) + parseFloat(LabourAmount_P_KG)).toFixed(2);
+                    $("#GrossRate").val(GrossRate);
+
+                }
+
+                if (GrossRate != "" && GrossRate != "NaN" && GrossRate != undefined && Gasara != "") {
+
+                    var GasaraAmount = (parseFloat(GrossRate) * parseFloat(Gasara) / 100).toFixed(2);
+                    $("#GasaraAmount").val(GasaraAmount);
+
+                    if (GasaraAmount != undefined) {
+
+                        var PadtarAmount = (parseFloat(GrossRate) + parseFloat(GasaraAmount)).toFixed(2);
+                        $("#Padtar").val(PadtarAmount);
+
+                    }
+
+                }
+
+                if (SellRateWholesale != "" && PadtarAmount != "" && PadtarAmount != undefined && PadtarAmount != "NaN") {
+
+                    var MarginWholesale = ((parseFloat(SellRateWholesale) - parseFloat(PadtarAmount)) * 100 / (parseFloat(PadtarAmount))).toFixed(2);
+                    $("#MarginWholesale").val(MarginWholesale);
+
+                }
+
+                if (SellRateRetail != "" && PadtarAmount != "" && PadtarAmount != undefined && PadtarAmount != "NaN") {
+
+                    var MarginRetail = ((parseFloat(SellRateRetail) - parseFloat(PadtarAmount)) * 100 / (parseFloat(PadtarAmount))).toFixed(2);
+                    $("#MarginRetail").val(MarginRetail);
+
+                }
+
+            } else {
+
+                $("#GasaraAmount").val("0.00");
+                $("#Padtar").val("0.00");
+
+            }
+
+        });
+
+        // Margin Wholesale total count For use this function
+        $("#SellRateWholesale").on('input propertychange paste keypress', function (e) {
+
+            //debugger;
+            var end = this;
+            if (this.value != '') {
+
+                //debugger;
+                var SellRateWholesale = this.value;
+
+                var CurrentRate = $("#CurrentRate").val();
+                var GST = $("#GST").val();
+                var Discount = $("#Discount").val();
+                var PackingCharge = $("#PackingCharge").val();
+                var Labour_P_Hour = $("#Labour_P_Hour").val();
+                var KG_P_Hour = $("#KG_P_Hour").val();
+                var Commision_P_KG = $("#Commision_P_KG").val();
+                var Freight_P_KG = $("#Freight_P_KG").val();
+                var APMC = $("#APMC").val();
+                var Gasara = $("#Gasara").val();
+                //var SellRateRetail = $("#SellRateRetail").val();
+
+
+                //debugger
+                if (CurrentRate != "" && Discount != "") {
+
+                    //var CurrentRateAmount = (parseFloat(CurrentRate) * (parseFloat(GST) / 100)).toFixed(2);
+                    //var CurrentRateWithGST = (parseFloat(CurrentRateAmount) + parseFloat(CurrentRate));
+
+                    var DiscountAmount = (parseFloat(CurrentRate) * (Discount / 100)).toFixed(2);
+                    $("#DiscountAmount").val(DiscountAmount);
+
+                    if (DiscountAmount != undefined && DiscountAmount != "NaN") {
+
+                        var NetAmount = (parseFloat(CurrentRate) - parseFloat(DiscountAmount)).toFixed(2);
+                        $("#NetAmount").val(NetAmount);
+
+                    }
+
+                }
+
+                if (NetAmount != "" && NetAmount != "NaN" && PackingCharge != "" && APMC != "") {
+
+                    var APMCAmount = ((parseFloat(NetAmount) + parseFloat(PackingCharge)) * (parseFloat(APMC) / 100)).toFixed(2);
+
+                    if (APMCAmount != undefined && APMCAmount != "NaN") {
+
+                        $("#APMCAmount").val(APMCAmount);
+
+                        var MarketFinal = (parseFloat(NetAmount) + parseFloat(PackingCharge) + parseFloat(APMCAmount)).toFixed(2);
+                        $("#MarketFinal").val(MarketFinal);
+
+                    }
+
+                }
+
+
+                if (Labour_P_Hour != "" && KG_P_Hour != "") {
+
+                    var LabourAmount_P_KG = (parseFloat(Labour_P_Hour) / parseFloat(KG_P_Hour)).toFixed(2);
+
+                    if (Labour_P_Hour != "0.00" && KG_P_Hour != "0.00" && LabourAmount_P_KG != "NaN" && LabourAmount_P_KG != "Infinity") {
+
+                        LabourAmount_P_KG = (parseFloat(Labour_P_Hour) / parseFloat(KG_P_Hour)).toFixed(2);
+                        $("#LabourAmount_P_KG").val(LabourAmount_P_KG);
+
+                    } else if (Labour_P_Hour != "0.00" && KG_P_Hour == "0.00") {
+
+                        LabourAmount_P_KG = "0.00";
+                        $("#LabourAmount_P_KG").val(LabourAmount_P_KG);
+
+                    } else if (Labour_P_Hour == "0.00" && KG_P_Hour != "0.00") {
+
+                        LabourAmount_P_KG = "0.00";
+                        $("#LabourAmount_P_KG").val(LabourAmount_P_KG);
+
+                    } else {
+
+                        LabourAmount_P_KG = "0.00";
+                        $("#LabourAmount_P_KG").val(LabourAmount_P_KG);
+
+                    }
+
+                } else {
+
+                    LabourAmount_P_KG = "0.00";
+                    $("#LabourAmount_P_KG").val(LabourAmount_P_KG);
+
+                }
+
+
+                if (MarketFinal != "" && MarketFinal != "NaN" && MarketFinal != undefined && Freight_P_KG != "" && Commision_P_KG != "" && LabourAmount_P_KG != "" && LabourAmount_P_KG != "NaN" && LabourAmount_P_KG != undefined) {
+
+                    var GrossRate = (parseFloat(MarketFinal) + parseFloat(Freight_P_KG) + parseFloat(Commision_P_KG) + parseFloat(LabourAmount_P_KG)).toFixed(2);
+                    $("#GrossRate").val(GrossRate);
+
+                }
+
+                if (GrossRate != "" && GrossRate != "NaN" && GrossRate != undefined && Gasara != "") {
+
+                    var GasaraAmount = (parseFloat(GrossRate) * parseFloat(Gasara) / 100).toFixed(2);
+                    $("#GasaraAmount").val(GasaraAmount);
+
+                    var PadtarAmount = (parseFloat(GrossRate) + parseFloat(GasaraAmount)).toFixed(2);
+                    $("#Padtar").val(PadtarAmount);
+
+                }
+
+                if (PadtarAmount != "" && SellRateWholesale != "" && PadtarAmount != undefined && PadtarAmount != "NaN") {
+
+                    var MarginWholesale = ((parseFloat(SellRateWholesale) - parseFloat(PadtarAmount)) * 100 / (parseFloat(PadtarAmount))).toFixed(2);
+                    $("#MarginWholesale").val(MarginWholesale);
+
+                } else {
+
+                    $("#MarginWholesale").val("0.00");
+
+                }
+
+            } else {
+                $("#MarginWholesale").val("0.00");
+            }
+
+        });
+
+        // Margin Retail total count For use this function
+        $("#SellRateRetail").on('input propertychange paste keypress', function (e) {
+
+            //debugger;
+            var end = this;
+            if (this.value != '') {
+
+                //debugger;
+                var SellRateRetail = this.value;
+
+                var CurrentRate = $("#CurrentRate").val();
+                var GST = $("#GST").val();
+                var Discount = $("#Discount").val();
+                var PackingCharge = $("#PackingCharge").val();
+                var Labour_P_Hour = $("#Labour_P_Hour").val();
+                var KG_P_Hour = $("#KG_P_Hour").val();
+                var Commision_P_KG = $("#Commision_P_KG").val();
+                var Freight_P_KG = $("#Freight_P_KG").val();
+                var APMC = $("#APMC").val();
+                var Gasara = $("#Gasara").val();
+                //var SellRateWholesale = $("#SellRateWholesale").val();
+
+
+                //debugger
+                if (CurrentRate != "" && Discount != "") {
+
+                    //var CurrentRateAmount = (parseFloat(CurrentRate) * (parseFloat(GST) / 100)).toFixed(2);
+                    //var CurrentRateWithGST = (parseFloat(CurrentRateAmount) + parseFloat(CurrentRate));
+
+                    var DiscountAmount = (parseFloat(CurrentRate) * (parseFloat(Discount) / 100)).toFixed(2);
+                    $("#DiscountAmount").val(DiscountAmount);
+
+                    if (DiscountAmount != undefined && DiscountAmount != "NaN") {
+
+                        var NetAmount = (parseFloat(CurrentRate) - parseFloat(DiscountAmount)).toFixed(2);
+                        $("#NetAmount").val(NetAmount);
+
+                    }
+
+                }
+
+                if (NetAmount != "" && NetAmount != "NaN" && PackingCharge != "" && APMC != "") {
+
+                    var APMCAmount = ((parseFloat(NetAmount) + parseFloat(PackingCharge)) * (parseFloat(APMC) / 100)).toFixed(2);
+
+                    if (APMCAmount != undefined && APMCAmount != "NaN") {
+
+                        $("#APMCAmount").val(APMCAmount);
+
+                        var MarketFinal = (parseFloat(NetAmount) + parseFloat(PackingCharge) + parseFloat(APMCAmount)).toFixed(2);
+                        $("#MarketFinal").val(MarketFinal);
+
+                    }
+
+                }
+
+
+                if (Labour_P_Hour != "" && KG_P_Hour != "") {
+
+                    var LabourAmount_P_KG = (parseFloat(Labour_P_Hour) / parseFloat(KG_P_Hour)).toFixed(2);
+
+                    if (Labour_P_Hour != "0.00" && KG_P_Hour != "0.00" && LabourAmount_P_KG != "NaN" && LabourAmount_P_KG != "Infinity") {
+
+                        LabourAmount_P_KG = (parseFloat(Labour_P_Hour) / parseFloat(KG_P_Hour)).toFixed(2);
+                        $("#LabourAmount_P_KG").val(LabourAmount_P_KG);
+
+                    } else if (Labour_P_Hour != "0.00" && KG_P_Hour == "0.00") {
+
+                        LabourAmount_P_KG = "0.00";
+                        $("#LabourAmount_P_KG").val(LabourAmount_P_KG);
+
+                    } else if (Labour_P_Hour == "0.00" && KG_P_Hour != "0.00") {
+
+                        LabourAmount_P_KG = "0.00";
+                        $("#LabourAmount_P_KG").val(LabourAmount_P_KG);
+
+                    } else {
+
+                        LabourAmount_P_KG = "0.00";
+                        $("#LabourAmount_P_KG").val(LabourAmount_P_KG);
+
+                    }
+
+                } else {
+
+                    LabourAmount_P_KG = "0.00";
+                    $("#LabourAmount_P_KG").val(LabourAmount_P_KG);
+
+                }
+
+
+                if (MarketFinal != "" && MarketFinal != "NaN" && MarketFinal != undefined && Freight_P_KG != "" && Commision_P_KG != "" && LabourAmount_P_KG != "" && LabourAmount_P_KG != "NaN" && LabourAmount_P_KG != undefined) {
+
+                    var GrossRate = (parseFloat(MarketFinal) + parseFloat(Freight_P_KG) + parseFloat(Commision_P_KG) + parseFloat(LabourAmount_P_KG)).toFixed(2);
+                    $("#GrossRate").val(GrossRate);
+
+                }
+
+                if (GrossRate != "" && GrossRate != "NaN" && GrossRate != undefined && Gasara != "") {
+
+                    var GasaraAmount = (parseFloat(GrossRate) * parseFloat(Gasara) / 100).toFixed(2);
+                    $("#GasaraAmount").val(GasaraAmount);
+
+                    if (GasaraAmount != undefined) {
+
+                        var PadtarAmount = (parseFloat(GrossRate) + parseFloat(GasaraAmount)).toFixed(2);
+                        $("#Padtar").val(PadtarAmount);
+
+                    }
+
+                }
+
+                if (PadtarAmount != "" && SellRateRetail != "" && PadtarAmount != undefined && PadtarAmount != "NaN") {
+
+                    var MarginRetail = ((parseFloat(SellRateRetail) - parseFloat(PadtarAmount)) * 100 / (parseFloat(PadtarAmount))).toFixed(2);
+                    $("#MarginRetail").val(MarginRetail);
+
+                } else {
+
+                    $("#MarginRetail").val("0.00");
+
+                }
+
+
+            } else {
+
+                $("#MarginRetail").val("0.00");
+
+            }
+
+        });
+
+        $("#CancelMaterial").click(function () {
+            location.reload();
+        });
+
+    });
+
+    //Save And Update Data For Material
+    $("#btnsavecase").click(function () {
+        //debugger;
+        if (!($('#frmMaterial').parsley().validate())) {
+            return;
+        }
+        var datareq = new Object();
+        datareq.MaterialID = $("#MaterialID").val();
+        datareq.CategoryID = $("#CategoryID").val();
+        datareq.ProductID = $("#ProductID").val();
+        datareq.GST = $("#GST").val();
+        datareq.Category = $("#Category").val();
+        datareq.PackingCharge = $("#PackingCharge").val();
+        datareq.CurrentRate = $("#CurrentRate").val();
+        datareq.Discount = $("#Discount").val();
+        datareq.DiscountAmount = $("#DiscountAmount").val();
+        datareq.NetAmount = $("#NetAmount").val();
+        datareq.Notes1 = $("#Notes1").val();
+        datareq.Notes2 = $("#Notes2").val();
+        datareq.APMC = $("#APMC").val();
+        datareq.APMCAmount = $("#APMCAmount").val();
+        datareq.MarketFinal = $("#MarketFinal").val();
+        datareq.GrossRate = $("#GrossRate").val();
+        datareq.KG_P_Hour = $("#KG_P_Hour").val();
+        datareq.Labour_P_Hour = $("#Labour_P_Hour").val();
+        datareq.LabourAmount_P_KG = $("#LabourAmount_P_KG").val();
+        datareq.Gasara = $("#Gasara").val();
+        datareq.GasaraAmount = $("#GasaraAmount").val();
+        datareq.Freight_P_KG = $("#Freight_P_KG").val();
+        datareq.Commision_P_KG = $("#Commision_P_KG").val();
+        datareq.Padtar = $("#Padtar").val();
+        datareq.SellRateWholesale = $("#SellRateWholesale").val();
+        datareq.MarginWholesale = $("#MarginWholesale").val();
+        datareq.SellRateRetail = $("#SellRateRetail").val();
+        datareq.MarginRetail = $("#MarginRetail").val();
+
+        datareq.CreatedBy = $("#CreatedBy").val();
+        datareq.CreatedOn = $("#CreatedOn").val();
+        datareq.UpdatedBy = $("#UpdatedBy").val();
+        datareq.UpdatedOn = $("#UpdatedOn").val();
+
+        $.ajax({
+            url: '@Url.Action("AddWholeMaterial")',
+            type: 'POST',
+            data: { 'data': datareq },
+            cache: false,
+        }).done(function (result) {
+            if (result > 0) {
+                if ($("#MaterialID").val() == "") {
+                    $('div#sucessalert').html("Whole Material Add successfully.");
+                }
+                else {
+                    $('div#sucessalert').html("Whole Material updated successfully.");
+                }
+                showhidealert();
+                loadhtml();
+                clearform();
+            }
+        });
+
+    });
+
+
+    function clearform() {
+        location.reload();
+    }
+
+    //Get List For WholeMaterial
+    function loadhtml() {
+        //debugger
+        $.ajax({
+            url: '@Url.Action("WholeMaterialList")',
+            type: 'GET',
+            cache: false,
+        }).done(function (result) {
+            $('#lstcase').html(result);
+        });
+    }
+
+    function isNumberKey(evt) {
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        if (charCode != 46 && charCode > 31
+          && (charCode < 48 || charCode > 57))
+            return false;
+
+        return true;
+    }
+
+    $('.ClsNumberAndDecimal').on('paste', function (e) {
+        //debugger;
+        var $this = $(this);
+        setTimeout(function () {
+            $this.val($this.val().replace(/[^0-9\.]/g, ''));
+            //$this.val($this.val().replace(/[^0-9]/g, ''));
+        }, 1);
+    });
+
+</script>

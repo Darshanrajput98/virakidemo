@@ -1,0 +1,71 @@
+﻿@{
+    ViewBag.Title = "ImportAttandance";
+    Layout = "~/Areas/attendance/Views/Shared/_attendancelayout.cshtml";
+}
+
+<div class="box box-default">
+    <div class="box-header with-border text-center">
+        <h3 class="box-title">Daily Attandande</h3>
+    </div>
+    <form id="frmAttandande" class="form-horizontal">
+        <div class="box-body">
+            <div class="col-md-3">
+                <div class="form-group">
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    @*<input type="file" id="exampleInputFile" name="upload">*@
+                    <input type="file" class="form-control dataFile " name="upload" style="display:block" />
+                    @*<p class="help-block">Example block-level help text here.</p>*@
+                </div>
+            </div>
+            <div class="col-md-1">
+                <button type="button" id="btnUpload" class="btn btn-info" tabindex="7">Upload</button>
+            </div>
+            @*<div class="col-md-3">
+                    <a download title="Click To Save" style="cursor:pointer" target="_blank" href="@TempData["ImportFile"]" class="cls_hover dwl" >
+                        Download File
+                    </a>
+                </div>*@
+        </div>
+    </form>
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script>
+    $(document).on('click', "#btnUpload", function () {
+        debugger;
+        if ($(this).closest('div').find(".dataFile").val() != "") {
+            var data = new FormData();
+            var uploadordownload = "Upload";
+            if (uploadordownload == "Upload") {
+                var files = "";
+                files = $(".dataFile").get(0).files;
+                data.append("File", files[0]);
+                debugger;
+                $.ajax({
+                    url: '@Url.Action("UploadExcelAttandance")',
+                    type: 'POST',
+                    data: data,
+                    processData: false,
+                    contentType: false,
+                    async: true,
+                    dataType: "json",
+                }).done(function (result) {
+                    if (result) {
+                        alert(result);
+                        clearform();
+                    }
+                    else { alert(result); }
+                });
+                $(this).closest('td').find(".dataFile").val("");
+            }
+        }
+    });
+
+    function clearform() {
+        $("#frmAttandande").find("input").val("");
+    }
+
+</script>

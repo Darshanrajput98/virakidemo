@@ -1,0 +1,182 @@
+﻿@model List<vb.Data.FormSixteenDetailListResponse>
+@using vb.Data.ViewModel
+
+<div class="box">
+    <div class="box-header text-center">
+        <h3 class="box-title">Form Sixteen Detail</h3>
+    </div>
+    <div class="box-body table-scrollable1">
+        <table id="ListDataTable" class="table table-bordered table-bordered">
+            <thead>
+                <tr>
+                    <th>Standard Deduction</th>
+                    <th>Under Section 80C</th>
+                    <th>Health Insurance Section 80D</th>
+                    <th>Interest On 80E</th>
+                    <th>Under Section 80TTA</th>
+                    <th>Rebate Under Section 87A</th>
+                    <th>Pension Under Section 80CCD(1)</th>
+                    @*@if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.EPurchaseType.ToString()))
+                        {*@
+                    <th>Edit</th>
+                    @*}
+                        @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.DPurchaseType.ToString()))
+                        {*@
+                    <th>Status</th>
+                    @*}*@
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @item.StandardDeduction
+                        </td>
+                        <td>
+                            @item.UnderSection80C
+                        </td>
+                        <td>
+                            @item.HealthInsurancePremiaUnderSection80D
+                        </td>
+                        <td>
+                            @item.InterestOn80E
+                        </td>
+                        <td>
+                            @item.UnderSection80TTA
+                        </td>
+                        <td>
+                            @item.RebateUnderSection87A
+                        </td>
+                        <td>
+                            @item.PensionUnderSection80CCD_1
+                        </td>
+                        @*@if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.EPurchaseType.ToString()))
+                            {*@
+                        <td>
+                            <a style="cursor:pointer;" class="btnedit" data-formsixteendetailid="@item.FormSixteenDetailID" data-standarddeduction="@item.StandardDeduction" data-undersection80c="@item.UnderSection80C" data-healthinsurancepremiaundersection80d="@item.HealthInsurancePremiaUnderSection80D" data-intereston80e="@item.InterestOn80E" data-undersection80tta="@item.UnderSection80TTA" data-rebateundersection87a="@item.RebateUnderSection87A" data-pensionundersection80ccd_1="@item.PensionUnderSection80CCD_1" data-createdby="@item.CreatedBy" data-createdon="@item.CreatedOn">Edit</a>
+                        </td>
+                        @*}
+                            @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.DPurchaseType.ToString()))
+                            {*@
+                        @if (item.IsDelete == true)
+                        {
+                            <td>
+                                @Html.ActionLink("Active", "DeleteFormSixteenDetail", "Admin", new { FormSixteenDetailID = item.FormSixteenDetailID, IsDelete = false },
+                                        new { onclick = "return confirm('Are you sure you wish to delete this article?');" })
+                            </td>
+                        }
+                        else
+                        {
+                            <td>
+                                @Html.ActionLink("DeActive", "DeleteFormSixteenDetail", "Admin", new { FormSixteenDetailID = item.FormSixteenDetailID, IsDelete = true },
+                                        new { onclick = "return confirm('Are you sure you wish to delete this article?');" })
+                            </td>
+                        }
+                        @*}*@
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    $('#ListDataTable').DataTable({
+        'paging': true,
+        'lengthChange': true,
+        'searching': true,
+        'ordering': false,
+        'info': true,
+        'autoWidth': false
+    });
+
+    $('#ListDataTable').on('click', '.btnedit', function () {
+        debugger;
+        $("#FormSixteenDetailID").val($(this).attr("data-formsixteendetailid"));
+        $("#StandardDeduction").val($(this).attr("data-standarddeduction"));
+        $("#UnderSection80C").val($(this).attr("data-undersection80c"));
+        $("#HealthInsurancePremiaUnderSection80D").val($(this).attr("data-healthinsurancepremiaundersection80d"));
+        $("#InterestOn80E").val($(this).attr("data-intereston80e"));
+        $("#UnderSection80TTA").val($(this).attr("data-undersection80tta"));
+        $("#RebateUnderSection87A").val($(this).attr("data-rebateundersection87a"));
+        $("#PensionUnderSection80CCD_1").val($(this).attr("data-pensionundersection80ccd_1"));
+        $("#CreatedBy").val($(this).attr("data-createdby"));
+        $("#CreatedOn").val($(this).attr("data-createdon"));
+        $("html, body").animate({ scrollTop: 0 }, "slow");
+        $.ajax({
+            type: 'Post',
+            url: '@Url.Action("GetTexableIncomeQtyList")',
+            data: { FormSixteenDetailID: $(this).attr("data-formsixteendetailid") },
+            success: function (result) {
+                bookIndex = 0;
+                if (result.length > 0) {
+                    $(result).each(function (index, row) {
+                        bookIndex++;
+                        if (bookIndex > 1) {
+                            debugger;
+                            var $template = $('#AddMoreForm16Texable'),
+                                $clone = $template
+                                                .clone()
+                                                .removeClass('hide')
+                                                .removeAttr('id')
+                                                .attr('data-book-index', bookIndex)
+                                                .insertBefore($template);
+                            // Update the name attributes
+                            $clone
+                                 .find('[name="IncomeFrom"]').attr('name', 'lstForm16TexableIncomeQty[' + bookIndex + '].IncomeFrom').end()
+                                 .find('[name="IncomeTo"]').attr('name', 'lstForm16TexableIncomeQty[' + bookIndex + '].IncomeTo').end()
+                                 .find('[name="TaxOnTotalIncome"]').attr('name', 'lstForm16TexableIncomeQty[' + bookIndex + '].TaxOnTotalIncome').end()
+                                 .find('[name="TaxOnTotalIncome_one"]').attr('name', 'lstForm16TexableIncomeQty[' + bookIndex + '].TaxOnTotalIncome_one').end()
+                                 .find('[name="RebateUnderSection87A_Income"]').attr('name', 'lstForm16TexableIncomeQty[' + bookIndex + '].RebateUnderSection87A_Income').end()
+                                 .find('[name="Surcharge"]').attr('name', 'lstForm16TexableIncomeQty[' + bookIndex + '].Surcharge').end()
+                                 .find('[name="Education"]').attr('name', 'lstForm16TexableIncomeQty[' + bookIndex + '].Education').end();
+
+                            $clone.find("input[type=hidden]")[0].value = row.FormSixteenTexableID;
+                            $clone.find("input")[0].value = row.IncomeFrom;
+                            $clone.find("input")[2].value = row.IncomeTo;
+                            $clone.find("input")[3].value = row.TaxOnTotalIncome;
+                            $clone.find("input")[4].value = row.TaxOnTotalIncome_one;
+                            $clone.find("input")[5].value = row.RebateUnderSection87A_Income;
+                            $clone.find("input")[6].value = row.Surcharge;
+                            $clone.find("input")[7].value = row.Education;
+                        }
+                        else {
+                            debugger;
+                            if ($('#Form16TexableIncomeQty').find('tbody tr:visible').length > 1)
+                                $('#Form16TexableIncomeQty').find('tbody tr:visible').not(':first').empty();
+                            var $template = $('#AddForm16TexableIncomeQty');
+                            $clone = $template;
+                            $clone.find("input[type=hidden]")[0].value = row.FormSixteenTexableID;
+                            $clone.find("input")[0].value = row.IncomeFrom;
+                            $clone.find("input")[2].value = row.IncomeTo;
+                            $clone.find("input")[3].value = row.TaxOnTotalIncome;
+                            $clone.find("input")[4].value = row.TaxOnTotalIncome_one;
+                            $clone.find("input")[5].value = row.RebateUnderSection87A_Income;
+                            $clone.find("input")[6].value = row.Surcharge;
+                            $clone.find("input")[7].value = row.Education;
+                        }
+                    });
+                }
+                else {
+                    if ($('#Form16TexableIncomeQty').find('tbody tr:visible').length > 1)
+                        $('#Form16TexableIncomeQty').find('tbody tr:visible').not(':first').empty();
+                    var $template = $('#AddForm16TexableIncomeQty');
+                    $clone = $template;
+                    $clone.find("input[type=hidden]")[0].value = "";
+                    $clone.find("input")[0].value = "";
+                    $clone.find("input")[2].value = "";
+                    $clone.find("input")[3].value = "";
+                    $clone.find("input")[4].value = "";
+                    $clone.find("input")[5].value = "";
+                    $clone.find("input")[6].value = "";
+                    $clone.find("input")[7].value = "";
+                }
+            },
+            error: function () { alert('Error'); }
+        });
+
+    });
+</script>
+
+

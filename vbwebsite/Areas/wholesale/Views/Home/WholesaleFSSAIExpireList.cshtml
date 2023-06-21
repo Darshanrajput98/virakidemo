@@ -1,0 +1,107 @@
+﻿<div class="box">
+    <div class="box-header text-center">
+        <h3 class="box-title">Wholesale Customer FSSAI Expire List</h3>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body table-scrollable1">
+        <table id="ListDataTable" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <td colspan="10" align="right">
+                        <button type="button" id="btnexport" class="btn btn-info">Export To Excel</button>
+                    </td>
+                </tr>
+                <tr>
+                    <th class="nosort">Customer Name</th>
+                    <th class="nosort">Delivery Area</th>
+                    <th class="nosort">Billing Area</th>
+                    <th class="nosort">FSSAI Number</th>
+                    <th class="nosort">FSSAI Valid UpTo</th>
+                    <th class="nosort">Contact Number</th>
+                    <th class="nosort">Email</th>
+                    <th class="nosort">Days Remaining</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    if (item.DaysRemaining > 0)
+                    {
+                        <tr>
+                            <td>
+                                @item.CustomerName
+                            </td>
+                            <td>
+                                @item.DeliveryAreaName
+                            </td>
+                            <td>
+                                @item.BillingAreaName
+                            </td>
+                            <td>
+                                @item.FSSAI
+                            </td>
+                            <td>
+                                @item.FSSAIValidUpTostr
+                            </td>
+                            <td>
+                                @item.ContactNumber
+                            </td>
+                            <td>
+                                @item.ContactEmail
+                            </td>
+                            <td>
+                                @item.DaysRemaining
+                            </td>
+                        </tr>
+                    }
+                    else
+                    {
+                        <tr style="color: red; font-weight: bold;">
+                            <td>
+                                @item.CustomerName
+                            </td>
+                            <td>
+                                @item.DeliveryAreaName
+                            </td>
+                            <td>
+                                @item.BillingAreaName
+                            </td>
+                            <td>
+                                @item.FSSAI
+                            </td>
+                            <td>
+                                @item.FSSAIValidUpTostr
+                            </td>
+                            <td>
+                                @item.ContactNumber
+                            </td>
+                            <td>
+                                @item.ContactEmail
+                            </td>
+                            <td>
+                                @item.DaysRemaining
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+    <!-- /.box-body -->
+</div>
+
+<script>
+
+    $("#ListDataTable").DataTable({
+        'aoColumnDefs': [{
+            'bSortable': false,
+            'aTargets': ['nosort'] /* 1st one, start by the right */
+        }]
+    });
+
+    $("#btnexport").click(function () {
+        debugger;
+        var url = '@Url.Action("ExportExcelFSSAIExpireList", "Home")';
+        window.location.href = url.replace();
+    });
+</script>

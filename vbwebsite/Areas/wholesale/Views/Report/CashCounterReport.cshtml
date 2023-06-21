@@ -1,0 +1,149 @@
+﻿@model vb.Data.CashCounterListResponse
+@{
+    ViewBag.Title = "CashCounterReport";
+    Layout = "~/Areas/wholesale/Views/Shared/_wholesalelayout.cshtml";
+}
+
+<div class="box box-default">
+    <div class="box-header with-border text-center">
+        <h3 class="box-title">Cash Counter Report</h3>
+    </div>
+    <form id="frmCustomerGroup" class="form-horizontal">
+        <div class="box-body">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="AssignedDate" class="col-sm-4 control-label">Date</label>
+                    <div class="col-sm-8">
+                        <div class="input-group date">
+                            <div class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
+                            </div>
+                            <input type="text" class="form-control pull-right datepicker" id="AssignedDate" tabindex="3" autocomplete="off">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="Godown" class="col-sm-4 control-label">Cash Option :</label>
+                    <div class="col-sm-8">
+                        @Html.DropDownList("GodownID", new SelectList(ViewBag.CashOption, "GodownID", "CashOption"), "Select Cash", new { @class = "form-control select2" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="chkbysign" class="col-sm-4 control-label">By Sign :</label>
+                    <div class="col-sm-8">
+                        <input type="checkbox" id="IsCheckBySign" style="margin-left:5px;margin-right:5px;" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="box-footer ">
+                    <div class="pull-right">
+                        <button type="button" id="btnsearch" class="btn btn-info" tabindex="18">Search</button>
+                        <button type="button" id="btnexport" class="btn btn-info" tabindex="20">Export To Excel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <div id="lstcase">
+    </div>
+    <div id="lstcaseReturnList">
+    </div>
+    <div id="lstcase2">
+    </div>
+    <div id="lstvouchercash">
+    </div>
+    <div id="lstvouchersalseman">
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script>
+    $(document).ready(function () {
+        debugger;
+
+        $("#btnsearch").click(function () {
+            debugger;
+            loadhtml();
+        });
+
+        function loadhtml() {
+            debugger;
+            var model = new Object();
+            model.AssignedDate = $("#AssignedDate").val();
+            model.GodownID = $("#GodownID").val();
+            model.IsCheckBySign = $('#IsCheckBySign').is(":checked");
+            $.ajax({
+                url: '@Url.Action("CashCounterReportList")',
+                type: 'POST',
+                data: { 'model': model },
+                cache: false,
+            }).done(function (result) {
+                $('#lstcase').html(result);
+            });
+            $.ajax({
+                url: '@Url.Action("CashCounterDayWiseSalesManList")',
+                type: 'POST',
+                data: { 'model': model },
+                cache: false,
+            }).done(function (result) {
+                $('#lstcase2').html(result);
+            });
+
+            // 12 Sep 2020 Piyush Limbani
+            $.ajax({
+                url: '@Url.Action("VoucherCashCounterReportList")',
+                type: 'POST',
+                data: { 'model': model },
+                cache: false,
+            }).done(function (result) {
+                $('#lstvouchercash').html(result);
+            });
+
+            $.ajax({
+                url: '@Url.Action("VoucherCashCounterDayWiseSalesManList")',
+                type: 'POST',
+                data: { 'model': model },
+                cache: false,
+            }).done(function (result) {
+                $('#lstvouchersalseman').html(result);
+            });
+            // 12 Sep 2020 Piyush Limbani
+
+            $.ajax({
+                url: '@Url.Action("CheckRetrunList")',
+                type: 'POST',
+                data: { 'model': model },
+                cache: false,
+            }).done(function (result) {
+                $('#lstcaseReturnList').html(result);
+            });
+        }
+
+        $("#btnexport").click(function () {
+            debugger;
+            var myParam = $("#AssignedDate").val();
+            var VehicleNo = $("#VehicleNo").val();
+            var TempoNo = $("#TempoNo").val();
+
+            var GodownID = 0;
+            if ($("#GodownID").val() == "") {
+                GodownID = 0;
+            }
+            else {
+                GodownID = $("#GodownID").val();
+            }
+            var IsCheckBySign = $('#IsCheckBySign').is(":checked");
+            //var GodownID = $("#GodownID").val();
+
+            var url = '@Url.Action("ExportExcelCashCounterReport", "Report", new { Date = "__Date__", VehicleNo = "__VehicleNo__", TempoNo = "__TempoNo__", GodownID = "__GodownID__", IsCheckBySign = "__IsCheckBySign__" })';
+            url = url.replace(/amp;/g, '');
+            window.location.href = url.replace('__Date__', myParam).replace('__VehicleNo__', VehicleNo).replace('__TempoNo__', TempoNo).replace('__GodownID__', GodownID).replace('__IsCheckBySign__', IsCheckBySign);
+        });
+    });
+</script>
+

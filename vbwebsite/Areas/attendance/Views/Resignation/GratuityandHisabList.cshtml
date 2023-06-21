@@ -1,0 +1,145 @@
+﻿@model List<vb.Data.Gratuity_HisabListResponse>
+@using vb.Data.ViewModel
+
+<div class="box">
+    <div class="box-header text-center">
+        <h3 class="box-title">Gratuity & Hisab List</h3>
+    </div>
+    <div class="box-body table-scrollable1">
+        <table id="ListDataTable" class="table table-bordered table-bordered">
+            <thead>
+                <tr>
+                    <th>Godown</th>
+                    <th>Name</th>
+                    <th>D.O.J</th>
+                    <th>D.O.L</th>
+                    <th>Last Drawn Salary</th>
+                    <th>Total Month</th>
+                    <th>Gratuity</th>
+                    <th>From Date</th>
+                    <th>To Date</th>
+                    <th>Total Earned Salary</th>
+                    <th>Bonus</th>
+                    <th>Last Drawn Salary</th>
+                    <th>Closing Leaves</th>
+                    <th>Leave Encashment</th>
+                    <th>Grand Total Amount</th>
+                    <th>Edit</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @item.GodownName
+                        </td>
+                        <td>
+                            @item.FullName
+                        </td>
+                        <td>
+                            @item.DateOfJoiningstr
+                        </td>
+                        <td>
+                            @item.DateOfLeavingstr
+                        </td>
+                        <td>
+                            @item.LastDrawnSalary.ToString("0.00")
+                        </td>
+                        <td>
+                            @item.TotalMonth
+                        </td>
+                        <td>
+                            @item.TotalGratuity.ToString("0.00")
+                        </td>
+                        <td>
+                            @item.FromDatestr
+                        </td>
+                        <td>
+                            @item.ToDatestr
+                        </td>
+                        <td>
+                            @item.TotalEarnedSalary.ToString("0.00")
+                        </td>
+                        <td>
+                            @item.TotalBonusAmount.ToString("0.00")
+                        </td>
+                        <td>
+                            @item.LastDrawnSalaryLeaveEnhancement.ToString("0.00")
+                        </td>
+                        <td>
+                            @item.ClosingLeaves.ToString("0.00")
+                        </td>
+                        <td>
+                            @item.TotalLeaveEncashment.ToString("0.00")
+                        </td>
+                        <td>
+                            @item.GrandTotalAmount.ToString("0.00")
+                        </td>
+                        <td>
+                            <a style="cursor:pointer;" class="btnedit" data-gratuity_hisab_id="@item.Gratuity_Hisab_ID" data-godownid="@item.GodownID" data-employeecode="@item.EmployeeCode"
+                               data-dateofjoiningstr="@item.DateOfJoiningstr" data-dateofleavingstr="@item.DateOfLeavingstr"
+                               data-lastdrawnsalary="@item.LastDrawnSalary.ToString("0.00")" data-totalmonth="@item.TotalMonth"
+                               data-gratuity="@item.Gratuity.ToString("0.00")" data-additionalgratuity="@item.AdditionalGratuity.ToString("0.00")" data-totalgratuity="@item.TotalGratuity.ToString("0.00")"
+                               data-fromdatestr="@item.FromDatestr" data-todatestr="@item.ToDatestr"
+                               data-totalearnedsalary="@item.TotalEarnedSalary.ToString("0.00")"
+                               data-bonusamount="@item.BonusAmount.ToString("0.00")" data-additionalbonusamount="@item.AdditionalBonusAmount.ToString("0.00")" data-totalbonusamount="@item.TotalBonusAmount.ToString("0.00")"
+                               data-lastdrawnsalaryleaveenhancement="@item.LastDrawnSalaryLeaveEnhancement.ToString("0.00")" data-closingleaves="@item.ClosingLeaves.ToString("0.00")"
+                               data-leaveencashment="@item.LeaveEncashment.ToString("0.00")" data-additionalleaveencashment="@item.AdditionalLeaveEncashment.ToString("0.00")" data-totalleaveencashment="@item.TotalLeaveEncashment.ToString("0.00")"
+                               data-grandtotalamount="@item.GrandTotalAmount.ToString("0.00")"
+                               data-witnessoneid="@item.WitnessOneID" data-witnesstwoid="@item.WitnessTwoID"
+                               data-createdby="@item.CreatedBy" data-createdon="@item.CreatedOn">Edit</a>
+                            <input type="hidden" id="hdnEmployeeCode" class="hdnEmployeeCode" />
+                            <input type="hidden" id="hdnEdit" class="hdnEdit" value="Edit" />
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    $('#ListDataTable').DataTable({
+        'paging': true,
+        'lengthChange': true,
+        'searching': true,
+        'ordering': false,
+        'info': true,
+        'autoWidth': false
+    });
+
+    $('#ListDataTable').on('click', '.btnedit', function () {
+        debugger;
+        $("#Gratuity_Hisab_ID").val($(this).attr("data-gratuity_hisab_id"));
+        $("#GodownID").val($(this).attr("data-godownid")).trigger("change");
+        $("#hdnEmployeeCode").val($(this).attr("data-employeecode"));
+        $("#hdnEdit").val("Edit");
+        //$("#EmployeeCode").val($(this).attr("data-employeecode"));
+        $("#DateOfJoining").val($(this).attr("data-dateofjoiningstr"));
+        $("#DateOfLeaving").val($(this).attr("data-dateofleavingstr"));
+        $("#LastDrawnSalary").val($(this).attr("data-lastdrawnsalary"));
+        $("#TotalMonth").val($(this).attr("data-totalmonth"));
+        $("#Gratuity").val($(this).attr("data-gratuity"));
+        $("#AdditionalGratuity").val($(this).attr("data-additionalgratuity"));
+        $("#TotalGratuity").val($(this).attr("data-totalgratuity"));
+        $("#FromDate").val($(this).attr("data-fromdatestr"));
+        $("#ToDate").val($(this).attr("data-todatestr"));
+        $("#TotalEarnedSalary").val($(this).attr("data-totalearnedsalary"));
+        $("#BonusAmount").val($(this).attr("data-bonusamount"));
+        $("#AdditionalBonusAmount").val($(this).attr("data-additionalbonusamount"));
+        $("#TotalBonusAmount").val($(this).attr("data-totalbonusamount"));
+        $("#LastDrawnSalaryLeaveEnhancement").val($(this).attr("data-lastdrawnsalaryleaveenhancement"));
+        $("#ClosingLeaves").val($(this).attr("data-closingleaves"));
+        $("#LeaveEncashment").val($(this).attr("data-leaveencashment"));
+        $("#AdditionalLeaveEncashment").val($(this).attr("data-additionalleaveencashment"));
+        $("#TotalLeaveEncashment").val($(this).attr("data-totalleaveencashment"));
+        $("#GrandTotalAmount").val($(this).attr("data-grandtotalamount"));
+        $("#WitnessOneID").val($(this).attr("data-witnessoneid"));
+        $("#WitnessTwoID").val($(this).attr("data-witnesstwoid"));    
+        $("#CreatedBy").val($(this).attr("data-createdby"));
+        $("#CreatedOn").val($(this).attr("data-createdon"));
+        $("html, body").animate({ scrollTop: 0 }, "slow");
+    });
+</script>
+

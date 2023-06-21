@@ -1,0 +1,172 @@
+﻿@model List<vb.Data.ChallanListResponse>
+
+<div class="box">
+    <div class="box-header text-center">
+        <h3 class="box-title">Challan List</h3>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body">
+        <table id="ListDataTable" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th class="nosort">Challan Date</th>
+                    <th class="nosort">Delivery From</th>
+                    <th class="nosort">Delivery To</th>
+                    <th class="nosort">Total Item</th>
+                    <th class="nosort">Total Bill</th>
+                    <th class="nosort">View Challan</th>
+                    <th class="nosort">Print Challan</th>
+
+                    <th class="nosort">Transport</th>
+                    <th class="nosort">Vehicle No</th>
+
+                    <th class="nosort">Export To Excel</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td id="row" @item.ChallanID>
+                            @item.CreatedOn.ToString("dd-MM-yyyy")
+                        </td>
+                        <td>
+                            @item.From_Place
+                            <input type="hidden" class="hdnFrom_Address1" value="@item.From_Address1" />
+                            <input type="hidden" class="hdnFrom_Address2" value="@item.From_Address2" />
+                            <input type="hidden" class="hdnFrom_Place" value="@item.From_Place" />
+                            <input type="hidden" class="hdnFrom_PinCode" value="@item.From_PinCode" />
+                            <input type="hidden" class="hdnFrom_State" value="@item.From_State" />
+                            <input type="hidden" class="hdnDispatchState" value="@item.DispatchState" />
+                        </td>
+                        <td>
+                            @item.To_Place
+                            <input type="hidden" class="hdnTo_Address1" value="@item.To_Address1" />
+                            <input type="hidden" class="hdnTo_Address2" value="@item.To_Address2" />
+                            <input type="hidden" class="hdnTo_Place" value="@item.To_Place" />
+                            <input type="hidden" class="hdnTo_PinCode" value="@item.To_PinCode" />
+                            <input type="hidden" class="hdnTo_State" value="@item.To_State" />
+                            <input type="hidden" class="hdnShipToState" value="@item.ShipToState" />
+                        </td>
+                        <td>
+                            @item.Quantity
+                        </td>
+                        <td>
+                            @item.FinalTotal
+                        </td>
+                        <td>
+                            <input class="btnViewChallan" type="button" value="View Challan" data-challanid="@item.ChallanID" />
+                        </td>
+                        <td>
+                            <input id="btnPrintChallan" type="button" value="Print Challan" onclick="GetPrint(@item.ChallanID)" data-challanid="@item.ChallanID" />
+                        </td>
+
+                        <td>
+                            @Html.DropDownList("TransportID", new SelectList(ViewBag.Transport, "TransportID", "TransportName"), "Select Transport", new { @class = "form-control select2 TransportID" })
+                        </td>
+
+                        <td>
+                            @Html.DropDownList("VehicleDetailID", new SelectList(ViewBag.VehicleNo, "VehicleDetailID", "VehicleNumber"), "Select Vehicle Number", new { @class = "form-control select2 VehicleDetailID" })
+                        </td>
+
+                        <td>
+                            <a style="cursor:pointer;" class="btnexport" data-challanid="@item.ChallanID">Export</a>
+                        </td>
+
+                        <td>
+                            <a style="cursor:pointer;" class="btnGenerateEWayBill" data-challanid="@item.ChallanID">Generate eWayBill</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <!-- /.box-body -->
+</div>
+
+<script>
+    $(".btnViewChallan").click(function () {
+        debugger;
+        var url = '@Url.Action("ViewChallan", "Orders", new { id = "__id__", txtfrom = "__txtfrom__", txtto = "__txtto__" })';
+        url = url.replace(/amp;/g, '');
+        window.location.href = url.replace('__id__', $(this).attr("data-challanid")).replace('__txtfrom__', $('#txtFrom').val()).replace('__txtto__', $('#txtTo').val());
+
+    });
+
+    function GetPrint(ChallanID) {
+        debugger;
+        $.ajax({
+            url: '@Url.Action("PrintChallan", "Orders")',
+            type: 'POST',
+            data: { 'ChallanID': ChallanID },
+            cache: false,
+        }).done(function (result) {
+            if (result != '') {
+                window.open(result, "newPage");
+            }
+        });
+    };
+
+    $(".btnexport").click(function () {
+        debugger;
+        var ChallanID = $(this).data('challanid');
+        var FromAddress1 = $(this).closest('tr').find('.hdnFrom_Address1').val();
+        var FromAddress2 = $(this).closest('tr').find('.hdnFrom_Address2').val();
+        var FromPlace = $(this).closest('tr').find('.hdnFrom_Place').val();
+        var FromPinCode = $(this).closest('tr').find('.hdnFrom_PinCode').val();
+        var FromState = $(this).closest('tr').find('.hdnFrom_State').val();
+        var DispatchState = $(this).closest('tr').find('.hdnDispatchState').val();
+        var ToAddress1 = $(this).closest('tr').find('.hdnTo_Address1').val();
+        var ToAddress2 = $(this).closest('tr').find('.hdnTo_Address2').val();
+        var ToPlace = $(this).closest('tr').find('.hdnTo_Place').val();
+        var ToPinCode = $(this).closest('tr').find('.hdnTo_PinCode').val();
+        var ToState = $(this).closest('tr').find('.hdnTo_State').val();
+        var ShipToState = $(this).closest('tr').find('.hdnShipToState').val();
+        var url = '@Url.Action("ExportExcelChallan", "Orders", new { ChallanID = "__ChallanID__",  FromAddress1 = "__FromAddress1__", FromAddress2 = "__FromAddress2__", FromPlace = "__FromPlace__", FromPinCode = "__FromPinCode__", FromState = "__FromState__", DispatchState = "__DispatchState__",  ToAddress1 = "__ToAddress1__", ToAddress2 = "__ToAddress2__", ToPlace = "__ToPlace__", ToPinCode = "__ToPinCode__", ToState = "__ToState__", ShipToState = "__ShipToState__" })';
+        url = url.replace(/amp;/g, '');
+        window.location.href = url.replace('__ChallanID__', ChallanID).replace('__FromAddress1__', FromAddress1).replace('__FromAddress2__', FromAddress2).replace('__FromPlace__', FromPlace).replace('__FromPinCode__', FromPinCode).replace('__FromState__', FromState).replace('__DispatchState__', DispatchState).replace('__ToAddress1__', ToAddress1).replace('__ToAddress2__', ToAddress2).replace('__ToPlace__', ToPlace).replace('__ToPinCode__', ToPinCode).replace('__ToState__', ToState).replace('__ShipToState__', ShipToState);
+    });
+
+
+    //24 May, 2021 Sonal Gandhi
+    $(".btnGenerateEWayBill").click(function () {
+        debugger;
+        var ChallanId = $(this).data('challanid');
+        var TransportID = $(this).closest('tr').find('.TransportID').val();
+        var VehicleDetailID = $(this).closest('tr').find('.VehicleDetailID').val();
+        if (TransportID == "") {
+            alert("Select Transport Name");
+            return;
+        }
+        if (VehicleDetailID == "") {
+            alert("Select Vehicle Number");
+            return;
+        }
+
+
+        $.ajax({
+            url: '@Url.Action("GenerateEWBChallan","Orders")',
+            type: 'POST',
+            data: { 'ChallanId': ChallanId, 'TransportID': TransportID, 'VehicleDetailID': VehicleDetailID },
+            cache: false,
+        }).done(function (result) {
+            debugger
+            if (result == "" || result == null || result == "undefind") {
+                alert("Error in Generated EWB.");
+            }
+            else if (result === "1") {
+                alert("EWB already generated");
+            }
+            else {
+                $('div#sucessalert').html("EWB Generated successfully for Invoice Number : " + result);
+                showhidealert();
+            }
+        });
+    });
+</script>
+
+
+
+
+
+

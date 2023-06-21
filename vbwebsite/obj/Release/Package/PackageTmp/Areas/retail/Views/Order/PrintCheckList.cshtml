@@ -1,0 +1,539 @@
+﻿@model List<vb.Data.RetOrderPackList>
+@{
+    ViewBag.Title = "PrintCheckList";
+    Layout = "~/Areas/wholesale/Views/Shared/_wholesalelayout.cshtml";
+}
+
+<div class="box">
+    <div class="box-header text-center">
+        <h3 class="box-title">Check List</h3>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body">
+        <table id="ListDataTablewithourpaging" class="table table-bordered table-striped lst1">
+            <thead>
+                <tr>
+                    <th class="nosort">Product</th>
+                    <th class="nosort">SKU</th>
+                    <th class="nosort">Qty Package</th>
+                    <th class="nosort">Update Qty</th>
+                    <td class="nosort">Select <input type="checkbox" class="chkSelectAll" /></td>
+                    <th class="nosort">Edit</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td id="row">
+                            @item.ProductName
+                        </td>
+                        <td>
+                            @item.SKU
+                        </td>
+                        <td>
+                            @item.QuantityPackage
+                        </td>
+                        @if (@item.UpdateQuantityPackage > 0)
+                        {
+                            <td>
+                                <input type="text" class="txtUpdateQuantityPackage" value="@item.UpdateQuantityPackage">
+                            </td>
+                        }
+                        else
+                        {
+                            <td>
+                                <input type="text" class="txtUpdateQuantityPackage" value="@item.UpdateQuantityPackage" disabled="disabled">
+                            </td>
+                        }
+                        @if (@item.UpdateQuantityPackage > 0)
+                        {
+                            <td>
+                                <input type="hidden" class="hdnProductQtyID" value="@item.ProductQtyID" />
+                                <input type="checkbox" class="chkSelect" />
+                                <input type="hidden" class="hdnProductID" value="@item.ProductID" />
+                                <input type="hidden" class="hdnProductName" value="@item.ProductName" />
+                                <input type="hidden" class="hdnQuantityPackage" value="@item.QuantityPackage" />
+                                <input type="hidden" class="hdnUpdateQuantityPackage" value="@item.UpdateQuantityPackage" />
+                                <input type="hidden" class="hdnSKU" value="@item.SKU" />
+                                <input type="hidden" class="hdnCustomerName" value="@item.CustomerName" />
+                                <input type="hidden" class="hdnPONumber" value="@item.PONumber" />
+                                <input type="hidden" class="hdnOrderQtyID" value="@item.OrderQtyID" />
+                                <input type="hidden" class="hdnAreaName" value="@item.AreaName" />
+                                <input type="hidden" class="hdnOrderID" value="@item.OrderID" />
+                                <input type="hidden" class="hdnCustomerID" value="@item.CustomerID" />
+                                <input type="hidden" class="hdnAreaID" value="@item.AreaID" />
+                                <input type="hidden" class="hdnOrderDate" value="@item.OrderDate" />
+                                @*<input type="hidden" class="hdnCategoryID" value="@item.CategoryID" />*@
+                            </td>
+                        }
+                        else
+                        {
+                            <td>
+                                <input type="checkbox" class="chkSelect" disabled="disabled" />
+                            </td>
+                        }
+                        <td>
+                            <a style="cursor:pointer;" class="btneditquantity" data-quantitypackage="@item.QuantityPackage" data-orderid="@item.OrderID" data-orderqtyid="@item.OrderQtyID">Edit</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+            <tr>
+                <td></td>
+                <td></td>
+                <td>
+                    @if (Model.Count > 0)
+                    {
+                        @Model[0].TotalQuantityPackage
+                    }
+                </td>
+
+                <td>
+                    @if (Model.Count > 0)
+                    {
+                        @Model[0].TotalKG
+                    }
+                </td>
+                <td></td>
+                <td></td>
+            </tr>
+        </table>
+
+        <div class="box-footer ">
+            <div style="text-align:center">
+                <button type="button" id="btnPrint" class="btn btn-info" tabindex="1">Print Label</button>
+                <button type="button" class="btn btn-info" id="btnPrintSummary" tabindex="2">Print Summary</button>
+                <button type="button" id="btnTotalBag" class="btn btn-info" tabindex="3">Print Total Bag</button>
+                <button type="button" id="btncreatecreditmemo" class="btn btn-info" tabindex="4">Create Credit Memo</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="responsive" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" style="padding-bottom: 0px;">
+                    <h4 class="modal-title">Label Details</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row" style="margin-top:10px;">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <input name="ProductIdbarcode" id="OrderQtyID" type="hidden" value="" />
+                                <input name="AreaName" id="AreaName" type="hidden" value="" />
+                                <input name="OrderID" id="OrderID" type="hidden" value="" />
+                                <input name="CustomerID" id="CustomerID" type="hidden" value="" />
+                                <input name="AreaID" id="AreaID" type="hidden" value="" />
+                                <input name="SumTotalKG" id="SumTotalKG" type="hidden" value="" />
+                                <input name="OrderDate" id="OrderDate" type="hidden" value="" />
+                                <label for="Godown" class="col-sm-4 control-label">Customer Name</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" name="CustomerName" maxlength="100" id="CustomerName" placeholder="Customer Name" tabindex="1">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top:10px;">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="Godown" class="col-sm-4 control-label">PO Number</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" name="PONumber" maxlength="100" id="PONumber" placeholder="PO Number" tabindex="2">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top:10px;">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="Godown" class="col-sm-4 control-label">Product</label>
+                                <div class="col-sm-8">
+                                    <textarea class="form-control" name="ProductName" maxlength="100" id="ProductName" placeholder="Product Name" tabindex="3"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top:10px;">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="Tray" class="col-sm-4 control-label">Tray</label>
+                                <div class="col-sm-8">
+                                    <input type="checkbox" class="chkTray check" id="chkTray" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top:10px;">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="Jabla" class="col-sm-4 control-label">Zabla</label>
+                                <div class="col-sm-8">
+                                    <input type="checkbox" class="chkZabla check" id="chkZabla" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top:10px;">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="ChequeNo" class="col-sm-4 control-label">Box</label>
+                                <div class="col-sm-8">
+                                    <input type="checkbox" class="chkBox check" id="chkBox" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btnsavepopup btn btn-info">Print</button>
+                    <button type="button" class="btnclosepopup btn btn-info" data-dismiss="modal" aria-hidden="true">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="editquantitypopup" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" style="padding-bottom: 0px;">
+                    <h4 class="modal-title">label Details</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row" style="margin-top:10px;">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <input name="OrderID1" id="OrderID1" class="hdnOrderID1" type="hidden" value="" />
+                                <input name="OrderQtyID1" id="OrderQtyID1" class="hdnPOrderQtyID1" type="hidden" value="" />
+                                <label for="NoofLabels" class="col-sm-4 control-label">No Of Label</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" name="QuantityPackage" maxlength="100" id="QuantityPackage" placeholder="Quantity" tabindex="1">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btnupdatequantity btn btn-info">Update</button>
+                    <button type="button" class="btnclosequantitypopup btn btn-info" data-dismiss="modal" aria-hidden="true">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="lstcase">
+    </div>
+
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script>
+
+    $(".check").change(function () {
+        if ($(this).is(":checked")) {
+            $(".check").not($(this)).each(function () {
+                $(this).removeAttr("checked");
+            })
+        }
+    });
+
+    $('#ListDataTablewithourpaging').on('change', '.chkSelectAll', function () {
+        var ProductID = 0;
+        var sum = 0;
+        var qty = 0;
+        if ($(this).closest("tr").find(".chkSelectAll").is(':checked')) {
+            $('#ListDataTablewithourpaging').children('tbody').children('tr:visible').each(function (index, row) {
+                $(row).closest("tr").find(".chkSelect").prop('checked', true);
+                if (index == (parseInt($('#ListDataTablewithourpaging').children('tbody').children('tr').length) - parseInt(1))) {
+                    $(row).closest("tr").find("td")[2].innerText = qty;
+                    qty = 0;
+                }
+                else {
+                    qty = parseFloat(qty) + parseFloat($(row).closest("tr").find("td")[2].innerText);
+                }
+            });
+        }
+        else {
+            $('#ListDataTablewithourpaging').children('tbody').children('tr:visible').each(function (index, row) {
+                if (index == (parseInt($('#ListDataTablewithourpaging').children('tbody').children('tr').length) - parseInt(1))) {
+                    $(row).closest("tr").find("td")[2].innerText = qty;
+                    qty = 0;
+                }
+                $(row).closest("tr").find(".chkSelect").prop('checked', false);
+            });
+        }
+    });
+
+    $('#ListDataTablewithourpaging').on('change', '.chkSelect', function () {
+        debugger;
+        var end = $(this).closest("tr").closest("tr").find(".hdnProductID").val();
+        var cnt = 0;
+        var sum = 0;
+        var ProductID = 0;
+        var qty = 0;
+        var SumTotalKG = 0;
+        var TotalKgProductWise = 0;
+        $('#ListDataTablewithourpaging').children('tbody').children('tr:visible').each(function (index, row) {
+            if ($(row).closest("tr").find(".chkSelect").is(':checked')) {
+
+                qty = parseFloat(qty) + parseFloat($(row).closest("tr").find(".txtUpdateQuantityPackage").val());
+                debugger;
+                var gmstr = "";
+                gmstr = $(row).closest("tr").find(".hdnSKU").val();
+                var array = gmstr.split(" ");
+                var weight = array[0];
+                var unit = array[1];
+                var TotalKgProductWise = 0;
+                if (unit == "g") {
+                    TotalKgProductWise = (weight * $(row).closest("tr").find(".txtUpdateQuantityPackage").val()) / 1000;
+                }
+                else {
+
+                    TotalKgProductWise = weight * $(row).closest("tr").find(".txtUpdateQuantityPackage").val();
+                }
+                if (TotalKgProductWise != 0) {
+                    SumTotalKG = +SumTotalKG + +(TotalKgProductWise);
+                }
+            }
+            else {
+                if (index != (parseInt($('#ListDataTablewithourpaging').children('tbody').children('tr').length) - parseInt(1))) {
+                    cnt = 1;
+                }
+            }
+            if (index == (parseInt($('#ListDataTablewithourpaging').children('tbody').children('tr').length) - parseInt(1))) {
+                $(row).closest("tr").find("td")[2].innerText = qty;
+                qty = 0;
+                $(row).closest("tr").find("td")[3].innerText = SumTotalKG;
+                SumTotalKG = 0;
+            }
+            if (end == $(row).closest("tr").find(".hdnProductID").val()) {
+                if ($(row).closest("tr").find(".chkSelect").is(':checked')) {
+                    ProductID = $(row).closest("tr").find(".hdnProductID").val();
+                    sum = parseFloat(sum) + parseFloat($(row).closest("tr").find(".hdnTotal").val());
+                }
+                else {
+                    ProductID = $(row).closest("tr").find(".hdnProductID").val();
+                }
+            }
+        });
+        if (cnt == 0) {
+            $('#ListDataTablewithourpaging').children('thead').children('tr').find('.chkSelectAll').prop('checked', true);
+        }
+        else {
+            $('#ListDataTablewithourpaging').children('thead').children('tr').find('.chkSelectAll').prop('checked', false);
+        }
+    });
+
+
+    $("#btnPrint").click(function () {
+        debugger;
+        var productname = "";
+        var orderqtyid = "";
+        var SumTotalKG = 0;
+        $('#ListDataTablewithourpaging').children('tbody').children('tr:visible').each(function (index, row) {
+            if ($(row).closest("tr").find(".chkSelect").is(':checked')) {
+
+                if (productname == "") {
+                    productname = $(row).closest("tr").find(".hdnProductName").val() + " " + $(row).closest("tr").find(".hdnSKU").val() + " X " + $(row).closest("tr").find(".txtUpdateQuantityPackage").val();
+                }
+                else {
+                    productname = productname + " , " + $(row).closest("tr").find(".hdnProductName").val() + " " + $(row).closest("tr").find(".hdnSKU").val() + " X " + $(row).closest("tr").find(".txtUpdateQuantityPackage").val();
+                }
+                if (orderqtyid == "") {
+                    orderqtyid = $(row).closest("tr").find(".hdnOrderQtyID").val() + "-" + $(row).closest("tr").find(".txtUpdateQuantityPackage").val() + "-" + $(row).closest("tr").find(".hdnProductID").val() + "-" + $(row).closest("tr").find(".hdnProductQtyID").val();
+                }
+                else {
+                    orderqtyid = orderqtyid + "," + $(row).closest("tr").find(".hdnOrderQtyID").val() + "-" + $(row).closest("tr").find(".txtUpdateQuantityPackage").val() + "-" + $(row).closest("tr").find(".hdnProductID").val() + "-" + $(row).closest("tr").find(".hdnProductQtyID").val();
+                }
+                debugger;
+                var gmstr = "";
+                gmstr = $(row).closest("tr").find(".hdnSKU").val();
+                var array = gmstr.split(" ");
+                var weight = array[0];
+                var unit = array[1];
+                var TotalKgProductWise = 0;
+                if (unit == "g") {
+                    TotalKgProductWise = (weight * $(row).closest("tr").find(".txtUpdateQuantityPackage").val()) / 1000;
+                }
+                else {
+
+                    TotalKgProductWise = weight * $(row).closest("tr").find(".txtUpdateQuantityPackage").val();
+                }
+                if (TotalKgProductWise != 0) {
+                    SumTotalKG = +SumTotalKG + +(TotalKgProductWise);
+                }
+                $("#OrderQtyID").val(orderqtyid);
+                $("#AreaName").val($(this).closest('tr').find(".hdnAreaName").val());
+                $("#PONumber").val($(this).closest('tr').find(".hdnPONumber").val());
+                $("#CustomerName").val($(this).closest('tr').find(".hdnCustomerName").val());
+                $("#OrderID").val($(this).closest('tr').find(".hdnOrderID").val());
+                $("#CustomerID").val($(this).closest('tr').find(".hdnCustomerID").val());
+                $("#AreaID").val($(this).closest('tr').find(".hdnAreaID").val());
+                $("#OrderDate").val($(this).closest('tr').find(".hdnOrderDate").val());
+                $("#ProductName").val(productname);
+                $("#SumTotalKG").val(SumTotalKG);
+            }
+        });
+        $("#responsive").removeClass("modal fade").addClass("modal fade modal-overflow in");
+        $("#responsive").css("display", "block");
+    });
+
+    $(".btnclosepopup").click(function () {
+        debugger;
+        $('#responsive').removeClass("modal fade modal-overflow in");
+        $('#responsive').removeAttr('style');
+        $('#responsive').addClass("modal fade");
+    });
+
+    $(".btnsavepopup").click(function () {
+        debugger;
+
+        //var Date = window.location.search.split('=')[1];
+        //var OrderID = window.location.search.split('=')[2];
+        var Tagstr = window.location.search.split('=')[3];
+
+        //var arr = Date.split('&');
+        //var FromDate = arr[0];
+
+        //var arr2 = OrderID.split('&');
+        //var OrderID1 = arr2[0];
+
+        var arr3 = Tagstr.split('&');
+        var Tag = arr3[0];
+
+        var CustomerName = $("#CustomerName").val();
+        var PONumber = $("#PONumber").val();
+        var ProductName = $("#ProductName").val();
+        var OrderQtyID = $("#OrderQtyID").val();
+        var AreaName = $("#AreaName").val();
+        var OrderID = $("#OrderID").val();
+        var CustomerID = $("#CustomerID").val();
+        var AreaID = $("#AreaID").val();
+        var Tray = $('#chkTray').is(":checked");
+        var Zabla = $('#chkZabla').is(":checked");
+        var Box = $('#chkBox').is(":checked");
+        var TotalKG = $("#SumTotalKG").val();
+        var OrderDate = $("#OrderDate").val();
+        $.ajax({
+            url: '@Url.Action("PrintContentLabel")',
+            type: 'POST',
+            data: { 'CustomerName': CustomerName, 'AreaName': AreaName, 'PONumber': PONumber, 'ProductName': ProductName, 'OrderQtyID': OrderQtyID, 'OrderID': OrderID, 'CustomerID': CustomerID, 'AreaID': AreaID, 'Tray': Tray, 'Zabla': Zabla, 'Box': Box, 'TotalKG': TotalKG, 'OrderDate': OrderDate, 'Tag': Tag },
+            cache: false,
+        }).done(function (result) {
+            if (result != '') {
+                window.open(result, "newPage");
+                location.reload();
+            }
+        });
+        $('#responsive').removeClass("modal fade modal-overflow in");
+        $('#responsive').removeAttr('style');
+        $('#responsive').addClass("modal fade");
+    });
+
+    $("#btnPrintSummary").click(function () {
+        debugger;
+        var ID = window.location.search.split('=')[1];
+        var OrderIDstr = window.location.search.split('=')[2];
+        var arr1 = OrderIDstr.split('&');
+        var OrderID = arr1[0];
+        debugger;
+        $.ajax({
+            url: '@Url.Action("PrintSummary", "Order")',
+            type: 'POST',
+            data: { 'OrderID': OrderID },
+            cache: false,
+        }).done(function (result) {
+            if (result != '') {
+                window.open(result, "newPage");
+            }
+        });
+    });
+
+    $("#btnTotalBag").click(function () {
+        debugger;
+        var OrderIDstr = window.location.search.split('=')[2];
+        var arr1 = OrderIDstr.split('&');
+        var OrderID = arr1[0];
+
+        var Tagstr = window.location.search.split('=')[3];
+        var arr2 = Tagstr.split('&');
+        var Tag = arr2[0];
+
+
+        $.ajax({
+            url: '@Url.Action("PrintTotalBag", "Order")',
+            type: 'POST',
+            data: { 'OrderID': OrderID, 'Tag': Tag },
+            cache: false,
+        }).done(function (result) {
+            if (result != '') {
+                window.open(result, "newPage");
+            }
+        });
+    });
+
+    $('.lst1').on('click', '.btneditquantity', function () {
+        debugger;
+        var OrderID = ($(this).attr("data-orderid"));
+        var OrderQtyID = ($(this).attr("data-orderqtyid"));
+        $("#OrderID1").val(OrderID);
+        $("#OrderQtyID1").val(OrderQtyID);
+        $("#QuantityPackage").val($(this).attr("data-quantitypackage"));
+        $("#editquantitypopup").removeClass("modal fade").addClass("modal fade modal-overflow in");
+        $("#editquantitypopup").css("display", "block");
+    });
+
+    $(".btnclosequantitypopup").click(function () {
+        debugger;
+        $('#editquantitypopup').removeClass("modal fade modal-overflow in");
+        $('#editquantitypopup').removeAttr('style');
+        $('#editquantitypopup').addClass("modal fade");
+    });
+
+    $(".btnupdatequantity").click(function () {
+        //debugger;
+        var OrderID = $("#OrderID1").val();
+        var OrderQtyID = $("#OrderQtyID1").val();
+        var UpdateQuantity = $("#QuantityPackage").val();
+        $.ajax({
+            url: '@Url.Action("UpdateCheckListQuantity")',
+            type: 'POST',
+            data: { 'OrderID': OrderID, 'OrderQtyID': OrderQtyID, 'UpdateQuantity': UpdateQuantity },
+            cache: false,
+        }).done(function (result) {
+            debugger;
+            if (result == true) {
+                debugger;
+                alert("quantity updated successfully.");
+            }
+        });
+        $('#editquantitypopup').removeClass("modal fade modal-overflow in");
+        $('#editquantitypopup').removeAttr('style');
+        $('#editquantitypopup').addClass("modal fade");
+        location.reload();
+    });
+
+    $("#btncreatecreditmemo").click(function () {
+        debugger;
+        var Date = window.location.search.split('=')[1];
+        var OrderIDstr = window.location.search.split('=')[2];
+
+        var arr = Date.split('&');
+        var FromDate = arr[0];
+
+        var arr1 = OrderIDstr.split('&');
+        var OrderID = arr1[0];
+
+        var model = new Object();
+        model.OrderID = OrderID;
+        $.ajax({
+            url: '@Url.Action("ViewOrderWiseCreditMemoForCheckList")',
+            type: 'POST',
+            data: { 'model': model },
+            cache: false,
+        }).done(function (result) {
+            $('#lstcase').html(result);
+        });
+    });
+
+</script>

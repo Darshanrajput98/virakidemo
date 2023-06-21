@@ -1,0 +1,80 @@
+﻿@model List<vb.Data.StockReportResponseList>
+
+@using vb.Data.ViewModel
+
+<div class="box">
+    <div class="box-header text-center">
+        <h3 class="box-title">Stock Report List</h3>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body table-scrollable1" style="overflow-x:auto;">
+        <table id="ListDataTableStockReport" class="table table-bordered table-striped lstsales">
+            <thead>
+                <tr>
+                    <th class="nosort" style="text-align:center">ColdStorage Name</th>
+                    <th class="nosort" style="text-align:center">Item Name</th>
+                    <th class="nosort" style="text-align:center">Inward Date</th>
+                    <th class="nosort" style="text-align:center">LotNo</th>
+                    <th class="nosort" style="text-align:center">Remaining No. of Bags</th>
+                    <th class="nosort" style="text-align:center">Weight Per Bags</th>
+                    <th class="nosort" style="text-align:center">Total Weight</th>
+                    <th class="nosort" style="text-align:center">Rate Per KG</th>
+                    <th class="nosort" style="text-align:center">Expiry Date</th>
+                    <th class="nosort" style="text-align:center">Total Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td id="row">
+                            @item.Name
+                        </td>
+                        <td>
+                            @item.ProductName
+                        </td>
+                        <td>
+                            @item.Date
+                        </td>
+                        <td>
+                            @item.LotNo
+                        </td>
+                        <td>
+                            @item.RemNoofBags
+                        </td>
+                        <td>
+                            @item.WeightPerBag
+                        </td>
+                        <td>
+                            @item.TotalWeight
+                        </td>
+                        <td>
+                            @item.RatePerKG
+                        </td>
+                        <td>
+                            @item.ExpiryDate
+                        </td>
+                        <td>
+                            @item.TotalAmount
+                        </td>
+                    </tr>
+                }
+                @if (Model.Count > 0)
+                {
+                    <tr style="font-weight:bold">
+                        <td colspan="4">
+                            Total :
+                        </td>
+                        <td>@Model[0].sumNoofBags</td>
+                        <td></td>
+                        <td>@Model[0].sumTotalWeight</td>
+                        <td></td>
+                        <td></td>
+                        <td>@Model[0].sumTotalAmount</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <!-- /.box-body -->
+</div>

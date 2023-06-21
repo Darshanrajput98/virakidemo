@@ -1,0 +1,93 @@
+﻿@model List<vb.Data.DriverListResponse>
+@using vb.Data.ViewModel
+
+<div class="box">
+    <div class="box-header text-center">
+        <h3 class="box-title">Driver List</h3>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body table-scrollable1">
+        <table id="ListDataTable" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th class="nosort">Name</th>
+                    <th class="nosort">Tempo Number</th>
+                    <th class="nosort">Mobile Number</th>
+                    <th class="nosort">Licence</th>
+                    @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.WEDRIVER.ToString()))
+                    {
+                        <th>Edit</th>
+                    }
+                    @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.WDDRIVER.ToString()))
+                    {
+                        <th>Status</th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td id="row" @item.DriverID>
+                            @item.DriverName
+                        </td>
+                        <td>
+                            @item.TempoNumber
+                        </td>
+                        <td>
+                            @item.DriverMobileNumber
+                        </td>
+                        <td>
+                            @item.Licence
+                        </td>
+                        @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.WEDRIVER.ToString()))
+                        {
+                            <td>
+                                <a style="cursor:pointer;" class="btnedit" data-pid="@item.DriverID">Edit</a>
+                            </td>
+                        }
+                        @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.WDDRIVER.ToString()))
+                        {
+                            if (item.IsDelete == true)
+                            {
+                                <td>
+                                    @Html.ActionLink("Active", "DeleteDriver", "Admin",
+                                          new { DriverID = item.DriverID, IsDelete = false },
+                                    new { onclick = "return confirm('Are you sure you wish to delete this article?');" })
+                                </td>
+                            }
+                            else
+                            {
+                                <td>
+                                    @Html.ActionLink("DeActive", "DeleteDriver", "Admin",
+                                          new { DriverID = item.DriverID, IsDelete = true },
+                                    new { onclick = "return confirm('Are you sure you wish to delete this article?');" })
+                                </td>
+                            }
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <!-- /.box-body -->
+</div>
+
+<script>
+    $("#ListDataTable").DataTable({
+        'aoColumnDefs': [{
+            'bSortable': false,
+            'aTargets': ['nosort'] /* 1st one, start by the right */
+
+        }]
+    });
+    $('#ListDataTable').on('click', '.btnedit', function () {
+        $("#UDriverID").val($(this).attr("data-pid"));
+        $("#DriverName").val($(this).parent().parent().children()[0].innerHTML.trim());
+        $("#TempoNumber").val($(this).parent().parent().children()[1].innerHTML.trim());
+        $("#DriverMobileNumber").val($(this).parent().parent().children()[2].innerHTML.trim());
+        $("#Licence").val($(this).parent().parent().children()[3].innerHTML.trim());
+        $("html, body").animate({ scrollTop: 0 }, "slow");
+    });
+</script>
+

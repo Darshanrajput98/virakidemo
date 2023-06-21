@@ -1,0 +1,189 @@
+﻿@model List<vb.Data.YearlySalarySheetList>
+@using vb.Data.ViewModel
+
+
+<style>
+    .box-body {
+        overflow: auto;
+    }
+
+</style>
+<div class="box">
+    <div class="box-header">
+        <h3 class="box-title">Yearly Salary Detail</h3>
+    </div>
+    <div class="box-body">
+        <table id="ListDataTablewithourpaging" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Sr No.</th>
+                    <th>Month</th>
+                    <th>Gross Wages</th>
+                    <th>EBA</th>
+                    <th>EHRA</th>
+                    <th>City</th>
+                    <th>Vehicle</th>
+                    <th>Conveyance</th>
+                    <th>Performance</th>
+                    <th>PF</th>
+                    <th>PT</th>
+                    <th>ESIC</th>
+                    <th>MLWF</th>
+                    <th>TDS</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.RowNumber</td>
+                        <td>@item.MonthName</td>
+                        <td>@item.GrossWagesPayable.ToString("0.00")</td>
+                        <td>@item.EarnedBasicWages.ToString("0.00")</td>
+                        <td>@item.EarnedHouseRentAllowance.ToString("0.00")</td>
+                        <td>@item.CityAllowance.ToString("0.00")</td>
+                        <td>@item.VehicleAllowance.ToString("0.00")</td>
+                        <td>@item.Conveyance.ToString("0.00")</td>
+                        <td>@item.PerformanceAllowance.ToString("0.00")</td>
+                        <td>@item.PF.ToString("0.00")</td>
+                        <td>@item.PT.ToString("0.00")</td>
+                        <td>@item.ESIC.ToString("0.00")</td>
+                        <td>@item.MLWF.ToString("0.00")</td>
+                        <td>@item.TDS.ToString("0.00")</td>
+                    </tr>
+                }
+              
+                @if (Model.Count > 0)
+                {
+                    <tr style="font-weight:bold">
+                        <td colspan="2">
+                            Additional TDS :
+                        </td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>
+                            @Model[0].TDSSalary.ToString("0.00")
+                        </td>
+                    </tr>
+                }
+
+                @if (Model.Count > 0)
+                {
+                    <tr style="font-weight:bold">
+                        <td colspan="2">
+                            Total Gross Wages :
+                        </td>
+                        <td>
+                            @Model[0].sumGrossWagesPayable.ToString("0.00")
+                        </td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                }
+
+                @if (Model.Count > 0)
+                {
+                    <tr style="font-weight:bold">
+                        <td colspan="2">
+                            Bonus:
+                        </td>
+                        <td>
+                            @Model[0].TotalBonus.ToString("0.00")
+                        </td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                }
+
+
+                @if (Model.Count > 0)
+                {
+                    <tr style="font-weight:bold">
+                        <td colspan="2">
+                            LeaveEncashment:
+                        </td>
+                        <td>
+                            @Model[0].LeaveEncashment.ToString("0.00")
+                        </td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                }
+
+
+                @if (Model.Count > 0)
+                {
+                    var TDSSalary = @Model[0].sumTDS + @Model[0].TDSSalary;
+                    <tr style="font-weight:bold">
+                        <td colspan="2">
+                            Grand Total:
+                        </td>
+                        <td>
+                            @Model[0].GrandTotal.ToString("0.00")
+                        </td>
+                        <td>@Model[0].sumEarnedBasicWages.ToString("0.00")</td>
+                        <td>@Model[0].sumEarnedHouseRentAllowance.ToString("0.00")</td>
+                        <td>@Model[0].sumCityAllowance.ToString("0.00")</td>
+                        <td>@Model[0].sumVehicleAllowance.ToString("0.00")</td>
+                        <td>@Model[0].sumConveyance.ToString("0.00")</td>
+                        <td>@Model[0].sumPerformanceAllowance.ToString("0.00")</td>
+                        <td>@Model[0].sumPF.ToString("0.00")</td>
+                        <td>@Model[0].sumPT.ToString("0.00")</td>
+                        <td>@Model[0].sumESIC.ToString("0.00")</td>
+                        <td>@Model[0].sumMLWF.ToString("0.00")</td>
+                        <td>@TDSSalary.ToString("0.00")</td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@*<script>
+        $('#ListDataTableYearlySalary').DataTable({
+            'paging': false,
+            'lengthChange': true,
+            'searching': true,
+            'ordering': false,
+            'info': true,
+            'autoWidth': false
+        });
+    </script>*@
+

@@ -1,0 +1,374 @@
+﻿@model List<vb.Data.InwardListResponse>
+
+@{
+    ViewBag.Title = "Inward List";
+    Layout = "~/Areas/coldstorage/Views/Shared/_coldstoragelayout.cshtml";
+}
+
+<style>
+    button.btn.btn-info.OutwardStyle {
+        outline: none;
+    }
+
+    button.btnOutward.hdnInwardID.btn.btn-info {
+        outline: none;
+        padding: 5px 5px 5px 5px;
+        width: 100%;
+    }
+
+    option {
+        font-size: 15px;
+    }
+</style>
+
+@using vb.Data.ViewModel
+
+<div class="box">
+    <div class="box-header text-center">
+        <h3 class="box-title">Inward List</h3>
+    </div>
+    <div class="box-body table-scrollable1">
+        <table id="ListDataTableInwardList" class="table table-bordered table-bordered ListDataTable">
+            <thead>
+                <tr>
+                    <th>C.S.N</th>
+                    <th>Date</th>
+                    <th>L.N</th>
+                    <th>I.N</th>
+                    <th>Notes</th>
+                    <th>N.O.B</th>
+                    <th>U.N.O.B</th>
+                    <th>Remain Bags</th>
+                    <th>Weight Per Bags</th>
+                    <th>Total Weight</th>
+                    <th>Rate Per KG</th>
+                    <th>Rent Per Bags</th>
+                    <th>Total Amount</th>
+                    <th>Delivery ChallanNumber</th>
+                    <th>Delivery ChallanDate</th>
+
+
+                    @*@if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.EPurchaseType.ToString()))
+                        {*@
+                    <th class="btnedit">Edit</th>
+                    @*}
+                        @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.DPurchaseType.ToString()))
+                        {*@
+                    @*<th>Status</th>*@
+                    @*}*@
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.Name</td>
+                        <td>@item.Date</td>
+                        <td>@item.LotNo</td>
+                        <td>@item.ProductName</td>
+                        <td>@item.Notes</td>
+                        <td>
+                            @item.NoofBags
+                            <input type="checkbox" class="chboxOutward"/>
+                            <button class="btnOutward hdnInwardID btn btn-info" type="button" value="@item.InwardID" data-inwardid="@item.InwardID" data-deliverychallannumber="@item.DeliveryChallanNumber" data-lotno="@item.LotNo" data-date="@item.Date" data-itemname="@item.ProductName" data-totalquantity="@item.RemQty" data-quantity="@item.Quantity" data-coldstorageid="@item.ColdStorageID" data-godownidto="@item.GodownIDTo">Outward</button>
+                        </td>
+                        <td>@item.UsedQty</td>
+                        <td>@item.RemQty</td>
+                        <td>@item.WeightPerBag</td>
+                        <td>@item.TotalWeight</td>
+                        <td>@item.RatePerKG</td>
+                        <td>@item.RentPerBags</td>
+                        <td>@item.TotalAmount</td>
+                        <td>@item.DeliveryChallanNumber</td>
+                        <td>@item.DeliveryChallanDate</td>
+
+
+                        @*@if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.EPurchaseType.ToString())){*@
+
+                        <td>
+                            <a style="cursor:pointer;" class="btnedit" data-inwardid="@item.InwardID" data-createdby="@item.CreatedBy" data-createdon="@item.CreatedOn" data-coldstorageid="@item.ColdStorageName" data-name="@item.Name" data-date="@item.Date" data-expirydate="@item.ExpiryDate" data-lotno="@item.LotNo" data-deliverychallannumber="@item.DeliveryChallanNumber" data-supplierid="@item.SupplierID" data-deliverychallandate="@item.DeliveryChallanDate">Edit</a>
+                        </td>
+
+                        @*}@if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.DPurchaseType.ToString())){*@
+
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+
+    <div id="responsive" class="modal fade responsive">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" style="padding-bottom: 5px;">
+                    <h4 class="modal-title">Outward Details</h4>
+                </div>
+
+                <form class="modal-body" id="InwardForm">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <input name="OutwardID" id="OutwardID" type="hidden" value="" />
+                                <input type="hidden" id="CreatedBy" class="CreatedBy" value="" />
+                                <input type="hidden" id="CreatedOn" class="CreatedOn" value="" />
+                                <input type="hidden" class="form-control ColdStorageID" name="ColdStorageID" value="" id="ColdStorageID">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="DeliveryChallanNumber" class="col-sm-4 control-label">Delivery Challan No.</label>
+                                <div class="col-sm-8" style="padding-bottom:5px;">
+                                    <input type="text" class="form-control DeliveryChallanNumber" name="DeliveryChallanNumber" id="DeliveryChallanNumber" placeholder="Delivery Challan Number" tabindex="2" value="" autocomplete="off" disabled="disabled">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="LotNo" class="col-sm-4 control-label">LOT No.</label>
+                                <div class="col-sm-8" style="padding-bottom:5px;">
+                                    <input type="text" class="form-control LotNo" name="LotNo" id="LotNo" placeholder="LOT NO" tabindex="5" value="" autocomplete="off" disabled="disabled">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="Date" class="col-sm-4 control-label">Date</label>
+                                <div class="col-sm-8" style="padding-bottom:5px;">
+                                    <div class="input-group date">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
+                                        <input type="text" class="form-control pull-right datepicker Date" name="Date" id="Date" tabindex="3" value="" autocomplete="off" disabled="disabled">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="LotNo" class="col-sm-4 control-label">Item Name</label>
+                                <div class="col-sm-8" style="padding-bottom:5px;">
+                                    <input type="text" class="form-control ProductName" name="ProductName" placeholder="Item Name" tabindex="5" value="" autocomplete="off" disabled="disabled">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="LotNo" class="col-sm-4 control-label">Remain No of Bags</label>
+                                <div class="col-sm-8" style="padding-bottom:5px;">
+                                    <input type="text" class="form-control NoofBags" name="Bags" placeholder="Bags" value="" id="NoofBags" autocomplete="off" disabled="disabled">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="LotNo" class="col-sm-4 control-label">Quantity/Bags</label>
+                                <div class="col-sm-8" style="padding-bottom:5px;">
+                                    <input type="text" class="form-control Quantity" name="Quantity" placeholder="Quantity/Bags" value="" id="Quantity" autocomplete="off" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="Date" class="col-sm-4 control-label">Outward Date</label>
+                                <div class="col-sm-8" style="padding-bottom:5px;">
+                                    <div class="input-group date">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
+                                        <input type="text" class="form-control pull-right datepicker Outward_date" name="Outward_date" id="Outward_date" tabindex="3" value="" autocomplete="off" required>
+                                    </div>
+                                </div>
+                            </div>
+
+                            @*<div class="form-group">
+                                    <label for="Name" class="col-sm-4 control-label">ColdStorage</label>
+                                    <div class="col-sm-8" style="padding-bottom:5px;">
+                                        <input type="hidden" class="form-control ColdStorageID" name="ColdStorageID" value="" id="ColdStorageID" autocomplete="off" disabled="disabled">
+                                        <input type="text" class="form-control Name" name="Name" value="" id="Name" autocomplete="off" disabled="disabled">
+                                    </div>
+                                </div>*@
+
+
+                            <div class="form-group">
+                                <label for="GodownName" class="col-sm-4 control-label">Godown</label>
+                                <div class="col-sm-8" style="padding-bottom:5px;">
+                                    @Html.DropDownList("GodownIDTo", new SelectList(ViewBag.Godown, "GodownID", "GodownName", 2), new { @class = "form-control select2 GodownID2", @required = true })
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </form>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-info OutwardStyle" id="btnsaveOutward">Add Outward</button>
+                    <button type="button" class="btnclosepopup btn btn-info OutwardStyle" data-dismiss="modal" aria-hidden="true">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<div id="lstcase">
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+
+<script>
+
+    $(document).ready(function () {
+
+        //Outward in set Current date 
+        var today = new Date();
+        var dd = today.getDate();
+        var mm = today.getMonth() + 1; //January is 0!
+        var yyyy = today.getFullYear();
+        var date = $("#Outward_date").val(mm + "/" + dd + "/" + yyyy);
+        //console.log(0 + "" + mm + "/" + 0 + "" + dd + "/" + yyyy);
+        //Outward in set Current date
+
+        $(".select2 ,.select2-container ,.select2-container--default ,.select2-container--focus").css({ 'width': '100%' });
+
+        function loadhtml() {
+            $.ajax({
+                url: '@Url.Action("InwardList")',
+                type: 'GET',
+                cache: false,
+            }).done(function (result) {
+                $('#lstcase').html(result);
+            });
+        }
+
+    });
+
+</script>
+
+<script>
+
+    $("#btnsaveOutward").click(function () {
+        debugger;
+        if (!($('#responsive').parsley().validate())) {
+            return;
+        }
+
+        debugger;
+        var Quantity = $(".Quantity").val();
+        if (Quantity != '' && Quantity != 0) {
+            var datareq = new Object();
+            datareq.OutwardID = $("#OutwardID").val();
+            datareq.InwardID = $(".hdnInwardID").val();
+            datareq.TotalQuantity = $("#NoofBags").val();
+            datareq.Quantity = $(".Quantity").val();
+            datareq.Outward_date = $(".Outward_date").val();
+            datareq.ColdStorageID = $("#ColdStorageID").val();
+            datareq.GodownIDTo = $("#GodownIDTo").val();
+            datareq.CreatedBy = $("#CreatedBy").val();
+            datareq.CreatedOn = $("#CreatedOn").val();
+
+            $.ajax({
+                url: '@Url.Action("AddOutwardBill","Stock")',
+                type: 'POST',
+                data: { 'data': datareq },
+                cache: false,
+            }).done(function (result) {
+                if (result > 0) {
+                    if ($("#OutwardID").val() == "") {
+                        $('div#sucessalert').html("Outward Add successfully.");
+                        showhidealert();
+                        $('#btnsearch').click();
+                        window.location = "/coldstorage/Stock/InwardList";
+                    }
+                    else if ($("#OutwardID").val() != "") {
+                        $('div#sucessalert').html("Outward updated successfully.");
+                        showhidealert();
+                        window.location = "/coldstorage/Stock/InwardList";
+                    }
+                    else {
+                        alert("something went wrong")
+                    }
+                    showhidealert();
+                    loadhtml();
+                    clearform();
+                }
+            });
+            $('#responsive').removeClass("modal fade modal-overflow in");
+            $('#responsive').removeAttr('style');
+            $('#responsive').addClass("modal fade");
+        }
+        else {
+            alert("Please enter the quantity");
+        }
+    });
+
+    $(".btnclosepopup").click(function () {
+        debugger;
+
+        $('#responsive').removeClass("modal fade modal-overflow in");
+        $('#responsive').removeAttr('style');
+        $('#responsive').addClass("modal fade");
+        $(".Quantity").val('');
+        clearform();
+    });
+
+    $(".Quantity").on('input propertychange paste keypress', function (e) {
+        //var end = this;
+        var NoofBags = parseInt($('.NoofBags').val());
+        var Quantity = parseInt($(".Quantity").val());
+        debugger;
+        if (Quantity != '') {
+            if (NoofBags >= Quantity && Quantity != 0) {
+            }
+            else {
+                //alert('Please enter the Number is Less than Remain No of Bags');
+                $(".Quantity").val('');
+            }
+        }
+        else {
+            //alert('Please enter the Quantity');
+        }
+    });
+
+    $(".btnOutward").click(function () {
+        debugger;
+        var InwardID = $(this).attr("data-inwardid");
+        var DeliveryChallanNumber = $(this).attr("data-deliverychallannumber");
+        var LotNo = $(this).attr("data-lotno");
+        var Date = $(this).attr("data-date");
+        var ItemName = $(this).attr("data-itemname");
+        var TotalQuantity = $(this).attr("data-totalquantity");
+        //var Quantity = $(this).attr("data-quantity");
+        var ColdStorageID = $(this).attr("data-coldstorageid");
+        var GodownIDTo = $("#GodownIDTo").val('2');
+
+        //var Name = $(this).attr("data-name");
+        clearcontents(InwardID, DeliveryChallanNumber, LotNo, Date, ItemName, TotalQuantity, ColdStorageID, GodownIDTo);
+        $("#responsive").removeClass("modal fade").addClass("modal fade modal-overflow in");
+        $("#responsive").css("display", "block");
+    });
+
+
+    function clearcontents(InwardID, DeliveryChallanNumber, LotNo, Date, ItemName, TotalQuantity, ColdStorageID, GodownIDTo) {
+        debugger;
+        $('.hdnInwardID').attr('value', InwardID);
+        $('.DeliveryChallanNumber').attr('value', DeliveryChallanNumber);
+        $('.LotNo').attr('value', LotNo);
+        $('.Date').attr('value', Date);
+        $('.ProductName').attr('value', ItemName);
+        $('.NoofBags').attr('value', TotalQuantity);
+        //$('.Quantity').attr('value', Quantity);
+        $('#ColdStorageID').attr('value', ColdStorageID);
+        $('#GodownIDTo').attr('value', GodownIDTo);
+        //$('.Name').attr('value', Name);
+    }
+
+
+    $('.ListDataTable').on('click', '.btnedit', function () {
+        debugger;
+        var url = '@Url.Action("AddInwardDetails", "Stock", new { InwardID = "__InwardID__" })';
+        url = url.replace(/amp;/g, '');
+        window.location.href = url.replace('__InwardID__', $(this).attr("data-inwardid"));
+    });
+
+    function clearform() {
+        location.reload();
+    }
+
+</script>
+
+
+
+

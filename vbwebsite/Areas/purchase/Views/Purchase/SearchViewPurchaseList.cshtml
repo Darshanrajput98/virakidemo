@@ -1,0 +1,79 @@
+﻿@{
+    ViewBag.Title = "SearchViewPurchaseList";
+    Layout = "~/Areas/purchase/Views/Shared/_purchaselayout.cshtml";
+}
+
+<div class="box box-default">
+    <div class="box-header with-border text-center">
+        <h3 class="box-title">View Purchase</h3>
+    </div>
+    <form id="frmViewPurchase" class="form-horizontal">
+        <div class="box-body">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="FromDate" class="col-sm-4 control-label">From </label>
+                    <div class="col-sm-8">
+                        <div class="input-group date">
+                            <div class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
+                            </div>
+                            <input type="text" class="form-control pull-right datepicker" id="txtFrom" tabindex="1" autocomplete="off">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="day" class="col-sm-4 control-label">Supplier Name</label>
+                    <div class="col-sm-8">
+                        @Html.DropDownList("SupplierID", new SelectList(ViewBag.Supplier, "SupplierID", "SupplierName"), "Select Party", new { @class = "form-control select2", tabindex = "3" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="ToDate" class="col-sm-4 control-label">To </label>
+                    <div class="col-sm-8">
+                        <div class="input-group date">
+                            <div class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
+                            </div>
+                            <input type="text" class="form-control pull-right datepicker" id="txtTo" tabindex="2" autocomplete="off">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="box-footer ">
+            <div class="pull-right">
+                <button type="button" id="btnsearch" class="btn btn-info" tabindex="6">Search</button>
+                <button type="button" id="btnclear" class="btn btn-info" tabindex="7">Clear</button>
+            </div>
+        </div>
+    </form>
+    <div id="lstcase">
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script>
+    $(document).ready(function () {
+    });
+
+    function loadhtml() {
+        var model = new Object();
+        model.From = $("#txtFrom").val();
+        model.To = $("#txtTo").val();
+        model.SupplierID = $("#SupplierID").val();
+        $.ajax({
+            url: '@Url.Action("ViewPurchaseList")',
+            type: 'POST',
+            data: { 'model': model },
+            cache: false,
+        }).done(function (result) {
+            $('#lstcase').html(result);
+        });
+    }
+
+    $("#btnsearch").click(function () {
+        loadhtml();
+    });
+</script>

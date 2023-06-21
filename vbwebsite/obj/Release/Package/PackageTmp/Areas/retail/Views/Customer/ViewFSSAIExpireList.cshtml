@@ -1,0 +1,370 @@
+﻿@model List<vb.Data.RetCustomerListResponse>
+@{
+    ViewBag.Title = "ViewFSSAIExpireList";
+    Layout = "~/Areas/retail/Views/Shared/_retaillayout.cshtml";
+}
+
+<div class="box">
+    <div class="box-header text-center">
+        <h3 class="box-title">Customer FSSAI Number Expire List</h3>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body table-scrollable1">
+        @*<table id="ListDataTablewithourpaging" class="table table-bordered table-striped lsttable">*@
+        <table id="ListDataTable" class="table table-bordered table-striped lsttable">
+            <thead>
+                <tr>
+                    <td colspan="13" align="right">
+                        <button type="button" id="btnexport" class="btn btn-info">Export To Excel</button>
+                    </td>
+                </tr>
+                <tr>
+                    <th class="nosort">Customer Name</th>
+                    <th class="nosort">Delivery Area</th>
+                    <th class="nosort">Billing Area</th>
+                    <th class="nosort">Sales Person</th>
+                    <th class="nosort">FSSAI Number</th>
+                    <th class="nosort">FSSAI Valid UpTo</th>
+                    <th class="nosort">Days Remaining</th>
+                    <th class="nosort">FSSAI Number 2</th>
+                    <th class="nosort">FSSAI Valid UpTo 2</th>
+                    <th class="nosort">Days Remaining</th>
+                    <th class="nosort">Contact Number</th>
+                    <th class="nosort">Email</th>
+                    <th class="nosort">Update FSSAI Number</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    if (item.DaysRemaining > 0 && item.DaysRemaining2 > 0)
+                    {
+                        <tr>
+                            <td>
+                                @item.CustomerName
+                            </td>
+                            <td>
+                                @item.DeliveryAreaName
+                            </td>
+                            <td>
+                                @item.BillingAreaName
+                            </td>
+                            <td>
+                                @item.SalesPerson
+                            </td>
+                            <td>
+                                @item.FSSAI
+                            </td>
+                            <td>
+                                @item.FSSAIValidUpTostr
+                            </td>
+                            <td>
+                                @item.DaysRemaining
+                            </td>
+                            <td>
+                                @item.FSSAI2
+                            </td>
+                            <td>
+                                @item.FSSAIValidUpTostr2
+                            </td>
+                            <td>
+                                @item.DaysRemaining2
+                            </td>
+                            <td>
+                                @item.ContactNumber
+                            </td>
+                            <td>
+                                @item.ContactEmail
+                            </td>
+                            <td>
+                                <a style="cursor:pointer;" class="btneditfssaidate" data-customerid="@item.CustomerID" data-fssaivalidupto="@item.FSSAIValidUpTostr" data-fssaivalidupto2="@item.FSSAIValidUpTostr2">Update FSSAI Number</a>
+                            </td>
+                        </tr>
+                    }
+
+                    else if (item.DaysRemaining > 0 || item.DaysRemaining2 > 0)
+                    {
+                        <tr>
+                            <td>
+                                @item.CustomerName
+                            </td>
+                            <td>
+                                @item.DeliveryAreaName
+                            </td>
+                            <td>
+                                @item.BillingAreaName
+                            </td>
+                            <td>
+                                @item.SalesPerson
+                            </td>
+                            @if (item.DaysRemaining > 0)
+                            {
+                                <td>
+                                    @item.FSSAI
+                                </td>
+                                <td>
+                                    @item.FSSAIValidUpTostr
+                                </td>
+                                <td>
+                                    @item.DaysRemaining
+                                </td>
+                            }
+                            else
+                            {
+                                <td style="color: red; font-weight: bold;">
+                                    @item.FSSAI
+                                </td>
+                                <td style="color: red; font-weight: bold;">
+                                    @item.FSSAIValidUpTostr
+                                </td>
+                                <td style="color: red; font-weight: bold;">
+                                    @item.DaysRemaining
+                                </td>
+                            }
+                            @if (item.DaysRemaining2 > 0 || @item.FSSAI2 == "")
+                            {
+                                <td>
+                                    @item.FSSAI2
+                                </td>
+                                <td>
+                                    @item.FSSAIValidUpTostr2
+                                </td>
+                                <td>
+                                    @item.DaysRemaining2
+                                </td>
+                            }
+                            @*else if (@item.FSSAI2 == "")
+                                {
+                                    <td>
+                                        @item.FSSAI2
+                                    </td>
+                                    <td>
+                                        @item.FSSAIValidUpTostr2
+                                    </td>
+                                    <td>
+                                        @item.DaysRemaining2
+                                    </td>
+                                }*@
+                            else
+                            {
+                                <td style="color: red; font-weight: bold;">
+                                    @item.FSSAI2
+                                </td>
+                                <td style="color: red; font-weight: bold;">
+                                    @item.FSSAIValidUpTostr2
+                                </td>
+                                <td style="color: red; font-weight: bold;">
+                                    @item.DaysRemaining2
+                                </td>
+                            }
+                            <td>
+                                @item.ContactNumber
+                            </td>
+                            <td>
+                                @item.ContactEmail
+                            </td>
+                            <td>
+                                <a style="cursor:pointer;" class="btneditfssaidate" data-customerid="@item.CustomerID" data-fssaivalidupto="@item.FSSAIValidUpTostr" data-fssaivalidupto2="@item.FSSAIValidUpTostr2">Update FSSAI Number</a>
+                            </td>
+                        </tr>
+                    }
+
+                    else
+                    {
+                        <tr style="color: red; font-weight: bold;">
+                            <td>
+                                @item.CustomerName
+                            </td>
+                            <td>
+                                @item.DeliveryAreaName
+                            </td>
+                            <td>
+                                @item.BillingAreaName
+                            </td>
+                            <td>
+                                @item.SalesPerson
+                            </td>
+                            <td>
+                                @item.FSSAI
+                            </td>
+                            <td>
+                                @item.FSSAIValidUpTostr
+                            </td>
+                            <td>
+                                @item.DaysRemaining
+                            </td>
+                            <td>
+                                @item.FSSAI2
+                            </td>
+                            <td>
+                                @item.FSSAIValidUpTostr2
+                            </td>
+                            <td>
+                                @item.DaysRemaining2
+                            </td>
+                            <td>
+                                @item.ContactNumber
+                            </td>
+                            <td>
+                                @item.ContactEmail
+                            </td>
+                            <td>
+                                <a style="cursor:pointer;" class="btneditfssaidate" data-customerid="@item.CustomerID" data-fssaivalidupto="@item.FSSAIValidUpTostr" data-fssaivalidupto2="@item.FSSAIValidUpTostr2">Update FSSAI Number</a>
+                            </td>
+                        </tr>
+                    }
+                }
+
+            </tbody>
+        </table>
+    </div>
+
+    <div id="responsive" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" style="padding-bottom: 0px;">
+                    <button type="button" class="btnclosepopup1 close" data-dismiss="modal" aria-hidden="true"></button>
+                    <h4 class="modal-title">Update FSSAI Number</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row" style="margin-top:10px;">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <input name="CustomerID" id="CustomerID" class="hdnCustomerID" type="hidden" value="" />
+                                <label for="ChequeDate" class="col-sm-4 control-label">FSSAI Expire Date</label>
+                                <div class="col-sm-8">
+                                    <div class="input-group date">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
+                                        <input type="text" class="form-control pull-right datepicker" id="FSSAIValidUpTo" tabindex="3">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row" style="margin-top:10px;">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="ChequeDate" class="col-sm-4 control-label">FSSAI Expire Date</label>
+                                <div class="col-sm-8">
+                                    <div class="input-group date">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
+                                        <input type="text" class="form-control pull-right datepicker" id="FSSAIValidUpTo2" tabindex="3">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btnupdatefssaidate btn btn-info">Save</button>
+                    <button type="button" class="btnclosepopup btn btn-info" data-dismiss="modal" aria-hidden="true">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- /.box-body -->
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script>
+
+    $(document).ready(function () {
+        $("#ListDataTable").DataTable({
+            'aoColumnDefs': [{
+                'bSortable': false,
+                'aTargets': ['nosort'] /* 1st one, start by the right */
+            }]
+        });
+    });
+
+    $("#btnexport").click(function () {
+        debugger;
+        var url = '@Url.Action("ExportExcelCustomerFSSAIExpireList", "Customer")';
+        window.location.href = url.replace();
+    });
+
+    $('.lsttable').on('click', '.btneditfssaidate', function () {
+        var customerid = $(this).attr("data-customerid");
+        var fssaivalidupto = $(this).attr("data-fssaivalidupto");
+        var fssaivalidupto2 = $(this).attr("data-fssaivalidupto2");
+        var newdate = "";
+        var newdate2 = "";
+        if (fssaivalidupto != "") {
+            var d = new Date(fssaivalidupto.split("/").reverse().join("-"));
+            var dd = d.getDate();
+            var mm = d.getMonth() + 1;
+            var yy = d.getFullYear();
+            newdate = mm + "/" + dd + "/" + yy;
+        }
+        if (fssaivalidupto2 != "") {
+            var d = new Date(fssaivalidupto2.split("/").reverse().join("-"));
+            var dd = d.getDate();
+            var mm = d.getMonth() + 1;
+            var yy = d.getFullYear();
+            newdate2 = mm + "/" + dd + "/" + yy;
+        }
+
+        contents(customerid, newdate, newdate2);
+        $("#responsive").removeClass("modal fade").addClass("modal fade modal-overflow in");
+        $("#responsive").css("display", "block");
+    });
+
+    function contents(customerid, newdate, newdate2) {
+        debugger;
+        $('#CustomerID').val(customerid);
+        $('#FSSAIValidUpTo').val(newdate);
+        $('#FSSAIValidUpTo2').val(newdate2);
+    }
+
+    $(".btnclosepopup").click(function () {
+        debugger;
+        $('#responsive').removeClass("modal fade modal-overflow in");
+        $('#responsive').removeAttr('style');
+        $('#responsive').addClass("modal fade");
+    });
+
+    $(".btnupdatefssaidate").click(function () {
+        debugger;
+        if ($("#FSSAIValidUpTo").val() != null && $("#FSSAIValidUpTo").val() != "") {
+            var CustomerID = $("#CustomerID").val();
+            var FSSAIValidUpTo = $("#FSSAIValidUpTo").val();
+            var FSSAIValidUpTo2 = $("#FSSAIValidUpTo2").val();
+            $.ajax({
+                url: '@Url.Action("UpdateFSSAIDate")',
+                type: 'POST',
+                data: { 'CustomerID': CustomerID, 'FSSAIValidUpTo': FSSAIValidUpTo, 'FSSAIValidUpTo2': FSSAIValidUpTo2 },
+                cache: false,
+            }).done(function (result) {
+                if (result == true) {
+                    if ($("#CustomerID").val() == "") {
+                        $('div#sucessalert').html("FSSAI Date Add successfully.");
+                    }
+                    else {
+                        $('div#sucessalert').html("FSSAI Date Updated Successfully.");
+                    }
+                    clearform();
+                }
+            });
+        }
+        else {
+            alert("Please Enter FSSAI Date");
+        }
+    });
+
+    function clearform() {
+        $('#responsive').removeClass("modal fade modal-overflow in");
+        $('#responsive').removeAttr('style');
+        $('#responsive').addClass("modal fade");
+        $('#FSSAIValidUpTo').val('');
+        $('#FSSAIValidUpTo2').val('');
+    }
+
+</script>
+

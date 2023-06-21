@@ -1,0 +1,146 @@
+﻿@{
+    ViewBag.Title = "Outward";
+    Layout = "~/Areas/coldstorage/Views/Shared/_coldstoragelayout.cshtml";
+}
+
+<style>
+    button#btnsearch, #btnclear {
+        outline: none;
+    }
+</style>
+
+@using vb.Data.ViewModel
+
+<div class="box box-default">
+    <div class="box-header with-border text-center">
+        <h3 class="box-title">Outward</h3>
+    </div>
+    <form id="frmCustomerGroup" class="form-horizontal">
+        <div class="box-body">
+
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="DeliveryDate" class="col-sm-4 control-label">From </label>
+                    <div class="col-sm-8">
+                        <div class="input-group date">
+                            <div class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
+                            </div>
+                            <input type="text" class="form-control pull-right datepicker" id="txtFrom" tabindex="1">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="Name" class="col-sm-4 control-label">ColdStorage</label>
+                    <div class="col-sm-8" style="padding-bottom:5px;">
+                        @Html.DropDownList("ColdStorageID", new SelectList(ViewBag.ColdStorage, "ColdStorageID", "Name"), "Select ColdStorage", new { @class = "form-control select2 ColdStorageID" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="DeliveryDate" class="col-sm-4 control-label">To </label>
+                    <div class="col-sm-8">
+                        <div class="input-group date">
+                            <div class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
+                            </div>
+                            <input type="text" class="form-control pull-right datepicker" id="txtTo" tabindex="2">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="box-footer ">
+            <div class="pull-right">
+                <button type="button" id="btnclear" class="btn btn-default" tabindex="19">Cancel</button>
+                <button type="button" id="btnsearch" class="btn btn-info" tabindex="18">Search</button>
+            </div>
+        </div>
+    </form>
+    <div id="lstcase">
+    </div>
+
+    @*<div id="lstcase2">
+        </div>*@
+
+</div>
+
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script>
+    $(document).ready(function () {
+        debugger;
+
+        //Outward in set Current date
+        var today = new Date();
+        var dd = today.getDate();
+        var mm = today.getMonth() + 1; //January is 0!
+        var yyyy = today.getFullYear();
+        var date = $("#OutwardDate").val(mm + "/" + dd + "/" + yyyy);
+        //console.log(0 + "" + mm + "/" + 0 + "" + dd + "/" + yyyy);
+
+
+        if ($("#txtFrom").val() == "") {
+            var model = new Object();
+            var today = new Date();
+            var dd = today.getDate();
+            var mm = today.getMonth() + 1; //January is 0!
+            var yyyy = today.getFullYear();
+            $("#txtFrom").val(mm + "/" + dd + "/" + yyyy);
+            //loadhtml();
+        }
+
+        if ($("#txtTo").val() == "") {
+            var model = new Object();
+            var today = new Date();
+            var dd = today.getDate();
+            var mm = today.getMonth() + 1; //January is 0!
+            var yyyy = today.getFullYear();
+            $("#txtTo").val(mm + "/" + dd + "/" + yyyy);
+            //loadhtml();
+        }
+
+        $("#btnsearch").click(function () {
+            loadhtml();
+        });
+
+        function loadhtml() {
+            debugger;
+            var model = new Object();
+            model.ColdStorageID = $("#ColdStorageID").val();
+            model.FromDate = $("#txtFrom").val();
+            model.ToDate = $("#txtTo").val();
+            $.ajax({
+                url: '@Url.Action("OutwardList")',
+                type: 'POST',
+                data: { 'model': model },
+                cache: false,
+            }).done(function (result) {
+                $('#lstcase').html(result);
+            });
+        }
+
+        $("#btnclear").click(function () {
+            debugger;
+            $("#txtFrom").val("");
+            $("#txtTo").val("");
+            $("#ColdStorageID").val("").trigger("change");
+            loadhtml();
+        });
+    });
+</script>
+
+
+
+
+
+
+
+
+
+
+
+

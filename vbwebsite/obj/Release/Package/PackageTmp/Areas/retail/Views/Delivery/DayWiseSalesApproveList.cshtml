@@ -1,0 +1,90 @@
+﻿@{
+    ViewBag.Title = "DayWiseSalesApproveList";
+    Layout = "~/Areas/retail/Views/Shared/_retaillayout.cshtml";
+}
+
+<div class="box box-default">
+    <div class="box-header with-border text-center">
+        <h3 class="box-title">Delete Sales Approval List</h3>
+    </div>
+    <form id="frmCustomerGroup" class="form-horizontal">
+        <div class="box-body">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="PackageDate" class="col-sm-4 control-label">Date </label>
+                    <div class="col-sm-8">
+                        <div class="input-group date">
+                            <div class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
+                            </div>
+                            <input type="text" class="form-control pull-right datepicker" id="PackageDate" tabindex="3">
+                            <input type="hidden" id="DeliveryAllocationID" name="DeliveryAllocationID" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="box-footer ">
+                    <div class="pull-right">
+                        <button type="button" id="btnclear" class="btn btn-default" tabindex="19">Cancel</button>
+                        <button type="button" id="btnsearch" class="btn btn-info" tabindex="18">Search</button>
+                        @*<button type="button" id="btnexport" class="btn btn-info" tabindex="20">Export To Excel</button>*@
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </form>
+    <div id="lstcase">
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script>
+    $(document).ready(function () {
+        debugger;
+        if ($("#PackageDate").val() == "") {
+            var model = new Object();
+            var today = new Date();
+            var dd = today.getDate();
+            var mm = today.getMonth() + 1; //January is 0!
+            var yyyy = today.getFullYear();
+            $("#PackageDate").val(mm + "/" + dd + "/" + yyyy);
+            loadhtml();
+        }
+
+        $("#btnsearch").click(function () {
+            debugger;
+            loadhtml();
+        });
+
+        function loadhtml() {
+            var model = new Object();
+            model.InvDate = $("#PackageDate").val();
+            $.ajax({
+                url: '@Url.Action("DeleteSalesApprovalList")',
+                type: 'POST',
+                data: { 'model': model },
+                cache: false,
+            }).done(function (result) {
+
+                $('#lstcase').html(result);
+            });
+
+
+        }
+
+        $("#btnclear").click(function () {
+            debugger;
+            $("#PackageDate").val("");
+            loadhtml();
+        });
+
+        @*$("#btnexport").click(function () {
+            debugger;
+            var myParam = $("#PackageDate").val();
+            var url = '@Url.Action("ExportExcelDayWiseSummary", "Report", new { date = "__date__" })';
+            window.location.href = url.replace('__date__', myParam);
+        });*@
+    });
+</script>

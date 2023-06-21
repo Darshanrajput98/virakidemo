@@ -1,0 +1,132 @@
+﻿@model vb.Data.Model.RetCustomerGroupMst
+@{
+    ViewBag.Title = "ManageCustomerGroup";
+    Layout = "~/Areas/retail/Views/Shared/_retaillayout.cshtml";
+}
+@using vb.Data.ViewModel
+
+<div class="box box-default">
+    <div class="box-header with-border text-center">
+        <h3 class="box-title">Manage Customer Group</h3>
+    </div>
+
+    <form id="frmCustomerGroup" class="form-horizontal">
+        <div class="box-body">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="GroupName" class="col-sm-4 control-label">Name</label>
+                    <div class="col-sm-8">
+                        <input name="CustomerGroupID" id="UCustomerGroupID" type="hidden" value="" />
+                        <input type="text" class="form-control" name="GroupName" id="CustomerGroupName" placeholder="Group Name" tabindex="1">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="Area" class="col-sm-4 control-label">Area</label>
+                    <div class="col-sm-8">
+                        @Html.DropDownListFor(m => m.AreaID, new SelectList(ViewBag.Area, "AreaID", "AreaName"), "Select Area", new { @class = "form-control", tabindex = "3" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="Description" class="col-sm-4 control-label">Description</label>
+                    <div class="col-sm-8">
+                        <textarea class="form-control" id="CustomerGroupDescription" name="Description" rows="2" cols="20" placeholder="Description" tabindex="5"> </textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="AddressLine2" class="col-sm-4 control-label">Address Line 1 </label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="AddressLine2" id="CustomerGroupAddress1" placeholder="Address Line 1" tabindex="2">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="AddressLine1" class="col-sm-4 control-label">Address Line 2 </label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="AddressLine1" id="CustomerGroupAddress2" placeholder="Address Line 2" tabindex="4">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="IsShow" class="col-sm-4 control-label"></label>
+                    <div class="col-sm-8">
+                        <input type="checkbox" id="IsShow"> Is Show
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.box-body -->
+        <div class="box-footer ">
+            <div class="pull-right">
+                <button type="button" id="CustomerGroup" class="btn btn-default" tabindex="7">Cancel</button>
+                @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.RACUSTOMERGROUP.ToString()))
+                {
+                    <button type="button" id="btnsavecase" class="btn btn-info" tabindex="6">Save</button>
+                }
+            </div>
+        </div>
+        <!-- /.box-footer -->
+    </form>
+    <div id="lstcase">
+    </div>
+</div>
+
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script>
+
+    $(document).ready(function () {
+        loadhtml();
+    });
+
+    function loadhtml() {
+        $.ajax({
+            url: '@Url.Action("ManageCustomerGroupList")',
+            type: 'GET',
+            cache: false,
+        }).done(function (result) {
+            $('#lstcase').html(result);
+        });
+    }
+
+    $("#btnsavecase").click(function () {
+        debugger;
+        var datareq = new Object();
+        datareq.CustomerGroupID = $("#UCustomerGroupID").val();
+        datareq.CustomerGroupName = $("#CustomerGroupName").val();
+        datareq.AreaID = $("#AreaID").val();
+        datareq.CustomerGroupAddress1 = $("#CustomerGroupAddress1").val();
+        datareq.CustomerGroupAddress2 = $("#CustomerGroupAddress2").val();
+        datareq.CustomerGroupDescription = $("#CustomerGroupDescription").val();
+        datareq.IsShow = $('#IsShow').is(":checked");
+        $.ajax({
+            url: '@Url.Action("ManageCustomerGroup")',
+            type: 'POST',
+            data: { 'data': datareq },
+            cache: false,
+        }).done(function (result) {
+            if (result == true) {
+                if ($("#CustomerGroupID").val() == "") {
+                    $('div#sucessalert').html("Customer Group Add successfully.");
+                }
+                else {
+                    $('div#sucessalert').html("Customer Group updated successfully.");
+                }
+                showhidealert();
+                loadhtml();
+                clearform();
+            }
+        });
+    });
+
+    $("#CustomerGroup").click(function () {
+        clearform();
+    });
+
+    function clearform() {
+        $("#frmCustomerGroup").find("input").val("");
+        $("#frmCustomerGroup").find("textarea").val("");
+        $("#AreaID").val("").trigger("change");
+        $("#IsShow").prop("checked", false);
+    }
+</script>
+

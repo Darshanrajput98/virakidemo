@@ -1,0 +1,363 @@
+﻿@model List<vb.Data.OrderQtyList>
+
+@{
+    ViewBag.Title = "ViewCreditMemo";
+    Layout = "~/Areas/wholesale/Views/Shared/_wholesalelayout.cshtml";
+}
+
+<div class="box">
+    <div class="box-header text-center">
+        <h3 class="box-title">View - Wholesale Order</h3>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body">
+        @if (Model.Count > 0)
+        {
+            <form id="frmwcm" class="form-horizontal">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="CustomerName" class="col-sm-4 control-label">Customer</label>
+                            <div class="col-sm-8">
+                                <label for="CustomerName" class="col-sm-8 control-label">@Model[0].CustomerName</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="InvoiceNumber" class="col-sm-4 control-label">Order Code</label>
+                            <div class="col-sm-8">
+                                <label for="InvoiceNumber" class="col-sm-8 control-label">@Model[0].InvoiceNumber</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="BillTo" class="col-sm-4 control-label">Bill To</label>
+                            <div class="col-sm-8">
+                                <label for="BillTo" class="col-sm-8 control-label">@Model[0].BillTo</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="Tax" class="col-sm-4 control-label">Tax</label>
+                            <div class="col-sm-8">
+                                <label for="Tax" class="col-sm-8 control-label">@Model[0].TaxName</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="ShipTo" class="col-sm-4 control-label">Customer Group</label>
+                            <div class="col-sm-8">
+                                <label for="CustomerGroupName" class="col-sm-8 control-label">@Model[0].CustomerGroupName</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="ShipTo" class="col-sm-4 control-label">Ship To</label>
+                            <div class="col-sm-8">
+                                <label for="ShipTo" class="col-sm-8 control-label">@Model[0].ShipTo</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="DeliveryDate" class="col-sm-4 control-label">Delivery Date</label>
+                            <div class="col-sm-8">
+                                <label for="DeliveryDate" class="col-sm-8 control-label">@Model[0].DeliveredDate.ToString("MM-dd-yyyy")</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="Notes" class="col-sm-4 control-label">Notes</label>
+                            <div class="col-sm-8">
+                                <label for="Notes" class="col-sm-8 control-label">@Model[0].CustomerNote</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div class="box-footer ">
+                <div class="pull-right">
+                    <button type="button" id="btnback" class="btn btn-info" tabindex="42">Back</button>
+                </div>
+            </div>
+            <div class="row" style="margin-top:50px;">
+                <table id="ListDataTableNo" class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th class="nosort">Sr No</th>
+                            <th class="nosort">Item Name</th>
+                            <th class="nosort">Quantity</th>
+                            <th class="nosort">Unit</th>
+                            <th class="nosort">Base Rate</th>
+                            <th class="nosort">Disc. Rate</th>
+                            <th class="nosort">Sale Rate</th>
+                            <th class="nosort">Bill Discount</th>
+                            <th class="nosort">Total</th>
+                            <th class="nosort">Tax</th>
+                            <th class="nosort">Tax amt</th>
+                            <th class="nosort">Final Total</th>
+                            <td>Select</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td id="row">
+                                    <input type="hidden" value="@item.ProductID" />
+                                    <input type="hidden" value="@item.OrderQtyID" />
+                                    <input type="hidden" value="@item.OrderID" />
+                                    <input type="hidden" value="@item.CategoryTypeID" />
+                                    <input type="hidden" value="@item.ReferenceNumber" />
+                                           @item.SerialNumber></td>
+                                <td>
+                                    @item.ProductName
+                                </td>
+                                <td>
+                                    @item.Quantity
+                                </td>
+                                <td>
+                                    @item.UnitName
+                                </td>
+                                <td>
+                                    @item.ProductPrice
+                                </td>
+                                <td>
+                                    @item.LessAmount
+                                </td>
+                                <td>
+                                    @item.SaleRate
+                                </td>
+                                <td>
+                                    @item.BillDiscount
+                                </td>
+                                <td>
+                                    @item.Total
+                                </td>
+                                <td>
+                                    @item.Tax
+                                </td>
+                                <td>
+                                    @item.TaxAmt
+                                </td>
+                                <td>
+                                    @item.FinalTotal
+                                </td>
+                                <td><input type="checkbox" class="chkSelect checkbox"></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div class="row" style="margin-top:50px;">
+                <table id="ListDataTableNo2" class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <td colspan="12" align="center" style="font-size:20px;">Credit Memo</td>
+                        </tr>
+                        <tr>
+                            <th class="nosort">Sr No</th>
+                            <th class="nosort">Item Name</th>
+                            <th class="nosort">Quantity</th>
+                            <th class="nosort">Unit</th>
+                            <th class="nosort">Sell Rate</th>
+                            <th class="nosort">Bill Discount %</th>
+                            <th class="nosort">Sell Amount</th>
+                            <th class="nosort">Tax %</th>
+                            <th class="nosort">Quantity Returned</th>
+                            <th class="nosort">Amount</th>
+                            <th class="nosort">Tax Reversed</th>
+                            <th class="nosort">Credit Amount</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr class="form-group hide" id="AddMoreProduct">
+                            <td id="row"></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>
+                                <input type="text" class="Quantity" />
+                            </td>
+                            <td>
+                                <input type="text" class="Amount" />
+                            </td>
+                            <td></td>
+                            <td></td>
+                            <td style="display:none;"></td>
+                            <td style="display:none;"></td>
+                            <td style="display:none;"></td>
+                            <td style="display:none;"></td>
+                            <td style="display:none;"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
+    <div class="box-footer ">
+        <div class="pull-right">
+            <button type="button" id="btncreatememo" class="btn btn-default" tabindex="43">Create Memo</button>
+        </div>
+    </div>
+    <!-- /.box-body -->
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        debugger;
+        $("#btnback").click(function () {
+            debugger;
+            var url = '@Url.Action("SearchViewOrderList", "Orders")';
+            window.location.href = url;
+        });
+        $("#btncreatememo").click(function () {
+            debugger;
+            var lstcreditmemo = [];
+            $('#ListDataTableNo2').children('tbody').children('tr:visible').each(function (index, row) {
+                debugger;
+                if ($(row).find("td")[11].innerText !== '' && $(row).find("input")[0].value != '') {
+                    var obj = new Object();
+                    obj.OrderQtyID = $(row).find("td")[13].innerText;
+                    obj.OrderID = $(row).find("td")[14].innerText;
+                    obj.CategoryTypeID = $(row).find("td")[16].innerText;
+                    obj.ProductID = $(row).find("td")[12].innerText;
+                    obj.ReturnedQuantity = $(row).find("input")[0].value;
+                    obj.ReturnedSaleRate = $(row).find("input")[1].value;
+                    obj.BillDiscount = $(row).find("td")[5].innerText;
+                    obj.Tax = $(row).find("td")[10].innerText;
+                    obj.Total = $(row).find("td")[6].innerText;
+                    obj.FinalTotal = $(row).find("td")[15].innerText;
+                    obj.Quantity = $(row).find("td")[2].innerText;
+                    obj.CreditedFinalTotal = $(row).find("td")[11].innerText;
+                    obj.ReferenceNumber = $("#ReferenceNumber").val();
+                    lstcreditmemo.push(obj);
+                }
+            });
+            $.ajax({
+                url: '@Url.Action("CreateMemo")',
+                type: 'POST',
+                data: { 'data': lstcreditmemo },
+                cache: false,
+            }).done(function (result) {
+                window.location.reload();
+            });
+        });
+        var bookIndex = 0;
+        $(".Quantity").on('input propertychange paste', function () {
+            debugger;
+            var end = this;
+            if (this.value != '') {
+                var Quantity = this.value;
+                var lastChar = Quantity.slice(-1);
+                if (lastChar != '.') {
+                    debugger;
+                    if (Quantity > 0) {
+                        if (($(end).closest('tr').find('td')[4].innerText) > 0 && ($(end).closest('tr').find('td')[4].innerText) != '') {
+                            //debugger;
+                            var totalprice = ($(end).closest('tr').find('td')[4].innerText) * Quantity;
+                            var billdiscount = ((totalprice * ($(end).closest('tr').find('td')[5].innerText)) / 100);
+                            totalprice = totalprice - billdiscount;
+                            var taxvale = ((totalprice * ($(end).closest('tr').find('td')[10].innerText)) / 100);
+                            var finalprice = totalprice + taxvale;
+                            $(end).closest('tr').find('td')[11].innerText = parseFloat(finalprice).toFixed(2);//finalprice;//
+                            $(end).closest('tr').find('input')[1].value = parseFloat(totalprice).toFixed(2);//totalprice;//
+                        }
+                        else {
+                            alert("Please enter proper details.");
+                        }
+                    }
+                    else {
+                        alert("Returned quantity should greater than 0.");
+                        var textbox = $(this).closest('tr').find('input')[1];
+                        textbox.value = '';
+                        $(end).closest('tr').find('td')[11].innerText = "";
+                    }
+                }
+            }
+            else {
+                var textbox = $(this).closest('tr').find('input')[1];
+                textbox.value = '';
+                $(end).closest('tr').find('td')[11].innerText = "";
+            }
+        });
+
+        $('#ListDataTableNo').on('change', '.chkSelect', function () {
+            debugger;
+            bookIndex++;
+            var rowc = $(this).closest("tr");
+            if (rowc.find(".chkSelect").is(':checked')) {
+                debugger;
+                var $template = $("#AddMoreProduct"),
+                        $clone = $template
+                                        .clone()
+                                        .removeClass('hide')
+                                        .removeAttr('id')
+                                        .attr('data-book-index', bookIndex)
+                                        .insertBefore($template);
+                // Update the name attributes
+                $clone.find("td")[0].innerText = rowc.find("td")[0].innerText;
+                $clone.find("td")[1].innerText = rowc.find("td")[1].innerText;
+                $clone.find("td")[2].innerText = rowc.find("td")[2].innerText;
+                $clone.find("td")[3].innerText = rowc.find("td")[3].innerText;
+                $clone.find("td")[4].innerText = rowc.find("td")[6].innerText;
+                $clone.find("td")[5].innerText = rowc.find("td")[7].innerText;
+                $clone.find("td")[6].innerText = rowc.find("td")[8].innerText;
+                $clone.find("td")[7].innerText = rowc.find("td")[9].innerText;
+                $clone.find("td")[10].innerText = rowc.find("td")[9].innerText;
+                $clone.find("td")[12].innerText = rowc.find("input[type=hidden]")[0].value;
+                $clone.find("td")[13].innerText = rowc.find("input[type=hidden]")[1].value;
+                $clone.find("td")[14].innerText = rowc.find("input[type=hidden]")[2].value;
+                $clone.find("td")[16].innerText = rowc.find("input[type=hidden]")[3].value;
+                $clone.find("td")[15].innerText = rowc.find("td")[11].innerText;
+                $(".Quantity").on('input propertychange paste', function () {
+                    debugger;
+                    var end = this;
+                    if (this.value != '') {
+                        var Quantity = this.value;
+                        var lastChar = Quantity.slice(-1);
+                        if (lastChar != '.') {
+                            debugger;
+                            if (Quantity > 0) {
+                                if (($(end).closest('tr').find('td')[4].innerText) > 0 && ($(end).closest('tr').find('td')[4].innerText) != '') {
+                                    //debugger;
+                                    var totalprice = ($(end).closest('tr').find('td')[4].innerText) * Quantity;
+                                    var billdiscount = ((totalprice * ($(end).closest('tr').find('td')[5].innerText)) / 100);
+                                    totalprice = totalprice - billdiscount;
+                                    var taxvale = ((totalprice * ($(end).closest('tr').find('td')[10].innerText)) / 100);
+                                    var finalprice = totalprice + taxvale;
+                                    $(end).closest('tr').find('td')[11].innerText = parseFloat(finalprice).toFixed(2);//finalprice;//
+                                    $(end).closest('tr').find('input')[1].value = parseFloat(totalprice).toFixed(2);//totalprice;//
+                                }
+                                else {
+                                    alert("Please enter proper details.");
+                                }
+                            }
+                            else {
+                                alert("Returned quantity should greater than 0.");
+
+                                var textbox = $(this).closest('tr').find('input')[1];
+                                textbox.value = '';
+                                $(end).closest('tr').find('td')[11].innerText = "";
+                            }
+                        }
+                    }
+                    else {
+                        var textbox = $(this).closest('tr').find('input')[1];
+                        textbox.value = '';
+                        $(end).closest('tr').find('td')[11].innerText = "";
+                    }
+                });
+            }
+            else {
+                $('#ListDataTableNo2').children('tbody').children('tr:visible').each(function (index, row) {
+                    debugger;
+                    if ((rowc).find("td")[0].innerText == $(row).find("td")[0].innerText && rowc.find(".chkSelect").is(':checked') == false) {
+                        $(row).remove();
+                        return false
+                    }
+                });
+            }
+        })
+    });
+</script>

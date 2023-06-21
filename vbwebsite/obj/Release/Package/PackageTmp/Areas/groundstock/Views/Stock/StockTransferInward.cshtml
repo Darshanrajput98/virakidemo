@@ -1,0 +1,302 @@
+﻿@model List<vb.Data.GroundStockTransferInwardResponse>
+@{
+    ViewBag.Title = "StockTransferInward";
+    Layout = "~/Areas/groundstock/Views/Shared/_groundstocklayout.cshtml";
+}
+
+@using vb.Data.ViewModel
+
+<style>
+    button.btn.btn-info.btnInward,
+    button.btn.btn-info.OutwardStyle {
+        outline: none;
+    }
+
+    #textbox {
+        width: 18%;
+    }
+
+    #LoadingQty {
+        height: 50%;
+    }
+
+    input#CheckBox {
+        top: 4px;
+    }
+
+    .my-custom-scrollbar {
+        height: 600px;
+        overflow: auto;
+        display: block;
+    }
+
+    .modal-open .modal {
+        overflow-x: hidden;
+        overflow-y: hidden;
+    }
+
+</style>
+
+<div class="box">
+    <div class="box-header text-center">
+        <h3 class="box-title">Ground Stock Transfer Inward List</h3>
+    </div>
+    <div class="box-body table-scrollable1 ">
+        <table id="ListDataTable" class="table table-bordered table-bordered">
+            <thead>
+                <tr>
+                    <th>Challan Date</th>
+                    <th>Delivery From</th>
+                    <th>Delivery To</th>
+                    <th>Total Item</th>
+                    <th>Total Bill</th>
+                    <th>Inward</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.ChallanDatestr</td>
+                        <td>@item.From_Place</td>
+                        <td>@item.To_Place</td>
+                        <td>@item.TotalItem</td>
+                        <td>@item.FinalTotal</td>
+                        <td>
+                            <button type="button" class="btnInward btn btn-info" data-toggle="modal" data-target="#responsive" data-challanid="@item.ChallanID" data-challandate="@item.ChallanDate">Inward</button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div id="responsive" tabindex="-1" class="modal fade responsive">
+        <div class="modal-dialog">
+            <div class="modal-content my-custom-scrollbar">
+                <div class="modal-header" style="padding-bottom: 5px;">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title">Stock Transfer Inward Details</h4>
+                 
+                </div>
+
+                <form class="modal-body">
+                    <input name="ChallanID" id="ChallanID" type="hidden" value="" />
+                    <input name="ChallanDate" id="ChallanDate" type="hidden" value="" />
+
+                    <table id="ListDataTableInward" class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Product Name</th>
+                                <th>Quantity</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </form>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-info OutwardStyle" onclick="btnsaveInward()" id="btnsaveInward">Add Inward</button>
+                    <button type="button" class="btnclosepopup btn btn-info OutwardStyle" data-dismiss="modal" aria-hidden="true">Close</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+<div id="lstcase">
+</div>
+
+
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+
+<script>
+
+    $(".btnInward").click(function () {
+        debugger;
+        var ChallanID = $(this).attr("data-challanid");
+        var ChallanDate = $(this).attr("data-challandate");
+
+        clearcontents(ChallanID, ChallanDate);
+        $("#responsive").removeClass("modal fade").addClass("modal fade modal-overflow in");
+        $("#responsive").css("display", "block");
+
+        //debugger;
+        $.ajax({
+            url: '@Url.Action("SelectStockInwardPopup", "Stock")',
+            data: { "ChallanID": ChallanID },
+            type: 'GET',
+            cache: false,
+        }).done(function (result) {
+            if (result.length > 0) {
+                //debugger;
+                for (var i = 0; i < result.length; i++) {
+                    //debugger;
+                    var binddata = "";
+                    binddata += "<tr id='rxrow'>";
+                    binddata += "<td> <input type='hidden' id='ProductID' value='" + result[i].ProductID + "' /> <input type='hidden' id='GodownIDTo' value='" + result[i].GodownIDTo + "' /> <input type='hidden' id='ProductName' value='" + result[i].ProductName + "' /> " + result[i].ProductName + "</td>";
+                    binddata += "<td> <input type='hidden' id='ChallanQtyID' value='" + result[i].ChallanQtyID + "' /> <input type='hidden' id='GodownIDFrom' value='" + result[i].GodownIDFrom + "' /> <input type='hidden' id='Quantity' value='" + result[i].Quantity + "' /> " + result[i].Quantity + "</td>";
+                    binddata += "<td id='textbox'> " + " <input type='text' id='LoadingQty' autocomplete='off' class='form-control' onkeypress='return /[0-9]/i.test(event.key)' placeholder='Enter Quantity' />" + "</td>";
+                    binddata += "<td> <input type='hidden' id='StockQuantityFrom' value='" + result[i].StockQuantityFrom + "' /> " + " " + "</td>";
+                    binddata += "<td> <input type='hidden' id='OpeningQty' value='" + result[i].OpeningQty + "' /> " + "<input type='checkbox' id='CheckBox' class='checkbox chkselect'  onclick='btnAutoQty()' />" + "</td>";
+                    binddata += "</tr>";
+
+                    $("#ListDataTableInward tbody").append(binddata);
+
+                }
+
+                $("#responsive").removeClass("modal fade").addClass("modal fade modal-overflow in");
+                $("#responsive").css("display", "block");
+            }
+        });
+
+    });
+
+
+    function clearcontents(ChallanID, ChallanDate) {
+        $('#ChallanID').attr('value', ChallanID);
+        $('#ChallanDate').attr('value', ChallanDate);
+    }
+
+    function btnsaveInward() {
+
+        //debugger;
+        $('#ListDataTableInward').children('tbody').children('tr:visible').each(function (index, row) {
+
+            debugger
+            var ischk = $(row).find("input[type=checkbox]")[0];
+
+            if ($(ischk).is(':checked')) {
+
+                debugger
+                var data = new Object();
+                data.ChallanQtyID = $(row).find("#ChallanQtyID").val();
+                data.ChallanID = $("#ChallanID").val();
+                data.ProductID = $(row).find("#ProductID").val();
+                data.GodownIDFrom = $(row).find("#GodownIDFrom").val();
+                data.GodownIDTo = $(row).find("#GodownIDTo").val();
+                data.StockQuantityFrom = $(row).find("#StockQuantityFrom").val(); //StockQuantityFrom;
+                data.ProductName = $(row).find("#ProductName").val();
+                data.ChallanDate = $("#ChallanDate").val();
+                data.Quantity = $(row).find("#Quantity").val();
+                data.LoadingQty = $(row).find("#LoadingQty").val();
+                data.OpeningQty = $(row).find("#OpeningQty").val();
+
+                if (data.StockQuantityFrom != "") {
+
+                    //debugger;
+                    $.ajax({
+                        url: '@Url.Action("AddStockTransferInwardBill", "Stock")',
+                        type: 'POST',
+                        data: { 'data': data },
+                        cache: false,
+                    }).done(function (result) {
+
+                        if (result != '') {
+                            if (result > 0) {
+
+                                //debugger
+                                if ($("#TransferInwardID").val() == "") {
+                                    $('div#sucessalert').html("Stock Transfer Inward Add successfully.");
+                                    showhidealert();
+                                }
+                                else if ($("#TransferInwardID").val() != "") {
+                                    $('div#sucessalert').html("Stock Transfer Inward updated successfully.");
+                                    showhidealert();
+                                }
+                                else {
+                                    alert("something went wrong")
+                                }
+                                showhidealert();
+                                clearform();
+
+                            }
+                        }
+
+                    });
+
+                }
+                else {
+                    alert("Your Quantity of Ground Stock Transfer is Empty");
+                }
+
+                $('#responsive').removeClass("modal fade modal-overflow in");
+                $('#responsive').removeAttr('style');
+                $('#responsive').addClass("modal fade");
+                clearform();
+
+            }
+
+        });
+    }
+
+    $(".btnclosepopup").click(function () {
+        //debugger;
+        $('#responsive').removeClass("modal fade modal-overflow in");
+        $('#responsive').removeAttr('style');
+        $('#responsive').addClass("modal fade");
+        $("#ListDataTableInward tbody").html("");
+        $("#checkAll").prop("checked", false);
+    });
+
+    function clearform() {
+        location.reload();
+    }
+
+    $("#checkAll").change(function () {
+        //debugger;
+        $("input:checkbox").prop('checked', $(this).prop("checked"));
+
+        $('#ListDataTableInward').children('tbody').children('tr:visible').each(function (index, row) {
+
+            if ($("#checkAll").prop("checked")) {
+
+                var Quantity = $(row).find("#Quantity").val();
+                //console.log(Quantity);
+
+                var LoadingQty = $(row).find("#LoadingQty").val(Quantity);
+                //console.log(LoadingQty);
+
+            }
+            else if ($("#checkAll").removeProp("checked")) {
+
+                var LoadingQty = $(row).find("#LoadingQty").val("");
+                //console.log(LoadingQty);
+
+            }
+
+        });
+
+    });
+
+    function btnAutoQty() {
+        //debugger;
+        $('#ListDataTableInward').children('tbody').children('tr:visible').each(function (index, row) {
+            var ischk = $(row).find("input[type=checkbox]")[0];
+
+            if ($(ischk).is(':checked')) {
+
+                var Quantity = $(row).find("#Quantity").val();
+                //console.log(Quantity);
+
+                var LoadingQty = $(row).find("#LoadingQty").val(Quantity);
+                //console.log(LoadingQty);
+
+            }
+            else if ($(ischk).removeAttr(':checked')) {
+
+                var LoadingQty = $(row).find("#LoadingQty").val("");
+                //console.log(LoadingQty);
+
+            }
+
+        });
+
+    }
+
+</script>

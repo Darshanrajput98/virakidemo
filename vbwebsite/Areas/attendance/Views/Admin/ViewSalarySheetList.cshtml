@@ -1,0 +1,133 @@
+﻿@model List<vb.Data.SalarySheetListResponse>
+@using vb.Data.ViewModel
+
+<div class="box">
+    <div class="box-header">
+        <h3 class="box-title">Salary Sheet List</h3>
+    </div>
+    <div class="box-body">
+        <table id="ListDataTable" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Sr No.</th>
+                    <th>Name</th>
+                    <th>BA</th>
+                    <th>HRA</th>
+                    <th>EBA</th>
+                    <th>EHRA</th>
+                    <th>Total Earned</th>
+                    <th>City</th>
+                    <th>Vehicle</th>
+                    <th>Conveyance</th>
+                    <th>Performance</th>
+                    <th>Gross Wages</th>
+                    <th>PF</th>
+                    <th>PT</th>
+                    <th>ESIC</th>
+                    <th>MLWF</th>
+                    <th>Net Paid</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.RowNumber</td>
+                        <td>@item.EmployeeName</td>
+                        <td>@item.BasicAllowance.ToString("0.00")</td>
+                        <td>@item.HouseRentAllowance.ToString("0.00")</td>
+                        <td>@item.EarnedBasicWages.ToString("0.00")</td>
+                        <td>@item.EarnedHouseRentAllowance.ToString("0.00")</td>
+                        <td>@item.TotalEarnedWages.ToString("0.00")</td>
+                        <td>@item.CityAllowance.ToString("0.00")</td>
+                        <td>@item.VehicleAllowance.ToString("0.00")</td>
+                        <td>@item.Conveyance.ToString("0.00")</td>
+                        <td>@item.PerformanceAllowance.ToString("0.00")</td>
+                        <td>@item.GrossWagesPayable.ToString("0.00")</td>
+                        <td>@item.PF.ToString("0.00")</td>
+                        <td>@item.PT.ToString("0.00")</td>
+                        <td>@item.ESIC.ToString("0.00")</td>
+                        <td>@item.MLWF.ToString("0.00")</td>
+                        <td>@item.NetWagesPaid.ToString("0.00")</td>
+                    </tr>
+                }
+                @if (Model.Count > 0)
+                {
+                    <tr style="font-weight:bold">
+                        <td>
+                           
+                        </td>
+                        <td>
+                         Total :
+                        </td>
+                        <td>
+                            @Model[0].sumBasicAllowance.ToString("0.00")
+                        </td>
+                        <td>
+                            @Model[0].sumHouseRentAllowance.ToString("0.00")
+                        </td>
+                        <td>
+                            @Model[0].sumEarnedBasicWages.ToString("0.00")
+                        </td>
+                        <td>
+                            @Model[0].sumEarnedHouseRentAllowance.ToString("0.00")
+                        </td>
+                        <td>
+                            @Model[0].sumTotalEarnedWages.ToString("0.00")
+                        </td>
+                        <td>
+                            @Model[0].sumCityAllowance.ToString("0.00")
+                        </td>
+                        <td>
+                            @Model[0].sumVehicleAllowance.ToString("0.00")
+                        </td>
+                        <td>
+                            @Model[0].sumConveyance.ToString("0.00")
+                        </td>
+                        <td>
+                            @Model[0].sumPerformanceAllowance.ToString("0.00")
+                        </td>
+                        <td>
+                            @Model[0].sumGrossWagesPayable.ToString("0.00")
+                        </td>
+                        <td>
+                            @Model[0].sumPF.ToString("0.00")
+                        </td>
+                        <td>
+                            @Model[0].sumPT.ToString("0.00")
+                        </td>
+                        <td>
+                            @Model[0].sumESIC.ToString("0.00")
+                        </td>
+                        <td>
+                            @Model[0].sumMLWF.ToString("0.00")
+                        </td>
+                        <td>
+                            @Model[0].sumNetWagesPaid.ToString("0.00")
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+
+    $('#ListDataTable').DataTable({
+        'paging': true,
+        'lengthChange': true,
+        'searching': true,
+        'ordering': false,
+        'info': true,
+        'autoWidth': false
+    });
+
+    //$("#ListDataTable").DataTable({
+    //    'aoColumnDefs': [{
+    //        'bSortable': false,
+    //        'aTargets': ['nosort'] /* 1st one, start by the right */
+    //    }]
+    //});
+</script>
+

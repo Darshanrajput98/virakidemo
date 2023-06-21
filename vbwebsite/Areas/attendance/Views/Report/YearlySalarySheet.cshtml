@@ -1,0 +1,595 @@
+﻿@{
+    ViewBag.Title = "YearlySalarySheet";
+    Layout = "~/Areas/attendance/Views/Shared/_attendancelayout.cshtml";
+}
+
+
+<style>
+    div#formsixteenpopup {
+        overflow: auto;
+    }
+
+</style>
+<div class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Yearly Salary Sheet</h3>
+                </div>
+                <form id="frmYearlySalarySheet" class="form-horizontal">
+                    <div class="box-body">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="FromDate" class="col-sm-4 control-label">From Date</label>
+                                <div class="col-sm-8">
+                                    <div class="input-group date">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
+                                        <input type="text" class="form-control pull-right datepicker" name="FromDate" id="FromDate" tabindex="3" required autocomplete="off">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="ToDate" class="col-sm-4 control-label">To Date</label>
+                                <div class="col-sm-8">
+                                    <div class="input-group date">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
+                                        <input type="text" class="form-control pull-right datepicker" name="ToDate" id="ToDate" tabindex="3" required autocomplete="off">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="inputPassword3" class="col-sm-4 control-label">Employee</label>
+                                <div class="col-sm-8">
+                                    @Html.DropDownList("EmployeeCode", new SelectList(ViewBag.Employee, "EmployeeCode", "FullName"), "Select Employee", new { @class = "form-control select2", tabindex = "5", required = "required" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="box-footer">
+                        <div class="pull-right">
+                            <button type="button" id="btnsearch" class="btn btn-info">Search</button>
+                            <button type="button" id="btncancel" class="btn btn-default">Cancel</button>
+                            <button type="button" id="btnexport" class="btn btn-info">Export To Excel</button>
+                            @*<button type="button" id="btnprintopenpopup" class="btn btn-info">Print Form 16</button>*@
+                            <button type="button" id="btnsaveopenpopup" class="btn btn-info">Save Form 16</button>
+                        </div>
+                    </div>
+                </form>
+                <div id="lstattandance">
+                </div>
+
+                <div id="lstformsixteen">
+                </div>
+
+            </div>
+        </div>
+
+        <!-- form sixteen popup -->
+        <div id="formsixteenpopup" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header" style="padding-bottom: 5px;">
+                        <h4 class="modal-title">Form 16 Additional Details</h4>
+                    </div>
+                    <div class="modal-body">
+
+                        <div class="row" style="margin-top:10px;">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="TDSSalary" class="col-sm-4 control-label"> TDS Salary </label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" name="TDSSalary" id="TDSSalary" placeholder="TDSSalary" value="0" tabindex="5" autocomplete="off">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="modal-header" style="padding-bottom: 5px;">
+                            <h4 class="modal-title">Under Section 80C</h4>
+                        </div>
+
+
+                        <div class="row" style="margin-top:10px;">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <input name="FromDatePopup" id="FromDatePopup" class="FromDatePopup" type="hidden" value="" />
+                                    <input name="ToDatePopup" id="ToDatePopup" class="ToDatePopup" type="hidden" value="" />
+                                    <input name="EmployeeCodePopup" id="EmployeeCodePopup" class="EmployeeCodePopup" type="hidden" value="" />
+                                    <input name="FormSixteenID" id="FormSixteenID" class="FormSixteenID" type="hidden" value="0" />
+                                    <input name="StandardDeduction" id="StandardDeduction" class="StandardDeduction" type="hidden" value="0" />
+                                    <input name="HealthInsurancePremiaUnderSection80D" id="HealthInsurancePremiaUnderSection80D" class="HealthInsurancePremiaUnderSection80D" type="hidden" value="0" />
+                                    <input name="InterestOn80E" id="InterestOn80E" class="InterestOn80E" type="hidden" value="0" />
+                                    <input name="UnderSection80TTA" id="UnderSection80TTA" class="UnderSection80TTA" type="hidden" value="0" />
+                                    <input name="RebateUnderSection87A" id="RebateUnderSection87A" class="RebateUnderSection87A" type="hidden" value="0" />
+                                    <input name="UnderSection80C" id="UnderSection80C" class="UnderSection80C" type="hidden" value="0" />
+                                    <input name="TaxSlabPer" id="TaxSlabPer" class="TaxSlabPer" type="hidden" value="0" />
+                                    <input name="SurchargeSlabPer" id="SurchargeSlabPer" class="SurchargeSlabPer" type="hidden" value="0" />
+                                    <input name="EducationSlabPer" id="EducationSlabPer" class="EducationSlabPer" type="hidden" value="0" />
+                                    <input name="PensionUnderSection80CCD_1" id="PensionUnderSection80CCD_1" class="PensionUnderSection80CCD_1" type="hidden" value="0" />
+                                    
+                                    <input name="IncomeFrom" id="IncomeFrom" class="IncomeFrom" type="hidden" value="0" />
+                                    <input name="IncomeTo" id="IncomeTo" class="IncomeTo" type="hidden" value="0" />
+                                    <input name="TaxOnTotalIncome" id="TaxOnTotalIncome" class="TaxOnTotalIncome" type="hidden" value="0" />
+                                    <input name="TaxOnTotalIncome_one" id="TaxOnTotalIncome_one" class="TaxOnTotalIncome_one" type="hidden" value="0" />
+                                    <input name="RebateUnderSection87A_Income" id="RebateUnderSection87A_Income" class="RebateUnderSection87A_Income" type="hidden" value="0" />
+                                    <input name="Surcharge" id="Surcharge" class="Surcharge" type="hidden" value="0" />
+                                    <input name="Education" id="Education" class="Education" type="hidden" value="0" />
+                                    
+                                    <label for="HousingLoanPrincipal" class="col-sm-4 control-label"> Housing Loan Principal </label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" name="HousingLoanPrincipal" id="HousingLoanPrincipal" placeholder="Housing Loan Principal" value="0" tabindex="1" autocomplete="off">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:10px;">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="ELSS" class="col-sm-4 control-label"> ELSS </label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" name="ELSS" id="ELSS" placeholder="ELSS" value="0" tabindex="2" autocomplete="off">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:10px;">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="PPF" class="col-sm-4 control-label"> PPF </label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" name="PPF" id="PPF" placeholder="PPF" value="0" tabindex="3" autocomplete="off">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:10px;">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="LifeInsurance" class="col-sm-4 control-label"> Life Insurance </label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" name="LifeInsurance" id="LifeInsurance" placeholder="Life Insurance" value="0" tabindex="4" autocomplete="off">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:10px;">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="Others" class="col-sm-4 control-label"> Others </label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" name="Others" id="Others" placeholder="Others" value="0" tabindex="5" autocomplete="off">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row" style="margin-top:10px;">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="TotalGrossAmount" class="col-sm-4 control-label"> Total </label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" name="TotalGrossAmount" id="TotalGrossAmount" placeholder="Others" value="0" tabindex="6" disabled="disabled" autocomplete="off">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row" style="margin-top:10px;">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="TotalGrossAmount" class="col-sm-4 control-label"> EHRA </label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" name="FormSixteenEHRA" id="FormSixteenEHRA" placeholder="EHRA" value="0" tabindex="6" autocomplete="off">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr class="solid">
+
+
+                        <div class="row" style="margin-top:10px;">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="PensionUnderSection80CCD_1_Actual" class="col-sm-4 control-label"> Pension Under Section 80CCD(1) </label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" name="PensionUnderSection80CCD_1_Actual" id="PensionUnderSection80CCD_1_Actual" placeholder="Pension Under Section 80CCD(1)" value="0" tabindex="7" autocomplete="off">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:10px;">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="HealthInsurancePremiaUnderSection80D_Actual" class="col-sm-4 control-label"> Health Ins. Premia Under Section 80D </label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" name="HealthInsurancePremiaUnderSection80D_Actual" id="HealthInsurancePremiaUnderSection80D_Actual" placeholder="Health Insurance Premia Under Section 80D" value="0" tabindex="7" autocomplete="off">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:10px;">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="InterestOn80E_Actual" class="col-sm-4 control-label">Interest on Loan Taken For Higher Education Under Section 80E </label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" name="InterestOn80E_Actual" id="InterestOn80E_Actual" placeholder="InterestOn80E" value="0" tabindex="5" autocomplete="off">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:10px;">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="UnderSection80G" class="col-sm-4 control-label">Under Section 80G</label>
+                                    <div class="col-sm-6">
+                                        <input type="text" class="form-control" name="UnderSection80G" id="UnderSection80G" placeholder="Under Section 80G" value="0" tabindex="5" autocomplete="off">
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <input id="IsFiftyPer" class="check" type="checkbox" tabindex="5" /> 50%
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:10px;">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="UnderSection80TTA_Actual" class="col-sm-4 control-label">Under Section 80TTA</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" name="UnderSection80TTA_Actual" id="UnderSection80TTA_Actual" placeholder="Under Section 80TTA" value="0" tabindex="5" autocomplete="off">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        @*<button type="button" class="btn btn-info" id="btnprintformsixteen">Print</button>*@
+                        <button type="button" class="btn btn-info" id="btnsaveformsixteen">Save Form 16</button>
+                        <button type="button" class="btn btn-info" id="btnclosepopupformsixteen" data-dismiss="modal" aria-hidden="true">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- form sixteen popup -->
+
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#btnsearch").click(function () {
+            loadhtml();
+        });
+        function loadhtml() {
+
+            if (!($('#frmYearlySalarySheet').parsley().validate())) {
+                return;
+            }
+
+            var model = new Object();
+            model.FromDate = $("#FromDate").val();
+            model.ToDate = $("#ToDate").val();
+            //model.GodownID = $("#GodownID").val();
+            model.EmployeeCode = $("#EmployeeCode").val();
+            $.ajax({
+                url: '@Url.Action("YearlySalarySheetList")',
+                type: 'POST',
+                data: { 'model': model },
+                cache: false,
+            }).done(function (result) {
+                $('#lstattandance').html(result);
+            });
+
+
+
+            $.ajax({
+                url: '@Url.Action("FormSixteenList")',
+                type: 'POST',
+                data: { 'model': model },
+                cache: false,
+            }).done(function (result) {
+                $('#lstformsixteen').html(result);
+            });
+
+
+
+        }
+    });
+
+    $("#btnexport").click(function () {
+        debugger;
+
+        if (!($('#frmYearlySalarySheet').parsley().validate())) {
+            return;
+        }
+        var model = new Object();
+        model.FromDate = $("#FromDate").val();
+        model.ToDate = $("#ToDate").val();
+        //model.GodownID = $("#GodownID").val();
+        model.EmployeeCode = $("#EmployeeCode").val();
+        var url = '@Url.Action("ExportExcelYearlySalarySheet", "Report", new { FromDate = "__FromDate__", ToDate = "__ToDate__", EmployeeCode = "__EmployeeCode__" })';
+        url = url.replace(/amp;/g, '');
+        window.location.href = url.replace('__FromDate__', model.FromDate).replace('__ToDate__', model.ToDate).replace('__EmployeeCode__', model.EmployeeCode);
+    });
+
+    $("#btncancel").click(function () {
+        location.reload();
+    });
+
+    $("#btnsaveopenpopup").click(function () {
+        debugger;
+
+        var FromDate = $("#FromDate").val();
+        var ToDate = $("#ToDate").val();
+        var EmployeeCode = $("#EmployeeCode").val();
+        printpopup(FromDate, ToDate, EmployeeCode);
+        $("#formsixteenpopup").removeClass("modal fade").addClass("modal fade modal-overflow in");
+        $("#formsixteenpopup").css("display", "block");
+    });
+
+    function printpopup(FromDate, ToDate, EmployeeCode) {
+        //debugger;
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("CheckIsExistsFormSixteenDetails")',
+            data: { 'FromDate': FromDate, 'ToDate': ToDate, 'EmployeeCode': EmployeeCode },
+            success: function (result) {
+                debugger;
+                if (result.FormSixteenID > 0) {
+                    $('#FormSixteenID').val(result.FormSixteenID);
+                    $('#StandardDeduction').val(result.StandardDeductions);
+                    $('#HousingLoanPrincipal').val(result.HousingLoanPrincipal);
+                    $('#ELSS').val(result.ELSS);
+                    $('#PPF').val(result.PPF);
+                    $('#LifeInsurance').val(result.LifeInsurance);
+                    $('#Others').val(result.Others);
+                    $('#TDSSalary').val(result.TDSSalary);
+                    $('#TotalGrossAmount').val(result.TotalGrossAmount);
+
+                    $('#HealthInsurancePremiaUnderSection80D').val(result.HealthInsurancePremiaUnderSection80D);
+                    $('#HealthInsurancePremiaUnderSection80D_Actual').val(result.HealthInsurancePremiaUnderSection80D_Actual);
+
+                    $('#InterestOn80E').val(result.InterestOn80E);
+                    $('#InterestOn80E_Actual').val(result.InterestOn80E_Actual);
+
+
+
+                    $('#UnderSection80G').val(result.UnderSection80G);
+
+
+                    $('#UnderSection80TTA').val(result.UnderSection80TTA);
+                    $('#UnderSection80TTA_Actual').val(result.UnderSection80TTA_Actual);
+
+                    $('#RebateUnderSection87A').val(result.RebateUnderSection87A);
+                    $('#UnderSection80C').val(result.UnderSection80C);
+                    $('#TaxSlabPer').val(result.TaxSlabPer);
+                    $('#SurchargeSlabPer').val(result.SurchargeSlabPer);
+                    $('#EducationSlabPer').val(result.EducationSlabPer);
+
+                    $('#PensionUnderSection80CCD_1').val(result.PensionUnderSection80CCD_1);
+                    $('#PensionUnderSection80CCD_1_Actual').val(result.PensionUnderSection80CCD_1_Actual);
+
+                    $('#IncomeFrom').val(result.IncomeFrom);
+                    $('#IncomeTo').val(result.IncomeTo);
+                    $('#TaxOnTotalIncome').val(result.TaxOnTotalIncome);
+                    $('#TaxOnTotalIncome_one').val(result.TaxOnTotalIncome_one);
+                    $('#RebateUnderSection87A_Income').val(result.RebateUnderSection87A_Income);
+                    $('#Surcharge').val(result.Surcharge);
+                    $('#Education').val(result.Education);
+
+                    //Add By Dhruvik
+                    $('#FormSixteenEHRA').val(result.FormSixteenEHRA);
+                    //Add By Dhruvik
+
+                    //   $('#InterestOn80E').val(result.IsFiftyPer);
+                    if (result.IsFiftyPer == true) {
+                        $("#IsFiftyPer").prop("checked", true);
+                    }
+                    else {
+
+                        $("#IsFiftyPer").prop("checked", false);
+                    }
+                }
+                else {
+                    $('#TotalGrossAmount').val(0);
+                }
+            },
+            error: function () { alert('Error'); }
+        });
+        $('#FromDatePopup').attr('value', FromDate);
+        $('#ToDatePopup').attr('value', ToDate);
+        $('#EmployeeCodePopup').attr('value', EmployeeCode);
+    }
+
+    $("#btnclosepopupformsixteen").click(function () {
+        debugger;
+        $('#formsixteenpopup').removeClass("modal fade modal-overflow in");
+        $('#formsixteenpopup').removeAttr('style');
+        $('#formsixteenpopup').addClass("modal fade");
+        $("#FromDatePopup").val("");
+        $("#ToDatePopup").val("");
+        $("#EmployeeCodePopup").val("");
+        $("#HousingLoanPrincipal").val(0);
+        $("#ELSS").val(0);
+        $("#PPF").val(0);
+        $("#LifeInsurance").val(0);
+        $("#Others").val(0);
+        $("#TDSSalary").val(0);
+        $("#HealthInsurancePremiaUnderSection80D").val(0);
+        $("#HealthInsurancePremiaUnderSection80D_Actual").val(0);
+        $("#InterestOn80E").val(0);
+        $("#InterestOn80E_Actual").val(0);
+        $("#UnderSection80G").val(0);
+        $("#UnderSection80TTA").val(0);
+        $("#UnderSection80TTA_Actual").val(0);
+        $("#RebateUnderSection87A").val(0);
+        $("#UnderSection80C").val(0);
+
+        $("#TaxSlabPer").val(0);
+        $("#SurchargeSlabPer").val(0);
+        $("#EducationSlabPer").val(0);
+
+        $("#PensionUnderSection80CCD_1").val(0);
+        $("#PensionUnderSection80CCD_1_Actual").val(0);
+
+        $("#IncomeFrom").val(0);
+        $("#IncomeTo").val(0);
+        $("#TaxOnTotalIncome").val(0);
+        $("#TaxOnTotalIncome_one").val(0);
+        $("#RebateUnderSection87A_Income").val(0);
+        $("#Surcharge").val(0);
+        $("#Education").val(0);
+
+        //Add By Dhruvik
+        $("#FormSixteenEHRA").val(0);
+        //Add By Dhruvik
+
+        $('#IsFiftyPer').prop('checked', false);
+        $("#FormSixteenID").val(0);
+    });
+
+    $("#btnsaveformsixteen").click(function () {
+        debugger;
+        var data = new Object();
+        data.FromDate = $("#FromDatePopup").val();
+        data.ToDate = $("#ToDatePopup").val();
+        data.EmployeeCode = $("#EmployeeCodePopup").val();
+        data.StandardDeduction = $("#StandardDeduction").val();
+        data.HousingLoanPrincipal = $("#HousingLoanPrincipal").val();
+        data.ELSS = $("#ELSS").val();
+        data.PPF = $("#PPF").val();
+        data.LifeInsurance = $("#LifeInsurance").val();
+        data.Others = $("#Others").val();
+        data.TDSSalary = $("#TDSSalary").val();
+        data.HealthInsurancePremiaUnderSection80D = $("#HealthInsurancePremiaUnderSection80D").val();
+        data.HealthInsurancePremiaUnderSection80D_Actual = $("#HealthInsurancePremiaUnderSection80D_Actual").val();
+        data.InterestOn80E = $("#InterestOn80E").val();
+        data.InterestOn80E_Actual = $("#InterestOn80E_Actual").val();
+        data.UnderSection80G = $("#UnderSection80G").val();
+        data.UnderSection80TTA = $("#UnderSection80TTA").val();
+        data.UnderSection80TTA_Actual = $("#UnderSection80TTA_Actual").val();
+        data.RebateUnderSection87A = $("#RebateUnderSection87A").val();
+        data.UnderSection80C = $("#UnderSection80C").val();
+        data.FormSixteenID = $("#FormSixteenID").val();
+        data.IsFiftyPer = $("#IsFiftyPer").is(":checked");
+        data.TaxSlabPer = $("#TaxSlabPer").val();
+        data.SurchargeSlabPer = $("#SurchargeSlabPer").val();
+        data.EducationSlabPer = $("#EducationSlabPer").val();
+        data.PensionUnderSection80CCD_1 = $("#PensionUnderSection80CCD_1").val();
+        data.PensionUnderSection80CCD_1_Actual = $("#PensionUnderSection80CCD_1_Actual").val();
+
+        data.IncomeFrom = $("#IncomeFrom").val();
+        data.IncomeTo = $("#IncomeTo").val();
+        data.TaxOnTotalIncome = $("#TaxOnTotalIncome").val();
+        data.TaxOnTotalIncome_one = $("#TaxOnTotalIncome_one").val();
+        data.RebateUnderSection87A_Income = $("#RebateUnderSection87A_Income").val();
+        data.Surcharge = $("#Surcharge").val();
+        data.Education = $("#Education").val();
+
+        //Add By Dhruvik
+        data.FormSixteenEHRA = $("#FormSixteenEHRA").val();
+        //Add By Dhruvik
+
+        $.ajax({
+            url: '@Url.Action("PrintEmployeeForm16", "Report")',
+            type: 'POST',
+            //data: {
+            //    'FromDate': FromDate, 'ToDate': ToDate, 'EmployeeCode': EmployeeCode, 'StandardDeduction': StandardDeduction,
+            //    'HousingLoanPrincipal': HousingLoanPrincipal, 'ELSS': ELSS, 'PPF': PPF,
+            //    'LifeInsurance': LifeInsurance, 'Others': Others, 'HealthInsurancePremiaUnderSection80D': HealthInsurancePremiaUnderSection80D, 'HealthInsurancePremiaUnderSection80D_Actual': HealthInsurancePremiaUnderSection80D_Actual,
+            //    'InterestOn80E': InterestOn80E, 'InterestOn80E_Actual': InterestOn80E_Actual, 'UnderSection80G': UnderSection80G, 'UnderSection80TTA': UnderSection80TTA, 'UnderSection80TTA_Actual': UnderSection80TTA_Actual, 'IsFiftyPer': IsFiftyPer, 'RebateUnderSection87A': RebateUnderSection87A,
+            //    'UnderSection80C': UnderSection80C, 'TaxSlabPer': TaxSlabPer, 'SurchargeSlabPer': SurchargeSlabPer, 'EducationSlabPer': EducationSlabPer, 'PensionUnderSection80CCD_1': PensionUnderSection80CCD_1, 'PensionUnderSection80CCD_1_Actual': PensionUnderSection80CCD_1_Actual, 'FormSixteenID': FormSixteenID
+            //},
+
+            data: { 'data': data },
+            cache: false,
+        }).done(function (result) {
+            if (result != '') {
+                window.open(result, "newPage");
+                $("#FromDatePopup").val("");
+                $("#ToDatePopup").val("");
+                $("#EmployeeCodePopup").val("");
+                $("#HousingLoanPrincipal").val(0);
+                $("#ELSS").val(0);
+                $("#PPF").val(0);
+                $("#LifeInsurance").val(0);
+                $("#Others").val(0);
+                $("#TDSSalary").val(0);
+                $("#HealthInsurancePremiaUnderSection80D").val(0);
+                $("#HealthInsurancePremiaUnderSection80D_Actual").val(0);
+                $("#InterestOn80E").val(0);
+                $("#InterestOn80E_Actual").val(0);
+                $("#UnderSection80G").val(0);
+                $("#UnderSection80TTA").val(0);
+                $("#UnderSection80TTA_Actual").val(0);
+                $('#IsFiftyPer').prop('checked', false);
+                $("#FormSixteenID").val(0);
+                $("#RebateUnderSection87A").val(0);
+                $("#UnderSection80C").val(0);
+                $("#TaxSlabPer").val(0);
+                $("#SurchargeSlabPer").val(0);
+                $("#EducationSlabPer").val(0);
+                $("#PensionUnderSection80CCD_1").val(0);
+                $("#PensionUnderSection80CCD_1_Actual").val(0);
+
+                $("#IncomeFrom").val(0);
+                $("#IncomeTo").val(0);
+                $("#TaxOnTotalIncome").val(0);
+                $("#TaxOnTotalIncome_one").val(0);
+                $("#RebateUnderSection87A_Income").val(0);
+                $("#Surcharge").val(0);
+                $("#Education").val(0);
+
+                //Add By Dhruvik
+                $("#FormSixteenEHRA").val(0);
+                //Add By Dhruvik
+            }
+            $('#formsixteenpopup').removeClass("modal fade modal-overflow in");
+            $('#formsixteenpopup').removeAttr('style');
+            $('#formsixteenpopup').addClass("modal fade");
+
+            debugger;
+            var model = new Object();
+            model.FromDate = $("#FromDate").val();
+            model.ToDate = $("#ToDate").val();
+            model.EmployeeCode = $("#EmployeeCode").val();
+            $.ajax({
+                url: '@Url.Action("FormSixteenList")',
+                type: 'POST',
+                data: { 'model': model },
+                cache: false,
+            }).done(function (result) {
+                $('#lstformsixteen').html(result);
+            });
+
+            var model = new Object();
+            model.FromDate = $("#FromDate").val();
+            model.ToDate = $("#ToDate").val();
+            model.EmployeeCode = $("#EmployeeCode").val();
+            $.ajax({
+                url: '@Url.Action("YearlySalarySheetList")',
+                type: 'POST',
+                data: { 'model': model },
+                cache: false,
+            }).done(function (result) {
+                $('#lstattandance').html(result);
+            });
+
+
+
+
+        });
+    });
+
+</script>

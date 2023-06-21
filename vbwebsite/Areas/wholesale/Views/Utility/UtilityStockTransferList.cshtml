@@ -1,0 +1,75 @@
+﻿@model List<vb.Data.UtilityTransferListResponse>
+@using vb.Data.ViewModel
+
+<div class="box">
+    <div class="box-header text-center">
+        <h3 class="box-title">Utility Stock Transfer List</h3>
+    </div>
+    <div class="box-body table-scrollable1">
+        <table id="ListDataTable" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th class="nosort">From Godown</th>
+                    <th class="nosort">To Godown</th>
+                    <th class="nosort">Utility</th>
+                    <th class="nosort">HSN Number</th>
+                    <th class="nosort">Transfer No of Pcs</th>
+                    <th class="nosort">Transfer Date</th>
+                    <th class="nosort">Prepared By</th>
+                    <th class="nosort">Accepted Date</th>
+                    <th class="nosort">Accepted By</th>
+                    <th class="nosort">Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td id="row">
+                            @item.FromGodownName
+                        </td>
+                        <td>
+                            @item.ToGodownName
+                        </td>
+                        <td>
+                            @item.UtilityName
+                        </td>
+                        <td>
+                            @item.HSNNumber
+                        </td>
+                        <td>
+                            @item.TransferNoofPcs
+                        </td>
+                        <td>
+                            @item.TransferDatestr
+                        </td>
+                        <td>
+                            @item.FullName
+                        </td>
+                        <td>
+                            @item.AcceptDatestr
+                        </td>
+                        <td>
+                            @item.AcceptedName
+                        </td>
+                        <td>
+                            @item.Status
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    $('#ListDataTable').DataTable({
+        'paging': true,
+        'lengthChange': true,
+        'searching': true,
+        'ordering': false,
+        'info': true,
+        'autoWidth': false
+    });
+</script>
+

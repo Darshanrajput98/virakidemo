@@ -1,0 +1,536 @@
+﻿@model List<vb.Data.VoucherCashCounterListResponse>
+@using vb.Data.ViewModel
+
+<div class="box">
+    <div class="box-header text-center">
+        <h3 class="box-title">Voucher Cash Counter Report</h3>
+    </div>
+    <div class="box-body table-scrollable1">
+        <table id="ListDataTable2" class="table table-bordered table-striped lstvoucher">
+            <thead>
+                <tr>
+                    <th class="nosort" style="text-align:center">Customer</th>
+                    <th class="nosort" style="text-align:center">Area</th>
+                    <th class="nosort" style="text-align:center">Cash Option</th>
+                    <th class="nosort" style="text-align:center">Bill Number</th>
+                    <th class="nosort" style="text-align:center">Cash</th>
+                    <th class="nosort" style="text-align:center">Cheque</th>
+                    <th class="nosort" style="text-align:center">Card</th>
+                    <th class="nosort" style="text-align:center">Online</th>
+                    <th class="nosort" style="text-align:center">Discount</th>
+                    <th class="nosort" style="text-align:center">Edit</th>
+                    @*@if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.WEPAYMENT.ToString()))
+                        {
+                            <th class="nosort" style="text-align:center">Edit</th>
+                        }*@
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td id="row">
+                            @item.Customer
+                        </td>
+                        <td>
+                            @item.Area
+                        </td>
+                        <td>
+                            @item.CashOption
+                        </td>
+                        <td>
+                            <a style="cursor:pointer;" class="btnedit" data-billnumber="@item.BillNumber" data-expensesvoucherid="@item.ExpensesVoucherID">@item.BillNumber</a>
+                        </td>
+                        <td>
+                            @item.Cash
+                        </td>
+                        <td>
+                            @item.Cheque
+                        </td>
+                        <td>
+                            @item.Card
+                        </td>
+                        <td>
+                            @item.Online
+                        </td>
+                        <td>
+                            @item.AdjustAmount
+                        </td>
+                        <td>
+                            <a style="cursor:pointer;" class="btneditvoucherpayment" data-billnumber="@item.BillNumber" data-expensesvoucherid="@item.ExpensesVoucherID" data-cash="@item.Cash" data-cheque="@item.Cheque" data-card="@item.Card" data-online="@item.Online" data-paymentid="@item.PaymentID"
+                               data-bankname="@item.BankName" data-bankbranch="@item.BankBranch" data-chequeno="@item.ChequeNo" data-chequedate1="@item.ChequeDate" data-ifccode="@item.IFCCode"
+                               data-banknameforcard="@item.BankNameForCard" data-typeofcard="@item.TypeOfCard"
+                               data-banknameforonline="@item.BankNameForOnline" data-utrnumber="@item.UTRNumber" data-onlinepaymentdate1="@item.OnlinePaymentDate" data-godownid="@item.GodownID" data-adjustamount="@item.AdjustAmount">edit</a>
+                        </td>
+                        @*@if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.WEPAYMENT.ToString()))
+                            {
+                                <td>
+                                    <a style="cursor:pointer;" class="btneditpayment" data-billnumber="@item.BillNumber" data-expensesvoucherid="@item.ExpensesVoucherID" data-cash="@item.Cash" data-cheque="@item.Cheque" data-card="@item.Card" data-online="@item.Online"  data-paymentid="@item.PaymentID"
+                                       data-bankname="@item.BankName" data-bankbranch="@item.BankBranch" data-chequeno="@item.ChequeNo" data-chequedate1="@item.ChequeDate" data-ifccode="@item.IFCCode"
+                                       data-banknameforcard="@item.BankNameForCard" data-typeofcard="@item.TypeOfCard"
+                                       data-banknameforonline="@item.BankNameForOnline" data-utrnumber="@item.UTRNumber" data-onlinepaymentdate1="@item.OnlinePaymentDate" data-godownid="@item.GodownID" data-adjustamount="@item.AdjustAmount">edit</a>
+                                </td>
+                            }*@
+                    </tr>
+                }
+                @if (Model.Count > 0)
+                {
+                    <tr style="font-weight:bold">
+                        <td colspan="4">
+                            Grand Total :
+                        </td>
+                        <td>
+                            @Model[0].CashTotal
+                        </td>
+                        <td>
+                            @Model[0].ChequeTotal
+                        </td>
+                        <td>
+                            @Model[0].CardTotal
+                        </td>
+                        <td>
+                            @Model[0].OnlineTotal
+                        </td>
+                        <td>
+                            @Model[0].AdjustAmountTotal
+                        </td>
+                        <td></td>
+                        @*@if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.WEPAYMENT.ToString()))
+                            {
+                                <td></td>
+                            }*@
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <div id="VoucherPayment" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header" style="padding-bottom: 0px;">
+                        <h4 class="modal-title">Update Payment</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <input name="ExpensesVoucherID" id="ExpensesVoucherID" class="hdnExpensesVoucherID" type="hidden" value="" />
+                                    <input name="VoucherPaymentID" id="VoucherPaymentID" class="hdnVoucherPaymentID" type="hidden" value="" />
+                                    <label for="PackageDate" class="col-sm-4 control-label">Invoice Number</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" name="BillNumber" maxlength="100" id="BillNumber" placeholder="Bill Number" tabindex="2" disabled="disabled">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:10px;">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="BatchNo" class="col-sm-4 control-label">Amount</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" name="VoucherAmount" maxlength="100" id="VoucherAmount" placeholder="Amount" tabindex="2">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:10px;">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="Godown" class="col-sm-4 control-label">Cash Option :</label>
+                                    <div class="col-sm-8">
+                                        @Html.DropDownList("VoucherGodownID", new SelectList(ViewBag.CashOption, "GodownID", "CashOption"), "Select Cash", new { @class = "form-control select2" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:10px;">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="Discount" class="col-sm-4 control-label">Discount</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" name="VoucherDiscount" maxlength="100" id="VoucherDiscount" placeholder="Discount" tabindex="3">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-header" style="padding-bottom: 0px;">
+                            <h4 class="modal-title">Payment Type</h4>
+                        </div>
+                        <div class="row" style="margin-top:10px;">
+                            <div class="col-md-6">
+                                <div class="col-sm-6">
+                                    <input id="VoucherCash" class="check cash" type="checkbox" checked="checked" tabindex="5" /> Cash
+                                </div>
+                                @*<div class="col-sm-6">
+                                        <input id="Sign" class="check sign" type="checkbox" checked="checked" /> Sign
+                                    </div>*@
+                            </div>
+                            <div class="col-md-6">
+                                <div class="col-sm-6">
+                                    <input id="VoucherCard" class="check card" type="checkbox" checked="checked" tabindex="7" /> Card
+                                </div>
+                                <div class="row" style="margin-top:10px;">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <input name="VoucherPaymentID" id="VoucherPaymentID" class="hdnVoucherPaymentID" type="hidden" value="" />
+                                                <div class="col-sm-12">
+                                                    <input type="hidden" id="hdnExpensesVoucherIDForCheque" />
+                                                    <input type="text" class="form-control" name="VoucherBankNameForCard" maxlength="100" id="VoucherBankNameForCard" placeholder="Bank Name" tabindex="1" autocomplete="off">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row" style="margin-top:10px;">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <div class="col-sm-12">
+                                                    <input type="text" class="form-control" name="VoucherTypeOfCard" maxlength="100" id="VoucherTypeOfCard" placeholder="Type Of Card" tabindex="1" autocomplete="off">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:10px;">
+                            <div class="col-md-6">
+                                <div class="col-sm-6">
+                                    <input id="VoucherCheque" class="check" type="checkbox" checked="checked" tabindex="6" /> Check
+                                </div>
+                                <div class="row" style="margin-top:10px;">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <input name="VoucherPaymentID" id="VoucherPaymentID" class="hdnVoucherPaymentID" type="hidden" value="" />
+                                                <div class="col-sm-12">
+                                                    <input type="hidden" id="hdnExpensesVoucherIDForCheque" />
+                                                    <input type="text" class="form-control" name="VoucherBankName" maxlength="100" id="VoucherBankName" placeholder="Bank Name" tabindex="1" autocomplete="off">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row" style="margin-top:10px;">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <div class="col-sm-12">
+                                                    <input type="text" class="form-control" name="VoucherBankBranch" maxlength="100" id="VoucherBankBranch" placeholder="Bank Branch" tabindex="1" autocomplete="off">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row" style="margin-top:10px;">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <div class="col-sm-12">
+                                                    <input type="text" class="form-control" name="VoucherChequeNo" maxlength="100" id="VoucherChequeNo" placeholder="Cheque No" tabindex="1" autocomplete="off">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row" style="margin-top:10px;">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <div class="col-sm-12">
+                                                    <div class="input-group date">
+                                                        <div class="input-group-addon">
+                                                            <i class="fa fa-calendar"></i>
+                                                        </div>
+                                                        <input type="text" class="form-control pull-right datepicker" id="VoucherChequeDate" autocomplete="off" tabindex="3">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row" style="margin-top:10px;">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <div class="col-sm-12">
+                                                    <input type="text" class="form-control" name="VoucherIFCCode" maxlength="100" id="VoucherIFCCode" placeholder="IFC Code" tabindex="1" autocomplete="off">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="col-sm-6">
+                                    <input id="VoucherOnline" class="check online" type="checkbox" checked="checked" tabindex="7" /> Online
+                                </div>
+                                <div class="row" style="margin-top:10px;">
+                                    <div class="col-md-12" style="padding-bottom: 8px;">
+                                        <div class="form-group">
+                                            <input name="VoucherPaymentID" id="VoucherPaymentID" class="hdnVoucherPaymentID" type="hidden" value="" />
+                                            <div class="col-sm-12">
+                                                <input type="hidden" id="hdnExpensesVoucherIDForOnline" />
+                                                <input type="text" class="form-control" name="VoucherBankNameForOnline" maxlength="100" id="VoucherBankNameForOnline" placeholder="Bank Name" tabindex="1" autocomplete="off">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12" style="padding-bottom: 8px;">
+                                        <div class="form-group">
+                                            <div class="col-sm-12">
+                                                <input type="text" class="form-control" name="VoucherUTRNumber" maxlength="100" id="VoucherUTRNumber" placeholder="UTR Number" tabindex="2" autocomplete="off">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12" style="padding-bottom: 8px;">
+                                        <div class="form-group">
+                                            <div class="col-sm-12">
+                                                <div class="input-group date">
+                                                    <div class="input-group-addon">
+                                                        <i class="fa fa-calendar"></i>
+                                                    </div>
+                                                    <input type="text" class="form-control pull-right datepicker" id="VoucherOnlinePaymentDate" tabindex="3" autocomplete="off">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="btnsavevoucherpayment" class="btnsavevoucherpayment btn btn-info">Save</button>
+                        <button type="button" class="btnclosevoucherpayment btn btn-info" data-dismiss="modal" aria-hidden="true">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    $('.datepicker').datepicker({
+        autoclose: true
+    });
+
+    $('.lstvoucher').on('click', '.btnedit', function () {
+        debugger;
+        var ExpensesVoucherID = $(this).attr("data-expensesvoucherid");
+        //var invnum = $(this).attr("data-pid");
+        $.ajax({
+            url: '@Url.Action("PrintExpensesVoucher", "Expenses")',
+            type: 'POST',
+            data: { 'ExpensesVoucherID': ExpensesVoucherID },
+            cache: false,
+        }).done(function (result) {
+            if (result != '') {
+                window.open(result, "newPage");
+            }
+        });
+    });
+
+    //EditPayment
+    $('.lstvoucher').on('click', '.btneditvoucherpayment', function () {
+        debugger;
+        var BillNumber = $(this).attr("data-billnumber");
+        var ExpensesVoucherID = $(this).attr("data-expensesvoucherid");
+        var PaymentID = $(this).attr("data-paymentid");
+        var GodownID = $(this).attr("data-godownid");
+        var Cash = $(this).attr("data-cash");
+        var Cheque = $(this).attr("data-cheque");
+        var Card = $(this).attr("data-card");
+        var Online = $(this).attr("data-online");
+        var AdjustAmount = $(this).attr("data-adjustamount");
+
+        //Cheque
+        var BankName = $(this).attr("data-bankname");
+        var BankBranch = $(this).attr("data-bankbranch");
+        var ChequeNo = $(this).attr("data-chequeno");
+        var ChequeDate = $(this).attr("data-chequedate1");
+        var IFCCode = $(this).attr("data-ifccode");
+
+        //Card
+        var BankNameForCard = $(this).attr("data-banknameforcard");
+        var TypeOfCard = $(this).attr("data-typeofcard");
+
+        //Online
+        var BankNameForOnline = $(this).attr("data-banknameforonline");
+        var UTRNumber = $(this).attr("data-utrnumber");
+        var OnlinePaymentDate = $(this).attr("data-onlinepaymentdate1");
+
+        voucherclearcontents(BillNumber, ExpensesVoucherID, PaymentID, GodownID, Cash, Cheque, BankName, BankBranch, ChequeNo, ChequeDate, IFCCode, Card, BankNameForCard, TypeOfCard, Online, BankNameForOnline, UTRNumber, OnlinePaymentDate, AdjustAmount);
+        $("#VoucherPayment").removeClass("modal fade").addClass("modal fade modal-overflow in");
+        $("#VoucherPayment").css("display", "block");
+    });
+
+    function voucherclearcontents(BillNumber, ExpensesVoucherID, PaymentID, GodownID, Cash, Cheque, BankName, BankBranch, ChequeNo, ChequeDate, IFCCode, Card, BankNameForCard, TypeOfCard, Online, BankNameForOnline, UTRNumber, OnlinePaymentDate, AdjustAmount) {
+        debugger;
+
+        $('#BillNumber').attr('value', BillNumber);
+        $('#ExpensesVoucherID').attr('value', ExpensesVoucherID);
+        $('#VoucherPaymentID').attr('value', PaymentID);
+        $("#VoucherPayment").find("#VoucherGodownID").val(GodownID).trigger("change");
+        $('#VoucherDiscount').val(AdjustAmount);
+        if (Cash != 0) {
+            $('#VoucherAmount').val(Cash);
+            $("#VoucherCash").prop('checked', true);
+            $("#VoucherCheque").prop('checked', false);
+            $("#VoucherOnline").prop('checked', false);
+            $("#VoucherCard").prop('checked', false);
+        }
+        if (Cheque != 0) {
+            $('#VoucherAmount').val(Cheque);
+            $("#VoucherCheque").prop('checked', true);
+            $('#VoucherBankName').val(BankName);
+            $('#VoucherBankBranch').val(BankBranch);
+            $('#VoucherChequeNo').val(ChequeNo);
+            $('#VoucherChequeDate').val(ChequeDate);
+            $('#VoucherIFCCode').val(IFCCode);
+            $("#VoucherOnline").prop('checked', false);
+            $("#VoucherCard").prop('checked', false);
+            $("#VoucherCash").prop('checked', false);
+        }
+        if (Card != 0) {
+            $('#VoucherAmount').val(Card);
+            $("#VoucherCard").prop('checked', true);
+            $('#VoucherBankNameForCard').val(BankNameForCard);
+            $('#VoucherTypeOfCard').val(TypeOfCard);
+            $("#VoucherOnline").prop('checked', false);
+            $("#VoucherCheque").prop('checked', false);
+            $("#VoucherCash").prop('checked', false);
+        }
+        if (Online != 0) {
+            $('#VoucherAmount').val(Online);
+            $("#VoucherOnline").prop('checked', true);
+            $('#VoucherBankNameForOnline').val(BankNameForOnline);
+            $('#VoucherUTRNumber').val(UTRNumber);
+            $('#VoucherOnlinePaymentDate').val(OnlinePaymentDate);
+            $("#VoucherCard").prop('checked', false);
+            $("#VoucherCheque").prop('checked', false);
+            $("#VoucherCash").prop('checked', false);
+        }
+        if (AdjustAmount != 0) {
+            $('#VoucherDiscount').val(AdjustAmount);
+            $("#VoucherCash").prop('checked', false);
+            $("#VoucherCheque").prop('checked', false);
+            $("#VoucherOnline").prop('checked', false);
+            $("#VoucherCard").prop('checked', false);
+        }
+    }
+
+    $(".btnclosevoucherpayment").click(function () {
+        debugger;
+        $('#VoucherPayment').removeClass("modal fade modal-overflow in");
+        $('#VoucherPayment').removeAttr('style');
+        $('#VoucherPayment').addClass("modal fade");
+        $('#VoucherCash').prop('checked', false);
+        $('#VoucherCheque').prop('checked', false);
+        $('#VoucherCard').prop('checked', false);
+        $('#VoucherOnline').prop('checked', false);
+        $('#VoucherDiscount').val('');
+        $('#VoucherAmount').val('');
+        $('#VoucherBankName').val('');
+        $('#VoucherBankBranch').val('');
+        $('#VoucherChequeNo').val('');
+        $('#VoucherChequeDate').val('');
+        $('#VoucherIFCCode').val('');
+        $('#VoucherBankNameForCard').val('');
+        $('#VoucherTypeOfCard').val('');
+        $('#VoucherBankNameForOnline').val('');
+        $('#VoucherUTRNumber').val('');
+        $('#VoucherOnlinePaymentDate').val('');
+        $("#VoucherGodownID").val("").trigger("change");
+    });
+
+    $(function () {
+        $(".check").change(function () {
+            if ($(this).is(":checked")) {
+                $(".check").not($(this)).each(function () {
+                    $(this).removeAttr("checked");
+                })
+            }
+        })
+    });
+
+    $("#btnsavevoucherpayment").click(function () {
+        debugger;
+        if ($("#VoucherOnline").is(":checked") != false || $("#VoucherCash").is(":checked") != false || $("#VoucherCheque").is(":checked") != false || $("#VoucherCard").is(":checked") != false) {
+            var datareq = new Object();
+            datareq.Online = $("#VoucherOnline").is(":checked");
+            datareq.Cash = $("#VoucherCash").is(":checked");
+            datareq.Cheque = $("#VoucherCheque").is(":checked");
+            datareq.Card = $("#VoucherCard").is(":checked");
+            datareq.Amount = $("#VoucherAmount").val();
+            datareq.AdjustAmount = $("#VoucherDiscount").val();
+            datareq.GodownID = $("#VoucherPayment").find("#VoucherGodownID").val();
+            datareq.BillNumber = $("#BillNumber").val();
+            datareq.PaymentID = $("#VoucherPaymentID").val();
+            datareq.ExpensesVoucherID = $("#ExpensesVoucherID").val();
+            datareq.BankName = $("#VoucherBankName").val();
+            datareq.BankBranch = $("#VoucherBankBranch").val();
+            datareq.ChequeNo = $("#VoucherChequeNo").val();
+            datareq.ChequeDate = $("#VoucherChequeDate").val();
+            datareq.IFCCode = $("#VoucherIFCCode").val();
+            datareq.BankNameForOnline = $("#VoucherBankNameForOnline").val();
+            datareq.UTRNumber = $("#VoucherUTRNumber").val();
+            datareq.OnlinePaymentDate = $("#VoucherOnlinePaymentDate").val();
+            datareq.BankNameForCard = $("#VoucherBankNameForCard").val();
+            datareq.TypeOfCard = $("#VoucherTypeOfCard").val();
+            $.ajax({
+                url: '@Url.Action("UpdateVoucherPayment")',
+                type: 'POST',
+                data: { 'data': datareq },
+                cache: false,
+            }).done(function (result) {
+                if (result == true) {
+                    if ($("#VoucherPaymentID").val() == "") {
+                        $('div#sucessalert').html("Payment Add successfully.");
+                    }
+                    else {
+                        $('div#sucessalert').html("Payment updated successfully.");
+                    }
+                    showhidealert();
+                    clearform();
+                    loadhtml();
+                }
+            });
+        }
+        else {
+            alert("Please check at least one payment method");
+        }
+    });
+
+    function loadhtml() {
+        var model = new Object();
+        model.AssignedDate = $("#AssignedDate").val();
+        model.GodownID = $("#GodownID").val();
+        $.ajax({
+            url: '@Url.Action("VoucherCashCounterReportList")',
+            type: 'POST',
+            data: { 'model': model },
+            cache: false,
+        }).done(function (result) {
+            $('#lstvouchercash').html(result);
+        });
+    }
+
+    function clearform() {
+        $('#VoucherPayment').removeClass("modal fade modal-overflow in");
+        $('#VoucherPayment').removeAttr('style');
+        $('#VoucherPayment').addClass("modal fade");
+        $('#VoucherCash').prop('checked', false);
+        $('#VoucherCheque').prop('checked', false);
+        $('#VoucherCard').prop('checked', false);
+        $('#VoucherOnline').prop('checked', false);
+        $('#VoucherDiscount').val('');
+        $('#VoucherAmount').val('');
+        $('#VoucherBankName').val('');
+        $('#VoucherBankBranch').val('');
+        $('#VoucherChequeNo').val('');
+        $('#VoucherChequeDate').val('');
+        $('#VoucherIFCCode').val('');
+        $('#VoucherBankNameForCard').val('');
+        $('#VoucherTypeOfCard').val('');
+        $('#VoucherBankNameForOnline').val('');
+        $('#VoucherUTRNumber').val('');
+        $('#VoucherOnlinePaymentDate').val('');
+        $("#VoucherGodownID").val("").trigger("change");
+    }
+
+</script>
+
+
+

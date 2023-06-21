@@ -1,0 +1,215 @@
+﻿@model List<vb.Data.RetPendingDeliveryListResponse>
+@{
+    ViewBag.Title = "PendingDelivery";
+    Layout = "~/Areas/retail/Views/Shared/_retaillayout.cshtml";
+}
+
+<div class="box">
+    <div class="box-header text-center">
+        <h3 class="box-title">Invoices - Pending For Delivery</h3>
+    </div>
+    <div class="box-body table-scrollable1">
+        @*<table id="ListDataTablewithourpaging" class="table table-bordered table-striped">*@
+        <table id="ListDataTableNoPaging1" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <td colspan="8" align="right">
+                        <button type="button" id="btnsavecasefgf" class="btn btn-info">Update Delivery Info</button>
+                    </td>
+                </tr>
+                <tr>
+                    <th class="nosort">Invoice No</th>
+                    <th class="nosort">Invoice Date</th>
+                    <th class="nosort">Customer Name</th>
+                    <th class="nosort">Area</th>
+                    <th class="nosort">Date</th>
+                    <th class="nosort">Vehicle</th>
+                    <th class="nosort">Tray</th>
+                    <th class="nosort">Other</th>
+                    <th class="nosort">Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td id="row" style="width:115px">
+                            @item.FinancialInvoiceNumber
+                        </td>
+                        <td>
+                            @item.CreatedOn.ToString("MM/dd/yyyy")
+                        </td>
+                        <td style="width:220px">
+                            @item.CustomerName
+                        </td>
+                        <td style="width:110px">
+                            @item.AreaName
+                        </td>
+
+                        <td style="width:140px">
+                            <div class="input-group date">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </div>
+                                <input type="text" class="form-control pull-right datepicker AssignedDate" id="AssignedDate" autocomplete="off">
+                            </div>
+                        </td>
+
+                        <td>
+                            @*<input name="OrderQtyID" class="hdnOrderQtyID" type="hidden" value="0" />*@
+                            <input name="DeliveryID" class="hdnDeliveryID" type="hidden" value="@item.DeliveryID" />
+                            <input name="InvoiceNumber" class="hdnInvoiceNumber" type="hidden" value="@item.InvoiceNumber" />
+                            <input id="Vehicle" type="text" class="form-control Vehicle" name="Vehicle" value="@item.Vehicle" style="width:100px" />
+                            <input name="OrderID" class="hdnOrderID" type="hidden" value="@item.OrderID" />
+                        </td>
+                        <td>
+                            <input id="Tray" type="text" class="form-control Tray" name="Tray" value="@item.Tray" />
+                        </td>
+                        <td>
+                            <input id="Other" type="text" class="form-control Other" name="Other" value="@item.Other" style="width:200px" />
+                        </td>
+                        <td>
+                            <button type="button" id="btndelete" class="btn btn-info btndelete" data-invoicenumber="@item.InvoiceNumber" data-orderid="@item.OrderID">Delete</button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div id="deletepopup" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" style="padding-bottom: 0px;">
+                    <h4 class="modal-title">Confirmation</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row" style="margin-top:10px;">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <input name="InvoiceNumberfordelete" id="InvoiceNumberfordelete" class="hdnInvoiceNumberfordelete" type="hidden" value="" />
+                                <input name="OrderIDfordelete" id="OrderIDfordelete" class="hdnOrderIDfordelete" type="hidden" value="" />
+                                <input name="IsDelete" id="IsDelete" class="hdnIsDelete" type="hidden" value="" />
+                                <label class="col-sm-12 control-label">  Are you sure want to delete this invoice????</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btnyesdeletepopup btn btn-info">Yes</button>
+                    <button type="button" class="btnnodeletepopup btn btn-info" data-dismiss="modal" aria-hidden="true">No</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script>
+    function loadhtml() {
+        location.reload();
+    }
+
+    $("#btnsavecasefgf").click(function () {
+        $('#btnsavecasefgf').attr('disabled', true);
+        var lstDel = [];
+        debugger;
+        //$('#ListDataTablewithourpaging').children('tbody').children('tr:visible').each(function (index, row) {
+        $('#ListDataTableNoPaging1').children('tbody').children('tr:visible').each(function (index, row) {
+            debugger;
+            var dataDel = new Object();
+
+            //dataDel.DeliveryID = $(row).find("input[type=hidden]")[1].value;
+            //dataDel.InvoiceNumber = $(row).find("input[type=hidden]")[2].value;
+            //dataDel.VehicleNo = $(row).find("input")[3].value;
+            //dataDel.Tray = $(row).find("input")[4].value;
+            //dataDel.Other = $(row).find("input")[5].value;
+
+            //dataDel.DeliveryID = $(row).find(".hdnDeliveryID").val();
+            //dataDel.InvoiceNumber = $(row).find(".hdnInvoiceNumber").val();
+            //dataDel.VehicleNo = $(row).find("input")[3].value;
+            //dataDel.OrderID = $(row).find(".hdnOrderID").val();
+            //dataDel.Tray = $(row).find("input")[5].value;
+            //dataDel.Other = $(row).find("input")[6].value;
+
+            // 05 Aug 2020 Piyush Limbani
+            dataDel.AssignedDate = $(row).find(".AssignedDate").val();
+            dataDel.DeliveryID = $(row).find(".hdnDeliveryID").val();
+            dataDel.OrderID = $(row).find(".hdnOrderID").val();
+            dataDel.InvoiceNumber = $(row).find(".hdnInvoiceNumber").val();
+            dataDel.VehicleNo = $(row).find(".Vehicle").val();                      
+            dataDel.Tray = $(row).find(".Tray").val();
+            dataDel.Other = $(row).find(".Other").val();
+            // 05 Aug 2020 Piyush Limbani
+
+            if ((dataDel.InvoiceNumber != '') && (dataDel.VehicleNo != '')) {
+                lstDel.push(dataDel);
+            }
+        });
+        $.ajax({
+            url: '@Url.Action("UpdatePendingDelivery")',
+            type: 'POST',
+            data: { 'data': lstDel },
+            cache: false,
+        }).done(function (result) {
+            if (result == true) {
+                if ("" == "") {
+                    $('div#sucessalert').html("Vehicle assigned successfully.");
+                }
+                else {
+                    $('div#sucessalert').html("Vehicle assigned successfully.");
+                }
+                showhidealert();
+                $('#lstcase').html("");
+                loadhtml();
+            }
+            $('#btnsavecasefgf').attr('disabled', false);
+        });
+    });
+
+    $(".btndelete").click(function () {
+        debugger;
+        var model = new Object
+        model.InvoiceNumber = $(this).attr("data-invoicenumber");
+        model.OrderID = $(this).attr("data-orderid");
+        model.IsDelete = true;
+        $('#InvoiceNumberfordelete').attr('value', model.InvoiceNumber);
+        $('#OrderIDfordelete').attr('value', model.OrderID);
+        $('#IsDelete').attr('value', model.IsDelete);
+        $("#deletepopup").removeClass("modal fade").addClass("modal fade modal-overflow in");
+        $("#deletepopup").css("display", "block");
+    });
+
+    $(".btnyesdeletepopup").click(function () {
+        debugger;
+        var InvoiceNumber = $("#InvoiceNumberfordelete").val();
+        var OrderID = $("#OrderIDfordelete").val();
+        var IsDelete = $("#IsDelete").val();
+        $.ajax({
+            url: '@Url.Action("DeleteOrderQty", "Delivery")',
+            type: 'POST',
+            data: { 'InvoiceNumber': InvoiceNumber, 'OrderID': OrderID, 'IsDelete': IsDelete },
+            cache: false,
+        }).done(function (result) {
+            if (result == true) {
+                $('div#sucessalert').html("Deleted successfully.");
+                showhidealert();
+            }
+            loadhtml();
+        });
+        $('#deletepopup').removeClass("modal fade modal-overflow in");
+        $('#deletepopup').removeAttr('style');
+        $('#deletepopup').addClass("modal fade");
+    });
+
+    $(".btnnodeletepopup").click(function () {
+        debugger;
+        $('#deletepopup').removeClass("modal fade modal-overflow in");
+        $('#deletepopup').removeAttr('style');
+        $('#deletepopup').addClass("modal fade");
+    });
+
+</script>
+
+

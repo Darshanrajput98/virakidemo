@@ -1,0 +1,158 @@
+﻿@model vb.Data.RetCustGroupSalesManWiseSalesList
+
+@{
+    ViewBag.Title = "CustGroupSalesManWiseSales";
+    Layout = "~/Areas/retail/Views/Shared/_retaillayout.cshtml";
+}
+
+<div class="box box-default">
+    <div class="box-header with-border text-center">
+        <h3 class="box-title">Sales Wise Report</h3>
+    </div>
+    <form id="frmCustomerGroup" class="form-horizontal">
+        <div class="box-body">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="DeliveryDate" class="col-sm-4 control-label">From </label>
+                    <div class="col-sm-8">
+                        <div class="input-group date">
+                            <div class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
+                            </div>
+                            <input type="text" class="form-control pull-right datepicker" id="txtFrom" tabindex="1" autocomplete="off">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="day" class="col-sm-4 control-label">Customer Group</label>
+                    <div class="col-sm-8">
+                        @Html.DropDownListFor(m => m.CustomerGroupID, new SelectList(ViewBag.CustomerGroup, "CustomerGroupID", "CustomerGroupName"), "Select Customer Group", new { @class = "form-control select2", tabindex = "3" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="day" class="col-sm-4 control-label">Sales Person</label>
+                    <div class="col-sm-8">
+                        @Html.DropDownListFor(m => m.UserID, new SelectList(ViewBag.SalesPersonList, "UserID", "UserFullName"), "Select Sales Person", new { @class = "form-control select2", tabindex = "7" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="DeliveryDate" class="col-sm-4 control-label">To </label>
+                    <div class="col-sm-8">
+                        <div class="input-group date">
+                            <div class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
+                            </div>
+                            <input type="text" class="form-control pull-right datepicker" id="txtTo" tabindex="2" autocomplete="off">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="day" class="col-sm-4 control-label">Customer</label>
+                    <div class="col-sm-8">
+                        @Html.DropDownListFor(m => m.CustomerID, new SelectList(ViewBag.Customer, "CustomerID", "CustomerName"), "Select Customer", new { @class = "form-control select2", tabindex = "3" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="ProductName" class="col-sm-4 control-label">Area</label>
+                    <div class="col-sm-8">
+                        @Html.DropDownListFor(m => m.AreaID, new SelectList(ViewBag.AreaList, "AreaID", "AreaName"), "Select Area", new { @class = "form-control select2", tabindex = "4" })
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.box-body -->
+        <div class="box-footer ">
+            <div class="pull-right">
+                <button type="button" id="btnsearch" data-mainstartdate="" data-mainenddate="" data-customergroupid="" class="btn btn-info" tabindex="8">Search</button>
+                <button type="button" id="btnclear" class="btn btn-info" tabindex="9">Clear</button>
+                <button type="button" id="btnexport" class="btn btn-info" tabindex="10">Export To Excel</button>
+            </div>
+        </div>
+        <!-- /.box-footer -->
+    </form>
+    <div id="lstcase">
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script>
+    $(document).ready(function () {
+        debugger
+        $("#btnexport").click(function () {
+            debugger;
+            var model = new Object();
+            model.StartDate = $("#txtFrom").val();
+            model.EndDate = $("#txtTo").val();
+            model.CustomerID = $("#CustomerID").val();
+            model.AreaID = $("#AreaID").val();
+            model.UserID = $("#UserID").val();
+            model.CustomerGroupID = $("#CustomerGroupID").val();
+            var url = '@Url.Action("ExportExcelCustGroupSalesManWiseSales", "Report", new { StartDate = "__StartDate__", EndDate = "__EndDate__", CustomerID = "__CustomerID__", AreaID = "__AreaID__", UserID = "__UserID__", CustomerGroupID = "__CustomerGroupID__" })';
+            url = url.replace(/amp;/g, '');
+            window.location.href = url.replace('__StartDate__', model.StartDate).replace('__EndDate__', model.EndDate).replace('__CustomerID__', model.CustomerID).replace('__AreaID__', model.AreaID).replace('__UserID__', model.UserID).replace('__CustomerGroupID__', model.CustomerGroupID);
+        });
+
+        $("#btnsearch").click(function () {
+            debugger;
+            document.getElementById('btnsearch').disabled = true;
+            loadhtml();
+        });
+
+        function loadhtml() {
+            var model = new Object();
+            model.StartDate = $("#txtFrom").val();
+            model.EndDate = $("#txtTo").val();
+            model.CustomerID = $("#CustomerID").val();
+            model.AreaID = $("#AreaID").val();
+            model.UserID = $("#UserID").val();
+            model.CustomerGroupID = $("#CustomerGroupID").val();
+            $.ajax({
+                url: '@Url.Action("CustGroupSalesManWiseSalesList")',
+                type: 'POST',
+                data: { 'model': model },
+                cache: false,
+            }).done(function (result) {
+                $('#lstcase').html(result);
+                document.getElementById('btnsearch').disabled = false;
+            });
+        }
+
+        $("#btnclear").click(function () {
+            debugger;
+            location.reload();
+        });
+
+        var custid = '@Session["rcgsrcustid"]';
+        var txtfrom = '@Session["rcgsrtxtfrom"]';
+        var txtto = '@Session["rcgsrtxtto"]';
+        var uid = '@Session["rcgsruid"]';
+        var areaid = '@Session["rcgsrareaid"]';
+        var custgroupid = '@Session["rcgsrcustgroupid"]';
+        debugger;
+        if (custid != "" || txtfrom != "" || txtto != "" || uid != "" || areaid != "" || custgroupid != "") {
+            $("#CustomerID").val(custid);
+            $("#txtFrom").val(txtfrom);
+            $("#txtTo").val(txtto);
+            $("#UserID").val(uid);
+            $("#AreaID").val(areaid);
+            $("#CustomerGroupID").val(custgroupid);
+            var model = new Object();
+            model.From = $("#txtFrom").val();
+            model.To = $("#txtTo").val();
+            model.CustomerID = $("#CustomerID").val();
+            model.UserID = $("#UserID").val();
+            model.AreaID = $("#AreaID").val();
+            model.CustomerGroupID = $("#CustomerGroupID").val();
+            $.ajax({
+                url: '@Url.Action("ViewBillWiseOrderListForCustGroupSalesManWiseSalesReport", "Report")',
+                type: 'POST',
+                data: { 'model': model },
+                cache: false,
+            }).done(function (result) {
+                $('#lstcase').html(result);
+            });
+        }
+    });
+</script>

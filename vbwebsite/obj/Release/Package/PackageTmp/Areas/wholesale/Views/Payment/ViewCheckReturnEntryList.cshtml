@@ -1,0 +1,217 @@
+﻿@model List<vb.Data.CheckReturnEntryListResponse>
+
+<div class="box">
+    <div class="box-header text-center">
+        <h3 class="box-title">View Cheque Return Entry List</h3>
+        <div>
+            <div class="col-md-10">
+            </div>
+            <div class="col-md-2">
+                <label>Grand Total : </label>
+                <label id="lblgrandtotal" style="padding-right:20px;"></label>
+                <button type="button" id="btnUpdatepayment" onclick="savepayment()" class="btn btn-info">Save</button>
+            </div>
+        </div>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body table-scrollable1">
+        <table id="ListDataTable" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th class="nosort">Customer Name</th>
+                    <th class="nosort">Area</th>
+                    <th class="nosort">Sales Person</th>
+                    <th class="nosort">Bank Name</th>
+                    <th class="nosort">Cheque No.</th>
+                    <th class="nosort">IFSC Code</th>
+                    <th class="nosort">Invoice Number</th>
+                    <th class="nosort">Cheque Amount</th>
+                    <th class="nosort text-center">Payment Mode</th>
+                    <th class="nosort">Cheque Return Charges</th>
+                    <th class="nosort">Remark</th>
+                    <th class="nosort">Select</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                @foreach (var item in Model)
+                {
+                    <tr id="@item.OrderID">
+                        <td id="row" @item.OrderID>
+                            <input type="hidden" id="hdnCheckBounceID" class="hdnCheckBounceID" />
+                            <input type="hidden" id="hdnPaymentID" class="hdnPaymentID" value="@item.PaymentID" />
+                            <input type="hidden" id="hdnOrderID" class="hdnOrderID" value="@item.OrderID" />
+                            <input type="hidden" id="hdnCustomerID" class="hdnCustomerID" value="@item.CustomerID" />
+                            @item.CustomerName
+                        </td>
+                        <td>
+                            @item.AreaName
+                        </td>
+                        <td>
+                            @item.UserName
+                        </td>
+                        <td>
+                            @item.CustBankName
+                        </td>
+                        <td>
+                            @item.CustChequeNo
+                        </td>
+                        <td>
+                            @item.CustIFCCode
+                        </td>
+                        <td>
+                            @item.InvoiceNumber
+                        </td>
+                        <td style="width:111px;">
+                            @*@item.OutstandingAmount.ToString("0.00")*@
+                            @item.PaymentTotal.ToString("0.00")
+                            <input type="checkbox" class="chkpay" style="margin-left:5px;" />
+                        </td>
+                        <td style="width: 110px;">
+                            <span>Cheque</span>
+                            <input type="text" id="txtcashamount" class="form-control txtcashamount" value="@item.ByCash" />
+
+                            <input type="hidden" id="hdnOutstandingAmount" class="hdnOutstandingAmount" value="@item.OutstandingAmount.ToString("0.00")" />
+                            <input type="hidden" id="hdnPaymentAmount" class="hdnPaymentAmount" value="@item.PaymentTotal.ToString("0.00")" />
+                            <input type="hidden" id="hdnBankName" class="hdnBankName" value="@item.BankName" />
+                            <input type="hidden" id="hdnBankBranch" class="hdnBankBranch" value="@item.BankBranch" />
+                            <input type="hidden" id="hdnChequeNo" class="hdnChequeNo" value="@item.ChequeNo" />
+                            <input type="hidden" id="hdnInvoiceNumber" class="hdnInvoiceNumber" value="@item.InvoiceNumber" />
+                            <input type="hidden" id="hdnChequeDate" class="hdnChequeDate" value="@item.ChequeDate" />
+                            <input type="hidden" id="hdnFinalTotal" class="hdnFinalTotal" value="@item.FinalTotal.ToString("0.00")" />
+                        </td>
+                        <td style="width: 110px;">
+                            <input type="text" id="ChequeReturnCharges" class="form-control ChequeReturnCharges" />
+                        </td>
+                        <td>
+                            <input type="text" id="txtremark" class="form-control" />
+                        </td>
+                        <td>
+                            <input type="checkbox" class="chkselect" />
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <!-- /.box-body -->
+</div>
+
+<script>
+    $('.datepicker').datepicker({
+        autoclose: true
+    });
+
+    $(document).ready(function () {
+        $(".txtcashamount").on('blur', function (e) {
+            var end = this;
+            var cashamount = this.value;
+            debugger;
+            if (cashamount != 0 || cashamount != null) {
+                var sum = 0;
+                $('#ListDataTable').children('tbody').children('tr:visible').each(function (index, row) {
+                    debugger;
+                    var ischk = $(row).find("input[type=checkbox]")[0];
+                    var ischk2 = $(row).find("input[type=checkbox]")[1];
+
+                    if ($(ischk).is(':checked') || $(ischk2).is(':checked')) {
+                        sum = +sum + +($(row).find(".txtcashamount").val());
+                    }
+                });
+                $("#lblgrandtotal").text(sum);
+            }
+        });
+
+        //Cash
+        $('.chkpay').change(function (e) {
+            debugger;
+            if (this.checked) {
+                var payment = $($(this).closest('tr').find("input[type=hidden]")[5]).val()
+
+                // 02 Sep. 2020 Piyush Limbani
+                $(this).closest('tr').find('.txtcashamount').val(-payment);
+                $(this).closest('tr').find('.chkselect').prop('checked', true);
+                // 02 Sep. 2020 Piyush Limbani
+            }
+            else {
+                $(this).closest('tr').find('.txtcashamount').val("0");
+                $(this).closest('tr').find('.chkselect').prop('checked', false);
+            }
+
+            var sum = 0;
+            $('#ListDataTable').children('tbody').children('tr:visible').each(function (index, row) {
+                debugger;
+                var ischk = $(row).find("input[type=checkbox]")[0];
+                var ischk2 = $(row).find("input[type=checkbox]")[1];
+
+                if ($(ischk).is(':checked') || $(ischk2).is(':checked')) {
+                    sum = +sum + +($(row).find(".txtcashamount").val());
+                }
+            });
+            $("#lblgrandtotal").text(sum);
+        });
+    });
+
+
+
+    function savepayment() {
+        //$('#btnUpdatepayment').attr('disabled', true);
+        debugger;
+        var data = [];
+
+        $('#ListDataTable').children('tbody').children('tr:visible').each(function (index, row) {
+            debugger;
+            var ischk = $(row).find("input[type=checkbox]")[1];
+            if ($(ischk).is(':checked')) {
+                debugger;
+                var datamodel = new Object();
+                datamodel.CheckBounceID = $(row).find(".hdnCheckBounceID").val();
+                datamodel.PaymentID = $(row).find(".hdnPaymentID").val();
+                datamodel.OrderID = $(row).find(".hdnOrderID").val();
+                datamodel.CustomerID = $(row).find(".hdnCustomerID").val();
+                datamodel.InvoiceNumber = $(row).find(".hdnInvoiceNumber").val();
+                datamodel.SalesPerson = $(row).find("td")[2].innerText;
+                datamodel.BankName = $(row).find("td")[3].innerText;
+                datamodel.ChequeNo = $(row).find("td")[4].innerText;
+                datamodel.ChequeDate = $(row).find(".hdnChequeDate").val();
+                datamodel.IFSCCode = $(row).find("td")[5].innerText;
+                datamodel.ChequeAmount = $(row).find("td")[6].innerText.trim();
+                
+                datamodel.BounceAmount = $(row).find("input[type=text]")[0].value;
+                datamodel.Remark = $(row).find("input[type=text]")[2].value;
+
+                //Add by Dhruvik 30-03-2023
+                datamodel.FinalTotal = $(row).find(".hdnFinalTotal").val();
+                datamodel.ChequeReturnCharges = $(row).find("input[type=text]")[1].value;
+                //Add by Dhruvik 30-03-2023
+
+                data.push(datamodel);
+            }
+        });
+
+        if (data.length > 0) {
+            $.ajax({
+                url: '@Url.Action("SaveReturnCheck")',
+                type: 'POST',
+                data: { 'data': data },
+                cache: false,
+            }).done(function (result1) {
+                if (result1 == true) {
+                    $('div#sucessalert').html("cheque return save successfully.");
+                    $('div#lstcase').html("");
+                    showhidealert();
+                    loadhtml();
+                }
+            });
+        }
+        else {
+            alert("please select atleast one payment to update");
+            return false;
+        }
+
+    }
+
+    function loadhtml() {
+        location.reload();
+    }
+</script>

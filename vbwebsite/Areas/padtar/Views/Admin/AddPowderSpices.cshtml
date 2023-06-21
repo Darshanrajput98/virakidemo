@@ -1,0 +1,551 @@
+﻿@{
+    ViewBag.Title = "AddPowderSpices";
+    Layout = "~/Areas/padtar/Views/Shared/padtarlayout.cshtml";
+}
+
+
+<div class="box box-default">
+    <div class="box-header with-border text-center">
+        <h3 class="box-title">Padtar Powder Spices</h3>
+    </div>
+    <form id="frmSpices" class="form-horizontal">
+        <div class="box-body">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <input name="SpicesID" id="SpicesID" type="hidden" value="" />
+                    <input name="CategoryID" id="CategoryID" type="hidden" value="" />
+                    <input name="GrossRate" id="GrossRate" type="hidden" value="" />
+                    <input name="CreatedBy" id="CreatedBy" type="hidden" value="" />
+                    <input name="CreatedOn" id="CreatedOn" type="hidden" value="" />
+                    <input name="UpdatedBy" id="UpdatedBy" type="hidden" value="" />
+                    <input name="UpdatedOn" id="UpdatedOn" type="hidden" value="" />
+
+                    <label for="ProductName" class="col-sm-4 control-label">Item Name</label>
+                    <div class="col-sm-8">
+                        @Html.DropDownList("ProductID", new SelectList(ViewBag.Product, "ProductID", "ProductName"), "Select Product", new { @class = "form-control select2 ProductID", required = "required", tabindex = "1" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="CurrentRate" class="col-sm-4 control-label">Current Rate</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control ClsNumberAndDecimal" name="CurrentRate" id="CurrentRate" onkeypress="return isNumberKey(event)" placeholder="Current Rate" autocomplete="off" required tabindex="3">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="Notes1" class="col-sm-4 control-label">Notes 1</label>
+                    <div class="col-sm-8">
+                        <textarea class="form-control" id="Notes1" name="Notes1" rows="2" cols="20" placeholder="Description" tabindex="5"></textarea>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="DiscountAmount" class="col-sm-4 control-label">Grinding Charge</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="GrindingCharge" id="GrindingCharge" placeholder="Grinding Charge" autocomplete="off" tabindex="7">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="GasaraAmount" class="col-sm-4 control-label">Gasara Amount</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="GasaraAmount" id="GasaraAmount" placeholder="Gasara Amount" disabled autocomplete="off" tabindex="9">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="SellRateWholesale" class="col-sm-4 control-label" style="color:red;">Selling Rate Wholesale</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control ClsNumberAndDecimal" name="SellRateWholesale" id="SellRateWholesale" onkeypress="return isNumberKey(event)" placeholder="Selling Rate Wholesale" autocomplete="off" required tabindex="11">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="SellRateRetail" class="col-sm-4 control-label" style="color:red;">Selling Rate Retail</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control ClsNumberAndDecimal" name="SellRateRetail" id="SellRateRetail" onkeypress="return isNumberKey(event)" placeholder="Selling Rate Retail" autocomplete="off" required tabindex="13">
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="Category" class="col-sm-4 control-label">Category</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="Category" id="Category" placeholder="Category" autocomplete="off" disabled tabindex="2">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="GST" class="col-sm-4 control-label">GST %</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control ClsNumberAndDecimal" name="GST" id="GST" placeholder="GST %" autocomplete="off" required tabindex="4">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="Notes2" class="col-sm-4 control-label">Notes 2</label>
+                    <div class="col-sm-8">
+                        <textarea class="form-control" id="Notes2" name="Notes2" rows="2" cols="20" placeholder="Description" tabindex="6"></textarea>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="Gasara" class="col-sm-4 control-label">Gasara %</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control ClsNumberAndDecimal" name="Gasara" id="Gasara" onkeypress="return isNumberKey(event)" placeholder="Gasara %" autocomplete="off" required tabindex="8">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="Padtar" class="col-sm-4 control-label">Padtar</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="Padtar" id="Padtar" placeholder="Padtar" disabled autocomplete="off" tabindex="10">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="MarginWholesale" class="col-sm-4 control-label" style="color:red;">Margin Wholesale %</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="MarginWholesale" id="MarginWholesale" placeholder="Margin Wholesale %" disabled autocomplete="off" tabindex="12">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="MarginRetail" class="col-sm-4 control-label" style="color:red;">Margin Retail %</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="MarginRetail" id="MarginRetail" placeholder="Margin Retail %" disabled autocomplete="off" tabindex="14">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- /.box-body -->
+        <div class="box-footer ">
+            <div class="pull-right">
+                <button type="button" id="CancelSpices" class="btn btn-default" tabindex="15">Cancel</button>
+                <button type="button" id="btnsavecase" class="btn btn-info" tabindex="16">Save</button>
+            </div>
+        </div>
+        <!-- /.box-footer -->
+    </form>
+    <div id="lstcase">
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script>
+
+    $(document).ready(function () {
+        loadhtml();
+
+        //debugger;
+        $("#ProductID").on('change keypress', function (e) {
+            //debugger;
+            var end = this;
+            if (this.value != '') {
+                $.ajax({
+                    type: 'Post',
+                    url: '@Url.Action("GetDetailsForPowderSpices")',
+                    data: { ProductID: this.value },
+                    success: function (result) {
+                        //debugger;
+                        if (result != null) {
+                            //debugger;
+                            $("#GST").val(result[0].GST);
+                            $("#CategoryID").val(result[0].CategoryID);
+                            $("#Category").val(result[0].CategoryName);
+                            $("#GrossRate").val(result[0].GrossRate);
+                            if (result[0].Padtar != 0) {
+                                $("#CurrentRate").val(result[0].Padtar);
+                            } else {
+                                $("#CurrentRate").val('');
+                            }
+
+                        }
+                    },
+                    error: function () { alert('Error'); }
+                });
+            }
+        });
+
+    });
+
+    $("#btnsavecase").click(function () {
+        //debugger;
+        if (!($('#frmSpices').parsley().validate())) {
+            return;
+        }
+        var datareq = new Object();
+        datareq.SpicesID = $("#SpicesID").val();
+        datareq.ProductID = $("#ProductID").val();
+        datareq.CategoryID = $("#CategoryID").val();
+        datareq.CurrentRate = $("#CurrentRate").val();
+        datareq.GST = $("#GST").val();
+        datareq.Notes1 = $("#Notes1").val();
+        datareq.Notes2 = $("#Notes2").val();
+        datareq.GrindingCharge = $("#GrindingCharge").val();
+        datareq.Gasara = $("#Gasara").val();
+        datareq.GasaraAmount = $("#GasaraAmount").val();
+        datareq.GrossRate = $("#GrossRate").val();
+        datareq.Padtar = $("#Padtar").val();
+        datareq.SellRateWholesale = $("#SellRateWholesale").val();
+        datareq.MarginWholesale = $("#MarginWholesale").val();
+        datareq.SellRateRetail = $("#SellRateRetail").val();
+        datareq.MarginRetail = $("#MarginRetail").val();
+
+        datareq.CreatedBy = $("#CreatedBy").val();
+        datareq.CreatedOn = $("#CreatedOn").val();
+        datareq.UpdatedBy = $("#UpdatedBy").val();
+        datareq.UpdatedOn = $("#UpdatedOn").val();
+
+        $.ajax({
+            url: '@Url.Action("AddPowderSpices")',
+            type: 'POST',
+            data: { 'data': datareq },
+            cache: false,
+        }).done(function (result) {
+            if (result > 0) {
+                if ($("#SpicesID").val() == "") {
+                    $('div#sucessalert').html("Powder Spices Add Successfully.");
+                }
+                else {
+                    $('div#sucessalert').html("Powder Spices Updated Successfully.");
+                }
+                showhidealert();
+                loadhtml();
+                clearform();
+            }
+        });
+
+    });
+
+    function clearform() {
+        location.reload();
+    }
+
+    function loadhtml() {
+        //debugger
+        $.ajax({
+            url: '@Url.Action("PowderSpicesList")',
+            type: 'GET',
+            cache: false,
+        }).done(function (result) {
+            $("#lstcase").html(result);
+        });
+    }
+
+    $("#CancelSpices").click(function () {
+        location.reload();
+    });
+
+    $('.ClsNumberAndDecimal').on('paste', function (e) {
+        //debugger;
+        var $this = $(this);
+        setTimeout(function () {
+            $this.val($this.val().replace(/[^0-9\.]/g, ''));
+        }, 1);
+    });
+
+    function isNumberKey(evt) {
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        if (charCode != 46 && charCode > 31
+          && (charCode < 48 || charCode > 57))
+            return false;
+
+        return true;
+    }
+
+</script>
+<script>
+
+    $("#CurrentRate").on('input propertychange paste keypress', function (e) {
+        //debugger;
+        var end = this;
+        if (this.value != '') {
+
+            var CurrentRate = parseFloat(this.value);
+            var GST = $("#GST").val();
+            var GrossRate = $("#GrossRate").val();
+            var GrindingCharge = $("#GrindingCharge").val();
+            var Gasara = $("#Gasara").val();
+            var Padtar = $("#Padtar").val();
+            var SellRateWholesale = $("#SellRateWholesale").val();
+            var SellRateRetail = $("#SellRateRetail").val();
+
+            //debugger;
+            if (CurrentRate != null && Gasara != "") {
+
+                //debugger;
+                //var CurrentRateAmount = (parseFloat(CurrentRate) * (parseFloat(GST) / 100)).toFixed(2);
+                //var CurrentRateWithGST = (parseFloat(CurrentRateAmount) + parseFloat(CurrentRate));
+
+                var GasaraAmount = (parseFloat(CurrentRate) * parseFloat(Gasara) / 100).toFixed(2);
+                $("#GasaraAmount").val(GasaraAmount);
+
+                if (GasaraAmount != undefined && GrindingCharge != "") {
+
+                    var PadtarAmount = (parseFloat(CurrentRate) + parseFloat(GrindingCharge) + parseFloat(GasaraAmount)).toFixed(2);
+                    $("#Padtar").val(PadtarAmount);
+
+                }
+            }
+
+            if (SellRateWholesale != "" && PadtarAmount != "" && PadtarAmount != undefined && PadtarAmount != "NaN") {
+
+                var MarginWholesale = ((parseFloat(SellRateWholesale) - parseFloat(PadtarAmount)) * 100 / (parseFloat(PadtarAmount))).toFixed(2);
+                $("#MarginWholesale").val(MarginWholesale);
+
+            }
+
+            if (SellRateRetail != "" && PadtarAmount != "" && PadtarAmount != undefined && PadtarAmount != "NaN") {
+
+                var MarginRetail = ((parseFloat(SellRateRetail) - parseFloat(PadtarAmount)) * 100 / (parseFloat(PadtarAmount))).toFixed(2);
+                $("#MarginRetail").val(MarginRetail);
+
+            }
+        }
+
+    });
+
+    $("#GST").on('input propertychange paste keypress', function (e) {
+        //debugger;
+        var end = this;
+        if (this.value != '') {
+
+            var CurrentRate = $("#CurrentRate").val();
+            var GST =  parseFloat(this.value);
+            var GrossRate = $("#GrossRate").val();
+            var GrindingCharge = $("#GrindingCharge").val();
+            var Gasara = $("#Gasara").val();
+            var Padtar = $("#Padtar").val();
+            var SellRateWholesale = $("#SellRateWholesale").val();
+            var SellRateRetail = $("#SellRateRetail").val();
+
+            //debugger;
+            if (CurrentRate != null && Gasara != "") {
+
+                //debugger;
+                //var CurrentRateAmount = (parseFloat(CurrentRate) * (parseFloat(GST) / 100)).toFixed(2);
+                //var CurrentRateWithGST = (parseFloat(CurrentRateAmount) + parseFloat(CurrentRate));
+
+                var GasaraAmount = (parseFloat(CurrentRate) * parseFloat(Gasara) / 100).toFixed(2);
+                $("#GasaraAmount").val(GasaraAmount);
+
+                if (GasaraAmount != undefined && GrindingCharge != "") {
+
+                    var PadtarAmount = (parseFloat(CurrentRate) + parseFloat(GrindingCharge) + parseFloat(GasaraAmount)).toFixed(2);
+                    $("#Padtar").val(PadtarAmount);
+
+                }
+            }
+
+            if (SellRateWholesale != "" && PadtarAmount != "" && PadtarAmount != undefined && PadtarAmount != "NaN") {
+
+                var MarginWholesale = ((parseFloat(SellRateWholesale) - parseFloat(PadtarAmount)) * 100 / (parseFloat(PadtarAmount))).toFixed(2);
+                $("#MarginWholesale").val(MarginWholesale);
+
+            }
+
+            if (SellRateRetail != "" && PadtarAmount != "" && PadtarAmount != undefined && PadtarAmount != "NaN") {
+
+                var MarginRetail = ((parseFloat(SellRateRetail) - parseFloat(PadtarAmount)) * 100 / (parseFloat(PadtarAmount))).toFixed(2);
+                $("#MarginRetail").val(MarginRetail);
+
+            }
+        }
+
+    });
+
+    $("#GrindingCharge").on('input propertychange paste keypress', function (e) {
+        //debugger;
+        var end = this;
+        if (this.value != '') {
+
+            var GrindingCharge = parseFloat(this.value);
+            var CurrentRate = $("#CurrentRate").val();
+            var GST = $("#GST").val();
+            var GrossRate = $("#GrossRate").val();
+            var Gasara = $("#Gasara").val();
+            var Padtar = $("#Padtar").val();
+            var SellRateWholesale = $("#SellRateWholesale").val();
+            var SellRateRetail = $("#SellRateRetail").val();
+
+            //debugger;
+            if (CurrentRate != "" && CurrentRate != "NaN" && Gasara != "") {
+
+                //debugger;
+                //var CurrentRateAmount = (parseFloat(CurrentRate) * (parseFloat(GST) / 100)).toFixed(2);
+                //var CurrentRateWithGST = (parseFloat(CurrentRateAmount) + parseFloat(CurrentRate));
+
+
+                var GasaraAmount = (parseFloat(CurrentRate) * parseFloat(Gasara) / 100).toFixed(2);
+                $("#GasaraAmount").val(GasaraAmount);
+
+                if (GasaraAmount != undefined && GrindingCharge != null && CurrentRate != "") {
+
+                    var PadtarAmount = (parseFloat(CurrentRate) + parseFloat(GrindingCharge) + parseFloat(GasaraAmount)).toFixed(2);
+                    $("#Padtar").val(PadtarAmount);
+
+                }
+
+            }
+
+            if (SellRateWholesale != "" && PadtarAmount != "" && PadtarAmount != undefined && PadtarAmount != "NaN") {
+
+                var MarginWholesale = ((parseFloat(SellRateWholesale) - parseFloat(PadtarAmount)) * 100 / (parseFloat(PadtarAmount))).toFixed(2);
+                $("#MarginWholesale").val(MarginWholesale);
+
+            }
+
+            if (SellRateRetail != "" && PadtarAmount != "" && PadtarAmount != undefined && PadtarAmount != "NaN") {
+
+                var MarginRetail = ((parseFloat(SellRateRetail) - parseFloat(PadtarAmount)) * 100 / (parseFloat(PadtarAmount))).toFixed(2);
+                $("#MarginRetail").val(MarginRetail);
+
+            }
+        }
+
+    });
+
+    $("#Gasara").on('input propertychange paste keypress', function (e) {
+        //debugger;
+        var end = this;
+        if (this.value != '') {
+
+            var Gasara = parseFloat(this.value);
+            var CurrentRate = $("#CurrentRate").val();
+            var GST = $("#GST").val();
+            var GrossRate = $("#GrossRate").val();
+            var GrindingCharge = $("#GrindingCharge").val();
+            var Padtar = $("#Padtar").val();
+            var SellRateWholesale = $("#SellRateWholesale").val();
+            var SellRateRetail = $("#SellRateRetail").val();
+
+            //debugger;
+            if (CurrentRate != "" && CurrentRate != "NaN" && Gasara != "") {
+
+                //debugger;
+                //var CurrentRateAmount = (parseFloat(CurrentRate) * (parseFloat(GST) / 100)).toFixed(2);
+                //var CurrentRateWithGST = (parseFloat(CurrentRateAmount) + parseFloat(CurrentRate));
+
+                var GasaraAmount = (parseFloat(CurrentRate) * parseFloat(Gasara) / 100).toFixed(2);
+                $("#GasaraAmount").val(GasaraAmount);
+
+                if (GasaraAmount != undefined && GrindingCharge != "" && CurrentRate != "") {
+
+                    var PadtarAmount = (parseFloat(CurrentRate) + parseFloat(GrindingCharge) + parseFloat(GasaraAmount)).toFixed(2);
+                    $("#Padtar").val(PadtarAmount);
+
+                }
+
+            }
+
+            if (SellRateWholesale != "" && PadtarAmount != "" && Padtar != undefined && Padtar != "NaN") {
+
+                var MarginWholesale = ((parseFloat(SellRateWholesale) - parseFloat(PadtarAmount)) * 100 / (parseFloat(PadtarAmount))).toFixed(2);
+                $("#MarginWholesale").val(MarginWholesale);
+
+            }
+
+            if (SellRateRetail != "" && PadtarAmount != "" && PadtarAmount != undefined && PadtarAmount != "NaN") {
+
+                var MarginRetail = ((parseFloat(SellRateRetail) - parseFloat(PadtarAmount)) * 100 / (parseFloat(PadtarAmount))).toFixed(2);
+                $("#MarginRetail").val(MarginRetail);
+
+            }
+        }
+
+    });
+
+    $("#SellRateWholesale").on('input propertychange paste keypress', function (e) {
+        //debugger;
+        var end = this;
+        if (this.value != '') {
+
+            var SellRateWholesale = parseFloat(this.value);
+            var CurrentRate = $("#CurrentRate").val();
+            var GST = $("#GST").val();
+            var GrossRate = $("#GrossRate").val();
+            var GrindingCharge = $("#GrindingCharge").val();
+            var Gasara = $("#Gasara").val();
+            var Padtar = $("#Padtar").val();
+            var SellRateRetail = $("#SellRateRetail").val();
+
+            //debugger;
+            if (CurrentRate != "" && CurrentRate != "NaN" && Gasara != "") {
+
+                //debugger;
+                //var CurrentRateAmount = (parseFloat(CurrentRate) * (parseFloat(GST) / 100)).toFixed(2);
+                //var CurrentRateWithGST = (parseFloat(CurrentRateAmount) + parseFloat(CurrentRate));
+
+                var GasaraAmount = (parseFloat(CurrentRate) * parseFloat(Gasara) / 100).toFixed(2);
+                $("#GasaraAmount").val(GasaraAmount);
+
+                if (GasaraAmount != undefined && GrindingCharge != "" && CurrentRate != "") {
+
+                    var PadtarAmount = (parseFloat(CurrentRate) + parseFloat(GrindingCharge) + parseFloat(GasaraAmount)).toFixed(2);
+                    $("#Padtar").val(PadtarAmount);
+
+                }
+
+            }
+
+            if (SellRateWholesale != "" && Padtar != "" && Padtar != undefined && Padtar != "NaN") {
+
+                var MarginWholesale = ((parseFloat(SellRateWholesale) - parseFloat(PadtarAmount)) * 100 / (parseFloat(PadtarAmount))).toFixed(2);
+                $("#MarginWholesale").val(MarginWholesale);
+
+            }
+
+            if (SellRateRetail != "" && PadtarAmount != "" && PadtarAmount != undefined && PadtarAmount != "NaN") {
+
+                var MarginRetail = ((parseFloat(SellRateRetail) - parseFloat(PadtarAmount)) * 100 / (parseFloat(PadtarAmount))).toFixed(2);
+                $("#MarginRetail").val(MarginRetail);
+
+            }
+        }
+
+    });
+
+    $("#SellRateRetail").on('input propertychange paste keypress', function (e) {
+        //debugger;
+        var end = this;
+        if (this.value != '') {
+
+            var SellRateRetail = parseFloat(this.value);
+            var CurrentRate = $("#CurrentRate").val();
+            var GST = $("#GST").val();
+            var GrossRate = $("#GrossRate").val();
+            var GrindingCharge = $("#GrindingCharge").val();
+            var Gasara = $("#Gasara").val();
+            var Padtar = $("#Padtar").val();
+            var SellRateWholesale = $("#SellRateWholesale").val();
+
+            //debugger;
+            if (CurrentRate != "" && CurrentRate != "NaN" && Gasara != "") {
+
+                //debugger;
+                //var CurrentRateAmount = (parseFloat(CurrentRate) * (parseFloat(GST) / 100)).toFixed(2);
+                //var CurrentRateWithGST = (parseFloat(CurrentRateAmount) + parseFloat(CurrentRate));
+
+                var GasaraAmount = (parseFloat(CurrentRate) * parseFloat(Gasara) / 100).toFixed(2);
+                $("#GasaraAmount").val(GasaraAmount);
+
+                if (GasaraAmount != undefined && GrindingCharge != "" && CurrentRate != "") {
+
+                    var PadtarAmount = (parseFloat(CurrentRate) + parseFloat(GrindingCharge) + parseFloat(GasaraAmount)).toFixed(2);
+                    $("#Padtar").val(PadtarAmount);
+
+                }
+
+            }
+
+            if (SellRateWholesale != "" && PadtarAmount != "" && PadtarAmount != undefined && Padtar != "NaN") {
+
+                var MarginWholesale = ((parseFloat(SellRateWholesale) - parseFloat(PadtarAmount)) * 100 / (parseFloat(PadtarAmount))).toFixed(2);
+                $("#MarginWholesale").val(MarginWholesale);
+
+            }
+
+            if (SellRateRetail != "" && PadtarAmount != "" && PadtarAmount != undefined && PadtarAmount != "NaN") {
+
+                var MarginRetail = ((parseFloat(SellRateRetail) - parseFloat(PadtarAmount)) * 100 / (parseFloat(PadtarAmount))).toFixed(2);
+                $("#MarginRetail").val(MarginRetail);
+
+            }
+        }
+
+    });
+
+</script>

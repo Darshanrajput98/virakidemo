@@ -1,0 +1,775 @@
+﻿@{
+    ViewBag.Title = "AddDocuments";
+    Layout = "~/Areas/wholesale/Views/Shared/_wholesalelayout.cshtml";
+}
+
+<div class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Add Documents</h3>
+                </div>
+                <form id="frmRole" class="form-horizontal">
+                    <div class="box-body">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <input type="hidden" id="DocumentID" name="DocumentID" value="0" />
+                                <label for="Aadharcard" class="col-sm-4 control-label">Aadhar Card</label>
+                                <div class="col-sm-4">
+                                    <input type="file" id="AadharCard" name="AadharCard" required="required">
+                                </div>
+                                <div class="col-sm-4">
+                                    <a id="hrefaadharcard" class="aadhar" href="" target="_blank">Aadhar Card</a>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="BioData" class="col-sm-4 control-label">Bio Data</label>
+                                <div class="col-sm-4">
+                                    <input type="file" id="BioData" name="BioData" required="required">
+                                </div>
+                                <div class="col-sm-4">
+                                    <a id="hrefbiodata" class="biodata" href="" target="_blank">Bio Data</a>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="ElectionCard" class="col-sm-4 control-label">Election Card</label>
+                                <div class="col-sm-4">
+                                    <input type="file" id="ElectionCard" name="ElectionCard" required="required">
+                                </div>
+                                <div class="col-sm-4">
+                                    <a id="hrefelectioncard" class="electioncard" href="" target="_blank">Election Card</a>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="IDCard" class="col-sm-4 control-label">ID Card</label>
+                                <div class="col-sm-4">
+                                    <input type="file" id="IDCard" name="IDCard" required="required">
+                                </div>
+                                <div class="col-sm-4">
+                                    <a id="hrefidcard" class="idcard" href="" target="_blank">ID Card</a>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="PanCard" class="col-sm-4 control-label">Pan Card</label>
+                                <div class="col-sm-4">
+                                    <input type="file" id="PanCard" name="PanCard" required="required">
+                                </div>
+                                <div class="col-sm-4">
+                                    <a id="hrefpancard" class="pancard" href="" target="_blank">Pan Card</a>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="Rentagreement" class="col-sm-4 control-label">Rent agreement</label>
+                                <div class="col-sm-4">
+                                    <input type="file" id="Rentagreement" name="Rentagreement" required="required">
+                                </div>
+                                <div class="col-sm-4">
+                                    <a id="hrefRentagreement" class="Rentagreement" href="" target="_blank">Rent agreement</a>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="Photo" class="col-sm-4 control-label">Photo</label>
+                                <div class="col-sm-4">
+                                    <input type="file" id="Photo" name="Photo" required="required">
+                                </div>
+                                <div class="col-sm-4">
+                                    <a id="hrefPhoto" class="Photo" href="" target="_blank">Photo</a>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="FamilyPhoto" class="col-sm-4 control-label">Family Photo</label>
+                                <div class="col-sm-4">
+                                    <input type="file" id="FamilyPhoto" name="FamilyPhoto" required="required">
+                                </div>
+                                <div class="col-sm-4">
+                                    <a id="hrefFamilyPhoto" class="FamilyPhoto" href="" target="_blank">Family Photo</a>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="signechar" class="col-sm-4 control-label">Signechar</label>
+                                <div class="col-sm-4">
+                                    <input type="file" id="signechar" name="signechar" required="required">
+                                </div>
+                                <div class="col-sm-4">
+                                    <a id="hrefsignechar" class="signechar" href="" target="_blank">Signechar</a>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="Other1" class="col-sm-4 control-label">Other1</label>
+                                <div class="col-sm-4">
+                                    <input type="file" id="Other1" name="Other1" required="required">
+                                </div>
+                                <div class="col-sm-4">
+                                    <a id="hrefOther1" class="Other1" href="" target="_blank">Other1</a>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="Other3" class="col-sm-4 control-label">Other3</label>
+                                <div class="col-sm-4">
+                                    <input type="file" id="Other3" name="Other3" required="required">
+                                </div>
+                                <div class="col-sm-4">
+                                    <a id="hrefOther3" class="Other3" href="" target="_blank">Other3</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="BankPassBook" class="col-sm-4 control-label">Bank Pass Book</label>
+                                <div class="col-sm-4">
+                                    <input type="file" id="BankPassBook" name="BankPassBook" required="required">
+                                </div>
+                                <div class="col-sm-4">
+                                    <a id="hrefbankpassbook" class="bankpassbook" href="" target="_blank">Bank Pass Book</a>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="DrivingLicence" class="col-sm-4 control-label">Driving Licence</label>
+                                <div class="col-sm-4">
+                                    <input type="file" id="DrivingLicence" name="DrivingLicence" required="required">
+                                </div>
+                                <div class="col-sm-4">
+                                    <a id="hrefdrivinglicence" class="drivinglicence" href="" target="_blank">Driving Licence</a>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="ElectricityBill" class="col-sm-4 control-label">Electricity Bill</label>
+                                <div class="col-sm-4">
+                                    <input type="file" id="ElectricityBill" name="ElectricityBill" required="required">
+                                </div>
+                                <div class="col-sm-4">
+                                    <a id="hrefelectricitybill" class="electricitybill" href="" target="_blank">Electricity Bill</a>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="LeavingCertificate" class="col-sm-4 control-label">Leaving Certificate</label>
+                                <div class="col-sm-4">
+                                    <input type="file" id="LeavingCertificate" name="LeavingCertificate" required="required">
+                                </div>
+                                <div class="col-sm-4">
+                                    <a id="hrefleavingcertificate" class="leavingcertificate" href="" target="_blank">Leaving Certificate</a>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="RationCard" class="col-sm-4 control-label">Ration Card</label>
+                                <div class="col-sm-4">
+                                    <input type="file" id="RationCard" name="RationCard" required="required">
+                                </div>
+                                <div class="col-sm-4">
+                                    <a id="hrefrationcard" class="rationcard" href="" target="_blank">Ration Card</a>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="Passport" class="col-sm-4 control-label">Passport</label>
+                                <div class="col-sm-4">
+                                    <input type="file" id="Passport" name="Passport" required="required">
+                                </div>
+                                <div class="col-sm-4">
+                                    <a id="hrefPassport" class="Passport" href="" target="_blank">Passport</a>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="ESICCard" class="col-sm-4 control-label">ESIC Card</label>
+                                <div class="col-sm-4">
+                                    <input type="file" id="ESICCard" name="ESICCard" required="required">
+                                </div>
+                                <div class="col-sm-4">
+                                    <a id="hrefESICCard" class="ESICCard" href="" target="_blank">ESIC Card</a>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="ESIPehchanCard" class="col-sm-4 control-label">ESI Pehchan Card</label>
+                                <div class="col-sm-4">
+                                    <input type="file" id="ESIPehchanCard" name="ESIPehchanCard" required="required">
+                                </div>
+                                <div class="col-sm-4">
+                                    <a id="hrefESIPehchanCard" class="ESIPehchanCard" href="" target="_blank">ESI Pehchan Card</a>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="MedicalFitnessCirtificate" class="col-sm-4 control-label">Medical Fitness Cirti.</label>
+                                <div class="col-sm-4">
+                                    <input type="file" id="MedicalFitnessCirtificate" name="MedicalFitnessCirtificate" required="required">
+                                </div>
+                                <div class="col-sm-4">
+                                    <a id="hrefMedicalFitnessCirtificate" class="Other3" href="" target="_blank">Medical Fitness Cirti.</a>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="Other2" class="col-sm-4 control-label">Other2</label>
+                                <div class="col-sm-4">
+                                    <input type="file" id="Other2" name="Other2" required="required">
+                                </div>
+                                <div class="col-sm-4">
+                                    <a id="hrefOther2" class="Other2" href="" target="_blank">Other2</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="box-footer">
+                        <button type="button" id="btncancel" class="btn btn-default">Cancel</button>
+                        <button type="button" id="btnsave" class="btn btn-info pull-right">Save</button>
+                    </div>
+                </form>
+                <div id="lstrole">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script>
+
+    $(document).ready(function () {
+        GetDocument();
+        //loadhtml();
+    });
+
+    @*function loadhtml() {
+        $.ajax({
+            url: '@Url.Action("ViewRoleList")',
+            type: 'GET',
+            cache: false,
+        }).done(function (result) {
+            $('#lstrole').html(result);
+        });
+    }*@
+
+    $("#btnsave").click(function () {
+        var data = new FormData();
+        data.append("DocumentID", $("#DocumentID").val());
+        var EmployeeCode = window.location.href.split('=').pop();
+        data.append("EmployeeCode", EmployeeCode);
+        var AadharCard = "";
+        var BankPassBook = "";
+        var BioData = "";
+        var DrivingLicence = "";
+        var ElectionCard = "";
+        var ElectricityBill = "";
+        var IDCard = "";
+        var LeavingCertificate = "";
+        var PanCard = "";
+        var RationCard = "";
+        var Rentagreement = "";
+        var Passport = "";
+        var Photo = "";
+        var Signechar = "";
+        var FamilyPhoto = "";
+        var Other1 = "";
+        var Other2 = "";
+        var Other3 = "";
+        var ESICCard = "";
+        var ESIPehchanCard = "";
+        var MedicalFitnessCirtificate = "";
+
+        // 1
+        if ($("#AadharCard").val().length > 0) {
+            AadharCard = $("#AadharCard").get(0).files;
+        }
+        if (AadharCard != "") {
+            data.append("AadharCard", AadharCard[0]);
+        }
+        else {
+            data.append("AadharCard", AadharCard);
+        }
+
+        // 2
+        if ($("#BankPassBook").val().length > 0) {
+            BankPassBook = $("#BankPassBook").get(0).files;
+        }
+        if (BankPassBook != "") {
+            data.append("BankPassBook", BankPassBook[0]);
+        }
+        else {
+            data.append("BankPassBook", BankPassBook);
+        }
+
+        // 3
+        if ($("#BioData").val().length > 0) {
+            BioData = $("#BioData").get(0).files;
+        }
+        if (BioData != "") {
+            data.append("BioData", BioData[0]);
+        }
+        else {
+            data.append("BioData", BioData);
+        }
+
+        // 4
+        if ($("#DrivingLicence").val().length > 0) {
+            DrivingLicence = $("#DrivingLicence").get(0).files;
+        }
+        if (DrivingLicence != "") {
+            data.append("DrivingLicence", DrivingLicence[0]);
+        }
+        else {
+            data.append("DrivingLicence", DrivingLicence);
+        }
+
+        // 5
+        if ($("#ElectionCard").val().length > 0) {
+            ElectionCard = $("#ElectionCard").get(0).files;
+        }
+        if (ElectionCard != "") {
+            data.append("ElectionCard", ElectionCard[0]);
+        }
+        else {
+            data.append("ElectionCard", ElectionCard);
+        }
+
+        // 6
+        if ($("#ElectricityBill").val().length > 0) {
+            ElectricityBill = $("#ElectricityBill").get(0).files;
+        }
+        if (ElectricityBill != "") {
+            data.append("ElectricityBill", ElectricityBill[0]);
+        }
+        else {
+            data.append("ElectricityBill", ElectricityBill);
+        }
+
+        // 7
+        if ($("#IDCard").val().length > 0) {
+            IDCard = $("#IDCard").get(0).files;
+        }
+        if (IDCard != "") {
+            data.append("IDCard", IDCard[0]);
+        }
+        else {
+            data.append("IDCard", IDCard);
+        }
+
+        // 8
+        if ($("#LeavingCertificate").val().length > 0) {
+            LeavingCertificate = $("#LeavingCertificate").get(0).files;
+        }
+        if (LeavingCertificate != "") {
+            data.append("LeavingCertificate", LeavingCertificate[0]);
+        }
+        else {
+            data.append("LeavingCertificate", LeavingCertificate);
+        }
+
+        // 9
+        if ($("#PanCard").val().length > 0) {
+            PanCard = $("#PanCard").get(0).files;
+        }
+        if (PanCard != "") {
+            data.append("PanCard", PanCard[0]);
+        }
+        else {
+            data.append("PanCard", PanCard);
+        }
+
+        // 10
+        if ($("#RationCard").val().length > 0) {
+            RationCard = $("#RationCard").get(0).files;
+        }
+        if (RationCard != "") {
+            data.append("RationCard", RationCard[0]);
+        }
+        else {
+            data.append("RationCard", RationCard);
+        }
+
+        // 11
+        if ($("#Rentagreement").val().length > 0) {
+            Rentagreement = $("#Rentagreement").get(0).files;
+        }
+        if (Rentagreement != "") {
+            data.append("Rentagreement", Rentagreement[0]);
+        }
+        else {
+            data.append("Rentagreement", Rentagreement);
+        }
+
+        // 12
+        if ($("#Photo").val().length > 0) {
+            Photo = $("#Photo").get(0).files;
+        }
+        if (Photo != "") {
+            data.append("Photo", Photo[0]);
+        }
+        else {
+            data.append("Photo", Photo);
+        }
+
+        // 13
+        if ($("#signechar").val().length > 0) {
+            Signechar = $("#signechar").get(0).files;
+        }
+        if (Signechar != "") {
+            data.append("Signechar", Signechar[0]);
+        }
+        else {
+            data.append("Signechar", Signechar);
+        }
+
+        // 14
+        if ($("#FamilyPhoto").val().length > 0) {
+            FamilyPhoto = $("#FamilyPhoto").get(0).files;
+        }
+        if (FamilyPhoto != "") {
+            data.append("FamilyPhoto", FamilyPhoto[0]);
+        }
+        else {
+            data.append("FamilyPhoto", FamilyPhoto);
+        }
+
+        // 15
+        if ($("#Passport").val().length > 0) {
+            Passport = $("#Passport").get(0).files;
+        }
+        if (Passport != "") {
+            data.append("Passport", Passport[0]);
+        }
+        else {
+            data.append("Passport", Passport);
+        }
+
+        // 16
+        if ($("#Other1").val().length > 0) {
+            Other1 = $("#Other1").get(0).files;
+        }
+        if (Other1 != "") {
+            data.append("Other1", Other1[0]);
+        }
+        else {
+            data.append("Other1", Other1);
+        }
+
+        // 17
+        if ($("#Other2").val().length > 0) {
+            Other2 = $("#Other2").get(0).files;
+        }
+        if (Other2 != "") {
+            data.append("Other2", Other2[0]);
+        }
+        else {
+            data.append("Other2", Other2);
+        }
+
+        // 18
+        if ($("#Other3").val().length > 0) {
+            Other3 = $("#Other3").get(0).files;
+        }
+        if (Other3 != "") {
+            data.append("Other3", Other3[0]);
+        }
+        else {
+            data.append("Other3", Other3);
+        }
+
+        // 19
+        if ($("#ESICCard").val().length > 0) {
+            ESICCard = $("#ESICCard").get(0).files;
+        }
+        if (ESICCard != "") {
+            data.append("ESICCard", ESICCard[0]);
+        }
+        else {
+            data.append("ESICCard", ESICCard);
+        }
+
+        // 20
+        if ($("#ESIPehchanCard").val().length > 0) {
+            ESIPehchanCard = $("#ESIPehchanCard").get(0).files;
+        }
+        if (ESIPehchanCard != "") {
+            data.append("ESIPehchanCard", ESIPehchanCard[0]);
+        }
+        else {
+            data.append("ESIPehchanCard", ESIPehchanCard);
+        }
+
+        // 21
+        if ($("#MedicalFitnessCirtificate").val().length > 0) {
+            MedicalFitnessCirtificate = $("#MedicalFitnessCirtificate").get(0).files;
+        }
+        if (MedicalFitnessCirtificate != "") {
+            data.append("MedicalFitnessCirtificate", MedicalFitnessCirtificate[0]);
+        }
+        else {
+            data.append("MedicalFitnessCirtificate", MedicalFitnessCirtificate);
+        }
+        $.ajax({
+            url: '@Url.Action("AddDocuments")',
+            type: 'POST',
+            dataType: "json",
+            contentType: false,
+            processData: false,
+            data: data,
+            cache: false,
+        }).done(function (result) {
+            if (result == true) {
+                if ($("#DocumentID").val() == "") {
+                    $('div#sucessalert').html("Added successfully.");
+                }
+                else {
+                    $('div#sucessalert').html("Updated successfully.");
+                }
+                clearform();
+                showhidealert();
+                location.reload();
+            }
+        });
+    });
+
+    function GetDocument() {
+        var EmployeeCode = window.location.href.split('=').pop();
+        if (EmployeeCode != 0 || EmployeeCode != null) {
+            $.ajax({
+                url: '@Url.Action("GetDocumentDetail")',
+                type: 'POST',
+                data: { 'EmployeeCode': EmployeeCode },
+                cache: false,
+            }).done(function (result) {
+                debugger;
+
+                $('#DocumentID').val(result.DocumentID);
+
+                // 1
+                $("#hrefaadharcard").attr("href", result.AadharCard);
+                var arr = result.AadharCard.split('/');
+                if (arr[4] == "") {
+                    $("#hrefaadharcard").hide();
+                }
+                else {
+                    var FileName = arr[4];
+                    $("#hrefaadharcard").attr("href", result.AadharCard);
+                }
+
+                // 2
+                $("#hrefbankpassbook").attr("href", result.BankPassBook);
+                var arr = result.BankPassBook.split('/');
+                if (arr[4] == "") {
+                    $("#hrefbankpassbook").hide();
+                }
+                else {
+                    var FileName = arr[4];
+                    $("#hrefbankpassbook").attr("href", result.BankPassBook);
+                }
+
+                // 3
+                $("#hrefbiodata").attr("href", result.BioData);
+                var arr = result.BioData.split('/');
+                if (arr[4] == "") {
+                    $("#hrefbiodata").hide();
+                }
+                else {
+                    var FileName = arr[4];
+                    $("#hrefbiodata").attr("href", result.BioData);
+                }
+
+                // 4
+                $("#hrefdrivinglicence").attr("href", result.DrivingLicence);
+                var arr = result.DrivingLicence.split('/');
+                if (arr[4] == "") {
+                    $("#hrefdrivinglicence").hide();
+                }
+                else {
+                    var FileName = arr[4];
+                    $("#hrefdrivinglicence").attr("href", result.DrivingLicence);
+                }
+
+                // 5
+                $("#hrefelectioncard").attr("href", result.ElectionCard);
+                var arr = result.ElectionCard.split('/');
+                if (arr[4] == "") {
+                    $("#hrefelectioncard").hide();
+                }
+                else {
+                    var FileName = arr[4];
+                    $("#hrefelectioncard").attr("href", result.ElectionCard);
+                }
+
+                // 6
+                $("#hrefelectricitybill").attr("href", result.ElectricityBill);
+                var arr = result.ElectricityBill.split('/');
+                if (arr[4] == "") {
+                    $("#hrefelectricitybill").hide();
+                }
+                else {
+                    var FileName = arr[4];
+                    $("#hrefelectricitybill").attr("href", result.ElectricityBill);
+                }
+
+                // 7
+                $("#hrefidcard").attr("href", result.IDCard);
+                var arr = result.IDCard.split('/');
+                if (arr[4] == "") {
+                    $("#hrefidcard").hide();
+                }
+                else {
+                    var FileName = arr[4];
+                    $("#hrefidcard").attr("href", result.IDCard);
+                }
+
+                // 8
+                $("#hrefleavingcertificate").attr("href", result.LeavingCertificate);
+                var arr = result.LeavingCertificate.split('/');
+                if (arr[4] == "") {
+                    $("#hrefleavingcertificate").hide();
+                }
+                else {
+                    var FileName = arr[4];
+                    $("#hrefleavingcertificate").attr("href", result.LeavingCertificate);
+                }
+
+                // 9
+                $("#hrefpancard").attr("href", result.PanCard);
+                var arr = result.PanCard.split('/');
+                if (arr[4] == "") {
+                    $("#hrefpancard").hide();
+                }
+                else {
+                    var FileName = arr[4];
+                    $("#hrefpancard").attr("href", result.PanCard);
+                }
+
+                // 10
+                $("#hrefrationcard").attr("href", result.RationCard);
+                var arr = result.RationCard.split('/');
+                if (arr[4] == "") {
+                    $("#hrefrationcard").hide();
+                }
+                else {
+                    var FileName = arr[4];
+                    $("#hrefrationcard").attr("href", result.RationCard);
+                }
+
+                // 11
+                $("#hrefRentagreement").attr("href", result.Rentagreement);
+                var arr = result.Rentagreement.split('/');
+                if (arr[4] == "") {
+                    $("#hrefRentagreement").hide();
+                }
+                else {
+                    var FileName = arr[4];
+                    $("#hrefRentagreement").attr("href", result.Rentagreement);
+                }
+
+                // 12
+                $("#hrefPhoto").attr("href", result.Photo);
+                var arr = result.Photo.split('/');
+                if (arr[4] == "") {
+                    $("#hrefPhoto").hide();
+                }
+                else {
+                    var FileName = arr[4];
+                    $("#hrefPhoto").attr("href", result.Photo);
+                }
+
+                // 13
+                $("#hrefsignechar").attr("href", result.Signechar);
+                var arr = result.Signechar.split('/');
+                if (arr[4] == "") {
+                    $("#hrefsignechar").hide();
+                }
+                else {
+                    var FileName = arr[4];
+                    $("#hrefsignechar").attr("href", result.Signechar);
+                }
+
+                // 14
+                $("#hrefFamilyPhoto").attr("href", result.FamilyPhoto);
+                var arr = result.FamilyPhoto.split('/');
+                if (arr[4] == "") {
+                    $("#hrefFamilyPhoto").hide();
+                }
+                else {
+                    var FileName = arr[4];
+                    $("#hrefFamilyPhoto").attr("href", result.FamilyPhoto);
+                }
+
+                // 15
+                $("#hrefPassport").attr("href", result.Passport);
+                var arr = result.Passport.split('/');
+                if (arr[4] == "") {
+                    $("#hrefPassport").hide();
+                }
+                else {
+                    var FileName = arr[4];
+                    $("#hrefPassport").attr("href", result.Passport);
+                }
+
+                // 16
+                $("#hrefOther1").attr("href", result.Other1);
+                var arr = result.Other1.split('/');
+                if (arr[4] == "") {
+                    $("#hrefOther1").hide();
+                }
+                else {
+                    var FileName = arr[4];
+                    $("#hrefOther1").attr("href", result.Other1);
+                }
+
+                // 17
+                $("#hrefOther2").attr("href", result.Other2);
+                var arr = result.Other2.split('/');
+                if (arr[4] == "") {
+                    $("#hrefOther2").hide();
+                }
+                else {
+                    var FileName = arr[4];
+                    $("#hrefOther2").attr("href", result.Other2);
+                }
+
+                // 18
+                $("#hrefOther3").attr("href", result.Other3);
+                var arr = result.Other3.split('/');
+                if (arr[4] == "") {
+                    $("#hrefOther3").hide();
+                }
+                else {
+                    var FileName = arr[4];
+                    $("#hrefOther3").attr("href", result.Other3);
+                }
+
+                // 19
+                $("#hrefESICCard").attr("href", result.ESICCard);
+                var arr = result.ESICCard.split('/');
+                if (arr[4] == "") {
+                    $("#hrefESICCard").hide();
+                }
+                else {
+                    var FileName = arr[4];
+                    $("#hrefESICCard").attr("href", result.ESICCard);
+                }
+
+                // 20
+                $("#hrefESIPehchanCard").attr("href", result.ESIPehchanCard);
+                var arr = result.ESIPehchanCard.split('/');
+                if (arr[4] == "") {
+                    $("#hrefESIPehchanCard").hide();
+                }
+                else {
+                    var FileName = arr[4];
+                    $("#hrefESIPehchanCard").attr("href", result.ESIPehchanCard);
+                }
+
+                // 21
+                $("#hrefMedicalFitnessCirtificate").attr("href", result.MedicalFitnessCirtificate);
+                var arr = result.MedicalFitnessCirtificate.split('/');
+                if (arr[4] == "") {
+                    $("#hrefMedicalFitnessCirtificate").hide();
+                }
+                else {
+                    var FileName = arr[4];
+                    $("#hrefMedicalFitnessCirtificate").attr("href", result.MedicalFitnessCirtificate);
+                }
+            })
+        }
+    }
+
+    $("#btncancel").click(function () {
+        clearform();
+    });
+
+    function clearform() {
+        $("#frmRole").find("input").val("");
+    }
+</script>
+

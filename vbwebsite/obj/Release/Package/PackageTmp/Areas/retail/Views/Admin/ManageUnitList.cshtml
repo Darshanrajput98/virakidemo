@@ -1,0 +1,97 @@
+﻿@model List<vb.Data.RetUnitListResponse>
+@using vb.Data.ViewModel
+
+<div class="box">
+    <div class="box-header text-center">
+        <h3 class="box-title">Unit List</h3>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body">
+        <table id="ListDataTable" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th class="nosort">Code</th>
+                    <th class="nosort">Name</th>
+                    <th class="nosort">Language Name</th>
+                    <th class="nosort">Description</th>
+                    @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.REUNIT.ToString()))
+                    {
+                        <th class="nosort">Edit</th>
+                    }
+                    @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.RDUNIT.ToString()))
+                    {
+                        <th class="nosort">Status</th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td id="row" @item.UnitID>
+                            @item.UnitCode
+                        </td>
+                        <td>
+                            @item.UnitName
+                        </td>
+                        <td>
+                            @item.LanguageName
+                        </td>
+                        <td>
+                            @item.UnitDescription
+                        </td>
+                        @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.REUNIT.ToString()))
+                        {
+                            <td>
+                                <a style="cursor:pointer;" class="btnedit" data-pid="@item.UnitID" data-langid="@item.GuiID">Edit</a>
+                            </td>
+                        }
+                        @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.RDUNIT.ToString()))
+                        {
+                            if (item.IsDelete == true)
+                            {
+                                <td>
+                                    @Html.ActionLink("Active", "DeleteUnit", "Admin",
+                                new { UnitID = item.UnitID, IsDelete = false },
+                                    new { onclick = "return confirm('Are you sure you wish to delete this article?');" })
+                                </td>
+                            }
+                            else
+                            {
+                                <td>
+                                    @Html.ActionLink("DeActive", "DeleteUnit", "Admin",
+                                new { UnitID = item.UnitID, IsDelete = true },
+                                    new { onclick = "return confirm('Are you sure you wish to delete this article?');" })
+                                </td>
+                            }
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <!-- /.box-body -->
+</div>
+
+<script>
+    $("#ListDataTable").DataTable({
+        'aoColumnDefs': [{
+            'bSortable': false,
+            'aTargets': ['nosort'] /* 1st one, start by the right */
+        }]
+    });
+
+    $('#ListDataTable').on('click', '.btnedit', function () {
+        $("#UUnitID").val($(this).attr("data-pid"));
+        debugger;
+        if ($(this).attr("data-langid") == "0") {
+            $("#GuiID").val("").trigger('change');
+        } else {
+            $("#GuiID").val($(this).attr("data-langid")).trigger('change');
+        }
+        $("#UnitCode").val($(this).parent().parent().children()[0].innerHTML.trim());
+        $("#UnitName").val($(this).parent().parent().children()[1].innerHTML.trim());
+        $("#UnitDescription").val($(this).parent().parent().children()[3].innerHTML.trim());
+    });
+</script>
+

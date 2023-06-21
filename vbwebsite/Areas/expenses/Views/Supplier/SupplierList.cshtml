@@ -1,0 +1,224 @@
+﻿@using vb.Data.ViewModel
+
+<div class="box">
+    <div class="box-header text-center">
+        <h3 class="box-title">Supplier List</h3>
+    </div>
+    <div class="box-body table-scrollable1">
+        <table id="ListDataTable" class="table table-bordered table-bordered">
+            <thead>
+                <tr>
+                    <th class="nosort">Name</th>
+                    <th class="nosort">GST No</th>
+                    <th class="nosort">Tax Type</th>
+                    <th class="nosort">Pan No</th>
+                    <th class="nosort">Bank Name</th>
+                    <th class="nosort">Branch</th>
+                    <th class="nosort">TDS Category</th>
+                    <th class="nosort">TDS(%)</th>
+                    @*@if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.ESupplier.ToString()))
+                        {*@
+                    <th class="nosort">Edit</th>
+                    @*}
+                        @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.DSupplier.ToString()))
+                        {*@
+                    <th class="nosort">Status</th>
+                    @*}*@
+                </tr>
+            </thead>
+            <tbody>
+
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td id="row">
+                            @item.SupplierName
+                        </td>
+                        <td>
+                            @item.GSTNo
+                        </td>
+                        <td>
+                            @item.TaxName
+                        </td>
+                        <td>
+                            @item.PanCardNumber
+                        </td>
+                        <td>
+                            @item.BankName
+                        </td>
+                        <td>
+                            @item.Branch
+                        </td>
+                        <td>
+                            @item.TDSCategory
+                        </td>
+                        <td>
+                            @item.TDSPercentage
+                        </td>
+                        @*@if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.ESupplier.ToString()))
+                            {*@
+                        <td>
+                            <a style="cursor:pointer;" class="btnedit" data-sid="@item.SupplierID" data-suppliername="@item.SupplierName" data-gstno="@item.GSTNo" data-taxid="@item.TaxID"
+                               data-pancardnumber="@item.PanCardNumber" data-bankname="@item.BankName" data-branch="@item.Branch"
+                               data-accountnumber="@item.AccountNumber" data-ifsccode="@item.IFSCCode" data-tdscategoryid="@item.TDSCategoryID" data-tdspercentage="@item.TDSPercentage" data-addressoneline1="@item.AddressOneLine1" data-addressoneline2="@item.AddressOneLine2"
+                               data-areaidone="@item.AreaIDOne" data-stateone="@item.StateOne" data-addressonepincode="@item.AddressOnePincode" data-addresstwoline1="@item.AddressTwoLine1" data-addresstwoline2="@item.AddressTwoLine2"
+                               data-areaidtwo="@item.AreaIDTwo" data-statetwo="@item.StateTwo" data-addresstwopincode="@item.AddressTwoPincode" data-isdelete="@item.IsDelete"
+                               data-createdby="@item.CreatedBy" data-createdon="@item.CreatedOn" data-nameasbankaccount="@item.NameAsBankAccount">Edit</a>
+                        </td>
+                        @*}
+                            @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.DSupplier.ToString()))
+                            {*@
+
+                        @if (item.IsDelete == true)
+                        {
+                            <td>
+                                @Html.ActionLink("Active", "DeleteSupplier", "Supplier",
+                                                    new { SupplierID = item.SupplierID, IsDelete = false },
+                                        new { onclick = "return confirm('Are you sure you wish to active this article?');" })
+                            </td>
+                        }
+                        else
+                        {
+                            <td>
+                                @Html.ActionLink("DeActive", "DeleteSupplier", "Supplier",
+                                                    new { SupplierID = item.SupplierID, IsDelete = true },
+                                        new { onclick = "return confirm('Are you sure you wish to de-active this article?');" })
+                            </td>
+                        }
+                        @*}*@
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    $("#ListDataTable").DataTable({
+        'aoColumnDefs': [{
+            'bSortable': false,
+            'aTargets': ['nosort'] /* 1st one, start by the right */
+        }]
+    });
+
+    $('#ListDataTable').on('click', '.btnedit', function () {
+        $("#SupplierID").val($(this).attr("data-sid"));
+        $("#SupplierName").val($(this).attr("data-suppliername"));
+        $("#GSTNo").val($(this).attr("data-gstno"));
+        $("#TaxID").val($(this).attr("data-taxid")).trigger("change");
+        $("#PanCardNumber").val($(this).attr("data-pancardnumber"));
+        $("#BankName").val($(this).attr("data-bankname"));
+        $("#Branch").val($(this).attr("data-branch"));
+        $("#AccountNumber").val($(this).attr("data-accountnumber"));
+        $("#IFSCCode").val($(this).attr("data-ifsccode"));
+        $("#TDSCategoryID").val($(this).attr("data-tdscategoryid")).trigger("change");
+        $("#TDSPercentage").val($(this).attr("data-tdspercentage"));
+        $("#AddressOneLine1").val($(this).attr("data-addressoneline1"));
+        $("#AddressOneLine2").val($(this).attr("data-addressoneline2"));
+        $("#AreaIDOne").val($(this).attr("data-areaidone")).trigger("change");
+        $("#StateOne").val($(this).attr("data-stateone"));
+        $("#AddressOnePincode").val($(this).attr("data-addressonepincode"));
+        $("#AddressTwoLine1").val($(this).attr("data-addresstwoline1"));
+        $("#AddressTwoLine2").val($(this).attr("data-addresstwoline2"));
+        $("#AreaIDTwo").val($(this).attr("data-areaidtwo")).trigger("change");
+        $("#StateTwo").val($(this).attr("data-statetwo"));
+        $("#AddressTwoPincode").val($(this).attr("data-addresstwopincode"));
+        $("#IsDelete").val($(this).attr("data-isdelete"));
+        $("#CreatedBy").val($(this).attr("data-createdby"));
+        $("#CreatedOn").val($(this).attr("data-createdon"));
+        $("#NameAsBankAccount").val($(this).attr("data-nameasbankaccount"));
+
+        $.ajax({
+            type: 'Post',
+            url: '@Url.Action("GetSupplierAddressOneList")',
+            data: { SupplierID: $(this).attr("data-sid") },
+            success: function (result) {
+                bookIndex = 0;
+                $(result).each(function (index, row) {
+                    if (row.AddressID == '1') {
+                        bookIndex++;
+                        if (bookIndex > 1) {
+                            var $template = $('#AddMoreAddressOne'),
+                                $clone = $template
+                                                .clone()
+                                                .removeClass('hide')
+                                                .removeAttr('id')
+                                                .attr('data-book-index', bookIndex)
+                                                .insertBefore($template);
+                            // Update the name attributes
+                            $clone
+                            .find('[name="NameOne"]').attr('name', 'lstAddressOne[' + bookIndex + '].NameOne').end()
+                            .find('[name="PhoneNoOne"]').attr('name', 'lstAddressOne[' + bookIndex + '].PhoneNoOne').end()
+                            .find('[name="MobileNoOne"]').attr('name', 'lstAddressOne[' + bookIndex + '].MobileNoOne').end()
+                            .find('[name="EmailOne"]').attr('name', 'lstAddressOne[' + bookIndex + '].EmailOne').end();
+                            $clone.find("input[type=hidden]")[0].value = row.SupplierContactID;
+                            $clone.find("input")[0].value = row.Name;
+                            $clone.find("input")[2].value = row.PhoneNo;
+                            $clone.find("input")[3].value = row.MobileNo;
+                            $clone.find("input")[4].value = row.Email;
+                        }
+                        else {
+                            if ($('#ContactsOne').find('tbody tr:visible').length > 1)
+                                $('#ContactsOne').find('tbody tr:visible').not(':first').empty();
+                            var $template = $('#AddSupplierContacts1');
+                            $clone = $template;
+                            $clone.find("input[type=hidden]")[0].value = row.SupplierContactID;
+                            $clone.find("input")[0].value = row.Name;
+                            $clone.find("input")[2].value = row.PhoneNo;
+                            $clone.find("input")[3].value = row.MobileNo;
+                            $clone.find("input")[4].value = row.Email;
+                        }
+                    }
+                });
+            },
+            error: function () { alert('Error'); }
+        });
+
+        $.ajax({
+            type: 'Post',
+            url: '@Url.Action("GetSupplierAddressTwoList")',
+            data: { SupplierID: $(this).attr("data-sid") },
+            success: function (result) {
+                bookIndex = 0;
+                $(result).each(function (index, row) {
+                    if (row.AddressID == '2') {
+                        bookIndex++;
+                        if (bookIndex > 1) {
+                            var $template = $('#AddMoreAddressTwo'),
+                                $clone = $template
+                                                .clone()
+                                                .removeClass('hide')
+                                                .removeAttr('id')
+                                                .attr('data-book-index', bookIndex)
+                                                .insertBefore($template);
+                            // Update the name attributes
+                            $clone
+                            .find('[name="NameTwo"]').attr('name', 'lstAddressTwo[' + bookIndex + '].NameTwo').end()
+                            .find('[name="PhoneNoTwo"]').attr('name', 'lstAddressTwo[' + bookIndex + '].PhoneNoTwo').end()
+                            .find('[name="MobileNoTwo"]').attr('name', 'lstAddressTwo[' + bookIndex + '].MobileNoTwo').end()
+                            .find('[name="EmailTwo"]').attr('name', 'lstAddressTwo[' + bookIndex + '].EmailTwo').end();
+                            $clone.find("input[type=hidden]")[0].value = row.SupplierContactID;
+                            $clone.find("input")[0].value = row.Name;
+                            $clone.find("input")[2].value = row.PhoneNo;
+                            $clone.find("input")[3].value = row.MobileNo;
+                            $clone.find("input")[4].value = row.Email;
+                        }
+                        else {
+                            if ($('#ContactsTwo').find('tbody tr:visible').length > 1)
+                                $('#ContactsTwo').find('tbody tr:visible').not(':first').empty();
+                            var $template = $('#AddSupplierContacts2');
+                            $clone = $template;
+                            $clone.find("input[type=hidden]")[0].value = row.SupplierContactID;
+                            $clone.find("input")[0].value = row.Name;
+                            $clone.find("input")[2].value = row.PhoneNo;
+                            $clone.find("input")[3].value = row.MobileNo;
+                            $clone.find("input")[4].value = row.Email;
+                        }
+                    }
+                });
+            },
+            error: function () { alert('Error'); }
+        });
+        $("html, body").animate({ scrollTop: 0 }, "slow");
+    });
+</script>

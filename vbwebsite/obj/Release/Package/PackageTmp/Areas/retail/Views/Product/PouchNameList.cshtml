@@ -1,0 +1,94 @@
+﻿@model List<vb.Data.PouchNameListResponse>
+@using vb.Data.ViewModel
+
+<div class="box">
+    <div class="box-header text-center">
+        <h3 class="box-title">Pouch Name List</h3>
+    </div>
+    <div class="box-body table-scrollable1">
+        <table id="ListDataTable" class="table table-bordered table-bordered">
+            <thead>
+                <tr>
+                    <th>Pouch Name</th>
+                    <th>HSN Number</th>
+
+                    <th>Font Size</th>
+                    <th>Delay Time</th>
+                    <th>Pouch Size</th>
+
+                    <th>Edit</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @item.PouchName
+                        </td>
+                        <td>
+                            @item.HSNNumber
+                        </td>
+
+                        <td>
+                            @item.FontSize
+                        </td>
+                        <td>
+                            @item.DelayTime
+                        </td>
+                        <td>
+                            @item.PouchSize
+                        </td>
+
+                        <td>
+                            <a style="cursor:pointer;" class="btnedit" data-pouchnameid="@item.PouchNameID" data-pouchname="@item.PouchName" data-hsnnumber="@item.HSNNumber" data-fontsize="@item.FontSize" data-delaytime="@item.DelayTime" data-pouchsize="@item.PouchSize" data-createdby="@item.CreatedBy" data-createdon="@item.CreatedOn">Edit</a>
+                        </td>
+                        @if (item.IsDelete == true)
+                        {
+                            <td>
+                                @Html.ActionLink("Active", "DeletePouchName", "Product",
+                     new { PouchNameID = item.PouchNameID, IsDelete = false },
+                                        new { onclick = "return confirm('Are you sure you wish to delete this article?');" })
+                            </td>
+                        }
+                        else
+                        {
+                            <td>
+                                @Html.ActionLink("DeActive", "DeletePouchName", "Product",
+                      new { PouchNameID = item.PouchNameID, IsDelete = true },
+                                        new { onclick = "return confirm('Are you sure you wish to delete this article?');" })
+                            </td>
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    $('#ListDataTable').DataTable({
+        'paging': true,
+        'lengthChange': true,
+        'searching': true,
+        'ordering': false,
+        'info': true,
+        'autoWidth': false
+    });
+
+
+    $('#ListDataTable').on('click', '.btnedit', function () {
+        $("#PouchNameID").val($(this).attr("data-pouchnameid"));
+        $("#PouchName").val($(this).attr("data-pouchname"));
+        $("#HSNNumber").val($(this).attr("data-hsnnumber"));
+
+        $("#DelayTime").val($(this).attr("data-delaytime"));
+        $("#PouchSize").val($(this).attr("data-pouchsize"));
+        $("#FontSize").val($(this).attr("data-fontsize"));
+
+        $("#CreatedBy").val($(this).attr("data-createdby"));
+        $("#CreatedOn").val($(this).attr("data-createdon"));
+        $("html, body").animate({ scrollTop: 0 }, "slow");
+    });
+</script>

@@ -1,0 +1,181 @@
+﻿@model List<vb.Data.AllowanceListResponse>
+@using vb.Data.ViewModel
+
+<div class="box">
+    <div class="box-header">
+        <h3 class="box-title">Allowance List</h3>
+    </div>
+    <div class="box-body">
+        <table id="ListDataTable" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Basic Allowance</th>
+                    <th>House Rent Allowance</th>
+                    <th>Conveyance</th>
+                    <th>Vehicle Allowance</th>
+                    <th>Performance Allowance</th>
+                    <th>Edit</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.FullName</td>
+                        <td>@item.TotalBasicAllowance.ToString("0.00")</td>
+                        <td>@item.TotalHouseRentAllowance.ToString("0.00")</td>
+                        <td>@item.Conveyance.ToString("0.00")</td>
+                        <td>@item.VehicleAllowance.ToString("0.00")</td>
+                        <td>@item.PerformanceAllowance.ToString("0.00")</td>
+                        <td>
+                            <a style="cursor:pointer;" class="btnedit" data-allowancedetailid="@item.AllowanceDetailID" data-employeecode="@item.EmployeeCode"
+                               data-dateofjoiningstr="@item.DateOfJoiningstr" data-openingdatestr="@item.OpeningDatestr" data-incrementdatestr="@item.IncrementDatestr"
+                               data-age="@item.Age"
+                               data-da1datestr="@item.DA1Datestr" data-da2datestr="@item.DA2Datestr"
+                               data-othersdatestr="@item.OthersDatestr" data-basicallowance1="@item.BasicAllowance1.ToString("0.00")"
+                               data-basicallowance2="@item.BasicAllowance2.ToString("0.00")" data-basicallowance3="@item.BasicAllowance3.ToString("0.00")"
+                               data-basicallowance4="@item.BasicAllowance4.ToString("0.00")" data-basicallowance5="@item.BasicAllowance5.ToString("0.00")"
+                               data-totalbasicallowance="@item.TotalBasicAllowance.ToString("0.00")" data-hrapercentage1="@item.HRAPercentage1.ToString("0.00")"
+                               data-hrapercentage2="@item.HRAPercentage2.ToString("0.00")" data-hrapercentage3="@item.HRAPercentage3.ToString("0.00")"
+                               data-hrapercentage4="@item.HRAPercentage4.ToString("0.00")" data-hrapercentage5="@item.HRAPercentage5.ToString("0.00")"
+                               data-houserentallowance1="@item.HouseRentAllowance1.ToString("0.00")" data-houserentallowance2="@item.HouseRentAllowance2.ToString("0.00")"
+                               data-houserentallowance3="@item.HouseRentAllowance3.ToString("0.00")" data-houserentallowance4="@item.HouseRentAllowance4.ToString("0.00")"
+                               data-houserentallowance5="@item.HouseRentAllowance5.ToString("0.00")" data-totalhouserentallowance="@item.TotalHouseRentAllowance.ToString("0.00")"
+                               data-totalwages1="@item.TotalWages1.ToString("0.00")" data-totalwages2="@item.TotalWages2.ToString("0.00")" data-totalwages3="@item.TotalWages3.ToString("0.00")" data-totalwages4="@item.TotalWages4.ToString("0.00")" data-totalwages5="@item.TotalWages5.ToString("0.00")"
+                               data-grandtotalwages="@item.GrandTotalWages.ToString("0.00")"
+                               data-conveyance="@item.Conveyance.ToString("0.00")" data-conveyanceperday="@item.ConveyancePerDay.ToString("0.00")"
+                               data-vehicleallowance="@item.VehicleAllowance.ToString("0.00")"
+                               data-performanceallowance="@item.PerformanceAllowance.ToString("0.00")"
+                               data-performanceallowancestatusid="@item.PerformanceAllowanceStatusID" data-cityallowancestatusid="@item.CityAllowanceStatusID" data-pfstatusid="@item.PFStatusID" data-esicstatusid="@item.ESICStatusID"
+                               data-bonuspercentage="@item.BonusPercentage.ToString("0.00")" data-bonusamount="@item.BonusAmount.ToString("0.00")" data-bonusstatusid="@item.BonusStatusID"
+                               data-leaveenhancementpercentage="@item.LeaveEnhancementPercentage.ToString("0.00")" data-leaveenhancementamount="@item.LeaveEnhancementAmount.ToString("0.00")" data-leaveenhancementstatusid="@item.LeaveEnhancementStatusID"
+                               data-gratuitypercentage="@item.GratuityPercentage.ToString("0.00")" data-gratuityamount="@item.GratuityAmount.ToString("0.00")" data-gratuitystatusid="@item.GratuityStatusID" data-customerid="@item.CustomerID"
+                               data-createdby="@item.CreatedBy"
+                               data-createdon="@item.CreatedOn"
+                               data-isdelete="@item.IsDelete">Edit</a>
+                        </td>
+
+                        @if (item.IsDelete == true)
+                        {
+                            <td>
+                                @Html.ActionLink("Active", "DeleteAllowanceDetail", "Admin",
+                                         new { AllowanceDetailID = item.AllowanceDetailID, IsDelete = false },
+                                    new { onclick = "return confirm('Are you sure you wish to delete this article?');" })
+                            </td>
+                        }
+                        else
+                        {
+                            <td>
+                                @Html.ActionLink("DeActive", "DeleteAllowanceDetail", "Admin",
+                                         new { AllowanceDetailID = item.AllowanceDetailID, IsDelete = true },
+                                    new { onclick = "return confirm('Are you sure you wish to delete this article?');" })
+                            </td>
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    $("#ListDataTable").DataTable({
+        'aoColumnDefs': [{
+            'bSortable': false,
+            'aTargets': ['nosort'] /* 1st one, start by the right */
+        }]
+    });
+    $('#ListDataTable').on('click', '.btnedit', function () {
+        debugger;
+        $("#AllowanceDetailID").val($(this).attr("data-allowancedetailid"));
+        $("#EmployeeCode").val($(this).attr("data-EmployeeCode"));
+        $('#EmployeeCode').select2();
+        $("#Age").val($(this).attr("data-age"));
+        $("#DateOfJoining").val($(this).attr("data-dateofjoiningstr"));
+        $("#OpeningDate").val($(this).attr("data-openingdatestr"));
+        $("#IncrementDate").val($(this).attr("data-incrementdatestr"));
+        $("#DA1Date").val($(this).attr("data-da1datestr"));
+        $("#DA2Date").val($(this).attr("data-da2datestr"));
+        $("#OthersDate").val($(this).attr("data-othersdatestr"));
+        $("#BasicAllowance1").val($(this).attr("data-basicallowance1"));
+        $("#BasicAllowance2").val($(this).attr("data-basicallowance2"));
+        $("#BasicAllowance3").val($(this).attr("data-basicallowance3"));
+        $("#BasicAllowance4").val($(this).attr("data-basicallowance4"));
+        $("#BasicAllowance5").val($(this).attr("data-basicallowance5"));
+        $("#TotalBasicAllowance").val($(this).attr("data-totalbasicallowance"));
+        $("#HouseRentAllowancePercentage1").val($(this).attr("data-hrapercentage1"));
+        $("#HouseRentAllowancePercentage2").val($(this).attr("data-hrapercentage2"));
+        $("#HouseRentAllowancePercentage3").val($(this).attr("data-hrapercentage3"));
+        $("#HouseRentAllowancePercentage4").val($(this).attr("data-hrapercentage4"));
+        $("#HouseRentAllowancePercentage5").val($(this).attr("data-hrapercentage5"));
+        $("#HouseRentAllowance1").val($(this).attr("data-houserentallowance1"));
+        $("#HouseRentAllowance2").val($(this).attr("data-houserentallowance2"));
+        $("#HouseRentAllowance3").val($(this).attr("data-houserentallowance3"));
+        $("#HouseRentAllowance4").val($(this).attr("data-houserentallowance4"));
+        $("#HouseRentAllowance5").val($(this).attr("data-houserentallowance5"));
+        $("#TotalHouseRentAllowance").val($(this).attr("data-totalhouserentallowance"));
+        $("#TotalWages1").val($(this).attr("data-totalwages1"));
+        $("#TotalWages2").val($(this).attr("data-totalwages2"));
+        $("#TotalWages3").val($(this).attr("data-totalwages3"));
+        $("#TotalWages4").val($(this).attr("data-totalwages4"));
+        $("#TotalWages5").val($(this).attr("data-totalwages5"));
+        $("#GrandTotalWages").val($(this).attr("data-grandtotalwages"));
+        $("#Conveyance").val($(this).attr("data-conveyance"));
+        $("#ConveyancePerDay").val($(this).attr("data-conveyanceperday"));
+        $("#VehicleAllowance").val($(this).attr("data-vehicleallowance"));
+        $("#PerformanceAllowance").val($(this).attr("data-performanceallowance"));
+
+        $("#PerformanceAllowanceStatusID").val($(this).attr("data-performanceallowancestatusid"));
+        $('#PerformanceAllowanceStatusID').select2();
+        $("#CityAllowanceStatusID").val($(this).attr("data-cityallowancestatusid"));
+        $('#CityAllowanceStatusID').select2();
+        $("#PFStatusID").val($(this).attr("data-pfstatusid"));
+        $('#PFStatusID').select2();
+        $("#ESICStatusID").val($(this).attr("data-esicstatusid"));
+        $('#ESICStatusID').select2();
+        $("#BonusPercentage").val($(this).attr("data-bonuspercentage"));
+        $("#BonusAmount").val($(this).attr("data-bonusamount"));
+        $("#BonusStatusID").val($(this).attr("data-bonusstatusid"));
+        $('#BonusStatusID').select2();
+        $("#LeaveEnhancementPercentage").val($(this).attr("data-leaveenhancementpercentage"));
+        $("#LeaveEnhancementAmount").val($(this).attr("data-leaveenhancementamount"));
+        $("#LeaveEnhancementStatusID").val($(this).attr("data-leaveenhancementstatusid"));
+        $('#LeaveEnhancementStatusID').select2();
+        $("#GratuityPercentage").val($(this).attr("data-gratuitypercentage"));
+        $("#GratuityAmount").val($(this).attr("data-gratuityamount"));
+        $("#GratuityStatusID").val($(this).attr("data-gratuitystatusid"));
+        $('#GratuityStatusID').select2();
+
+        $("#CustomerID").val($(this).attr("data-customerid"));
+        $('#CustomerID').select2();
+
+        //var isoldpf = $(this).attr("data-isoldpf");
+        //if (isoldpf == 'True') {
+        //    $("#IsOldPF").prop('checked', true);
+        //}
+        //else {
+        //    $("#IsOldPF").prop('checked', false);
+        //}
+        //var isoldesic = $(this).attr("data-isoldesic");
+        //if (isoldesic == 'True') {
+        //    $("#IsOldESIC").prop('checked', true);
+        //}
+        //else {
+        //    $("#IsOldESIC").prop('checked', false);
+        //}
+        //var isoldcityallowance = $(this).attr("data-isoldcityallowance");
+        //if (isoldcityallowance == 'True') {
+        //    $("#IsOldCityAllowance").prop('checked', true);
+        //}
+        //else {
+        //    $("#IsOldCityAllowance").prop('checked', false);
+        //}
+
+
+        $("#CreatedBy").val($(this).attr("data-createdby"));
+        $("#CreatedOn").val($(this).attr("data-createdon"));
+        $("html, body").animate({ scrollTop: 0 }, "slow");
+    });
+</script>

@@ -1,0 +1,74 @@
+﻿@model List<vb.Data.UtilityNameListResponse>
+@using vb.Data.ViewModel
+
+<div class="box">
+    <div class="box-header text-center">
+        <h3 class="box-title">Utility Name List</h3>
+    </div>
+    <div class="box-body table-scrollable1">
+        <table id="ListDataTable" class="table table-bordered table-bordered">
+            <thead>
+                <tr>
+                    <th>Utility Name</th>
+                    <th>HSN Number</th>
+                    <th>Edit</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @item.UtilityName
+                        </td>
+                        <td>
+                            @item.HSNNumber
+                        </td>
+                        <td>
+                            <a style="cursor:pointer;" class="btnedit" data-utilitynameid="@item.UtilityNameID" data-utilityname="@item.UtilityName" data-hsnnumber="@item.HSNNumber" data-createdby="@item.CreatedBy" data-createdon="@item.CreatedOn">Edit</a>
+                        </td>
+                        @if (item.IsDelete == true)
+                        {
+                            <td>
+                                @Html.ActionLink("Active", "DeleteUtilityName", "Utility",
+                   new { UtilityNameID = item.UtilityNameID, IsDelete = false },
+                                        new { onclick = "return confirm('Are you sure you wish to delete this article?');" })
+                            </td>
+                        }
+                        else
+                        {
+                            <td>
+                                @Html.ActionLink("DeActive", "DeleteUtilityName", "Utility",
+                    new { UtilityNameID = item.UtilityNameID, IsDelete = true },
+                                        new { onclick = "return confirm('Are you sure you wish to delete this article?');" })
+                            </td>
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    $('#ListDataTable').DataTable({
+        'paging': true,
+        'lengthChange': true,
+        'searching': true,
+        'ordering': false,
+        'info': true,
+        'autoWidth': false
+    });
+
+    $('#ListDataTable').on('click', '.btnedit', function () {
+        $("#UtilityNameID").val($(this).attr("data-utilitynameid"));
+        $("#UtilityName").val($(this).attr("data-utilityname"));
+        $("#HSNNumber").val($(this).attr("data-hsnnumber"));
+        $("#CreatedBy").val($(this).attr("data-createdby"));
+        $("#CreatedOn").val($(this).attr("data-createdon"));
+        $("html, body").animate({ scrollTop: 0 }, "slow");
+    });
+</script>
+
+

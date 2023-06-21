@@ -1,0 +1,66 @@
+﻿@model List<vb.Data.LeaveApprovalListResponse>
+@using vb.Data.ViewModel
+
+
+<div class="box">
+    <div class="box-header">
+        <h3 class="box-title">Leave Approval List</h3>
+    </div>
+    <div class="box-body">
+        <table id="ListDataTable" class="table table-bordered table-striped lstpopup">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Designation</th>
+                    <th>Application Date</th>
+                    <th>From Date</th>
+                    <th>To Date</th>
+                    <th>Reason</th>
+                    <th>Going To</th>
+                    <th>Advance Amt.</th>
+                    <th>Advance Reason</th>
+                    <th>Deduction/Month Amt.</th>
+                    <th>Approval From Date</th>
+                    <th>Approval To Date</th>
+                    <th>Approval Advance Amt.</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            <input name="LeaveApplicationID" class="hdnLeaveApplicationID" type="hidden" value="@item.LeaveApplicationID" />
+                            @item.EmployeeName
+                        </td>
+                        <td>@item.Designation</td>
+                        <td>@item.ApplicationDate.ToString("dd/MM/yyyy")</td>
+                        @*<td>@item.FromDate.ToString("dd/MM/yyyy")</td>*@
+                        <td>@item.FromDatestr</td>
+                        @*<td>@item.ToDate.ToString("dd/MM/yyyy")</td>*@
+                        <td>@item.ToDatestr</td>
+                        <td>@item.Reason</td>
+                        <td>@item.GoingTo</td>
+                        <td>@item.AdvanceAmount</td>
+                        <td>@item.AdvanceReason</td>
+                        <td>@item.DeductionPerMonthAmount</td>
+                        <td>@item.ApprovalFromDatestr</td>
+                        <td>@item.ApprovalToDatestr</td>
+                        <td>@item.ApprovalAdvanceAmount</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        $('#ListDataTable').DataTable({
+            'paging': true,
+            'lengthChange': true,
+            'searching': true,
+            'ordering': false,
+            'info': true,
+            'autoWidth': false
+        });
+    </script>
+

@@ -1,0 +1,140 @@
+﻿@model System.Data.DataTable
+@using System.Data
+<style type="text/css">
+    .table-scrollable {
+        width: 100%;
+        overflow-x: auto;
+        overflow-y: hidden;
+        border: 1px solid #dddddd;
+        margin: 10px 0 !important;
+    }
+</style>
+
+<div class="box-body table-scrollable">
+    <div class="box-header text-center">
+        <h3 class="box-title">Day Wise Sales List</h3>
+        <button type="button" id="btnBack" class="btn btn-info pull-right">Back</button>
+    </div>
+    <table id="ListDataTableNoPaging" class="table table-bordered table-striped">
+        @if (Model != null)
+        {
+            <thead>
+                <tr>
+                    @foreach (DataColumn col in Model.Columns)
+                    {
+                        if (@col.ColumnName != "CustomerID")
+                        {
+                            <th class="nosort">
+                                @if (col.ColumnName != "Sr.No" && col.ColumnName != "CustomerName" && col.ColumnName != "UserName" && col.ColumnName != "Area" && col.ColumnName != "Total")
+                                {
+                                    <a style="cursor:pointer;" class="btnDayWiseData" data-did="@(col.ColumnName)">@col.ColumnName</a>
+                                }
+                                else
+                                { @col.ColumnName}
+                            </th>
+                        }
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (DataRow row in Model.Rows)
+                {
+                    <tr>
+                        @foreach (DataColumn col in Model.Columns)
+                        {
+                            if (col.ColumnName == "CustomerID")
+                            {
+                                <td style="display:none;">
+                                    @row[col.ColumnName]
+                                </td>
+                            }
+                            else
+                            {
+                                <td>
+                                    @if (col.ColumnName != "Sr.No" && col.ColumnName != "CustomerName" && col.ColumnName != "UserName" && col.ColumnName != "Area" && col.ColumnName != "Total" && row.ItemArray[1] != "")
+                                    {
+                                        <a style="cursor:pointer;" class="btnProductWiseData" data-pid="@row.ItemArray[1]" data-did="@(col.ColumnName)">@row[col.ColumnName]</a>
+                                    }
+                                    else
+                                    {@row[col.ColumnName]}
+                                </td>
+                            }
+                        }
+                    </tr>
+                }
+            </tbody>
+        }
+    </table>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('#ListDataTableNoPaging').on('click', '.btnProductWiseData', function () {
+            debugger;
+            var arr = [];
+            arr = $(this).attr("data-did").split('-');
+            var date = arr[1] + "/" + arr[0] + "/" + arr[2];
+            var today = new Date(date);
+            var dd = today.getDate();
+            var mm = today.getMonth() + 1; //January is 0!
+            var yyyy = today.getFullYear();
+            var nextday = new Date(today);
+            nextday.setDate(today.getDate() + 1);
+            var ndd = nextday.getDate();
+            var nmm = nextday.getMonth() + 1; //January is 0!
+            var nyyyy = nextday.getFullYear();
+            $("#txtFrom").val(mm + "/" + dd + "/" + yyyy);
+            $("#txtTo").val(nmm + "/" + ndd + "/" + nyyyy);
+            $("#CustomerID").val($(this).attr("data-pid")).trigger("change");
+            loadhtml();
+        });
+
+        $('#ListDataTableNoPaging').on('click', '.btnDayWiseData', function () {
+            debugger;
+            var arr = [];
+            arr = $(this).attr("data-did").split('-');
+            var date = arr[1] + "/" + arr[0] + "/" + arr[2];
+            var today = new Date(date);
+            var dd = today.getDate();
+            var mm = today.getMonth() + 1; //January is 0!
+            var yyyy = today.getFullYear();
+            var nextday = new Date(today);
+            nextday.setDate(today.getDate() + 1);
+            var ndd = nextday.getDate();
+            var nmm = nextday.getMonth() + 1; //January is 0!
+            var nyyyy = nextday.getFullYear();
+            $("#txtFrom").val(mm + "/" + dd + "/" + yyyy);
+            $("#txtTo").val(nmm + "/" + ndd + "/" + nyyyy);
+            loadhtml();
+        });
+
+        function loadhtml() {
+            var model = new Object();
+            model.From = $("#txtFrom").val();
+            model.To = $("#txtTo").val();
+            model.CustomerID = $("#CustomerID").val();
+            model.UserID = $("#UserID").val();
+            model.AreaID = $("#AreaID").val();
+            model.CustomerGroupID = $("#CustomerGroupID").val();
+            $.ajax({
+                url: '@Url.Action("ViewBillWiseOrderListForCustGroupSalesManWiseSalesReport", "Report")',
+                type: 'POST',
+                data: { 'model': model },
+                cache: false,
+            }).done(function (result) {
+                $('#lstcase').html(result);
+            });
+        }
+    })
+
+    $("#btnBack").click(function () {
+        var txtFrom = $("#btnsearch").data("mainstartdate");
+        var txtTo = $("#btnsearch").data("mainenddate");
+        var CustomerGroupID = $("#btnsearch").data("customergroupid");
+        $('#txtFrom').val(txtFrom).trigger('change');
+        $('#txtTo').val(txtTo).trigger('change');
+        $('#CustomerGroupID').val(CustomerGroupID).trigger('change');
+        $("#CustomerID").val("").trigger("change");
+        $('#btnsearch').trigger('click');
+    });
+</script>

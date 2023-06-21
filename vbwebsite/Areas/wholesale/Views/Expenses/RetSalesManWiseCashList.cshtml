@@ -1,0 +1,28 @@
+﻿@model List<vb.Data.SalesManWiseCash>
+
+<!-- /.box-header -->
+<div class="box-body table-scrollable1">
+    <table id="ListDataTable" class="table table-bordered" style="margin-left: 162px;">
+        <thead>
+            <tr>
+
+                <th class="nosort">Sales Person</th>
+                <th class="nosort">Cash</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr class="trhide">
+                    <td>
+                        @item.SalesPerson
+                    </td>
+                    <td>
+                        @item.Cash.ToString("0.00")
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<!-- /.box-body -->

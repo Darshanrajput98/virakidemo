@@ -1,0 +1,116 @@
+﻿@{
+    ViewBag.Title = "ManageTransport";
+    Layout = "~/Areas/retail/Views/Shared/_retaillayout.cshtml";
+}
+@using vb.Data.ViewModel
+
+<div class="box box-default">
+    <div class="box-header with-border text-center">
+        <h3 class="box-title">Manage Transport</h3>
+    </div>
+    <form id="frmTransport" class="form-horizontal">
+        <div class="box-body">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <input name="TransportID" id="UTransportID" type="hidden" value="" />
+                    <label for="TransportName" class="col-sm-4 control-label">Transport Name</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="TransportName" maxlength="100" id="TransportName" placeholder="TransportName" tabindex="1" required="required">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="TransportGSTNumber" class="col-sm-4 control-label">Transport GST No</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="TransportGSTNumber" id="TransportGSTNumber" placeholder="Transport GST Number" tabindex="3" required="required">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="TransID" class="col-sm-4 control-label">Transport ID </label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="TransID" id="TransID" placeholder="Transport ID" tabindex="2" required="required">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="ContactNumber" class="col-sm-4 control-label">Contact Number</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="ContactNumber" id="ContactNumber" placeholder="Contact Number" tabindex="4">
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <!-- /.box-body -->
+        <div class="box-footer ">
+            <div class="pull-right">
+                <button type="button" id="CancelTransport" class="btn btn-default" tabindex="4">Cancel</button>
+                @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.RATRANSPORT.ToString()))
+                {
+                    <button type="button" id="btnSaveTransport" class="btn btn-info" tabindex="5">Save</button>
+                }
+            </div>
+        </div>
+        <!-- /.box-footer -->
+    </form>
+    <div id="lstcase">
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script>
+    $(document).ready(function () {
+        loadhtml();
+    });
+
+    function loadhtml() {
+        $.ajax({
+            url: '@Url.Action("ManageTransportList")',
+            type: 'GET',
+            cache: false,
+        }).done(function (result) {
+            $('#lstcase').html(result);
+        });
+    }
+
+    $("#btnSaveTransport").click(function () {
+        if (!($('#frmTransport').parsley().validate())) {
+            return;
+        }
+        var datareq = new Object();
+        datareq.TransportID = $("#UTransportID").val();
+        datareq.TransportName = $("#TransportName").val();
+        datareq.TransID = $("#TransID").val();
+        datareq.TransportGSTNumber = $("#TransportGSTNumber").val();
+        datareq.ContactNumber = $("#ContactNumber").val();
+        $.ajax({
+            url: '@Url.Action("ManageTransport")',
+            type: 'POST',
+            data: { 'data': datareq },
+            cache: false,
+        }).done(function (result) {
+            if (result == true) {
+                if ($("#TransportID").val() == "") {
+                    $('div#sucessalert').html("Transport Add successfully.");
+                }
+                else {
+                    $('div#sucessalert').html("Transport updated successfully.");
+                }
+                showhidealert();
+                loadhtml();
+                clearform();
+            }
+        });
+    });
+
+    $("#CancelTransport").click(function () {
+        clearform();
+    });
+
+    function clearform() {
+        $("#frmTransport").find("input").val("");
+        $("#TransportID").val("").trigger("change");
+    }
+</script>
+

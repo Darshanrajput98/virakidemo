@@ -1,0 +1,195 @@
+﻿@{
+    ViewBag.Title = "ResignationLetter";
+    Layout = "~/Areas/attendance/Views/Shared/_attendancelayout.cshtml";
+}
+
+<div class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Resignation Letter</h3>
+                </div>
+                <form id="frmResignationLetter" class="form-horizontal">
+                    <div class="box-body">
+
+                        <div class="col-md-12">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <input name="ResignationID" id="ResignationID" type="hidden" value="" />
+                                    <input type="hidden" id="CreatedBy" class="CreatedBy" value="" />
+                                    <input type="hidden" id="CreatedOn" class="CreatedOn" value="" />
+                                    <label for="EmployeeCode" class="col-sm-4 control-label">Employee</label>
+                                    <div class="col-sm-8">
+                                        @Html.DropDownList("EmployeeCode", new SelectList(ViewBag.Employee, "EmployeeCode", "FullName"), "Select Employee", new { @class = "form-control select2", tabindex = "1", required = "required" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="Address" class="col-sm-4 control-label">Address</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="Address" placeholder="Address" disabled="disabled" tabindex="2">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="MobileNumber" class="col-sm-4 control-label">Mobile Number</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="MobileNumber" placeholder="MobileNumber" disabled="disabled" tabindex="2">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="DateOfJoining" class="col-sm-4 control-label">D.O.J</label>
+                                    <div class="col-sm-8">
+                                        <div class="input-group date">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </div>
+                                            <input type="text" class="form-control pull-right datepicker" name="DateOfJoining" id="DateOfJoining" tabindex="3" required disabled="disabled" autocomplete="off">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="DateOfLeaving" class="col-sm-4 control-label">D.O.L</label>
+                                    <div class="col-sm-8">
+                                        <div class="input-group date">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </div>
+                                            <input type="text" class="form-control pull-right datepicker" name="DateOfLeaving" id="DateOfLeaving" tabindex="4" required autocomplete="off">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="DateOfApplication" class="col-sm-4 control-label">D.O.A</label>
+                                    <div class="col-sm-8">
+                                        <div class="input-group date">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </div>
+                                            <input type="text" class="form-control pull-right datepicker" name="DateOfApplication" id="DateOfApplication" tabindex="4" required autocomplete="off">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="box-footer">
+                        <div class="pull-right">
+                            <button type="button" id="btnsave" class="btn btn-info">Save</button>
+                            <button type="button" id="btncancel" class="btn btn-default">Cancel</button>                           
+                        </div>
+                    </div>
+                </form>
+                <div id="lstcase">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script>
+
+    $(document).ready(function () {
+        loadhtml();
+
+        $("#EmployeeCode").on('change keypress', function (e) {
+            //debugger;
+            var EmployeeCode = this.value;
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("GetEmployeeDetailByEmployeeCodeForResignation")',
+                data: { 'EmployeeCode': EmployeeCode },
+                success: function (result) {
+                    //debugger;
+                    $('#FullName').val(result.FullName);
+                    $('#Address').val(result.Address);
+                    $('#MobileNumber').val(result.MobileNumber);
+                    $('#DateOfJoining').val(result.DateOfJoiningstr);
+                    $('#DateOfLeaving').val(result.DateofLeavingstr);
+                },
+                error: function () { alert('Error'); }
+            });
+        });
+
+    });
+
+    function loadhtml() {
+        $.ajax({
+            url: '@Url.Action("ResignationLetterList")',
+            type: 'GET',
+            cache: false,
+        }).done(function (result) {
+            $('#lstcase').html(result);
+        });
+    }
+
+    $("#btnsave").click(function () {
+        debugger;
+        if (!($('#frmResignationLetter').parsley().validate())) {
+            return;
+        }
+        var datareq = new Object();
+        datareq.ResignationID = $("#ResignationID").val();
+        datareq.EmployeeCode = $("#EmployeeCode").val();
+        datareq.DateOfJoining = $("#DateOfJoining").val();
+        datareq.DateOfLeaving = $("#DateOfLeaving").val();
+        datareq.DateOfApplication = $("#DateOfApplication").val();
+        datareq.Status = 1; // 1 For Pending
+        datareq.CreatedBy = $("#CreatedBy").val();
+        datareq.CreatedOn = $("#CreatedOn").val();
+        $.ajax({
+            url: '@Url.Action("AddResignationLetter")',
+            type: 'POST',
+            data: { 'data': datareq },
+            cache: false,
+        }).done(function (result) {
+            if (result > 0) {
+                var ResignationID = result;
+                debugger;
+                if ($("#ResignationID").val() == "") {
+                    $('div#sucessalert').html("Resignation appliaction add successfully.");
+                }
+                else {
+                    $('div#sucessalert').html("Resignation appliaction updated successfully.");
+                }
+                showhidealert();
+                if (confirm('Are you sure to print Resignation Letter?')) {
+                    $.ajax({
+                        url: '@Url.Action("PrintResignationLetter", "Resignation")',
+                        type: 'POST',
+                        data: { 'ResignationID': ResignationID },
+                        cache: false,
+                    }).done(function (result) {
+                        debugger;
+                        if (result != '') {
+                            debugger;
+                            window.open(result, "newPage");
+                        }
+                    });
+                }
+                location.reload();
+            }
+        });
+    });
+
+    $("#btncancel").click(function () {
+        location.reload();
+    });
+
+</script>
+
+

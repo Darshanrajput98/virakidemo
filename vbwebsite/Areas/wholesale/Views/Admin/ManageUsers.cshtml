@@ -1,0 +1,783 @@
+﻿@model vb.Data.Model.User_Mst
+@{
+    ViewBag.Title = "ManageUsers";
+    Layout = "~/Areas/wholesale/Views/Shared/_wholesalelayout.cshtml";
+}
+@using vb.Data.ViewModel
+
+<div class="box box-default">
+    <div class="box-header with-border text-center">
+        <h3 class="box-title">Manage Users</h3>
+    </div>
+    <form id="frmUser" class="form-horizontal">
+        <div class="box-body">
+            <div class="box-body">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <input name="UserID" id="UUserID" type="hidden" value="0" />
+                        <input name="CreatedBy" id="CreatedBy" type="hidden" value="" />
+                        <input name="CreatedOn" id="CreatedOn" type="hidden" value="" />
+                        <input name="UserNameUpdate" id="UserNameUpdate" type="hidden" value="" />
+                        <label for="Name" class="col-sm-3 control-label">Name</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="FullName" placeholder="Name" autocomplete="off" required="required">
+                        </div>
+                    </div>
+                    <div class="form-group hidden">
+                        <label for="inputEmail3" class="col-sm-3 control-label">User Name</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="UserName" placeholder="User Name" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputEmail3" class="col-sm-3 control-label">Employee Code</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="EmployeeCode" placeholder="Employee Code" autocomplete="off" required="required">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="BirthDate" class="col-sm-3 control-label">BirthDate</label>
+                        <div class="col-sm-5">
+                            <div class="input-group date">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </div>
+                                <input type="text" class="form-control pull-right datepicker" name="BirthDate" id="BirthDate" tabindex="3" autocomplete="off">
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control" name="BirthDate" id="Age" tabindex="3" autocomplete="off" readonly>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="Age" class="col-sm-3 control-label">Passport No.</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="PassportNo" placeholder="Passport number" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="Age" class="col-sm-3 control-label">Driving licence</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="Drivinglicence" placeholder="Driving licence number" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="GodownID" class="col-sm-3 control-label">Godown</label>
+                        <div class="col-sm-9">
+                            @Html.DropDownListFor(m => m.GodownID, new SelectList(ViewBag.Godown, "GodownID", "GodownName"), "Select Godown", new { @class = "form-control", tabindex = "5" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="Gender" class="col-sm-3 control-label">Gender</label>
+                        <div class="col-sm-9">
+                            @*<input type="text" class="form-control" id="Gender" placeholder="Gender" autocomplete="off">*@
+                            <select name="Month" id="Gender" class="form-control" tabindex="14">
+                                <option value="" selected>Select</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="Mobile" class="col-sm-3 control-label">Mobile No.</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="MobileNumber" minlength="10" maxlength="10" onkeypress="return isNumber(event)" placeholder="MobileNumber" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="Email" class="col-sm-3 control-label">Email</label>
+                        <div class="col-sm-9">
+                            <input type="email" class="form-control" id="Email" placeholder="Email" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="Primaryarea" class="col-sm-3 control-label">Primary area</label>
+                        <div class="col-sm-9">
+                            @Html.DropDownListFor(m => m.PrimaryArea, new SelectList(ViewBag.Area, "AreaID", "AreaName"), "Select primary area", new { @class = "form-control", tabindex = "5" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="Address" class="col-sm-3 control-label">Address</label>
+                        <div class="col-sm-9">
+                            <textarea class="form-control" id="PrimaryAddress" name="PrimaryAddress" rows="2" cols="20" placeholder="Primary Address" tabindex="15"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="Age" class="col-sm-3 control-label">PinCode</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="PrimaryPin" placeholder="Primary PinCode" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="Gender" class="col-sm-3 control-label">Marital status</label>
+                        <div class="col-sm-9">
+                            @*<input type="text" class="form-control" id="Gender" placeholder="Gender" autocomplete="off">*@
+                            <select name="Month" id="MaritalStatus" class="form-control" tabindex="14">
+                                <option value="" selected>Select Marital Status</option>
+                                <option value="Married">Married</option>
+                                <option value="UnMarried">Un-Married</option>
+                                @*<option value="Male">Married</option>
+                                <option value="Female">Un-married </option>*@
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="FSSAIDoctorCertificate" class="col-sm-3 control-label">FSSAI Doctor Certi.</label>
+                        <div class="col-sm-4">
+                            <input type="file" class="btn btn-info" id="FSSAIDoctorCertificate" name="FSSAI Doctor Certi.">
+                        </div>
+                        <div class="col-sm-4">
+                            <label for="FSSAIDoctorCertificate" id="lblFSSAIDoctorCertificate"></label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="ProfilePicture" class="col-sm-3 control-label">ProfilePicture</label>
+                        <div class="col-sm-9">
+                            <input type="file" class="btn btn-info" id="ProfilePicture" name="ProfilePicture" onchange="showimagepreview(this)">
+                            <br />
+                            <img id="imgprvw" alt="uploaded image preview" src="../../Image/User_Avatar.jpg" style="height:100px; width:100px" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="IsActive" class="col-sm-3 control-label"></label>
+                        <div class="col-sm-9">
+                            <input type="checkbox" checked="checked" id="IsDelete"> IsActive
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="RoleID" class="col-sm-3 control-label">Designation</label>
+                        <div class="col-sm-9">
+                            @Html.DropDownListFor(m => m.RoleID, new SelectList(ViewBag.Role, "RoleID", "RoleName"), "Select Designation", new { @class = "form-control", @required = "true", tabindex = "5" })
+                        </div>
+                    </div>
+                    <div class="form-group hidden">
+                        <label for="inputPassword3" class="col-sm-3 control-label">Password</label>
+                        <div class="col-sm-9">
+                            <input type="password" class="form-control" id="Password" placeholder="Password" value="123456" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="Age" class="col-sm-3 control-label">UIDAI No.</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="UIDAI" placeholder="Aadhar Number" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="AssignedDate" class="col-sm-3 control-label">D.O.J</label>
+                        <div class="col-sm-5">
+                            <div class="input-group date">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </div>
+                                <input type="text" class="form-control pull-right datepicker" name="DateOfJoining" id="DateOfJoining" tabindex="3" autocomplete="off" required="required">
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control" name="BirthDate" id="DOJcount" tabindex="3" autocomplete="off" readonly>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="AssignedDate" class="col-sm-3 control-label">P.Valid upto</label>
+                        <div class="col-sm-9">
+                            <div class="input-group date">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </div>
+                                <input type="text" class="form-control pull-right datepicker" name="PassportValiddate" id="PassportValiddate" tabindex="3" placeholder="Passport Valid Date" autocomplete="off">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="AssignedDate" class="col-sm-3 control-label">D.Valid upto</label>
+                        <div class="col-sm-9">
+                            <div class="input-group date">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </div>
+                                <input type="text" class="form-control pull-right datepicker" name="DrivingValiddate" id="DrivingValiddate" tabindex="3" placeholder="Driving licence Valid Date" autocomplete="off">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="Age" class="col-sm-3 control-label">Pan No.</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="PanNo" placeholder="PanCard Number" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="Age" class="col-sm-3 control-label">ESIC No.</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="ESIC" placeholder="ESIC Number" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="Age" class="col-sm-3 control-label">PF No.</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="PF" placeholder="PF Number" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="Age" class="col-sm-3 control-label">UAN No.</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="UAN" placeholder="UAN No" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="AreaID" class="col-sm-3 control-label">Secondary area</label>
+                        <div class="col-sm-9">
+                            @Html.DropDownListFor(m => m.SecondaryArea, new SelectList(ViewBag.Area, "AreaID", "AreaName"), "Select secondary area", new { @class = "form-control", tabindex = "5" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="Address" class="col-sm-3 control-label">Address</label>
+                        <div class="col-sm-9">
+                            <textarea class="form-control" id="SecondaryAddress" name="SecondaryAddress" rows="2" cols="20" placeholder="Secondary Address" tabindex="15"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="Age" class="col-sm-3 control-label">PinCode</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="SecondaryPin" placeholder="Secondary PinCode" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="Age" class="col-sm-3 control-label">Reference Name</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="ReferenceName" placeholder="Reference Name" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="FSSAIDoctorCertificateValidity" class="col-sm-3 control-label">Validity</label>
+                        <div class="col-sm-9">
+                            <div class="input-group date">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </div>
+                                <input type="text" class="form-control pull-right datepicker" name="FSSAIDoctorCertificateValidity" id="FSSAIDoctorCertificateValidity" placeholder="Valid Up To" autocomplete="off">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="DateofLeaving" class="col-sm-3 control-label">D.O.L</label>
+                        <div class="col-sm-9">
+                            <div class="input-group date">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </div>
+                                <input type="text" class="form-control pull-right datepicker" name="DateofLeaving" id="DateofLeaving" tabindex="3" autocomplete="off">
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-md-12">
+                    <div class="box box-info">
+                        <div class="with-border text-center">
+                            <h3 class="box-title">Family Details</h3>
+                        </div>
+                        <div class="box-body">
+                            <div class="col-md-4">
+                                <div class="box-header text-center">
+                                    <h4 class="box-title">Father Details</h4>
+                                </div>
+                                <div class="form-group">
+                                    <label for="BankName" class="col-sm-4 control-label">Name</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="FName" placeholder="Father Name" autocomplete="off">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="AccountNumber" class="col-sm-4 control-label">DOB </label>
+                                    <div class="col-sm-8">
+                                        <div class="input-group date">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </div>
+                                            <input type="text" class="form-control datepicker" id="Fdob" placeholder="Date Of Birth" autocomplete="off">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="AccountNumber" class="col-sm-4 control-label">UIDAI No. </label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="FUIDAI" placeholder="Aadhar number" autocomplete="off">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="AccountNumber" class="col-sm-4 control-label">Relation</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="FRelation" placeholder="Relation" autocomplete="off">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="AccountNumber" class="col-sm-4 control-label">L.T</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="Flivingtogether" placeholder="living together" autocomplete="off">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="box-header text-center">
+                                    <h4 class="box-title">Mother Details</h4>
+                                </div>
+                                <div class="form-group">
+                                    <label for="BankName" class="col-sm-4 control-label">Name</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="MName" placeholder="Mother Name" autocomplete="off">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="AccountNumber" class="col-sm-4 control-label">DOB </label>
+                                    <div class="col-sm-8">
+                                        <div class="input-group date">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </div>
+                                            <input type="text" class="form-control datepicker" id="Mdob" placeholder="Date Of Birth" autocomplete="off">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="AccountNumber" class="col-sm-4 control-label">UIDAI No. </label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="MUIDAI" placeholder="Aadhar number" autocomplete="off">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="AccountNumber" class="col-sm-4 control-label">Relation</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="MRelation" placeholder="Relation" autocomplete="off">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="AccountNumber" class="col-sm-4 control-label">L.T</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="Mlivingtogether" placeholder="living together" autocomplete="off">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="box-header text-center">
+                                    <h4 class="box-title">Wife Details</h4>
+                                </div>
+                                <div class="form-group">
+                                    <label for="BankName" class="col-sm-4 control-label">Name</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="WName" placeholder="Wife Name" autocomplete="off">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="AccountNumber" class="col-sm-4 control-label">DOB </label>
+                                    <div class="col-sm-8">
+                                        <div class="input-group date">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </div>
+                                            <input type="text" class="form-control datepicker" id="Wdob" placeholder="Date Of Birth" autocomplete="off">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="AccountNumber" class="col-sm-4 control-label">UIDAI No. </label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="WUIDAI" placeholder="Aadhar number" autocomplete="off">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="AccountNumber" class="col-sm-4 control-label">Relation</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="WRelation" placeholder="Relation" autocomplete="off">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="AccountNumber" class="col-sm-4 control-label">L.T</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="Wlivingtogether" placeholder="living together" autocomplete="off">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="box-header text-center">
+                                    <h4 class="box-title">Children1 Details</h4>
+                                </div>
+                                <div class="form-group">
+                                    <label for="BankName" class="col-sm-4 control-label">Name</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="C1Name" placeholder="Children1 Name" autocomplete="off">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="AccountNumber" class="col-sm-4 control-label">DOB </label>
+                                    <div class="col-sm-8">
+                                        <div class="input-group date">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </div>
+                                            <input type="text" class="form-control datepicker" id="C1dob" placeholder="Date Of Birth" autocomplete="off">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="AccountNumber" class="col-sm-4 control-label">UIDAI No. </label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="C1UIDAI" placeholder="Aadhar number" autocomplete="off">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="AccountNumber" class="col-sm-4 control-label">Relation</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="C1Relation" placeholder="Relation" autocomplete="off">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="AccountNumber" class="col-sm-4 control-label">L.T</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="C1livingtogether" placeholder="living together" autocomplete="off">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="box-header text-center">
+                                    <h4 class="box-title">Children2 Details</h4>
+                                </div>
+                                <div class="form-group">
+                                    <label for="BankName" class="col-sm-4 control-label">Name</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="C2Name" placeholder="Children2 Name" autocomplete="off">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="AccountNumber" class="col-sm-4 control-label">DOB </label>
+                                    <div class="col-sm-8">
+                                        <div class="input-group date">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </div>
+                                            <input type="text" class="form-control datepicker" id="C2dob" placeholder="Date Of Birth" autocomplete="off">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="AccountNumber" class="col-sm-4 control-label">UIDAI No. </label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="C2UIDAI" placeholder="Aadhar number" autocomplete="off">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="AccountNumber" class="col-sm-4 control-label">Relation</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="C2Relation" placeholder="Relation" autocomplete="off">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="AccountNumber" class="col-sm-4 control-label">L.T</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="C2livingtogether" placeholder="living together" autocomplete="off">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="box-header text-center">
+                                    <h4 class="box-title">Children3 Details</h4>
+                                </div>
+                                <div class="form-group">
+                                    <label for="BankName" class="col-sm-4 control-label">Name</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="C3Name" placeholder="Children3 Name" autocomplete="off">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="AccountNumber" class="col-sm-4 control-label">DOB </label>
+                                    <div class="col-sm-8">
+                                        <div class="input-group date">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </div>
+                                            <input type="text" class="form-control datepicker" id="C3dob" placeholder="Date Of Birth" autocomplete="off">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="AccountNumber" class="col-sm-4 control-label">UIDAI No. </label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="C3UIDAI" placeholder="Aadhar number" autocomplete="off">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="AccountNumber" class="col-sm-4 control-label">Relation</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="C3Relation" placeholder="Relation" autocomplete="off">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="AccountNumber" class="col-sm-4 control-label">L.T</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="C3livingtogether" placeholder="living together" autocomplete="off">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="box box-info">
+                        <div class="with-border text-center">
+                            <h3 class="box-title">Bank Detail</h3>
+                        </div>
+                        <div class="box-body">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="BankName" class="col-sm-4 control-label">Bank Name </label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="BankName" placeholder="Bank Name" autocomplete="off">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="AccountNumber" class="col-sm-4 control-label"> A/C  No. </label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="AccountNumber" placeholder="Account Number" autocomplete="off">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="Branch" class="col-sm-4 control-label">Branch </label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="Branch" placeholder="Branch" autocomplete="off">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="IFSCCode" class="col-sm-4 control-label">IFSC Code</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="IFSCCode" placeholder="IFSC Code" autocomplete="off">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <!-- /.box-body -->
+        <div class="box-footer ">
+            <div class="pull-right">
+                @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.WAUSERS.ToString()))
+                {
+                    <button type="button" id="btnsavecase" class="btn btn-info" tabindex="16">Save</button>
+                }
+                <button type="button" id="CancelUsers" class="btn btn-default" tabindex="17">Cancel</button>
+                <button type="button" id="btnexport" class="btn btn-info" tabindex="16">Export To Excel</button>
+            </div>
+        </div>
+        <!-- /.box-footer -->
+    </form>
+    <div id="lstcase">
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script>
+    function showimagepreview(input) {
+        if (input.files && input.files[0]) {
+            var filerdr = new FileReader();
+            filerdr.onload = function (e) {
+                $('#imgprvw').attr('src', e.target.result);
+            }
+            filerdr.readAsDataURL(input.files[0]);
+        }
+    }
+
+    $(document).ready(function () {
+        loadhtml();
+    });
+
+    function loadhtml() {
+        $.ajax({
+            url: '@Url.Action("ManageUsersList")',
+            type: 'GET',
+            cache: false,
+        }).done(function (result) {
+            $('#lstcase').html(result);
+        });
+    }
+
+    $("#btnsavecase").click(function () {
+        debugger;
+        if (!($('#frmUser').parsley().validate())) {
+            return;
+        }
+        var data = new FormData();
+        debugger;
+        data.append("UserID", $("#UUserID").val());
+        data.append("FullName", $("#FullName").val());
+        data.append("UserName", $("#EmployeeCode").val());
+        data.append("UserNameUpdate", $("#UserNameUpdate").val());
+        data.append("EmployeeCode", $("#EmployeeCode").val());
+        //data.append("Password", $("#Password").val());
+        data.append("Password", "123456");
+        data.append("UIDAI", $("#UIDAI").val());
+        data.append("BirthDate", $("#BirthDate").val());
+        data.append("Age", $("#Age").val());
+        data.append("Gender", $("#Gender").val());
+        data.append("DateOfJoining", $("#DateOfJoining").val());
+        data.append("Email", $("#Email").val());
+        data.append("RoleID", $("#RoleID").val());
+        data.append("RoleName", $("#RoleID").find("option:selected").text());
+        //data.append("Address", $("#Address").val());
+        data.append("MobileNumber", $("#MobileNumber").val());
+        data.append("BankName", $("#BankName").val());
+        data.append("AccountNumber", $("#AccountNumber").val());
+        data.append("Branch", $("#Branch").val());
+        data.append("IFSCCode", $("#IFSCCode").val());
+        data.append("PrimaryArea", $("#PrimaryArea").val());
+        data.append("PrimaryAddress", $("#PrimaryAddress").val());
+        data.append("PrimaryPin", $("#PrimaryPin").val());
+        data.append("SecondaryArea", $("#SecondaryArea").val());
+        data.append("SecondaryAddress", $("#SecondaryAddress").val());
+        data.append("SecondaryPin", $("#SecondaryPin").val());
+        data.append("PanNo", $("#PanNo").val());
+        data.append("PassportNo", $("#PassportNo").val());
+        data.append("PassportValiddate", $("#PassportValiddate").val());
+        data.append("UAN", $("#UAN").val());
+        data.append("PF", $("#PF").val());
+        data.append("ESIC", $("#ESIC").val());
+        data.append("GodownID", $("#GodownID").val());
+        data.append("Drivinglicence", $("#Drivinglicence").val());
+        data.append("DrivingValiddate", $("#DrivingValiddate").val());
+        data.append("ReferenceName", $("#ReferenceName").val());
+        data.append("FName", $("#FName").val());
+        data.append("Fdob", $("#Fdob").val());
+        data.append("FUIDAI", $("#FUIDAI").val());
+        data.append("FRelation", $("#FRelation").val());
+        data.append("Flivingtogether", $("#Flivingtogether").val());
+        data.append("MName", $("#MName").val());
+        data.append("Mdob", $("#Mdob").val());
+        data.append("MUIDAI", $("#MUIDAI").val());
+        data.append("MRelation", $("#MRelation").val());
+        data.append("Mlivingtogether", $("#Mlivingtogether").val());
+        data.append("WName", $("#WName").val());
+        data.append("Wdob", $("#Wdob").val());
+        data.append("WUIDAI", $("#WUIDAI").val());
+        data.append("WRelation", $("#WRelation").val());
+        data.append("Wlivingtogether", $("#Wlivingtogether").val());
+        data.append("C1Name", $("#C1Name").val());
+        data.append("C1dob", $("#C1dob").val());
+        data.append("C1UIDAI", $("#C1UIDAI").val());
+        data.append("C1Relation", $("#C1Relation").val());
+        data.append("C1livingtogether", $("#C1livingtogether").val());
+        data.append("C2Name", $("#C2Name").val());
+        data.append("C2dob", $("#C2dob").val());
+        data.append("C2UIDAI", $("#C2UIDAI").val());
+        data.append("C2Relation", $("#C2Relation").val());
+        data.append("C2livingtogether", $("#C2livingtogether").val());
+        data.append("C3Name", $("#C3Name").val());
+        data.append("C3dob", $("#C3dob").val());
+        data.append("C3UIDAI", $("#C3UIDAI").val());
+        data.append("C3Relation", $("#C3Relation").val());
+        data.append("C3livingtogether", $("#C3livingtogether").val());
+        data.append("MaritalStatus", $("#MaritalStatus").val());
+
+        data.append("DateofLeaving", $("#DateofLeaving").val());
+
+        data.append("CreatedBy", $("#CreatedBy").val());
+        data.append("CreatedOn", $("#CreatedOn").val());
+        data.append("IsDelete", $('#IsDelete').is(":checked"));
+        var files = "";
+        if ($("#ProfilePicture").val().length > 0) {
+            files = $("#ProfilePicture").get(0).files;
+        }
+        if (files != "") {
+            data.append("ProfilePicture", files[0]);
+        }
+        else {
+            data.append("ProfilePicture", files);
+        }
+        data.append("FSSAIDoctorCertificateValidity", $("#FSSAIDoctorCertificateValidity").val());
+        var FSSAIDoctorCertificatefile = "";
+        if ($("#FSSAIDoctorCertificate").val().length > 0) {
+            FSSAIDoctorCertificatefile = $("#FSSAIDoctorCertificate").get(0).files;
+        }
+        if (FSSAIDoctorCertificatefile != "") {
+            data.append("FSSAIDoctorCertificate", FSSAIDoctorCertificatefile[0]);
+        }
+        else {
+            data.append("FSSAIDoctorCertificate", FSSAIDoctorCertificatefile);
+        }
+        $.ajax({
+            url: '@Url.Action("ManageUsers")',
+            type: 'POST',
+            data: data,
+            processData: false,
+            contentType: false,
+            cache: false,
+        }).done(function (result) {
+            if (result == true) {
+                debugger;
+                if ($("#UUserID").val() == 0) {
+                    $('div#sucessalert').html("Register successfully.");
+                }
+                else {
+                    $('div#sucessalert').html("Updated successfully.");
+                }
+                $("html, body").animate({ scrollTop: 0 }, "slow");
+                showhidealert();
+
+                // for deactive user
+                @*if (confirm('Are you sure you want to deactive this user?')) {
+                    $.ajax({
+                        url: '@Url.Action("DeactiveUser", "Admin")',
+                        type: 'POST',
+                        data: { 'LeaveApplicationID': LeaveApplicationID },
+                        cache: false,
+                    }).done(function (result) {
+                        debugger;
+                        if (result != '') {
+                            debugger;
+                            window.open(result, "newPage");
+                        }
+                    });
+                }*@
+
+                loadhtml();
+                clearform();
+            }
+            else {
+                $('div#sucessalert').html("EmployeeCode is already exist.");
+                debugger;
+                $("html, body").animate({ scrollTop: 0 }, "slow");
+                showhidealert();
+            }
+        });
+    });
+
+    $("#CancelUsers").click(function () {
+        clearform();
+    });
+
+    function clearform() {
+        $("#frmUser").find("input").val("");
+        $("#frmUser").find("textarea").val("");
+        $("#UserID").val("").trigger("change");
+        $("#RoleID").val("").trigger("change");
+        $("#GodownID").val("").trigger("change");
+        var img = "/Image/User_Avatar.jpg";
+        $("#imgprvw").attr("src", img);
+        //$('#EmployeeCode').attr('readonly', false);
+        $("#lblFSSAIDoctorCertificate").text("");
+    }
+
+    $("#btnexport").click(function () {
+        debugger;
+        var url = '@Url.Action("ExportExcelUsers", "Admin")';
+        window.location.href = url.replace();
+    });
+
+</script>
+

@@ -1,0 +1,59 @@
+﻿@model List<vb.Data.ProductList>
+
+<div class="box-body table-scrollable1" style="overflow-y: scroll; height: 170px; padding:0px">
+    <table id="ListDataTable" class="table table-bordered">
+        <thead>
+            <tr>
+                <th class="nosort">Select</th>
+                <th class="nosort">Category</th>
+                <th class="nosort">Product Name</th>
+                <th class="nosort">QTY</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr class="trhide">
+                    <td>
+                        <input id="IsChecked" class="IsChecked" type="checkbox" tabindex="2" />
+                    </td>
+                    <td>
+                        <input type="hidden" id="hdnProductID" class="hdnProductID" value="@item.ProductID" />
+                        @item.CategoryName
+                    </td>
+                    <td>
+                        @*<input type="hidden" id="hdnProductID" class="hdnProductID" value="@item.ProductID" />*@
+                        @item.ProductName
+                    </td>
+                    <td>
+                        @item.OrderQuantity
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".IsChecked").click(function () {
+            debugger;
+            if ($(this).attr("checked"))
+                $(this).next().show();
+            else
+                $(this).closest('tr').remove();
+        });
+    });
+</script>
+
+@*<script type="text/javascript">
+        $(document).ready(function () {
+            $(".IsChecked").click(function () {
+                debugger;
+                if ($(this).attr("checked"))
+                    $(this).next().show();
+                else
+                    $(this).addClass("addcolor");
+            });
+        });
+    </script>*@

@@ -1,0 +1,128 @@
+﻿@model List<vb.Data.ExpOrderListResponse>
+
+<div class="box">
+    <div class="box-header text-center">
+        <h3 class="box-title">Order List</h3>
+        <button type="button" id="btnBack" class="btn btn-info pull-right btnBack">Back</button>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body">
+        <table id="ListDataTable" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th class="nosort">Invoice No</th>
+                    <th class="nosort">Order Date</th>
+                    <th class="nosort">Customer Name</th>
+                    <th class="nosort">Country</th>
+                    <th class="nosort">Total Item</th>
+                    <th class="nosort">Total Bill</th>
+                    <th class="nosort">Sales Person</th>
+                    <th class="nosort">View Invoice</th>
+                    <th class="nosort">Print Invoice</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td id="row" @item.OrderID>
+                            @item.InvoiceNumber
+                        </td>
+                        <td>
+                            @item.CreatedOn.ToString("MM-dd-yyyy")
+                        </td>
+                        <td>
+                            @item.CustomerName
+                        </td>
+                        <td>
+                            @item.CountryName
+                        </td>
+                        <td>
+                            @item.Quantity
+                        </td>
+                        <td>
+                            @item.FinalTotal.ToString("0.00")
+                        </td>
+                        <td>
+                            @item.UserName
+                        </td>
+                        <td>
+                            <input class="btnViewInvoice" type="button" value="View Invoice" data-orderid="@item.InvoiceNumber" />
+                        </td>
+                        <td>
+                            <input id="btnPrintInvoice" type="button" value="Print Invoice" onclick="GetPrint(@item.OrderID,'@item.InvoiceNumber','@item.Rupees','@item.CurrencyName')" data-orderid="@item.OrderID" />
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+    <!-- /.box-body -->
+</div>
+
+<script>
+    $(".btnViewInvoice").click(function () {
+        var url = '@Url.Action("ViewBillWiseInvoiceForSalesManWiseSalesReport", "Report", new { invid = "__id__", custid = "__custid__", uid = "__uid__", txtfrom = "__txtfrom__", txtto = "__txtto__", countryid = "__countryid__",currencyname ="__currencyname__" })';
+        url = url.replace(/amp;/g, '');
+        var Data = url.replace('__id__', $(this).attr("data-orderid")).replace('__custid__', $('#CustomerID').val()).replace('__uid__', $('#UserID').val()).replace('__txtfrom__', $('#txtFrom').val()).replace('__txtto__', $('#txtTo').val()).replace('__countryid__', $('#countryid').val()).replace('__currencyname__', $("#CurrencyID").find("option:selected").text());
+        window.open(Data, '_blank');
+    });
+
+    function GetPrint(id, invnum, rupees, currencyname) {
+        currencyname = $("#CurrencyID").find("option:selected").text();
+        debugger;
+        if (currencyname != "USD") {
+            $.ajax({
+                url: '@Url.Action("PrintInvoiceforRupeesExp", "Order")',
+                type: 'POST',
+                data: { 'OrderID': id, 'InvoiceNumber': invnum, 'Rupees': rupees },
+                cache: false,
+            }).done(function (result) {
+                if (result != '') {
+                    window.open(result, "newPage");
+                }
+            });
+        }
+        else {
+            $.ajax({
+                url: '@Url.Action("PrintInvoice", "Order")',
+                type: 'POST',
+                data: { 'OrderID': id, 'InvoiceNumber': invnum },
+                cache: false,
+            }).done(function (result) {
+                if (result != '') {
+                    window.open(result, "newPage");
+                }
+            });
+        }
+    };
+
+
+    $("#btnBack").click(function () {
+        loadhtml();
+        var txtFrom = '@Session["txtFrom"].ToString()';
+        var txtTo = '@Session["txtTo"].ToString()';
+        $('#txtFrom').val(txtFrom).trigger('change');
+        $('#txtTo').val(txtTo).trigger('change');
+    });
+
+    function loadhtml() {
+        var model = new Object();
+        model.UserID = $('#UserID').val();
+        model.CountryID = $('#CountryID').val();
+        $.ajax({
+            url: '@Url.Action("SalesManWiseDailySalesList", "Report")',
+            type: 'POST',
+            data: { 'model': model },
+            cache: false,
+        }).done(function (result) {
+            $('#lstcase').html(result);
+        });
+    }
+
+</script>
+
+
+
+

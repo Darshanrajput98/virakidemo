@@ -1,0 +1,328 @@
+﻿@model List<vb.Data.RegistrationListResponse>
+@using vb.Data.ViewModel
+
+<div class="box">
+    <div class="box-header text-center">
+        <h3 class="box-title">User List</h3>
+    </div>
+    <div class="box-body table-scrollable1">
+        <table id="ListDataTable" class="table table-bordered table-bordered lstemployee">
+            <thead>
+                <tr>
+                    <th>Profile Picture</th>
+                    <th>Full Name</th>
+                    <th>Employee Code</th>
+                    <th>Birth Date</th>
+                    <th>Age</th>
+                    <th>Gender</th>
+                    <th>D.O.J</th>
+                    <th>Service Time</th>
+                    <th>Role</th>
+                    <th>Mobile Number</th>
+                    <th>FSSAI Doctor Certi.</th>
+                    <th>Validity</th>
+                    @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.WEUSERS.ToString()))
+                    {
+                        <th class="nosort">Edit</th>
+                    }
+                    @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.WDUSERS.ToString()))
+                    {
+                        <th class="nosort">Status</th>
+                    }
+                    <th>Add Documents</th>
+                    <th>Reset Password</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td><img class="pull-left img-circle nav-user-photo" width="50" src="@item.ProfilePicturePath" /></td>
+                        <td>@item.FullName</td>
+                        <td>@item.EmployeeCode</td>
+                        <td>@item.BirthDate.ToString("MM/dd/yyyy")</td>
+                        <td style="width:150px">@item.Age</td>
+                        <td>@item.Gender</td>
+                        <td>@item.DateOfJoining.ToString("MM/dd/yyyy")</td>
+                        <td>@item.ServiceTime</td>
+                        <td>@item.RoleName</td>
+                        <td>@item.MobileNumber</td>
+                        @if (@item.FSSAIDoctorCertificatepath != "" && @item.FSSAIDoctorCertificatepath != null)
+                        {
+                            <td>
+                                <a id="" href="@item.FSSAIDoctorCertificatepath" target="_blank"><i class="fa fa-download" style="font-size: 23px;" aria-hidden="true"></i></a>
+                            </td>
+                        }
+                        else
+                        {
+                            <td></td>
+                        }
+                        <td>@item.FSSAIDoctorCertificateValiditystr</td>
+                        @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.WEUSERS.ToString()))
+                        {
+                            <td>
+                                <a style="cursor:pointer;" class="btnedit" data-userid="@item.UserID" data-roleid="@item.RoleID" data-isdelete="@item.IsDelete"
+                                   data-bankname="@item.BankName" data-accountnumber="@item.AccountNumber" data-branch="@item.Branch" data-ifsccode="@item.IFSCCode" data-address="@item.Address"
+                                   data-primaryarea="@item.PrimaryArea" data-primaryaddress="@item.PrimaryAddress" data-primarypin="@item.PrimaryPin" data-secondaryarea="@item.SecondaryArea"
+                                   data-secondaryaddress="@item.SecondaryAddress" data-secondarypin="@item.SecondaryPin" data-panno="@item.PanNo" data-passportno="@item.PassportNo"
+                                   data-passportvaliddate="@item.PassportValiddate" data-uidai="@item.UIDAI" data-uan="@item.UAN" data-pf="@item.PF" data-esic="@item.ESIC"
+                                   data-drivinglicence="@item.Drivinglicence" data-referencename="@item.ReferenceName" data-fname="@item.FName" data-fdob="@item.Fdob" data-fuidai="@item.FUIDAI"
+                                   data-frelation="@item.FRelation" data-flivingtogether="@item.Flivingtogether" data-mname="@item.MName" data-mdob="@item.Mdob" data-muidai="@item.MUIDAI"
+                                   data-mrelation="@item.MRelation" data-mlivingtogether="@item.Mlivingtogether" data-wname="@item.WName" data-wdob="@item.Wdob" data-wuidai="@item.WUIDAI"
+                                   data-wrelation="@item.WRelation" data-wlivingtogether="@item.Wlivingtogether" data-c1name="@item.C1Name" data-c1dob="@item.C1dob" data-c1uidai="@item.C1UIDAI"
+                                   data-c1relation="@item.C1Relation" data-c1livingtogether="@item.C1livingtogether" data-c2name="@item.C2Name" data-c2dob="@item.C2dob" data-c2uidai="@item.C2UIDAI"
+                                   data-c2relation="@item.C2Relation" data-c2livingtogether="@item.C2livingtogether" data-c3name="@item.C3Name" data-c3dob="@item.C3dob" data-c3uidai="@item.C3UIDAI"
+                                   data-c3relation="@item.C3Relation" data-c3livingtogether="@item.C3livingtogether" data-email="@item.Email" data-godown="@item.Godown"
+                                   data-drivingvalidup="@item.DrivingValidup" data-maritalstatus="@item.Maritalstatus" data-profilepicturepath="@item.ProfilePicturePath" data-createdby="@item.CreatedBy" data-createdon="@item.CreatedOn" data-username="@item.UserName"
+                                   data-fssaidoctorcertificatevaliditystr="@item.FSSAIDoctorCertificateValiditystr" data-fssaidoctorcertificate="@item.FSSAIDoctorCertificate" data-dateofleaving="@item.DateofLeavingstr">Edit</a>
+                            </td>
+                        }
+                        @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.WDUSERS.ToString()))
+                        {
+                            if (item.IsDelete == true)
+                            {
+                                <td>
+                                    @Html.ActionLink("Active", "DeleteUser", "Admin",
+                                      new { UserID = item.UserID, IsDelete = false },
+                                    new { onclick = "return confirm('Are you sure you wish to delete this article?');" })
+                                </td>
+                            }
+                            else
+                            {
+                                <td>
+                                    @Html.ActionLink("DeActive", "DeleteUser", "Admin",
+                                      new { UserID = item.UserID, IsDelete = true },
+                                    new { onclick = "return confirm('Are you sure you wish to delete this article?');" })
+                                </td>
+                            }
+                        }
+                        <td>
+                            <a style="cursor:pointer;" class="lnkAddDocuments" data-employeecode="@item.EmployeeCode">Add Documents</a>
+                        </td>
+                        <td>
+                            <a style="cursor:pointer;" class="btnopenchangepasswordpopup" data-userid="@item.UserID" data-username="@item.UserName" data-password="@item.Password">Reset Password</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <div id="openchangepasswordpopup" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="btnclosepopup close" data-dismiss="modal" aria-hidden="true"></button>
+                        <h4 class="modal-title">Change Password</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12" style="padding-bottom: 8px;">
+                                <div class="form-group">
+                                    <input name="UserID" id="UserID" class="hdnUserID" type="hidden" value="" />
+                                    <input name="UserName1" id="UserName1" class="hdnUserName1" type="hidden" value="" />
+                                    <input name="OldPassword" id="OldPassword" class="hdnOldPassword" type="hidden" value="" />
+                                    <label for="NewPassword" class="col-sm-4 control-label">New Password</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" name="NewPassword" maxlength="100" id="NewPassword" placeholder="New Password" tabindex="1" autocomplete="off">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12" style="padding-bottom: 8px;">
+                                <div class="form-group">
+                                    <label for="ConfirmNewPassword" class="col-sm-4 control-label">Confirm Password</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" name="ConfirmNewPassword" maxlength="100" id="ConfirmNewPassword" placeholder="Confirm Password" tabindex="2" autocomplete="off">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-info" id="btnChangePassword">Update</button>
+                        <button type="button" class="btnclosepopup btn btn-info" data-dismiss="modal" aria-hidden="true">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    $("#ListDataTable").DataTable({
+        'aoColumnDefs': [{
+            'bSortable': false,
+            'aTargets': ['nosort'] /* 1st one, start by the right */
+        }]
+    });
+
+    $('#ListDataTable').on('click', '.btnedit', function () {
+        debugger;
+        $("#UUserID").val($(this).attr("data-userid"));
+        $("#imgprvw").attr("src", $(this).attr("data-profilepicturepath"));
+        $("#FullName").val($(this).parent().parent().children()[1].innerHTML.trim());
+        $("#EmployeeCode").val($(this).parent().parent().children()[2].innerHTML.trim());
+        $('#EmployeeCode').attr('readonly', true);
+        $("#BirthDate").val($(this).parent().parent().children()[3].innerHTML.trim());
+        $("#Age").val($(this).parent().parent().children()[4].innerHTML.trim());
+        $("#Gender").val($(this).parent().parent().children()[5].innerHTML.trim());
+        $("#DateOfJoining").val($(this).parent().parent().children()[6].innerHTML.trim());
+        $("#DOJcount").val($(this).parent().parent().children()[7].innerHTML.trim());
+        $("#RoleID").val($(this).attr("data-roleid")).trigger("change");
+        $("#MobileNumber").val($(this).parent().parent().children()[9].innerHTML.trim());
+        $("#Address").val($(this).attr("data-address"));
+        $("#BankName").val($(this).attr("data-bankname"));
+        $("#AccountNumber").val($(this).attr("data-accountnumber"));
+        $("#Branch").val($(this).attr("data-branch"));
+        $("#IFSCCode").val($(this).attr("data-ifsccode"));
+        $("#PrimaryArea").val($(this).attr("data-PrimaryArea"));
+        $("#PrimaryAddress").val($(this).attr("data-PrimaryAddress"));
+        $("#PrimaryPin").val($(this).attr("data-PrimaryPin"));
+        $("#SecondaryArea").val($(this).attr("data-SecondaryArea"));
+        $("#SecondaryAddress").val($(this).attr("data-SecondaryAddress"));
+        $("#SecondaryPin").val($(this).attr("data-SecondaryPin"));
+        $("#PanNo").val($(this).attr("data-PanNo"));
+        $("#PassportNo").val($(this).attr("data-PassportNo"));
+        $("#PassportValiddate").val($(this).attr("data-PassportValiddate"));
+        $("#UIDAI").val($(this).attr("data-UIDAI"));
+        $("#UAN").val($(this).attr("data-UAN"));
+        $("#PF").val($(this).attr("data-PF"));
+        $("#ESIC").val($(this).attr("data-ESIC"));
+        $("#Drivinglicence").val($(this).attr("data-Drivinglicence"));
+        $("#ReferenceName").val($(this).attr("data-ReferenceName"));
+        $("#FName").val($(this).attr("data-FName"));
+        $("#Fdob").val($(this).attr("data-Fdob"));
+        $("#FUIDAI").val($(this).attr("data-FUIDAI"));
+        $("#FRelation").val($(this).attr("data-FRelation"));
+        $("#Flivingtogether").val($(this).attr("data-Flivingtogether"));
+        $("#MName").val($(this).attr("data-MName"));
+        $("#Mdob").val($(this).attr("data-Mdob"));
+        $("#MUIDAI").val($(this).attr("data-MUIDAI"));
+        $("#MRelation").val($(this).attr("data-MRelation"));
+        $("#Mlivingtogether").val($(this).attr("data-Mlivingtogether"));
+        $("#WName").val($(this).attr("data-WName"));
+        $("#Wdob").val($(this).attr("data-Wdob"));
+        $("#WUIDAI").val($(this).attr("data-WUIDAI"));
+        $("#WRelation").val($(this).attr("data-WRelation"));
+        $("#Wlivingtogether").val($(this).attr("data-Wlivingtogether"));
+        $("#C1Name").val($(this).attr("data-C1Name"));
+        $("#C1dob").val($(this).attr("data-C1dob"));
+        $("#C1UIDAI").val($(this).attr("data-C1UIDAI"));
+        $("#C1Relation").val($(this).attr("data-C1Relation"));
+        $("#C1livingtogether").val($(this).attr("data-C1livingtogether"));
+        $("#C2Name").val($(this).attr("data-C2Name"));
+        $("#C2dob").val($(this).attr("data-C2dob"));
+        $("#C2UIDAI").val($(this).attr("data-C2UIDAI"));
+        $("#C2Relation").val($(this).attr("data-C2Relation"));
+        $("#C2livingtogether").val($(this).attr("data-C2livingtogether"));
+        $("#C3Name").val($(this).attr("data-C3Name"));
+        $("#C3dob").val($(this).attr("data-C3dob"));
+        $("#C3UIDAI").val($(this).attr("data-C3UIDAI"));
+        $("#C3Relation").val($(this).attr("data-C3Relation"));
+        $("#C3livingtogether").val($(this).attr("data-C3livingtogether"));
+        $("#DrivingValiddate").val($(this).attr("data-drivingvalidup"));
+        $("#GodownID").val($(this).attr("data-godown"));
+        $("#Email").val($(this).attr("data-Email"));
+        $("#MaritalStatus").val($(this).attr("data-MaritalStatus"));
+        $("#CreatedBy").val($(this).attr("data-createdby"));
+        $("#CreatedOn").val($(this).attr("data-createdon"));
+        $("#UserNameUpdate").val($(this).attr("data-username"));
+
+        $("#DateofLeaving").val($(this).attr("data-dateofleaving"));
+
+        var value = ($(this).attr("data-isdelete"));
+        if (value == 'True') {
+            $("#IsDelete").prop('checked', true);
+        }
+        else {
+            $("#IsDelete").prop('checked', false);
+        }
+        $("#FSSAIDoctorCertificateValidity").val($(this).attr("data-fssaidoctorcertificatevaliditystr"));
+        $("#lblFSSAIDoctorCertificate").text($(this).attr("data-fssaidoctorcertificate"));
+        $("html, body").animate({ scrollTop: 0 }, "slow");
+    });
+
+    $('.lstemployee').on('click', '.lnkAddDocuments', function () {
+        debugger;
+        var EmployeeCode = $(this).attr("data-employeecode");
+        var url = '@Url.Action("AddDocuments", "Admin", new { EmployeeCode = "__EmployeeCode__" })';
+        url = url.replace(/amp;/g, '');
+        window.location.href = url.replace('__EmployeeCode__', EmployeeCode);
+    });
+
+    $(".btnclosepopup").click(function () {
+        $('#openchangepasswordpopup').removeClass("modal fade modal-overflow in");
+        $('#openchangepasswordpopup').removeAttr('style');
+        $('#openchangepasswordpopup').addClass("modal fade");
+    });
+
+    $('.lstemployee').on('click', '.btnopenchangepasswordpopup', function () {
+        debugger;
+        var UserID = $(this).attr("data-userid");
+        var UserName = $(this).attr("data-username");
+        var Password = $(this).attr("data-password");
+        clearcontents(UserID, UserName, Password);
+        $("#openchangepasswordpopup").removeClass("modal fade").addClass("modal fade modal-overflow in");
+        $("#openchangepasswordpopup").css("display", "block");
+    });
+
+    function clearcontents(UserID, UserName, Password) {
+        debugger;
+        $('#UserID').val(UserID);
+        $('#UserName1').val(UserName);
+        $('#OldPassword').val(Password);
+    }
+
+    $("#btnChangePassword").click(function () {
+        debugger;
+        var NewPassword = $("#NewPassword").val();
+        var ConfirmNewPassword = $("#ConfirmNewPassword").val();
+        var UserID = $("#UserID").val();
+        var UserName = $("#UserName1").val();
+        var OldPassword = $("#OldPassword").val();
+        if (NewPassword != "" && ConfirmNewPassword != "") {
+            if (NewPassword == ConfirmNewPassword) {
+                $.ajax({
+                    @*url: '@Url.Action("ResetUserPassword", "Admin")',*@
+                    url: '@Url.Action("ResetUserPassword")',
+                    type: 'POST',
+                    data: { 'UserID': UserID, 'UserName': UserName, 'OldPassword': OldPassword, 'NewPassword': NewPassword, 'ConfirmNewPassword': ConfirmNewPassword },
+                    cache: false,
+                }).done(function (result) {
+                    if (result.Oldpassmatch == false) {
+                        alert("Old password do not match..!");
+                    }
+                    else if (result.Passchange == true) {
+                        alert("Password change successfully..!");
+                        window.location.href = result.redirectUrl;
+                        $("#NewPassword").val("");
+                        $("#ConfirmNewPassword").val("");
+                    }
+                    else if (result.isRedirect) {
+                        window.location.href = result.redirectUrl;
+                    }
+                    else if (result.Passchange == false) {
+                        alert("Somthing went wrong please check data..!");
+                    }
+                });
+            }
+            else {
+                alert("new password and confirm password do not match..!");
+                $("#NewPassword").focus();
+                $("#NewPassword").val("");
+                $("#ConfirmNewPassword").val("");
+                return null;
+            }
+        }
+        else {
+            alert("enter password");
+            $("#NewPassword").focus();
+            return null;
+        }
+    });
+
+
+</script>
+
+
+

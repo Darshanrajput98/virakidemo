@@ -1,0 +1,104 @@
+﻿@model List<vb.Data.CustomerListResponse>
+
+<div class="box">
+    <div class="box-header text-center">
+        <h3 class="box-title">Customer Call List</h3>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body">
+        <table id="ListDataTable" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th class="nosort">Customer</th>
+                    <th class="nosort">Area</th>
+                    <th class="nosort">Day of Week</th>
+                    <th class="nosort">Sales Person</th>
+                    <th class="nosort">Contact No</th>
+                    <th class="nosort">Call Week1</th>
+                    <th class="nosort">Call Week2</th>
+                    <th class="nosort">Call Week3</th>
+                    <th class="nosort">Call Week4</th>
+                    <th class="nosort">Do Not Disturb</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td id="row" @item.CustomerID>
+                            @item.CustomerName
+                        </td>
+                        <td>
+                            @item.AreaName
+                        </td>
+                        <td>
+                            @item.DaysofWeekstr
+                        </td>
+                        <td>
+                            @item.UserName
+                        </td>
+                        <td>
+                            @item.ContactNumber
+                        </td>
+                        <td>
+                            @if (item.CallWeek1 == true)
+                            {
+                                <img src="../../dist/img/right.png" class="user-image" alt="User Image">
+                            }
+                            else
+                            {
+                                <img src="../../dist/img/cross.png" class="user-image" alt="User Image">
+                            }
+                        </td>
+                        <td>
+                            @if (item.CallWeek2 == true)
+                            {
+                                <img src="../../dist/img/right.png" class="user-image" alt="User Image">
+                            }
+                            else
+                            {
+                                <img src="../../dist/img/cross.png" class="user-image" alt="User Image">
+                            }
+                        </td>
+                        <td>
+                            @if (item.CallWeek3 == true)
+                            {
+                                <img src="../../dist/img/right.png" class="user-image" alt="User Image">
+                            }
+                            else
+                            {
+                                <img src="../../dist/img/cross.png" class="user-image" alt="User Image">
+                            }
+                        </td>
+                        <td>
+                            @if (item.CallWeek4 == true)
+                            {
+                                <img src="../../dist/img/right.png" class="user-image" alt="User Image">
+                            }
+                            else
+                            {
+                                <img src="../../dist/img/cross.png" class="user-image" alt="User Image">
+                            }
+                        </td>
+                        <td>
+                            @item.DoNotDisturbstr
+                        </td>
+                    </tr>
+                }
+            </tbody>
+
+        </table>
+    </div>
+    <!-- /.box-body -->
+</div>
+
+<script>
+    $("#ListDataTable").DataTable({
+        'aoColumnDefs': [{
+            'bSortable': false,
+            'aTargets': ['nosort'] /* 1st one, start by the right */
+
+        }],
+        'aaSorting': []
+    });
+</script>

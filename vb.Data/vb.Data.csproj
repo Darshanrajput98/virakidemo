@@ -1,0 +1,666 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{77DECE03-D49B-400F-A060-F5EBAF58F2B1}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>vb.Data</RootNamespace>
+    <AssemblyName>vb.Data</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Model\AllowanceDetail_Master.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\AllowanceStatus_Mst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\Allowance_Master.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\AreaPincode_SubMst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\Area_Mst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\AuthorizeMaster.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\AuthToken_Mst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\Bank_Mst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\BarcodeCount_Mst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\BestBeforeMonth.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\Broker_Mst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\Category_Mst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\ChallanQty_Mst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\Challan_Mst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\CheckReturn_Mst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\ColdStorage_InwardQty_Mst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\ColdStorage_Inward_Mst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\ColdStorage_Mst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\ColdStorage_Outward_Mst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\CountryWiseProductName_Mst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\Country_Mst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\Currency_Mst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\CustomerAddress.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\CustomerGroup_Mst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\Customer_Mst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\DailyAttendance_Mst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\DeActiveHistory_Mst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\DebitAccountType_Mst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\DeliveryAllocation_Mst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\Delivery_Mst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\Document_Master.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\Driver_Mst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\DynamicMenuMaster.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\EarnedLeaves_Mst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\EducationSlab_Mst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\EInvoiceCreditMemo_Mst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\EInvoiceErrorDetails_Mst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\EInvoice_Mst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\ESIC_Mst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\EventDate_Mst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\Event_Mst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\EWayBillChallan_Mst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\EWayBill_Mst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\ExpenseDebitAccountType_Mst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\ExpensePayment_Mst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\ExpenseProduct_Mst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\ExpenseQty_Mst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\ExpenseSupplierContact_Master.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\ExpenseSupplier_Master.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\ExpensesVoucher_Mst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\ExpenseType_Mst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\Expense_Mst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\ExportOrderQty_Mst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\ExportOrder_Mst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\Festival_Mst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\FormSixteenDetail_Mst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\FormSixteenTexableIncome.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\FormSixteen_Mst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\Godown_Mst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\Gratuity_Hisab_Mst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\Gratuity_Mst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\GroundStockTransfer_Inward_Mst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\GroundStockTransfer_Mst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\GroundStock_Inward_Mst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\GroundStock_Mst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\GroundStock_Outward_Mst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\GuiLabel.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\GuiLanguage.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\InwardOutward_Mst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LeaveApplication_Mst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LeaveEncashment_Mst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\Licence_Mst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\Login_Mst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\MachineRawPunch.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\MLWF_Mst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\NewDailyAttendance_Mst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\OnlineOrderQty_Mst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\OnlineOrder_Mst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\OnlineProductQty_Mst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\OrderQty_Mst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\Order_Mst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\PackageStation_Mst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\PackedBy_Mst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\Payment_Mst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\PF_Mst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\PouchCost_Mst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\PouchInwardOutward_Mst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\PouchName_Mst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\PouchTransfer_Mst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\Pouch_Mst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\PowderSpices_Mst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\PreMixQty_Mst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\PreMix_Mst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\ProductQty_Mst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\Product_Mst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\PT_Mst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\PurcahsePayment_Mst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\PurchaseDebitAccountType_Mst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\PurchaseProduct_Mst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\PurchaseQty_Mst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\PurchaseTDSCategory_Mst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\PurchaseType_Mst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\Purchase_Mst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\Resignation_Mst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\RetailExpenseVoucherPayment_Mst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\RetAreaMst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\RetChallanMst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\RetChallanQtyMst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\RetCheckReturn_Mst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\RetCustomerAddress.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\RetCustomerCategoryDiscountMst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\RetCustomerGroupMst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\RetCustomerMst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\RetCustomerProductDiscountMst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\RetDeliveryAllocationMst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\RetDeliveryMst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\RetEInvoiceCreditMemo_Mst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\RetEInvoiceErrorDetails_Mst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\RetEInvoice_Mst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\RetEWayBillChallan_Mst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\RetEWayBill_Mst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\RetGodownMst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\RetOrderMst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\RetOrderQtyMst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\RetPackSummaryQty_Mst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\RetPackSummary_Mst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\RetPaymentMst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\RetProdGui.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\RetProdQtyGui.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\RetProductArticleCodeMst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\RetProductCategoryMst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\RetProductMst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\RetProductQtyMst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\RetReturnOrderMst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\RetReturnOrderQntyMst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\RetTaxMst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\RetTransportMst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\RetUnitMst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\ReturnOrderQnty_Mst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\ReturnOrderQty_Mst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\ReturnOrder_Mst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\ReturnRetailOrderQtyMst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\Role_Mst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\SalaryPayment_Mst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\SalarySheet_Master.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\SupplierContact_Master.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\Supplier_Master.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\SurchargeSlab_Mst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\TaxSlab_Mst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\Tax_Mst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\TCS_Mst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\TDSCategory_Mst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\TimeZoneMaster.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\TransferAmount_Mst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\Transport_Mst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\Unit_Mst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\User.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\User_Mst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\UtilityCost_Mst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\UtilityInwardOutward_Mst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\UtilityName_Mst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\UtilityTransfer_Mst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\Utility_Mst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\VehicleCosting_Mst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\VehicleDetail_Mst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\VehicleInwardCost_Mst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\Viraki.Context.cs">
+      <DependentUpon>Viraki.Context.tt</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Include="Model\Viraki.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Include="Model\Viraki.Designer.cs">
+      <DependentUpon>Viraki.edmx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Include="Model\webpages_Membership.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\webpages_OAuthMembership.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\webpages_Roles.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\WholeMaterial_Mst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\WholesaleExpenseVoucherPayment_Mst.cs">
+      <DependentUpon>Viraki.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModel\Admin.cs" />
+    <Compile Include="ViewModel\Attandance.cs" />
+    <Compile Include="ViewModel\BaseSqlManager.cs" />
+    <Compile Include="ViewModel\BaseSqlManager_Old_copy.cs" />
+    <Compile Include="ViewModel\Padtar.cs" />
+    <Compile Include="ViewModel\GroundStock.cs" />
+    <Compile Include="ViewModel\ColdStorage.cs" />
+    <Compile Include="ViewModel\CommonMethod.cs" />
+    <Compile Include="ViewModel\CustGroupProductWiseSales.cs" />
+    <Compile Include="ViewModel\CustGroupSalesManWiseSales.cs" />
+    <Compile Include="ViewModel\Customer.cs" />
+    <Compile Include="ViewModel\DayWiseSalesList.cs" />
+    <Compile Include="ViewModel\Delivery.cs" />
+    <Compile Include="ViewModel\DynamicMenuModel.cs" />
+    <Compile Include="ViewModel\EWayBill.cs" />
+    <Compile Include="ViewModel\ExcelHelper.cs" />
+    <Compile Include="ViewModel\Expenses.cs" />
+    <Compile Include="ViewModel\MainMenu.cs" />
+    <Compile Include="ViewModel\Membership.cs" />
+    <Compile Include="ViewModel\Order.cs" />
+    <Compile Include="ViewModel\Payment.cs" />
+    <Compile Include="ViewModel\Pouch.cs" />
+    <Compile Include="ViewModel\Product.cs" />
+    <Compile Include="ViewModel\FestivalProductWiseSalesList.cs" />
+    <Compile Include="ViewModel\Purchase.cs" />
+    <Compile Include="ViewModel\SalesManWiseSalesList.cs" />
+    <Compile Include="ViewModel\ProductWiseSalesList.cs" />
+    <Compile Include="ViewModel\RetAdmin.cs" />
+    <Compile Include="ViewModel\RetCustomer.cs" />
+    <Compile Include="ViewModel\RetDayWiseSalesList.cs" />
+    <Compile Include="ViewModel\RetDelivery.cs" />
+    <Compile Include="ViewModel\RetOrder.cs" />
+    <Compile Include="ViewModel\RetPayment.cs" />
+    <Compile Include="ViewModel\RetProduct.cs" />
+    <Compile Include="ViewModel\SubMenu.cs" />
+    <Compile Include="ViewModel\Supplier.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EntityDeploy Include="Model\Viraki.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>Viraki.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.Config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Model\Viraki.Context.tt">
+      <DependentUpon>Viraki.edmx</DependentUpon>
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Viraki.Context.cs</LastGenOutput>
+    </None>
+    <None Include="Model\Viraki.edmx.diagram">
+      <DependentUpon>Viraki.edmx</DependentUpon>
+    </None>
+    <None Include="Model\Viraki.tt">
+      <DependentUpon>Viraki.edmx</DependentUpon>
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Viraki.cs</LastGenOutput>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

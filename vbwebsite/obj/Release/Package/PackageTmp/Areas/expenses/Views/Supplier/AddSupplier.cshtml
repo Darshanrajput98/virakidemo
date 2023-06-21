@@ -1,0 +1,566 @@
+﻿@{
+    ViewBag.Title = "AddSupplier";
+    Layout = "~/Areas/expenses/Views/Shared/_expenseslayout.cshtml";
+}
+@using vb.Data.ViewModel
+
+<div class="box box-default">
+    <div class="box-header with-border text-center">
+        <h3 class="box-title">Add Supplier</h3>
+    </div>
+    <form id="frmSupplier" class="form-horizontal">
+        <div class="box-body">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <input name="SupplierID" id="SupplierID" type="hidden" value="" />
+                    <input name="CreatedBy" id="CreatedBy" type="hidden" value="" />
+                    <input name="CreatedOn" id="CreatedOn" type="hidden" value="" />
+                    <label for="SupplierName" class="col-sm-4 control-label">Name</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="SupplierName" id="SupplierName" placeholder="Supplier Name" tabindex="1" autocomplete="off" required="required">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="TaxType" class="col-sm-4 control-label">Tax Type</label>
+                    <div class="col-sm-8">
+                        @Html.DropDownList("TaxID", new SelectList(ViewBag.Tax, "TaxID", "TaxName"), "Select Tax", new { @class = "form-control select2", required = "required" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="BankName" class="col-sm-4 control-label">Bank Name </label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="BankName" placeholder="Bank Name" autocomplete="off">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="AccountNumber" class="col-sm-4 control-label"> A/C  No. </label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="AccountNumber" placeholder="Account Number" autocomplete="off">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="TaxType" class="col-sm-4 control-label">TDS Category</label>
+                    <div class="col-sm-8">
+                        @Html.DropDownList("TDSCategoryID", new SelectList(ViewBag.TDSCategory, "TDSCategoryID", "TDSCategory"), "Select TDS Category", new { @class = "form-control select2" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="NameAsBankAccount" class="col-sm-4 control-label">Name As Per Bank Account</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="NameAsBankAccount" placeholder="Name As Per Bank Account" autocomplete="off">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="GSTNo" class="col-sm-4 control-label">GST No</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="GSTNo" id="GSTNo" placeholder="GST Number" tabindex="4" autocomplete="off">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="PanCardNumber" class="col-sm-4 control-label">Pan No.</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="PanCardNumber" id="PanCardNumber" placeholder="Pan Card Number" tabindex="13" autocomplete="off">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="Branch" class="col-sm-4 control-label">Branch </label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="Branch" placeholder="Branch" autocomplete="off">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="IFSCCode" class="col-sm-4 control-label">IFSC Code</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="IFSCCode" placeholder="IFSC Code" autocomplete="off">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="TDSPercentage" class="col-sm-4 control-label"> TDS(%) </label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="TDSPercentage" placeholder="TDSPercentage " autocomplete="off">
+                    </div>
+                </div>
+            </div>
+
+            @*Address 1*@
+            <div class="col-md-12">
+                <div class="box-header with-border text-center">
+                    <h3 class="box-title">Address 1</h3>
+                </div>
+                <div class="box-body">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="AddressOneLine1" class="col-sm-4 control-label">Address Line1</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" name="AddressOneLine1" id="AddressOneLine1" placeholder="Address Line1" tabindex="13" autocomplete="off">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="Area" class="col-sm-4 control-label">Area</label>
+                            <div class="col-sm-8">
+                                @Html.DropDownList("AreaIDOne", new SelectList(ViewBag.Area, "AreaID", "AreaName"), "Select Area", new { @class = "form-control", tabindex = "3" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="AddressOnePincode" class="col-sm-4 control-label">Pin Code</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" name="AddressOnePincode" id="AddressOnePincode" placeholder="Pincode" tabindex="4" autocomplete="off">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="AddressOneLine2" class="col-sm-4 control-label">Address Line2</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" name="AddressOneLine2" id="AddressOneLine2" placeholder="Address Line2" tabindex="13" autocomplete="off">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="State1" class="col-sm-4 control-label">State</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" name="StateOne" id="StateOne" placeholder="State" tabindex="4" autocomplete="off">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div id="AddressListOne" class="form-horizontal">
+                            <div class="box-header with-border text-center">
+                                <h3 class="box-title">Add Contacts</h3>
+                            </div>
+                            <table class="table table-bordered table-bordered" id="ContactsOne">
+                                <thead>
+                                    <tr class="form-group">
+                                        <th class="nosort col-sm-4">Name</th>
+                                        <th class="nosort col-sm-2">Phone</th>
+                                        <th class="nosort col-sm-2">Mobile No</th>
+                                        <th class="nosort col-sm-2">Email</th>
+                                        <th class="nosort col-sm-2">Add</th>
+                                    </tr>
+                                </thead>
+                                <tr class="form-group" id="AddSupplierContacts1">
+                                    <td id="row">
+                                        <input type="text" class="form-control NameOne" name="lstAddressOne[0].NameOne" placeholder="Name" tabindex="13" autocomplete="off" />
+                                        <input name="SupplierContactID" class="hdnSupplierContactID" type="hidden" value="" />
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control PhoneNoOne" name="lstAddressOne[0].PhoneNoOne" placeholder="Phone No" tabindex="16" autocomplete="off" />
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control MobileNoOne" name="lstAddressOne[0].MobileNoOne" placeholder="Mobile No" tabindex="15" autocomplete="off" />
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control EmailOne" name="lstAddressOne[0].EmailOne" placeholder="Email" tabindex="16" autocomplete="off" />
+                                    </td>
+                                    <td>
+                                        <button type="button" class="btn btn-default addButton" style="width: 45px;"><i class="fa fa-plus" tabindex="17"></i></button>
+                                    </td>
+                                </tr>
+                                <tr class="form-group hide" id="AddMoreAddressOne">
+                                    <td id="row" class="">
+                                        <input type="text" class="form-control NameOne" name="lstAddressOne[1].NameOne" placeholder="Name" autocomplete="off" />
+                                        <input name="SupplierContactIDNew" class="hdnSupplierContactID" type="hidden" value="" />
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control  PhoneNoOne" name="PhoneNoOne" placeholder="Phone No" autocomplete="off" />
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control  MobileNoOne" name="MobileNoOne" placeholder="Mobile No" autocomplete="off" />
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control  EmailOne" name="EmailOne" placeholder="Email" autocomplete="off" />
+                                    </td>
+                                    <td>
+                                        <button type="button" class="btn btn-default removeButton" style="width: 45px;"> <i class="fa fa-minus"></i></button>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            @*Address 2*@
+            <div class="col-md-12">
+                <div class="box-header with-border text-center">
+                    <h3 class="box-title">Address 2</h3>
+                </div>
+                <div class="box-body">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="AddressTwoLine1" class="col-sm-4 control-label">Address Line1</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" name="AddressTwoLine1" id="AddressTwoLine1" placeholder="Address Line1" tabindex="13" autocomplete="off">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="Area" class="col-sm-4 control-label">Area</label>
+                            <div class="col-sm-8">
+                                @Html.DropDownList("AreaIDTwo", new SelectList(ViewBag.Area, "AreaID", "AreaName"), "Select Area", new { @class = "form-control", tabindex = "3" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="AddressTwoPincode" class="col-sm-4 control-label">Pin Code</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" name="AddressTwoPincode" id="AddressTwoPincode" placeholder="Pincode" tabindex="4" autocomplete="off">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="AddressTwoLine2" class="col-sm-4 control-label">Address Line2</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" name="AddressTwoLine2" id="AddressTwoLine2" placeholder="Address Line2" tabindex="13" autocomplete="off">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="StateTwo" class="col-sm-4 control-label">State</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" name="StateTwo" id="StateTwo" placeholder="State" tabindex="4" autocomplete="off">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div id="AddressListTwo" class="form-horizontal">
+                            <div class="box-header with-border text-center">
+                                <h3 class="box-title">Add Contacts</h3>
+                            </div>
+                            <table class="table table-bordered table-bordered" id="ContactsTwo">
+                                <thead>
+                                    <tr class="form-group">
+                                        <th class="nosort col-sm-4">Name</th>
+                                        <th class="nosort col-sm-2">Phone</th>
+                                        <th class="nosort col-sm-2">Mobile No</th>
+                                        <th class="nosort col-sm-2">Email</th>
+                                        <th class="nosort col-sm-2">Add</th>
+                                    </tr>
+                                </thead>
+                                <tr class="form-group" id="AddSupplierContacts2">
+                                    <td id="row">
+                                        <input type="text" class="form-control NameTwo" name="lstAddressTwo[0].NameTwo" placeholder="Name" tabindex="13" autocomplete="off" />
+                                        <input name="SupplierContactID" class="hdnSupplierContactID" type="hidden" value="" />
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control PhoneNoTwo" name="lstAddressTwo[0].PhoneNoTwo" placeholder="Phone No" tabindex="16" autocomplete="off" />
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control MobileNoTwo" name="lstAddressOne[0].MobileNoTwo" placeholder="Mobile No" tabindex="15" autocomplete="off" />
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control EmailTwo" name="lstAddressOne[0].EmailTwo" placeholder="Email" tabindex="16" autocomplete="off" />
+                                    </td>
+                                    <td>
+                                        <button type="button" class="btn btn-default addButton" style="width: 45px;"><i class="fa fa-plus" tabindex="17"></i></button>
+                                    </td>
+                                </tr>
+                                <tr class="form-group hide" id="AddMoreAddressTwo">
+                                    <td id="row" class="">
+                                        <input type="text" class="form-control NameTwo" name="lstAddressTwo[1].NameTwo" placeholder="Name" autocomplete="off" />
+                                        <input name="SupplierContactIDNew" class="hdnSupplierContactID" type="hidden" value="" />
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control  PhoneNoTwo" name="PhoneNoTwo" placeholder="Phone No" />
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control  MobileNoTwo" name="MobileNoTwo" placeholder="Mobile No" autocomplete="off" />
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control  EmailTwo" name="EmailTwo" placeholder="Email" autocomplete="off" />
+                                    </td>
+                                    <td>
+                                        <button type="button" class="btn btn-default removeButton" style="width: 45px;"> <i class="fa fa-minus"></i></button>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="box-footer ">
+            <div class="pull-right">
+                <button type="button" id="btnexport" class="btn btn-info" tabindex="19">Export To Excel</button>
+                <button type="button" id="btncancel" class="btn btn-default" tabindex="18">Cancel</button>
+                @*@if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.ASupplier.ToString()))
+                    {*@
+                <button type="button" id="btnsave" class="btn btn-info" tabindex="17">Save</button>
+                @*}*@
+            </div>
+        </div>
+    </form>
+
+    <div id="lstcase">
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var NameOneValidators = {
+            row: '.col-xs-2',   // The title is placed inside a <div class="col-xs-4"> element
+            validators: {
+                notEmpty: {
+                    message: 'The Name is required'
+                }
+            }
+        },
+            PhoneNoOneValidators = {
+                row: '.col-xs-2',
+                validators: {
+                    notEmpty: {
+                        message: 'The Phone No is required'
+                    },
+                    PhoneNoOne: {
+                        message: 'The Phone No is not valid'
+                    }
+                }
+            },
+            MobileNoOneValidators = {
+                row: '.col-xs-2',
+                validators: {
+                    notEmpty: {
+                        message: 'The  Mobile No is required'
+                    },
+                    MobileNoOne: {
+                        message: 'The  Mobile No is not valid'
+                    }
+                }
+            },
+            EmailOneValidators = {
+                row: '.col-xs-2',
+                validators: {
+                    notEmpty: {
+                        message: 'The  Email is required'
+                    },
+                    EmailOne: {
+                        message: 'The  Email is not valid'
+                    }
+                }
+            },
+            bookIndex = 0;
+        $('#AddressListOne')
+            // Add button click handler
+            .on('click', '.addButton', function () {
+                bookIndex++;
+                var $template = $('#AddMoreAddressOne'),
+                    $clone = $template
+                                    .clone()
+                                    .removeClass('hide')
+                                    .removeAttr('id')
+                                    .attr('data-book-index', bookIndex)
+                                    .insertBefore($template);
+                // Update the name attributes
+                $clone
+                     .find('[name="NameOne"]').attr('name', 'lstAddressOne[' + bookIndex + '].NameOne').end()
+                     .find('[name="PhoneNoOne"]').attr('name', 'lstAddressOne[' + bookIndex + '].PhoneNoOne').end()
+                     .find('[name="MobileNoOne"]').attr('name', 'lstAddressOne[' + bookIndex + '].MobileNoOne').end()
+                     .find('[name="EmailOne"]').attr('name', 'lstAddressOne[' + bookIndex + '].EmailOne').end();
+            })
+            // Remove button click handler
+            .on('click', '.removeButton', function () {
+                var $row = $(this).parents('.form-group'),
+                    index = $row.attr('data-book-index');
+                // Remove fields
+                $row.remove();
+            });
+    });
+</script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        var NameTwoValidators = {
+            row: '.col-xs-2',   // The title is placed inside a <div class="col-xs-4"> element
+            validators: {
+                notEmpty: {
+                    message: 'The Name is required'
+                }
+            }
+        },
+            PhoneNoTwoValidators = {
+                row: '.col-xs-2',
+                validators: {
+                    notEmpty: {
+                        message: 'The Phone No is required'
+                    },
+                    PhoneNoTwo: {
+                        message: 'The Phone No is not valid'
+                    }
+                }
+            },
+            MobileNoTwoValidators = {
+                row: '.col-xs-2',
+                validators: {
+                    notEmpty: {
+                        message: 'The  Mobile No is required'
+                    },
+                    MobileNoTwo: {
+                        message: 'The  Mobile No is not valid'
+                    }
+                }
+            },
+            EmailTwoValidators = {
+                row: '.col-xs-2',
+                validators: {
+                    notEmpty: {
+                        message: 'The  Email is required'
+                    },
+                    EmailTwo: {
+                        message: 'The  Email is not valid'
+                    }
+                }
+            },
+            bookIndex = 0;
+        $('#AddressListTwo')
+            // Add button click handler
+            .on('click', '.addButton', function () {
+                bookIndex++;
+                var $template = $('#AddMoreAddressTwo'),
+                    $clone = $template
+                                    .clone()
+                                    .removeClass('hide')
+                                    .removeAttr('id')
+                                    .attr('data-book-index', bookIndex)
+                                    .insertBefore($template);
+                // Update the name attributes
+                $clone
+                     .find('[name="NameTwo"]').attr('name', 'lstAddressTwo[' + bookIndex + '].NameTwo').end()
+                     .find('[name="PhoneNoTwo"]').attr('name', 'lstAddressTwo[' + bookIndex + '].PhoneNoTwo').end()
+                     .find('[name="MobileNoTwo"]').attr('name', 'lstAddressTwo[' + bookIndex + '].MobileNoTwo').end()
+                     .find('[name="EmailTwo"]').attr('name', 'lstAddressTwo[' + bookIndex + '].EmailTwo').end();
+            })
+            // Remove button click handler
+            .on('click', '.removeButton', function () {
+                var $row = $(this).parents('.form-group'),
+                    index = $row.attr('data-book-index');
+                // Remove fields
+                $row.remove();
+            });
+    });
+</script>
+
+
+<script>
+    $(document).ready(function () {
+        loadhtml();
+    });
+
+    function loadhtml() {
+        $.ajax({
+            url: '@Url.Action("SupplierList")',
+            type: 'GET',
+            cache: false,
+        }).done(function (result) {
+            $('#lstcase').html(result);
+        });
+    }
+
+    $("#btnsave").click(function () {
+        if (!($('#frmSupplier').parsley().validate())) {
+            return;
+        }
+        var lstContactDetail = [];
+        debugger;
+        $('#ContactsOne').children('tbody').children('tr:visible').each(function (index, row) {
+            // debugger;
+            if (row.children.length == 5) {
+                var dataAddress1 = new Object();
+                dataAddress1.SupplierContactID = $(row).find("input[type=hidden]")[0].value;
+                dataAddress1.AddressID = '1';
+                dataAddress1.Name = $(row).find("input")[0].value;
+                dataAddress1.PhoneNo = $(row).find("input")[2].value;
+                dataAddress1.MobileNo = $(row).find("input")[3].value;
+                dataAddress1.Email = $(row).find("input")[4].value;
+                if ((dataAddress1.PhoneNo != '') || (dataAddress1.MobileNo != '')) {
+                    lstContactDetail.push(dataAddress1);
+                }
+            }
+        });
+
+        $('#ContactsTwo').children('tbody').children('tr:visible').each(function (index, row) {
+            if (row.children.length == 5) {
+                var dataAddress2 = new Object();
+                dataAddress2.SupplierContactID = $(row).find("input[type=hidden]")[0].value;
+                dataAddress2.AddressID = '2';
+                dataAddress2.Name = $(row).find("input")[0].value;
+                dataAddress2.PhoneNo = $(row).find("input")[2].value;
+                dataAddress2.MobileNo = $(row).find("input")[3].value;
+                dataAddress2.Email = $(row).find("input")[4].value;
+                if ((dataAddress2.PhoneNo != '') || (dataAddress2.MobileNo != '')) {
+                    lstContactDetail.push(dataAddress2);
+                }
+            }
+        });
+
+        var datareq = new Object();
+        datareq.SupplierID = $("#SupplierID").val();
+        datareq.SupplierName = $("#SupplierName").val();
+        datareq.GSTNo = $("#GSTNo").val();
+        datareq.TaxID = $("#TaxID").val();
+        datareq.PanCardNumber = $("#PanCardNumber").val();
+        datareq.BankName = $("#BankName").val();
+        datareq.Branch = $("#Branch").val();
+        datareq.AccountNumber = $("#AccountNumber").val();
+        datareq.IFSCCode = $("#IFSCCode").val();
+        datareq.TDSCategoryID = $("#TDSCategoryID").val();
+        datareq.TDSPercentage = $("#TDSPercentage").val();
+        datareq.AddressOneLine1 = $("#AddressOneLine1").val();
+        datareq.AddressOneLine2 = $("#AddressOneLine2").val();
+        datareq.AreaIDOne = $("#AreaIDOne").val();
+        datareq.StateOne = $("#StateOne").val();
+        datareq.AddressOnePincode = $("#AddressOnePincode").val();
+        datareq.AddressTwoLine1 = $("#AddressTwoLine1").val();
+        datareq.AddressTwoLine2 = $("#AddressTwoLine2").val();
+        datareq.AreaIDTwo = $("#AreaIDTwo").val();
+        datareq.StateTwo = $("#StateTwo").val();
+        datareq.AddressTwoPincode = $("#AddressTwoPincode").val();
+        datareq.CreatedBy = $("#CreatedBy").val();
+        datareq.CreatedOn = $("#CreatedOn").val();
+        datareq.NameAsBankAccount = $("#NameAsBankAccount").val();
+        datareq.lstContactDetail = lstContactDetail;
+        $.ajax({
+            url: '@Url.Action("AddSupplier")',
+            type: 'POST',
+            data: { 'data': datareq },
+            cache: false,
+        }).done(function (result) {
+            if (result == 'True') {
+                if ($("#SupplierID").val() == "") {
+                    $('div#sucessalert').html("Supplier created successfully.");
+                }
+                else {
+                    $('div#sucessalert').html("Supplier updated successfully.");
+                }
+                showhidealert();
+                loadhtml();
+                clearform();
+            }
+        });
+    });
+
+    $("#btncancel").click(function () {
+        clearform();
+    });
+
+    function clearform() {
+        $("#frmSupplier").find("input").val("");
+        $("#TaxID").val("").trigger("change");
+        $("#TDSCategoryID").val("").trigger("change");
+        $("#AreaIDOne").val("").trigger("change");
+        $("#AreaIDTwo").val("").trigger("change");
+        if ($('#ContactsOne').find('tbody tr:visible').length > 1)
+            $('#ContactsOne').find('tbody tr:visible').not(':first').empty();
+        if ($('#ContactsTwo').find('tbody tr:visible').length > 1)
+            $('#ContactsTwo').find('tbody tr:visible').not(':first').empty();
+    }
+
+    $("#btnexport").click(function () {
+        debugger;
+        var url = '@Url.Action("ExportExcelSupplier", "Supplier")';
+        window.location.href = url.replace();
+    });
+</script>
+
+
+

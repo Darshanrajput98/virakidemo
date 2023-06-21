@@ -1,0 +1,92 @@
+﻿@{
+    ViewBag.Title = "SearchVehicleCosting";
+    Layout = "~/Areas/wholesale/Views/Shared/_wholesalelayout.cshtml";
+}
+
+<div class="box box-default">
+    <div class="box-header with-border text-center">
+        <h3 class="box-title">Vehicle Costing Report</h3>
+    </div>
+    <form id="frmCustomerGroup" class="form-horizontal">
+        <div class="box-body">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="FromDate" class="col-sm-4 control-label">From Date</label>
+                    <div class="col-sm-8">
+                        <div class="input-group date">
+                            <div class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
+                            </div>
+                            <input type="text" class="form-control pull-right datepicker" id="FromDate" tabindex="1" autocomplete="off">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="ToDate" class="col-sm-4 control-label">To Date</label>
+                    <div class="col-sm-8">
+                        <div class="input-group date">
+                            <div class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
+                            </div>
+                            <input type="text" class="form-control pull-right datepicker" id="ToDate" tabindex="2" autocomplete="off">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="Godown" class="col-sm-4 control-label">Tempo Number</label>
+                    <div class="col-sm-8">
+                        @Html.DropDownList("VehicleDetailID", new SelectList(ViewBag.TempoNumber, "VehicleDetailID", "VehicleNumber"), "Select VehicleNo", new { @multiple = "multiple", @class = "form-control select2", required = "required" })
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="box-footer ">
+            <div class="pull-right">
+                <button type="button" id="btnsearch" class="btn btn-info" tabindex="18">Search</button>
+                <button type="button" id="btnexport" class="btn btn-info" tabindex="20">Export To Excel</button>
+            </div>
+        </div>
+    </form>
+    <div id="lstcase">
+    </div>
+    @*<div id="lstcase2">
+        </div>*@
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script>
+    $("#btnsearch").click(function () {
+        debugger;
+        var FromDate = $("#FromDate").val();
+        var ToDate = $("#ToDate").val();
+        var Array = $("#VehicleDetailID").val();
+        var VehicleDetailIDs = Array.join(",");
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("SearchVehicleCostingList")',
+            data: { 'FromDate': FromDate, 'ToDate': ToDate, 'VehicleDetailIDs': VehicleDetailIDs },
+            success: function (result) {
+                debugger;
+                $('#lstcase').html(result);
+            },
+            error: function () { alert('Error'); }
+        });
+    });
+
+
+    $("#btnexport").click(function () {
+        debugger;
+        var FromDate = $("#FromDate").val();
+        var ToDate = $("#ToDate").val();
+        var Array = $("#VehicleDetailID").val();
+        var VehicleDetailIDs = Array.join(",");
+        var url = '@Url.Action("ExportExceVehicleCosting", "Expenses", new { FromDate = "__FromDate__", ToDate = "__ToDate__", VehicleDetailIDs = "__VehicleDetailIDs__" })';
+        url = url.replace(/amp;/g, '');
+        window.location.href = url.replace('__FromDate__', FromDate).replace('__ToDate__', ToDate).replace('__VehicleDetailIDs__', VehicleDetailIDs);
+    });
+
+</script>

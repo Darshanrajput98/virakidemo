@@ -1,0 +1,223 @@
+﻿@model List<vb.Data.ChallanListResponse>
+
+<div class="box">
+    <div class="box-header text-center">
+        <h3 class="box-title">Challan List</h3>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body">
+        <table id="ListDataTable" class="table table-bordered table-striped lstbillwiseorder">
+            <thead>
+                <tr>
+                    <th class="nosort">Challan Number</th>
+                    <th class="nosort">Date</th>
+                    <th class="nosort">From</th>
+                    <th class="nosort">To</th>
+                    <th class="nosort">Challan Total</th>
+                    <th class="nosort">View Invoice</th>
+                    <th class="nosort">Print Invoice</th>
+                    <th class="nosort">E Way Number</th>
+                    <th class="nosort">Edit</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td id="row" @item.ChallanID>
+                            @item.ChallanNumber
+                        </td>
+                        <td>
+                            @item.CreatedOn.ToString("MM-dd-yyyy")
+                        </td>
+                        <td>
+                            @item.From_Place
+                        </td>
+                        <td>
+                            @item.To_Place
+                        </td>
+                        <td>
+                            @item.ChallanTotal.ToString("0.00")
+                        </td>
+                        <td>
+                            <input class="btnViewInvoice" type="button" value="View Challan" data-challannumber="@item.ChallanNumber" />
+                        </td>
+                        <td>
+                            <input id="btnPrintInvoice" type="button" value="Print Challan" onclick="GetPrint(@item.ChallanID,'@item.ChallanNumber')" data-challanid="@item.ChallanID" />
+                        </td>
+
+                        <td>
+                            @if (item.EWayNumber != null && item.EWayNumber != "")
+                            {
+                                <input type="text" class="txtEWayNumber" value="@item.EWayNumber" disabled>
+                                <input type="hidden" class="hdnChallanID" value="@item.ChallanID" />
+                                <input type="hidden" class="hdnChallanNumber" value="@item.ChallanNumber" />
+                                <input class="btnSaveEWayNo" type="button" value="Save" disabled />
+                                <input class="btnPrintEWayNo" type="button" value="Print EWayBill" />
+                            }
+                            else
+                            {
+                                <input type="text" class="txtEWayNumber" value="@item.EWayNumber">
+                                <input type="hidden" class="hdnChallanID" value="@item.ChallanID" />
+                                <input type="hidden" class="hdnChallanNumber" value="@item.ChallanNumber" />
+                                <input class="btnSaveEWayNo" type="button" value="Save" />
+                                <input class="btnPrintEWayNo" type="button" value="Print EWayBill" disabled />
+                            }
+                        </td>
+                        <td>
+                            <a style="cursor:pointer;" class="btnedit" data-challanid="@item.ChallanID" data-challannumber="@item.ChallanNumber" data-ewaynumber="@item.EWayNumber">Edit</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <!-- /.box-body -->
+
+
+    <div id="responsive" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" style="padding-bottom: 0px;">
+                    <h4 class="modal-title">Update E Way Number</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row" style="margin-top:10px;">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <input name="ChallanID" id="ChallanID" type="hidden" value="" />
+                                <input name="ChallanNumber" id="ChallanNumber" type="hidden" value="" />
+                                <label for="EWayNumber" class="col-sm-4 control-label">E Way Number</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" name="EWayNumber" maxlength="100" id="EWayNumber" placeholder="E Way Number" tabindex="1">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btnupdate btn btn-info">Update</button>
+                    <button type="button" class="btnclosepopup btn btn-info" data-dismiss="modal" aria-hidden="true">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script type="text/javascript">
+
+    $('.datepicker').datepicker({
+        autoclose: true
+    });
+
+    $(".btnViewInvoice").click(function () {
+        debugger;
+        var url = '@Url.Action("ViewChallanNoWiseChallan", "Orders", new { ChallanNumber = "__challannumber__", txtfrom = "__txtfrom__", txtto = "__txtto__" })';
+        url = url.replace(/amp;/g, '');
+        window.location.href = url.replace('__challannumber__', $(this).attr("data-challannumber")).replace('__txtfrom__', $('#txtFrom').val()).replace('__txtto__', $('#txtTo').val());
+    });
+
+    function GetPrint(ChallanID, ChallanNumber) {
+        debugger;
+        $.ajax({
+            url: '@Url.Action("PrintChallan", "Orders")',
+            type: 'POST',
+            data: { 'ChallanID': ChallanID, 'ChallanNumber': ChallanNumber },
+            cache: false,
+        }).done(function (result) {
+            if (result != '') {
+                window.open(result, "newPage");
+            }
+        });
+    };
+
+    $(".btnSaveEWayNo").click(function () {
+        debugger;
+        var ChallanID = $(this).closest('tr').find('.hdnChallanID').val();
+        var ChallanNumber = $(this).closest('tr').find('.hdnChallanNumber').val();
+        var EWayNumber = $(this).closest('tr').find('.txtEWayNumber').val();
+        $.ajax({
+            url: '@Url.Action("UpdateEWayNumberForChallan", "Orders")',
+            type: 'POST',
+            data: { 'ChallanID': ChallanID, 'ChallanNumber': ChallanNumber, 'EWayNumber': EWayNumber },
+            cache: false,
+        }).done(function (result) {
+            if (result == true) {
+                $('div#sucessalert').html("E Way Number added successfully.");
+                showhidealert();
+                $('#btnsearch').click();
+            }
+            else {
+                alert("something went wrong")
+            }
+        });
+    });
+
+
+    $('.lstbillwiseorder').on('click', '.btnedit', function () {
+        debugger;
+        var ChallanID = $(this).attr("data-challanid");
+        var ChallanNumber = $(this).attr("data-challannumber");
+        var EWayNumber = $(this).attr("data-ewaynumber");
+        clearcontents(ChallanID, ChallanNumber, EWayNumber);
+        $("#responsive").removeClass("modal fade").addClass("modal fade modal-overflow in");
+        $("#responsive").css("display", "block");
+    });
+
+    function clearcontents(ChallanID, ChallanNumber, EWayNumber) {
+        debugger;
+        $('#ChallanID').attr('value', ChallanID);
+        $('#ChallanNumber').attr('value', ChallanNumber);
+        $('#EWayNumber').attr('value', EWayNumber);
+    }
+
+    $(".btnupdate").click(function () {
+        debugger;
+        var ChallanID = $("#ChallanID").val();
+        var ChallanNumber = $("#ChallanNumber").val();
+        var EWayNumber = $("#EWayNumber").val();
+        $.ajax({
+            url: '@Url.Action("UpdateEWayNumberForChallan", "Orders")',
+            type: 'POST',
+            data: { 'ChallanID': ChallanID, 'ChallanNumber': ChallanNumber, 'EWayNumber': EWayNumber },
+            cache: false,
+        }).done(function (result) {
+            if (result == true) {
+                $('div#sucessalert').html("E Way Number Updated successfully.");
+                showhidealert();
+                $('#btnsearch').click();
+            }
+            else {
+                alert("something went wrong")
+            }
+        });
+        $('#responsive').removeClass("modal fade modal-overflow in");
+        $('#responsive').removeAttr('style');
+        $('#responsive').addClass("modal fade");
+    });
+
+    $(".btnclosepopup").click(function () {
+        debugger;
+        $('#responsive').removeClass("modal fade modal-overflow in");
+        $('#responsive').removeAttr('style');
+        $('#responsive').addClass("modal fade");
+    });
+
+
+    $(".btnPrintEWayNo").click(function () {
+        var EWayNumber = $(this).closest('tr').find('.txtEWayNumber').val();
+        $.ajax({
+            url: '@Url.Action("EWayBillChallanPrint", "EWayBillChallan")',
+            type: 'POST',
+            data: { 'EwbNo': EWayNumber },
+            cache: false,
+        }).done(function (result) {
+            if (result != '') {
+                window.open(result, "newPage");
+            }
+        });
+    });
+</script>
+
+

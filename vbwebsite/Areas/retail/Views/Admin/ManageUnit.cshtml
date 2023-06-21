@@ -1,0 +1,115 @@
+﻿@{
+    ViewBag.Title = "ManageUnit";
+    Layout = "~/Areas/retail/Views/Shared/_retaillayout.cshtml";
+}
+@using vb.Data.ViewModel
+
+<div class="box box-default">
+    <div class="box-header with-border text-center">
+        <h3 class="box-title">Manage Unit</h3>
+    </div>
+    <form id="frmUnit" class="form-horizontal">
+        <div class="box-body">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <input name="UnitID" id="UUnitID" type="hidden" value="" />
+                    <label for="Code" class="col-sm-4 control-label">Language</label>
+                    <div class="col-sm-8">
+                        @Html.DropDownList("GuiID", new SelectList(ViewBag.GuiLanguage, "GuiID", "LanguageName"), "Select Language", new { @id = "GuiID", @class = "form-control select2", tabindex = "1", required = "required" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="Name" class="col-sm-4 control-label">Name</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="UnitName" id="UnitName" placeholder="Unit Name" tabindex="3" required="required">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="Code" class="col-sm-4 control-label">Code</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="UnitCode" id="UnitCode" placeholder="Unit Code" tabindex="1" required="required">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="Description" class="col-sm-4 control-label">Description </label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="UnitDescription" id="UnitDescription" placeholder="Unit Description" tabindex="2" required="required">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.box-body -->
+        <div class="box-footer ">
+            <div class="pull-right">
+                <button type="button" id="CancelUnit" class="btn btn-default" tabindex="5">Cancel</button>
+                @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.RAUNIT.ToString()))
+                {
+                    <button type="button" id="btnsavecase" class="btn btn-info" tabindex="4">Save</button>
+                }
+            </div>
+        </div>
+        <!-- /.box-footer -->
+    </form>
+    <div id="lstcase">
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script>
+    $(document).ready(function () {
+        loadhtml();
+    });
+
+    function loadhtml() {
+        $.ajax({
+            url: '@Url.Action("ManageUnitList")',
+            type: 'GET',
+            cache: false,
+        }).done(function (result) {
+            $('#lstcase').html(result);
+        });
+    }
+
+    $("#btnsavecase").click(function () {
+        if (!($('#frmUnit').parsley().validate())) {
+            return;
+        }
+        var datareq = new Object();
+        datareq.UnitID = $("#UUnitID").val();
+        datareq.GuiID = $("#GuiID").val();
+        datareq.UnitCode = $("#UnitCode").val();
+        datareq.UnitName = $("#UnitName").val();
+        datareq.UnitDescription = $("#UnitDescription").val();
+        $.ajax({
+            url: '@Url.Action("ManageUnit")',
+            type: 'POST',
+            data: { 'data': datareq },
+            cache: false,
+        }).done(function (result) {
+            if (result == true) {
+                if ($("#UnitID").val() == "") {
+                    $('div#sucessalert').html("Unit Add successfully.");
+                }
+                else {
+                    $('div#sucessalert').html("Unit updated successfully.");
+                }
+                showhidealert();
+                loadhtml();
+                clearform();
+            }
+        });
+    });
+
+    $("#CancelUnit").click(function () {
+        clearform();
+    });
+
+    function clearform() {
+        $("#frmUnit").find("input").val("");
+        $("#UnitID").val("").trigger("change");
+        $("#GuiID").val("").trigger("change");
+    }
+</script>
+

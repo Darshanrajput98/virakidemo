@@ -1,0 +1,130 @@
+﻿@{
+    ViewBag.Title = "AddExpenseDebitAccountType";
+    Layout = "~/Areas/expenses/Views/Shared/_expenseslayout.cshtml";
+}
+@using vb.Data.ViewModel
+<div class="box box-default">
+    <div class="box-header with-border text-center">
+        <h3 class="box-title">Add Debit Account Type</h3>
+    </div>
+    <form id="frmDebitAccountType" class="form-horizontal">
+        <div class="box-body">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <input name="ExpenseDebitAccountTypeID" id="ExpenseDebitAccountTypeID" type="hidden" value="" />
+                    <input type="hidden" id="CreatedBy" class="CreatedBy" value="" />
+                    <input type="hidden" id="CreatedOn" class="CreatedOn" value="" />
+                    <label for="Name" class="col-sm-4 control-label">Name</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="ExpenseDebitAccountType" maxlength="200" id="ExpenseDebitAccountType" placeholder="Debit Account Type" tabindex="1" required="required">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="AlternateName" class="col-sm-4 control-label">SGST</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" name="SGST" id="SGST" placeholder="SGST" tabindex="10" autocomplete="off">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="H-For" class="col-sm-4 control-label">H-For</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" name="H-For" id="HFor" placeholder="H-For" tabindex="11" autocomplete="off">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="CGST" class="col-sm-4 control-label">CGST</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" name="CGST" id="CGST" placeholder="CGST" tabindex="12" autocomplete="off">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="IGST" class="col-sm-4 control-label">IGST</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" name="IGST" id="IGST" placeholder="IGST" tabindex="13" autocomplete="off">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="box-footer ">
+            <div class="pull-right">
+                <button type="button" id="btncancel" class="btn btn-default" tabindex="3">Cancel</button>
+                @*@if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.APurchaseDebitAccountType.ToString()))
+                    {*@
+                <button type="button" id="btnsave" class="btn btn-info" tabindex="2">Save</button>
+                @*}*@
+            </div>
+        </div>
+    </form>
+    <div id="lstcase">
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script>
+    $(document).ready(function () {
+        loadhtml();
+    });
+
+    function loadhtml() {
+        $.ajax({
+            url: '@Url.Action("ExpenseDebitAccountTypeList")',
+            type: 'GET',
+            cache: false,
+        }).done(function (result) {
+            $('#lstcase').html(result);
+        });
+    }
+
+    $("#btnsave").click(function () {
+        if (!($('#frmDebitAccountType').parsley().validate())) {
+            return;
+        }
+        var datareq = new Object();
+        datareq.ExpenseDebitAccountTypeID = $("#ExpenseDebitAccountTypeID").val();
+        datareq.ExpenseDebitAccountType = $("#ExpenseDebitAccountType").val();
+        datareq.SGST = $("#SGST").val();
+        datareq.CGST = $("#CGST").val();
+        datareq.IGST = $("#IGST").val();
+        datareq.HFor = $("#HFor").val();
+        datareq.CreatedBy = $("#CreatedBy").val();
+        datareq.CreatedOn = $("#CreatedOn").val();
+        $.ajax({
+            url: '@Url.Action("AddExpenseDebitAccountType")',
+            type: 'POST',
+            data: { 'data': datareq },
+            cache: false,
+        }).done(function (result) {
+            if (result > 0) {
+                if ($("#ExpenseDebitAccountTypeID").val() == "") {
+                    $('div#sucessalert').html("Debit Account Type Add successfully.");
+                }
+                else {
+                    $('div#sucessalert').html("Debit Account Type updated successfully.");
+                }
+                showhidealert();
+                loadhtml();
+                clearform();
+            }
+        });
+    });
+
+    $("#btncancel").click(function () {
+        clearform();
+    });
+
+    function clearform() {
+        $("#frmDebitAccountType").find("input").val("");
+    }
+</script>
+
+

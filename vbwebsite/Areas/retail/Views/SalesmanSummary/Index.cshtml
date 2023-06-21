@@ -1,0 +1,49 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/retail/Views/Shared/_retaillayout.cshtml";
+}
+
+<h2>Day Wise Sales</h2>
+
+<div class="box box-default">
+    <form id="frmCustomerGroup" class="form-horizontal">
+        <div class="box-body">
+
+            <div class="box-body table-scrollable1">
+
+                <div class="lst">
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </form>
+
+
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+
+
+
+<script>
+    $(document).ready(function () {
+        debugger;
+        var ID = window.location.search.split('=')[1];
+        var date1 = window.location.search.split('=')[2];
+        $.ajax({
+            url: '@Url.Action("salesmanindivuduallist", "SalesmanSummary")',
+            type: 'POST',
+            data: { 'UserID': ID, 'Date': date1 },
+            cache: false,
+        }).done(function (result) {
+
+            $('.lst').html(result);
+
+        });
+    })
+</script>
+

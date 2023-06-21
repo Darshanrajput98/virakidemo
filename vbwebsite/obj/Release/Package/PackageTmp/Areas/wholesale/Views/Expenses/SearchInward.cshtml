@@ -1,0 +1,95 @@
+﻿
+@{
+    ViewBag.Title = "SearchInward";
+    Layout = "~/Areas/wholesale/Views/Shared/_wholesalelayout.cshtml";
+}
+@using vb.Data.ViewModel
+<div class="box box-default">
+    <div class="box-header with-border text-center">
+        <h3 class="box-title">Search Inward</h3>
+    </div>
+    <form id="frmSearchInward" class="form-horizontal">
+        <div class="box-body">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="FromDate" class="col-sm-4 control-label">From</label>
+                    <div class="col-sm-8">
+                        <div class="input-group date">
+                            <div class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
+                            </div>
+                            <input type="text" class="form-control pull-right datepicker" id="FromDate" tabindex="1" autocomplete="off">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @*<div class="col-md-6">
+                <div class="form-group">
+                    <label for="ToDate" class="col-sm-4 control-label">To</label>
+                    <div class="col-sm-8">
+                        <div class="input-group date">
+                            <div class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
+                            </div>
+                            <input type="text" class="form-control pull-right datepicker" id="ToDate" tabindex="2">
+                        </div>
+                    </div>
+                </div>
+            </div>*@
+        </div>
+        <!-- /.box-body -->
+        <div class="box-footer ">
+            <div class="pull-right">               
+                <button type="button" id="btnSearch" class="btn btn-info" tabindex="3">Search</button>
+                <button type="button" id="btnexport" class="btn btn-info" tabindex="4">Export To Excel</button>
+            </div>
+        </div>
+        <!-- /.box-footer -->
+    </form>
+    <div id="lstcase">
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script>
+    $(document).ready(function () {
+        debugger;
+        $("#btnSearch").click(function () {
+            debugger;
+            loadhtml();
+        });
+
+        function loadhtml() {
+            var FromDate = $("#FromDate").val();
+            var ToDate = $("#ToDate").val();
+            $.ajax({
+                url: '@Url.Action("SearchInwardList")',
+                type: 'POST',
+                data: { 'FromDate': FromDate},
+                cache: false,
+            }).done(function (result) {
+                $('#lstcase').html(result);
+            });
+        }
+
+        //$("#btnCancel").click(function () {
+        //    debugger;
+        //    $("#InvoiceNumber").val("");
+        //    $("#txtFrom").val("");
+        //    $("#txtTo").val("");
+        //    $("#CustomerID").val("").trigger("change");
+        //});
+    });
+
+    $("#btnexport").click(function () {
+        debugger;
+        var FromDate = $("#FromDate").val();
+       
+
+        var url = '@Url.Action("ExportExcelnward", "Expenses", new { FromDate = "__FromDate__"})';
+        url = url.replace(/amp;/g, '');
+        window.location.href = url.replace('__FromDate__', FromDate);
+    });
+</script>
+
+

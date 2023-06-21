@@ -1,0 +1,81 @@
+﻿@{
+    ViewBag.Title = "EInvoiceError";
+    Layout = "~/Areas/wholesale/Views/Shared/_wholesalelayout.cshtml";
+}
+
+<div class="box box-default">
+    <div class="box-header with-border text-center">
+        <h3 class="box-title">E-Invoice Error Report</h3>
+    </div>
+    <form id="frmEInvoiceError" class="form-horizontal">
+        <div class="box-body">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="Date" class="col-sm-4 control-label">Date</label>
+                    <div class="col-sm-8">
+                        <div class="input-group date">
+                            <div class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
+                            </div>
+                            <input type="text" class="form-control pull-right datepicker" id="Date" tabindex="1" autocomplete="off" required="required">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @*<div class="col-md-3">
+            </div>*@
+            <div class="col-md-3">
+                @*<div class="box-footer ">*@
+                    <div>
+                        <div class="pull-right">
+                            <button type="button" id="btnsearch" class="btn btn-info" tabindex="2">Search</button>
+                            <button type="button" id="btnexport" class="btn btn-info" tabindex="3">Export To Excel</button>
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </form>
+    <div id="lstcase">
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script>
+    $(document).ready(function () {
+        debugger;
+
+        $("#btnsearch").click(function () {
+            debugger;
+            loadhtml();
+        });
+
+        function loadhtml() {
+            debugger;
+            if (!($('#frmEInvoiceError').parsley().validate())) {
+                return;
+            }
+
+            var Date = $("#Date").val();
+            $.ajax({
+                url: '@Url.Action("EInvoiceErrorList")',
+                type: 'POST',
+                data: { 'Date': Date },
+                cache: false,
+            }).done(function (result) {
+                $('#lstcase').html(result);
+            });
+        }
+
+        $("#btnexport").click(function () {
+            debugger;
+            var Date = $("#Date").val();
+            var url = '@Url.Action("ExportExcelEInvoiceErrorList", "Orders", new { Date = "__Date__", })';
+            url = url.replace(/amp;/g, '');
+            window.location.href = url.replace('__Date__', Date);
+        });
+    });
+</script>
+
+
+
+

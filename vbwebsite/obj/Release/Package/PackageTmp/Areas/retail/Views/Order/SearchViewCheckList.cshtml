@@ -1,0 +1,409 @@
+﻿<style>
+    button.btn.btn-info.IsCheckDone {
+        outline: none;
+    }
+</style>
+
+<div class="box">
+    <div class="box-header text-center">
+        <h3 class="box-title">Check List</h3>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body">
+        <div class="modal-footer">
+            <label>Total : </label>
+            <label id="lbltotal" style="padding-right:20px;"></label>
+        </div>
+        <table id="ListDataTable" class="table table-bordered table-striped lstpackdetail">
+            <thead>
+                <tr>
+                    <th class="nosort">Order Number</th>
+                    <th class="nosort">OrderDate</th>
+                    <th class="nosort">Customer</th>
+                    <th class="nosort">PO Number</th>
+                    <th class="nosort">Area</th>
+                    <th class="nosort">Status</th>
+                    @*<td class="nosort">Select <input type="checkbox" class="chkSelectAll" checked="checked" /></td>*@
+                    <td class="nosort">Select <input type="checkbox" class="chkSelectAll" disabled="disabled" /></td>
+                    <th class="nosort">Print</th>
+                    <th class="nosort">Pack Detail</th>
+                    <th class="nosort">Tag</th>
+                    <th class="nosort">Is Done?</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    if (item.UpdateQuantity != 0 && item.IsCheckDone == false)
+                    {
+                        <tr>
+                            <td id=" row">
+                                <a style="cursor:pointer;" class="btneditorder" data-pid="@item.OrderID">@item.OrderNumber</a>
+                            </td>
+                            <td>
+                                <input type="hidden" id="hdnQuantity" class="hdnQuantity" value="@item.Quantity" />
+                                @item.OrderDate.ToString("dd-MMM-yyyy")
+                            </td>
+                            <td>
+                                @item.CustomerName
+                            </td>
+                            <td>
+                                @item.PONumber
+                            </td>
+                            <td>
+                                @item.AreaName
+                            </td>
+                            <td>@item.Status</td>
+                            <td>
+                                <input type="hidden" class="hdnOrderDate" value="@item.OrderDate.ToString("MM/dd/yyyy")" />
+                                <input type="hidden" class="hdnOrderID" value="@item.OrderID" />
+                                <input type="checkbox" class="chkSelect" />
+                            </td>
+                            <td>
+                                <a style="cursor:pointer;" class="btnprint" data-orderid="@item.OrderID" data-orderdate="@item.OrderDate">Print</a>
+                            </td>
+                            <td>
+                                <a style="cursor:pointer;" class="btnPackDetail" data-orderdate="@item.OrderDate.ToString("MM/dd/yyyy")" data-orderid="@item.OrderID">Pack Detail</a>
+                            </td>
+                            <td>
+                                <input type="hidden" class="hdnTag" value="@item.Tag" />
+                                @item.Tag
+                            </td>
+                            <td>
+                                <button class="btn btn-info IsCheckDone" name="IsCheckDone" data-orderid="@item.OrderID">Done</button>
+                            </td>
+                        </tr>
+                    }
+                    else if (item.IsCheckDone == true)
+                    {
+                        <tr style="background-color: #cdffcd;">
+                            <td id="row">
+                                <a style="cursor:pointer;" class="btneditorder" data-pid="@item.OrderID">@item.OrderNumber</a>
+                            </td>
+                            <td>
+                                <input type="hidden" id="hdnQuantity" class="hdnQuantity" value="@item.Quantity" />
+                                @item.OrderDate.ToString("dd-MMM-yyyy")
+                            </td>
+                            <td>
+                                @item.CustomerName
+                            </td>
+                            <td>
+                                @item.PONumber
+                            </td>
+                            <td>
+                                @item.AreaName
+                            </td>
+                            <td>@item.Status</td>
+                            <td>
+                                <input type="hidden" class="hdnOrderDate" value="@item.OrderDate.ToString("MM/dd/yyyy")" />
+                                <input type="hidden" class="hdnOrderID" value="@item.OrderID" />
+                                <input type="checkbox" class="chkSelect" />
+                            </td>
+                            <td>
+                                <a style="cursor:pointer;" class="btnprint" data-orderid="@item.OrderID" data-orderdate="@item.OrderDate">Print</a>
+                            </td>
+
+                            <td>
+                                <a style="cursor:pointer;" class="btnPackDetail" data-orderdate="@item.OrderDate.ToString("MM/dd/yyyy")" data-orderid="@item.OrderID">Pack Detail</a>
+                            </td>
+                            <td>
+                                <input type="hidden" class="hdnTag" value="@item.Tag" />
+                                @item.Tag
+                            </td>
+                            <td>
+                                <button class="btn btn-info IsCheckDone" name="IsCheckDone" data-orderid="@item.OrderID">Done</button>
+                            </td>
+                        </tr>
+                    }
+                    else
+                    {
+                        <tr style="background-color:#f2dede;">
+                            <td id="row">
+                                <a style="cursor:pointer;" class="btneditorder" data-pid="@item.OrderID">@item.OrderNumber</a>
+                            </td>
+                            <td>
+                                <input type="hidden" id="hdnQuantity" class="hdnQuantity" value="@item.Quantity" />
+                                @item.OrderDate.ToString("dd-MMM-yyyy")
+                            </td>
+                            <td>
+                                @item.CustomerName
+                            </td>
+                            <td>
+                                @item.PONumber
+                            </td>
+                            <td>
+                                @item.AreaName
+                            </td>
+                            <td>@item.Status</td>
+                            <td>
+                                <input type="hidden" class="hdnOrderDate" value="@item.OrderDate.ToString("MM/dd/yyyy")" />
+                                <input type="hidden" class="hdnOrderID" value="@item.OrderID" />
+                                <input type="checkbox" class="chkSelect" />
+                            </td>
+                            <td>
+                                <a style="cursor:pointer;" class="btnprint" data-orderid="@item.OrderID" data-orderdate="@item.OrderDate">Print</a>
+                            </td>
+
+                            <td>
+                                <a style="cursor:pointer;" class="btnPackDetail" data-orderdate="@item.OrderDate.ToString("MM/dd/yyyy")" data-orderid="@item.OrderID">Pack Detail</a>
+                            </td>
+                            <td>
+                                <input type="hidden" class="hdnTag" value="@item.Tag" />
+                                @item.Tag
+                            </td>
+                            <td>
+                                <button class="btn btn-info IsCheckDone" name="IsCheckDone" data-orderid="@item.OrderID">Done</button>
+                            </td>
+                        </tr>
+                    }
+
+                    @*if (item.IsCheckDone == false)
+                        {
+                            <tr>
+                                <td id=" row">
+                                    <a style="cursor:pointer;" class="btneditorder" data-pid="@item.OrderID">@item.OrderNumber</a>
+                                </td>
+                                <td>
+                                    <input type="hidden" id="hdnQuantity" class="hdnQuantity" value="@item.Quantity" />
+                                    @item.OrderDate.ToString("dd-MMM-yyyy")
+                                </td>
+                                <td>
+                                    @item.CustomerName
+                                </td>
+                                <td>
+                                    @item.PONumber
+                                </td>
+                                <td>
+                                    @item.AreaName
+                                </td>
+                                <td>@item.Status</td>
+                                <td>
+                                    <input type="hidden" class="hdnOrderDate" value="@item.OrderDate.ToString("MM/dd/yyyy")" />
+                                    <input type="hidden" class="hdnOrderID" value="@item.OrderID" />
+                                    <input type="checkbox" class="chkSelect" />
+                                </td>
+                                <td>
+                                    <a style="cursor:pointer;" class="btnprint" data-orderid="@item.OrderID" data-orderdate="@item.OrderDate">Print</a>
+                                </td>
+                                <td>
+                                    <a style="cursor:pointer;" class="btnPackDetail" data-orderdate="@item.OrderDate.ToString("MM/dd/yyyy")" data-orderid="@item.OrderID">Pack Detail</a>
+                                </td>
+                                <td>
+                                    <input type="hidden" class="hdnTag" value="@item.Tag" />
+                                    @item.Tag
+                                </td>
+                                <td>
+                                    <button class="btn btn-info IsCheckDone" name="IsCheckDone" data-orderid="@item.OrderID">Done</button>
+                                </td>
+                            </tr>
+                        }
+                        else
+                        {
+                            <tr style="background-color: #cdffcd;">
+                                <td id="row">
+                                    <a style="cursor:pointer;" class="btneditorder" data-pid="@item.OrderID">@item.OrderNumber</a>
+                                </td>
+                                <td>
+                                    <input type="hidden" id="hdnQuantity" class="hdnQuantity" value="@item.Quantity" />
+                                    @item.OrderDate.ToString("dd-MMM-yyyy")
+                                </td>
+                                <td>
+                                    @item.CustomerName
+                                </td>
+                                <td>
+                                    @item.PONumber
+                                </td>
+                                <td>
+                                    @item.AreaName
+                                </td>
+                                <td>@item.Status</td>
+                                <td>
+                                    <input type="hidden" class="hdnOrderDate" value="@item.OrderDate.ToString("MM/dd/yyyy")" />
+                                    <input type="hidden" class="hdnOrderID" value="@item.OrderID" />
+                                    <input type="checkbox" class="chkSelect" />
+                                </td>
+                                <td>
+                                    <a style="cursor:pointer;" class="btnprint" data-orderid="@item.OrderID" data-orderdate="@item.OrderDate">Print</a>
+                                </td>
+
+                                <td>
+                                    <a style="cursor:pointer;" class="btnPackDetail" data-orderdate="@item.OrderDate.ToString("MM/dd/yyyy")" data-orderid="@item.OrderID">Pack Detail</a>
+                                </td>
+                                <td>
+                                    <input type="hidden" class="hdnTag" value="@item.Tag" />
+                                    @item.Tag
+                                </td>
+                                <td>
+                                    <button class="btn btn-info IsCheckDone" name="IsCheckDone" data-orderid="@item.OrderID">Done</button>
+                                </td>
+                            </tr>
+                        }*@
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<script>
+    $("#ListDataTable").DataTable({
+        "paging": false,
+        "aaSorting": [],
+        'aoColumnDefs': [{
+            'bSortable': false,
+            'aTargets': ['nosort'] /* 1st one, start by the right */
+        }]
+    });
+
+    $('#ListDataTable').on('change', '.chkSelectAll', function () {
+        debugger;
+        if ($(this).closest("tr").find(".chkSelectAll").is(':checked')) {
+            $('#ListDataTable').children('tbody').children('tr:visible').each(function (index, row) {
+                debugger;
+                $(row).closest("tr").find(".chkSelect").prop('checked', true);
+                //New
+                var sum = 0;
+                $('#ListDataTable').children('tbody').children('tr:visible').each(function (index, row) {
+                    debugger;
+                    if ($(row).find('.chkSelect').is(':disabled') == false) {
+                        var ischk = $(row).find("input[type=checkbox]")[0];
+                        if ($(ischk).is(':checked')) {
+                            sum = +sum + +($(this).closest('tr').find(".hdnQuantity").val());
+                        }
+                    }
+                });
+                $("#lbltotal").text(sum);
+                //New
+            });
+        }
+        else {
+            $('#ListDataTable').children('tbody').children('tr:visible').each(function (index, row) {
+                debugger;
+                $(row).closest("tr").find(".chkSelect").prop('checked', false);
+                //New
+                $("#lbltotal").text(0);
+                //New
+            });
+        }
+    });
+
+    $('#ListDataTable').on('change', '.chkSelect', function () {
+        var cnt = 0;
+        debugger;
+        $('#ListDataTable').children('tbody').children('tr:visible').each(function (index, row) {
+            debugger;
+            if ($(row).closest("tr").find(".chkSelect").is(':checked')) {
+            }
+            else {
+                cnt = 1;
+            }
+        });
+        if (cnt == 0) {
+            $('#ListDataTable').children('thead').children('tr').find('.chkSelectAll').prop('checked', true);
+        }
+        else {
+            $('#ListDataTable').children('thead').children('tr').find('.chkSelectAll').prop('checked', false);
+        }
+        //New
+        var sum = 0;
+        $('#ListDataTable').children('tbody').children('tr:visible').each(function (index, row) {
+            debugger;
+            if ($(row).find('.chkSelect').is(':disabled') == false) {
+                var ischk = $(row).find("input[type=checkbox]")[0];
+                if ($(ischk).is(':checked')) {
+                    sum = +sum + +($(this).closest('tr').find(".hdnQuantity").val());
+                }
+            }
+        });
+        $("#lbltotal").text(sum);
+        //New
+    });
+
+
+    $(".btnprint").click(function () {
+        debugger;
+        var orderid = "";
+        var date = "";
+        $('#ListDataTable').children('tbody').children('tr:visible').each(function (index, row) {
+            debugger;
+            if ($(row).closest("tr").find(".chkSelect").is(':checked')) {
+                orderid = $(row).find(".hdnOrderID").val();
+                date = $(row).find(".hdnOrderDate").val();
+                Tag = $(row).find(".hdnTag").val();
+            }
+        });
+        if (orderid != "") {
+            $.ajax({
+                url: '@Url.Action("PrintCheckListSession","Order")',
+                type: 'POST',
+                data: { 'id': orderid, 'date': date, 'Tag': Tag },
+                cache: false,
+            }).done(function (result) {
+            });
+            var url = '@Url.Action("PrintCheckList", "Order", new { date = "__date__", orderid = "__orderid__", Tag = "__Tag__" })';
+            url = url.replace(/amp;/g, '');
+            window.location.href = url.replace('__date__', $("#PackageDate").val()).replace('__orderid__', orderid).replace('__Tag__', Tag);
+        }
+        else {
+            alert("please select order");
+        }
+    });
+
+    $('#ListDataTable').on('click', '.btneditorder', function () {
+        debugger;
+        var url = '@Url.Action("ManageOrders", "Order", new { id = "__id__" })';
+        url = url.replace(/amp;/g, '');
+        window.location.href = url.replace('__id__', $(this).attr("data-pid"));
+    });
+
+    $(".btnPackDetail").click(function () {
+        debugger;
+        var orderid = "";
+        var date = "";
+        $('#ListDataTable').children('tbody').children('tr:visible').each(function (index, row) {
+            debugger;
+            if ($(row).closest("tr").find(".chkSelect").is(':checked')) {
+                orderid = $(row).find(".hdnOrderID").val();
+                date = $(row).find(".hdnOrderDate").val();
+            }
+        });
+        if (orderid != "") {
+
+            var url = '@Url.Action("PackDetailList", "Order", new { date = "__date__", orderid = "__orderid__" })';
+            url = url.replace(/amp;/g, '');
+            window.location.href = url.replace('__date__', date).replace('__orderid__', orderid);
+        }
+        else {
+            alert("please select order");
+        }
+    });
+
+    //27-06-2022
+    $('#ListDataTable').on('click', '.IsCheckDone', function () {
+        debugger;
+        var orderid = $(this).attr("data-orderid");
+
+        $.ajax({
+            url: '@Url.Action("IsDoneCheckList", "Order")',
+            type: 'POST',
+            data: { 'OrderID': orderid },
+            cache: false,
+        }).done(function (result) {
+
+            var model = new Object();
+            model.date = $("#PackageDate").val();
+
+            debugger;
+            $.ajax({
+                url: '@Url.Action("SearchViewCheckList")',
+                type: 'POST',
+                data: { 'model': model },
+                cache: false,
+            }).done(function (result) {
+                $('#lstcase').html(result);
+            });
+
+        });
+       
+    });
+</script>

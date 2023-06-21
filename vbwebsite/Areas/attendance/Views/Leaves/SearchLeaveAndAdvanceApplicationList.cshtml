@@ -1,0 +1,420 @@
+﻿@model List<vb.Data.LeaveApplicationListResponse>
+@using vb.Data.ViewModel
+
+
+<div class="box">
+    <div class="box-header">
+        <h3 class="box-title">Leave Application List</h3>
+    </div>
+    <div class="box-body">
+        <table id="ListDataTable" class="table table-bordered table-striped lstpopup">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Application Date</th>
+                    <th>From Date</th>
+                    <th>To Date</th>
+                    @*<th>No of Days</th>*@
+                    <th>Reason</th>
+                    <th>Going To</th>
+                    <th>Advance Amt.</th>
+                    <th>Advance Reason</th>
+                    <th>Deduction/Month Amt.</th>
+
+                    <th>Approval From Date</th>
+                    <th>Approval To Date</th>
+                    <th>Approval Advance Amt.</th>
+
+
+                    <th>Leave Status</th>
+                    <th>Print</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            <input name="LeaveApplicationID" class="hdnLeaveApplicationID" type="hidden" value="@item.LeaveApplicationID" />
+                            @item.EmployeeName
+                        </td>
+                        <td>@item.ApplicationDate.ToString("dd/MM/yyyy")</td>
+
+
+                        @*<td>@item.FromDate.ToString("dd/MM/yyyy")</td>
+                            <td>@item.ToDate.ToString("dd/MM/yyyy")</td>*@
+
+                        <td>@item.lblFromDate</td>
+                        <td>@item.lblToDate</td>
+
+                        @*<td>@item.NoofDays</td>*@
+                        <td>@item.Reason</td>
+                        <td>@item.GoingTo</td>
+                        <td>@item.AdvanceAmount</td>
+                        <td>@item.AdvanceReason</td>
+                        <td>@item.DeductionPerMonthAmount</td>
+
+                        @*<td>@item.ApprovalFromDate.ToString("dd/MM/yyyy")</td>
+                            <td>@item.ApprovalToDate.ToString("dd/MM/yyyy")</td>*@
+
+                        <td>@item.lblApprovalFromDate</td>
+                        <td>@item.lblApprovalToDate</td>
+                        <td>@item.ApprovalAdvanceAmount</td>
+
+                        <td>
+                            @*@if (item.LeaveStatusID == 1)
+                                {*@
+                            <a style="cursor:pointer;" class="btnopenpopup"
+                               data-leaveapplicationid="@item.LeaveApplicationID"
+                               data-leavestatusid="@item.LeaveStatusID"
+                               data-employeename="@item.EmployeeName"
+                               data-applicationdate="@item.ApplicationDate.ToString("MM/dd/yyyy")"
+                               @*data-fromdate="@item.FromDate.ToString("MM/dd/yyyy")"
+                               data-todate="@item.ToDate.ToString("MM/dd/yyyy")"*@
+                               data-fromdate="@item.FromDatestr"
+                               data-todate="@item.ToDatestr"
+                               data-reason="@item.Reason"
+                               data-goingto="@item.GoingTo"
+                               data-advanceamount="@item.AdvanceAmount"
+                               data-advancereason="@item.AdvanceReason"
+                               data-approvalfromdate="@item.ApprovalFromDatestr"
+                               data-approvaltodate="@item.ApprovalToDatestr"
+                               data-approvaladvanceamount="@item.ApprovalAdvanceAmount">
+                                @item.LeaveStatus
+                            </a>
+                            @*}
+                                @if (item.LeaveStatusID == 2)
+                                {
+                                    @item.LeaveStatus
+                                }
+                                @if (item.LeaveStatusID == 3)
+                                {
+                                    @item.LeaveStatus
+                                }*@
+                        </td>
+                        @*<td>@item.LeaveStatus</td>*@
+                        <td><input type="button" value="Print Application" onclick="GetPrintLeaveApplication(@item.LeaveApplicationID)" /></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+
+
+        <div id="responsive" class="modal fade">
+            <div class="modal-dialog" style="width:800px">
+                <div class="modal-content">
+                    <div class="modal-header" style="padding-bottom: 0px;">
+                        <h4 class="modal-title">Leave Approval</h4>
+                    </div>
+                    <div class="">
+                        <div class="col-md-6">
+                            <div class="row" style="margin-top:10px;">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <input name="LeaveApplicationID" id="LeaveApplicationID" class="hdnLeaveApplicationID" type="hidden" value="" />
+                                        <label for="EmployeeName" class="col-sm-4 control-label">Name</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" name="EmployeeName" maxlength="1000" id="EmployeeName" placeholder="Employee Name" disabled="disabled">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top:10px;">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="FromDate" class="col-sm-4 control-label">From Date</label>
+                                        <div class="col-sm-8">
+                                            <div class="input-group date">
+                                                <div class="input-group-addon">
+                                                    <i class="fa fa-calendar"></i>
+                                                </div>
+                                                <input type="text" class="form-control pull-right datepicker" id="FromDate1" autocomplete="off" disabled="disabled">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top:10px;">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="Reason" class="col-sm-4 control-label">Reason</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" name="Reason" maxlength="1000" id="Reason" placeholder="Reason" disabled="disabled">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top: 10px; margin-bottom: 10px">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="AdvanceAmount" class="col-sm-4 control-label">Advance Amt.</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" name="Reason" maxlength="1000" id="AdvanceAmount" placeholder="AdvanceAmount" disabled="disabled">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="row" style="margin-top:10px;">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="ApplicationDate" class="col-sm-4 control-label">App. Date</label>
+                                        <div class="col-sm-8">
+                                            <div class="input-group date">
+                                                <div class="input-group-addon">
+                                                    <i class="fa fa-calendar"></i>
+                                                </div>
+                                                <input type="text" class="form-control pull-right datepicker" id="ApplicationDate" autocomplete="off" disabled="disabled">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top:10px;">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="ToDate" class="col-sm-4 control-label">To Date</label>
+                                        <div class="col-sm-8">
+                                            <div class="input-group date">
+                                                <div class="input-group-addon">
+                                                    <i class="fa fa-calendar"></i>
+                                                </div>
+                                                <input type="text" class="form-control pull-right datepicker" id="ToDate1" autocomplete="off" disabled="disabled">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top:10px;">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="GoingTo" class="col-sm-4 control-label">GoingTo</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" name="GoingTo" maxlength="1000" id="GoingTo" placeholder="GoingTo" disabled="disabled">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top:10px; margin-bottom:10px">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="AdvanceReason" class="col-sm-4 control-label">Adv. Reason</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" name="Reason" maxlength="1000" id="AdvanceReason" placeholder="AdvanceReason" disabled="disabled">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="">
+                        <div class="modal-header" style="margin-top: 0px;">
+                            <h4 class="modal-title" style="text-align:center">Approval</h4>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="row" style="margin-top:10px;">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="FromApprovalDate" class="col-sm-4 control-label">From Date</label>
+                                        <div class="col-sm-8">
+                                            <div class="input-group date">
+                                                <div class="input-group-addon">
+                                                    <i class="fa fa-calendar"></i>
+                                                </div>
+                                                <input type="text" class="form-control pull-right datepicker" id="ApprovalFromDate" autocomplete="off">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top:10px;">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="ApprovalAdvanceAmount" class="col-sm-4 control-label">Advance Amt.</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" name="Reason" maxlength="1000" id="ApprovalAdvanceAmount" placeholder="Approval Amount">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="row" style="margin-top:10px;">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="ToApprovalDate" class="col-sm-4 control-label">To Date</label>
+                                        <div class="col-sm-8">
+                                            <div class="input-group date">
+                                                <div class="input-group-addon">
+                                                    <i class="fa fa-calendar"></i>
+                                                </div>
+                                                <input type="text" class="form-control pull-right datepicker" id="ApprovalToDate" autocomplete="off">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row" style="margin-top:10px;">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="LeaveStatusID" class="col-sm-4 control-label">Leave Status</label>
+                                        <div class="col-sm-8">
+                                            <select name="LeaveStatusID" id="LeaveStatusID" class="form-control LeaveStatusID" required>
+                                                <option value="" selected>Select</option>
+                                                <option value="1">Pending</option>
+                                                <option value="2">Approved</option>
+                                                <option value="3">Reject</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer" style="margin-top:120px;">
+                            <button type="button" id="btnsavepopup" class="btnsavepopup btn btn-info">Save</button>
+                            <button type="button" class="btnclosepopup btn btn-info" data-dismiss="modal" aria-hidden="true">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        $('.datepicker').datepicker({
+            autoclose: true
+        });
+
+        $('#ListDataTable').DataTable({
+            'paging': true,
+            'lengthChange': true,
+            'searching': true,
+            'ordering': false,
+            'info': true,
+            'autoWidth': false
+        });
+
+        function GetPrintLeaveApplication(LeaveApplicationID) {
+            debugger;
+
+            //var FromDate = $("#FromDate").val();
+            var ToDate = $("#ToDate").val();
+
+            $.ajax({
+                url: '@Url.Action("PrintLeaveApplication", "Leaves")',
+                type: 'POST',
+                data: { 'LeaveApplicationID': LeaveApplicationID, 'ToDate': ToDate },
+                cache: false,
+            }).done(function (result) {
+                if (result != '') {
+                    window.open(result, "newPage");
+                }
+            });
+        };
+
+        $('.lstpopup').on('click', '.btnopenpopup', function () {
+            debugger;
+            var LeaveApplicationID = $(this).attr("data-leaveapplicationid");
+            var LeaveStatusID = $(this).attr("data-leavestatusid");
+            var EmployeeName = $(this).attr("data-employeename");
+            var ApplicationDate = $(this).attr("data-applicationdate");
+            var FromDate = $(this).attr("data-fromdate");
+            var ToDate = $(this).attr("data-todate");
+            var Reason = $(this).attr("data-reason");
+            var GoingTo = $(this).attr("data-goingto");
+            var AdvanceAmount = $(this).attr("data-advanceamount");
+            var AdvanceReason = $(this).attr("data-advancereason");
+            var ApprovalFromDate = $(this).attr("data-approvalfromdate");
+            var ApprovalToDate = $(this).attr("data-approvaltodate");
+            var ApprovalAdvanceAmount = $(this).attr("data-approvaladvanceamount");
+            clearcontents(LeaveApplicationID, LeaveStatusID, EmployeeName, ApplicationDate, FromDate, ToDate, Reason, GoingTo, AdvanceAmount, AdvanceReason, ApprovalFromDate, ApprovalToDate, ApprovalAdvanceAmount);
+            $("#responsive").removeClass("modal fade").addClass("modal fade modal-overflow in");
+            $("#responsive").css("display", "block");
+        });
+
+        function clearcontents(LeaveApplicationID, LeaveStatusID, EmployeeName, ApplicationDate, FromDate, ToDate, Reason, GoingTo, AdvanceAmount, AdvanceReason, ApprovalFromDate, ApprovalToDate, ApprovalAdvanceAmount) {
+            debugger;
+            $('#LeaveApplicationID').val(LeaveApplicationID);
+            $('#EmployeeName').val(EmployeeName);
+            $('#ApplicationDate').val(ApplicationDate);
+            $('#FromDate1').val(FromDate);
+            $('#ToDate1').val(ToDate);
+            $('#Reason').val(Reason);
+            $('#GoingTo').val(GoingTo);
+            $('#AdvanceAmount').val(AdvanceAmount);
+            $('#AdvanceReason').val(AdvanceReason);
+            $("#responsive").find("#LeaveStatusID").val(LeaveStatusID).trigger("change");
+            $('#ApprovalFromDate').val(ApprovalFromDate);
+            $('#ApprovalToDate').val(ApprovalToDate);
+            $('#ApprovalAdvanceAmount').val(ApprovalAdvanceAmount);
+        }
+
+        $(".btnclosepopup").click(function () {
+            debugger;
+            $('#responsive').removeClass("modal fade modal-overflow in");
+            $('#responsive').removeAttr('style');
+            $('#responsive').addClass("modal fade");
+            $('#LeaveApplicationID').val('');
+            $('#EmployeeName').val('');
+            $('#Reason').val('');
+            $('#GoingTo').val('');
+            $('#AdvanceAmount').val('');
+            $('#AdvanceReason').val('');
+            $('#ApprovalFromDate').val('');
+            $('#ApprovalAdvanceAmount').val('');
+            $('#ApprovalToDate').val('');
+            $("#LeaveStatusID").val("").trigger("change");
+        });
+
+        $("#btnsavepopup").click(function () {
+            debugger;
+            //if ($("#ApprovalFromDate").val() != "" && $("#ApprovalToDate").val() != "") {
+            var datareq = new Object();
+            datareq.LeaveApplicationID = $("#LeaveApplicationID").val();
+            datareq.ApprovalFromDate = $("#ApprovalFromDate").val();
+            datareq.ApprovalToDate = $("#ApprovalToDate").val();
+            datareq.ApprovalAdvanceAmount = $("#ApprovalAdvanceAmount").val();
+            datareq.LeaveStatusID = $("#responsive").find("#LeaveStatusID").val();
+            $.ajax({
+                url: '@Url.Action("UpdateApprovalLeave")',
+                type: 'POST',
+                data: { 'data': datareq },
+                cache: false,
+            }).done(function (result) {
+                if (result == true) {
+                    $('div#sucessalert').html("Leave Status Change successfully.");
+                    showhidealert();
+                    $('#responsive').removeClass("modal fade modal-overflow in");
+                    $('#responsive').removeAttr('style');
+                    $('#responsive').addClass("modal fade");
+                }
+            });
+            loadhtml();
+            //}
+            //else {
+            //    alert("Please select date");
+            //}
+        });
+
+        function loadhtml() {
+            var model = new Object();
+            model.FromDate = $("#FromDate").val();
+            model.ToDate = $("#ToDate").val();
+            model.EmployeeCode = $("#EmployeeCode").val();
+            $.ajax({
+                url: '@Url.Action("SearchLeaveAndAdvanceApplicationList")',
+                type: 'POST',
+                data: { 'model': model },
+                cache: false,
+            }).done(function (result) {
+                $('#lstleave').html(result);
+            });
+        }
+
+
+    </script>

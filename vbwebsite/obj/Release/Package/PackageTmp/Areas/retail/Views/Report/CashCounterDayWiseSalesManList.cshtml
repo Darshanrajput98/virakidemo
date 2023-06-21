@@ -1,0 +1,67 @@
+﻿@model List<vb.Data.RetCashCounterDayWiseSalesManList>
+
+<div class="box">
+    <div class="box-header text-center">
+        <h3 class="box-title">Sales Man Wise Summary</h3>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body table-scrollable1">
+        <table id="ListDataTable" class="table table-bordered table-striped lstsales1">
+            <thead>
+                <tr>
+                    <th class="nosort" style="text-align:center">Sale Person</th>
+                    <th class="nosort" style="text-align:center">Cash</th>
+                    <th class="nosort" style="text-align:center">Cheque</th>
+                    <th class="nosort" style="text-align:center">Card</th>
+                    <th class="nosort" style="text-align:center">Sign</th>
+                    <th class="nosort" style="text-align:center">Online</th>
+                    <th class="nosort" style="text-align:center">Discount</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td id="row" @item.SalesPerson>
+                            @item.SalesPerson
+                        </td>
+                        <td>
+                            @item.Cash
+                        </td>
+                        <td>
+                            @item.Cheque
+                        </td>
+                        <td>
+                            @item.Card
+                        </td>
+                        <td>
+                            @item.Sign
+                        </td>
+                        <td>
+                            @item.Online
+                        </td>
+                        <td>
+                            @item.AdjustAmount
+                        </td>
+
+                    </tr>
+                }
+                @if (Model.Count > 0)
+                {
+                    <tr style="font-weight:bold">
+                        <td>
+                            Total :
+                        </td>
+                        <td>@Model[0].CashTotal</td>
+                        <td>@Model[0].ChequeTotal</td>
+                        <td>@Model[0].CardTotal</td>
+                        <td>@Model[0].SignTotal</td>
+                        <td>@Model[0].OnlineTotal</td>
+                        <td>@Model[0].AdjustAmountTotal</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <!-- /.box-body -->
+</div>

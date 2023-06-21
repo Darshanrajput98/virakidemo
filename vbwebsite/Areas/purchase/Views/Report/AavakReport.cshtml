@@ -1,0 +1,123 @@
+﻿@model List<vb.Data.UnVerifyPendingPurchaseAavakList>
+@{
+    ViewBag.Title = "AavakReport";
+    Layout = "~/Areas/purchase/Views/Shared/_purchaselayout.cshtml";
+}
+
+<div class="box">
+    <div class="box-header text-center">
+        <h3 class="box-title">Aavak Report</h3>
+    </div>
+    <div class="box-body table-scrollable1">
+        <table id="ListDataTablewithourpaging2" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <td colspan="11" align="right">
+                        <button type="button" id="btnverify" class="btn btn-info">Verify</button>
+                    </td>
+                </tr>
+                <tr>
+                    <th class="nosort">Check</th>
+                    <th class="nosort">Aavak Date</th>
+                    <th class="nosort">Aavak No</th>
+                    <th class="nosort">Godown</th>
+                    <th class="nosort">Bill Number</th>
+                    <th class="nosort">Party Name</th>
+                    <th class="nosort">Product Name</th>
+                    <th class="nosort">Vakal No</th>
+                    <th class="nosort">No of Bags</th>
+                    <th class="nosort">Rate/KG</th>
+                    <th class="nosort">Grand Total Amt.</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td id="row">
+                            <input type="hidden" id="hdnPurchaseID" class="hdnPurchaseID" value="@item.PurchaseID" />
+                            <input type="checkbox" class="Ischeck" style="margin-left:5px;margin-right:5px;" />
+                        </td>
+                        <td>
+                            @item.CreatedOn.ToString("dd/MM/yyyy")
+                        </td>
+                        <td>
+                            @item.AvakNumber
+                        </td>
+                        <td>
+                            @item.GodownName
+                        </td>
+                        <td>
+                            @item.BillNumber
+                        </td>
+                        <td>
+                            @item.Party
+                        </td>
+                        <td>
+                            @item.ProductName
+                        </td>
+                        <td>
+                            @item.VakalNumber
+                        </td>
+                        <td>
+                            @item.NoofBags
+                        </td>
+                        <td>
+                            @item.RatePerKG
+                        </td>
+                        <td>
+                            @item.GrandTotalAmount
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script>
+    function loadhtml() {
+        location.reload();
+    }
+
+    $("#btnverify").click(function () {
+        $('#btnverify').attr('disabled', true);
+        var lstDel = [];
+        $('#ListDataTablewithourpaging2').children('tbody').children('tr:visible').each(function (index, row) {
+            var ischk = $(row).find("input[type=checkbox]")[0];
+            if ($(ischk).is(':checked')) {
+                var dataDel = new Object();
+                dataDel.PurchaseID = $(row).find(".hdnPurchaseID").val();
+                dataDel.Verify = $($(row).find("input[type=checkbox]")[0]).is(':checked');
+                lstDel.push(dataDel);
+            }
+        });
+        if (lstDel.length > 0) {
+            $.ajax({
+                url: '@Url.Action("UpdateVerifyPurcahseOrderStatus")',
+                type: 'POST',
+                data: { 'data': lstDel },
+                cache: false,
+            }).done(function (result) {
+                if (result == true) {
+                    if ("" == "") {
+                        $('div#sucessalert').html("Product Add successfully.");
+                    }
+                    else {
+                        $('div#sucessalert').html("Product updated successfully.");
+                    }
+                    showhidealert();
+                    $('#lstcase').html("");
+                    loadhtml();
+                }
+            });
+        }
+        else {
+            alert("Please Select Bill");
+            $('#btnverify').attr('disabled', false);
+        }
+    });
+</script>
+
+

@@ -1,0 +1,99 @@
+﻿@model vb.Data.RetPouchListResponse
+
+@{
+    ViewBag.Title = "PouchWiseReport";
+    Layout = "~/Areas/retail/Views/Shared/_retaillayout.cshtml";
+}
+
+<div class="box box-default">
+    <div class="box-header with-border text-center">
+        <h3 class="box-title">Pouch Report</h3>
+    </div>
+    <form id="frmCustomerGroup" class="form-horizontal">
+        <div class="box-body">
+            <div class="col-md-6">
+                <div class="form-group" style="position:sticky !important;">
+                    <label for=" deliverydate" class="col-sm-4 control-label">
+                        From
+                    </label>
+                    <div class="col-sm-8">
+                        <div class="input-group date">
+                            <div class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
+                            </div>
+                            <input type="text" class="form-control pull-right datepicker" id="txtFrom" tabindex="3" autocomplete="off">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="day" class="col-sm-4 control-label">Pouch</label>
+                    <div class="col-sm-8">
+                        @Html.DropDownListFor(m => m.PouchNameID, new SelectList(ViewBag.Pouch, "PouchNameID", "PouchName"), "Select Pouch", new { @multiple = "multiple", @class = "form-control select2" })
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group" style="position:sticky !important;">
+                    <label for="DeliveryDate" class="col-sm-4 control-label">To </label>
+                    <div class="col-sm-8">
+                        <div class="input-group date">
+                            <div class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
+                            </div>
+                            <input type="text" class="form-control pull-right datepicker" id="txtTo" tabindex="3" autocomplete="off">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.box-body -->
+        <div class="box-footer ">
+            <div class="pull-right">
+                <button type="button" id="btnsearch" class="btn btn-info" tabindex="6">Search</button>
+                <button type="button" id="btnexport" class="btn btn-info" tabindex="6">Export To Excel</button>
+            </div>
+        </div>
+        <!-- /.box-footer -->
+    </form>
+    <div id="lstcase">
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script>
+    function loadhtml() {
+        //debugger;
+        var model = new Object();
+        model.StartDate = $("#txtFrom").val();
+        model.EndDate = $("#txtTo").val();
+        model.PouchNameID = $("#PouchNameID").val();
+        $.ajax({
+            url: '@Url.Action("PouchWiseReportList")',
+            type: 'POST',
+            data: { 'model': model },
+            cache: false,
+        }).done(function (result) {
+            $('#lstcase').html(result);
+        });
+    }
+
+    $("#btnsearch").click(function () {
+        loadhtml();
+    });
+
+    $("#btnexport").click(function () {
+        debugger;
+        var model = new Object();
+        model.StartDate = $("#txtFrom").val();
+        model.EndDate = $("#txtTo").val();
+        model.PouchNameID = $("#PouchNameID").val();
+
+        var url = '@Url.Action("ExportExcelPouchWiseReportList", "Report", new { StartDate = "__StartDate__", EndDate = "__EndDate__", PouchNameID = "__PouchNameID__" })';
+        url = url.replace(/amp;/g, '');
+        window.location.href = url.replace('__StartDate__', model.StartDate).replace('__EndDate__', model.EndDate).replace('__PouchNameID__', model.PouchNameID);
+
+    });
+</script>
+
+

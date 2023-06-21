@@ -1,0 +1,407 @@
+﻿@model List<vb.Data.ProductListResponse>
+@using vb.Data.ViewModel
+
+<div class="box">
+    <div class="box-header text-center">
+        <h3 class="box-title">Product List</h3>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body table-scrollable1">
+        <table id="ListDataTable" class="table table-bordered table-bordered">
+            <thead>
+                <tr>
+                    <td colspan="20" align="right">
+                        <button type="button" id="btnexport" class="btn btn-info" tabindex="20">Export To Excel</button>
+                        @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.WEPRODUCT.ToString()))
+                        {
+                            <button type="button" id="btnupdateproduct" class="btn btn-info">Update Product</button>
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <th class="nosort">Name</th>
+                    <th class="nosort">Alternate Name</th>
+                    <th class="nosort">Category</th>
+                    <th class="nosort">Godown</th>
+                    <th class="nosort">Price</th>
+                    <th class="nosort">Unit</th>
+                    <th class="nosort">Description</th>
+                    <th class="nosort">HSN Number</th>
+                    <th class="nosort">SGST</th>
+                    <th class="nosort">CGST</th>
+                    <th class="nosort">IGST</th>
+                    <th class="nosort">H-For</th>
+                    @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.WEPRODUCT.ToString()))
+                    {
+                        <th class="nosort">Edit</th>
+                    }
+                    @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.WDPRODUCT.ToString()))
+                    {
+                        <th class="nosort">Status</th>
+                    }
+                    @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.WEPRODUCT.ToString()))
+                    {
+                        <th class="nosort"></th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td id="row" @item.ProductID>
+                            @item.ProductName
+                        </td>
+                        <td>
+                            @item.ProductAlternateName
+                        </td>
+                        <td>
+                            @item.CategoryName
+                        </td>
+                        <td>
+                            @item.GodownName
+                        </td>
+                        <td>
+                            <input name="ProductID" class="hdnProductID" type="hidden" value="@item.ProductID" />
+                            <input id="ProductPrice" type="text" class="form-control" name="ProductPrice" style="width:100px" value="@item.ProductPrice" />
+                        </td>
+                        <td>
+                            @item.UnitCode
+                        </td>
+                        <td>
+                            @item.ProductDescription
+                        </td>
+                        <td>
+                            @item.HSNNumber
+                        </td>
+                        <td>
+                            <input id="SGST" type="text" class="form-control" name="SGST" style="width:60px" value="@item.SGST" />
+                        </td>
+                        <td>
+                            <input id="CGST" type="text" class="form-control" name="CGST" style="width:60px" value="@item.CGST" />
+                        </td>
+                        <td>
+                            <input id="IGST" type="text" class="form-control" name="Vehicle" style="width:60px" value="@item.IGST" />
+                        </td>
+                        <td>
+                            <input id="HFor" type="text" class="form-control" name="Vehicle" style="width:60px" value="@item.HFor" />
+                        </td>
+                        @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.WEPRODUCT.ToString()))
+                        {
+                            <td>
+                                <a style="cursor:pointer;" class="btnedit" data-pid="@item.ProductID" data-catid="@item.CategoryID" data-godownid="@item.GodownID" data-unitid="@item.UnitID" data-pouchnameid="@item.PouchNameID" data-slabforgst="@item.SlabForGST">Edit</a>
+                            </td>
+                        }
+                        @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.WDPRODUCT.ToString()))
+                        {
+                            if (item.IsDelete == true)
+                            {
+                                <td>
+                                    @Html.ActionLink("Active", "DeleteProduct", "Product",
+                                            new { ProductID = item.ProductID, IsDelete = false },
+                                    new { onclick = "return confirm('Are you sure you wish to delete this article?');" })
+                                </td>
+                            }
+                            else
+                            {
+                                <td>
+                                    @Html.ActionLink("DeActive", "DeleteProduct", "Product",
+                                            new { ProductID = item.ProductID, IsDelete = true },
+                                    new { onclick = "return confirm('Are you sure you wish to delete this article?');" })
+                                </td>
+                            }
+                        }
+                        @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.WEPRODUCT.ToString()))
+                        {
+                            <td>
+                                <input type="checkbox" id="chkselect" />
+                            </td>
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <!-- /.box-body -->
+</div>
+<script>
+    $("#ListDataTable").DataTable({
+        'aoColumnDefs': [{
+            'bSortable': false,
+            'aTargets': ['nosort'] /* 1st one, start by the right */
+
+        }]
+    });
+    $('#ListDataTable').on('click', '.btnedit', function () {
+        debugger;
+        $("#UProductID").val($(this).attr("data-pid"));
+        $("#ProductName").val($(this).parent().parent().children()[0].innerHTML.trim());
+        $("#ProductAlternateName").val($(this).parent().parent().children()[1].innerHTML.trim());
+        $("#CategoryID").val($(this).attr("data-catid")).trigger("change");
+        $("#GodownID").val($(this).attr("data-godownid")).trigger("change");
+        $("#ProductPrice").val($($(this).closest('tr').find("input[type=text]")[0]).val());
+        $("#UnitID").val($(this).attr("data-unitid")).trigger("change");
+        $("#PouchNameID").val($(this).attr("data-pouchnameid")).trigger("change");
+        $("#ProductDescription").val($(this).parent().parent().children()[6].innerHTML.trim());
+        $("#HSNNumber").val($(this).parent().parent().children()[7].innerHTML.trim());
+        $("#SGST").val($($(this).closest('tr').find("input[type=text]")[1]).val());
+        $("#CGST").val($($(this).closest('tr').find("input[type=text]")[2]).val());
+        $("#IGST").val($($(this).closest('tr').find("input[type=text]")[3]).val());
+        $("#HFor").val($($(this).closest('tr').find("input[type=text]")[4]).val());
+
+        //19-07-2022
+        $("#SlabForGST").val($(this).attr("data-slabforgst"));
+
+        $.ajax({
+            type: 'Post',
+            url: '@Url.Action("GetProductQtyList")',
+            data: { ProductID: $(this).attr("data-pid") },
+            success: function (result) {
+                console.log(result);
+                bookIndex = 0;
+                if (result.length > 0) {
+                    $(result).each(function (index, row) {
+                        bookIndex++;
+                        if (bookIndex > 1) {
+                            debugger;
+                            var $template = $('#AddMoreProduct'),
+                                $clone = $template
+                                                .clone()
+                                                .removeClass('hide')
+                                                .removeAttr('id')
+                                                .attr('data-book-index', bookIndex)
+                                                .insertBefore($template);
+                            // Update the name attributes
+                            $clone
+                                 .find('[name="Quantity"]').attr('name', 'lstProductQty[' + bookIndex + '].Quantity').end()
+                                 .find('[name="UpperQty"]').attr('name', 'lstProductQty[' + bookIndex + '].UpperQty').end()
+                                 .find('[name="SellPrice"]').attr('name', 'lstProductQty[' + bookIndex + '].SellPrice').end()
+                                 .find('[name="LessAmount"]').bind("input propertychange paste", function () {
+                                     var newsaleprice = $(this).val();
+                                     var finalamount = ($('#ProductPrice').val()) - newsaleprice;
+                                     $(this).closest('tr').find("input")[4].value = finalamount;
+                                 })
+                                 .find('[name="LessAmount"]').attr('name', 'lstProductQty[' + bookIndex + '].LessAmount').end();
+                            $clone.find("input[type=hidden]")[0].value = row.ProductQtyID;
+                            $clone.find("input")[0].value = row.LowerQty;
+                            $clone.find("input")[2].value = row.UpperQty;
+                            $clone.find("input")[3].value = row.LessAmount;
+                            $clone.find("input")[4].value = row.SellPrice;
+                        }
+                        else {
+                            debugger;
+                            if ($('#ProductQty').find('tbody tr:visible').length > 1)
+                                $('#ProductQty').find('tbody tr:visible').not(':first').empty();
+                            var $template = $('#AddProductQty');
+                            $clone = $template;
+                            $clone.find("input[type=hidden]")[0].value = row.ProductQtyID;
+                            $clone.find("input")[0].value = row.LowerQty;
+                            $clone.find("input")[2].value = row.UpperQty;
+                            $clone.find("input")[3].value = row.LessAmount;
+                            $clone.find("input")[4].value = row.SellPrice;
+                        }
+                    });
+                }
+                else {
+                    if ($('#ProductQty').find('tbody tr:visible').length > 1)
+                        $('#ProductQty').find('tbody tr:visible').not(':first').empty();
+                    var $template = $('#AddProductQty');
+                    $clone = $template;
+                    $clone.find("input[type=hidden]")[0].value = "";
+                    $clone.find("input")[0].value = "";
+                    $clone.find("input")[2].value = "";
+                    $clone.find("input")[3].value = "";
+                    $clone.find("input")[4].value = "";
+                }
+            },
+            error: function () { alert('Error'); }
+        });
+
+
+
+        $.ajax({
+            type: 'Post',
+            url: '@Url.Action("GetOnlineProductQtyList")',
+            data: { ProductID: $(this).attr("data-pid") },
+            success: function (result) {
+                productIndex = 0;
+                if (result.length > 0) {
+                    $(result).each(function (index, row) {
+                        productIndex++;
+                        if (productIndex > 1) {
+                            debugger;
+                            var $template = $('#AddMoreOnlineProduct'),
+                                $clone = $template
+                                                .clone()
+                                                .removeClass('hide')
+                                                .removeAttr('id')
+                                                .attr('data-product-index', productIndex)
+                                                .insertBefore($template);
+                            // Update the name attributes
+                            $clone
+                                .find('[name="OnlineProductPrice"]').attr('name', 'lstOnlineProductQty[' + productIndex + '].OnlineProductPrice').end()
+                                .find('[name="OnlineQty"]').attr('name', 'lstOnlineProductQty[' + productIndex + '].OnlineQty').end()
+                                .find('[name="UnitID"]').attr('name', 'lstOnlineProductQty[' + productIndex + '].UnitID').end()
+
+                                //.find('[name="Factoring"]').attr('name', 'lstOnlineProductQty[' + productIndex + '].Factoring').end()
+
+                                .find('[name="Factoring"]').bind("input propertychange paste", function () {
+                                    debugger
+                                    // 10 June 2021 Piyush Limbani
+                                    var ProductPrice = $('#ProductPrice').val();
+                                    // 10 June 2021 Piyush Limbani
+                                    var FactoringPer = $(this).val();
+                                    var FactoringAmt = parseFloat(ProductPrice / FactoringPer).toFixed(2);
+                                    $(this).closest('tr').find("input")[4].value = FactoringAmt;
+
+                                    // 10 June 2021 Piyush Limbani
+                                    var PremiumPercentage = $(this).closest('tr').find("input")[5].value;
+                                    if (PremiumPercentage == 0) {
+                                        $(this).closest('tr').find("input")[7].value = FactoringAmt;
+                                    }
+                                    else {
+                                        var PremiumAmount = parseFloat((PremiumPercentage * FactoringAmt) / 100).toFixed(2);
+                                        $(this).closest('tr').find("input")[6].value = PremiumAmount;
+                                        var TotalAmount = (parseFloat(FactoringAmt) + parseFloat(PremiumAmount));
+                                        $(this).closest('tr').find("input")[7].value = TotalAmount;
+                                    }
+                                    // 10 June 2021 Piyush Limbani
+
+                                }).end()
+
+                                .find('[name="FactoringAmount"]').attr('name', 'lstOnlineProductQty[' + productIndex + '].FactoringAmount').end()
+
+                                .find('[name="PremiumPercentage"]').bind("input propertychange paste", function () {
+                                    debugger
+                                    var PremiumPercentage = $(this).val();
+                                    var FactoringAmount = $(this).closest('tr').find("input")[4].value;
+                                    var PremiumAmount = parseFloat((PremiumPercentage * FactoringAmount) / 100).toFixed(2);
+                                    var totalAmount = (parseFloat(FactoringAmount) + parseFloat(PremiumAmount));
+                                    $(this).closest('tr').find("input")[6].value = PremiumAmount;
+                                    $(this).closest('tr').find("input")[7].value = totalAmount;
+                                }).end()
+
+                                .find('[name="PremiumPercentageAmt"]').attr('name', 'lstOnlineProductQty[' + productIndex + '].PremiumPercentageAmt').end()
+                                .find('[name="TotalOnlineAmount"]').attr('name', 'lstOnlineProductQty[' + productIndex + '].TotalOnlineAmount').end();
+
+                            debugger
+                            $clone.find("input[type=hidden]")[0].value = row.OnlineProductQtyID;
+                            $clone.find("input")[0].value = row.OnlineProductPrice;
+                            $clone.find("input")[2].value = row.OnlineQty;
+                            $clone.find("input")[3].value = row.Factoring;
+                            $clone.find("input")[4].value = row.FactoringAmount;
+                            $clone.find("input")[5].value = row.PremiumPercentage;
+                            $clone.find("input")[6].value = row.PremiumPercentageAmt;
+                            $clone.find("input")[7].value = row.TotalOnlineAmount;
+                            $clone.find("select")[0].value = row.UnitID;
+                            var isOnline = row.IsOnline;
+                            if (isOnline == true) {
+                                $clone.find('input[type="checkbox"]').prop("checked", true);
+                            }
+                            else {
+                                $clone.find('input[type="checkbox"]').prop("checked", false);
+                            }
+                            $('select').select2({ width: '100%' });
+                            $tdvalue = $clone.find('td')[2];
+                            $($tdvalue).find('span.select2.select2-container.select2-container--default')[1].remove();
+                        }
+                        else {
+                            //debugger;
+                            if ($('#OnlineProductQty').find('tbody tr:visible').length > 1)
+                                $('#OnlineProductQty').find('tbody tr:visible').not(':first').empty();
+                            var $template = $('#AddOnlineProductQty');
+                            $clone = $template;
+                            $clone.find("input[type=hidden]")[0].value = row.OnlineProductQtyID;
+                            $clone.find("input")[0].value = row.OnlineProductPrice;
+                            $clone.find("input")[2].value = row.OnlineQty;
+                            $clone.find("input")[3].value = row.Factoring;
+                            $clone.find("input")[4].value = row.FactoringAmount;
+                            $clone.find("input")[5].value = row.PremiumPercentage;
+                            $clone.find("input")[6].value = row.PremiumPercentageAmt;
+                            $clone.find("input")[7].value = row.TotalOnlineAmount;
+                            $clone.find("select")[0].value = row.UnitID;
+                            var isOnline = row.IsOnline;
+                            if (isOnline == true) {
+                                $clone.find('input[type="checkbox"]').prop("checked", true);
+                            }
+                            else {
+                                $clone.find('input[type="checkbox"]').prop("checked", false);
+                            }
+                        }
+                        $('select').select2({ width: '100%' });
+                    });
+                }
+                else {
+                    if ($('#OnlineProductQty').find('tbody tr:visible').length > 1)
+                        $('#OnlineProductQty').find('tbody tr:visible').not(':first').empty();
+                    var $template = $('#AddOnlineProductQty');
+                    $clone = $template;
+                    $clone.find("input[type=hidden]")[0].value = "";
+                    $clone.find("input")[0].value = "";
+                    $clone.find("input")[2].value = "";
+                    $clone.find("input")[3].value = "";
+                    $clone.find("input")[4].value = "";
+                    $clone.find("input")[5].value = "";
+                    $clone.find("input")[6].value = "";
+                    $clone.find("input")[7].value = "";
+                    $clone.find("select")[0].value = "";
+                    $clone.find('input[type="checkbox"]').prop("checked", false);
+                }
+            },
+            error: function () { alert('Error'); }
+        });
+
+
+        $("html, body").animate({ scrollTop: 0 }, "slow");
+    });
+</script>
+
+<script>
+    $("#btnupdateproduct").click(function () {
+        var lstProduct = [];
+        $('#ListDataTable').children('tbody').children('tr:visible').each(function (index, row) {
+            debugger;
+            var IsCheck = $(row).find("input[type=checkbox]")[0];
+            if ($(IsCheck).is(':checked')) {
+                var dataProduct = new Object();
+                dataProduct.ProductID = $(row).find("input[type=hidden]")[0].value;
+                dataProduct.ProductPrice = $(row).find("input")[1].value;
+                dataProduct.SGST = $(row).find("input")[2].value;
+                dataProduct.CGST = $(row).find("input")[3].value;
+                dataProduct.IGST = $(row).find("input")[4].value;
+                dataProduct.HFor = $(row).find("input")[5].value;
+                lstProduct.push(dataProduct);
+            }
+        });
+        if (lstProduct.length > 0) {
+            $.ajax({
+                url: '@Url.Action("UpdateProduct")',
+                type: 'POST',
+                data: { 'data': lstProduct },
+                cache: false,
+            }).done(function (result) {
+                if (result == true) {
+                    if ($("#ProductID").val() == "") {
+                        $('div#sucessalert').html("Product Add successfully.");
+                    }
+                    else {
+                        $('div#sucessalert').html("Product updated successfully.");
+                    }
+                    showhidealert();
+                    loadhtml();
+                    clearform();
+                }
+            });
+        }
+        else {
+            alert("please select product")
+        }
+    });
+
+    $("#btnexport").click(function () {
+        debugger;
+        var url = '@Url.Action("ExportExcelProduct", "Product")';
+        window.location.href = url.replace();
+    });
+
+</script>

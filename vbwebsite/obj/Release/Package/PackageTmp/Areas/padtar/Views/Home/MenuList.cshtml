@@ -1,0 +1,49 @@
+﻿@model vb.Data.DynamicMenuModel
+
+<ul class="nav navbar-nav">
+    @{
+        int row = 0;
+        foreach (var item in Model.lstMainTier)
+        {
+            <li class="@(row.ToString() == "0" ? "active" : "") @(item.SubTier.Count.ToString() == "0" ? "" : "dropdown")" style="cursor:pointer;">
+                <a href="@Url.Action(item.Action.ToString(), item.Controller.ToString())" class="@(item.SubTier.Count.ToString() == "0" ? "" : "dropdown-toggle")" data-toggle="@(item.SubTier.Count.ToString() == "0" ? "" : "dropdown")">
+                    <span> @item.DisplayName </span>
+                    @if (item.SubTier.Count > 0)
+                    {
+                        <span class="caret"></span>
+                    }
+                </a>
+                @if (item.SubTier.Count > 0)
+                {
+                    <ul class="dropdown-menu" role="menu">
+                        @foreach (var item1 in item.SubTier)
+                        {
+                            <li class="@(item1.ThirdTier.Count.ToString() == "0" ? "" : "dropdown")" style="cursor:pointer;">
+                                <a href="@Url.Action(item1.Action.ToString(), item1.Controller.ToString())">
+                                    <i class="fa fa-circle-o"></i> @item1.DisplayName
+                                    @if (item1.ThirdTier.Count > 0)
+                                    {
+                                        <span class="caret"></span>
+                                    }
+                                </a>
+                                @if (item1.ThirdTier.Count > 0)
+                                {
+                                    <ul class="dropdown-menu" role="menu">
+                                        @foreach (var item2 in item1.ThirdTier)
+                                        {
+                                            <li class="divider"></li>
+                                            <li style="cursor:pointer;"><a href="@Url.Action(item2.Action.ToString(), item2.Controller.ToString())"><i class="fa fa-circle-o"></i> @item2.DisplayName</a></li>
+                                        }
+                                    </ul>
+                                }
+                            </li>
+                            <li class="divider"></li>
+                        }
+                    </ul>
+                }
+            </li>
+                row++;
+        }
+    }
+</ul>
+

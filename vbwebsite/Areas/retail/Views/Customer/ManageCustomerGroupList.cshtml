@@ -1,0 +1,143 @@
+﻿@model List<vb.Data.RetCustomerGroupListResponse>
+@using vb.Data.ViewModel
+
+<div class="box">
+    <div class="box-header text-center">
+        <h3 class="box-title">Customer Group List</h3>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body">
+        <table id="ListDataTable" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th class="nosort">Group Name</th>
+                    <th class="nosort">Address1</th>
+                    <th class="nosort">Address2</th>
+                    <th class="nosort">Area</th>
+                    <th class="nosort">Description</th>
+
+                    <th class="nosort">Is Show</th>
+
+
+                    @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.RECUSTOMERGROUP.ToString()))
+                    {
+                        <th class="nosort">Edit</th>
+                    }
+                    @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.RDCUSTOMERGROUP.ToString()))
+                    {
+                        <th class="nosort">Status</th>
+                    }
+                    @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.RECUSTOMERGROUP.ToString()))
+                    {
+                        <th class="nosort">Article Code</th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td id="row" @item.CustomerGroupID>
+                            @item.CustomerGroupName
+                        </td>
+                        <td>
+                            @item.CustomerGroupAddress1
+                        </td>
+                        <td>
+                            @item.CustomerGroupAddress2
+                        </td>
+                        <td>
+                            @item.AreaName
+                        </td>
+                        <td>
+                            @item.CustomerGroupDescription
+                        </td>
+
+                        <td>
+                            @if (item.IsShow == true)
+                            {
+                                <input type="checkbox" disabled="disabled" checked="checked" />
+                            }
+                            else
+                            {
+                                <input type="checkbox" disabled="disabled" />
+                            }
+                        </td>
+
+                        @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.RECUSTOMERGROUP.ToString()))
+                        {
+                            <td>
+                                <a style="cursor:pointer;" class="btnedit" data-pid="@item.CustomerGroupID" data-areaid="@item.AreaID" data-isshow="@item.IsShow">Edit</a>
+                            </td>
+                        }
+                        @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.RDCUSTOMERGROUP.ToString()))
+                        {
+                            if (item.IsDelete == true)
+                            {
+                                <td>
+                                    @Html.ActionLink("Active", "DeleteCustomerGroup", "Customer",
+                                                  new { CustomerGroupID = item.CustomerGroupID, IsDelete = false },
+                                    new { onclick = "return confirm('Are you sure you wish to delete this article?');" })
+                                </td>
+                            }
+                            else
+                            {
+                                <td>
+                                    @Html.ActionLink("DeActive", "DeleteCustomerGroup", "Customer",
+                                                  new { CustomerGroupID = item.CustomerGroupID, IsDelete = true },
+                                    new { onclick = "return confirm('Are you sure you wish to delete this article?');" })
+                                </td>
+                            }
+                        }
+                        @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.RECUSTOMERGROUP.ToString()))
+                        {
+                            <td>
+                                <a style="cursor:pointer;" class="btnaddarticlecode" data-customergroupid="@item.CustomerGroupID" data-customergroupname="@item.CustomerGroupName" data-status="@(item.IsDelete)">Article Code</a>
+                            </td>
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <!-- /.box-body -->
+</div>
+
+<script>
+    $("#ListDataTable").DataTable({
+        'aoColumnDefs': [{
+            'bSortable': false,
+            'aTargets': ['nosort'] /* 1st one, start by the right */
+
+        }]
+    });
+
+    $('#ListDataTable').on('click', '.btnedit', function () {
+        debugger;
+
+        $("#UCustomerGroupID").val($(this).attr("data-pid"));
+        $("#CustomerGroupName").val($(this).parent().parent().children()[0].innerHTML.trim());
+        $("#CustomerGroupAddress1").val($(this).parent().parent().children()[1].innerHTML.trim());
+        $("#CustomerGroupAddress2").val($(this).parent().parent().children()[2].innerHTML.trim());
+        $("#AreaID").val($(this).attr("data-areaid")).trigger("change");
+        $("#CustomerGroupDescription").val($(this).parent().parent().children()[4].innerHTML.trim());
+
+        var IsShow = $(this).attr("data-isshow")
+        if (IsShow == 'True') {
+            $("#IsShow").prop('checked', true);
+        }
+        else {
+            $("#IsShow").prop('checked', false);
+        }
+
+        $("html, body").animate({ scrollTop: 0 }, "slow");
+    });
+
+    $('#ListDataTable').on('click', '.btnaddarticlecode', function () {
+        debugger;
+        var url = '@Url.Action("ManageCustomerArticleCode", "Customer", new { CustomerGroupID = "__CustomerGroupID__", CustomerGroupName = "__CustomerGroupName__", status = "__status__" })';
+        url = url.replace(/amp;/g, '');
+        window.location.href = url.replace('__CustomerGroupID__', $(this).attr("data-customergroupid")).replace('__CustomerGroupName__', $(this).attr("data-customergroupname")).replace('__status__', $(this).attr("data-status"));
+    });
+
+</script>

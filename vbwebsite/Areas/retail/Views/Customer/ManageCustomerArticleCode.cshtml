@@ -1,0 +1,173 @@
+﻿@model vb.Data.RetCustomerArticleCodeListResponse
+@{
+    ViewBag.Title = "ManageCustomerArticleCode";
+    Layout = "~/Areas/retail/Views/Shared/_retaillayout.cshtml";
+}
+
+<div class="box box-default">
+    <form id="frmdisc" method="post" class="form-horizontal">
+        <div class="box-body">
+            <div>
+                <h3 style="text-align:center;">Article Code</h3>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="CustomerGroupName" class="col-sm-4 control-label">Customer Group</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" name="CustomerGroupName" id="CustomerGroupName" value="@Model.CustomerGroupName" disabled="disabled" tabindex="5">
+                                <input type="hidden" value="@Model.CustomerGroupID" id="CustomerGroupID" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="IsDelete" class="col-sm-4 control-label">Status </label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" name="IsDelete" id="IsDelete" value="@(Model.IsDelete ?"DeActive" : "Active")" disabled="disabled" tabindex="5">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12">               
+                <div id="ArticleCodeList" class="form-horizontal">
+                    <table class="table table-bordered table-bordered" id="ArticleCode">
+                        <thead>
+                            <tr class="form-group">
+                                <th class="nosort col-sm-1">Sr No</th>
+                                <th class="nosort col-sm-4">SKU</th>
+                                <th class="nosort col-sm-3">Article Code</th>
+                                <th class="nosort col-sm-2">Un-Select To Delete</th>
+                                <th class="nosort col-sm-2">Add</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{int cnt = 0;}
+                            @if (@Model.lstProductArticleCode.Count <= 20)
+                            {
+                                cnt = 20;
+                            }
+                            else
+                            { cnt = @Model.lstProductArticleCode.Count; }
+                            @for (int i = 0; i < cnt; i++)
+                            {
+                                <tr class="form-group" id="trclear">
+                                    <td id="row">
+                                        <label for="srno" class="control-label">@(i + 1) </label>
+                                        <input type="hidden" class="form-control" value="@(Model.lstProductArticleCode.Count > i ? @Model.lstProductArticleCode[i].ProductArticleCodeID : 0)">
+                                    </td>
+                                    <td>
+                                        @Html.DropDownList("ProductQtyID" + i.ToString(), new SelectList(ViewBag.Product, "ProductQtyID", "ProductName", @Model.lstProductArticleCode.Count > i ? @Model.lstProductArticleCode[i].ProductQtyID : 0), new { @class = "form-control select22 ProductQtyID", tabindex = "1", multiple = true })
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control ArticleCode" value="@(Model.lstProductArticleCode.Count > i ? @Model.lstProductArticleCode[i].ArticleCode.ToString() : "")" placeholder="Article Code" tabindex="2">
+                                    </td>
+                                    <td>
+                                        <input type="checkbox" class="IsDelete" value="@(Model.lstProductArticleCode.Count > i ? @Model.lstProductArticleCode[i].IsDelete : false)" tabindex="3" />
+                                    </td>
+                                    <td>
+                                        @if (i == cnt - 1)
+                                        {
+                                            <button type="button" class="btn btn-default addButton" tabindex="61" style="width: 35px;"><i class="fa fa-plus"></i></button>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                            <tr class="form-group hide" id="AddRow">
+                                <td id="row">
+                                    <label for="srno" class="control-label"> </label>
+                                    <input type="hidden" class="form-control" name="ProductArticleCodeID">
+                                </td>
+                                <td>
+                                    @Html.DropDownList("ProductQtyID", new SelectList(ViewBag.Product, "ProductQtyID", "ProductName"), new { @class = "form-control select22 ProductQtyID", tabindex = "62", multiple = true })
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control ArticleCode" placeholder="ArticleCode" tabindex="63">
+                                </td>
+                                <td>
+                                    <input type="checkbox" class="IsDelete" tabindex="64" />
+                                </td>
+                                <td>
+                                    <button type="button" class="btn btn-default removeButton tab-content" tabindex="65" style="width: 35px;"><i class="fa fa-minus"></i></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="box-footer ">
+            <div class="pull-right">
+                <button type="button" id="Cancel" class="btn btn-default" tabindex="99">Cancel</button>
+                <button type="button" id="btnsavecase" class="btn btn-info" tabindex="100">Save</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script type="text/javascript">
+    bookIndex = 20;
+    $('#ArticleCodeList').on('click', '.addButton', function () {
+        debugger;
+        bookIndex++;
+        var $template = $('#AddRow'),
+            $clone = $template
+                            .clone()
+                            .removeClass('hide')
+                            .removeAttr('id')
+                            .attr('data-book-index', bookIndex)
+                            .insertBefore($template);
+        $clone
+            .find('[name="ProductQtyID"]').attr('name', 'lstProductArticleCode[' + bookIndex + '].ProductQtyID').end()
+            .find('[name="ArticleCode"]').attr('name', 'lstProductArticleCode[' + bookIndex + '].ArticleCode').end()
+            .find('[name="IsDelete"]').attr('name', 'lstProductArticleCode[' + bookIndex + '].SellRate').end();
+        $('select').select2({ width: '100%' });
+        $tdvalue = $clone.find('td')[1];
+        $($tdvalue).find('span.select2.select2-container.select2-container--default')[1].remove();
+        $(".select22").select2({
+            maximumSelectionLength: 1
+        });
+    })
+     .on('click', '.removeButton', function () {
+         var $row = $(this).parents('.form-group'),
+             index = $row.attr('data-book-index');
+         $row.remove();
+     });
+
+    $("#Cancel").click(function () {
+        debugger;
+        window.location.href = '@Url.Action("ManageCustomerGroup", "Customer")';
+    });
+
+    $("#btnsavecase").click(function () {
+        var lstProductArticleCode = [];
+        debugger;
+        $('#ArticleCode').children('tbody').children('tr:visible').each(function (index, row) {
+            if ($(row).find("select").val() != undefined && $(row).find("select").val() != '') {
+                debugger;
+                var dataArticleCode = new Object();
+                dataArticleCode.ProductArticleCodeID = $(row).find("input")[0].value;
+                dataArticleCode.ProductQtyID = $(row).find("select").val();
+                dataArticleCode.ArticleCode = $(row).find("input")[2].value;
+                dataArticleCode.IsDelete = $(row).find(".IsDelete").is(":checked")
+                lstProductArticleCode.push(dataArticleCode);
+            }
+        });
+        var datareq = new Object();
+        datareq.CustomerGroupID = $("#CustomerGroupID").val();
+        datareq.lstProductArticleCode = lstProductArticleCode;
+        $.ajax({
+            url: '@Url.Action("AddProductArticleCode")',
+            type: 'POST',
+            data: { 'data': datareq },
+            cache: false,
+        }).done(function (result) {
+            if (result == true) {
+                var url = '@Url.Action("ManageCustomerGroup", "Customer")';
+                window.location.href = url;
+            }
+        });
+    });
+</script>

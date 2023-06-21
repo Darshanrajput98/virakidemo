@@ -1,0 +1,74 @@
+﻿@model List<vb.Data.CashCounterListResponse>
+@using vb.Data.ViewModel
+
+<div class="box">
+    <div class="box-header text-center">
+        <h3 class="box-title">Cheque Return List</h3>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body table-scrollable1">
+        <table id="ListDataTable" class="table table-bordered table-striped lstsales">
+            <thead>
+                <tr>
+                    <th class="nosort" style="text-align:center">Customer</th>
+                    <th class="nosort" style="text-align:center">Area</th>
+                    <th class="nosort" style="text-align:center">Vehicle No</th>
+                    <th class="nosort" style="text-align:center">Cash Option</th>
+                    <th class="nosort" style="text-align:center">Invoice Number</th>
+                    <th class="nosort" style="text-align:center">Cheque</th>
+                    <th class="nosort" style="text-align:center">Cheque Return Charges</th>
+                    <th class="nosort" style="text-align:center">Is Delivered</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td id="row">
+                            @item.Customer
+                        </td>
+                        <td>
+                            @item.Area
+                        </td>
+                        <td>
+                            @item.VehicleNo1
+                        </td>
+
+                        <td>
+                            @item.CashOption
+                        </td>
+
+                        <td>
+                            @item.InvoiceNumber
+                            @*<a style="cursor:pointer;" class="btnedit" data-pid="@item.InvoiceNumber" data-oid="@item.OrderID">@item.InvoiceNumber</a>*@
+                        </td>
+                        <td>
+                            @item.Cheque
+                        </td>
+                        <td>
+                            @item.ChequeReturnCharges
+                        </td>
+                        <td>
+                            @item.IsDeliveredstr
+                        </td>
+                    </tr>
+                }
+                @if (Model.Count > 0)
+                {
+                    <tr style="font-weight:bold">
+                        <td colspan="5">
+                            Grand Total :
+                        </td>
+                        <td>
+                            @Model[0].TotalCheque
+                        </td>
+                        <td>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        
+    </div>
+    <!-- /.box-body -->
+</div>

@@ -1,0 +1,951 @@
+﻿@model vb.Data.Model.Customer_Mst
+@{
+    ViewBag.Title = "ManageCustomers";
+    Layout = "~/Areas/wholesale/Views/Shared/_wholesalelayout.cshtml";
+}
+@using vb.Data.ViewModel
+
+<div class="box box-default">
+    <div class="box-header with-border text-center">
+        <h3 class="box-title">Manage Customers</h3>
+    </div>
+    <form id="frmCustomer" class="form-horizontal">
+        <div class="box-body">
+
+            <div class="col-md-12">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <input name="CustomerID" id="UCustomerID" type="hidden" value="" />
+                        <input name="CreatedBy" id="CreatedBy" type="hidden" value="" />
+                        <input name="CreatedOn" id="CreatedOn" type="hidden" value="" />
+                        <label for="CustomerName" class="col-sm-4 control-label">Name</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" name="CustomerName" id="CustomerName" placeholder="Name" tabindex="1">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="Group" class="col-sm-4 control-label">Group</label>
+                        <div class="col-sm-8">
+                            @Html.DropDownListFor(m => m.CustomerGroupID, new SelectList(ViewBag.CustomerGroup, "CustomerGroupID", "CustomerGroupName"), "Select Customer Group", new { @class = "form-control", tabindex = "2" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="Area" class="col-sm-4 control-label">Area</label>
+                        <div class="col-sm-8">
+                            <input name="CustomerNumber" id="CustomerNumber" class="hdnCustomerNumber" type="hidden" value="" />
+                            @Html.DropDownListFor(m => m.AreaID, new SelectList(ViewBag.Area, "AreaID", "AreaName"), "Select Area", new { @class = "form-control", tabindex = "3" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="TINNumber" class="col-sm-4 control-label">GST No</label>
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control" name="TaxNo" id="TaxNo" placeholder="GST Number" tabindex="4">
+                        </div>
+
+                        <label for="IsTCSApplicable" class="col-sm-3 control-label">Is TCS Applicable</label>
+                        <div class="col-sm-1">
+                            <input id="IsTCSApplicable" type="checkbox" tabindex="24" />
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <div class="col-md-6">
+                    <div class="col-md-12">
+                        <label for="Area" class="col-sm-4 control-label">Call Weeks</label>
+
+                        <div class="col-sm-2">
+                            <input id="CallWeek1" type="checkbox" tabindex="5" />Week 1
+                        </div>
+                        <div class="col-sm-2">
+                            <input id="CallWeek2" type="checkbox" tabindex="6" />Week 2
+                        </div>
+                        <div class="col-sm-2">
+                            <input id="CallWeek3" type="checkbox" tabindex="7" />Week 3
+                        </div>
+                        <div class="col-sm-2">
+                            <input id="CallWeek4" type="checkbox" tabindex="8" />Week 4
+                        </div>
+                        <div class="col-sm-4">
+                            <input id="DoNotDisturb" type="checkbox" tabindex="9" />Do Not Disturb
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="SalesPerson" class="col-sm-4 control-label">Sales Person</label>
+                        <div class="col-sm-8">
+                            @Html.DropDownListFor(m => m.UserID, new SelectList(ViewBag.SalesPerson, "UserID", "UserFullName"), "Select Sales Person", new { @class = "form-control", tabindex = "10" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="OpeningTime" class="col-sm-4 control-label">Opening Time</label>
+                        <div class="col-sm-8">
+                            <div class="bootstrap-timepicker">
+                                <div class="input-group">
+                                    <input type="text" class="form-control timepicker" name="OpeningTime" id="OpeningTime" placeholder="Opening Time" tabindex="11">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-clock-o"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="ClosingTime" class="col-sm-4 control-label">Closing Time</label>
+                        <div class="col-sm-8">
+                            <div class="bootstrap-timepicker">
+                                <div class="input-group">
+                                    <input type="text" class="form-control timepicker" name="ClosingTime" id="ClosingTime" placeholder="Closing Time" tabindex="12">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-clock-o"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="TaxType" class="col-sm-4 control-label">Tax Type</label>
+                        <div class="col-sm-8">
+                            @Html.DropDownListFor(m => m.TaxID, new SelectList(ViewBag.Tax, "TaxID", "TaxName"), "Select Tax", new { @class = "form-control", tabindex = "13" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="NoofInvoice" class="col-sm-4 control-label">No of Invoice</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" name="NoofInvoice" id="NoofInvoice" placeholder="No of Invoice" tabindex="14">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="FSSAI" class="col-sm-4 control-label">FSSAI</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" name="FSSAI" id="FSSAI" placeholder="FSSAI" tabindex="15">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="AssignedDate" class="col-sm-4 control-label">FSSAI VALID UP TO</label>
+                        <div class="col-sm-8">
+                            <div class="input-group date">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </div>
+                                <input type="text" class="form-control pull-right datepicker" name="FSSAIValidUpTo" id="FSSAIValidUpTo" tabindex="16">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="LBTNo" class="col-sm-4 control-label">LBT No.</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" name="LBTNo" id="LBTNo" placeholder="LBT No" tabindex="17">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="CustomerType" class="col-sm-4 control-label">Customer Type</label>
+                        <div class="col-sm-8">
+                            <select name="CustomerType" id="CustomerTypeID" class="form-control" tabindex="18">
+                                <option value="" selected>Select</option>
+                                <option value="1">Wholesale</option>
+                                <option value="2">Retail</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="LBTNo" class="col-sm-4 control-label">Branch</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" name="Branch" id="Branch" placeholder="Branch" tabindex="19">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="LBTNo" class="col-sm-4 control-label">Bank Name</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" name="BankName" id="BankName" placeholder="Bank Name" tabindex="20">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="CustomerNote" class="col-sm-4 control-label">Note</label>
+                        <div class="col-sm-8">
+                            <textarea class="form-control" id="CustomerNote" name="CustomerNote" rows="2" cols="20" placeholder="Customer Note" tabindex="21"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="LBTNo" class="col-sm-4 control-label">IFC Code</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" name="IFCCode" id="IFCCode" placeholder="IFC Code" tabindex="22">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="FSSAICertificate" class="col-sm-4 control-label">FSSAI Certi.</label>
+                        <div class="col-sm-4">
+                            <input type="file" class="btn btn-info" id="FSSAICertificate" name="FSSAI Certi." tabindex="23">
+                        </div>
+                        <div class="col-sm-4">
+                            <label for="FSSAICertificate" id="lblFSSAICertificate"></label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="IsVirakiEmployee" class="col-sm-4 control-label">Is Viraki Employee</label>
+                        <div class="col-sm-2">
+                            <input id="IsVirakiEmployee" type="checkbox" tabindex="24" />
+                        </div>
+                        <label for="IsReflectInVoucher" class="col-sm-4 control-label">Reflect In Voucher</label>
+                        <div class="col-sm-2">
+                            <input id="IsReflectInVoucher" type="checkbox" tabindex="24" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="CellNo" class="col-sm-4 control-label">Cell No 1</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" name="CellNo1" id="CellNo1" placeholder="Cell No 1" tabindex="25" maxlength="10">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="CellNo2" class="col-sm-4 control-label">Cell No 2</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" name="CellNo2" id="CellNo2" placeholder="Cell No 2" tabindex="26" maxlength="10">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="TelNo1" class="col-sm-4 control-label">Tel No 1</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" name="TelNo1" id="TelNo1" placeholder="Tel No 1" tabindex="27">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="TelNo2" class="col-sm-4 control-label">Tel No 2</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" name="TelNo2" id="TelNo2" placeholder="Tel No 2" tabindex="28">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="Email1" class="col-sm-4 control-label">Email 1</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" name="Email1" id="Email1" placeholder="Email1" tabindex="29">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="Email2" class="col-sm-4 control-label">Email 2</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" name="Email2" id="Email2" placeholder="Email 2" tabindex="30">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="PanCard" class="col-sm-4 control-label">PAN Card</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" name="PanCard" id="PanCard" placeholder="PanCard Number" tabindex="30">
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+            @*Delivery Address*@
+            <div class="col-md-12">
+                <div class="box-header with-border text-center">
+                    <h3 class="box-title">Enter Delivery Address</h3>
+                </div>
+                <div class="box-body">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="Area" class="col-sm-4 control-label">Area</label>
+                            <div class="col-sm-8">
+                                @Html.DropDownListFor(m => m.DeliveryAreaID, new SelectList(ViewBag.Area, "AreaID", "AreaName"), "Select Area", new { @class = "form-control", tabindex = "3" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="Address1" class="col-sm-4 control-label">Address Line2</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" name="DeliveryAddressLine2" id="DeliveryAddressLine2" placeholder="Address Line2" tabindex="13" maxlength="40">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="DeliveryAddressDistance" class="col-sm-4 control-label">Distance (KM)</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" name="DeliveryAddressDistance" id="DeliveryAddressDistance" placeholder="Distance" tabindex="4">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="Address2" class="col-sm-4 control-label">Address Line1</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" name="DeliveryAddressLine1" id="DeliveryAddressLine1" placeholder="Address Line1" tabindex="13" maxlength="40">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="DeliveryAddressPincode" class="col-sm-4 control-label">Pin Code</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" name="DeliveryAddressPincode" id="DeliveryAddressPincode" placeholder="Pincode" tabindex="4">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div id="DeliveryAddressList" class="form-horizontal">
+                            <div class="box-header with-border text-center">
+                                <h3 class="box-title">Add Contacts</h3>
+                            </div>
+                            <table class="table table-bordered table-bordered" id="DeliveryContacts">
+                                <thead>
+                                    <tr class="form-group">
+                                        <th class="nosort col-sm-2">Name</th>
+                                        <th class="nosort col-sm-2">Role Description</th>
+                                        <th class="nosort col-sm-2">Cell No</th>
+                                        <th class="nosort col-sm-2">Tel No</th>
+                                        <th class="nosort col-sm-2">Email</th>
+                                        <th class="nosort col-sm-2">Note</th>
+                                        <th class="nosort col-sm-2">Add</th>
+                                    </tr>
+                                </thead>
+                                <tr class="form-group" id="AddDeliveryContacts">
+                                    <td id="row">
+                                        <input type="text" class="form-control DName" name="lstDeliveryAddress[0].DName" placeholder="Name" tabindex="13" />
+                                        <input name="delCustomerAddressID" class="hdndelCustomerAddressID" type="hidden" value="0" />
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control DRole" name="lstDeliveryAddress[0].DRole" placeholder="Role Description" tabindex="14" />
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control DCellNo" name="lstDeliveryAddress[0].DCellNo" placeholder="Cell No" tabindex="15" />
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control DTelNo" name="lstDeliveryAddress[0].DTelNo" placeholder="Tel No" tabindex="16" />
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control DEmail" name="lstDeliveryAddress[0].DEmail" placeholder="Email" tabindex="16" />
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control DNote" name="lstDeliveryAddress[0].DNote" placeholder="Note" tabindex="16" />
+                                    </td>
+                                    <td>
+                                        <button type="button" class="btn btn-default addButton" style="width: 45px;"><i class="fa fa-plus" tabindex="17"></i></button>
+                                    </td>
+                                </tr>
+                                <tr class="form-group hide" id="AddMoreDeliveryAddress">
+                                    <td id="row" class="">
+                                        <input type="text" class="form-control DName" name="lstDeliveryAddress[1].DName" placeholder="Name" />
+                                        <input name="delCustomerAddressIDNew" class="hdndelCustomerAddressID" type="hidden" value="0" />
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control  DRole" name="DRole" placeholder="Role Description" />
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control  DCellNo" name="DCellNo" placeholder="Cell No" />
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control  DTelNo" name="DTelNo" placeholder="Tel No" />
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control  DEmail" name="DEmail" placeholder="Email" />
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control  DNote" name="DNote" placeholder="Note" />
+                                    </td>
+                                    <td>
+                                        <button type="button" class="btn btn-default removeButton" style="width: 45px;"> <i class="fa fa-minus"></i></button>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            @*Billing Address*@
+            <div class="col-md-12">
+                <div class="box-header with-border text-center">
+                    <h3 class="box-title">Enter Billing Address</h3>
+                </div>
+                <div class="box-body">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="Area" class="col-sm-4 control-label">Area</label>
+                            <div class="col-sm-8">
+                                @Html.DropDownListFor(m => m.BillingAreaID, new SelectList(ViewBag.Area, "AreaID", "AreaName"), "Select Area", new { @class = "form-control", tabindex = "3" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="Address1" class="col-sm-4 control-label">Address Line2</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" name="BillingAddressLine2" id="BillingAddressLine2" placeholder="Address Line2" tabindex="13" maxlength="40">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="Address2" class="col-sm-4 control-label">Address Line1</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" name="BillingAddressLine1" id="BillingAddressLine1" placeholder="Address Line1" tabindex="13" maxlength="40">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div id="BillingAddressList" class="form-horizontal">
+                            <div class="box-header with-border text-center">
+                                <h3 class="box-title">Add Contacts</h3>
+                            </div>
+                            <table class="table table-bordered table-bordered" id="BillingContacts">
+                                <thead>
+                                    <tr class="form-group">
+                                        <th class="nosort col-sm-2">Name</th>
+                                        <th class="nosort col-sm-2">Role Description</th>
+                                        <th class="nosort col-sm-2">Cell No</th>
+                                        <th class="nosort col-sm-2">Tel No</th>
+                                        <th class="nosort col-sm-2">Email</th>
+                                        <th class="nosort col-sm-2">Note</th>
+                                        <th class="nosort col-sm-2">Add</th>
+                                    </tr>
+                                </thead>
+                                <tr class="form-group" id="AddBillingAddress">
+                                    <td id="row">
+                                        <input type="text" class="form-control BName" name="lstBillingAddress[0].BName" placeholder="Name" tabindex="13" />
+
+                                        <input name="delbillCustomerAddressID" class="hdnbillCustomerAddressID" type="hidden" value="0" />
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control BRole" name="lstBillingAddress[0].BRole" placeholder="Role Description" tabindex="14" />
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control BCellNo" name="lstBillingAddress[0].BCellNo" placeholder="Cell No" tabindex="15" />
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control BTelNo" name="lstBillingAddress[0].BTelNo" placeholder="Tel No" tabindex="16" />
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control BEmail" name="lstBillingAddress[0].BEmail" placeholder="Email" tabindex="16" />
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control BNote" name="lstBillingAddress[0].BNote" placeholder="Note" tabindex="16" />
+                                    </td>
+                                    <td>
+                                        <button type="button" class="btn btn-default addButton" style="width: 45px;"><i class="fa fa-plus" tabindex="17"></i></button>
+                                    </td>
+                                </tr>
+                                <tr class="form-group hide" id="AddMoreBillingAddress">
+                                    <td id="row" class="">
+                                        <input type="text" class="form-control BName" name="lstBillingAddress[1].BName" placeholder="Name" />
+                                        <input name="delbillCustomerAddressIDnew" class="hdnbillCustomerAddressID" type="hidden" value="0" />
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control BRole" name="BRole" placeholder="Role Description" />
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control BCellNo" name="BCellNo" placeholder="Cell No" />
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control BTelNo" name="BTelNo" placeholder="Tel No" />
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control BEmail" name="BEmail" placeholder="Email" />
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control BNote" name="BNote" placeholder="Note" />
+                                    </td>
+                                    <td>
+                                        <button type="button" class="btn btn-default removeButton" style="width: 45px;"><i class="fa fa-minus"></i></button>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.box-body -->
+        <div class="box-footer ">
+            <div class="pull-right">
+                <button type="button" id="btnexport" class="btn btn-info" tabindex="30">Export To Excel</button>
+                <button type="button" id="CancelCustomer" class="btn btn-default" tabindex="29">Cancel</button>
+                @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.WACUSTOMER.ToString()))
+                {
+                    <button type="button" id="btnsavecase" class="btn btn-info" tabindex="28">Save</button>
+                }
+            </div>
+        </div>
+        <!-- /.box-footer -->
+    </form>
+
+    <div id="lstcase">
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        var DNameValidators = {
+            row: '.col-xs-2',   // The title is placed inside a <div class="col-xs-4"> element
+            validators: {
+                notEmpty: {
+                    message: 'The Name is required'
+                }
+            }
+        },
+           DRoleValidators = {
+               row: '.col-xs-2',
+               validators: {
+                   notEmpty: {
+                       message: 'The Role is required'
+                   },
+                   DRole: {
+                       message: 'The Role is not valid'
+                   }
+               }
+           },
+
+            DCellNoValidators = {
+                row: '.col-xs-2',
+                validators: {
+                    notEmpty: {
+                        message: 'The Cell No is required'
+                    },
+                    DCellNo: {
+                        message: 'The Cell No is not valid'
+                    }
+                }
+            },
+
+            DTelNoValidators = {
+                row: '.col-xs-2',
+                validators: {
+                    notEmpty: {
+                        message: 'The  Tel No is required'
+                    },
+                    DTelNo: {
+                        message: 'The  Tel No is not valid'
+                    }
+                }
+            },
+
+            DEmailValidators = {
+                row: '.col-xs-2',
+                validators: {
+                    notEmpty: {
+                        message: 'The  Email is required'
+                    },
+                    DEmail: {
+                        message: 'The  Email is not valid'
+                    }
+                }
+            },
+            bookIndex = 0;
+        $('#DeliveryAddressList')
+
+            // Add button click handler
+            .on('click', '.addButton', function () {
+                debugger;
+                bookIndex++;
+                var $template = $('#AddMoreDeliveryAddress'),
+                    $clone = $template
+                                    .clone()
+                                    .removeClass('hide')
+                                    .removeAttr('id')
+                                    .attr('data-book-index', bookIndex)
+                                    .insertBefore($template);
+                // Update the name attributes
+                $clone
+                     .find('[name="DName"]').attr('name', 'lstDeliveryAddress[' + bookIndex + '].DName').end()
+                     .find('[name="DRole"]').attr('name', 'lstDeliveryAddress[' + bookIndex + '].DRole').end()
+                     .find('[name="DCellNo"]').attr('name', 'lstDeliveryAddress[' + bookIndex + '].DCellNo').end()
+                     .find('[name="DTelNo"]').attr('name', 'lstDeliveryAddress[' + bookIndex + '].DTelNo').end()
+                     .find('[name="DEmail"]').attr('name', 'lstDeliveryAddress[' + bookIndex + '].DEmail').end()
+                     .find('[name="DNote"]').attr('name', 'lstDeliveryAddress[' + bookIndex + '].DNote').end();
+            })
+            // Remove button click handler
+            .on('click', '.removeButton', function () {
+                var $row = $(this).parents('.form-group'),
+                    index = $row.attr('data-book-index');
+                // Remove fields
+                $row.remove();
+            });
+    });
+
+</script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        var BNameValidators = {
+            row: '.col-xs-2',   // The title is placed inside a <div class="col-xs-4"> element
+            validators: {
+                notEmpty: {
+                    message: 'The Name is required'
+                }
+            }
+        },
+           BRoleValidators = {
+               row: '.col-xs-2',
+               validators: {
+                   notEmpty: {
+                       message: 'The Role is required'
+                   },
+                   BRole: {
+                       message: 'The Role is not valid'
+                   }
+               }
+           },
+
+            BCellNoValidators = {
+                row: '.col-xs-2',
+                validators: {
+                    notEmpty: {
+                        message: 'The Cell No is required'
+                    },
+                    BCellNo: {
+                        message: 'The Cell No is not valid'
+                    }
+                }
+            },
+            BTelNoValidators = {
+                row: '.col-xs-2',
+                validators: {
+                    notEmpty: {
+                        message: 'The  Tel No is required'
+                    },
+                    BTelNo: {
+                        message: 'The  Tel No is not valid'
+                    }
+                }
+            },
+            BEmailValidators = {
+                row: '.col-xs-2',
+                validators: {
+                    notEmpty: {
+                        message: 'The  Email is required'
+                    },
+                    BEmail: {
+                        message: 'The  Email is not valid'
+                    }
+                }
+            },
+            bookIndex = 0;
+        $('#BillingAddressList')
+
+            // Add button click handler
+            .on('click', '.addButton', function () {
+                //debugger;
+                bookIndex++;
+                var $template = $('#AddMoreBillingAddress'),
+                    $clone = $template
+                                    .clone()
+                                    .removeClass('hide')
+                                    .removeAttr('id')
+                                    .attr('data-book-index', bookIndex)
+                                    .insertBefore($template);
+                // Update the name attributes
+                $clone
+                     .find('[name="BName"]').attr('name', 'lstBillingAddress[' + bookIndex + '].BName').end()
+                     .find('[name="BRole"]').attr('name', 'lstBillingAddress[' + bookIndex + '].BRole').end()
+                     .find('[name="BCellNo"]').attr('name', 'lstBillingAddress[' + bookIndex + '].BCellNo').end()
+                     .find('[name="BTelNo"]').attr('name', 'lstBillingAddress[' + bookIndex + '].BTelNo').end()
+                     .find('[name="BEmail"]').attr('name', 'lstBillingAddress[' + bookIndex + '].BEmail').end()
+                     .find('[name="BNote"]').attr('name', 'lstBillingAddress[' + bookIndex + '].BNote').end();
+            })
+            // Remove button click handler
+            .on('click', '.removeButton', function () {
+                var $row = $(this).parents('.form-group'),
+                    index = $row.attr('data-book-index');
+                // Remove fields
+                $row.remove();
+            });
+    });
+</script>
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script>
+
+    $(document).ready(function () {
+        loadhtml();
+    });
+
+    function loadhtml() {
+        $.ajax({
+            url: '@Url.Action("ManageCustomersList")',
+            type: 'GET',
+            cache: false,
+        }).done(function (result) {
+            $('#lstcase').html(result);
+        });
+    }
+
+    $("#btnsavecase").click(function () {
+        var lstAddress = [];
+        debugger;
+        $('#DeliveryContacts').children('tbody').children('tr:visible').each(function (index, row) {
+            if (row.children.length == 7) {
+                var dataDeliveryAddr = new Object();
+                if ($(row).find("input[type=hidden]")[0].value != null && $(row).find("input[type=hidden]")[0].value != "" && $(row).find("input[type=hidden]")[0].value != undefined) {
+                    dataDeliveryAddr.CustomerAddressID = $(row).find("input[type=hidden]")[0].value;
+                }
+                else {
+                    dataDeliveryAddr.CustomerAddressID = 0;
+                }
+                //dataDeliveryAddr.CustomerAddressID = $(row).find("input[type=hidden]")[0].value;
+                dataDeliveryAddr.AddressID = '1';
+                dataDeliveryAddr.Name = $(row).find("input")[0].value;
+                dataDeliveryAddr.RoleDescription = $(row).find("input")[2].value;
+                dataDeliveryAddr.CellNo = $(row).find("input")[3].value;
+                dataDeliveryAddr.TelNo = $(row).find("input")[4].value;
+                dataDeliveryAddr.Email = $(row).find("input")[5].value;
+                dataDeliveryAddr.Note = $(row).find("input")[6].value;
+                if ((dataDeliveryAddr.CellNo != '') || (dataDeliveryAddr.TelNo != '')) {
+                    lstAddress.push(dataDeliveryAddr);
+                }
+            }
+        });
+
+        $('#BillingContacts').children('tbody').children('tr:visible').each(function (index, row) {
+            if (row.children.length == 7) {
+                var dataBillingAddr = new Object();
+                dataBillingAddr.CustomerAddressID = $(row).find("input[type=hidden]")[0].value;
+                dataBillingAddr.AddressID = '2';
+                dataBillingAddr.Name = $(row).find("input")[0].value;
+                dataBillingAddr.RoleDescription = $(row).find("input")[2].value;
+                dataBillingAddr.CellNo = $(row).find("input")[3].value;
+                dataBillingAddr.TelNo = $(row).find("input")[4].value;
+                dataBillingAddr.Email = $(row).find("input")[5].value;
+                dataBillingAddr.Note = $(row).find("input")[6].value;
+                if ((dataBillingAddr.CellNo != '') || (dataBillingAddr.TelNo != '')) {
+                    lstAddress.push(dataBillingAddr);
+                }
+            }
+        });
+
+        var data = new FormData();
+        data.append("CustomerNumber", $("#CustomerNumber").val());
+        data.append("CustomerID", $("#UCustomerID").val());
+        data.append("CustomerName", $("#CustomerName").val());
+        data.append("CustomerGroupID", $("#CustomerGroupID").val());
+        data.append("AreaID", $("#AreaID").val());
+        data.append("TaxNo", $("#TaxNo").val());
+        data.append("UserID", $("#UserID").val());
+        data.append("TaxID", $("#TaxID").val());
+        data.append("OpeningTime", $("#OpeningTime").val());
+        data.append("ClosingTime", $("#ClosingTime").val());
+        data.append("NoofInvoice", $("#NoofInvoice").val());
+        data.append("FSSAI", $("#FSSAI").val());
+        data.append("CustomerTypeID", $("#CustomerTypeID").val());
+        data.append("LBTNo", $("#LBTNo").val());
+        data.append("CallWeek1", $('#CallWeek1').is(":checked"));
+        data.append("CallWeek2", $('#CallWeek2').is(":checked"));
+        data.append("CallWeek3", $('#CallWeek3').is(":checked"));
+        data.append("CallWeek4", $('#CallWeek4').is(":checked"));
+        data.append("DoNotDisturb", $('#DoNotDisturb').is(":checked"));
+        data.append("CustomerNote", $("#CustomerNote").val());
+        data.append("BankName", $("#BankName").val());
+        data.append("Branch", $("#Branch").val());
+        data.append("IFCCode", $("#IFCCode").val());
+        data.append("FSSAIValidUpTo", $("#FSSAIValidUpTo").val());
+        data.append("DeliveryAreaID", $("#DeliveryAreaID").val());
+        data.append("DeliveryAddressLine1", $("#DeliveryAddressLine1").val());
+        data.append("DeliveryAddressLine2", $("#DeliveryAddressLine2").val());
+        data.append("DeliveryAddressPincode", $("#DeliveryAddressPincode").val());
+        data.append("DeliveryAddressDistance", $("#DeliveryAddressDistance").val());
+        data.append("BillingAreaID", $("#BillingAreaID").val());
+        data.append("BillingAddressLine1", $("#BillingAddressLine1").val());
+        data.append("BillingAddressLine2", $("#BillingAddressLine2").val());
+        data.append("address", JSON.stringify(lstAddress));
+        var FSSAICertificatefile = "";
+        if ($("#FSSAICertificate").val().length > 0) {
+            FSSAICertificatefile = $("#FSSAICertificate").get(0).files;
+        }
+        if (FSSAICertificatefile != "") {
+            data.append("FSSAICertificate", FSSAICertificatefile[0]);
+        }
+        else {
+            data.append("FSSAICertificate", FSSAICertificatefile);
+        }
+        data.append("IsVirakiEmployee", $('#IsVirakiEmployee').is(":checked"));
+        data.append("IsReflectInVoucher", $('#IsReflectInVoucher').is(":checked"));
+        data.append("CellNo1", $("#CellNo1").val());
+        data.append("CellNo2", $("#CellNo2").val());
+        data.append("TelNo1", $("#TelNo1").val());
+        data.append("TelNo2", $("#TelNo2").val());
+        data.append("Email1", $("#Email1").val());
+        data.append("Email2", $("#Email2").val());
+
+        data.append("IsTCSApplicable", $('#IsTCSApplicable').is(":checked"));
+        data.append("PanCard", $("#PanCard").val());
+        data.append("CreatedBy", $("#CreatedBy").val());
+        data.append("CreatedOn", $("#CreatedOn").val());
+
+        //var datareq = new Object();
+        //datareq.CustomerNumber = $("#CustomerNumber").val();
+        //datareq.CustomerID = $("#UCustomerID").val();
+        //datareq.CustomerName = $("#CustomerName").val();
+        //datareq.CustomerGroupID = $("#CustomerGroupID").val();
+        //datareq.AreaID = $("#AreaID").val();
+        //datareq.TaxNo = $("#TaxNo").val();
+        //datareq.UserID = $("#UserID").val();
+        //datareq.TaxID = $("#TaxID").val();
+        //datareq.OpeningTime = $("#OpeningTime").val();
+        //datareq.ClosingTime = $("#ClosingTime").val();
+        //datareq.NoofInvoice = $("#NoofInvoice").val();
+        //datareq.FSSAI = $("#FSSAI").val();
+        //datareq.CustomerTypeID = $("#CustomerTypeID").val();
+        //datareq.LBTNo = $("#LBTNo").val();
+        //datareq.CallWeek1 = $('#CallWeek1').is(":checked");
+        //datareq.CallWeek2 = $('#CallWeek2').is(":checked");
+        //datareq.CallWeek3 = $('#CallWeek3').is(":checked");
+        //datareq.CallWeek4 = $('#CallWeek4').is(":checked");
+        //datareq.DoNotDisturb = $('#DoNotDisturb').is(":checked");
+        //datareq.CustomerNote = $("#CustomerNote").val();
+        //datareq.BankName = $("#BankName").val();
+        //datareq.Branch = $("#Branch").val();
+        //datareq.IFCCode = $("#IFCCode").val();
+        //datareq.FSSAIValidUpTo = $("#FSSAIValidUpTo").val();
+        //datareq.DeliveryAreaID = $("#DeliveryAreaID").val();
+        //datareq.DeliveryAddressLine1 = $("#DeliveryAddressLine1").val();
+        //datareq.DeliveryAddressLine2 = $("#DeliveryAddressLine2").val();
+        //datareq.DeliveryAddressPincode = $("#DeliveryAddressPincode").val();
+        //datareq.DeliveryAddressDistance = $("#DeliveryAddressDistance").val();
+        //datareq.BillingAreaID = $("#BillingAreaID").val();
+        //datareq.BillingAddressLine1 = $("#BillingAddressLine1").val();
+        //datareq.BillingAddressLine2 = $("#BillingAddressLine2").val();
+        // datareq.lstAddress = lstAddress;
+        $.ajax({
+            url: '@Url.Action("ManageCustomers")',
+            type: 'POST',
+            //data: { 'data': datareq },
+            data: data,
+            processData: false,
+            contentType: false,
+            cache: false,
+        }).done(function (result) {
+            debugger;
+            if (result == 'Already Exist')
+            { alert("Already Exist"); }
+            else {
+                if (result == 'True') {
+                    if ($("#CustomerID").val() == "") {
+                        $('div#sucessalert').html("Customer created successfully.");
+                    }
+                    else {
+                        $('div#sucessalert').html("Customer updated successfully.");
+                    }
+                    showhidealert();
+                    loadhtml();
+                    clearform();
+                }
+            }
+        });
+    });
+
+    $("#CancelCustomer").click(function () {
+        clearform();
+    });
+
+    function clearform() {
+        $("#frmCustomer").find("input").val("");
+        $("#frmCustomer").find("textarea").val("");
+        $("#CustomerGroupID").val("").trigger("change");
+        $("#AreaID").val("").trigger("change");
+        $("#UserID").val("").trigger("change");
+        $("#TaxID").val("").trigger("change");
+        $("#CustomerTypeID").val("").trigger("change");
+        $("#DeliveryAreaID").val("").trigger("change");
+        $("#BillingAreaID").val("").trigger("change");
+        $("#CallWeek1").prop('checked', false);
+        $("#CallWeek2").prop('checked', false);
+        $("#CallWeek3").prop('checked', false);
+        $("#CallWeek4").prop('checked', false);
+        $("#DoNotDisturb").prop('checked', false);
+        $("#IsVirakiEmployee").prop('checked', false);
+        $("#IsReflectInVoucher").prop('checked', false);
+        if ($('#DeliveryContacts').find('tbody tr:visible').length > 1)
+            $('#DeliveryContacts').find('tbody tr:visible').not(':first').empty();
+        if ($('#BillingContacts').find('tbody tr:visible').length > 1)
+            $('#BillingContacts').find('tbody tr:visible').not(':first').empty();
+        $("#lblFSSAICertificate").text("");
+    }
+
+    $("#btnexport").click(function () {
+        debugger;
+        var url = '@Url.Action("ExportExcelCustomer", "Customer")';
+        window.location.href = url.replace();
+    });
+</script>

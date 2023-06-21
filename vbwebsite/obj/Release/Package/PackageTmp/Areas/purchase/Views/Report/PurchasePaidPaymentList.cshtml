@@ -1,0 +1,583 @@
+﻿@model List<vb.Data.PurchasePaidPaymentList>
+
+<div class="box">
+    <div class="box-header text-center">
+        <h3 class="box-title">Payment Paid List</h3>
+    </div>
+    <div class="box-body">
+        <table id="ListDataTable" class="table table-bordered table-striped lstbillwisepurchase">
+            <thead>
+                <tr>
+                    <th class="nosort">Supplier Name</th>
+                    <th class="nosort">Bill Number</th>
+                    <th class="nosort">Bill Date</th>
+                    <th class="nosort">Payment Date</th>
+                    <th class="nosort">Amount</th>
+                    <th class="nosort">Bank Name</th>
+                    <th class="nosort">Payment Type</th>
+                    <th class="nosort">Account Number</th>
+                    <th class="nosort">IFSC Code</th>
+                    <th class="nosort">Mobile Number</th>
+                    <th class="nosort">Email</th>
+                    <th class="nosort">Bill Amount</th>
+                    <th class="nosort">Net Amount</th>
+                    <th class="nosort">Edit</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td id="row">
+                            <input type="hidden" id="hdnPaymentID" class="hdnPaymentID" value="@item.PaymentID" />
+                            @item.SupplierName
+                            @*<a style="cursor:pointer;" class="btneditpurchase" data-purchaseid="@item.PurchaseID">@item.BillNumber</a>*@
+                        </td>
+                        <td>
+                            @item.BillNumber
+                        </td>
+                        <td>
+                            @item.BillDatestr
+                        </td>
+                        <td>
+                            @item.Payment_Date
+                        </td>
+
+                        <td>
+                            @item.Amount.ToString("0.00")
+                        </td>
+                        <td>
+                            @item.SupplierBankName
+                        </td>
+                        <td>
+                            @item.Payment_Type
+                        </td>
+                        <td>
+                            @item.AccountNumber
+                        </td>
+                        <td>
+                            @item.IFSCCode
+                        </td>
+                        <td>
+                            @item.MobileNumber
+                        </td>
+                        <td>
+                            @item.Email
+                        </td>
+                        <td>
+                            @item.BillAmount.ToString("0.00")
+                        </td>
+                        <td>
+                            @item.NetAmount.ToString("0.00")
+                        </td>
+                        <td>
+                            <a style="cursor:pointer;" class="btneditpayment" data-paymentid="@item.PaymentID" data-purchaseid="@item.PurchaseID" data-billnumber="@item.BillNumber"
+                               data-amount="@item.BillAmount" data-godownid="@item.GodownID" data-paymentdatestr="@item.PaymentDatestr" data-bankid="@item.BankID"
+                               data-chequeno="@item.ChequeNo" data-typeofcard="@item.TypeOfCard" data-utrnumber="@item.UTRNumber"
+                               data-cash="@item.Cash" data-cheque="@item.Cheque" data-card="@item.Card" data-online="@item.Online" data-bankbranchviraki="@item.BankBranchViraki" data-bankifsccodeviraki="@item.BankIFSCCodeViraki">edit</a>
+                        </td>
+                    </tr>
+                }
+                @if (Model.Count > 0)
+                {
+                    <tr style="font-weight:bold">
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>
+                            @Model[0].sumAmount.ToString("0.00")
+                        </td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>
+                            @Model[0].sumBillAmount.ToString("0.00")
+                        </td>
+                        <td>
+                            @Model[0].sumNetAmount.ToString("0.00")
+                        </td>
+                        <td></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+
+
+        <div id="responsive" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header" style="padding-bottom: 0px;">
+                        <h4 class="modal-title">Update Payment</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <input name="PurchaseID" id="PurchaseID" class="hdnPurchaseID" type="hidden" value="" />
+                                    <input name="PaymentID" id="PaymentID" class="hdnPaymentID" type="hidden" value="" />
+                                    <label for="PackageDate" class="col-sm-4 control-label">Invoice Number</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" name="BillNumber" maxlength="100" id="BillNumber" placeholder="Bill Number" tabindex="2" disabled="disabled">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:10px;">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="BatchNo" class="col-sm-4 control-label">Amount</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" name="Amount" maxlength="100" id="Amount" placeholder="Amount" tabindex="2">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        @*<div class="row" style="margin-top:10px;">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="Godown" class="col-sm-4 control-label">Cash Option :</label>
+                                        <div class="col-sm-8">
+                                            @Html.DropDownList("GodownID", new SelectList(ViewBag.CashOption, "GodownID", "CashOption"), "Select Cash", new { @class = "form-control select2" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>*@
+
+
+                        <div class="modal-header" style="padding-bottom: 0px;">
+                            <h4 class="modal-title">Payment Type</h4>
+                        </div>
+                        <div class="row" style="margin-top:10px;">
+                            <div class="col-md-6">
+                                <div class="col-sm-6">
+                                    <input id="Cash" class="check cash" type="checkbox" checked="checked" tabindex="5" />Cash
+                                </div>
+                                <div class="row" id="divCash" style="margin-top:10px;">
+                                    <div class="col-md-12" style="padding-bottom: 8px;">
+                                        <div class="form-group">
+                                            <div class="col-sm-12">
+                                                @Html.DropDownList("GodownID", new SelectList(ViewBag.CashOption, "GodownID", "CashOption"), "Select Cash", new { @class = "form-control select2" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12" style="padding-bottom: 8px;">
+                                        <div class="form-group">
+                                            <div class="col-sm-12">
+                                                <div class="input-group date">
+                                                    <div class="input-group-addon">
+                                                        <i class="fa fa-calendar"></i>
+                                                    </div>
+                                                    <input type="text" class="form-control pull-right datepicker" id="CashPaymentDate" tabindex="3" autocomplete="off">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-6">
+                                <div class="col-sm-6">
+                                    <input id="Card" class="check card" type="checkbox" checked="checked" tabindex="7" />Card
+                                </div>
+                                <div class="row" id="divCard" style="margin-top:10px;">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <div class="col-sm-12">
+                                                    @Html.DropDownList("BankIDCard", new SelectList(ViewBag.BankName, "BankID", "BankName"), "Select Bank", new { @class = "form-control select2" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row" style="margin-top:10px;">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <div class="col-sm-12">
+                                                    <input type="text" class="form-control" name="TypeOfCard" maxlength="100" id="TypeOfCard" placeholder="Type Of Card" tabindex="1" autocomplete="off">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="row" style="margin-top:10px;">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <div class="col-sm-12">
+                                                    <div class="input-group date">
+                                                        <div class="input-group-addon">
+                                                            <i class="fa fa-calendar"></i>
+                                                        </div>
+                                                        <input type="text" class="form-control pull-right datepicker" id="CardPaymentDate" autocomplete="off" tabindex="3">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                        <div class="row" style="margin-top:10px;">
+
+                            <div class="col-md-6">
+                                <div class="col-sm-6">
+                                    <input id="Cheque" class="check cheque" type="checkbox" checked="checked" tabindex="6" />Check
+                                </div>
+                                <div class="row" id="divCheque" style="margin-top:10px;">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <div class="col-sm-12">
+                                                    @Html.DropDownList("BankIDCheck", new SelectList(ViewBag.BankName, "BankID", "BankName"), "Select Bank", new { @class = "form-control select2" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row" style="margin-top:10px;">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <div class="col-sm-12">
+                                                    <input type="text" class="form-control" name="BankBranchViraki" maxlength="100" id="BankBranchViraki" placeholder="Bank Branch" tabindex="1" autocomplete="off" disabled="disabled">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row" style="margin-top:10px;">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <div class="col-sm-12">
+                                                    <input type="text" class="form-control" name="ChequeNo" maxlength="100" id="ChequeNo" placeholder="Cheque No" tabindex="1" autocomplete="off">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row" style="margin-top:10px;">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <div class="col-sm-12">
+                                                    <div class="input-group date">
+                                                        <div class="input-group-addon">
+                                                            <i class="fa fa-calendar"></i>
+                                                        </div>
+                                                        <input type="text" class="form-control pull-right datepicker" id="ChequeDate" autocomplete="off" tabindex="3">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row" style="margin-top:10px;">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <div class="col-sm-12">
+                                                    <input type="text" class="form-control" name="BankIFSCCodeViraki" maxlength="100" id="BankIFSCCodeViraki" placeholder="IFC Code" tabindex="1" autocomplete="off" disabled="disabled">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="col-sm-6">
+                                    <input id="Online" class="check online" type="checkbox" checked="checked" tabindex="7" />Online
+                                </div>
+                                <div class="row" id="divOnline" style="margin-top:10px;">
+                                    <div class="col-md-12" style="padding-bottom: 8px;">
+                                        <div class="form-group">
+                                            <div class="col-sm-12">
+                                                @Html.DropDownList("BankIDOnline", new SelectList(ViewBag.BankName, "BankID", "BankName"), "Select Bank", new { @class = "form-control select2" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12" style="padding-bottom: 8px;">
+                                        <div class="form-group">
+                                            <div class="col-sm-12">
+                                                <input type="text" class="form-control" name="UTRNumber" maxlength="100" id="UTRNumber" placeholder="UTR Number" tabindex="2" autocomplete="off">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12" style="padding-bottom: 8px;">
+                                        <div class="form-group">
+                                            <div class="col-sm-12">
+                                                <div class="input-group date">
+                                                    <div class="input-group-addon">
+                                                        <i class="fa fa-calendar"></i>
+                                                    </div>
+                                                    <input type="text" class="form-control pull-right datepicker" id="OnlinePaymentDate" tabindex="3" autocomplete="off">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="btnupdatepayment" class="btnupdatepayment btn btn-info">Update</button>
+                        <button type="button" class="btnclosepopup btn btn-info" data-dismiss="modal" aria-hidden="true">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+<script>
+
+    $('.datepicker').datepicker({
+        autoclose: true
+    });
+
+    //EditPayment
+    $('.lstbillwisepurchase').on('click', '.btneditpayment', function () {
+        debugger;
+        var PaymentID = $(this).attr("data-paymentid");
+        var PurchaseID = $(this).attr("data-purchaseid");
+        var BillNumber = $(this).attr("data-billnumber");
+        var GodownID = $(this).attr("data-godownid");
+        var Cash = $(this).attr("data-cash");
+        var CashPaymentDate = $(this).attr("data-paymentdatestr");
+        var Cheque = $(this).attr("data-cheque");
+        var Card = $(this).attr("data-card");
+        var Online = $(this).attr("data-online");
+
+        //Cheque
+        var BankIDCheck = $(this).attr("data-bankid");
+        var BankBranchViraki = $(this).attr("data-bankbranchviraki");
+        var ChequeNo = $(this).attr("data-chequeno");
+        var ChequeDate = $(this).attr("data-paymentdatestr");
+        var BankIFSCCodeViraki = $(this).attr("data-bankifsccodeviraki");
+
+        //Card
+        var BankIDCard = $(this).attr("data-bankid");
+        var TypeOfCard = $(this).attr("data-typeofcard");
+        var CardPaymentDate = $(this).attr("data-paymentdatestr");
+
+        //Online
+        var BankIDOnline = $(this).attr("data-bankid");
+        var UTRNumber = $(this).attr("data-utrnumber");
+        var OnlinePaymentDate = $(this).attr("data-paymentdatestr");
+
+        clearcontents(PaymentID, PurchaseID, BillNumber, GodownID, Cash, Cheque, Card, Online, CashPaymentDate, BankIDCheck, BankBranchViraki, ChequeNo, ChequeDate, BankIFSCCodeViraki, BankIDCard, TypeOfCard, CardPaymentDate, Online, BankIDOnline, UTRNumber, OnlinePaymentDate);
+        $("#responsive").removeClass("modal fade").addClass("modal fade modal-overflow in");
+        $("#responsive").css("display", "block");
+    });
+
+    function clearcontents(PaymentID, PurchaseID, BillNumber, GodownID, Cash, Cheque, Card, Online, CashPaymentDate, BankIDCheck, BankBranchViraki, ChequeNo, ChequeDate, BankIFSCCodeViraki, BankIDCard, TypeOfCard, CardPaymentDate, Online, BankIDOnline, UTRNumber, OnlinePaymentDate) {
+        debugger;
+        $('#PaymentID').attr('value', PaymentID);
+        $('#PurchaseID').attr('value', PurchaseID);
+        $('#BillNumber').attr('value', BillNumber);
+
+        if (Cash != 0) {
+            $("#responsive").find("#GodownID").val(GodownID).trigger("change");
+            $('#Amount').val(Cash);
+            $('#CashPaymentDate').val(CashPaymentDate);
+            $("#Cash").prop('checked', true);
+            $("#Cheque").prop('checked', false);
+            $("#Online").prop('checked', false);
+            $("#Card").prop('checked', false);
+        }
+        if (Cheque != 0) {
+            $('#Amount').val(Cheque);
+            $("#Cheque").prop('checked', true);
+            $("#responsive").find("#BankIDCheck").val(BankIDCheck).trigger("change");
+            $('#BankBranchViraki').val(BankBranchViraki);
+            $('#ChequeNo').val(ChequeNo);
+            $('#ChequeDate').val(ChequeDate);
+            $('#BankIFSCCodeViraki').val(BankIFSCCodeViraki);
+            $("#Online").prop('checked', false);
+            $("#Card").prop('checked', false);
+            $("#Cash").prop('checked', false);
+        }
+        if (Card != 0) {
+            $('#Amount').val(Card);
+            $("#Card").prop('checked', true);
+            $("#responsive").find("#BankIDCard").val(BankIDCard).trigger("change");
+            $('#TypeOfCard').val(TypeOfCard);
+            $('#CardPaymentDate').val(CardPaymentDate);
+            $("#Online").prop('checked', false);
+            $("#Cheque").prop('checked', false);
+            $("#Cash").prop('checked', false);
+        }
+        if (Online != 0) {
+            $('#Amount').val(Online);
+            $("#Online").prop('checked', true);
+            $("#responsive").find("#BankIDOnline").val(BankIDOnline).trigger("change");
+            $('#UTRNumber').val(UTRNumber);
+            $('#OnlinePaymentDate').val(OnlinePaymentDate);
+            $("#Card").prop('checked', false);
+            $("#Cheque").prop('checked', false);
+            $("#Cash").prop('checked', false);
+        }
+    }
+
+    $(".btnclosepopup").click(function () {
+        debugger;
+        $('#responsive').removeClass("modal fade modal-overflow in");
+        $('#responsive').removeAttr('style');
+        $('#responsive').addClass("modal fade");
+        $('#Cash').prop('checked', false);
+        $('#Cheque').prop('checked', false);
+        $('#Card').prop('checked', false);
+        $('#Online').prop('checked', false);
+        $('#Amount').val('');
+        $("#GodownID").val("").trigger("change");
+        $('#CashPaymentDate').val('');
+        //$("#BankIDCheck").val("").trigger("change");
+        $('#BankBranchViraki').val('');
+        $('#ChequeNo').val('');
+        $('#ChequeDate').val('');
+        $('#IFCCode').val('');
+        $('#BankIFSCCodeViraki').val('');
+        //$("#BankIDCard").val("").trigger("change");
+        $('#TypeOfCard').val('');
+        $('#CardPaymentDate').val('');
+        //$("#BankIDOnline").val("").trigger("change");
+        $('#UTRNumber').val('');
+        $('#OnlinePaymentDate').val('');
+    });
+
+    $(function () {
+        $(".check").change(function () {
+            if ($(this).is(":checked")) {
+                $(".check").not($(this)).each(function () {
+                    $(this).removeAttr("checked");
+                })
+            }
+        })
+    });
+
+    $("#btnupdatepayment").click(function () {
+        debugger;
+        if ($("#Online").is(":checked") != false || $("#Cash").is(":checked") != false || $("#Cheque").is(":checked") != false || $("#Card").is(":checked") != false) {
+            var datareq = new Object();
+            datareq.Online = $("#Online").is(":checked");
+            datareq.Cash = $("#Cash").is(":checked");
+            datareq.Cheque = $("#Cheque").is(":checked");
+            datareq.Card = $("#Card").is(":checked");
+
+            datareq.PaymentID = $("#PaymentID").val();
+            datareq.PurchaseID = $("#PurchaseID").val();
+            datareq.BillNumber = $("#BillNumber").val();
+            datareq.Amount = $("#Amount").val();
+
+            datareq.GodownID = $("#responsive").find("#GodownID").val();
+            datareq.CashPaymentDate = $("#CashPaymentDate").val();
+
+            datareq.BankIDCard = $("#responsive").find("#BankIDCard").val();
+            datareq.TypeOfCard = $("#TypeOfCard").val();
+            datareq.CardPaymentDate = $("#CardPaymentDate").val();
+
+            datareq.BankIDCheck = $("#responsive").find("#BankIDCheck").val();
+            datareq.ChequeNo = $("#ChequeNo").val();
+            datareq.ChequeDate = $("#ChequeDate").val();
+
+            datareq.BankIDOnline = $("#responsive").find("#BankIDOnline").val();
+            datareq.UTRNumber = $("#UTRNumber").val();
+            datareq.OnlinePaymentDate = $("#OnlinePaymentDate").val();
+
+            $.ajax({
+                url: '@Url.Action("UpdatePurchasePayment")',
+                type: 'POST',
+                data: { 'data': datareq },
+                cache: false,
+            }).done(function (result) {
+                if (result == true) {
+                    if ($("#PaymentID").val() == "") {
+                        $('div#sucessalert').html("Payment Add successfully.");
+                    }
+                    else {
+                        $('div#sucessalert').html("Payment updated successfully.");
+                    }
+                    showhidealert();
+                    clearform();
+                    //loadhtml();
+                }
+            });
+        }
+        else {
+            alert("Please check at least one payment method");
+        }
+    });
+
+
+
+    $("#BankIDCheck").on('change keypress', function (e) {
+        var BankID = this.value;
+        if (BankID != "") {
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("GetBankDetailByBankID")',
+                data: { BankID: BankID },
+                success: function (result) {
+                    debugger;
+                    $('#BankBranchViraki').val(result.Branch);
+                    $('#BankIFSCCodeViraki').val(result.IFSCCode);
+                },
+                error: function () { alert('Error'); }
+            });
+        }
+        else {
+            clearcontents();
+        }
+    });
+
+
+    @*function loadhtml() {
+        var model = new Object();
+        model.AssignedDate = $("#AssignedDate").val();
+        model.GodownID = $("#GodownID").val();
+        $.ajax({
+            url: '@Url.Action("CashCounterReportList")',
+            type: 'POST',
+            data: { 'model': model },
+            cache: false,
+        }).done(function (result) {
+            $('#lstcase').html(result);
+        });
+    }*@
+
+    function clearform() {
+        $('#responsive').removeClass("modal fade modal-overflow in");
+        $('#responsive').removeAttr('style');
+        $('#responsive').addClass("modal fade");
+        $('#Cash').prop('checked', false);
+        $('#Cheque').prop('checked', false);
+        $('#Card').prop('checked', false);
+        $('#Online').prop('checked', false);
+        $('#Amount').val('');
+        $("#GodownID").val("").trigger("change");
+        $('#CashPaymentDate').val('');
+        //$("#BankIDCheck").val("").trigger("change");
+        $('#BankBranchViraki').val('');
+        $('#ChequeNo').val('');
+        $('#ChequeDate').val('');
+        $('#IFCCode').val('');
+        $('#BankIFSCCodeViraki').val('');
+        //$("#BankIDCard").val("").trigger("change");
+        $('#TypeOfCard').val('');
+        $('#CardPaymentDate').val('');
+        //$("#BankIDOnline").val("").trigger("change");
+        $('#UTRNumber').val('');
+        $('#OnlinePaymentDate').val('');
+    }
+
+</script>
+

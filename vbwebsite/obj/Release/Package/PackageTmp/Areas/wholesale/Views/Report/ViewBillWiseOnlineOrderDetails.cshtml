@@ -1,0 +1,117 @@
+﻿@model List<vb.Data.OnlineOrderQty>
+
+
+@{
+    ViewBag.Title = "ViewBillWiseOnlineOrderDetails";
+    Layout = "~/Areas/wholesale/Views/Shared/_wholesalelayout.cshtml";
+}
+
+<div class="box">
+    <div class="box-header text-center">
+        <h3 class="box-title">View - Online Order</h3>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body">
+        @if (Model.Count > 0)
+        {
+            <form id="frmwinv" class="form-horizontal">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="CustomerName" class="col-sm-4 control-label">Customer Name : </label>
+                            <div class="col-sm-8">
+                                <label for="CustomerName" class="control-label" style="text-align:left">@Model[0].OnlineOrderDetails.CustomerName</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="InvoiceNumber" class="col-sm-4 control-label">Contact Number : </label>
+                            <div class="col-sm-8">
+                                <label for="CustomerNumber" class="control-label" style="text-align:left">@Model[0].OnlineOrderDetails.ContactNo</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="BillTo" class="col-sm-4 control-label">Email :</label>
+                            <div class="col-sm-8">
+                                <label for="Email" class="control-label" style="text-align:left">@Model[0].OnlineOrderDetails.Email</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="BillTo" class="col-sm-4 control-label">Customer No :</label>
+                            <div class="col-sm-8">
+                                <label for="CustomerNumber" class="control-label" style="text-align:left">@Model[0].OnlineOrderDetails.CustomerNumber</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="BillTo" class="col-sm-4 control-label">Area :</label>
+                            <div class="col-sm-8">
+                                <label for="AreaName" class="control-label" style="text-align:left">@Model[0].OnlineOrderDetails.AreaName - @Model[0].OnlineOrderDetails.PinCode</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="Notes" class="col-sm-4 control-label">Notes :</label>
+                            <div class="col-sm-8">
+                                <label for="Notes" class="control-label" style="text-align:left">@Model[0].OnlineOrderDetails.CustomerNote.Trim('"')</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div class="row" style="margin-top:50px;">
+                <table id="ListDataTableNo" class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>Product Name</th>
+                            <th>Packing</th>
+                            <th>Price</th>
+                            <th>Quantity</th>
+                            <th>Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td id="row" @item.OnlineOrderID>
+                                    @item.ProductName
+                                </td>
+                                <td>
+                                    @item.Packing
+                                </td>
+                                <td>
+                                    @item.OnlineProductPrice
+                                </td>
+                                <td>
+                                    @item.OnlineOrderQuantity
+                                </td>
+                                <td>
+                                    @item.OnlineTotalAmount
+                                </td>
+                            </tr>
+                        }
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td align="right" style="font-weight:bold">Grand Total : </td>
+                            <td align="left" style="font-weight:bold">@Model[0].OnlineGrandAmount</td>
+                        </tr>
+                    </tbody>
+
+                </table>
+            </div>
+        }
+    </div>
+    <!-- /.box-body -->
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+
+<script type="text/javascript">
+
+</script>
+
+
+

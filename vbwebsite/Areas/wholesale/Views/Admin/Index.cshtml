@@ -1,0 +1,106 @@
+﻿@model vb.Data.DynamicMenuModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/wholesale/Views/Shared/_wholesalelayout.cshtml";
+}
+
+<div class="box box-default">
+    <div class="box-header with-border text-center">
+        <h3 class="box-title">Manage Role Right</h3>
+    </div>
+    <form id="frmUser" class="form-horizontal">
+        <div class="box-body">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="Role" class="col-sm-4 control-label">Role</label>
+                    <div class="col-sm-8">
+                        @Html.DropDownList("ddlRoleID", new SelectList(ViewBag.Role, "RoleID", "RoleName"), "Select Role", new { @class = "form-control", tabindex = "1" })
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+        @*<div class="box-footer ">
+            <div class="pull-right">
+                <button type="button" id="CancelUsers" class="btn btn-default" tabindex="17">Cancel</button>
+                <button type="button" id="btnsavecase" class="btn btn-info" tabindex="16">Save</button>
+            </div>
+        </div>*@
+        <!-- /.box-footer -->
+    </form>
+
+    <div id="lstcase">
+    </div>
+
+</div>
+
+@*@Styles.Render("~/bootstrap/css/tree.css")*@
+@*@Scripts.Render("~/Scripts/tree.js")*@
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+
+<script>
+    $("#btnsavecase").click(function () {
+        debugger;
+        var chklist = [];
+        var data = [];
+        chklist = $('#frm-author').find("input[type=checkbox]");
+        var datareq = new Object();
+        var roleid = $("#ddlRoleID").val();
+        data.MenuID = '0';
+        data.IsActive = true;
+        for (var i = 0; i < chklist.length; i++) {
+            data[i] = {
+                MenuID: chklist[i].id,
+                IsActive: chklist[i].checked,
+            };
+        }
+        $.ajax({
+            url: '@Url.Action("ManageAuthority")',
+            type: 'POST',
+            data: { 'data': data, 'roleid': roleid },
+            cache: false,
+        }).done(function (result) {
+            if (result == true) {
+                debugger;
+                if ($("#ddlRoleID").val() == "") {
+                    $('div#sucessalert').html("Role Rights Add successfully.");
+                }
+                else {
+                    $('div#sucessalert').html("Role Rights updated successfully.");
+                }
+                showhidealert();
+                clearform();
+            }
+        });
+    });
+
+    $("#CancelUsers").click(function () {
+        clearform();
+    });
+
+    function clearform() {
+        $("#ddlRoleID").val("").trigger("change");
+    }
+
+    $("#ddlRoleID").change(function () {
+        debugger;
+        if ($("#ddlRoleID").val() == "") {
+            clearform();
+        }
+        else {
+
+            var roleid = $("#ddlRoleID").val();
+            $.ajax({
+
+                url: '@Url.Action("RoleList")',
+                type: 'GET',
+                data: { 'roleid': roleid },
+                cache: false,
+            }).done(function (result) {
+                debugger;
+                $('#lstcase').html(result);              
+            });
+        }
+    });
+</script>
+

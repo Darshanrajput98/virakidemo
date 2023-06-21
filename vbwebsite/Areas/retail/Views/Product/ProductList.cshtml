@@ -1,0 +1,563 @@
+﻿@model List<vb.Data.RetProductListResponse>
+@using vb.Data.ViewModel
+
+<div class="box">
+    <div class="box-header text-center">
+        <h3 class="box-title">Product List</h3>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body table-scrollable1">
+        <table id="ListDataTable" class="table table-bordered table-bordered">
+            <thead>
+                <tr>
+                    <th class="nosort">Is Select</th>
+                    <th class="nosort">Name</th>
+                    <th class="nosort">Category</th>
+                    <th class="nosort">Godown</th>
+                    <th class="nosort">Best Before (In Months)</th>
+                    <th class="nosort">Description</th>
+                    <th class="nosort">HSN Number</th>
+                    <th class="nosort">SGST</th>
+                    <th class="nosort">CGST</th>
+                    <th class="nosort">IGST</th>
+                    <th class="nosort">H-For</th>
+                    @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.REPRODUCT.ToString()))
+                    {
+                        <th class="nosort">Edit</th>
+                    }
+                    @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.RDPRODUCT.ToString()))
+                    {
+                        <th class="nosort">Status</th>
+                    }
+                    <th class="nosort">Language</th>
+                    <th class="nosort">Language Config</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td id="row" @item.ProductID>
+                            @item.IsSelect
+                        </td>
+                        <td>
+                            @item.ProductName
+                        </td>
+                        <td>
+                            <input name="ProductID" class="hdnProductID" type="hidden" value="@item.ProductID" />
+                            @item.CategoryName
+                        </td>
+                        <td>
+                            @item.GodownName
+                        </td>
+                        <td>
+                            @item.MonthNumber
+                        </td>
+                        <td>
+                            @item.ProductDescription
+                        </td>
+                        <td>
+                            @item.HSNNumber
+                        </td>
+                        <td>
+                            <input id="SGST" type="text" class="form-control" name="SGST" style="width:60px" value="@item.SGST" />
+                        </td>
+                        <td>
+                            <input id="CGST" type="text" class="form-control" name="CGST" style="width:60px" value="@item.CGST" />
+                        </td>
+                        <td>
+                            <input id="IGST" type="text" class="form-control" name="IGST" style="width:60px" value="@item.IGST" />
+                        </td>
+                        <td>
+                            <input id="HFor" type="text" class="form-control" name="HFor" style="width:60px" value="@item.HFor" />
+                        </td>
+                        @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.REPRODUCT.ToString()))
+                        {
+                            <td>
+                                <a style="cursor:pointer;" class="btnedit" data-pid="@item.ProductID" data-catid="@item.CategoryID" data-godownid="@item.GodownID" data-bestbeforemonthid="@item.BestBeforeMonthID" data-contentvalue="@item.ContentValue" data-nutritionvalue="@item.NutritionValue" data-placeoforigin="@item.PlaceOfOrigin"
+                                   data-protein="@item.Protein" data-fat="@item.Fat" data-carbohydrate="@item.Carbohydrate" data-totalenergy="@item.TotalEnergy" data-information="@item.Information" data-createdby="@item.CreatedBy" data-createdon="@item.CreatedOn">Edit</a>
+                            </td>
+                        }
+                        @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.RDPRODUCT.ToString()))
+                        {
+                            if (item.IsDelete == true)
+                            {
+                                <td>
+                                    @Html.ActionLink("Active", "DeleteProduct", "Product",
+                                                new { ProductID = item.ProductID, IsDelete = false },
+                                    new { onclick = "return confirm('Are you sure you wish to delete this article?');" })
+                                </td>
+                            }
+                            else
+                            {
+                                <td>
+                                    @Html.ActionLink("DeActive", "DeleteProduct", "Product",
+                                                new { ProductID = item.ProductID, IsDelete = true },
+                                    new { onclick = "return confirm('Are you sure you wish to delete this article?');" })
+                                </td>
+                            }
+                        }
+
+                        <td>
+                            @Html.DropDownList("rowGuiID_1" + @item.ProductID, new SelectList(ViewBag.tblRowGuiLanguage, "GuiID", "LanguageName"), "Select Language", new { @id = "rowGuiID_" + @item.ProductID, @class = "form-control select2 RowLanguage", tabindex = "1", @onchange = "changeRowGuiLanguage(this)" })
+                        </td>
+                        <td>
+                            <a style="cursor:pointer;" id="lnkbtnLanguageConfig" class="btnLanguageConfig" data-pid="@item.ProductID" data-nutritionvalue="@item.NutritionValue" data-contentvalue="@item.ContentValue">External Barcode</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <!-- /.box-body -->
+</div>
+
+<script>
+    $("#ListDataTable").DataTable({
+        'aoColumnDefs': [{
+            'bSortable': false,
+            'aTargets': ['nosort'] /* 1st one, start by the right */
+        }]
+    });
+
+    $('#ListDataTable').on('click', '.btnedit', function () {
+        debugger;
+        $("#UProductID").val($(this).attr("data-pid"));
+        $("#ProductName").val($(this).parent().parent().children()[1].innerHTML.trim());
+        $("#CategoryID").val($(this).attr("data-catid")).trigger("change");
+        $("#GodownID").val($(this).attr("data-godownid")).trigger("change");
+        $("#BestBeforeMonthID").val($(this).attr("data-bestbeforemonthid")).trigger("change");
+        $("#ProductDescription").val($(this).parent().parent().children()[5].innerHTML.trim());
+        $("#HSNNumber").val($(this).parent().parent().children()[6].innerHTML.trim());
+        $("#SGST").val($($(this).closest('tr').find("input[type=text]")[0]).val());
+        $("#CGST").val($($(this).closest('tr').find("input[type=text]")[1]).val());
+        $("#IGST").val($($(this).closest('tr').find("input[type=text]")[2]).val());
+        $("#HFor").val($($(this).closest('tr').find("input[type=text]")[3]).val());
+        $("#ContentValue").val($(this).attr("data-contentvalue")).trigger("change");
+        $("#NutritionValue").val($(this).attr("data-nutritionvalue")).trigger("change");
+        $("#PlaceOfOrigin").val($(this).attr("data-placeoforigin"));
+
+        $("#Protein").val($(this).attr("data-protein"));
+        $("#Fat").val($(this).attr("data-fat"));
+        $("#Carbohydrate").val($(this).attr("data-carbohydrate"));
+        $("#TotalEnergy").val($(this).attr("data-totalenergy"));
+        $("#Information").val($(this).attr("data-information"));
+
+        $("#CreatedBy").val($(this).attr("data-createdby"));
+        $("#CreatedOn").val($(this).attr("data-createdon"));
+
+        $.ajax({
+            type: 'Post',
+            url: '@Url.Action("GetProductQtyList")',
+            data: { ProductID: $(this).attr("data-pid") },
+            success: function (result) {
+                bookIndex = 0;
+                if (result.lstProductQty.length > 0) {
+                    $(result.lstProductQty).each(function (index, row) {
+                        bookIndex++;
+                        if (bookIndex > 1) {
+                            var $template = $('#AddMoreProduct'),
+                                $clone = $template
+                                                .clone()
+                                                .removeClass('hide')
+                                                .removeAttr('id')
+                                                .attr('data-book-index', bookIndex)
+                                                .insertBefore($template);
+                            // Update the name attributes
+                            $clone
+                                 .find('[name="IsSelect"]').attr('name', 'lstProductQty[' + bookIndex + '].IsSelect').end()
+                                 .find('[name="ProductQuantity"]').attr('name', 'lstProductQty[' + bookIndex + '].ProductQuantity').end()
+                                 .find('[name="UnitID"]').attr('name', 'lstProductQty[' + bookIndex + '].UnitID').end()
+                                 .find('[name="ProductPrice"]').attr('name', 'lstProductQty[' + bookIndex + '].ProductPrice').end()
+                                 .find('[name="ProductMRP"]').attr('name', 'lstProductQty[' + bookIndex + '].ProductMRP').end()
+
+                                 .find('[name="GramPerKG"]').attr('name', 'lstProductQty[' + bookIndex + '].GramPerKG').end()
+
+                                 .find('[name="ProductBarcode"]').attr('name', 'lstProductQty[' + bookIndex + '].ProductBarcode').end()
+                                 .find('[name="PouchNameID"]').attr('name', 'lstProductQty[' + bookIndex + '].PouchNameID').end();
+                            $clone.find("input[type=hidden]")[0].value = row.ProductQtyID;
+                            $clone.find("input")[1].value = row.ProductQuantity;
+                            $clone.find("select")[0].value = row.UnitID;
+                            $clone.find("input")[3].value = row.ProductPrice;
+                            $clone.find("input")[4].value = row.ProductMRP;
+
+                            $clone.find("input")[5].value = row.GramPerKG;
+
+
+                            $clone.find("input")[6].value = row.ProductBarcode;
+                            $clone.find("select")[1].value = row.PouchNameID;
+                            $('select').select2({ width: '100%' });
+                            $tdvalue = $clone.find('td')[2];
+                            $($tdvalue).find('span.select2.select2-container.select2-container--default')[1].remove();
+                            $tdvalue = $clone.find('td')[7];
+                            $($tdvalue).find('span.select2.select2-container.select2-container--default')[1].remove();
+                        }
+                        else {
+                            //debugger;
+                            if ($('#ProductQty').find('tbody tr:visible').length > 1)
+                                $('#ProductQty').find('tbody tr:visible').not(':first').empty();
+                            var $template = $('#AddProductQty');
+                            $clone = $template;
+                            $clone.find("input[type=hidden]")[0].value = row.ProductQtyID;
+                            $clone.find("input")[1].value = row.ProductQuantity;
+                            $clone.find("select")[0].value = row.UnitID;
+                            $clone.find("input")[3].value = row.ProductPrice;
+                            $clone.find("input")[4].value = row.ProductMRP;
+                            $clone.find("input")[5].value = row.GramPerKG;
+                            $clone.find("input")[6].value = row.ProductBarcode;
+                            $clone.find("select")[1].value = row.PouchNameID;
+                            $('select').select2({ width: '100%' });
+                        }
+                    });
+                }
+                else {
+                    if ($('#ProductQty').find('tbody tr:visible').length > 1)
+                        $('#ProductQty').find('tbody tr:visible').not(':first').empty();
+                    var $template = $('#AddProductQty');
+                    $clone = $template;
+                    $clone.find("input[type=hidden]")[0].value = "";
+                    $clone.find("input")[1].value = "";
+                    $clone.find("select")[0].value = "";
+                    $clone.find("input")[3].value = "";
+                    $clone.find("input")[4].value = "";
+
+                    $clone.find("input")[5].value = "";
+
+                    $clone.find("input")[6].value = "";
+                    $clone.find("select")[1].value = "";
+                }
+            },
+            error: function () { alert('Error'); }
+        });
+
+
+
+
+
+        $.ajax({
+            type: 'Post',
+            url: '@Url.Action("GetCountryWiseProductName")',
+            data: { ProductID: $(this).attr("data-pid") },
+            success: function (result) {
+                bookIndex = 0;
+                debugger;
+                if (result.lstCountryWiseProductName.length > 0) {
+                    $(result.lstCountryWiseProductName).each(function (index, row) {
+                        bookIndex++;
+                        if (bookIndex > 1) {
+                            var $template = $('#AddMoreCountryWiseProduct'),
+                                $clone = $template
+                                                .clone()
+                                                .removeClass('hide')
+                                                .removeAttr('id')
+                                                .attr('data-book-index', bookIndex)
+                                                .insertBefore($template);
+                            // Update the name attributes
+                            $clone
+                                 .find('[name="CountryID"]').attr('name', 'lstCountryWiseProduct[' + bookIndex + '].CountryID').end()
+                                 .find('[name="CountryWiseProductName"]').attr('name', 'lstCountryWiseProduct[' + bookIndex + '].CountryWiseProductName').end();
+                            $clone.find("input[type=hidden]")[0].value = row.CountryWiseProductID;
+                            $clone.find("select")[0].value = row.CountryID;
+                            $clone.find("input")[1].value = row.CountryWiseProductName;
+                            $('select').select2({ width: '100%' });
+                            $tdvalue = $clone.find('td')[0];
+                            $($tdvalue).find('span.select2.select2-container.select2-container--default')[1].remove();
+                        }
+                        else {
+                            //debugger;
+                            if ($('#CountryWiseProduct').find('tbody tr:visible').length > 1)
+                                $('#CountryWiseProduct').find('tbody tr:visible').not(':first').empty();
+                            var $template = $('#AddCountryWiseProduct');
+                            $clone = $template;
+                            $clone.find("input[type=hidden]")[0].value = row.CountryWiseProductID;
+                            $clone.find("select")[0].value = row.CountryID;
+                            $clone.find("input")[1].value = row.CountryWiseProductName;
+                        }
+                    });
+                }
+                else {
+                    if ($('#CountryWiseProduct').find('tbody tr:visible').length > 1)
+                        $('#CountryWiseProduct').find('tbody tr:visible').not(':first').empty();
+                    var $template = $('#AddMoreCountryWiseProduct');
+                    $clone = $template;
+                    $clone.find("input[type=hidden]")[0].value = "";
+                    $clone.find("select")[0].value = "";
+                    $clone.find("input")[1].value = "";
+                }
+            },
+            error: function () { alert('Error'); }
+        });
+
+
+
+
+
+        $("html, body").animate({ scrollTop: 0 }, "slow");
+    });
+</script>
+
+<script>
+    $("#btnupdateproduct").click(function () {
+        var lstProduct = [];
+        $('#ListDataTable').children('tbody').children('tr:visible').each(function (index, row) {
+            debugger;
+            var IsCheck = $(row).find("input[type=checkbox]")[0];
+            if ($(IsCheck).is(':checked')) {
+                var dataProduct = new Object();
+                dataProduct.ProductID = $(row).find("input[type=hidden]")[0].value;
+                dataProduct.ProductPrice = $(row).find("input")[1].value;
+                dataProduct.SGST = $(row).find("input")[2].value;
+                dataProduct.CGST = $(row).find("input")[3].value;
+                dataProduct.IGST = $(row).find("input")[4].value;
+                dataProduct.HFor = $(row).find("input")[5].value;
+                lstProduct.push(dataProduct);
+            }
+        });
+        $.ajax({
+            url: '@Url.Action("UpdateProduct")',
+            type: 'POST',
+            data: { 'data': lstProduct },
+            cache: false,
+        }).done(function (result) {
+            if (result == true) {
+                if ($("#ProductID").val() == "") {
+                    $('div#sucessalert').html("Product Add successfully.");
+                }
+                else {
+                    $('div#sucessalert').html("Product updated successfully.");
+                }
+                showhidealert();
+                loadhtml();
+                clearform();
+            }
+        });
+    });
+</script>
+
+
+
+<script>
+    $(document).ready(function () {
+        $(".RowLanguage").select2();
+    });
+
+    $(document).on('click', '.btnLanguageConfig', function () {
+        debugger;
+        var pid = $(this).attr("data-pid");
+
+        $("#LanguageConfig").removeClass("modal fade").addClass("modal fade modal-overflow in");
+        $("#LanguageConfig").css("display", "block");
+        $("#GuiID_O").select2();
+        $('select').select2({ width: '100%' });
+        $("#hdnLanguageForm_ProductId").val(pid);
+
+        $("#ProductName_1").val("");
+        $("#Content_1").val("");
+        $("#Nutrition_1").val("");
+
+        var RowGuiLanguage = $("#rowGuiID_" + pid).val();
+
+        if (RowGuiLanguage == "") {
+            $("#GuiID_1").val("").trigger("change");
+        }
+        $.when(
+
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("GetProductQtyList")',
+                    dataType: 'json',
+                    data: { ProductId: pid },
+                    success: function (result) {
+
+                        debugger;
+                        if (result.lstProductQty != undefined) {
+                            if (result.lstProductQty.length > 0) {
+
+                                changeAllLanguageUnit(RowGuiLanguage);
+                                var bookIndex = 0;
+
+                                $("#prodQtyRowGroup_1").find("#lblQty_1").text(result.lstProductQty[0].ProductQuantity);
+                                $("#prodQtyRowGroup_1").find("#lblUnit_1").text(result.lstProductQty[0].UnitName);
+                                $("#prodQtyRowGroup_1").find("#hdnProductQtyID_1").val(result.lstProductQty[0].ProductQtyID);
+
+                                $("#prodQtyRowGroup_1").find("#ddlUnitId_1").val(0).trigger('change');
+
+                                $(result.lstProductQty).each(function (qtyIndex) {
+
+                                    if (qtyIndex > 0) {
+                                        debugger;
+                                        var tblRowID = "prodQtyRowGroup_" + parseInt(qtyIndex + 1);
+                                        var tblRowIndex = qtyIndex + 1;
+
+                                        var lastRowId = $('#tblProdQty_1 tr:last').attr('id');
+
+                                        var $row = $("#prodQtyRowGroup_1").clone();
+                                        // $row.attr("id", tblRowID).insertAfter("#prodQtyRowGroup_1");
+                                        $row.attr("id", tblRowID).insertAfter("#" + lastRowId);
+
+
+                                        $("#" + tblRowID).find(".trProductQtyID").attr("id", "hdnProductQtyID_" + tblRowIndex); //.val("");
+                                        $("#" + tblRowID).find(".lblQty").attr("id", "lblQty_" + tblRowIndex);
+                                        $("#" + tblRowID).find(".lblUnit").attr("id", "lblUnit_" + tblRowIndex);
+                                        $("#" + tblRowID).find(".trProductQtyGuiID").attr("id", "hdnProductQtyGuiID_" + tblRowIndex);
+                                        $("#" + tblRowID).find("#hdnProductQtyID_" + tblRowIndex).val(result.lstProductQty[qtyIndex].ProductQtyID);
+                                        $("#" + tblRowID).find("#lblQty_" + tblRowIndex).text(result.lstProductQty[qtyIndex].ProductQuantity);
+                                        $("#" + tblRowID).find("#lblUnit_" + tblRowIndex).text(result.lstProductQty[qtyIndex].UnitName);
+                                        $("#" + tblRowID).find(".txtQty").attr("id", "txtQty_" + tblRowIndex);
+                                        $("#txtQty_" + tblRowIndex).val("");
+                                        $("#" + tblRowID).find(".LanguageUnit").attr("id", "ddlUnitId_" + tblRowIndex);
+
+                                        $("#" + tblRowID).find("#ddlUnitId_" + tblRowIndex).select2();
+                                        $("#ddlUnitId_" + tblRowIndex).select2({ width: '100%' });
+
+                                        if ($("#ddlUnitId_" + tblRowIndex).parent().find('span.select2.select2-container.select2-container--default').length > 1) {
+                                            $("#ddlUnitId_" + tblRowIndex).parent().find('span.select2.select2-container.select2-container--default')[1].remove();
+                                        }
+                                        $("#prodQtyRowGroup_" + tblRowID).find("#ddlUnitId_" + tblRowIndex).val(0).trigger('change');
+
+                                    }
+
+                                });
+                            }
+                        }
+                    }
+                })
+
+            ).then(function () {
+                debugger;
+                var GuiID = $("#GuiID_1").val();
+                if (RowGuiLanguage == "" || RowGuiLanguage == undefined) {
+                    if (GuiID != undefined || GuiID != "" && parseInt(GuiID) > 0) {
+                        RowGuiLanguage = GuiID;
+                    }
+                }
+                if (parseInt(RowGuiLanguage) > 0 && parseInt(pid) > 0) {
+                    $("#GuiID_1").val(RowGuiLanguage).trigger('change');
+                    getProductQtyGuiData(parseInt(RowGuiLanguage), parseInt(pid));
+                }
+
+            });
+
+    });
+
+    $('.dataTables_filter').on('keyup', function () {
+        $(".RowLanguage").select2();
+    });
+
+    function getProductQtyGuiData(RowGuiLanguage, pid) {
+        debugger;
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("GetRetailProductQtyGuiByID")',
+            dataType: 'json',
+            data: { ProductId: pid, 'GuiID': parseInt(RowGuiLanguage) },
+            success: function (result) {
+                debugger;
+                $("#ProductName_1").val(result.ProductNameGui);
+                $("#Content_1").val(result.ContentGui);
+                $("#Nutrition_1").val(result.NutritionGui);
+                $("#hdnRetProdGuiID").val(result.RetProdGuiID);
+
+                if (result.lstRetProdQtyGui != null && result.lstRetProdQtyGui != undefined) {
+                    if (result.lstRetProdQtyGui.length > 0) {
+                        var bookIndex = 0;
+
+                        $(result.lstRetProdQtyGui).each(function (dataindex) {
+                            bookIndex++;
+                            debugger;
+                            $("#prodQtyRowGroup_" + bookIndex).find("#hdnProductQtyGuiID_" + bookIndex).val(result.lstRetProdQtyGui[dataindex].RetProdGuiQtyID);
+                            $("#prodQtyRowGroup_" + bookIndex).find("#hdnProductQtyID_" + bookIndex).val(result.lstRetProdQtyGui[dataindex].ProductQtyID);
+                            $("#prodQtyRowGroup_" + bookIndex).find("#txtQty_" + bookIndex).val(result.lstRetProdQtyGui[dataindex].ProductQtyGui);
+                            $("#prodQtyRowGroup_" + bookIndex).find("#ddlUnitId_" + bookIndex).val(result.lstRetProdQtyGui[dataindex].UnitGuiID).trigger('change');
+                        });
+                    }
+
+                }
+                else {
+                    resetTablQtyGui();
+                }
+            }
+
+        });
+    }
+
+
+    $(document).on("click", ".removeProdQtyGroup", function () {
+        $(this).parent().parent().remove();
+    })
+
+    function resetTablQtyGui() {
+        $("#tblProdQty_1 tr").each(function (i) {
+            if (i > 0) {
+                $("#prodQtyRowGroup_" + i).find("#txtQty_" + i).val("");
+                $("#prodQtyRowGroup_" + i).find("#ddlUnitId_" + i).val(0).trigger('change');
+            }
+        });
+    }
+
+    $(".btncloseLanguageConfig").click(function () {
+        removeRow();
+        $('#LanguageConfig').removeClass("modal fade modal-overflow in");
+        $('#LanguageConfig').removeAttr('style');
+        $('#LanguageConfig').addClass("modal fade");
+    });
+
+    function removeRow() {
+
+        $("#tblProdQty_1 ").find("tr:gt(1)").remove();
+        var removeIndex = 1;
+        var tblTotalRow = $(".tblProdQtyGroup").length;
+        $("#GuiID_1").val("").trigger("change");
+
+        debugger;
+        for (var rmvRowInd = 1; rmvRowInd <= tblTotalRow; rmvRowInd++) {
+
+            $("#prodQtyRowGroup_" + rmvRowInd).find("#hdnProductQtyID_" + rmvRowInd).val("");
+            $("#prodQtyRowGroup_" + rmvRowInd).find("#hdnProductQtyGuiID_" + rmvRowInd).val("");
+            $("#prodQtyRowGroup_" + rmvRowInd).find("#txtQty_" + rmvRowInd).val("");
+            $("#prodQtyRowGroup_" + rmvRowInd).find("#lblQty_" + rmvRowInd).text("");
+            $("#prodQtyRowGroup_" + rmvRowInd).find("#lblUnit_" + rmvRowInd).text("");
+            $("#prodQtyRowGroup_" + rmvRowInd).find("#ddlUnitId_" + rmvRowInd).val("0").trigger('change');
+
+        }
+    }
+
+
+
+
+    $(document).on("input propertychange paste", ".ProductMRP", function () {
+        //debugger;
+
+        var UnitID = $(this).closest('tr').find("select")[0].value;
+        var MRP = $(this).closest('tr').find("input")[4].value;
+        var Quantity = $(this).closest('tr').find("input")[1].value;
+        var GramPerKG = "";
+
+        if (UnitID == "1") {
+
+            GramPerKG = MRP / Quantity;
+            var textbox = $(this).closest('tr').find("input")[5];
+            textbox.value = parseFloat(GramPerKG).toFixed(2);
+
+        } else if (UnitID == "2") {
+
+            if (Quantity == "1") {
+
+                GramPerKG = MRP / 1000;
+                var textbox = $(this).closest('tr').find("input")[5];
+                textbox.value = parseFloat(GramPerKG).toFixed(2);
+
+            } else {
+
+                GramPerKG = MRP / Quantity;
+                var textbox = $(this).closest('tr').find("input")[5];
+                textbox.value = parseFloat(GramPerKG).toFixed(2);
+
+            }
+
+        }
+
+    });
+</script>
+
+

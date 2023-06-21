@@ -1,0 +1,160 @@
+﻿@model List<vb.Data.OrderListResponse>
+
+<div class="box">
+    <div class="box-header text-center">
+        <h3 class="box-title">Order List</h3>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body">
+        <table id="ListDataTable" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th class="nosort">Order NO</th>
+                    <th class="nosort">Order Date</th>
+                    <th class="nosort">Customer Name</th>
+                    <th class="nosort">Total Item</th>
+                    <th class="nosort">Total Bill</th>
+                    <th class="nosort">Area</th>
+                    <th class="nosort">Sales Person</th>
+                    <th class="nosort">View Invoice</th>
+                    <th class="nosort">Print Invoice</th>
+                    <th class="nosort">Godown</th>
+                    <th class="nosort">Transport</th>
+                    <th class="nosort">Vehicle No</th>
+                    <th class="nosort">Export To Excel</th>
+                    <th class="nosort">Generate eWayBill</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td id="row" @item.OrderID>
+                            @item.InvoiceNumber
+                        </td>
+                        <td>
+                            @item.CreatedOn.ToString("MM-dd-yyyy")
+                        </td>
+                        <td>
+                            @item.CustomerName
+                        </td>
+                        <td>
+                            @item.Quantity
+                        </td>
+                        <td>
+                            @item.FinalTotal
+                        </td>
+                        <td>
+                            @item.AreaName
+                        </td>
+                        <td>
+                            @item.UserName
+                        </td>
+                        <td>
+                            <input class="btnViewInvoice" type="button" value="View Invoice" data-orderid="@item.OrderID" />
+                        </td>
+                        <td>
+                            <input id="btnPrintInvoice" type="button" value="Print Invoice" onclick="GetPrint(@item.OrderID)" data-orderid="@item.OrderID" />
+                        </td>
+                        <td>
+                            @Html.DropDownList("GodownID", new SelectList(ViewBag.Godown, "GodownID", "GodownName"), "Select Godown", new { @class = "form-control select2 GodownID" })
+                        </td>
+                        <td>
+                            @Html.DropDownList("TransportID", new SelectList(ViewBag.Transport, "TransportID", "TransportName"), "Select Transport", new { @class = "form-control select2 TransportID" })
+                        </td>
+                        <td>
+                            @Html.DropDownList("VehicleDetailID", new SelectList(ViewBag.VehicleNo, "VehicleDetailID", "VehicleNumber"), "Select Vehicle Number", new { @class = "form-control select2 VehicleDetailID" })
+                        </td>
+                        <td>
+                            <a style="cursor:pointer;" class="btnexport" data-orderid="@item.OrderID">Export</a>
+                        </td>
+                        <td>
+                            <a style="cursor:pointer;" class="btnGenerateEWayBill" data-orderid="@item.OrderID">Generate eWayBill</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+
+        </table>
+    </div>
+    <!-- /.box-body -->
+</div>
+
+<script>
+    $(".btnViewInvoice").click(function () {
+        debugger;
+        var url = '@Url.Action("ViewInvoice", "Orders", new { id = "__id__", custid = "__custid__", uid = "__uid__", txtfrom = "__txtfrom__", txtto = "__txtto__" })';
+        url = url.replace(/amp;/g, '');
+        window.location.href = url.replace('__id__', $(this).attr("data-orderid")).replace('__custid__', $('#CustomerID').val()).replace('__uid__', $('#UserID').val()).replace('__txtfrom__', $('#txtFrom').val()).replace('__txtto__', $('#txtTo').val());
+
+    });
+    function GetPrint(id) {
+        debugger;
+        $.ajax({
+            url: '@Url.Action("PrintInvoice", "Orders")',
+            type: 'POST',
+            data: { 'InvoiceID': id },
+            cache: false,
+        }).done(function (result) {
+            if (result != '') {
+                window.open(result, "newPage");
+            }
+        });
+    };
+    $(".btnexport").click(function () {
+        debugger;
+        var OrderID = $(this).data('orderid');
+        var GodownID = $(this).closest('tr').find('.GodownID').val();
+        var TransportID = $(this).closest('tr').find('.TransportID').val();
+        var url = '@Url.Action("ExportExcelInvoice", "Orders", new { OrderID = "__OrderID__", GodownID = "__GodownID__", TransportID = "__TransportID__" })';
+        url = url.replace(/amp;/g, '');
+        window.location.href = url.replace('__OrderID__', OrderID).replace('__GodownID__', GodownID).replace('__TransportID__', TransportID);
+    });
+
+    //27 April, 2021 Sonal Gandhi
+    $(".btnGenerateEWayBill").click(function () {
+        debugger;
+        var OrderID = $(this).data('orderid');
+        var GodownID = $(this).closest('tr').find('.GodownID').val();
+        var TransportID = $(this).closest('tr').find('.TransportID').val();
+        var VehicleDetailID = $(this).closest('tr').find('.VehicleDetailID').val();
+
+
+        if (GodownID == "") {
+            alert("Select Godown Name");
+            return;
+        }
+        if (TransportID == "") {
+            alert("Select Transport Name");
+            return;
+        }
+        if (VehicleDetailID == "") {
+            alert("Select Vehicle Number");
+            return;
+        }
+
+        $.ajax({
+            url: '@Url.Action("GenerateEWB")',
+            type: 'POST',
+            data: { 'OrderID': OrderID, 'GodownID': GodownID, 'TransportID': TransportID, 'VehicleDetailID': VehicleDetailID },
+            cache: false,
+        }).done(function (result) {
+            if (result == "" || result == null || result == "undefind") {
+                alert("Error in Generated EWB.");
+            }
+            else if (result === "1") {
+                alert("EWB already generated");
+            }
+            else {
+                $('div#sucessalert').html("EWB Generated successfully for Invoice Number : " + result);
+                showhidealert();
+            }
+        });
+    });
+
+</script>
+
+
+
+
+

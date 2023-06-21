@@ -1,0 +1,98 @@
+﻿@model vb.Data.OrderListResponse
+@{
+    ViewBag.Title = "SearchInvoice";
+    Layout = "~/Areas/wholesale/Views/Shared/_wholesalelayout.cshtml";
+}
+
+<div class="box box-default">
+    <div class="box-header with-border text-center">
+        <h3 class="box-title">Search Invoice</h3>
+    </div>
+    <form id="frmCustomerGroup" class="form-horizontal">
+        <div class="box-body">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="ShipTo" class="col-sm-4 control-label">Invoice Number</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="InvoiceNumber" id="InvoiceNumber" placeholder="Invoice Number" tabindex="1">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+            </div>
+        </div>
+        <!-- /.box-body -->
+        <div class="box-footer ">
+            <div class="pull-right">
+                <button type="button" id="btnsearch" class="btn btn-info" tabindex="6">Search</button>
+                <button type="button" id="btnclear" class="btn btn-info" tabindex="7">Clear</button>
+            </div>
+        </div>
+        <!-- /.box-footer -->
+    </form>
+    <div id="lstcase">
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script>
+    $(document).ready(function () {
+        var custid = '@Session["custid"]';
+        var txtfrom = '@Session["txtfrom"]';
+        var txtto = '@Session["txtto"]';
+        var uid = '@Session["uid"]';
+        debugger;
+        if (custid != "" || txtfrom != "" || txtto != "" || uid != "") {
+            $("#CustomerID").val(custid);
+            $("#txtFrom").val(txtfrom);
+            $("#txtTo").val(txtto);
+            $("#uid").val(uid);
+        }
+        $("#btnsearch").trigger('click');
+
+    });
+
+    @*function loadhtml() {
+        debugger;
+        var model = new Object();
+        model.UserID = $("#UserID").val();
+        model.CustomerID = $("#CustomerID").val();
+        model.From = $("#txtFrom").val();
+        model.To = $("#txtTo").val();
+        $.ajax({
+            url: '@Url.Action("ViewSearchInvoiceList")',
+            type: 'POST',
+            data: { 'model': model },
+            cache: false,
+        }).done(function (result) {
+            $('#lstcase').html(result);
+        });
+    }*@
+
+    $("#btnsearch").click(function () {
+       // loadhtml();
+    });
+
+    $("#btnclear").click(function () {
+        debugger;
+        $("#CustomerID").value = "";
+        $("#txtFrom").val("");
+        $("#txtTo").val("");
+        $("#UserID").value = "";
+        var model = new Object();
+        model.UserID = "0";
+        model.CustomerID = "0";
+        model.From = "";
+        model.To = "";
+        model.Isclear = "true";
+        $.ajax({
+            url: '@Url.Action("ViewOrderList")',
+            type: 'POST',
+            data: { 'model': model },
+            cache: false,
+        }).done(function (result) {
+            $('#lstcase').html(result);
+        });
+    });
+</script>
+

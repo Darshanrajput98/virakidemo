@@ -1,0 +1,105 @@
+﻿@{
+    ViewBag.Title = "AddLeaveEncashment";
+    Layout = "~/Areas/attendance/Views/Shared/_attendancelayout.cshtml";
+}
+
+@using vb.Data.ViewModel
+
+<div class="box box-default">
+    <div class="box-header with-border text-center">
+        <h3 class="box-title">Add Leave Encashment</h3>
+    </div>
+    <form id="frmLeaveEncashment" class="form-horizontal">
+        <div class="box-body">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <input name="LeaveEncashmentID" id="LeaveEncashmentID" type="hidden" value="" />
+                    <input type="hidden" id="CreatedBy" class="CreatedBy" value="" />
+                    <input type="hidden" id="CreatedOn" class="CreatedOn" value="" />
+                    <label for="NoOfDaysLeaveEncashment" class="col-sm-4 control-label">No Of Days</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" id="NoOfDaysLeaveEncashment" tabindex="1" required>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="Note" class="col-sm-4 control-label">Note</label>
+                    <div class="col-sm-6">
+                        <textarea class="form-control" id="Note" name="Note" rows="2" cols="20" placeholder="Note" tabindex="2"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="box-footer ">
+            <div class="pull-right">
+                <button type="button" id="btncancel" class="btn btn-default" tabindex="3">Cancel</button>
+                @*@if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.APurchaseType.ToString()))
+                    {*@
+                <button type="button" id="btnsave" class="btn btn-info" tabindex="2">Save</button>
+                @*}*@
+            </div>
+        </div>
+    </form>
+    <div id="lstcase">
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script>
+
+    $(document).ready(function () {
+        loadhtml();
+    });
+
+    function loadhtml() {
+        $.ajax({
+            url: '@Url.Action("LeaveEncashmentList")',
+            type: 'GET',
+            cache: false,
+        }).done(function (result) {
+            $('#lstcase').html(result);
+        });
+    }
+
+    $("#btnsave").click(function () {
+        if (!($('#frmLeaveEncashment').parsley().validate())) {
+            return;
+        }
+        var datareq = new Object();
+        datareq.LeaveEncashmentID = $("#LeaveEncashmentID").val();
+        datareq.NoOfDaysLeaveEncashment = $("#NoOfDaysLeaveEncashment").val();     
+        datareq.Note = $("#Note").val();
+        datareq.CreatedBy = $("#CreatedBy").val();
+        datareq.CreatedOn = $("#CreatedOn").val();
+        $.ajax({
+            url: '@Url.Action("AddLeaveEncashment")',
+            type: 'POST',
+            data: { 'data': datareq },
+            cache: false,
+        }).done(function (result) {
+            if (result > 0) {
+                if ($("#LeaveEncashmentID").val() == "") {
+                    $('div#sucessalert').html("Leave Encashment Add successfully.");
+                }
+                else {
+                    $('div#sucessalert').html("Leave Encashment updated successfully.");
+                }
+                showhidealert();
+                loadhtml();
+                clearform();
+            }
+        });
+    });
+
+    $("#btncancel").click(function () {
+        clearform();
+    });
+
+    function clearform() {
+        $("#frmLeaveEncashment").find("input").val("");
+        $("#frmLeaveEncashment").find("textarea").val("");       
+    }
+</script>
+
+

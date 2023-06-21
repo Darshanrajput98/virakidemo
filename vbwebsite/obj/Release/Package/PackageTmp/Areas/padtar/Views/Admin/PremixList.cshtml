@@ -1,0 +1,570 @@
+﻿@model List<vb.Data.PremixListResponse>
+@using vb.Data.ViewModel
+
+
+<div class="box">
+    <div class="box-header text-center">
+        <h3 class="box-title">Padtar Premix List</h3>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body table-scrollable1">
+        <table id="ListDataTablePremixList" class="table table-bordered table-bordered">
+            <thead>
+                <tr>
+                    <td colspan="20" align="right">
+                        <button type="button" id="btnupdatePremix" class="btn btn-info">Update Premix</button>
+                    </td>
+                </tr>
+                <tr>
+                    <th class="nosort">Rate Per KG</th>
+                    <th class="nosort">Notes 1</th>
+                    <th class="nosort">Notes 2</th>
+                    <th class="nosort">Grinding Charge</th>
+                    <th class="nosort">Gasara %</th>
+                    <th class="nosort">Selling Rate Wholesale</th>
+                    <th class="nosort">Margin Wholesale %</th>
+                    <th class="nosort">Selling Rate Retail</th>
+                    <th class="nosort">Margin Retail %</th>
+                    <th class="nosort">Edit</th>
+                    <th class="nosort">Status</th>
+                    <th class="nosort"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td id="row">
+                            <input type="hidden" class="form-control" name="PremixID" value="@item.PremixID" />
+                            <input type="text" onkeypress="return isNumberKey(event)" class="form-control RatePerKG" name="RatePerKG" style="width:100px" disabled value="@item.RatePerKG" />
+                        </td>
+                        <td>
+                            <input type="text" class="form-control" name="Notes1" style="width:100px" value="@item.Notes1" />
+                        </td>
+                        <td>
+                            <input type="text" class="form-control" name="Notes2" style="width:100px" value="@item.Notes2" />
+                        </td>
+                        <td>
+                            <input type="text" onkeypress="return isNumberKey(event)" class="form-control GrindingCharge" name="GrindingCharge" style="width:100px" value="@item.GrindingCharge" />
+                        </td>
+                        <td>
+                            <input type="text" onkeypress="return isNumberKey(event)" class="form-control Gasara" name="Gasara" style="width:100px" value="@item.Gasara" />
+                            <input type="hidden" class="form-control" name="GasaraAmount" value="@item.GasaraAmount" />
+                            <input type="hidden" class="form-control" name="PackingCharge" value="@item.PackingCharge" />
+                            <input type="hidden" class="form-control" name="MakingCharge" value="@item.MakingCharge" />
+                            <input type="hidden" class="form-control" name="Padtar" value="@item.Padtar" />
+                        </td>
+                        <td>
+                            <input type="text" onkeypress="return isNumberKey(event)" class="form-control SellRateWholesale" name="SellRateWholesale" style="width:100px" value="@item.SellRateWholesale" />
+                        </td>
+                        <td>
+                            <input type="text" onkeypress="return isNumberKey(event)" class="form-control" name="MarginWholesale" style="width:100px" disabled value="@item.MarginWholesale" />
+                        </td>
+                        <td>
+                            <input type="text" onkeypress="return isNumberKey(event)" class="form-control SellRateRetail" name="SellRateRetail" style="width:100px" value="@item.SellRateRetail" />
+                        </td>
+                        <td>
+                            <input type="text" onkeypress="return isNumberKey(event)" class="form-control" name="MarginRetail" style="width:100px" disabled value="@item.MarginRetail" />
+                        </td>
+                        <td>
+                            <a style="cursor:pointer;" class="btnedit"
+                               data-premixid="@item.PremixID"
+                               data-rateperkg="@item.RatePerKG"
+                               data-notes1="@item.Notes1"
+                               data-notes2="@item.Notes2"
+                               data-gasara="@item.Gasara"
+                               data-gasaraamount="@item.GasaraAmount"
+                               data-grindingcharge="@item.GrindingCharge"
+                               data-packingcharge="@item.PackingCharge"
+                               data-makingcharge="@item.MakingCharge"
+                               data-padtar="@item.Padtar"
+                               data-sellratewholesale="@item.SellRateWholesale"
+                               data-marginwholesale="@item.MarginWholesale"
+                               data-sellrateretail="@item.SellRateRetail"
+                               data-marginretail="@item.MarginRetail"
+                               data-createdby="@item.CreatedBy"
+                               data-createdon="@item.CreatedOn"
+                               data-updatedby="@item.UpdatedBy"
+                               data-updatedon="@item.UpdatedOn">Edit</a>
+                        </td>
+
+                        @if (item.IsDelete == true)
+                        {
+                            <td>
+                                @Html.ActionLink("Active", "DeletePremix", "Admin",
+                                        new { PremixID = item.PremixID, IsDelete = false },
+                                    new { onclick = "return confirm('Are you sure you wish to delete this article?');" })
+                            </td>
+                        }
+                        else
+                        {
+                            <td>
+                                @Html.ActionLink("DeActive", "DeletePremix", "Admin",
+                                          new { PremixID = item.PremixID, IsDelete = true },
+                                    new { onclick = "return confirm('Are you sure you wish to delete this article?');" })
+                            </td>
+                        }
+
+                        <td>
+                            <input type="checkbox" id="chkselect" />
+                        </td>
+
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <!-- /.box-body -->
+</div>
+
+
+<script>
+
+    //Prouct Wise Get Current Rate
+    $(document).on('change', ".select2", function () {
+        //debugger;
+        var end = this;
+        if (this.value != '') {
+            $.ajax({
+                type: 'Post',
+                url: '@Url.Action("GetDetailsForPowderSpices")',
+                data: { ProductID: this.value },
+                success: function (result) {
+                    var newdata = end;
+                    $(newdata).closest('tr').find('td').each(function (index, td) {
+
+                        var textbox = $(newdata).closest('tr').find('input')[0];
+
+                        if (index == 0) {
+                            $(td).find('Select').focus();
+                        }
+                        if (index == 1) {
+                            var textbox = $(newdata).closest('tr').find('input')[1];
+                            textbox.value = result[0].Padtar;
+                        }
+                        if (index == 2) {
+                            $(td).find('input').focus();
+                        }
+
+
+                    });
+                },
+                error: function () { alert('Error'); }
+            });
+        }
+    });
+
+    //Datatable List
+    $("#ListDataTablePremixList").DataTable({
+        'aoColumnDefs': [{
+            'bSortable': false,
+            'aTargets': ['nosort'] /* 1st one, start by the right */
+
+        }]
+    });
+
+    //Select Time Data Get 
+    $('#ListDataTablePremixList').on('click', '.btnedit', function () {
+        //debugger;
+        $("#PremixID").val($(this).attr("data-premixid"));
+        $("#RatePerKG").val($(this).attr("data-rateperkg"));
+        $("#Notes1").val($(this).attr("data-notes1"));
+        $("#Notes2").val($(this).attr("data-notes2"));
+        $("#Gasara").val($(this).attr("data-gasara"));
+        $("#GasaraAmount").val($(this).attr("data-gasaraamount"));
+        $("#GrindingCharge").val($(this).attr("data-grindingcharge"));
+        $("#PackingCharge").val($(this).attr("data-packingcharge"));
+        $("#MakingCharge").val($(this).attr("data-makingcharge"));
+        $("#Padtar").val($(this).attr("data-padtar"));
+        $("#SellRateWholesale").val($(this).attr("data-sellratewholesale"));
+        $("#MarginWholesale").val($(this).attr("data-marginwholesale"));
+        $("#SellRateRetail").val($(this).attr("data-sellrateretail"));
+        $("#MarginRetail").val($(this).attr("data-marginretail"));
+        $("#CreatedBy").val($(this).attr("data-createdby"));
+        $("#CreatedOn").val($(this).attr("data-createdon"));
+        //debugger;
+        $.ajax({
+            type: 'Post',
+            url: '@Url.Action("GetPremixQtyList","Admin")',
+            data: { PremixID: $(this).attr("data-premixid") },
+            success: function (result) {
+                bookIndex = 0;
+                if (result.length > 0) {
+                    //debugger;
+                    $(result).each(function (index, row) {
+                        bookIndex++;
+                        if (bookIndex > 1) {
+                            //debugger;
+                            var $template = $('#AddMorePremix'),
+                                $clone = $template
+                                                .clone()
+                                                .removeClass('hide')
+                                                .removeAttr('id')
+                                                .attr('data-book-index', bookIndex)
+                                                .insertBefore($template);
+                            // Update the name attributes
+                            $clone
+                                 .find('[name="ProductID"]').attr('name', 'lstPremix[' + bookIndex + '].ProductID').end()
+                                 .find('[name="CurrentRate"]').attr('name', 'lstPremix[' + bookIndex + '].CurrentRate').end()
+                                 .find('[name="Quantity"]').attr('name', 'lstPremix[' + bookIndex + '].Quantity').end()
+                                 .find('[name="Amount"]').attr('name', 'lstProductQty[' + bookIndex + '].Amount').end();
+                            $clone.find("input[type=hidden]")[0].value = row.PremixQtyID;
+                            $clone.find("input")[1].value = row.CurrentRate;
+                            $clone.find("input")[2].value = row.Quantity;
+                            $clone.find("input")[3].value = row.Amount;
+                            $clone.find("select")[0].value = row.ProductID;
+                            $('select').select2({ width: '100%' });
+                            $tdvalue = $clone.find('td')[0];
+                            $($tdvalue).find('span.select2.select2-container.select2-container--default')[1].remove();
+
+                        } else {
+
+                            //debugger;
+                            if ($('#PremixQty').find('tbody tr:visible').length > 1)
+                                $('#PremixQty').find('tbody tr:visible').not(':first').empty();
+                            var $template = $('#AddPremix');
+                            $clone = $template;
+                            $clone.find("input[type=hidden]")[0].value = row.PremixQtyID;
+                            $clone.find("input")[1].value = row.CurrentRate;
+                            $clone.find("input")[2].value = row.Quantity;
+                            $clone.find("input")[3].value = row.Amount;
+                            $clone.find("select")[0].value = row.ProductID;
+                            $('select').select2({ width: '100%' });
+
+                        }
+                    });
+
+                } else {
+
+                    if ($('#PremixQty').find('tbody tr:visible').length > 1)
+                        $('#PremixQty').find('tbody tr:visible').not(':first').empty();
+                    var $template = $('#AddPremix');
+                    $clone = $template;
+                    $clone.find("input[type=hidden]")[0].value = "";
+                    $clone.find("input")[1].value = "";
+                    $clone.find("input")[2].value = "";
+                    $clone.find("input")[3].value = "";
+                    $clone.find("select")[0].value = "";
+                    $('select').select2({ width: '100%' });
+
+                }
+            },
+            error: function () { alert('Error'); }
+        });
+        $("html, body").animate({ scrollTop: 0 }, "slow");
+    });
+</script>
+
+<script>
+
+    //GrindingCharge Wise All Calculation 
+    $(".GrindingCharge").on('input propertychange paste keypress', function (e) {
+        //debugger;
+        var end = this;
+        if (this.value != '') {
+
+            var row = $(this).closest('tr');
+            var GrindingCharge = parseFloat(this.value);
+            var RatePerKG = $(row).find('input')[1].value;
+            var Gasara = $(row).find('input')[5].value;
+            var PackingCharge = $(row).find('input')[7].value;
+            var MakingCharge = $(row).find('input')[8].value;
+            var SellRateWholesale = $(row).find('input')[10].value;
+            var SellRateRetail = $(row).find('input')[12].value;
+
+            $(end).closest('tr').find('td').each(function (index, td) {
+                //debugger;
+
+                if (index == 0) {
+
+                    if (Gasara != "" && Gasara != "NaN" && RatePerKG != "") {
+                        //debugger;
+                        var GasaraAmount = (parseFloat(RatePerKG) * (parseFloat(Gasara) / 100)).toFixed(2);
+
+                        var GasaraAmountTextbox = $(this).closest('tr').find('input')[6];
+                        GasaraAmountTextbox.value = GasaraAmount;
+
+                        if (GasaraAmount != undefined && GrindingCharge != "" && PackingCharge != "" && MakingCharge != "") {
+
+                            var PadtarAmount = (parseFloat(RatePerKG) + parseFloat(GasaraAmount) + parseFloat(GrindingCharge) + parseFloat(PackingCharge) + parseFloat(MakingCharge)).toFixed(2);
+
+                            var PadtarAmountTextbox = $(this).closest('tr').find('input')[9];
+                            PadtarAmountTextbox.value = PadtarAmount;
+
+                        }
+                    }
+
+                    if (SellRateWholesale != "" && PadtarAmount != "" && PadtarAmount != undefined && PadtarAmount != "NaN") {
+
+                        var MarginWholesale = ((parseFloat(SellRateWholesale) - parseFloat(PadtarAmount)) * 100 / (parseFloat(PadtarAmount))).toFixed(2);
+
+
+                        var MarginWholesaleTextbox = $(this).closest('tr').find('input')[11];
+                        MarginWholesaleTextbox.value = MarginWholesale;
+
+                    }
+               
+                    if (SellRateRetail != "" && PadtarAmount != "" && PadtarAmount != undefined && PadtarAmount != "NaN") {
+
+                        var MarginRetail = ((parseFloat(SellRateRetail) - parseFloat(PadtarAmount)) * 100 / (parseFloat(PadtarAmount))).toFixed(2);
+
+                        var MarginRetailTextbox = $(this).closest('tr').find('input')[13];
+                        MarginRetailTextbox.value = MarginRetail;
+
+                    }
+
+                }
+
+            });
+
+        }
+
+    });
+
+    //Gasara Wise All Calculation
+    $(".Gasara").on('input propertychange paste keypress', function (e) {
+        //debugger;
+        var end = this;
+        if (this.value != '') {
+
+            var row = $(this).closest('tr');
+            var Gasara = parseFloat(this.value);
+            var RatePerKG = $(row).find('input')[1].value;
+            var GrindingCharge = $(row).find('input')[4].value;
+            var PackingCharge = $(row).find('input')[7].value;
+            var MakingCharge = $(row).find('input')[8].value;
+            var SellRateWholesale = $(row).find('input')[10].value;
+            var SellRateRetail = $(row).find('input')[12].value;
+
+            $(end).closest('tr').find('td').each(function (index, td) {
+                //debugger;
+
+                if (index == 0) {
+
+                    if (Gasara != "" && Gasara != "NaN" && RatePerKG != "") {
+                        //debugger;
+                        var GasaraAmount = (parseFloat(RatePerKG) * (parseFloat(Gasara) / 100)).toFixed(2);
+
+                        var GasaraAmountTextbox = $(this).closest('tr').find('input')[6];
+                        GasaraAmountTextbox.value = GasaraAmount;
+
+                        if (GasaraAmount != undefined && GrindingCharge != "" && PackingCharge != "" && MakingCharge != "") {
+
+                            var PadtarAmount = (parseFloat(RatePerKG) + parseFloat(GasaraAmount) + parseFloat(GrindingCharge) + parseFloat(PackingCharge) + parseFloat(MakingCharge)).toFixed(2);
+
+                            var PadtarAmountTextbox = $(this).closest('tr').find('input')[9];
+                            PadtarAmountTextbox.value = PadtarAmount;
+
+                        }
+                    }
+
+                    if (SellRateWholesale != "" && PadtarAmount != "" && PadtarAmount != undefined && PadtarAmount != "NaN") {
+
+                        var MarginWholesale = ((parseFloat(SellRateWholesale) - parseFloat(PadtarAmount)) * 100 / (parseFloat(PadtarAmount))).toFixed(2);
+
+
+                        var MarginWholesaleTextbox = $(this).closest('tr').find('input')[11];
+                        MarginWholesaleTextbox.value = MarginWholesale;
+
+                    }
+
+                    if (SellRateRetail != "" && PadtarAmount != "" && PadtarAmount != undefined && PadtarAmount != "NaN") {
+
+                        var MarginRetail = ((parseFloat(SellRateRetail) - parseFloat(PadtarAmount)) * 100 / (parseFloat(PadtarAmount))).toFixed(2);
+
+                        var MarginRetailTextbox = $(this).closest('tr').find('input')[13];
+                        MarginRetailTextbox.value = MarginRetail;
+
+                    }
+
+                }
+
+            });
+
+        }
+
+    });
+
+    //SellRateWholesale Wise All Calculation
+    $(".SellRateWholesale").on('input propertychange paste keypress', function (e) {
+        //debugger;
+        var end = this;
+        if (this.value != '') {
+
+            var row = $(this).closest('tr');
+            var SellRateWholesale = parseFloat(this.value);
+            var RatePerKG = $(row).find('input')[1].value;
+            var GrindingCharge = $(row).find('input')[4].value;
+            var Gasara = $(row).find('input')[5].value;
+            var PackingCharge = $(row).find('input')[7].value;
+            var MakingCharge = $(row).find('input')[8].value;
+            var SellRateRetail = $(row).find('input')[12].value;
+
+            $(end).closest('tr').find('td').each(function (index, td) {
+                //debugger;
+
+                if (index == 0) {
+
+                    if (Gasara != "" && Gasara != "NaN" && RatePerKG != "") {
+                        //debugger;
+                        var GasaraAmount = (parseFloat(RatePerKG) * (parseFloat(Gasara) / 100)).toFixed(2);
+
+                        var GasaraAmountTextbox = $(this).closest('tr').find('input')[6];
+                        GasaraAmountTextbox.value = GasaraAmount;
+
+                        if (GasaraAmount != undefined && GrindingCharge != "" && PackingCharge != "" && MakingCharge != "") {
+
+                            var PadtarAmount = (parseFloat(RatePerKG) + parseFloat(GasaraAmount) + parseFloat(GrindingCharge) + parseFloat(PackingCharge) + parseFloat(MakingCharge)).toFixed(2);
+
+                            var PadtarAmountTextbox = $(this).closest('tr').find('input')[9];
+                            PadtarAmountTextbox.value = PadtarAmount;
+
+                        }
+                    }
+
+                    if (SellRateWholesale != "" && PadtarAmount != "" && PadtarAmount != undefined && PadtarAmount != "NaN") {
+
+                        var MarginWholesale = ((parseFloat(SellRateWholesale) - parseFloat(PadtarAmount)) * 100 / (parseFloat(PadtarAmount))).toFixed(2);
+
+
+                        var MarginWholesaleTextbox = $(this).closest('tr').find('input')[11];
+                        MarginWholesaleTextbox.value = MarginWholesale;
+
+                    }
+
+                    if (SellRateRetail != "" && PadtarAmount != "" && PadtarAmount != undefined && PadtarAmount != "NaN") {
+
+                        var MarginRetail = ((parseFloat(SellRateRetail) - parseFloat(PadtarAmount)) * 100 / (parseFloat(PadtarAmount))).toFixed(2);
+
+                        var MarginRetailTextbox = $(this).closest('tr').find('input')[13];
+                        MarginRetailTextbox.value = MarginRetail;
+
+                    }
+
+                }
+
+            });
+
+        }
+
+    });
+
+    //SellRateRetail Wise All Calculation
+    $(".SellRateRetail").on('input propertychange paste keypress', function (e) {
+        //debugger;
+        var end = this;
+        if (this.value != '') {
+
+            var row = $(this).closest('tr');
+            var SellRateRetail = parseFloat(this.value);
+            var RatePerKG = $(row).find('input')[1].value;
+            var GrindingCharge = $(row).find('input')[4].value;
+            var Gasara = $(row).find('input')[5].value;
+            var PackingCharge = $(row).find('input')[7].value;
+            var MakingCharge = $(row).find('input')[8].value;
+            var SellRateWholesale = $(row).find('input')[10].value;
+
+            $(end).closest('tr').find('td').each(function (index, td) {
+                //debugger;
+
+                if (index == 0) {
+
+                    if (Gasara != "" && Gasara != "NaN" && RatePerKG != "") {
+                        //debugger;
+                        var GasaraAmount = (parseFloat(RatePerKG) * (parseFloat(Gasara) / 100)).toFixed(2);
+
+                        var GasaraAmountTextbox = $(this).closest('tr').find('input')[6];
+                        GasaraAmountTextbox.value = GasaraAmount;
+
+                        if (GasaraAmount != undefined && GrindingCharge != "" && PackingCharge != "" && MakingCharge != "") {
+
+                            var PadtarAmount = (parseFloat(RatePerKG) + parseFloat(GasaraAmount) + parseFloat(GrindingCharge) + parseFloat(PackingCharge) + parseFloat(MakingCharge)).toFixed(2);
+
+                            var PadtarAmountTextbox = $(this).closest('tr').find('input')[9];
+                            PadtarAmountTextbox.value = PadtarAmount;
+
+                        }
+                    }
+
+                    if (SellRateWholesale != "" && PadtarAmount != "" && PadtarAmount != undefined && PadtarAmount != "NaN") {
+
+                        var MarginWholesale = ((parseFloat(SellRateWholesale) - parseFloat(PadtarAmount)) * 100 / (parseFloat(PadtarAmount))).toFixed(2);
+
+
+                        var MarginWholesaleTextbox = $(this).closest('tr').find('input')[11];
+                        MarginWholesaleTextbox.value = MarginWholesale;
+
+                    }
+
+                    if (SellRateRetail != "" && PadtarAmount != "" && PadtarAmount != undefined && PadtarAmount != "NaN") {
+
+                        var MarginRetail = ((parseFloat(SellRateRetail) - parseFloat(PadtarAmount)) * 100 / (parseFloat(PadtarAmount))).toFixed(2);
+
+                        var MarginRetailTextbox = $(this).closest('tr').find('input')[13];
+                        MarginRetailTextbox.value = MarginRetail;
+
+                    }
+
+                }
+
+            });
+
+        }
+
+    });
+
+    //Multiple Checkbox Wise Update Records  
+    $("#btnupdatePremix").click(function () {
+
+        var lstPremix = [];
+        $('#ListDataTablePremixList').children('tbody').children('tr:visible').each(function (index, row) {
+            //debugger;
+            var IsCheck = $(row).find("input[type=checkbox]")[0];
+            if ($(IsCheck).is(':checked')) {
+
+                var dataPremix = new Object();
+                dataPremix.PremixID = $(row).find('input')[0].value;
+                dataPremix.RatePerKG = $(row).find('input')[1].value;
+                dataPremix.Notes1 = $(row).find('input')[2].value;
+                dataPremix.Notes2 = $(row).find('input')[3].value;
+                dataPremix.GrindingCharge = $(row).find("input")[4].value;
+                dataPremix.Gasara = $(row).find("input")[5].value;
+                dataPremix.GasaraAmount = $(row).find("input")[6].value;
+                dataPremix.PackingCharge = $(row).find("input")[7].value;
+                dataPremix.MakingCharge = $(row).find("input")[8].value;
+                dataPremix.Padtar = $(row).find("input")[9].value;
+                dataPremix.SellRateWholesale = $(row).find("input")[10].value;
+                dataPremix.MarginWholesale = $(row).find("input")[11].value;
+                dataPremix.SellRateRetail = $(row).find("input")[12].value;
+                dataPremix.MarginRetail = $(row).find("input")[13].value;
+                lstPremix.push(dataPremix);
+
+            }
+        });
+
+        if (lstPremix.length > 0) {
+            $.ajax({
+                url: '@Url.Action("UpdatePremix")',
+                type: 'POST',
+                data: { 'data': lstPremix },
+                cache: false,
+            }).done(function (result) {
+                if (result == true) {
+                    if ($("#PremixID").val() == "") {
+                        $('div#sucessalert').html("Powder Spices Add Successfully.");
+                    }
+                    else {
+                        $('div#sucessalert').html("Powder Spices Updated Successfully.");
+                    }
+                    showhidealert();
+                    loadhtml();
+                    clearform();
+                }
+            });
+        }
+        else {
+            alert("please select powder spices");
+        }
+
+    });
+</script>

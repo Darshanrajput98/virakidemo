@@ -1,0 +1,104 @@
+﻿@model vb.Data.ChallanListResponse
+@{
+    ViewBag.Title = "SearchDeliveryChallan";
+    Layout = "~/Areas/wholesale/Views/Shared/_wholesalelayout.cshtml";
+}
+
+<div class="box box-default">
+    <div class="box-header with-border text-center">
+        <h3 class="box-title">View Challan</h3>
+    </div>
+    <form id="frmCustomerGroup" class="form-horizontal">
+        <div class="box-body">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="DeliveryDate" class="col-sm-4 control-label">From </label>
+                    <div class="col-sm-8">
+                        <div class="input-group date">
+                            <div class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
+                            </div>
+                            <input type="text" class="form-control pull-right datepicker" id="txtFrom" tabindex="1" autocomplete="off">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="DeliveryDate" class="col-sm-4 control-label">To </label>
+                    <div class="col-sm-8">
+                        <div class="input-group date">
+                            <div class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
+                            </div>
+                            <input type="text" class="form-control pull-right datepicker" id="txtTo" tabindex="2" autocomplete="off">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.box-body -->
+        <div class="box-footer ">
+            <div class="pull-right">
+                <button type="button" id="btnsearch" class="btn btn-info" tabindex="3">Search</button>
+                <button type="button" id="btnclear" class="btn btn-info" tabindex="4">Clear</button>
+            </div>
+        </div>
+        <!-- /.box-footer -->
+    </form>
+    <div id="lstcase">
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script>
+    $(document).ready(function () {
+        var txtfrom = '@Session["txtfrom"]';
+        var txtto = '@Session["txtto"]';
+        debugger;
+        if (txtfrom != "" || txtto != "") {
+            $("#txtFrom").val(txtfrom);
+            $("#txtTo").val(txtto);
+        }
+        $("#btnsearch").trigger('click');
+    });
+
+    function loadhtml() {
+        debugger;
+        var model = new Object();
+        model.From = $("#txtFrom").val();
+        model.To = $("#txtTo").val();
+        $.ajax({
+            url: '@Url.Action("ViewChallanList")',
+            type: 'POST',
+            data: { 'model': model },
+            cache: false,
+        }).done(function (result) {
+            $('#lstcase').html(result);
+        });
+    }
+
+    $("#btnsearch").click(function () {
+        loadhtml();
+    });
+
+    $("#btnclear").click(function () {
+        debugger;
+        $("#txtFrom").val("");
+        $("#txtTo").val("");
+        var model = new Object();
+        model.From = "";
+        model.To = "";
+        model.Isclear = "true";
+        $.ajax({
+            url: '@Url.Action("ViewChallanList")',
+            type: 'POST',
+            data: { 'model': model },
+            cache: false,
+        }).done(function (result) {
+            $('#lstcase').html(result);
+        });
+    });
+</script>
+
+

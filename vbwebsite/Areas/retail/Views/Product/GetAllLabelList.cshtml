@@ -1,0 +1,93 @@
+﻿@model List<vb.Data.GuiLabelViewModel>
+@using vb.Data.ViewModel
+
+<div class="box">
+    <div class="box-header text-center">
+        <h3 class="box-title">Language Label List</h3>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body table-scrollable1">
+        <table id="ListDataTable" class="table table-bordered table-bordered">
+            <thead>
+                <tr>
+                    <th class="nosort col-sm-2">Language</th>
+                    <th class="nosort col-sm-4">Label Code</th>
+                    <th class="nosort col-sm-4">Label Value</th>
+                    <th class="nosort">Edit</th>
+                    <th class="nosort">Status</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null)
+                {
+                    if (Model.Count() > 0)
+                    {
+                        foreach (var item in Model)
+                        {
+                            <tr>
+                                <td id="row">
+                                    @item.LanguageName
+                                </td>
+
+                                <td>
+                                    @item.LabelCode
+                                </td>
+
+                                <td>
+                                    @item.LabelValue
+                                </td>
+
+                                <td>
+                                    <a style="cursor:pointer;" class="btnedit" data-guilabelid="@item.GuiLabelID" data-createdon="@item.CreatedOn" data-createdby="@item.CreatedBy">Edit</a>
+                                </td>
+
+                                @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.RDAREA.ToString()))
+                                {
+                                    if (item.IsDelete == true)
+                                    {
+                                        <td>
+                                            @Html.ActionLink("Active", "DeleteLabel", "Product",
+                                            new { GuiLabelID = item.GuiLabelID, IsDelete = false },
+                                    new { onclick = "return confirm('Are you sure you wish to active this label?');" })
+                                        </td>
+                                    }
+                                    else
+                                    {
+                                        <td>
+                                            @Html.ActionLink("DeActive", "DeleteLabel", "Product",
+                                             new { GuiLabelID = item.GuiLabelID, IsDelete = true },
+                                            new { onclick = "return confirm('Are you sure you wish to deactive this label?');" })
+                                        </td>
+                                    }
+                                }
+
+
+                            </tr>
+                        }
+                    }
+
+                }
+
+            </tbody>
+        </table>
+    </div>
+    <!-- /.box-body -->
+</div>
+
+<script>
+    $("#ListDataTable").DataTable({
+        'aoColumnDefs': [{
+            'bSortable': false,
+            'aTargets': ['nosort'] /* 1st one, start by the right */
+        }]
+    });
+
+    $('#ListDataTable').on('click', '.btnedit', function () {
+        debugger;
+
+        var GuiLabelID = $(this).attr("data-guilabelid");
+        editLabel(GuiLabelID);
+
+    });
+</script>

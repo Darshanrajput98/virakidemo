@@ -1,0 +1,81 @@
+﻿@{
+    ViewBag.Title = "UtilityStockReport";
+    Layout = "~/Areas/wholesale/Views/Shared/_wholesalelayout.cshtml";
+}
+
+<div class="box box-default">
+    <div class="box-header with-border text-center">
+        <h3 class="box-title">Utility Stock</h3>
+    </div>
+    <form id="frmUtilityStockReport" class="form-horizontal">
+        <div class="box-body">
+            <div class="col-md-12">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="GodownID" class="col-sm-4 control-label">Godown</label>
+                        <div class="col-sm-8">
+                            @Html.DropDownList("GodownID", new SelectList(ViewBag.Godown, "GodownID", "GodownName"), "Select Godown", new { @class = "form-control select2" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="UtilityID" class="col-sm-4 control-label">Utility</label>
+                        <div class="col-sm-8">
+                            @Html.DropDownList("UtilityNameID", new SelectList(ViewBag.Utility, "UtilityNameID", "UtilityName"), "Select Utility", new { @class = "form-control select2" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="box-footer">
+            <div class="pull-right">
+                <button type="button" id="btnsearch" class="btn btn-info">Search</button>
+                <button type="button" id="btncancel" class="btn btn-default">Cancel</button>
+                <button type="button" id="btnexport" class="btn btn-info">Export To Excel</button>
+            </div>
+        </div>
+    </form>
+    <div id="lststockreport">
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#btnsearch").click(function () {
+            loadhtml();
+        });
+        function loadhtml() {
+            if (!($('#frmUtilityStockReport').parsley().validate())) {
+                return;
+            }
+            var GodownID = $("#GodownID").val();
+            var UtilityNameID = $("#UtilityNameID").val();
+            $.ajax({
+                url: '@Url.Action("UtilityStockReportList")',
+                type: 'POST',
+                data: { 'GodownID': GodownID, 'UtilityNameID': UtilityNameID },
+                cache: false,
+            }).done(function (result) {
+                $('#lststockreport').html(result);
+            });
+        }
+    });
+
+    $("#btnexport").click(function () {
+        debugger;
+        var GodownID = $("#GodownID").val();
+        var UtilityNameID = $("#UtilityNameID").val();
+        var url = '@Url.Action("ExportExcelUtilityStockReportList", "Utility", new { GodownID = "__GodownID__", UtilityNameID = "__UtilityNameID__" })';
+        url = url.replace(/amp;/g, '');
+        window.location.href = url.replace('__GodownID__', GodownID).replace('__UtilityNameID__', UtilityNameID);
+    });
+
+    $("#btncancel").click(function () {
+        location.reload();
+    });
+</script>
+
+
+

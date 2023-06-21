@@ -1,0 +1,102 @@
+﻿@model List<vb.Data.RetAreaListResponse>
+@using vb.Data.ViewModel
+
+<div class="box">
+    <div class="box-header text-center">
+        <h3 class="box-title">Area List</h3>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body table-scrollable1">
+        <table id="ListDataTable" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th class="nosort">Name</th>
+                    <th class="nosort">City</th>
+                    <th class="nosort">State</th>
+                    <th class="nosort">Country</th>
+                    <th class="nosort">Pin Code</th>
+                    <th class="nosort">Day Of Weeks</th>                   
+                    @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.REAREA.ToString()))
+                    {
+                        <th>Edit</th>
+                    }
+                    @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.RDAREA.ToString()))
+                    {
+                        <th>Status</th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td id="row" @item.AreaID>
+                            @item.AreaName
+                        </td>
+                        <td>
+                            @item.City
+                        </td>
+                        <td>
+                            @item.State
+                        </td>
+                        <td>
+                            @item.Country
+                        </td>
+                        <td>
+                            @item.PinCode
+                        </td>
+                        <td>
+                            @item.DaysofWeekstr
+                        </td>                      
+                        @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.REAREA.ToString()))
+                        {
+                            <td>
+                                <a style="cursor:pointer;" class="btnedit" data-pid="@item.AreaID" data-dayid="@item.DaysofWeek">Edit</a>
+                            </td>
+                        }
+                        @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.RDAREA.ToString()))
+                        {
+                            if (item.IsDelete == true)
+                            {
+                                <td>
+                                    @Html.ActionLink("Active", "DeleteArea", "Admin",
+                              new { AreaID = item.AreaID, IsDelete = false },
+                                    new { onclick = "return confirm('Are you sure you wish to delete this article?');" })
+                                </td>
+                            }
+                            else
+                            {
+                                <td>
+                                    @Html.ActionLink("DeActive", "DeleteArea", "Admin",
+                              new { AreaID = item.AreaID, IsDelete = true },
+                                    new { onclick = "return confirm('Are you sure you wish to delete this article?');" })
+                                </td>
+                            }
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <!-- /.box-body -->
+</div>
+
+<script>
+    $("#ListDataTable").DataTable({
+        'aoColumnDefs': [{
+            'bSortable': false,
+            'aTargets': ['nosort'] /* 1st one, start by the right */
+        }]
+    });
+
+    $('#ListDataTable').on('click', '.btnedit', function () {
+        $("#UAreaID").val($(this).attr("data-pid"));
+        $("#AreaName").val($(this).parent().parent().children()[0].innerHTML.trim());
+        $("#City").val($(this).parent().parent().children()[1].innerHTML.trim());
+        $("#State").val($(this).parent().parent().children()[2].innerHTML.trim());
+        $("#Country").val($(this).parent().parent().children()[3].innerHTML.trim());
+        $("#PinCode").val($(this).parent().parent().children()[4].innerHTML.trim());
+        $("#DaysofWeek").val($(this).attr("data-dayid")).trigger("change");      
+        $("html, body").animate({ scrollTop: 0 }, "slow");
+    });
+</script>

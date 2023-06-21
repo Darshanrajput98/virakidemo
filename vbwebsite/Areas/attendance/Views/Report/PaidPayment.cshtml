@@ -1,0 +1,104 @@
+﻿@{
+    ViewBag.Title = "PaidPayment";
+    Layout = "~/Areas/attendance/Views/Shared/_attendancelayout.cshtml";
+}
+
+<div class="box box-default">
+    <div class="box-header with-border text-center">
+        <h3 class="box-title">Search Payment List</h3>
+    </div>
+    <form id="frmPaidPayment" class="form-horizontal">
+        <div class="box-body">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for=" PaymentDate" class="col-sm-4 control-label">Payment Date</label>
+                    <div class="col-sm-8">
+                        <div class="input-group date">
+                            <div class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
+                            </div>
+                            <input type="text" class="form-control pull-right datepicker" id="PaymentDate" tabindex="1" autocomplete="off" required="required">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="day" class="col-sm-4 control-label">Bank Name</label>
+                    <div class="col-sm-8">
+                        @Html.DropDownList("BankID", new SelectList(ViewBag.BankName, "BankID", "BankName"), "Select Bank", new { @class = "form-control select2", tabindex = "1" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="GodownID" class="col-sm-4 control-label">Godown</label>
+                    <div class="col-sm-8">
+                        @Html.DropDownList("GodownID", new SelectList(ViewBag.Godown, "GodownID", "GodownName"), "Select Godown", new { @class = "form-control select2", tabindex = "3", required = "required" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="EmployeeCode" class="col-sm-4 control-label">Employee</label>
+                    <div class="col-sm-8">
+                        @Html.DropDownList("EmployeeCode", new SelectList(ViewBag.Employee, "EmployeeCode", "FullName"), "Select Employee", new { @class = "form-control select2", tabindex = "4" })
+                    </div>
+                </div>
+
+                @*<div class="form-group">
+                        <label for="CreatedDateWise" class="col-sm-4 control-label">Created Date Wise</label>
+                        <div class="col-sm-8">
+                            <input type="checkbox" id="IsCheckForCreatedDate" style="margin-left:5px;margin-right:5px;" />
+                        </div>
+                    </div>*@
+
+            </div>
+        </div>
+        <div class="box-footer ">
+            <div class="pull-right">
+                <button type="button" id="btnsearch" class="btn btn-info" tabindex="6">Search</button>
+                <button type="button" id="btnexport" class="btn btn-info" tabindex="20">Export To Excel</button>
+            </div>
+        </div>
+    </form>
+    <div id="lstcase">
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script>
+    $(document).ready(function () {
+        function loadhtml() {
+            if (!($('#frmPaidPayment').parsley().validate())) {
+                return;
+            }
+            //var IsCheckForCreatedDate = $('#IsCheckForCreatedDate').is(":checked");
+            var PaymentDate = $("#PaymentDate").val();
+            var GodownID = $("#GodownID").val();
+            var BankID = $("#BankID").val();
+            var EmployeeCode = $("#EmployeeCode").val();
+            debugger;
+            $.ajax({
+                url: '@Url.Action("PaidPaymentList")',
+                type: 'POST',
+                data: { 'PaymentDate': PaymentDate, 'GodownID': GodownID, 'BankID': BankID,'EmployeeCode': EmployeeCode },
+                cache: false,
+            }).done(function (result) {
+                $('#lstcase').html(result);
+            });
+        }
+
+        $("#btnsearch").click(function () {
+            loadhtml();
+        });
+
+        $("#btnexport").click(function () {          
+            var PaymentDate = $("#PaymentDate").val();
+            var GodownID = $("#GodownID").val();
+            var BankID = $("#BankID").val();
+            var EmployeeCode = $("#EmployeeCode").val();           
+            var url = '@Url.Action("ExportExcelPaidPayment", "Report", new { PaymentDate = "__PaymentDate__", GodownID = "__GodownID__", BankID = "__BankID__", EmployeeCode = "__EmployeeCode__"})';
+            url = url.replace(/amp;/g, '');
+            window.location.href = url.replace('__PaymentDate__', PaymentDate).replace('__GodownID__', GodownID).replace('__BankID__', BankID).replace('__EmployeeCode__', EmployeeCode);
+        });
+    });
+</script>
+
+

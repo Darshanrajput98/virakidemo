@@ -1,0 +1,112 @@
+﻿@model List<vb.Data.RetOrderListResponse>
+
+<div class="box">
+    <div class="box-header text-center">
+        <h3 class="box-title">Order List</h3>
+        <button type="button" id="btnBack" class="btn btn-info pull-right">Back</button>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body">
+        <table id="ListDataTable" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th class="nosort">Invoice No</th>
+                    <th class="nosort">Order Date</th>
+                    <th class="nosort">Customer Name</th>
+                    <th class="nosort">Area</th>
+                    <th class="nosort">Sales Person</th>
+                    <th class="nosort">View Invoice</th>
+                    <th class="nosort">Print Invoice</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td id="row" @item.OrderID>
+                            @item.InvoiceNumber
+                        </td>
+                        <td>
+                            @item.CreatedOn.ToString("MM-dd-yyyy")
+                        </td>
+                        <td>
+                            @item.CustomerName
+                        </td>
+                        <td>
+                            @item.AreaName
+                        </td>
+                        <td>
+                            @item.UserName
+                        </td>
+                        <td>
+                            <input class="btnViewInvoice" type="button" value="View Invoice" data-invoicenumber="@item.InvoiceNumber" data-orderid="@item.OrderID" />
+                        </td>
+                        <td>
+                            <input id="btnPrintInvoice" type="button" value="Print Invoice" onclick="GetPrint(@item.OrderID,'@item.InvoiceNumber')" data-orderid="@item.OrderID" />
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <!-- /.box-body -->
+</div>
+
+<script>
+
+    $(".btnViewInvoice").click(function () {
+        debugger;
+        var url = '@Url.Action("ViewBillWiseInvoiceForCustGroupSalesManWiseSalesReport", "Report", new { invoicenumber = "__invoicenumber__", custid = "__custid__", uid = "__uid__", txtfrom = "__txtfrom__", txtto = "__txtto__", areaid = "__areaid__", custgroupid = "__custgroupid__", orderid = "__orderid__" })';
+        url = url.replace(/amp;/g, '');
+        var Data = url.replace('__invoicenumber__', $(this).attr("data-invoicenumber")).replace('__custid__', $('#CustomerID').val()).replace('__uid__', $('#UserID').val()).replace('__txtfrom__', $('#txtFrom').val()).replace('__txtto__', $('#txtTo').val()).replace('__areaid__', $('#AreaID').val()).replace('__custgroupid__', $('#CustomerGroupID').val()).replace('__orderid__', $(this).attr("data-orderid"));
+        window.open(Data, '_blank');
+    });
+
+    function GetPrint(id, invnum) {
+        debugger;
+        $.ajax({
+            url: '@Url.Action("PrintInvoice", "Order")',
+            type: 'POST',
+            data: { 'InvoiceID': id, 'InvoiceNumber': invnum },
+            cache: false,
+        }).done(function (result) {
+            if (result != '') {
+                window.open(result, "newPage");
+            }
+        });
+    };
+
+    $("#btnBack").click(function () {
+        debugger;
+        backtopage();
+        var txtFrom = '@Session["txtFrom"].ToString()';
+        var txtTo = '@Session["txtTo"].ToString()';
+        $('#txtFrom').val(txtFrom).trigger('change');
+        $('#txtTo').val(txtTo).trigger('change');
+    });
+
+    function backtopage(txtFrom, txtTo, CustomerGroupID, CustomerID) {
+        var model = new Object();
+        model.StartDate = txtFrom;
+        model.EndDate = txtTo;
+        model.CustomerGroupID = $('#CustomerGroupID').val();
+        model.CustomerID = $('#CustomerID').val();
+        $.ajax({
+            url: '@Url.Action("CustGroupSalesManWiseDailySalesList", "Report")',
+            type: 'POST',
+            data: { 'model': model },
+            cache: false,
+        }).done(function (result) {
+            $('#lstcase').html(result);
+        });
+    }
+
+</script>
+
+
+
+
+
+
+
+

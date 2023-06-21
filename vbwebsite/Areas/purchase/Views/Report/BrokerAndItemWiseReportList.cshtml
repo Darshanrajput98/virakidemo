@@ -1,0 +1,73 @@
+﻿@model List<vb.Data.BrokerAndItemWiseReportList>
+
+<div class="box">
+    <div class="box-header text-center">
+        <h3 class="box-title">Broker & Item Wise Report List</h3>
+    </div>
+    <div class="box-body">
+        <table id="ListDataTable" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th class="nosort">Godown</th>
+                    <th class="nosort">Bill Number</th>
+                    <th class="nosort">Bill Date</th>
+                    <th class="nosort">Supplier Name</th>
+                    <th class="nosort">Area</th>
+                    <th class="nosort">Product</th>
+                    <th class="nosort">No of Bags</th>
+                    <th class="nosort">Rate/KG</th>
+                    <th class="nosort">Total Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td id="row">
+                            <input type="hidden" id="hdnPurchaseID" class="hdnPurchaseID" value="@item.PurchaseID" />
+                            @item.GodownName
+                        </td>
+                        <td>
+                            @item.BillNumber
+                        </td>
+                        <td>
+                            @item.BillDatestr
+                        </td>
+                        <td>
+                            @item.SupplierName
+                        </td>
+                        <td>
+                            @item.AreaName
+                        </td>
+
+                        <td>
+                            @item.ProductName
+                        </td>
+                        <td>
+                            @item.NoofBags
+                        </td>
+                        <td>
+                            @item.RatePerKG
+                        </td>
+
+                        <td>
+                            @item.GrandTotalAmount
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    $('#ListDataTable').DataTable({
+        'paging': true,
+        'lengthChange': true,
+        'searching': true,
+        'ordering': false,
+        'info': true,
+        'autoWidth': false
+    });
+</script>
+

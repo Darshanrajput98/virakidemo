@@ -1,0 +1,163 @@
+﻿@{
+    ViewBag.Title = "ManageGodown";
+    Layout = "~/Areas/retail/Views/Shared/_retaillayout.cshtml";
+}
+@using vb.Data.ViewModel
+
+<div class="box box-default">
+    <div class="box-header with-border text-center">
+        <h3 class="box-title">Manage Godown</h3>
+    </div>
+    <form id="frmGodown" class="form-horizontal">
+        <div class="box-body">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <input name="GodownID" id="UGodownID" type="hidden" value="" />
+                    <label for="Name" class="col-sm-4 control-label">Name</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="Name" id="GodownName" placeholder="Name" tabindex="1" required="required">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="State" class="col-sm-4 control-label">Address Line1</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="Address" id="GodownAddress1" placeholder="Address Line 1" tabindex="3">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="PinCode" class="col-sm-4 control-label">Address Line2</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="Address2" id="GodownAddress2" placeholder="Address Line 2" tabindex="5">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="State" class="col-sm-4 control-label">Note</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="Note" id="GodownNote" placeholder="Note" tabindex="7">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="PinCode" class="col-sm-4 control-label">Pincode</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="Pincode" id="Pincode" placeholder="Pincode" tabindex="9">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="CashOption" class="col-sm-4 control-label">Cash Option</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="CashOption" id="CashOption" placeholder="Cash Option" tabindex="12">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="Phone" class="col-sm-4 control-label">Phone </label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="Phone" id="GodownPhone" placeholder="Phone" tabindex="2">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="FSSAINo" class="col-sm-4 control-label">FSSAI Number</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="FSSAINumber" id="GodownFSSAINumber" placeholder="FSSAI Number" tabindex="4">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="Country" class="col-sm-4 control-label">Code</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="Code" id="GodownCode" placeholder="Code" tabindex="6">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="PinCode" class="col-sm-4 control-label">Place</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="Place" id="Place" placeholder="Place" tabindex="8">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="PinCode" class="col-sm-4 control-label">State</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="State" id="State" placeholder="State" tabindex="10">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.box-body -->
+        <div class="box-footer ">
+            <div class="pull-right">
+                <button type="button" id="CancelGodown" class="btn btn-default" tabindex="12">Cancel</button>
+                @if (CommonMethod.IsActiveMenu(CommonMethod.RoleSystemName.RAGODOWN.ToString()))
+                {
+                    <button type="button" id="btnsavecase" class="btn btn-info" tabindex="11">Save</button>
+                }
+            </div>
+        </div>
+        <!-- /.box-footer -->
+    </form>
+    <div id="lstcase">
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script>
+    $(document).ready(function () {
+        loadhtml();
+    });
+
+    function loadhtml() {
+        $.ajax({
+            url: '@Url.Action("ManageGodownList")',
+            type: 'GET',
+            cache: false,
+        }).done(function (result) {
+            $('#lstcase').html(result);
+        });
+    }
+
+    $("#btnsavecase").click(function () {
+        if (!($('#frmGodown').parsley().validate())) {
+            return;
+        }
+        var datareq = new Object();
+        datareq.GodownID = $("#UGodownID").val();
+        datareq.GodownName = $("#GodownName").val();
+        datareq.GodownPhone = $("#GodownPhone").val();
+        datareq.GodownAddress1 = $("#GodownAddress1").val();
+        datareq.GodownAddress2 = $("#GodownAddress2").val();
+        datareq.GodownFSSAINumber = $("#GodownFSSAINumber").val();
+        datareq.GodownCode = $("#GodownCode").val();
+        datareq.GodownNote = $("#GodownNote").val();
+        datareq.Place = $("#Place").val();
+        datareq.Pincode = $("#Pincode").val();
+        datareq.State = $("#State").val();
+        datareq.CashOption = $("#CashOption").val();
+        $.ajax({
+            url: '@Url.Action("ManageGodown")',
+            type: 'POST',
+            data: { 'data': datareq },
+            cache: false,
+        }).done(function (result) {
+            if (result == true) {
+                if ($("#GodownID").val() == "") {
+                    $('div#sucessalert').html("Godown Add successfully.");
+                }
+                else {
+                    $('div#sucessalert').html("Godown updated successfully.");
+                }
+                showhidealert();
+                loadhtml();
+                clearform();
+            }
+        });
+    });
+
+    $("#CancelGodown").click(function () {
+        clearform();
+    });
+
+    function clearform() {
+        $("#frmGodown").find("input").val("");
+        $("#GodownID").val("").trigger("change");
+    }
+</script>
+

@@ -1,0 +1,190 @@
+﻿@model List<vb.Data.RetOrderSummaryListResponse>
+
+
+<div class="box">
+    <div class="box-header text-center">
+        <h3 class="box-title">Summary List</h3>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body">
+
+        <table id="ListDataTable" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th class="nosort">Order Number</th>
+                    <th class="nosort">OrderDate</th>
+                    <th class="nosort">Customer</th>
+                    <th class="nosort">Area</th>
+                    <th class="nosort">Status</th>
+                    <td class="nosort">Select <input type="checkbox" class="chkSelectAll" checked="checked" /></td>
+                    <th class="nosort">Section</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td id="row">
+                            <a style="cursor:pointer;" class="btneditorder" data-pid="@item.OrderID">@item.OrderNumber</a>
+                        </td>
+                        <td>
+                            @item.OrderDate.ToString("dd-MMM-yyyy")
+                        </td>
+                        <td>
+                            @item.CustomerName
+                        </td>
+                        <td>
+                            @item.AreaName
+                        </td>
+                        <td>@item.Status</td>
+                        <td>
+                            <input type="hidden" class="hdnOrderID" value="@item.OrderID" />
+                            <input type="checkbox" class="chkSelect" checked="checked" />
+                        </td>
+                        <td><input type="text" class="txtSection" value="@item.Section"></td>
+                    </tr>
+                }
+            </tbody>
+
+        </table>
+        <div class="box-footer ">
+            <div class="pull-right">
+                <button type="button" id="btnprint" class="btn btn-info" tabindex="6">Print</button>
+            </div>
+        </div>
+
+
+    </div>
+    <!-- /.box-body -->
+</div>
+
+
+<script>
+    $("#ListDataTable").DataTable({
+        "paging": false,
+        "aaSorting": [],
+        'aoColumnDefs': [{
+            'bSortable': false,
+            'aTargets': ['nosort'] /* 1st one, start by the right */
+
+        }]
+    });
+    $('#ListDataTable').on('change', '.chkSelectAll', function () {
+        debugger;
+        if ($(this).closest("tr").find(".chkSelectAll").is(':checked')) {
+            $('#ListDataTable').children('tbody').children('tr:visible').each(function (index, row) {
+                debugger;
+                    $(row).closest("tr").find(".chkSelect").prop('checked', true);
+
+            });
+        }
+        else {
+            $('#ListDataTable').children('tbody').children('tr:visible').each(function (index, row) {
+                debugger;
+                    $(row).closest("tr").find(".chkSelect").prop('checked', false);
+
+            });
+        }
+    });
+
+    $('#ListDataTable').on('click', '.btneditorder', function () {
+        debugger;
+        var url = '@Url.Action("ManageOrders", "Order", new { id = "__id__" })';
+        url = url.replace(/amp;/g, '');
+        window.location.href = url.replace('__id__', $(this).attr("data-pid"));
+
+    });
+
+    $('#ListDataTable').on('change', '.chkSelect', function () {
+        var cnt = 0;
+        debugger;
+        $('#ListDataTable').children('tbody').children('tr:visible').each(function (index, row) {
+            debugger;
+            if ($(row).closest("tr").find(".chkSelect").is(':checked')) {
+
+            }
+            else {
+                cnt = 1;
+            }
+
+        });
+
+        if (cnt == 0) {
+            $('#ListDataTable').children('thead').children('tr').find('.chkSelectAll').prop('checked', true);
+        }
+        else {
+            $('#ListDataTable').children('thead').children('tr').find('.chkSelectAll').prop('checked', false);
+        }
+    });
+
+    $("#btnprint").click(function () {
+
+        document.getElementById('btnprint').disabled = true;
+        debugger;
+        var id = "";
+        var lstsection = [];
+        $('#ListDataTable').children('tbody').children('tr:visible').each(function (index, row) {
+            debugger;
+            if ($(row).closest("tr").find(".chkSelect").is(':checked')) {
+                if (id == "") {
+                    id = $(row).closest("tr").find(".hdnOrderID").val();
+                }
+                else {
+                    id = id + "," + $(row).closest("tr").find(".hdnOrderID").val();
+                }
+
+                var obj = new Object();
+                obj.OrderID = $(row).closest("tr").find(".hdnOrderID").val();
+                obj.Section = $(row).closest("tr").find(".txtSection").val();
+
+                lstsection.push(obj);
+            }
+
+        });
+        var date = $("#PackageDate").val();
+
+        $.ajax({
+            url: '@Url.Action("PrintSummaryListSession", "Order")',
+            type: 'POST',
+            data: { 'id': id, 'date': date },
+            cache: false,
+        }).done(function (result) {
+
+        });
+
+        $.ajax({
+            url: '@Url.Action("UpdateSummarySection")',
+            type: 'POST',
+            data: { 'data': lstsection },
+            cache: false,
+        }).done(function (result) {
+            var url = '@Url.Action("PrintSummaryList", "Order", new { date = "__date__" })';
+            url = url.replace(/amp;/g, '');
+            window.location.href = url.replace('__date__', date);
+        });
+
+        @*var url = '@Url.Action("PrintSummaryList", "Order", new { date="__date__" })';
+        url = url.replace(/amp;/g, '');
+        window.location.href = url.replace('__date__', $("#PackageDate").val());*@
+
+        @*debugger;
+        var id = "";
+        $('#ListDataTable').children('tbody').children('tr:visible').each(function (index, row) {
+            debugger;
+            if ($(row).closest("tr").find(".chkSelect").is(':checked')) {
+                if (id == "") {
+                    id = $(row).closest("tr").find(".hdnOrderID").val();
+                }
+                else {
+                    id = id + "," + $(row).closest("tr").find(".hdnOrderID").val();
+                }
+            }
+
+        });
+
+        var url = '@Url.Action("ExportExcelSummary", "Order", new { id = "__id__", date ="__date__" })';
+        url = url.replace(/amp;/g, '');
+        window.location.href = url.replace('__id__', id).replace('__date__', $("#PackageDate").val());*@
+    });
+
+</script>

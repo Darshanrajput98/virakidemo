@@ -1,0 +1,147 @@
+﻿@model vb.Data.RetPaymentListResponse
+
+@{
+    ViewBag.Title = "PaymentPendingList";
+    Layout = "~/Areas/retail/Views/Shared/_retaillayout.cshtml";
+}
+
+<div class="box box-default">
+    <div class="box-header with-border text-center">
+        <h3 class="box-title">View Payment Pending List</h3>
+    </div>
+    <form id="frmCustomerGroup" class="form-horizontal">
+        <div class="box-body">
+            <div class="col-md-6">
+                <div class="form-group" style="position:sticky !important;">
+                    <label for=" deliverydate" class="col-sm-4 control-label">
+                        From
+                    </label>
+                    <div class="col-sm-8">
+                        <div class="input-group date">
+                            <div class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
+                            </div>
+                            <input type="text" class="form-control pull-right datepicker" id="txtFrom" tabindex="3" autocomplete="off">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="day" class="col-sm-4 control-label">Area</label>
+                    <div class="col-sm-8">
+                        @Html.DropDownListFor(m => m.AreaID, new SelectList(ViewBag.AreaList, "AreaID", "AreaName"), "Select Area", new { @class = "form-control select2" })
+                    </div>
+                </div>
+                @*<div class="form-group">
+                    <label for="GroupName" class="col-sm-4 control-label">Customer Name</label>
+                    <div class="col-sm-8">
+                        @Html.DropDownListFor(m => m.CustomerID, new SelectList(ViewBag.Customer, "CustomerID", "CustomerName"), new { @class = "form-control select22", multiple = true })
+                    </div>
+                </div>*@
+                <div class="form-group">
+                    <label for="GroupName" class="col-sm-4 control-label">Customer Name</label>
+                    <div class="col-sm-8">
+                        @Html.DropDownListFor(m => m.CustomerID, new SelectList(ViewBag.Customer, "CustomerID", "CustomerName"), "Select Customer", new { @class = "form-control select2" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group" style="position:sticky !important;">
+                    <label for="DeliveryDate" class="col-sm-4 control-label">To </label>
+                    <div class="col-sm-8">
+                        <div class="input-group date">
+                            <div class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
+                            </div>
+                            <input type="text" class="form-control pull-right datepicker" id="txtTo" tabindex="3" autocomplete="off">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="day" class="col-sm-4 control-label">Sales Person</label>
+                    <div class="col-sm-8">
+                        @Html.DropDownListFor(m => m.UserID, new SelectList(ViewBag.SalesPersonList, "UserID", "UserFullName"), "Select Sales Person", new { @class = "form-control select2" })
+
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="day" class="col-sm-4 control-label">Days Of Week</label>
+                    <div class="col-sm-8">
+                        <select name="Day" id="DaysofWeek" class="form-control" tabindex="6">
+                            <option value="" selected>Select</option>
+                            <option value="1">Monday</option>
+                            <option value="2">Tuesday</option>
+                            <option value="3">Wednesday</option>
+                            <option value="4">Thursday</option>
+                            <option value="5">Friday</option>
+                            <option value="6">Saturday</option>
+                            <option value="7">Sunday</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="box-footer ">
+            <div class="pull-right">
+                <button type="button" id="btnsearch" class="btn btn-info" tabindex="6">Search</button>
+                <button type="button" id="btnexport" class="btn btn-info" tabindex="20">Export To Excel</button>
+            </div>
+        </div>
+    </form>
+    <div id="lstcase">
+    </div>
+    <div id="lstExpensesVoucherPayment">
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script>
+    $(document).ready(function () {
+        function loadhtml() {
+            debugger;
+            var model = new Object();
+            model.DaysofWeek = $("#DaysofWeek").val();
+            model.AreaID = $("#AreaID").val();
+            model.UserID = $("#UserID").val();
+            model.CustomerID = $("#CustomerID").val();
+            model.From = $("#txtFrom").val();
+            model.To = $("#txtTo").val();
+            $.ajax({
+                url: '@Url.Action("ViewPaymentPendingList")',
+                type: 'POST',
+                data: { 'model': model },
+                cache: false,
+            }).done(function (result) {
+                $('#lstcase').html(result);
+            });
+
+            $.ajax({
+                url: '@Url.Action("ViewExpensesVoucherPaymentPendingList")',
+                type: 'POST',
+                data: { 'model': model },
+                cache: false,
+            }).done(function (result) {
+                $('#lstExpensesVoucherPayment').html(result);
+            });
+        }
+
+        $("#btnsearch").click(function () {
+            loadhtml();
+        });
+
+        $("#btnexport").click(function () {
+            debugger;
+            var model = new Object();
+            model.DaysofWeek = $("#DaysofWeek").val();
+            model.AreaID = $("#AreaID").val();
+            model.UserID = $("#UserID").val();
+            model.CustomerID = $("#CustomerID").val();
+            model.From = $("#txtFrom").val();
+            model.To = $("#txtTo").val();
+            model.UserName = $("#UserID option:selected").text();
+            var url = '@Url.Action("ExportExcelPaymentPending", "Payment", new { From = "__From__", To = "__To__", CustomerID = "__CustomerID__", AreaID = "__AreaID__", UserID = "__UserID__", DaysofWeek = "__DaysofWeek__", UserName = "__UserName__" })';
+            url = url.replace(/amp;/g, '');
+            window.location.href = url.replace('__From__', model.From).replace('__To__', model.To).replace('__CustomerID__', model.CustomerID).replace('__AreaID__', model.AreaID).replace('__UserID__', model.UserID).replace('__DaysofWeek__', model.DaysofWeek).replace('__UserName__', model.UserName);
+        });
+    });
+
+</script>

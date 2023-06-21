@@ -1,0 +1,270 @@
+﻿@model vb.Data.ExpProductWiseSalesList
+
+@{
+    ViewBag.Title = "ProductWiseSales";
+    Layout = "~/Areas/export/Views/Shared/_exportlayout.cshtml";
+}
+<div class="box box-default">
+    <div class="box-header with-border text-center">
+        <h3 class="box-title">Product Wise Report</h3>
+    </div>
+    <form id="frmCustomerGroup" class="form-horizontal">
+        <div class="box-body">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="DeliveryDate" class="col-sm-4 control-label">From </label>
+                    <div class="col-sm-8">
+                        <div class="input-group date">
+                            <div class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
+                            </div>
+                            <input type="text" class="form-control pull-right datepicker" id="txtFrom" tabindex="1" autocomplete="off">
+                        </div>
+                    </div>
+                </div>
+
+                @*<div class="form-group">
+                        <input name="CustomerID" id="CustomerID" type="hidden" class="hdnCustomerID" value="" />
+                        <label for="CustomerName" class="col-sm-4 control-label">Customer</label>
+                        <div class="col-sm-8 dropset">
+                            <input type="text" id="txtCustomerName" class="form-control" tabindex="4" maxlength="100" placeholder="Customer Name" required autocomplete="off" />
+                        </div>
+                    </div>*@
+
+                <div class="form-group">
+                    <label for="day" class="col-sm-4 control-label">Customer</label>
+                    <div class="col-sm-8">
+                        @Html.DropDownListFor(m => m.CustomerID, new SelectList(ViewBag.Customer, "CustomerID", "CustomerName"), "Select Customer", new { @class = "form-control select2", tabindex = "3" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="day" class="col-sm-4 control-label">Category</label>
+                    <div class="col-sm-8">
+                        @Html.DropDownListFor(m => m.ProductCategoryID, new SelectList(ViewBag.ProductCategoryList, "CategoryID", "CategoryName"), "Select Category", new { @class = "form-control select2", tabindex = "5" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="day" class="col-sm-4 control-label">Sales Person</label>
+                    <div class="col-sm-8">
+                        @Html.DropDownListFor(m => m.UserID, new SelectList(ViewBag.SalesPersonList, "UserID", "UserFullName"), "Select Sales Person", new { @class = "form-control select2", tabindex = "7" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="DeliveryDate" class="col-sm-4 control-label">To </label>
+                    <div class="col-sm-8">
+                        <div class="input-group date">
+                            <div class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
+                            </div>
+                            <input type="text" class="form-control pull-right datepicker" id="txtTo" tabindex="2" autocomplete="off">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="ProductName" class="col-sm-4 control-label">Country</label>
+                    <div class="col-sm-8">
+                        @Html.DropDownListFor(m => m.CountryID, new SelectList(ViewBag.CountryList, "CountryID", "CountryName"), "Select Country", new { @class = "form-control select2", tabindex = "4" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="day" class="col-sm-4 control-label">Product</label>
+                    <div class="col-sm-8">
+                        @Html.DropDownListFor(m => m.ProductID, new SelectList(ViewBag.Product, "ProductQtyID", "ProductName"), "Select Item", new { @class = "form-control select2", tabindex = "6" })
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.box-body -->
+        <div class="box-footer ">
+            <div class="pull-right">
+                <button type="button" id="btnsearch" data-mainstartdate="" data-mainenddate="" class="btn btn-info" tabindex="8">Search</button>
+                <button type="button" id="btnclear" class="btn btn-info" tabindex="9">Clear</button>
+                <button type="button" id="btnexport" class="btn btn-info" tabindex="10">Export To Excel</button>
+                @*<button type="button" id="btnViewProduct"  style="display:none;" class="btn btn-info" tabindex="10">View Product</button>*@
+            </div>
+        </div>
+        <!-- /.box-footer -->
+    </form>
+    <div id="lstcase">
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script>
+    $(document).ready(function () {
+        debugger;
+        var fcustid = '@Session["fprcustid"]';
+        var ftxtfrom = '@Session["fprtxtfrom"]';
+        var ftxtto = '@Session["fprtxtto"]';
+        var fuid = '@Session["fpruid"]';
+        var fproductid = '@Session["fprproductid"]';
+        var fcategoryid = '@Session["fprcategoryid"]';
+        var fareaid = '@Session["fprareaid"]';
+        if (fcustid != "" || ftxtfrom != "" || ftxtto != "" || fuid != "" || fproductid != "" || fcategoryid != "" || fareaid != "") {
+            ftxtfrom = ftxtfrom.split(' ')[0];
+            ftxtto = ftxtto.split(' ')[0];
+            $("#CustomerID").val(fcustid);
+            $("#txtFrom").val(ftxtfrom);
+            $("#txtTo").val(ftxtto);
+            $("#UserID").val(fuid);
+            $("#ProductID").val(fproductid);
+            $("#ProductCategoryID").val(fcategoryid);
+            $("#CountryID").val(fareaid);
+            var model = new Object();
+            model.StartDate = $("#txtFrom").val();
+            model.EndDate = $("#txtTo").val();
+            model.CustomerID = $("#CustomerID").val();
+            model.CountryID = $("#CountryID").val();
+            model.ProductCategoryID = $("#ProductCategoryID").val();
+            model.ProductID = $("#ProductID").val();
+            model.UserID = $("#UserID").val();
+            $.ajax({
+                url: '@Url.Action("ProductWiseDailySalesList")',
+                type: 'POST',
+                data: { 'model': model },
+                cache: false,
+            }).done(function (result) {
+
+                $('#lstcase').html(result);
+            });
+        }
+        $("#btnexport").click(function () {
+            debugger;
+            var model = new Object();
+            model.StartDate = $("#txtFrom").val();
+            model.EndDate = $("#txtTo").val();
+            model.CustomerID = $("#CustomerID").val();
+            model.CountryID = $("#CountryID").val();
+            model.ProductCategoryID = $("#ProductCategoryID").val();
+            model.ProductID = $("#ProductID").val();
+            model.UserID = $("#UserID").val();
+            model.CustomerName = $("#CustomerID option:selected").text();
+            var url = '@Url.Action("ExportExcelProductWiseSales", "Report", new { StartDate = "__StartDate__", EndDate = "__EndDate__", CustomerID = "__CustomerID__", CountryID = "__CountryID__", ProductCategoryID = "__ProductCategoryID__", ProductID = "__ProductID__", UserID = "__UserID__", CustomerName = "__CustomerName__" })';
+            url = url.replace(/amp;/g, '');
+            window.location.href = url.replace('__StartDate__', model.StartDate).replace('__EndDate__', model.EndDate).replace('__CustomerID__', model.CustomerID).replace('__CountryID__', model.ArCountryIDeaID).replace('__ProductCategoryID__', model.ProductCategoryID).replace('__ProductID__', model.ProductID).replace('__UserID__', model.UserID).replace('__CustomerName__', model.CustomerName);
+        });
+
+        $("#btnsearch").click(function () {
+            debugger;
+            document.getElementById('btnsearch').disabled = true;
+            loadhtml();
+        });
+
+        function loadhtml() {
+            var model = new Object();
+            model.StartDate = $("#txtFrom").val();
+            model.EndDate = $("#txtTo").val();
+            model.CustomerID = $("#CustomerID").val();
+            model.CountryID = $("#CountryID").val();
+            model.ProductCategoryID = $("#ProductCategoryID").val();
+            model.ProductID = $("#ProductID").val();
+            model.UserID = $("#UserID").val();
+            $.ajax({
+                url: '@Url.Action("ProductWiseSalesList")',
+                type: 'POST',
+                data: { 'model': model },
+                cache: false,
+            }).done(function (result) {
+                $('#lstcase').html(result);
+                document.getElementById('btnsearch').disabled = false;
+            });
+        }
+
+        $("#btnclear").click(function () {
+            debugger;
+            location.reload();
+        });
+
+        var custid = '@Session["prcustid"]';
+        var txtfrom = '@Session["prtxtfrom"]';
+        var txtto = '@Session["prtxtto"]';
+        var uid = '@Session["pruid"]';
+        var productid = '@Session["prproductid"]';
+        var categoryid = '@Session["prcategoryid"]';
+        var countryid = '@Session["prareaid"]';
+        debugger;
+        if (custid != "" || txtfrom != "" || txtto != "" || uid != "" || productid != "" || categoryid != "" || countryid != "") {
+            $("#CustomerID").val(custid);
+            $("#txtFrom").val(txtfrom);
+            $("#txtTo").val(txtto);
+            $("#UserID").val(uid);
+            $("#ProductID").val(productid);
+            $("#ProductCategoryID").val(categoryid);
+            $("#CountryID").val(countryid);
+            var model = new Object();
+            model.From = $("#txtFrom").val();
+            model.To = $("#txtTo").val();
+            model.CustomerID = $("#CustomerID").val();
+            model.ProductID = $("#ProductID").val();
+            model.UserID = $("#UserID").val();
+            model.CountryID = $("#CountryID").val();
+            model.ProductCategoryID = $("#ProductCategoryID").val();
+            $.ajax({
+                url: '@Url.Action("ViewBillWiseOrderListForProductWiseSalesReport", "Report")',
+                type: 'POST',
+                data: { 'model': model },
+                cache: false,
+            }).done(function (result) {
+                $('#lstcase').html(result);
+            });
+        }
+    });
+
+
+
+
+
+    @*$("#btnViewProduct").click(function () {
+        debugger;
+        // var CustomerID = 0;
+        var CountryID = 0;
+        var ProductCategoryID = 0;
+        var ProductID = 0;
+        var UserID = 0;
+
+        var StartDate = $("#txtFrom").val();
+        var EndDate = $("#txtTo").val();
+        var CustomerID = $("#CustomerID").val();
+
+        if ($("#CountryID").val() == "") {
+            CountryID = 0;
+        }
+        else {
+            CountryID = $("#CountryID").val();
+        }
+
+        if ($("#ProductCategoryID").val() == "") {
+            ProductCategoryID = 0;
+        }
+        else {
+            ProductCategoryID = $("#ProductCategoryID").val();
+        }
+
+        if ($("#ProductID").val() == "") {
+            ProductID = 0;
+        }
+        else {
+            ProductID = $("#ProductID").val();
+        }
+        if ($("#UserID").val() == "") {
+            UserID = 0;
+        }
+        else {
+            UserID = $("#UserID").val();
+        }
+        if (CustomerID != null && CustomerID != '') {
+            var url = '@Url.Action("ProductWiseSalesList2", "Report", new { StartDate = "__StartDate__", EndDate = "__EndDate__", CustomerID = "__CustomerID__", CountryID = "__CountryID__", ProductCategoryID = "__ProductCategoryID__", ProductID = "__ProductID__", UserID = "__UserID__" })';
+            url = url.replace(/amp;/g, '');
+            var Data = url.replace('__StartDate__', StartDate).replace('__EndDate__', EndDate).replace('__CustomerID__', CustomerID).replace('__CountryID__', CountryID).replace('__ProductCategoryID__', ProductCategoryID).replace('__ProductID__', ProductID).replace('__UserID__', UserID);
+
+            window.open(Data, '_blank');
+        }
+    });*@
+
+
+
+
+</script>

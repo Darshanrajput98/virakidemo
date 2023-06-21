@@ -1,0 +1,168 @@
+
+Log Entry : 14:49:06 21 May 2021
+  :238 Invalid auth token Internal attempt to RefreshAuthToken failed with error: 107 Authentication failed. Pls. inform the helpdesk
+=====================================
+
+Log Entry : 14:49:06 21 May 2021
+  :null
+=====================================
+
+Log Entry : 14:55:00 21 May 2021
+  :238 Invalid auth token Internal attempt to RefreshAuthToken failed with error: 107 Authentication failed. Pls. inform the helpdesk
+=====================================
+
+Log Entry : 14:55:00 21 May 2021
+  :null
+=====================================
+
+Log Entry : 14:55:31 21 May 2021
+  :238 Invalid auth token Internal attempt to RefreshAuthToken failed with error: 107 Authentication failed. Pls. inform the helpdesk
+=====================================
+
+Log Entry : 14:55:31 21 May 2021
+  :null
+=====================================
+
+Log Entry : 14:55:44 21 May 2021
+  :238 Invalid auth token Internal attempt to RefreshAuthToken failed with error: 107 Authentication failed. Pls. inform the helpdesk
+=====================================
+
+Log Entry : 14:55:44 21 May 2021
+  :null
+=====================================
+
+Log Entry : 14:58:38 21 May 2021
+  :238 Invalid auth token Internal attempt to RefreshAuthToken failed with error: 107 Authentication failed. Pls. inform the helpdesk
+=====================================
+
+Log Entry : 14:58:39 21 May 2021
+  :null
+=====================================
+
+Log Entry : 15:07:53 21 May 2021
+  :238 Invalid auth token Internal attempt to RefreshAuthToken failed with error: 107 Authentication failed. Pls. inform the helpdesk
+=====================================
+
+Log Entry : 15:07:54 21 May 2021
+  :null
+=====================================
+
+Log Entry : 15:13:56 21 May 2021
+  :238 Invalid auth token Internal attempt to RefreshAuthToken failed with error: 107 Authentication failed. Pls. inform the helpdesk
+=====================================
+
+Log Entry : 15:14:04 21 May 2021
+  :null
+=====================================
+
+Log Entry : 15:39:53 21 May 2021
+  : Request for E-Wey-Bill Detail Successful
+=====================================
+
+Log Entry : 15:39:53 21 May 2021
+  :{"ewbNo":281300266534,"ewayBillDate":"21/05/2021 02:49:00 PM","genMode":"API","userGstin":"27AAAFV3761F1Z7","supplyType":"O","subSupplyType":"1  ","docType":"INV","docNo":"R0003753/2021-22","docDate":"21/05/2021","fromGstin":"27AAAFV3761F1Z7","fromTrdName":"VIRAKI BROTHERS","fromAddr1":"Plot 39, Sec 18, Vashi,Navi","fromAddr2":"Mumbai 400705, Maharashtra","fromPlace":"SANPADA","fromPincode":400705,"fromStateCode":27,"toGstin":"27AACCA8432H1ZQ","toTrdName":"AVENUE SUPERMARTS LTD. [ 1408 ]","toAddr1":"NEXT TO GARDEN ESTATE, OFF POKHRAN - 2","toAddr2":"MANPADA","toPlace":"MAHARASHTRA","toPincode":400601,"toStateCode":27,"totalValue":5621.8,"totInvValue":5621.8,"cgstValue":0.0,"sgstValue":0.0,"igstValue":0.0,"cessValue":0.0,"transporterId":"27AAAFV3761F1Z7","transporterName":"VIRAKI BROTHERS","status":"ACT","actualDist":18,"noValidDays":1,"vehicleType":"R","validUpto":"22/05/2021 11:59:00 PM","extendedTimes":"0","rejectStatus":"N","actFromStateCode":27,"actToStateCode":27,"transactionType":4,"otherValue":0.0,"cessNonAdvolValue":0.0,"itemList":[{"itemNo":1,"productId":0,"productName":"","productDesc":"","hsnCode":19041020,"quantity":100.0,"qtyUnit":"NOS","cgstRate":0.0,"sgstRate":0.0,"igstRate":0.0,"cessRate":0.0,"cessNonAdvol":0.0,"taxableAmount":1729.0},{"itemNo":2,"productId":0,"productName":"","productDesc":"","hsnCode":19041020,"quantity":100.0,"qtyUnit":"NOS","cgstRate":0.0,"sgstRate":0.0,"igstRate":0.0,"cessRate":0.0,"cessNonAdvol":0.0,"taxableAmount":2631.0},{"itemNo":3,"productId":0,"productName":"","productDesc":"","hsnCode":8134010,"quantity":30.0,"qtyUnit":"NOS","cgstRate":0.0,"sgstRate":0.0,"igstRate":0.0,"cessRate":0.0,"cessNonAdvol":0.0,"taxableAmount":1261.8}],"VehiclListDetails":[{"updMode":"API","vehicleNo":"MH43AD6246","fromPlace":"SANPADA","fromState":27,"tripshtNo":0,"userGSTINTransin":"27AAAFV3761F1Z7","enteredDate":"21/05/2021 02:49:00 PM","transMode":"1","transDocNo":"0003753","transDocDate":"21/05/2021"}]}
+=====================================
+
+Log Entry : 15:57:02 21 May 2021
+  : Request for E-Wey-Bill Detail Successful
+=====================================
+
+Log Entry : 15:57:02 21 May 2021
+  :{"ewbNo":281300266534,"ewayBillDate":"21/05/2021 02:49:00 PM","genMode":"API","userGstin":"27AAAFV3761F1Z7","supplyType":"O","subSupplyType":"1  ","docType":"INV","docNo":"R0003753/2021-22","docDate":"21/05/2021","fromGstin":"27AAAFV3761F1Z7","fromTrdName":"VIRAKI BROTHERS","fromAddr1":"Plot 39, Sec 18, Vashi,Navi","fromAddr2":"Mumbai 400705, Maharashtra","fromPlace":"SANPADA","fromPincode":400705,"fromStateCode":27,"toGstin":"27AACCA8432H1ZQ","toTrdName":"AVENUE SUPERMARTS LTD. [ 1408 ]","toAddr1":"NEXT TO GARDEN ESTATE, OFF POKHRAN - 2","toAddr2":"MANPADA","toPlace":"MAHARASHTRA","toPincode":400601,"toStateCode":27,"totalValue":5621.8,"totInvValue":5621.8,"cgstValue":0.0,"sgstValue":0.0,"igstValue":0.0,"cessValue":0.0,"transporterId":"27AAAFV3761F1Z7","transporterName":"VIRAKI BROTHERS","status":"ACT","actualDist":18,"noValidDays":1,"vehicleType":"R","validUpto":"22/05/2021 11:59:00 PM","extendedTimes":"0","rejectStatus":"N","actFromStateCode":27,"actToStateCode":27,"transactionType":4,"otherValue":0.0,"cessNonAdvolValue":0.0,"itemList":[{"itemNo":1,"productId":0,"productName":"","productDesc":"","hsnCode":19041020,"quantity":100.0,"qtyUnit":"NOS","cgstRate":0.0,"sgstRate":0.0,"igstRate":0.0,"cessRate":0.0,"cessNonAdvol":0.0,"taxableAmount":1729.0},{"itemNo":2,"productId":0,"productName":"","productDesc":"","hsnCode":19041020,"quantity":100.0,"qtyUnit":"NOS","cgstRate":0.0,"sgstRate":0.0,"igstRate":0.0,"cessRate":0.0,"cessNonAdvol":0.0,"taxableAmount":2631.0},{"itemNo":3,"productId":0,"productName":"","productDesc":"","hsnCode":8134010,"quantity":30.0,"qtyUnit":"NOS","cgstRate":0.0,"sgstRate":0.0,"igstRate":0.0,"cessRate":0.0,"cessNonAdvol":0.0,"taxableAmount":1261.8}],"VehiclListDetails":[{"updMode":"API","vehicleNo":"MH43AD6246","fromPlace":"SANPADA","fromState":27,"tripshtNo":0,"userGSTINTransin":"27AAAFV3761F1Z7","enteredDate":"21/05/2021 02:49:00 PM","transMode":"1","transDocNo":"0003753","transDocDate":"21/05/2021"}]}
+=====================================
+
+Log Entry : 16:03:05 21 May 2021
+  : Request for E-Wey-Bill Detail Successful
+=====================================
+
+Log Entry : 16:03:06 21 May 2021
+  :{"ewbNo":281300266534,"ewayBillDate":"21/05/2021 02:49:00 PM","genMode":"API","userGstin":"27AAAFV3761F1Z7","supplyType":"O","subSupplyType":"1  ","docType":"INV","docNo":"R0003753/2021-22","docDate":"21/05/2021","fromGstin":"27AAAFV3761F1Z7","fromTrdName":"VIRAKI BROTHERS","fromAddr1":"Plot 39, Sec 18, Vashi,Navi","fromAddr2":"Mumbai 400705, Maharashtra","fromPlace":"SANPADA","fromPincode":400705,"fromStateCode":27,"toGstin":"27AACCA8432H1ZQ","toTrdName":"AVENUE SUPERMARTS LTD. [ 1408 ]","toAddr1":"NEXT TO GARDEN ESTATE, OFF POKHRAN - 2","toAddr2":"MANPADA","toPlace":"MAHARASHTRA","toPincode":400601,"toStateCode":27,"totalValue":5621.8,"totInvValue":5621.8,"cgstValue":0.0,"sgstValue":0.0,"igstValue":0.0,"cessValue":0.0,"transporterId":"27AAAFV3761F1Z7","transporterName":"VIRAKI BROTHERS","status":"ACT","actualDist":18,"noValidDays":1,"vehicleType":"R","validUpto":"22/05/2021 11:59:00 PM","extendedTimes":"0","rejectStatus":"N","actFromStateCode":27,"actToStateCode":27,"transactionType":4,"otherValue":0.0,"cessNonAdvolValue":0.0,"itemList":[{"itemNo":1,"productId":0,"productName":"","productDesc":"","hsnCode":19041020,"quantity":100.0,"qtyUnit":"NOS","cgstRate":0.0,"sgstRate":0.0,"igstRate":0.0,"cessRate":0.0,"cessNonAdvol":0.0,"taxableAmount":1729.0},{"itemNo":2,"productId":0,"productName":"","productDesc":"","hsnCode":19041020,"quantity":100.0,"qtyUnit":"NOS","cgstRate":0.0,"sgstRate":0.0,"igstRate":0.0,"cessRate":0.0,"cessNonAdvol":0.0,"taxableAmount":2631.0},{"itemNo":3,"productId":0,"productName":"","productDesc":"","hsnCode":8134010,"quantity":30.0,"qtyUnit":"NOS","cgstRate":0.0,"sgstRate":0.0,"igstRate":0.0,"cessRate":0.0,"cessNonAdvol":0.0,"taxableAmount":1261.8}],"VehiclListDetails":[{"updMode":"API","vehicleNo":"MH43AD6246","fromPlace":"SANPADA","fromState":27,"tripshtNo":0,"userGSTINTransin":"27AAAFV3761F1Z7","enteredDate":"21/05/2021 02:49:00 PM","transMode":"1","transDocNo":"0003753","transDocDate":"21/05/2021"}]}
+=====================================
+
+Log Entry : 17:37:44 26 May 2021
+  : Request for E-Wey-Bill Detail Successful
+=====================================
+
+Log Entry : 17:37:44 26 May 2021
+  :{"ewbNo":211301533100,"ewayBillDate":"26/05/2021 05:36:00 PM","genMode":"API","userGstin":"27AAAFV3761F1Z7","supplyType":"O","subSupplyType":"1  ","docType":"INV","docNo":"R0004110/2021-22","docDate":"26/05/2021","fromGstin":"27AAAFV3761F1Z7","fromTrdName":"VIRAKI BROTHERS","fromAddr1":"Plot 39, Sec 18, Vashi,Navi","fromAddr2":"Mumbai 400705, Maharashtra","fromPlace":"SANPADA","fromPincode":400705,"fromStateCode":27,"toGstin":"27AANCA0090J1ZK","toTrdName":"AVENUE E - COMMERCE LTD. [ 6003 ]","toAddr1":"Miraroad FC Avenue E-Commerce Limited,","toAddr2":"Nr By Hariya Park, Sanghavi Ng.","toPlace":"MIRA ROAD","toPincode":401104,"toStateCode":27,"totalValue":28073.9,"totInvValue":29477.6,"cgstValue":701.85,"sgstValue":701.85,"igstValue":0.0,"cessValue":0.0,"transporterId":"27AAAFV3761F1Z7","transporterName":"VIRAKI BROTHERS","status":"ACT","actualDist":40,"noValidDays":1,"vehicleType":"R","validUpto":"27/05/2021 11:59:00 PM","extendedTimes":"0","rejectStatus":"N","actFromStateCode":27,"actToStateCode":27,"transactionType":4,"otherValue":0.0,"cessNonAdvolValue":0.0,"itemList":[{"itemNo":1,"productId":0,"productName":"","productDesc":"","hsnCode":7132000,"quantity":50.0,"qtyUnit":"NOS","cgstRate":2.5,"sgstRate":2.5,"igstRate":0.0,"cessRate":0.0,"cessNonAdvol":0.0,"taxableAmount":2756.5},{"itemNo":2,"productId":0,"productName":"","productDesc":"","hsnCode":9042110,"quantity":50.0,"qtyUnit":"NOS","cgstRate":2.5,"sgstRate":2.5,"igstRate":0.0,"cessRate":0.0,"cessNonAdvol":0.0,"taxableAmount":2729.0},{"itemNo":3,"productId":0,"productName":"","productDesc":"","hsnCode":9042110,"quantity":40.0,"qtyUnit":"NOS","cgstRate":2.5,"sgstRate":2.5,"igstRate":0.0,"cessRate":0.0,"cessNonAdvol":0.0,"taxableAmount":2066.8},{"itemNo":4,"productId":0,"productName":"","productDesc":"","hsnCode":9042110,"quantity":40.0,"qtyUnit":"NOS","cgstRate":2.5,"sgstRate":2.5,"igstRate":0.0,"cessRate":0.0,"cessNonAdvol":0.0,"taxableAmount":1393.6},{"itemNo":5,"productId":0,"productName":"","productDesc":"","hsnCode":9083110,"quantity":50.0,"qtyUnit":"NOS","cgstRate":2.5,"sgstRate":2.5,"igstRate":0.0,"cessRate":0.0,"cessNonAdvol":0.0,"taxableAmount":3512.5},{"itemNo":6,"productId":0,"productName":"","productDesc":"","hsnCode":8029000,"quantity":50.0,"qtyUnit":"NOS","cgstRate":2.5,"sgstRate":2.5,"igstRate":0.0,"cessRate":0.0,"cessNonAdvol":0.0,"taxableAmount":2874.5},{"itemNo":7,"productId":0,"productName":"","productDesc":"","hsnCode":12075010,"quantity":50.0,"qtyUnit":"NOS","cgstRate":2.5,"sgstRate":2.5,"igstRate":0.0,"cessRate":0.0,"cessNonAdvol":0.0,"taxableAmount":1393.5},{"itemNo":8,"productId":0,"productName":"","productDesc":"","hsnCode":11023000,"quantity":50.0,"qtyUnit":"NOS","cgstRate":2.5,"sgstRate":2.5,"igstRate":0.0,"cessRate":0.0,"cessNonAdvol":0.0,"taxableAmount":1181.0},{"itemNo":9,"productId":0,"productName":"","productDesc":"","hsnCode":7136000,"quantity":50.0,"qtyUnit":"NOS","cgstRate":2.5,"sgstRate":2.5,"igstRate":0.0,"cessRate":0.0,"cessNonAdvol":0.0,"taxableAmount":3902.0},{"itemNo":10,"productId":0,"productName":"","productDesc":"","hsnCode":7131000,"quantity":50.0,"qtyUnit":"NOS","cgstRate":2.5,"sgstRate":2.5,"igstRate":0.0,"cessRate":0.0,"cessNonAdvol":0.0,"taxableAmount":6264.5}],"VehiclListDetails":[{"updMode":"API","vehicleNo":"MH43AD4408","fromPlace":"SANPADA","fromState":27,"tripshtNo":0,"userGSTINTransin":"27AAAFV3761F1Z7","enteredDate":"26/05/2021 05:36:00 PM","transMode":"1","transDocNo":"0004110","transDocDate":"26/05/2021"}]}
+=====================================
+
+Log Entry : 17:07:15 04 April 2022
+  :Generate EWB : 4003: Requested IRN data is not available
+ 
+
+ ResultObject : {"EwbNo":0,"EwbDt":null,"EwbValidTill":null}
+=====================================
+
+Log Entry : 17:07:35 04 April 2022
+  :Generate EWB : 4002: EwayBill is already generated for this IRN
+ 
+
+ ResultObject : {"EwbNo":0,"EwbDt":null,"EwbValidTill":null}
+=====================================
+
+Log Entry : 17:19:33 04 April 2022
+  :Generate EWB : 4003: Requested IRN data is not available
+ 
+
+ ResultObject : {"EwbNo":0,"EwbDt":null,"EwbValidTill":null}
+=====================================
+
+Log Entry : 17:19:35 04 April 2022
+  :Generate EWB : 4002: EwayBill is already generated for this IRN
+ 
+
+ ResultObject : {"EwbNo":0,"EwbDt":null,"EwbValidTill":null}
+=====================================
+
+Log Entry : 18:00:00 04 April 2022
+  :Generate EWB : Success. 
+
+ ResultObject : {"EwbNo":201413976261,"EwbDt":"2022-04-04 18:00:00","EwbValidTill":"2022-04-05 23:59:00"}
+=====================================
+
+Log Entry : 18:00:43 04 April 2022
+  : Request for E-Wey-Bill Detail Successful
+=====================================
+
+Log Entry : 18:00:43 04 April 2022
+  :{"ewbNo":201413976261,"ewayBillDate":"04/04/2022 06:00:00 PM","genMode":"API","userGstin":"27AAAFV3761F1Z7","supplyType":"O","subSupplyType":"1  ","docType":"INV","docNo":"R0000219/2022-23","docDate":"04/04/2022","fromGstin":"27AAAFV3761F1Z7","fromTrdName":"VIRAKI BROTHERS","fromAddr1":"Plot 39, Sec 18, Vashi,Navi","fromAddr2":"Mumbai 400705, Maharashtra","fromPlace":"SANPADA","fromPincode":400705,"fromStateCode":27,"toGstin":"27AACCA8432H1ZQ","toTrdName":"AVENUE SUPERMARTS LTD [ 1658 ]","toAddr1":"PCMC DMART,181,AT CHINCHWAD,","toAddr2":"PIMPARI","toPlace":"CHINCHWAD, PUNE","toPincode":411011,"toStateCode":27,"totalValue":5967.1,"totInvValue":5967.1,"cgstValue":0.0,"sgstValue":0.0,"igstValue":0.0,"cessValue":0.0,"transporterId":"27AAAFV3761F1Z7","transporterName":"VIRAKI BROTHERS","status":"ACT","actualDist":133,"noValidDays":1,"vehicleType":"R","validUpto":"05/04/2022 11:59:00 PM","extendedTimes":"0","rejectStatus":"N","actFromStateCode":27,"actToStateCode":27,"transactionType":4,"otherValue":0.0,"cessNonAdvolValue":0.0,"itemList":[{"itemNo":1,"productId":0,"productName":"","productDesc":"","hsnCode":19041020,"quantity":100.0,"qtyUnit":"NOS","cgstRate":0.0,"sgstRate":0.0,"igstRate":0.0,"cessRate":0.0,"cessNonAdvol":0.0,"taxableAmount":3007.0},{"itemNo":2,"productId":0,"productName":"","productDesc":"","hsnCode":19041020,"quantity":30.0,"qtyUnit":"NOS","cgstRate":0.0,"sgstRate":0.0,"igstRate":0.0,"cessRate":0.0,"cessNonAdvol":0.0,"taxableAmount":857.1},{"itemNo":3,"productId":0,"productName":"","productDesc":"","hsnCode":8134010,"quantity":50.0,"qtyUnit":"NOS","cgstRate":0.0,"sgstRate":0.0,"igstRate":0.0,"cessRate":0.0,"cessNonAdvol":0.0,"taxableAmount":2103.0}],"VehiclListDetails":[{"updMode":"API","vehicleNo":"MH43AD2791","fromPlace":"SANPADA","fromState":27,"tripshtNo":0,"userGSTINTransin":"27AAAFV3761F1Z7","enteredDate":"04/04/2022 06:00:00 PM","transMode":"1","transDocNo":"0000219","transDocDate":"04/04/2022"}]}
+=====================================
+
+Log Entry : 18:04:56 04 April 2022
+  :Generate EWB : Success. 
+
+ ResultObject : {"EwbNo":271413980177,"EwbDt":"2022-04-04 18:05:00","EwbValidTill":"2022-04-05 23:59:00"}
+=====================================
+
+Log Entry : 18:05:11 04 April 2022
+  : Request for E-Wey-Bill Detail Successful
+=====================================
+
+Log Entry : 18:05:11 04 April 2022
+  :{"ewbNo":271413980177,"ewayBillDate":"04/04/2022 06:05:00 PM","genMode":"API","userGstin":"27AAAFV3761F1Z7","supplyType":"O","subSupplyType":"1  ","docType":"INV","docNo":"R0000240/2022-23","docDate":"04/04/2022","fromGstin":"27AAAFV3761F1Z7","fromTrdName":"VIRAKI BROTHERS","fromAddr1":"Plot 39, Sec 18, Vashi,Navi","fromAddr2":"Mumbai 400705, Maharashtra","fromPlace":"SANPADA","fromPincode":400705,"fromStateCode":27,"toGstin":"27AACCA8432H1ZQ","toTrdName":"AVENUE SUPERMARTS LTD [ 1653 ]","toAddr1":"SHOP NO. 15,16,17,18, OPP TULJA BHAVANI TEMPLE","toAddr2":"WAKAD BRIDGE ROAD","toPlace":"HINJEWADI, PUNE","toPincode":411057,"toStateCode":27,"totalValue":64142.2,"totInvValue":67349.34,"cgstValue":1603.57,"sgstValue":1603.57,"igstValue":0.0,"cessValue":0.0,"transporterId":"27AAAFV3761F1Z7","transporterName":"VIRAKI BROTHERS","status":"ACT","actualDist":122,"noValidDays":1,"vehicleType":"R","validUpto":"05/04/2022 11:59:00 PM","extendedTimes":"0","rejectStatus":"N","actFromStateCode":27,"actToStateCode":27,"transactionType":4,"otherValue":0.0,"cessNonAdvolValue":0.0,"itemList":[{"itemNo":1,"productId":0,"productName":"","productDesc":"","hsnCode":11061000,"quantity":60.0,"qtyUnit":"NOS","cgstRate":2.5,"sgstRate":2.5,"igstRate":0.0,"cessRate":0.0,"cessNonAdvol":0.0,"taxableAmount":2706.6},{"itemNo":2,"productId":0,"productName":"","productDesc":"","hsnCode":7132000,"quantity":40.0,"qtyUnit":"NOS","cgstRate":2.5,"sgstRate":2.5,"igstRate":0.0,"cessRate":0.0,"cessNonAdvol":0.0,"taxableAmount":2577.6},{"itemNo":3,"productId":0,"productName":"","productDesc":"","hsnCode":7132000,"quantity":60.0,"qtyUnit":"NOS","cgstRate":2.5,"sgstRate":2.5,"igstRate":0.0,"cessRate":0.0,"cessNonAdvol":0.0,"taxableAmount":2607.0},{"itemNo":4,"productId":0,"productName":"","productDesc":"","hsnCode":9042110,"quantity":40.0,"qtyUnit":"NOS","cgstRate":2.5,"sgstRate":2.5,"igstRate":0.0,"cessRate":0.0,"cessNonAdvol":0.0,"taxableAmount":2438.4},{"itemNo":5,"productId":0,"productName":"","productDesc":"","hsnCode":9092190,"quantity":80.0,"qtyUnit":"NOS","cgstRate":2.5,"sgstRate":2.5,"igstRate":0.0,"cessRate":0.0,"cessNonAdvol":0.0,"taxableAmount":5016.0},{"itemNo":6,"productId":0,"productName":"","productDesc":"","hsnCode":9082100,"quantity":100.0,"qtyUnit":"NOS","cgstRate":2.5,"sgstRate":2.5,"igstRate":0.0,"cessRate":0.0,"cessNonAdvol":0.0,"taxableAmount":8187.0},{"itemNo":7,"productId":0,"productName":"","productDesc":"","hsnCode":12079100,"quantity":20.0,"qtyUnit":"NOS","cgstRate":2.5,"sgstRate":2.5,"igstRate":0.0,"cessRate":0.0,"cessNonAdvol":0.0,"taxableAmount":5155.8},{"itemNo":8,"productId":0,"productName":"","productDesc":"","hsnCode":7134000,"quantity":60.0,"qtyUnit":"NOS","cgstRate":2.5,"sgstRate":2.5,"igstRate":0.0,"cessRate":0.0,"cessNonAdvol":0.0,"taxableAmount":3463.8},{"itemNo":9,"productId":0,"productName":"","productDesc":"","hsnCode":7139010,"quantity":40.0,"qtyUnit":"NOS","cgstRate":2.5,"sgstRate":2.5,"igstRate":0.0,"cessRate":0.0,"cessNonAdvol":0.0,"taxableAmount":3121.6},{"itemNo":10,"productId":0,"productName":"","productDesc":"","hsnCode":7139010,"quantity":100.0,"qtyUnit":"NOS","cgstRate":2.5,"sgstRate":2.5,"igstRate":0.0,"cessRate":0.0,"cessNonAdvol":0.0,"taxableAmount":7160.0},{"itemNo":11,"productId":0,"productName":"","productDesc":"","hsnCode":7133300,"quantity":40.0,"qtyUnit":"NOS","cgstRate":2.5,"sgstRate":2.5,"igstRate":0.0,"cessRate":0.0,"cessNonAdvol":0.0,"taxableAmount":4066.8},{"itemNo":12,"productId":0,"productName":"","productDesc":"","hsnCode":11063020,"quantity":60.0,"qtyUnit":"NOS","cgstRate":2.5,"sgstRate":2.5,"igstRate":0.0,"cessRate":0.0,"cessNonAdvol":0.0,"taxableAmount":10052.4},{"itemNo":13,"productId":0,"productName":"","productDesc":"","hsnCode":7139010,"quantity":40.0,"qtyUnit":"NOS","cgstRate":2.5,"sgstRate":2.5,"igstRate":0.0,"cessRate":0.0,"cessNonAdvol":0.0,"taxableAmount":3522.4},{"itemNo":14,"productId":0,"productName":"","productDesc":"","hsnCode":7131000,"quantity":40.0,"qtyUnit":"NOS","cgstRate":2.5,"sgstRate":2.5,"igstRate":0.0,"cessRate":0.0,"cessNonAdvol":0.0,"taxableAmount":4066.8}],"VehiclListDetails":[{"updMode":"API","vehicleNo":"MH43BP8459","fromPlace":"SANPADA","fromState":27,"tripshtNo":0,"userGSTINTransin":"27AAAFV3761F1Z7","enteredDate":"04/04/2022 06:05:00 PM","transMode":"1","transDocNo":"0000240","transDocDate":"04/04/2022"}]}
+=====================================
+
+Log Entry : 12:19:10 PM Tuesday, May 24, 2022
+  :Generate EWB :   The underlying connection was closed: An unexpected error occurred on a send. 
+
+ ResultObject : {"EwbNo":0,"EwbDt":null,"EwbValidTill":null}
+=====================================
+
+Log Entry : 12:36:18 PM Wednesday, March 22, 2023
+  :Generate EWB :   The request was aborted: Could not create SSL/TLS secure channel. 
+
+ ResultObject : {"EwbNo":0,"EwbDt":null,"EwbValidTill":null}
+=====================================
+
+Log Entry : 2:20:15 PM Wednesday, March 22, 2023
+  :Generate EWB :   The request was aborted: Could not create SSL/TLS secure channel. 
+
+ ResultObject : {"EwbNo":0,"EwbDt":null,"EwbValidTill":null}
+=====================================
+
+Log Entry : 2:20:24 PM Wednesday, March 22, 2023
+  :Generate EWB :   The request was aborted: Could not create SSL/TLS secure channel. 
+
+ ResultObject : {"EwbNo":0,"EwbDt":null,"EwbValidTill":null}
+=====================================

@@ -1,0 +1,126 @@
+﻿@model List<vb.Data.ExpenseListResponse>
+
+<div class="box">
+    <div class="box-header text-center">
+        <h3 class="box-title">Expense List</h3>
+    </div>
+    <div class="box-body">
+        <table id="ListDataTable" class="table table-bordered table-striped lstbillwiseexpense">
+            <thead>
+                <tr>         
+                    <th class="nosort">Bill Number</th>           
+                    <th class="nosort">Godown</th>                   
+                    <th class="nosort">Bill Date</th>
+                    <th class="nosort">Supplier Name</th>
+                    <th class="nosort">Area</th>
+                    <th class="nosort">Total Amount</th>
+                    <th class="nosort">Edit</th>
+                    <th class="nosort">Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td id="row">
+                            <input type="hidden" id="hdnExpenseID" class="hdnExpenseID" value="@item.ExpenseID" />
+                            @item.BillNumber
+                        </td>                       
+                        <td>                         
+                            @item.GodownName
+                        </td>
+                       
+                        <td>
+                            @item.BillDateStr
+                        </td>
+                        <td>
+                            @item.SupplierName
+                        </td>
+                        <td>
+                            @item.AreaName
+                        </td>
+                        <td>
+                            @item.GrandTotalAmount
+                        </td>
+                        <td>
+                            <a style="cursor:pointer;" class="btneditexpense" data-expenseid="@item.ExpenseID">Edit</a>
+                        </td>
+                        <td>
+                            <a style="cursor:pointer;" class="btndelete" data-expenseid="@item.ExpenseID">Delete</a>
+                            @*<button type="button" id="btndelete" class="btn btn-info btndelete" data-purchaseid="@item.PurchaseID">Delete</button>*@
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div id="deletepopup" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" style="padding-bottom: 0px;">
+                    <h4 class="modal-title">Confirmation</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row" style="margin-top:10px;">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <input name="ExpenseID" id="ExpenseID" class="hdnExpenseID" type="hidden" value="" />
+                                <input name="IsDelete" id="IsDelete" class="hdnIsDelete" type="hidden" value="" />
+                                <label class="col-sm-12 control-label">  Are you sure want to delete this expense bill????</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btnyesdeletepopup btn btn-info">Yes</button>
+                    <button type="button" class="btnnodeletepopup btn btn-info" data-dismiss="modal" aria-hidden="true">No</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $('#ListDataTable').on('click', '.btneditexpense', function () {
+        var url = '@Url.Action("AddExpense", "Expense", new { expenseid = "__expenseid__" })';
+        url = url.replace(/amp;/g, '');
+        window.location.href = url.replace('__expenseid__', $(this).attr("data-expenseid"));
+    });
+
+    $(".btndelete").click(function () {
+        var model = new Object
+        model.ExpenseID = $(this).attr("data-expenseid");
+        model.IsDelete = true;
+        $('#ExpenseID').attr('value', model.ExpenseID);
+        $('#IsDelete').attr('value', model.IsDelete);
+        $("#deletepopup").removeClass("modal fade").addClass("modal fade modal-overflow in");
+        $("#deletepopup").css("display", "block");
+    });
+
+    $(".btnyesdeletepopup").click(function () {
+        var ExpenseID = $("#ExpenseID").val();
+        var IsDelete = $("#IsDelete").val();
+        $.ajax({
+            url: '@Url.Action("DeleteExpenseOrder", "Expense")',
+            type: 'POST',
+            data: { 'ExpenseID': ExpenseID, 'IsDelete': IsDelete },
+            cache: false,
+        }).done(function (result) {
+            if (result == true) {
+                $('div#sucessalert').html("Deleted successfully.");
+                showhidealert();
+                $('#btnsearch').click();
+            }
+        });
+        $('#deletepopup').removeClass("modal fade modal-overflow in");
+        $('#deletepopup').removeAttr('style');
+        $('#deletepopup').addClass("modal fade");
+    });
+
+    $(".btnnodeletepopup").click(function () {
+        $('#deletepopup').removeClass("modal fade modal-overflow in");
+        $('#deletepopup').removeAttr('style');
+        $('#deletepopup').addClass("modal fade");
+    });
+</script>
