@@ -1,4 +1,4 @@
-name: Mvc Build
+name: Mvc Build.Legacy.CI
 
 on:
   push:
