@@ -24,7 +24,7 @@ jobs:
       run: nuget restore virakibrothers.sln
       
     - name: Navigate to csproj
-      run: cd vbwebsite
+      run: cd $GITHUB_WORKSPACE/vbwebsite
 
     - name: Build Solution
       run: |
