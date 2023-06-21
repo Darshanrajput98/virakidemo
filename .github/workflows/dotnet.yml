@@ -6,7 +6,7 @@ on:
 
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: windows-2019
 
     steps:
     - uses: actions/checkout@v2
@@ -25,9 +25,6 @@ jobs:
       
     - name: Restore Packages
       run: nuget restore virakibrothers.sln
-      
-    - name: Navigate to csproj
-      run: cd vbwebsite
 
     - name: Build Solution
       run: |
