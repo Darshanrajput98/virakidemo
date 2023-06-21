@@ -24,11 +24,11 @@ jobs:
       run: nuget restore virakibrothers.sln
       
     - name: Navigate to csproj
-      run: ls
+      run: cd vbwebsite
 
     - name: Build Solution
       run: |
-        msbuild vbwebsite.csproj /p:DeployOnBuild=true /p:Configuration=Release /p:PublishProfile="virakibrothers"  /p:PublishUrl="../_build"
+        msbuild.exe vbwebsite.csproj /p:DeployOnBuild=true /p:Configuration=Release /p:PublishProfile="virakibrothers"  /p:PublishUrl="../_build"
         
     - name: Upload artifact
       uses: actions/upload-artifact@v1.0.0
