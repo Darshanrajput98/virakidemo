@@ -5,61 +5,56 @@ on:
     branches: master
 
 jobs:
-  build:
+  job_1:
+    name: build
     runs-on: windows-2022
     
-
     steps:
-    - uses: actions/checkout@v3
+      - uses: actions/checkout@v3
     
-    - name: Setup MSBuild
-      uses: microsoft/setup-msbuild@v1.3.1
-  
-    - name: Setup NuGet
-      uses: NuGet/setup-nuget@v1
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v1.3.1
+   
+      - name: Setup NuGet
+        uses: NuGet/setup-nuget@v1
       
-    - name: Navigate to Workspace
-      run: cd $GITHUB_WORKSPACE
+      - name: Navigate to Workspace
+        run: cd $GITHUB_WORKSPACE
 
-    - name: Create Build Directory
-      run: mkdir _build
+      - name: Create Build Directory
+        run: mkdir _build
       
-    - name: Restore Packages
-      run: nuget restore virakibrothers.sln
+      - name: Restore Packages
+        run: nuget restore virakibrothers.sln
 
-    - name: Build Solution
-      run: |
-        msbuild  vbwebsite/vbwebsite.csproj  /p:DeployOnBuild=true /p:Configuration=Release /p:PublishProfile="virakibrothers"  /p:PublishUrl="../_build"
+      - name: Build Solution
+        run: |
+         msbuild vbwebsite/vbwebsite.csproj /p:DeployOnBuild=true /p:Configuration=Release /p:PublishProfile="virakibrothers" /p:PublishUrl="../_build"
         
-    - name: Upload artifact
-      uses: actions/upload-artifact@v1.0.0
-      with:
-        name: my-artifact
-        path: "./_build"
+      - name: Upload artifact
+        uses: actions/upload-artifact@v1.0.0
+        with:
+          name: my-artifact
+          path: "./_build"
         
+  job_2:
     
-      
-    - name: Download artifact
-      uses: actions/download-artifact@v3
-      with:
-         name: my-artifact
-    
-    - name: change dir
-      run: cd _build
-      
-    - name: Display structure of downloaded files
-      run: ls -R
-      
-    - name: copy file via ssh password
-      uses: appleboy/scp-action@v0.1.4
-      with:
-        host: 65.2.125.238
-        username: Administrator
-        password: ${{ secrets.PASSWORD }}
-        port: 22
-        source: "./_build/*"
-        target: C:\inetpub\wwwroot\viraki
-        
-    
-    
-          
+      name: deploy artifact
+      runs-on: ubuntu-latest
+      steps:
+        - name: checkout
+          uses: actions/checkout@v3
+        - name: Download math result for job 1
+          uses: actions/download-artifact@v3
+          with:
+           name: my-artifact
+           path: "./_build"
+        - name: copy file via ssh password
+          uses: appleboy/scp-action@v0.1.4
+          with:
+           host: 65.2.125.238
+           username: Administrator
+           password: ${{ secrets.PASSWORD }}
+           port: 22
+           source: "./_build/*"
+           target: C:\inetpub\wwwroot\viraki
