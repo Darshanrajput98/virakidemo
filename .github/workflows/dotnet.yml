@@ -44,8 +44,21 @@ jobs:
       with:
          name: my-artifact
     
+    - name: change dir
+      run: cd _build
+      
     - name: Display structure of downloaded files
       run: ls -R
+      
+    - name: copy file via ssh password
+      uses: appleboy/scp-action@v0.1.4
+      with:
+        host: 65.2.125.238
+        username: Administrator
+        password: ${{ secrets.PASSWORD }}
+        port: 22
+        source: "./_build/*"
+        target: C:\inetpub\wwwroot\viraki
         
     
     
