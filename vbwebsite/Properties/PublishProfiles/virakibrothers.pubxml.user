@@ -6,6 +6,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <_PublishTargetUrl>F:\publish\viraki</_PublishTargetUrl>
+    <History>True|2023-06-22T14:02:41.8470083Z;</History>
   </PropertyGroup>
   <ItemGroup>
     <File Include="Areas/attendance/Views/Admin/AddEarnedLeaves.cshtml">
@@ -33,7 +34,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>04/30/2020 14:19:34</publishTime>
     </File>
     <File Include="Areas/attendance/Views/Admin/AddSalarySheet.cshtml">
-      <publishTime>05/06/2021 14:39:44</publishTime>
+      <publishTime>06/01/2023 10:59:49</publishTime>
     </File>
     <File Include="Areas/attendance/Views/Admin/AllowanceDetail.cshtml">
       <publishTime>02/28/2022 19:04:40</publishTime>
@@ -237,7 +238,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>02/10/2023 12:11:19</publishTime>
     </File>
     <File Include="Areas/coldstorage/Views/Shared/_coldstoragelayout.cshtml">
-      <publishTime>01/09/2023 15:28:37</publishTime>
+      <publishTime>06/12/2023 18:35:16</publishTime>
     </File>
     <File Include="Areas/coldstorage/Views/Stock/AddInwardDetails.cshtml">
       <publishTime>02/11/2023 17:50:19</publishTime>
@@ -246,7 +247,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>02/11/2023 15:00:09</publishTime>
     </File>
     <File Include="Areas/coldstorage/Views/Stock/InwardList.cshtml">
-      <publishTime>02/22/2023 19:03:59</publishTime>
+      <publishTime>06/15/2023 15:10:17</publishTime>
     </File>
     <File Include="Areas/coldstorage/Views/Stock/Outward.cshtml">
       <publishTime>04/03/2023 19:01:27</publishTime>
@@ -663,7 +664,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>08/24/2022 12:39:56</publishTime>
     </File>
     <File Include="Areas/retail/Views/Order/ManageOrders.cshtml">
-      <publishTime>05/02/2023 17:15:17</publishTime>
+      <publishTime>05/18/2023 14:42:44</publishTime>
     </File>
     <File Include="Areas/retail/Views/Order/ManageOrders123.cshtml">
       <publishTime>08/24/2022 11:56:36</publishTime>
@@ -1083,10 +1084,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/20/2019 21:38:44</publishTime>
     </File>
     <File Include="Areas/wholesale/Views/Customer/ManageCustomers.cshtml">
-      <publishTime>09/08/2022 11:40:21</publishTime>
+      <publishTime>06/22/2023 17:40:47</publishTime>
     </File>
     <File Include="Areas/wholesale/Views/Customer/ManageCustomersList.cshtml">
-      <publishTime>09/30/2021 19:36:30</publishTime>
+      <publishTime>06/22/2023 19:30:18</publishTime>
     </File>
     <File Include="Areas/wholesale/Views/Customer/SearchCustomerCallList.cshtml">
       <publishTime>06/29/2019 00:52:58</publishTime>
@@ -1532,10 +1533,19 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="bin/Antlr3.Runtime.dll">
       <publishTime>12/29/2017 03:52:30</publishTime>
     </File>
+    <File Include="bin/Antlr3.Runtime.pdb">
+      <publishTime>12/29/2017 03:52:30</publishTime>
+    </File>
     <File Include="bin/ClosedXML.dll">
       <publishTime>12/29/2017 03:52:30</publishTime>
     </File>
+    <File Include="bin/ClosedXML.pdb">
+      <publishTime>12/29/2017 03:52:30</publishTime>
+    </File>
     <File Include="bin/Dapper.dll">
+      <publishTime>12/29/2017 03:21:16</publishTime>
+    </File>
+    <File Include="bin/Dapper.pdb">
       <publishTime>12/29/2017 03:21:16</publishTime>
     </File>
     <File Include="bin/DocumentFormat.OpenXml.dll">
@@ -1589,6 +1599,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="bin/Microsoft.Practices.ServiceLocation.dll">
       <publishTime>12/29/2017 03:52:30</publishTime>
     </File>
+    <File Include="bin/Microsoft.Practices.ServiceLocation.pdb">
+      <publishTime>12/29/2017 03:52:30</publishTime>
+    </File>
     <File Include="bin/Microsoft.Practices.Unity.Configuration.dll">
       <publishTime>12/29/2017 03:52:32</publishTime>
     </File>
@@ -1621,6 +1634,12 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     </File>
     <File Include="bin/Owin.dll">
       <publishTime>12/29/2017 03:52:32</publishTime>
+    </File>
+    <File Include="bin/PagedList.dll">
+      <publishTime>09/30/2013 23:06:38</publishTime>
+    </File>
+    <File Include="bin/PagedList.Mvc.dll">
+      <publishTime>09/30/2013 23:45:20</publishTime>
     </File>
     <File Include="bin/RestSharp.dll">
       <publishTime>03/17/2021 12:49:56</publishTime>
@@ -1656,13 +1675,28 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/29/2017 03:52:32</publishTime>
     </File>
     <File Include="bin/vb.Data.dll">
-      <publishTime>05/17/2023 10:27:26</publishTime>
+      <publishTime>06/22/2023 19:32:27</publishTime>
+    </File>
+    <File Include="bin/vb.Data.dll.config">
+      <publishTime>06/22/2023 19:30:07</publishTime>
+    </File>
+    <File Include="bin/vb.Data.pdb">
+      <publishTime>06/22/2023 19:32:27</publishTime>
     </File>
     <File Include="bin/vb.Service.dll">
-      <publishTime>05/17/2023 10:27:28</publishTime>
+      <publishTime>06/22/2023 19:32:28</publishTime>
+    </File>
+    <File Include="bin/vb.Service.dll.config">
+      <publishTime>06/22/2023 19:29:46</publishTime>
+    </File>
+    <File Include="bin/vb.Service.pdb">
+      <publishTime>06/22/2023 19:32:28</publishTime>
     </File>
     <File Include="bin/vbwebsite.dll">
-      <publishTime>05/17/2023 10:27:34</publishTime>
+      <publishTime>06/22/2023 19:32:31</publishTime>
+    </File>
+    <File Include="bin/vbwebsite.pdb">
+      <publishTime>06/22/2023 19:32:31</publishTime>
     </File>
     <File Include="bin/WAProAPI.dll">
       <publishTime>03/17/2021 11:47:30</publishTime>
@@ -1724,11 +1758,17 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="bootstrap/js/npm.js">
       <publishTime>06/20/2017 21:59:56</publishTime>
     </File>
+    <File Include="cloudflare/font-awesome.min.css">
+      <publishTime>06/12/2023 18:30:27</publishTime>
+    </File>
     <File Include="Content/bootstrap.css">
       <publishTime>06/20/2017 21:59:56</publishTime>
     </File>
     <File Include="Content/bootstrap.min.css">
       <publishTime>06/20/2017 21:59:56</publishTime>
+    </File>
+    <File Include="Content/PagedList.css">
+      <publishTime>06/20/2023 17:56:47</publishTime>
     </File>
     <File Include="Content/Site.css">
       <publishTime>06/20/2017 21:59:56</publishTime>
@@ -1943,6 +1983,15 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="favicon.ico">
       <publishTime>06/20/2017 21:59:36</publishTime>
     </File>
+    <File Include="fonts/fontawesome-webfont.ttf">
+      <publishTime>06/12/2023 18:34:59</publishTime>
+    </File>
+    <File Include="fonts/fontawesome-webfont.woff">
+      <publishTime>06/12/2023 18:34:59</publishTime>
+    </File>
+    <File Include="fonts/fontawesome-webfont.woff2">
+      <publishTime>06/12/2023 18:41:12</publishTime>
+    </File>
     <File Include="fonts/glyphicons-halflings-regular.eot">
       <publishTime>06/20/2017 22:00:00</publishTime>
     </File>
@@ -1998,7 +2047,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>05/11/2018 11:54:01</publishTime>
     </File>
     <File Include="packages.config">
-      <publishTime>04/01/2021 16:20:38</publishTime>
+      <publishTime>06/22/2023 19:29:24</publishTime>
     </File>
     <File Include="plugins/bootstrap-slider/bootstrap-slider.js">
       <publishTime>06/20/2017 22:00:52</publishTime>
@@ -4746,7 +4795,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>02/02/2019 01:44:20</publishTime>
     </File>
     <File Include="Scripts/_references.js">
-      <publishTime>12/22/2022 15:52:42</publishTime>
+      <publishTime>06/20/2023 17:32:10</publishTime>
     </File>
     <File Include="Views/Account/ExternalLoginConfirmation.cshtml">
       <publishTime>06/20/2017 22:01:40</publishTime>
@@ -4845,7 +4894,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/28/2022 12:44:27</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>05/17/2023 10:27:39</publishTime>
+      <publishTime>06/22/2023 19:32:34</publishTime>
     </File>
   </ItemGroup>
 </Project>

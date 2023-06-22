@@ -1784,79 +1784,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="SalarySheet_Master">
-      <EntityTypeMapping TypeName="VirakiModel.SalarySheet_Master">
-        <MappingFragment StoreEntitySet="SalarySheet_Master">
-          <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
-          <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
-          <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
-          <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
-          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-          <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
-          <ScalarProperty Name="AnyOtherDeductions2" ColumnName="AnyOtherDeductions2" />
-          <ScalarProperty Name="AnyOtherDeductions1" ColumnName="AnyOtherDeductions1" />
-          <ScalarProperty Name="Goods" ColumnName="Goods" />
-          <ScalarProperty Name="TDS" ColumnName="TDS" />
-          <ScalarProperty Name="ClosingAdvance" ColumnName="ClosingAdvance" />
-          <ScalarProperty Name="Deductions" ColumnName="Deductions" />
-          <ScalarProperty Name="Addition" ColumnName="Addition" />
-          <ScalarProperty Name="OpeningAdvance" ColumnName="OpeningAdvance" />
-          <ScalarProperty Name="TotalClosingLeaves" ColumnName="TotalClosingLeaves" />
-          <ScalarProperty Name="AdditionalClosingLeaves" ColumnName="AdditionalClosingLeaves" />
-          <ScalarProperty Name="ClosingLeaves" ColumnName="ClosingLeaves" />
-          <ScalarProperty Name="TotalAvailedLeaves" ColumnName="TotalAvailedLeaves" />
-          <ScalarProperty Name="AdditionalAvailedLeaves" ColumnName="AdditionalAvailedLeaves" />
-          <ScalarProperty Name="AvailedLeaves" ColumnName="AvailedLeaves" />
-          <ScalarProperty Name="EarnedLeaves" ColumnName="EarnedLeaves" />
-          <ScalarProperty Name="OpeningLeaves" ColumnName="OpeningLeaves" />
-          <ScalarProperty Name="NetWagesPaid" ColumnName="NetWagesPaid" />
-          <ScalarProperty Name="TotalDeductions" ColumnName="TotalDeductions" />
-          <ScalarProperty Name="MLWF" ColumnName="MLWF" />
-          <ScalarProperty Name="PT" ColumnName="PT" />
-          <ScalarProperty Name="ESIC" ColumnName="ESIC" />
-          <ScalarProperty Name="PF" ColumnName="PF" />
-          <ScalarProperty Name="GrossWagesPayable" ColumnName="GrossWagesPayable" />
-          <ScalarProperty Name="TotalPerformanceAllowance" ColumnName="TotalPerformanceAllowance" />
-          <ScalarProperty Name="AdditionalPerformanceAllowance" ColumnName="AdditionalPerformanceAllowance" />
-          <ScalarProperty Name="PerformanceAllowance" ColumnName="PerformanceAllowance" />
-          <ScalarProperty Name="TotalConveyance" ColumnName="TotalConveyance" />
-          <ScalarProperty Name="AdditionalConveyance" ColumnName="AdditionalConveyance" />
-          <ScalarProperty Name="Conveyance" ColumnName="Conveyance" />
-          <ScalarProperty Name="TotalVehicleAllowance" ColumnName="TotalVehicleAllowance" />
-          <ScalarProperty Name="AdditionalVehicleAllowance" ColumnName="AdditionalVehicleAllowance" />
-          <ScalarProperty Name="VehicleAllowance" ColumnName="VehicleAllowance" />
-          <ScalarProperty Name="TotalCityAllowance" ColumnName="TotalCityAllowance" />
-          <ScalarProperty Name="AdditionalCityAllowance" ColumnName="AdditionalCityAllowance" />
-          <ScalarProperty Name="CityAllowance" ColumnName="CityAllowance" />
-          <ScalarProperty Name="CityAllowanceHours" ColumnName="CityAllowanceHours" />
-          <ScalarProperty Name="CityAllowanceMinutes" ColumnName="CityAllowanceMinutes" />
-          <ScalarProperty Name="TotalEarnedWages" ColumnName="TotalEarnedWages" />
-          <ScalarProperty Name="EarnedHouseRentAllowance" ColumnName="EarnedHouseRentAllowance" />
-          <ScalarProperty Name="EarnedBasicWages" ColumnName="EarnedBasicWages" />
-          <ScalarProperty Name="TotalBasic" ColumnName="TotalBasic" />
-          <ScalarProperty Name="HouseRentAllowance" ColumnName="HouseRentAllowance" />
-          <ScalarProperty Name="BasicAllowance" ColumnName="BasicAllowance" />
-          <ScalarProperty Name="TotalDaysIntheMonth" ColumnName="TotalDaysIntheMonth" />
-          <ScalarProperty Name="TotalDays" ColumnName="TotalDays" />
-          <ScalarProperty Name="TotalAbsent" ColumnName="TotalAbsent" />
-          <ScalarProperty Name="AdditionalAbsent" ColumnName="AdditionalAbsent" />
-          <ScalarProperty Name="Absent" ColumnName="Absent" />
-          <ScalarProperty Name="TotalHoliday" ColumnName="TotalHoliday" />
-          <ScalarProperty Name="AdditionalHoliday" ColumnName="AdditionalHoliday" />
-          <ScalarProperty Name="Holiday" ColumnName="Holiday" />
-          <ScalarProperty Name="TotalSunday" ColumnName="TotalSunday" />
-          <ScalarProperty Name="AdditionalSunday" ColumnName="AdditionalSunday" />
-          <ScalarProperty Name="Sunday" ColumnName="Sunday" />
-          <ScalarProperty Name="TotalPresent" ColumnName="TotalPresent" />
-          <ScalarProperty Name="AdditionalPresent" ColumnName="AdditionalPresent" />
-          <ScalarProperty Name="Present" ColumnName="Present" />
-          <ScalarProperty Name="YearID" ColumnName="YearID" />
-          <ScalarProperty Name="MonthID" ColumnName="MonthID" />
-          <ScalarProperty Name="EmployeeCode" ColumnName="EmployeeCode" />
-          <ScalarProperty Name="SalarySheetID" ColumnName="SalarySheetID" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="SalaryPayment_Mst">
       <EntityTypeMapping TypeName="VirakiModel.SalaryPayment_Mst">
         <MappingFragment StoreEntitySet="SalaryPayment_Mst">
@@ -3897,6 +3824,80 @@
           <ScalarProperty Name="ToDate" ColumnName="ToDate" />
           <ScalarProperty Name="FromDate" ColumnName="FromDate" />
           <ScalarProperty Name="FormSixteenID" ColumnName="FormSixteenID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SalarySheet_Master">
+      <EntityTypeMapping TypeName="VirakiModel.SalarySheet_Master">
+        <MappingFragment StoreEntitySet="SalarySheet_Master">
+          <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+          <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
+          <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+          <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+          <ScalarProperty Name="AnyOtherDeductions2" ColumnName="AnyOtherDeductions2" />
+          <ScalarProperty Name="AnyOtherDeductions1" ColumnName="AnyOtherDeductions1" />
+          <ScalarProperty Name="Goods" ColumnName="Goods" />
+          <ScalarProperty Name="TDS" ColumnName="TDS" />
+          <ScalarProperty Name="ClosingAdvance" ColumnName="ClosingAdvance" />
+          <ScalarProperty Name="Deductions" ColumnName="Deductions" />
+          <ScalarProperty Name="Addition" ColumnName="Addition" />
+          <ScalarProperty Name="OpeningAdvance" ColumnName="OpeningAdvance" />
+          <ScalarProperty Name="TotalClosingLeaves" ColumnName="TotalClosingLeaves" />
+          <ScalarProperty Name="AdditionalClosingLeaves" ColumnName="AdditionalClosingLeaves" />
+          <ScalarProperty Name="ClosingLeaves" ColumnName="ClosingLeaves" />
+          <ScalarProperty Name="TotalAvailedLeaves" ColumnName="TotalAvailedLeaves" />
+          <ScalarProperty Name="AdditionalAvailedLeaves" ColumnName="AdditionalAvailedLeaves" />
+          <ScalarProperty Name="AvailedLeaves" ColumnName="AvailedLeaves" />
+          <ScalarProperty Name="EarnedLeaves" ColumnName="EarnedLeaves" />
+          <ScalarProperty Name="OpeningLeaves" ColumnName="OpeningLeaves" />
+          <ScalarProperty Name="NetWagesPaid" ColumnName="NetWagesPaid" />
+          <ScalarProperty Name="TotalDeductions" ColumnName="TotalDeductions" />
+          <ScalarProperty Name="MLWF" ColumnName="MLWF" />
+          <ScalarProperty Name="PT" ColumnName="PT" />
+          <ScalarProperty Name="ESIC" ColumnName="ESIC" />
+          <ScalarProperty Name="PF" ColumnName="PF" />
+          <ScalarProperty Name="GrossWagesPayable" ColumnName="GrossWagesPayable" />
+          <ScalarProperty Name="TotalPerformanceAllowance" ColumnName="TotalPerformanceAllowance" />
+          <ScalarProperty Name="AdditionalPerformanceAllowance" ColumnName="AdditionalPerformanceAllowance" />
+          <ScalarProperty Name="PerformanceAllowance" ColumnName="PerformanceAllowance" />
+          <ScalarProperty Name="TotalConveyance" ColumnName="TotalConveyance" />
+          <ScalarProperty Name="AdditionalConveyance" ColumnName="AdditionalConveyance" />
+          <ScalarProperty Name="Conveyance" ColumnName="Conveyance" />
+          <ScalarProperty Name="TotalVehicleAllowance" ColumnName="TotalVehicleAllowance" />
+          <ScalarProperty Name="AdditionalVehicleAllowance" ColumnName="AdditionalVehicleAllowance" />
+          <ScalarProperty Name="VehicleAllowance" ColumnName="VehicleAllowance" />
+          <ScalarProperty Name="TotalCityAllowance" ColumnName="TotalCityAllowance" />
+          <ScalarProperty Name="AdditionalCityAllowance" ColumnName="AdditionalCityAllowance" />
+          <ScalarProperty Name="CityAllowance" ColumnName="CityAllowance" />
+          <ScalarProperty Name="CityAllowanceHours" ColumnName="CityAllowanceHours" />
+          <ScalarProperty Name="AdditionalCityAllowanceMinutes" ColumnName="AdditionalCityAllowanceMinutes" />
+          <ScalarProperty Name="CityAllowanceMinutes" ColumnName="CityAllowanceMinutes" />
+          <ScalarProperty Name="TotalEarnedWages" ColumnName="TotalEarnedWages" />
+          <ScalarProperty Name="EarnedHouseRentAllowance" ColumnName="EarnedHouseRentAllowance" />
+          <ScalarProperty Name="EarnedBasicWages" ColumnName="EarnedBasicWages" />
+          <ScalarProperty Name="TotalBasic" ColumnName="TotalBasic" />
+          <ScalarProperty Name="HouseRentAllowance" ColumnName="HouseRentAllowance" />
+          <ScalarProperty Name="BasicAllowance" ColumnName="BasicAllowance" />
+          <ScalarProperty Name="TotalDaysIntheMonth" ColumnName="TotalDaysIntheMonth" />
+          <ScalarProperty Name="TotalDays" ColumnName="TotalDays" />
+          <ScalarProperty Name="TotalAbsent" ColumnName="TotalAbsent" />
+          <ScalarProperty Name="AdditionalAbsent" ColumnName="AdditionalAbsent" />
+          <ScalarProperty Name="Absent" ColumnName="Absent" />
+          <ScalarProperty Name="TotalHoliday" ColumnName="TotalHoliday" />
+          <ScalarProperty Name="AdditionalHoliday" ColumnName="AdditionalHoliday" />
+          <ScalarProperty Name="Holiday" ColumnName="Holiday" />
+          <ScalarProperty Name="TotalSunday" ColumnName="TotalSunday" />
+          <ScalarProperty Name="AdditionalSunday" ColumnName="AdditionalSunday" />
+          <ScalarProperty Name="Sunday" ColumnName="Sunday" />
+          <ScalarProperty Name="TotalPresent" ColumnName="TotalPresent" />
+          <ScalarProperty Name="AdditionalPresent" ColumnName="AdditionalPresent" />
+          <ScalarProperty Name="Present" ColumnName="Present" />
+          <ScalarProperty Name="YearID" ColumnName="YearID" />
+          <ScalarProperty Name="MonthID" ColumnName="MonthID" />
+          <ScalarProperty Name="EmployeeCode" ColumnName="EmployeeCode" />
+          <ScalarProperty Name="SalarySheetID" ColumnName="SalarySheetID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

@@ -25,7 +25,7 @@ namespace vb.Service
 
        bool AddCustomer(CustomerViewModel ObjCustomer);
 
-       List<CustomerListResponse> GetAllCustomerList();
+       List<CustomerListResponse> GetAllCustomerList(int PageNo,int PageSize, string SearchText, out int Count);
 
        List<CustomerAddressViewModel> GetCustomerAddressListByCustomerID(long CustomerID);
 

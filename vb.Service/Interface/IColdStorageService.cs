@@ -65,5 +65,7 @@ namespace vb.Service
 
 
         List<StockReportResponseList> MonthAgoExpiryDateWiseGetColdStorage_StockReportList();
+
+        List<InwardListResponseExp> GetAllColdStorage_InwardListExport(DateTime? ChallanDate, long ColdStorageID, string LotNo, long ProductID);
     }
 }

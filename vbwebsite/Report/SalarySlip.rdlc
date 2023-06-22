@@ -75,7 +75,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>       Masjid (West),  MUMBAI - 400009        Tel : (91-22) 23454788</Value>
+                                  <Value>       Masjid (West),  MUMBAI - 400009        Mob : 91521 42799</Value>
                                   <Style>
                                     <FontSize>9pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
@@ -125,7 +125,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Tel : (91-22) 27835856</Value>
+                                  <Value>Mob : 91522 42799</Value>
                                   <Style>
                                     <FontSize>9pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
@@ -161,7 +161,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>          HAFED Ware House, 1st floor,                     Plot No. 39, Sector-18, Vashi,              NAVI MUMBAI - 400705      </Value>
+                                  <Value>  A/173/2,TTC Industrial Area MIDC, </Value>
                                   <Style>
                                     <FontSize>9pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
@@ -175,7 +175,21 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Tel : (91-22) 27655633</Value>
+                                  <Value>     Koparkhairne NAVI MUMBAI - 400701  </Value>
+                                  <Style>
+                                    <FontSize>9pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Mob : 91523 42799</Value>
                                   <Style>
                                     <FontSize>9pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
@@ -313,7 +327,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>MSME UAN : MH1980033930</Value>
+                                  <Value>MSME UAN : -19-0011723</Value>
                                   <Style>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>

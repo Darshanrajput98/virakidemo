@@ -944,5 +944,79 @@ namespace vb.Service
             }
         }
 
+
+        public List<InwardListResponseExp> GetAllColdStorage_InwardListExport(DateTime? ChallanDate, long ColdStorageID, string LotNo, long ProductID)
+        {
+
+            SqlCommand cmdGet = new SqlCommand();
+            using (var objBaseSqlManager = new BaseSqlManager())
+            {
+                cmdGet.CommandType = CommandType.StoredProcedure;
+                cmdGet.CommandText = "GetAllColdStorage_InwardListExport";
+                cmdGet.Parameters.AddWithValue("@ChallanDate", ChallanDate);
+                cmdGet.Parameters.AddWithValue("@ColdStorageID", ColdStorageID);
+                cmdGet.Parameters.AddWithValue("@LotNo", LotNo);
+                cmdGet.Parameters.AddWithValue("@ProductID", ProductID);
+                SqlDataReader dr = objBaseSqlManager.ExecuteDataReader(cmdGet);
+                List<InwardListResponseExp> objlst = new List<InwardListResponseExp>();
+                while (dr.Read())
+                {
+                    InwardListResponseExp obj = new InwardListResponseExp();
+                    obj.InwardID = objBaseSqlManager.GetInt64(dr, "InwardID");
+                    obj.ColdStorageID = objBaseSqlManager.GetInt64(dr, "ColdStorageID");
+                    obj.Name = objBaseSqlManager.GetTextValue(dr, "Name");
+                    DateTime Date = objBaseSqlManager.GetDateTime(dr, "Date");
+                    if (Date == Convert.ToDateTime("10/10/2014"))
+                    {
+                        obj.Date = "";
+                    }
+                    else
+                    {
+                        obj.Date = objBaseSqlManager.GetDateTime(dr, "Date").ToString("dd/MM/yyyy");
+                    }
+                    DateTime ExpiryDate = objBaseSqlManager.GetDateTime(dr, "ExpiryDate");
+                    if (ExpiryDate == Convert.ToDateTime("10/10/2014"))
+                    {
+                        obj.ExpiryDate = "";
+                    }
+                    else
+                    {
+                        obj.ExpiryDate = objBaseSqlManager.GetDateTime(dr, "ExpiryDate").ToString("dd/MM/yyyy");
+                    }
+
+                    obj.LotNo = objBaseSqlManager.GetTextValue(dr, "LotNo");
+                    obj.DeliveryChallanNumber = objBaseSqlManager.GetTextValue(dr, "DeliveryChallanNumber");
+                    DateTime DeliveryChallanDate = objBaseSqlManager.GetDateTime(dr, "DeliveryChallanDate");
+                    if (DeliveryChallanDate == Convert.ToDateTime("10/10/2014"))
+                    {
+                        obj.DeliveryChallanDate = "";
+                    }
+                    else
+                    {
+                        obj.DeliveryChallanDate = objBaseSqlManager.GetDateTime(dr, "DeliveryChallanDate").ToString("dd/MM/yyyy");
+                    }
+                    obj.ProductName = objBaseSqlManager.GetTextValue(dr, "ProductName");
+                    obj.Notes = objBaseSqlManager.GetTextValue(dr, "Notes");
+                    obj.NoofBags = objBaseSqlManager.GetInt64(dr, "NoofBags");
+                    obj.UsedQty = objBaseSqlManager.GetDecimal(dr, "UsedQty");
+                    obj.RemQty = Convert.ToString(objBaseSqlManager.GetDecimal(dr, "RemQty"));
+                    obj.WeightPerBag = objBaseSqlManager.GetTextValue(dr, "WeightPerBag");
+                    obj.TotalWeight = Convert.ToString(objBaseSqlManager.GetDecimal(dr, "TotalWeight"));
+                    obj.TotalAmount = Convert.ToString(Math.Round(objBaseSqlManager.GetDecimal(dr, "TotalAmount"), 2));
+                    obj.RatePerKG = Convert.ToString(Math.Round(objBaseSqlManager.GetDecimal(dr, "RatePerKG"), 2));
+                    obj.RentPerBags = Convert.ToString(Math.Round(objBaseSqlManager.GetDecimal(dr, "RentPerBags"), 2));
+                    obj.CreatedBy = objBaseSqlManager.GetInt64(dr, "CreatedBy");
+                    obj.CreatedOn = objBaseSqlManager.GetDateTime(dr, "CreatedOn");
+                    obj.IsDelete = objBaseSqlManager.GetBoolean(dr, "IsDelete");
+                    obj.lblTotal = objBaseSqlManager.GetTextValue(dr, "lblTotal");
+                    objlst.Add(obj);
+                }
+                dr.Close();
+                objBaseSqlManager.ForceCloseConnection();
+                return objlst;
+            }
+        }
+
+
     }
 }

@@ -1,5 +1,6 @@
 ﻿using ClosedXML.Excel;
 using Newtonsoft.Json;
+using PagedList;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -132,11 +133,36 @@ namespace vbwebsite.Areas.wholesale.Controllers
             }
         }
 
-        public PartialViewResult ManageCustomersList()
+        #region ManageCustomersList...
+        public PartialViewResult ManageCustomersList(int PageNo = 1, int PageSize = 10, string SearchText = "")
         {
-            List<CustomerListResponse> objModel = _customerservice.GetAllCustomerList();
-            return PartialView(objModel);
+            CustomerListResponsepaging response = new CustomerListResponsepaging();
+            int Count = 0;
+            TempData["CustomersList"] = SearchText;
+
+            List<CustomerListResponse> objModel = new List<CustomerListResponse>();
+            objModel = _customerservice.GetAllCustomerList(PageNo, PageSize, SearchText, out Count);
+            int totalcount = Count;
+
+            response.Customer = new StaticPagedList<CustomerListResponse>(objModel, PageNo, PageSize, totalcount);
+            int StartNo = (PageNo * PageSize) - (PageSize - 1);
+            
+            ViewBag.PageSize = PageSize;
+            ViewBag.StartNo = StartNo;
+
+            int EndNo = PageNo * PageSize;
+            if (totalcount < EndNo)
+            {
+                EndNo = totalcount;
+            }
+            
+            ViewBag.EndNo = EndNo;
+            ViewBag.totalcount = totalcount;
+            ViewBag.paging = response;
+
+            return PartialView();
         }
+        #endregion
 
         public ActionResult GetCustomerAddressList(long CustomerID)
         {
@@ -371,7 +397,7 @@ namespace vbwebsite.Areas.wholesale.Controllers
         public ActionResult ExportExcelCustomerFSSAIExpireList()
         {
             var CustomerFSSAIExpireList = _customerservice.GetAllCustomerFSSAIExpireList();
-            List<CustomerFSSAIExpireListExport> lstproduct = CustomerFSSAIExpireList.Select(x => new CustomerFSSAIExpireListExport() { CustomerName = x.CustomerName,DeliveryArea=x.DeliveryAreaName,BillingArea=x.BillingAreaName,SalesPerson=x.SalesPerson, FSSAI = x.FSSAI, FSSAIValidUpTo = x.FSSAIValidUpTostr, MobileNumber = x.ContactNumber, Email = x.ContactEmail, DaysRemaining = x.DaysRemaining }).ToList();
+            List<CustomerFSSAIExpireListExport> lstproduct = CustomerFSSAIExpireList.Select(x => new CustomerFSSAIExpireListExport() { CustomerName = x.CustomerName, DeliveryArea = x.DeliveryAreaName, BillingArea = x.BillingAreaName, SalesPerson = x.SalesPerson, FSSAI = x.FSSAI, FSSAIValidUpTo = x.FSSAIValidUpTostr, MobileNumber = x.ContactNumber, Email = x.ContactEmail, DaysRemaining = x.DaysRemaining }).ToList();
             DataSet ds = new DataSet();
             ds.Tables.Add(ToDataTable(lstproduct));
             using (XLWorkbook wb = new XLWorkbook())

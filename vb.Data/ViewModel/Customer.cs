@@ -8,6 +8,7 @@ namespace vb.Data
     using System.Text;
     using System.Threading.Tasks;
     using System.ComponentModel;
+    using PagedList;
 
     public class CustomerGroupViewModel
     {
@@ -197,6 +198,12 @@ namespace vb.Data
         public string PanCard { get; set; }
     }
 
+
+    public class CustomerListResponsepaging
+    {
+        public IPagedList<CustomerListResponse> Customer { get; set; }
+    }
+
     public enum CustomerType
     {
         [Description("Wholesale")]
@@ -274,4 +281,5 @@ namespace vb.Data
         public string Email { get; set; }
         public long DaysRemaining { get; set; }
     }
+
 }

@@ -31,6 +31,7 @@
     <div class="box-header text-center">
         <h3 class="box-title">Inward List</h3>
         <div class="pull-right">
+            <button type="button" id="btnexport" class="btn btn-info">Export To Excel</button>
             <button class="btnOutward btn btn-info">Save</button>
         </div>
     </div>
@@ -623,4 +624,23 @@
 
     });
 
+
+    $("#btnexport").click(function () {
+        //debugger;
+        var model = new Object();
+        model.challanDate = $("#challanDate").val();
+        model.ColdStorageID = $("#ColdStorageID").val();
+        model.LotNo = $("#LotNo").val();
+        model.ProductID = $("#ProductID").val();
+
+        var url = '@Url.Action("ExportExcelInwardListReport", "Stock", new { challanDate = "__challanDate__", ColdStorageID = "__ColdStorageID__", LotNo = "__LotNo__", ProductID = "__ProductID__" })';
+        url = url.replace(/amp;/g, '');
+        window.location.href = url.replace('__challanDate__', model.challanDate).replace('__ColdStorageID__', model.ColdStorageID).replace('__LotNo__', model.LotNo).replace('__ProductID__', model.ProductID);
+    });
+
+
+
+    //$('#ListDataTableInwardList').DataTable({
+    //    order: [[2, 'asc']],
+    //});
 </script>

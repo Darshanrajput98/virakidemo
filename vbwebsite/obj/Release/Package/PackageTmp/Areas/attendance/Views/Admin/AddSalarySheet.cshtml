@@ -140,7 +140,7 @@
                 <div class="col-md-4">
                     <div class="form-group">
                         <label for="inputPassword3" class="col-sm-4 control-label">Employee Name</label>
-                        <div class="col-sm-8">
+                        <div class="col-sm-6">
                             @Html.DropDownListFor(m => m.EmployeeCode, new SelectList(ViewBag.Employee, "EmployeeCode", "FullName"), "Select Employee", new { @class = "form-control select2 EmployeeCode", tabindex = "4", required = "required" })
                         </div>
                     </div>
@@ -197,10 +197,15 @@
                             </div>
                             <div class="form-group">
                                 <label for="CityAllowanceMinutes" class="col-sm-4 control-label">City Allowance Min.</label>
-                                <div class="col-sm-4">
+                                <div class="col-sm-3">
                                     <input type="text" class="form-control" id="CityAllowanceMinutes">
                                 </div>
-                                <div class="col-sm-4">
+                                @*// 31 May 2023 Dhruvik*@
+                                <div class="col-sm-3">
+                                    <input type="text" class="form-control" id="AdditionalCityAllowanceMinutes">
+                                </div>
+                                @*// 31 May 2023 Dhruvik*@
+                                <div class="col-sm-2">
                                     <label for="TotalHours" id="CityAllowanceHours"></label>
                                 </div>
                             </div>
@@ -282,10 +287,10 @@
                             </div>
                             <div class="form-group">
                                 <label for="AdditionalCityAllowance" class="col-sm-4 control-label">Add. City Allow.</label>
-                                <div class="col-sm-4">
+                                <div class="col-sm-3">
                                     <input type="text" class="form-control" id="AdditionalCityAllowance" value="0" autocomplete="off">
                                 </div>
-                                <div class="col-sm-4">
+                                <div class="col-sm-3">
                                     <input type="text" class="form-control" id="TotalCityAllowance" value="0" disabled>
                                 </div>
                             </div>
@@ -565,6 +570,11 @@
                     $('#EarnedHouseRentAllowance').val(result.EarnedHouseRentAllowance);
                     $('#TotalEarnedWages').val(result.TotalEarnedWages);
                     $('#CityAllowanceMinutes').val(result.CityAllowanceMinutes);
+
+                    // 31 May 2023 Dhruvik
+                    $('#AdditionalCityAllowanceMinutes').val(result.AdditionalCityAllowanceMinutes);
+                    // 31 May 2023 Dhruvik
+
                     $('#CityAllowanceHours').text(result.CityAllowanceHours);
                     $('#CityAllowance').val(result.CityAllowance);
                     $('#AdditionalCityAllowance').val(result.AdditionalCityAllowance);
@@ -1784,7 +1794,7 @@
             url: '@Url.Action("GetCalculateEmployeeSalary")',
             data: { SalarySheetID: SalarySheetID, EmployeeCode: EmployeeCode, MonthID: MonthID, YearID: YearID, TotalDays: TotalDays, TotalMonthDay: TotalMonthDay, TotalPresent: TotalPresent, TotalAvailedLeaves: TotalAvailedLeaves },
             success: function (result) {
-                //debugger;
+                debugger;
                 $('#BasicAllowance').val(result.BasicAllowance);
                 $('#HouseRentAllowance').val(result.HouseRentAllowance);
                 $('#TotalBasic').val(result.TotalBasic);
@@ -1833,6 +1843,11 @@
                 $('#ESIC').val(result.ESIC);
                 $('#PT').val(result.PT);
                 $('#CityAllowanceMinutes').val(result.CityAllowanceMinutes);
+
+                // 31 May 2023 Dhruvik
+                $('#AdditionalCityAllowanceMinutes').val(result.AdditionalCityAllowanceMinutes);
+                // 31 May 2023 Dhruvik
+
                 $('#CityAllowanceHours').text(result.CityAllowanceHours);
                 $('#MLWF').val(result.MLWF);
                 $('#TotalDeductions').val(result.TotalDeductions);
@@ -1896,6 +1911,11 @@
         datareq.EarnedHouseRentAllowance = $("#EarnedHouseRentAllowance").val();
         datareq.TotalEarnedWages = $("#TotalEarnedWages").val();
         datareq.CityAllowanceMinutes = $("#CityAllowanceMinutes").val();
+
+        // 31 May 2023 Dhruvik
+        datareq.AdditionalCityAllowanceMinutes = $("#AdditionalCityAllowanceMinutes").val();
+        // 31 May 2023 Dhruvik
+
         datareq.CityAllowanceHours = $("#CityAllowanceHours").text();
         datareq.CityAllowance = $("#CityAllowance").val();
         datareq.AdditionalCityAllowance = $("#AdditionalCityAllowance").val();
@@ -1957,4 +1977,193 @@
         location.reload();
     }
 
+    // 31 May 2023 Dhruvik
+    $("#AdditionalCityAllowanceMinutes").on('blur', function (e) {
+        debugger;
+        var end = this;
+        if (this.value != '') {
+
+            var AdditionalCityAllowanceMinutes = parseFloat(this.value);
+            var TotalBasic = parseFloat($("#TotalBasic").val());
+            var TotalMonthDay = parseFloat($('#TotalDaysIntheMonth').val());
+            var CityAllowanceMinutes = parseFloat($("#CityAllowanceMinutes").val());
+
+            var BasicAllowance = parseFloat($('#BasicAllowance').val());
+            var AdditionalCityAllowance = parseFloat($('#AdditionalCityAllowance').val());
+
+            var CityAllowanceStatusID = parseFloat($('#CityAllowanceStatusID').val());
+
+            if (CityAllowanceStatusID == 1) {
+                var CityAllowancePerHr = parseFloat(((((TotalBasic / TotalMonthDay) / 8) / 60) * 2).toFixed(2));
+                var CityAllowanceValue = parseFloat(CityAllowancePerHr * (CityAllowanceMinutes + AdditionalCityAllowanceMinutes));
+                $("#CityAllowance").val(CityAllowanceValue.toFixed(2));
+            }
+            else if (CityAllowanceStatusID == 2) {
+                var CityAllowancePerHr = parseFloat(((((BasicAllowance / TotalMonthDay) / 8) / 60) * 2).toFixed(2));
+                var CityAllowanceValue = parseFloat(CityAllowancePerHr * (CityAllowanceMinutes + AdditionalCityAllowanceMinutes));
+                $("#CityAllowance").val(CityAllowanceValue.toFixed(2));
+            }
+            else {
+                $('#CityAllowance').val(0);
+            }
+
+            var TotalEarnedWages = $("#TotalEarnedWages").val();
+            var CityAllowance = $("#CityAllowance").val();
+            var VehicleAllowance = $("#VehicleAllowance").val();
+            var Conveyance = $("#Conveyance").val();
+            var PerformanceAllowance = $("#PerformanceAllowance").val();
+            var AdditionalVehicleAllowance = $("#AdditionalVehicleAllowance").val();
+            var AdditionalConveyance = $("#AdditionalConveyance").val();
+            var AdditionalPerformanceAllowance = $("#AdditionalPerformanceAllowance").val();
+            var PF = $("#PF").val();
+            var EmployeeSlab = $("#EmployeeSlab").val();
+            var ESIC = 0;
+            var PTHighestSlab = $("#PTHighestSlab").val();
+            var PTHighestAmount = $("#PTHighestAmount").val();
+            var PTLowestSlab = $("#PTLowestSlab").val();
+            var PTLowestAmount = $("#PTLowestAmount").val();
+            var PT = 0;
+            var MLWFHighestSlab = $("#MLWFHighestSlab").val();
+            var MLWFHighestAmount = $("#MLWFHighestAmount").val();
+            var MLWFMonthID = $("#MLWFMonthID").val();
+            var MLWF = 0;
+
+
+            if (AdditionalCityAllowance != "" && AdditionalCityAllowance != 0) {
+                var TotalCityAllowance = parseFloat(CityAllowance) + parseFloat(AdditionalCityAllowance);
+                $('#TotalCityAllowance').val(TotalCityAllowance);
+                var GrossWagesPayable = parseFloat(parseFloat(TotalEarnedWages) + parseFloat(CityAllowance) + parseFloat(AdditionalCityAllowance) + parseFloat(VehicleAllowance) + parseFloat(AdditionalVehicleAllowance) + parseFloat(Conveyance) + parseFloat(AdditionalConveyance) + parseFloat(PerformanceAllowance) + parseFloat(AdditionalPerformanceAllowance)).toFixed(2);
+                $('#GrossWagesPayable').val(GrossWagesPayable);
+                var ESICStatusID = $('#ESICStatusID').val();
+                if (ESICStatusID == 1) //1 =  applicable old
+                {
+                    ESIC = 0;
+                    $('#ESIC').val(ESIC);
+                }
+                else if (ESICStatusID == 2) //2 = applicable new
+                {
+                    ESIC = (parseFloat(GrossWagesPayable) * parseFloat(EmployeeSlab)); // 0.0075
+                    $('#ESIC').val(Math.ceil(ESIC));
+                }
+                else {
+                    // 05 Jan 2021 Piyush Limbani
+                    ESIC = $("#ESIC").val();
+                    $('#ESIC').val(ESIC);
+                    // 05 Jan 2021 Piyush Limbani
+                    //$('#ESIC').val(0);
+                }
+                if (parseFloat(GrossWagesPayable) > parseFloat(PTHighestSlab)) {
+                    PT = PTHighestAmount;
+                    $('#PT').val(PT);
+                }
+                else if (parseFloat(GrossWagesPayable) > parseFloat(PTLowestSlab)) {
+                    PT = PTLowestAmount;
+                    $('#PT').val(PT);
+                }
+                else {
+                    // 05 Jan 2021 Piyush Limbani
+                    PT = $("#PT").val();
+                    $('#PT').val(PT);
+                    // 05 Jan 2021 Piyush Limbani
+                    //PT = 0;
+                    //$('#PT').val(PT);
+                }
+                if (parseInt(MonthID) == parseInt(MLWFMonthID)) {
+                    if (parseFloat(GrossWagesPayable) > parseFloat(MLWFHighestSlab)) {
+                        MLWF = MLWFHighestAmount;
+                        $('#MLWF').val(MLWF);
+                    }
+                    else {
+                        // 05 Jan 2021 Piyush Limbani
+                        MLWF = $("#MLWF").val();
+                        $('#MLWF').val(MLWF);
+                        // 05 Jan 2021 Piyush Limbani
+                        // MLWF = 0;
+                    }
+                }
+                else {
+                    // 05 Jan 2021 Piyush Limbani
+                    MLWF = $("#MLWF").val();
+                    $('#MLWF').val(MLWF);
+                    // 05 Jan 2021 Piyush Limbani
+                    // MLWF = 0;
+                }
+                var TotalDeductions = parseFloat(parseFloat(PF) + parseFloat(PT) + Math.ceil(ESIC) + parseFloat(MLWF));
+                var TotalDeductionsRound = (Math.round(TotalDeductions));
+                $('#TotalDeductions').val(TotalDeductionsRound);
+                var NetWagesPaid = parseFloat(parseFloat(GrossWagesPayable) - parseFloat(TotalDeductionsRound));
+                var NetWagesPaid1 = Math.round(NetWagesPaid);
+                $('#NetWagesPaid').val(NetWagesPaid1);
+            }
+            else {
+                $('#TotalCityAllowance').val(CityAllowance);
+                var GrossWagesPayable = parseFloat(parseFloat(TotalEarnedWages) + parseFloat(CityAllowance) + parseFloat(VehicleAllowance) + parseFloat(AdditionalVehicleAllowance) + parseFloat(Conveyance) + parseFloat(AdditionalConveyance) + parseFloat(PerformanceAllowance) + parseFloat(AdditionalPerformanceAllowance)).toFixed(2);
+                $('#GrossWagesPayable').val(GrossWagesPayable);
+                var ESICStatusID = $('#ESICStatusID').val();
+                if (ESICStatusID == 1) //1 =  applicable old
+                {
+                    ESIC = 0;
+                    $('#ESIC').val(ESIC);
+                }
+                else if (ESICStatusID == 2) //2 = applicable new
+                {
+                    ESIC = (parseFloat(GrossWagesPayable) * parseFloat(EmployeeSlab)); // 0.0075
+                    $('#ESIC').val(Math.ceil(ESIC));
+                }
+                else {
+                    // 05 Jan 2021 Piyush Limbani
+                    ESIC = $("#ESIC").val();
+                    $('#ESIC').val(ESIC);
+                    // 05 Jan 2021 Piyush Limbani
+                    //$('#ESIC').val(0);
+                }
+                if (parseFloat(GrossWagesPayable) > parseFloat(PTHighestSlab)) {
+                    PT = PTHighestAmount;
+                    $('#PT').val(PT);
+                }
+                else if (parseFloat(GrossWagesPayable) > parseFloat(PTLowestSlab)) {
+                    PT = PTLowestAmount;
+                    $('#PT').val(PT);
+                }
+                else {
+                    // 05 Jan 2021 Piyush Limbani
+                    PT = $("#PT").val();
+                    $('#PT').val(PT);
+                    // 05 Jan 2021 Piyush Limbani
+                    //PT = 0;
+                    //$('#PT').val(PT);
+                }
+                if (parseInt(MonthID) == parseInt(MLWFMonthID)) {
+                    if (parseFloat(GrossWagesPayable) > parseFloat(MLWFHighestSlab)) {
+                        MLWF = MLWFHighestAmount;
+                        $('#MLWF').val(MLWF);
+                    }
+                    else {
+                        // 05 Jan 2021 Piyush Limbani
+                        MLWF = $("#MLWF").val();
+                        $('#MLWF').val(MLWF);
+                        // 05 Jan 2021 Piyush Limbani
+                        // MLWF = 0;
+                    }
+                }
+                else {
+                    // 05 Jan 2021 Piyush Limbani
+                    MLWF = $("#MLWF").val();
+                    $('#MLWF').val(MLWF);
+                    // 05 Jan 2021 Piyush Limbani
+                    // MLWF = 0;
+                }
+                var TotalDeductions = parseFloat(parseFloat(PF) + parseFloat(PT) + Math.ceil(ESIC) + parseFloat(MLWF));
+                var TotalDeductionsRound = (Math.round(TotalDeductions));
+                $('#TotalDeductions').val(TotalDeductionsRound);
+                var NetWagesPaid = parseFloat(parseFloat(GrossWagesPayable) - parseFloat(TotalDeductionsRound));
+                var NetWagesPaid1 = Math.round(NetWagesPaid);
+                $('#NetWagesPaid').val(NetWagesPaid1);
+            }
+
+
+        }
+
+    });
+    // 31 May 2023 Dhruvik
 </script>

@@ -1,13 +1,47 @@
 ﻿@using vb.Data.ViewModel
+@using PagedList.Mvc
+@using PagedList
+@{
+    vb.Data.CustomerListResponsepaging Model = (vb.Data.CustomerListResponsepaging)ViewBag.paging;
+}
+
+<style>
+    .pagination > li {
+        font-weight: 500;
+    }
+</style>
 
 <div class="box">
     <div class="box-header text-center">
         <h3 class="box-title">Customer List</h3>
+        <div id="divSearchText">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div id="example123_filter" class="dataTables_filter">
+                        <label style="float: left; margin-top: 5px; padding: 2px; ">Show</label>
+                        <label style="float:left;">
+                            <select name="DropPageSize" id="DropPageSize" class="form-control">
+                                <option value="10">10</option>
+                                <option value="25">25</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                            </select>
+                        </label>
+                        <label style="float: left; margin-top: 5px; padding: 2px; ">entries</label>
+                        <label style="float:right;">
+                            Search:
+                            <input type="search" class="form-control input-sm" placeholder="" autocomplete="off" id="txtCustomerSearch" value="@TempData["CustomersList"]" aria-controls="example123">
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
     <!-- /.box-header -->
     @*<div class="box-body">*@
 
-    <div class="box-body table-scrollable1">
+    <div class="box-body table-scrollable1" style="overflow-x: scroll;">
         <table id="ListDataTable" class="table table-bordered table-bordered">
             <thead>
                 <tr>
@@ -44,7 +78,7 @@
             </thead>
             <tbody>
 
-                @foreach (var item in Model)
+                @foreach (var item in Model.Customer)
                 {
                     <tr>
                         <td id="row">
@@ -145,29 +179,83 @@
                         }
                     </tr>
                 }
+
             </tbody>
         </table>
+
+        <div id="divCustomerRecord">
+            <label style="float:right;">
+                @Html.PagedListPager((IPagedList)Model.Customer, page => Url.Action("ManageCustomersList", "Customer", new { PageNo = page, PageSize = @ViewBag.PageSize, SearchText = @TempData["CustomersList"] }), new PagedListRenderOptions() { Display = PagedListDisplayMode.Always, DisplayPageCountAndCurrentLocation = true, DisplayItemSliceAndTotal = false, DisplayEllipsesWhenNotShowingAllPageNumbers = true })
+            </label>
+            <label style="float: left; font-weight: 500; margin-top: 15px;">
+                Showing @ViewBag.StartNo to @ViewBag.EndNo of @ViewBag.totalcount entries
+            </label>
+        </div>
     </div>
     <!-- /.box-body -->
 </div>
 
 <script>
-
-    //$("#ListDataTable").DataTable({
-    //    'aoColumnDefs': [{
-    //        'bSortable': false,
-    //        'aTargets': ['nosort'] /* 1st one, start by the right */
-    //    }]
-    //});
-
-    $('#ListDataTable').DataTable({
-        'paging': true,
-        'lengthChange': true,
-        'searching': true,
-        'ordering': false,
-        'info': true,
-        'autoWidth': false
+    $("#DropPageSize").on('change', function (e) {
+        debugger;
+        var end = this;
+        if (this.value != '') {
+            debugger;
+            var PageSize = this.value;
+            var SearchText = $("#txtCustomerSearch").val();
+            $.ajax({
+                url: '@Url.Action("ManageCustomersList")',
+                type: 'GET',
+                cache: false,
+                data: { PageNo: 1, PageSize: PageSize, SearchText: SearchText },
+                success: function (result) {
+                    $('#lstcase').html(result);
+                    $('#DropPageSize option[value="' + PageSize + '"]').attr('selected', true);
+                }
+            });
+        }
     });
+
+    $("#txtCustomerSearch").on('change', function (e) {
+        debugger;
+        var end = this;
+        if (this.value != '') {
+            debugger;
+            var SearchText = this.value;
+            var PageSize = @ViewBag.PageSize
+            $.ajax({
+                url: '@Url.Action("ManageCustomersList")',
+                type: 'GET',
+                cache: false,
+                data: { PageNo: 1, PageSize: PageSize, SearchText: SearchText },
+                success: function (result) {
+                    $('#lstcase').html(result);
+                    $('#DropPageSize option[value="' + PageSize + '"]').attr('selected', true);
+                }
+            });
+        }
+    });
+
+    $('#divCustomerRecord').on('click', 'a', function () {
+        debugger;
+        var SearchText = $("#txtCustomerSearch").val();
+        if (this.href == "") {
+            return;
+        }
+        var PageSize = @ViewBag.PageSize
+        $.ajax({
+            url: this.href,
+            type: 'GET',
+            cache: false,
+            data: { PageNo: 1, PageSize: PageSize, SearchText: SearchText },
+            success: function (result) {
+                $('#lstcase').html(result);
+                $('#DropPageSize option[value="' + PageSize + '"]').attr('selected', true);
+            }
+        });
+        return false;
+    });
+
 
     $('#ListDataTable').on('click', '.btnedit', function () {
         debugger;
@@ -388,6 +476,22 @@
         $("html, body").animate({ scrollTop: 0 }, "slow");
     });
 
-</script>
 
+    //$("#ListDataTableCustomerList").DataTable({
+    //    'aoColumnDefs': [{
+    //        'bSortable': false,
+    //        'aTargets': ['nosort'] /* 1st one, start by the right */
+    //    }]
+    //});
+
+    //$('#ListDataTable').DataTable({
+    //    //'paging': true,
+    //    'lengthChange': true,
+    //    //'searching': true,
+    //    'ordering': false,
+    //    'info': true,
+    //    'autoWidth': false,
+    //});
+
+</script>
 

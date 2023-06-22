@@ -1,7 +1,11 @@
-﻿using Newtonsoft.Json;
+﻿using ClosedXML.Excel;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
 using vb.Data;
@@ -253,7 +257,7 @@ namespace vbwebsite.Areas.coldstorage.Controllers
 
                             data.UpdatedBy = Convert.ToInt64(Request.Cookies["UserID"].Value);
                             data.UpdatedOn = DateTime.Now;
-                            
+
                             respose = _ColdStorageService.UpdateOutward(data);
                         }
                         return Json(respose, JsonRequestBehavior.AllowGet);
@@ -319,7 +323,110 @@ namespace vbwebsite.Areas.coldstorage.Controllers
         }
 
 
+        //12-06-2023
+        public ActionResult ExportExcelInwardListReport(InwardSearchRequest model)
+        {
+            decimal lblTotalRemQty = 0;
+            decimal lblTotalWeight = 0;
+            decimal lblTotalAmount = 0;
 
+            List<InwardListResponseExp> InwardTotal = new List<InwardListResponseExp>();
+            List<InwardListResponseExp> objModel = _ColdStorageService.GetAllColdStorage_InwardListExport(model.challanDate, model.ColdStorageID, model.LotNo, model.ProductID);
 
+            if (objModel != null)
+            {
+                foreach (var record in objModel)
+                {
+                    InwardTotal.Add(record);
+                    if (record.LotNo != "")
+                    {
+                        lblTotalRemQty += Convert.ToDecimal(record.RemQty);
+                        lblTotalWeight += Convert.ToDecimal(record.TotalWeight);
+                        lblTotalAmount += Convert.ToDecimal(record.TotalAmount);
+                    }
+                    else
+                    {
+                        record.Name = "Total:";
+                        record.WeightPerBag = "";
+                        record.RatePerKG = "";
+                        record.RentPerBags = "";
+                    }
+                }
+            }
+
+            List<InwardListResponseForExport> lstdelsheet = InwardTotal.Select(x => new InwardListResponseForExport()
+            {
+                ColdStorageName = x.Name,
+                DeliveryChallanDate = x.DeliveryChallanDate,
+                LotNo = x.LotNo,
+                ItemName = x.ProductName,
+                Notes = x.Notes,
+                Balance = x.RemQty,
+                WeightPerBags = x.WeightPerBag,
+                TotalWeight = x.TotalWeight,
+                RatePerKG = x.RatePerKG,
+                TotalAmount = x.TotalAmount,
+                RentPerBags = x.RentPerBags
+            }).ToList();
+
+            DataSet ds = new DataSet();
+            ds.Tables.Add(ToDataTable(lstdelsheet));
+
+            DataRow dRow = ds.Tables[0].NewRow();
+            dRow["ColdStorageName"] = "Grand Total:";
+            dRow["Balance"] = lblTotalRemQty;
+            dRow["TotalWeight"] = lblTotalWeight;
+            dRow["TotalAmount"] = lblTotalAmount;
+            ds.Tables[0].Rows.Add(dRow);
+
+            using (XLWorkbook wb = new XLWorkbook())
+            {
+                wb.Worksheets.Add(ds);
+                wb.Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                wb.Style.Font.Bold = true;
+
+                Response.Clear();
+                Response.Buffer = true;
+                Response.Charset = "";
+                Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                Response.AddHeader("content-disposition", "attachment;filename= " + "InwardListReport.xlsx");
+
+                using (MemoryStream MyMemoryStream = new MemoryStream())
+                {
+                    wb.SaveAs(MyMemoryStream);
+                    MyMemoryStream.WriteTo(Response.OutputStream);
+                    Response.Flush();
+                    Response.End();
+                }
+            }
+            return View();
+        }
+
+        public static DataTable ToDataTable<T>(List<T> items)
+        {
+            DataTable dataTable = new DataTable(typeof(T).Name);
+            //Get all the properties
+            PropertyInfo[] Props = typeof(T).GetProperties(BindingFlags.Public | BindingFlags.Instance);
+            foreach (PropertyInfo prop in Props)
+            {
+                //Defining type of data column gives proper data table 
+                var type = (prop.PropertyType.IsGenericType && prop.PropertyType.GetGenericTypeDefinition() == typeof(Nullable<>) ? Nullable.GetUnderlyingType(prop.PropertyType) : prop.PropertyType);
+                //Setting column names as Property names
+                dataTable.Columns.Add(prop.Name, type);
+            }
+            foreach (T item in items)
+            {
+                var values = new object[Props.Length];
+                for (int i = 0; i < Props.Length; i++)
+                {
+                    //inserting property values to datatable rows
+                    values[i] = Props[i].GetValue(item, null);
+                }
+                dataTable.Rows.Add(values);
+            }
+            //put a breakpoint here and check datatable
+            return dataTable;
+        }
+        //12-06-2023
     }
 }

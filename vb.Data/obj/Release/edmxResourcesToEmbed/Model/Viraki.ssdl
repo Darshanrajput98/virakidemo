@@ -3043,6 +3043,7 @@
     <Property Name="EarnedHouseRentAllowance" Type="money" />
     <Property Name="TotalEarnedWages" Type="money" />
     <Property Name="CityAllowanceMinutes" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="AdditionalCityAllowanceMinutes" Type="decimal" Precision="18" Scale="2" />
     <Property Name="CityAllowanceHours" Type="decimal" Precision="18" Scale="2" />
     <Property Name="CityAllowance" Type="money" />
     <Property Name="AdditionalCityAllowance" Type="money" />

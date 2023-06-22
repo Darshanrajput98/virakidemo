@@ -5,6 +5,7 @@
 }
 @using vb.Data.ViewModel
 
+
 <div class="box box-default">
     <div class="box-header with-border text-center">
         <h3 class="box-title">Manage Customers</h3>
@@ -15,6 +16,7 @@
             <div class="col-md-12">
                 <div class="col-md-6">
                     <div class="form-group">
+                        <input type="hidden" value="@TempData["PageSize"]" id="PageSize" />
                         <input name="CustomerID" id="UCustomerID" type="hidden" value="" />
                         <input name="CreatedBy" id="CreatedBy" type="hidden" value="" />
                         <input name="CreatedOn" id="CreatedOn" type="hidden" value="" />
@@ -743,9 +745,13 @@
     });
 
     function loadhtml() {
+        //debugger;
+        var SearchText = $("#txtCustomerSearch").val();
+        var PageSize = 10;
         $.ajax({
             url: '@Url.Action("ManageCustomersList")',
             type: 'GET',
+            data: { PageNo: 1, PageSize: PageSize, SearchText: SearchText },
             cache: false,
         }).done(function (result) {
             $('#lstcase').html(result);
@@ -948,4 +954,6 @@
         var url = '@Url.Action("ExportExcelCustomer", "Customer")';
         window.location.href = url.replace();
     });
+
 </script>
+

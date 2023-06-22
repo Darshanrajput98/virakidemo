@@ -468,4 +468,116 @@ namespace vb.Data
         public List<InwardListResponse> lstInward { get; set; }
     }
 
+
+    public class InwardListResponseForExport
+    {
+        public string ColdStorageName { get; set; }
+
+        public string DeliveryChallanDate { get; set; }
+
+        public string LotNo { get; set; }
+
+        public string ItemName { get; set; }
+
+        public string Notes { get; set; }
+
+        public string Balance { get; set; }
+
+        public string WeightPerBags { get; set; }
+
+        public string TotalWeight { get; set; }
+
+        public string RatePerKG { get; set; }
+
+        public string TotalAmount { get; set; }
+
+        public string RentPerBags { get; set; }
+    }
+
+
+
+    public class InwardListResponseExp
+    {
+        public long OutwardID { get; set; }
+
+        public long InwardID { get; set; }
+
+        public int TotalQuantity { get; set; }
+
+        public int Quantity { get; set; }
+
+        public DateTime Outward_date { get; set; }
+
+        public long GodownIDFrom { get; set; }
+
+        public string GodownNameFrom { get; set; }
+
+        public long GodownIDTo { get; set; }
+
+        public string GodownNameTo { get; set; }
+      
+        public long InwardQtyID { get; set; }
+
+        public long SupplierID { get; set; }
+
+        public long ColdStorageID { get; set; }
+
+        public string ColdStorageName { get; set; }
+
+        public string Name { get; set; }
+
+        public string Date { get; set; }
+
+        public string LotNo { get; set; }
+
+        public string DeliveryChallanNumber { get; set; }
+
+        public string DeliveryChallanDate { get; set; }
+
+        public long CreatedBy { get; set; }
+
+        public Nullable<DateTime> CreatedOn { get; set; }
+
+        public long UpdatedBy { get; set; }
+
+        public Nullable<DateTime> UpdatedOn { get; set; }
+
+        public bool IsDelete { get; set; }
+
+        public bool DeActiveColdStorage { get; set; }
+
+        public decimal GrandTotal { get; set; }
+
+        public long ProductID { get; set; }
+
+        public string ProductName { get; set; }
+
+        public string Notes { get; set; }
+
+        public string HSNNumber { get; set; }
+
+        public long NoofBags { get; set; }
+
+        public string WeightPerBag { get; set; }
+
+        public string TotalWeight { get; set; }
+
+        public string RatePerKG { get; set; }
+     
+        public string RentPerBags { get; set; }
+
+        public string TotalAmount { get; set; }
+
+        public string RemQty { get; set; }
+
+        public decimal UsedQty { get; set; }
+
+        public string ExpiryDate { get; set; }
+
+        public List<AddInwardQtyDetail> lstInwardQty { get; set; }
+
+        public string lblTotal { get; set; }
+    }
+
+
 }

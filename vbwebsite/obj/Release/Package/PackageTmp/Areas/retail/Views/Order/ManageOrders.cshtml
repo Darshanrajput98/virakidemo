@@ -281,14 +281,7 @@
                 <button type="button" id="btnsavecase" class="btn btn-info" tabindex="10003">Place Order</button>
             </div>
             <div class="pull-left">
-                @if (Model.IsFinalised == true)
-                {
-                    <button type="button" id="DeleteOrder" class="btn btn-info disabled" tabindex="10004">Delete Order</button>
-                }
-                else
-                {
-                    <button type="button" id="DeleteOrder" class="btn btn-info" tabindex="10004">Delete Order</button>
-                }
+                <button type="button" id="DeleteOrder" class="btn btn-info" tabindex="10004">Delete Order</button>
             </div>
         </div>
         <!-- /.box-footer -->
@@ -388,16 +381,19 @@
 
 
 
-
+        debugger;
 
         if (document.getElementById('FinaliseOrder').value == "true") {
             document.getElementById('FinaliseOrder').disabled = true;
+            document.getElementById('DeleteOrder').disabled = true;
             document.getElementById('btnsavecase').disabled = true;
         }
         else {
             document.getElementById('FinaliseOrder').disabled = false;
+            document.getElementById('DeleteOrder').disabled = false;
             document.getElementById('btnsavecase').disabled = false;
         }
+
         var ProductNameValidators = {
             row: '.col-xs-3',   // The title is placed inside a <div class="col-xs-4"> element
             validators: {

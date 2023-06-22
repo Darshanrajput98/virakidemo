@@ -455,7 +455,6 @@
     <EntitySet Name="TDSCategory_Mst" EntityType="VirakiModel.TDSCategory_Mst" />
     <EntitySet Name="Expense_Mst" EntityType="VirakiModel.Expense_Mst" />
     <EntitySet Name="Allowance_Master" EntityType="VirakiModel.Allowance_Master" />
-    <EntitySet Name="SalarySheet_Master" EntityType="VirakiModel.SalarySheet_Master" />
     <EntitySet Name="SalaryPayment_Mst" EntityType="VirakiModel.SalaryPayment_Mst" />
     <EntitySet Name="Delivery_Mst" EntityType="VirakiModel.Delivery_Mst" />
     <EntitySet Name="RetDeliveryMsts" EntityType="VirakiModel.RetDeliveryMst" />
@@ -542,6 +541,7 @@
     <EntitySet Name="RetPaymentMsts" EntityType="VirakiModel.RetPaymentMst" />
     <EntitySet Name="Payment_Mst" EntityType="VirakiModel.Payment_Mst" />
     <EntitySet Name="FormSixteen_Mst" EntityType="VirakiModel.FormSixteen_Mst" />
+    <EntitySet Name="SalarySheet_Master" EntityType="VirakiModel.SalarySheet_Master" />
   </EntityContainer>
   <EntityType Name="RetProductArticleCodeMst">
     <Key>
@@ -1866,78 +1866,6 @@
     <Property Name="GratuityAmount" Type="Decimal" Precision="19" Scale="4" />
     <Property Name="GratuityStatusID" Type="Int64" />
     <Property Name="OpeningLeaves" Type="Decimal" Precision="18" Scale="2" />
-    <Property Name="CustomerID" Type="Int64" />
-    <Property Name="CreatedBy" Type="Int64" />
-    <Property Name="CreatedOn" Type="DateTime" Precision="3" />
-    <Property Name="UpdatedBy" Type="Int64" />
-    <Property Name="UpdatedOn" Type="DateTime" Precision="3" />
-    <Property Name="IsDelete" Type="Boolean" />
-  </EntityType>
-  <EntityType Name="SalarySheet_Master">
-    <Key>
-      <PropertyRef Name="SalarySheetID" />
-    </Key>
-    <Property Name="SalarySheetID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="EmployeeCode" Type="Int64" />
-    <Property Name="MonthID" Type="Int32" />
-    <Property Name="YearID" Type="Int32" />
-    <Property Name="Present" Type="Int32" />
-    <Property Name="AdditionalPresent" Type="Int32" />
-    <Property Name="TotalPresent" Type="Int32" />
-    <Property Name="Sunday" Type="Int32" />
-    <Property Name="AdditionalSunday" Type="Int32" />
-    <Property Name="TotalSunday" Type="Int32" />
-    <Property Name="Holiday" Type="Int32" />
-    <Property Name="AdditionalHoliday" Type="Int32" />
-    <Property Name="TotalHoliday" Type="Int32" />
-    <Property Name="Absent" Type="Int32" />
-    <Property Name="AdditionalAbsent" Type="Int32" />
-    <Property Name="TotalAbsent" Type="Int32" />
-    <Property Name="TotalDays" Type="Int32" />
-    <Property Name="TotalDaysIntheMonth" Type="Int32" />
-    <Property Name="BasicAllowance" Type="Decimal" Precision="19" Scale="4" />
-    <Property Name="HouseRentAllowance" Type="Decimal" Precision="19" Scale="4" />
-    <Property Name="TotalBasic" Type="Decimal" Precision="19" Scale="4" />
-    <Property Name="EarnedBasicWages" Type="Decimal" Precision="19" Scale="4" />
-    <Property Name="EarnedHouseRentAllowance" Type="Decimal" Precision="19" Scale="4" />
-    <Property Name="TotalEarnedWages" Type="Decimal" Precision="19" Scale="4" />
-    <Property Name="CityAllowanceMinutes" Type="Decimal" Precision="18" Scale="2" />
-    <Property Name="CityAllowanceHours" Type="Decimal" Precision="18" Scale="2" />
-    <Property Name="CityAllowance" Type="Decimal" Precision="19" Scale="4" />
-    <Property Name="AdditionalCityAllowance" Type="Decimal" Precision="19" Scale="4" />
-    <Property Name="TotalCityAllowance" Type="Decimal" Precision="19" Scale="4" />
-    <Property Name="VehicleAllowance" Type="Decimal" Precision="19" Scale="4" />
-    <Property Name="AdditionalVehicleAllowance" Type="Decimal" Precision="19" Scale="4" />
-    <Property Name="TotalVehicleAllowance" Type="Decimal" Precision="19" Scale="4" />
-    <Property Name="Conveyance" Type="Decimal" Precision="19" Scale="4" />
-    <Property Name="AdditionalConveyance" Type="Decimal" Precision="19" Scale="4" />
-    <Property Name="TotalConveyance" Type="Decimal" Precision="19" Scale="4" />
-    <Property Name="PerformanceAllowance" Type="Decimal" Precision="19" Scale="4" />
-    <Property Name="AdditionalPerformanceAllowance" Type="Decimal" Precision="19" Scale="4" />
-    <Property Name="TotalPerformanceAllowance" Type="Decimal" Precision="19" Scale="4" />
-    <Property Name="GrossWagesPayable" Type="Decimal" Precision="19" Scale="4" />
-    <Property Name="PF" Type="Decimal" Precision="19" Scale="4" />
-    <Property Name="ESIC" Type="Decimal" Precision="19" Scale="4" />
-    <Property Name="PT" Type="Decimal" Precision="19" Scale="4" />
-    <Property Name="MLWF" Type="Decimal" Precision="19" Scale="4" />
-    <Property Name="TotalDeductions" Type="Decimal" Precision="19" Scale="4" />
-    <Property Name="NetWagesPaid" Type="Decimal" Precision="19" Scale="4" />
-    <Property Name="OpeningLeaves" Type="Decimal" Precision="18" Scale="2" />
-    <Property Name="EarnedLeaves" Type="Decimal" Precision="18" Scale="2" />
-    <Property Name="AvailedLeaves" Type="Decimal" Precision="18" Scale="2" />
-    <Property Name="AdditionalAvailedLeaves" Type="Decimal" Precision="18" Scale="2" />
-    <Property Name="TotalAvailedLeaves" Type="Decimal" Precision="18" Scale="2" />
-    <Property Name="ClosingLeaves" Type="Decimal" Precision="18" Scale="2" />
-    <Property Name="AdditionalClosingLeaves" Type="Decimal" Precision="18" Scale="2" />
-    <Property Name="TotalClosingLeaves" Type="Decimal" Precision="18" Scale="2" />
-    <Property Name="OpeningAdvance" Type="Decimal" Precision="19" Scale="4" />
-    <Property Name="Addition" Type="Decimal" Precision="19" Scale="4" />
-    <Property Name="Deductions" Type="Decimal" Precision="19" Scale="4" />
-    <Property Name="ClosingAdvance" Type="Decimal" Precision="19" Scale="4" />
-    <Property Name="TDS" Type="Decimal" Precision="19" Scale="4" />
-    <Property Name="Goods" Type="Decimal" Precision="19" Scale="4" />
-    <Property Name="AnyOtherDeductions1" Type="Decimal" Precision="19" Scale="4" />
-    <Property Name="AnyOtherDeductions2" Type="Decimal" Precision="19" Scale="4" />
     <Property Name="CustomerID" Type="Int64" />
     <Property Name="CreatedBy" Type="Int64" />
     <Property Name="CreatedOn" Type="DateTime" Precision="3" />
@@ -3898,6 +3826,79 @@
     <Property Name="Surcharge" Type="Decimal" Precision="18" Scale="2" />
     <Property Name="Education" Type="Decimal" Precision="18" Scale="2" />
     <Property Name="FormSixteenEHRA" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="CreatedBy" Type="Int64" />
+    <Property Name="CreatedOn" Type="DateTime" Precision="3" />
+    <Property Name="UpdatedBy" Type="Int64" />
+    <Property Name="UpdatedOn" Type="DateTime" Precision="3" />
+    <Property Name="IsDelete" Type="Boolean" />
+  </EntityType>
+  <EntityType Name="SalarySheet_Master">
+    <Key>
+      <PropertyRef Name="SalarySheetID" />
+    </Key>
+    <Property Name="SalarySheetID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="EmployeeCode" Type="Int64" />
+    <Property Name="MonthID" Type="Int32" />
+    <Property Name="YearID" Type="Int32" />
+    <Property Name="Present" Type="Int32" />
+    <Property Name="AdditionalPresent" Type="Int32" />
+    <Property Name="TotalPresent" Type="Int32" />
+    <Property Name="Sunday" Type="Int32" />
+    <Property Name="AdditionalSunday" Type="Int32" />
+    <Property Name="TotalSunday" Type="Int32" />
+    <Property Name="Holiday" Type="Int32" />
+    <Property Name="AdditionalHoliday" Type="Int32" />
+    <Property Name="TotalHoliday" Type="Int32" />
+    <Property Name="Absent" Type="Int32" />
+    <Property Name="AdditionalAbsent" Type="Int32" />
+    <Property Name="TotalAbsent" Type="Int32" />
+    <Property Name="TotalDays" Type="Int32" />
+    <Property Name="TotalDaysIntheMonth" Type="Int32" />
+    <Property Name="BasicAllowance" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="HouseRentAllowance" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="TotalBasic" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="EarnedBasicWages" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="EarnedHouseRentAllowance" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="TotalEarnedWages" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="CityAllowanceMinutes" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="AdditionalCityAllowanceMinutes" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="CityAllowanceHours" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="CityAllowance" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="AdditionalCityAllowance" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="TotalCityAllowance" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="VehicleAllowance" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="AdditionalVehicleAllowance" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="TotalVehicleAllowance" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="Conveyance" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="AdditionalConveyance" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="TotalConveyance" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="PerformanceAllowance" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="AdditionalPerformanceAllowance" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="TotalPerformanceAllowance" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="GrossWagesPayable" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="PF" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="ESIC" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="PT" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="MLWF" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="TotalDeductions" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="NetWagesPaid" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="OpeningLeaves" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="EarnedLeaves" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="AvailedLeaves" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="AdditionalAvailedLeaves" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="TotalAvailedLeaves" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="ClosingLeaves" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="AdditionalClosingLeaves" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="TotalClosingLeaves" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="OpeningAdvance" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="Addition" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="Deductions" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="ClosingAdvance" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="TDS" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="Goods" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="AnyOtherDeductions1" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="AnyOtherDeductions2" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="CustomerID" Type="Int64" />
     <Property Name="CreatedBy" Type="Int64" />
     <Property Name="CreatedOn" Type="DateTime" Precision="3" />
     <Property Name="UpdatedBy" Type="Int64" />

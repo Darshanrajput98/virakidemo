@@ -291,16 +291,22 @@ namespace vb.Service
             }
         }
 
-        public List<CustomerListResponse> GetAllCustomerList()
+        #region GetAllCustomerList...
+        public List<CustomerListResponse> GetAllCustomerList(int PageNo, int PageSize,string SearchText, out int Count)
         {
             SqlCommand cmdGet = new SqlCommand();
             using (var objBaseSqlManager = new BaseSqlManager())
             {
                 cmdGet.CommandType = CommandType.StoredProcedure;
                 cmdGet.CommandText = "GetAllCustomerList";
+                cmdGet.Parameters.AddWithValue("@PageNo", PageNo);
+                cmdGet.Parameters.AddWithValue("@PageSize", PageSize);
+                cmdGet.Parameters.AddWithValue("@SearchText", SearchText);
                 SqlDataReader dr = objBaseSqlManager.ExecuteDataReader(cmdGet);
                 List<CustomerListResponse> objlst = new List<CustomerListResponse>();
                 string path = ConfigurationManager.AppSettings["CustomerDocument"];
+
+                int TotalCount = 0;
                 while (dr.Read())
                 {
                     CustomerListResponse objCustomer = new CustomerListResponse();
@@ -376,13 +382,18 @@ namespace vb.Service
                     objCustomer.CreatedOn = objBaseSqlManager.GetDateTime(dr, "CreatedOn");
                     objCustomer.IsTCSApplicable = objBaseSqlManager.GetBoolean(dr, "IsTCSApplicable");
                     objCustomer.PanCard = objBaseSqlManager.GetTextValue(dr, "PanCard");
+
+                    TotalCount = objBaseSqlManager.GetInt32(dr, "TotalCount");
+
                     objlst.Add(objCustomer);
                 }
                 dr.Close();
+                Count = TotalCount;
                 objBaseSqlManager.ForceCloseConnection();
                 return objlst;
             }
         }
+        #endregion
 
         public bool DeleteCustomer(long CustomerID, bool IsDelete)
         {
