@@ -40,6 +40,7 @@ jobs:
   job_2:
     
       name: deploy artifact
+      needs: job_1
       runs-on: ubuntu-latest
       steps:
         - name: checkout
@@ -56,5 +57,5 @@ jobs:
            username: Administrator
            password: ${{ secrets.PASSWORD }}
            port: 22
-           source: "./_build/*"
+           source: "_build/*"
            target: C:\inetpub\wwwroot\viraki
