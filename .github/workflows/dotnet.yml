@@ -29,7 +29,7 @@ jobs:
 
       - name: Build Solution
         run: |
-         msbuild vbwebsite/vbwebsite.csproj /p:DeployOnBuild=true /p:Configuration=Release /p:PublishProfile="virakibrothers" /p:PublishUrl="../_build"
+         msbuild vbwebsite/vbwebsite.csproj /p:DeployOnBuild=true /p:Configuration=Release /p:PublishProfile="virakibrothers" /p:PublishUrl="../_publish"
         
       - name: Upload artifact
         uses: actions/upload-artifact@v1.0.0
