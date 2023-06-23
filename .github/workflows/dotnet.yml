@@ -22,7 +22,7 @@ jobs:
         run: cd $GITHUB_WORKSPACE
 
       - name: Create Build Directory
-        run: mkdir _build
+        run: mkdir _publish
       
       - name: Restore Packages
         run: nuget restore virakibrothers.sln
@@ -35,7 +35,7 @@ jobs:
         uses: actions/upload-artifact@v1.0.0
         with:
           name: my-artifact
-          path: "./_build"
+          path: "./_publish"
         
   job_2:
     
@@ -45,17 +45,17 @@ jobs:
       steps:
         - name: checkout
           uses: actions/checkout@v3
-        - name: Download math result for job 1
+        - name: Download publish code from job 1
           uses: actions/download-artifact@v3
           with:
            name: my-artifact
-           path: "./_build"
+           path: "./_publish"
         - name: copy file via ssh password
           uses: appleboy/scp-action@v0.1.4
           with:
-           host: 65.2.125.238
+           host: 65.0.92.117
            username: Administrator
            password: ${{ secrets.PASSWORD }}
            port: 22
-           source: "_build/*"
+           source: "_publish/*"
            target: C:\inetpub\wwwroot\viraki
