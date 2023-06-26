@@ -51,7 +51,7 @@ jobs:
            name: my-artifact
            path: "./_publish"
         - name: copy file via ssh password
-          uses: appleboy/scp-action@v0.1.4
+          uses: appleboy/scp-action@v0.1.10
           with:
            host: 52.66.207.204
            username: Administrator
@@ -59,6 +59,8 @@ jobs:
            port: 22
            source: "_publish/*"
            target: C:\inetpub\wwwroot\viraki
-        - name: Restart the server
-          run: 'iisreset /noforce'
+           script: |
+               iisreset /noforce
+        
+          
               
