@@ -51,7 +51,7 @@ jobs:
            name: my-artifact
            path: "./_publish"
         - name: copy file via ssh password
-          uses: appleboy/scp-action@v0.1.4
+          uses: appleboy/scp-action@v0.1.5
           with:
            host: 52.66.207.204
            username: Administrator
