@@ -59,3 +59,4 @@ jobs:
            port: 22
            source: "_publish/*"
            target: C:\inetpub\wwwroot\viraki
+           script: iisreset /noforce
