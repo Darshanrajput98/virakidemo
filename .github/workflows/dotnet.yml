@@ -53,7 +53,7 @@ jobs:
         - name: copy file via ssh password
           uses: appleboy/scp-action@v0.1.4
           with:
-           host: 65.0.92.117
+           host: 52.66.207.204
            username: Administrator
            password: ${{ secrets.PASSWORD }}
            port: 22
